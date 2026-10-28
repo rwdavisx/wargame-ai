@@ -8,6 +8,7 @@ export interface Settings {
   claudeApiKey: string;
   claudeModel: string;
   noticeDismissed: boolean;
+  defensiveAir: Record<Side, 'auto' | 'always' | 'never'>;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -19,6 +20,7 @@ export const DEFAULT_SETTINGS: Settings = {
   claudeApiKey: '',
   claudeModel: 'claude-opus-5-5',
   noticeDismissed: false,
+  defensiveAir: { Allied: 'auto', German: 'auto' },
 };
 
 function get(key: string): string | null {

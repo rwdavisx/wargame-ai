@@ -1,6 +1,6 @@
 // Shared evaluation helpers for the AI players.
 import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
-import { computeOdds, inNavalRange, parseCell, readyAsusFor, type AttackPlan, type OddsInfo } from '../engine/combat';
+import { adjacentForCombat, computeOdds, inNavalRange, parseCell, readyAsusFor, type AttackPlan, type OddsInfo } from '../engine/combat';
 import { distance, neighbors, type HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
 import { def, goodOrder, isLand, nationGroup, occupancy, other, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
@@ -36,12 +36,13 @@ export interface AttackOption {
 }
 
 /** Best attack (attacker group and support) against `target`, or null. */
-export function bestAttackOn(s: GameState, target: HexId, aggression: number, opts: { noSupport?: boolean } = {}): AttackOption | null {
+export function bestAttackOn(s: GameState, target: HexId, aggression: number, opts: { noSupport?: boolean; vpWeight?: number } = {}): AttackOption | null {
   const side = s.activeSide;
-  const eligible = neighbors(target)
-    .flatMap((h) => unitsAt(s, h))
-    .filter((u) => sideOf(u) === side && !def(u.id).asu && def(u.id).cat !== 'bh' && !def(u.id).variable && !u.attacked && !u.autoDs &&
-      goodOrder(u) && !u.truck && values(u).attack > 0 && !unitsAt(s, (u.where as { hex: HexId }).hex).some((x) => x.repl));
+  const eligible = Object.values(s.units)
+    .filter((u) => (u.where.kind === 'map' || u.where.kind === 'entry') && sideOf(u) === side && adjacentForCombat(s, u, target))
+    .filter((u) => !def(u.id).asu && def(u.id).cat !== 'bh' && !def(u.id).variable && !u.attacked && !u.autoDs && !u.repl &&
+      goodOrder(u) && !u.truck && values(u).attack > 0 && !(u.where.kind === 'map' && unitsAt(s, u.where.hex).some((x) => x.repl)) &&
+      !(u.where.kind === 'entry' && u.stopped));
   if (!eligible.length) return null;
   const defenders = unitsAt(s, target).filter((u) => sideOf(u) !== side);
   if (!defenders.length) return null;
@@ -80,7 +81,7 @@ export function bestAttackOn(s: GameState, target: HexId, aggression: number, op
       if (!odds.ok) continue;
       const e = odds.autoDs ? { defLoss: 1, attLoss: 0, retreat: 1.3, disrupt: 0 } : expectedOutcome(odds.finalIndex, odds.drm, defSteps);
       const supportCost = (plan.air ? 0.3 : 0) + (plan.naval ? 0.3 : 0) + (plan.asus?.length ?? 0) * 0.25 + (plan.battleships ? 0.4 : 0);
-      const score = e.defLoss * 1.1 + e.retreat * (0.45 + vpHere * 0.35) + e.disrupt * 0.3 -
+      const score = e.defLoss * 1.1 + e.retreat * (0.45 + vpHere * (opts.vpWeight ?? 0.35)) + e.disrupt * 0.3 -
         e.attLoss * (1.2 - aggression * 0.45) - supportCost;
       if (!best || score > best.score) best = { plan, odds, score };
     }
@@ -132,7 +133,7 @@ export function defenseAt(s: GameState, hex: HexId, side: Side, extra?: UnitStat
     const dd = def(u.id);
     if (dd.asu) return;
     const v = values(u).defense;
-    d += doubles && (dd.infantryType || dd.cat === 'recon') ? v * 2 : v;
+    d += doubles && !dd.silhouette && !dd.variable ? v * 2 : v;
   };
   for (const u of unitsAt(s, hex)) if (sideOf(u) === side && u.id !== extra?.id) add(u);
   if (extra) add(extra);

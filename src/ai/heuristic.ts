@@ -2,15 +2,16 @@
 // for each unit, plans coordinated assaults, and takes attacks by expected
 // step-loss exchange. It also answers the defender's Determined Defense choice.
 import { MAP, RULES } from '../engine/data';
-import { advanceDestinations } from '../engine/combat';
-import { applyAction, entryReach, landingHexes } from '../engine/game';
-import { neighbors, sideKey, type HexId } from '../engine/hex';
-import { allowedModes, cannotMove, legalDestinations, type Reach } from '../engine/movement';
+import { advanceDestinations, computeOdds } from '../engine/combat';
+import { breakthroughMoves, breakthroughPlan, breakthroughTargets } from '../engine/breakthrough';
+import { alliedVp, applyAction, benchmark, entryReach, landingHexes } from '../engine/game';
+import { distance, neighbors, sideKey, type HexId } from '../engine/hex';
+import { allowedModes, cannotMove, entryModes, legalDestinations, type Reach } from '../engine/movement';
 import { supplyChecker, beachheadHexes } from '../engine/supply';
 import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
 import { canStack, def, goodOrder, nationGroup, sideOf, stackPoints, stepsRemaining, unitsAt, values } from '../engine/units';
 import { zocOf } from '../engine/zoc';
-import { bestAttackOn, defenseAt, distanceField, enemyAdjacentHexes, nearestEnemyDistance, threatAt } from './evaluate';
+import { bestAttackOn, defenseAt, distanceField, enemyAdjacentHexes, expectedOutcome, nearestEnemyDistance, threatAt } from './evaluate';
 
 export interface AiPlayer {
   name: string;
@@ -27,10 +28,23 @@ function isLegal(s: GameState, a: Action): boolean {
   }
 }
 
-/** Aggression in [0,1]: Germans counterattack hard on turns 1-8, Allies push later. */
+let vpMemo = { key: '', behind: 0 };
+
+/** How many VP the Allies are short of the next benchmark (cached per phase). */
+function alliedShortfall(s: GameState): number {
+  const key = `${s.scenarioId}|${s.turn}|${s.activeSide}|${s.phase}`;
+  if (vpMemo.key !== key) {
+    const target = benchmark(Math.max(4, s.turn + 1)) ?? benchmark(s.lastTurn) ?? 0;
+    vpMemo = { key, behind: Math.max(0, target - alliedVp(s)) };
+  }
+  return vpMemo.behind;
+}
+
+/** Aggression in [0,1]: Germans counterattack hard on turns 1-8, Allies push later and whenever they fall behind on VP. */
 export function aggressionFor(s: GameState, side: Side): number {
   if (side === 'German') return s.turn <= 3 ? 0.65 : s.turn <= 8 ? 0.8 : s.turn <= 11 ? 0.4 : 0.2;
-  return s.turn <= 4 ? 0.35 : s.turn <= 9 ? 0.5 : 0.75;
+  const base = s.turn <= 4 ? 0.3 : s.turn <= 9 ? 0.5 : 0.75;
+  return Math.min(0.9, base + 0.08 * Math.min(4, alliedShortfall(s)));
 }
 
 interface Ctx {
@@ -89,9 +103,21 @@ function scoreHex(s: GameState, ctx: Ctx, u: UnitState, h: HexId): number {
   if (hd.city) score += 0.6;
   else if (hd.terrain === 'hill' && (d.infantryType || d.cat === 'recon')) score += 0.4;
   if (hd.vp && (s.control[h] ?? 'German') === ctx.side) score += 0.5 + 0.3 * hd.vp;
-  if (ctx.side === 'Allied' && ctx.bhHexes.has(h)) {
-    const holders = unitsAt(s, h).filter((x) => sideOf(x) === 'Allied' && def(x.id).cat !== 'bh' && !def(x.id).asu && x.id !== u.id).length;
-    score += holders === 0 ? 2.5 : holders === 1 ? 0.8 : 0.2;
+  if (ctx.side === 'Allied') {
+    // Beachheads are supply sources and cost a VP each if lost: garrison them in proportion to the threat.
+    for (const bh of ctx.bhHexes) {
+      const dd = distance(bh, h);
+      if (dd > 1) continue;
+      const tB = threat(ctx, s, bh);
+      if (tB <= 0) {
+        if (dd === 0) score += 0.6;
+        continue;
+      }
+      const held = 2 + unitsAt(s, bh).filter((x) => sideOf(x) === 'Allied' && x.id !== u.id && !def(x.id).asu && def(x.id).cat !== 'bh')
+        .reduce((a, x) => a + values(x).defense, 0);
+      const need = Math.min(3, tB / held);
+      score += dd === 0 ? 0.8 + need * 1.3 : need * 0.4;
+    }
   }
   const t = threat(ctx, s, h);
   const defense = defenseAt(s, h, ctx.side, u) + 0.5;
@@ -147,7 +173,7 @@ export function planAssaults(s: GameState, aggression: number): Action[] {
       const mode: MoveMode = allowedModes(s, u).includes('normal') ? 'normal' : 'tactical';
       cands.push({ u, here: u.where.hex, dests: legalDestinations(s, u.id, mode), mode, entry: false });
     } else if (u.where.kind === 'entry' && !u.where.area.startsWith('airdrop') && !u.stopped && !(side === 'Allied' && u.where.area.startsWith('N'))) {
-      const mode: MoveMode = s.turn === 1 && side === 'Allied' ? 'tactical' : 'normal';
+      const mode: MoveMode = entryModes(s, u).includes('normal') ? 'normal' : 'tactical';
       cands.push({ u, here: null, dests: entryReach(s, u.id, mode), mode, entry: true });
     }
   }
@@ -265,10 +291,62 @@ export function chooseDefense(s: GameState): Action {
   return { type: 'defend', choice: 'retreat' };
 }
 
+/** Expected value of a breakthrough attack on `target` by the group in state `s`. */
+function breakthroughScore(s: GameState, target: HexId, aggression: number): number {
+  const odds = computeOdds(s, breakthroughPlan(s, target));
+  if (!odds.ok) return -Infinity;
+  const defSteps = unitsAt(s, target).filter((u) => sideOf(u) !== s.activeSide).reduce((a, u) => a + stepsRemaining(u), 0);
+  const e = odds.autoDs ? { defLoss: 1, attLoss: 0, retreat: 1.3, disrupt: 0 } : expectedOutcome(odds.finalIndex, odds.drm, defSteps);
+  const vp = MAP.hexes[target].vp ?? 0;
+  return e.defLoss * 1.1 + e.retreat * (0.5 + vp * 0.35) + e.disrupt * 0.3 - e.attLoss * (1.25 - aggression * 0.45);
+}
+
+/** Declares a Breakthrough Group in the vacated hex when a good follow-up attack exists. */
+function planBreakthrough(s: GameState, aggression: number): Action | null {
+  const pa = s.pendingAdvance!;
+  const ids = Object.keys(pa.maxByUnit)
+    .filter((id) => s.units[id]?.where.kind === 'map' && pa.maxByUnit[id] >= 2 && advanceDestinations(s, pa, id).has(pa.vacated))
+    .sort((a, b) => values(s.units[b]).attack - values(s.units[a]).attack);
+  const group: string[] = [];
+  for (const id of ids) if (canStack(s, pa.vacated, [...group, id])) group.push(id);
+  if (!group.length) return null;
+  const a: Action = { type: 'btStart', unitIds: group, form: 'vacated' };
+  let trial: GameState;
+  try {
+    trial = structuredClone({ ...s, log: [] });
+    applyAction(trial, a);
+  } catch {
+    return null;
+  }
+  if (!trial.breakthrough) return null;
+  const best = Math.max(-Infinity, ...breakthroughTargets(trial).map((t) => breakthroughScore(trial, t, aggression)));
+  return best > 0.35 ? a : null;
+}
+
+function chooseBreakthrough(s: GameState): Action {
+  const b = s.breakthrough!;
+  const aggression = aggressionFor(s, s.activeSide);
+  let best: { t: HexId; score: number } | null = null;
+  for (const t of breakthroughTargets(s)) {
+    const sc = breakthroughScore(s, t, aggression);
+    if (!best || sc > best.score) best = { t, score: sc };
+  }
+  if (best && best.score > 0.35) return { type: 'btAttack', target: best.t };
+  if (b.freeHex && breakthroughMoves(s).has(b.freeHex)) {
+    const risk = threatAt(s, b.freeHex, s.activeSide) / (defenseAt(s, b.freeHex, s.activeSide) + 0.5);
+    if (risk < 3 || MAP.hexes[b.freeHex].vp) return { type: 'btMove', to: b.freeHex };
+  }
+  return { type: 'btEnd' };
+}
+
 function chooseAdvance(s: GameState): Action {
   const pa = s.pendingAdvance!;
   const side = s.activeSide;
   const aggression = aggressionFor(s, side);
+  if (pa.btAllowed && !pa.started) {
+    const bt = planBreakthrough(s, aggression);
+    if (bt) return bt;
+  }
   const hd = MAP.hexes[pa.vacated];
   const ids = Object.keys(pa.maxByUnit).filter((id) => s.units[id]?.where.kind === 'map');
   const cands = ids.filter((id) => advanceDestinations(s, pa, id).has(pa.vacated))
@@ -380,7 +458,7 @@ export function createHeuristicAi(): AiPlayer {
     const ctx = makeCtx(s);
     if (side === 'Allied') {
       const waiting = Object.values(s.units)
-        .filter((u) => sideOf(u) === side && (u.where.kind === 'reserve' || u.where.kind === 'followUp') && !considered.has(u.id))
+        .filter((u) => sideOf(u) === side && (u.where.kind === 'reserve' || u.where.kind === 'followUp' || u.where.kind === 'atSea') && !considered.has(u.id))
         .sort((a, b) => def(b.id).sp - def(a.id).sp);
       for (const u of waiting) {
         considered.add(u.id);
@@ -401,7 +479,7 @@ export function createHeuristicAi(): AiPlayer {
       if (side === 'Allied' && u.where.area.startsWith('N')) continue;
       considered.add(u.id);
       if (u.status !== 'good') continue;
-      const mode: MoveMode = s.turn === 1 && side === 'Allied' ? 'tactical' : 'normal';
+      const mode: MoveMode = entryModes(s, u).includes('normal') ? 'normal' : 'tactical';
       const dests = [...entryReach(s, u.id, mode).keys()].filter((h) => !forbidden(s, side, h));
       const best = bestOf(s, ctx, u, dests);
       if (best) return { type: 'enter', unitId: u.id, to: best, mode };
@@ -420,7 +498,7 @@ export function createHeuristicAi(): AiPlayer {
     let best: ReturnType<typeof bestAttackOn> = null;
     for (const t of targets) {
       if (considered.has('t' + t)) continue;
-      const opt = bestAttackOn(s, t, aggression);
+      const opt = bestAttackOn(s, t, aggression, { vpWeight: side === 'Allied' ? 0.35 + 0.15 * Math.min(4, alliedShortfall(s)) : 0.35 });
       if (opt && (!best || opt.score > best.score)) best = opt;
     }
     const threshold = 0.2 - aggression * 0.3;
@@ -434,8 +512,10 @@ export function createHeuristicAi(): AiPlayer {
   return {
     name: 'Heuristic AI',
     nextAction(s: GameState): Action {
+      if (s.retreatQueue?.length) return { type: 'retreatChoice', index: s.retreatQueue[0].current };
       if (s.pendingDefense) return chooseDefense(s);
       reset(s);
+      if (s.breakthrough) return chooseBreakthrough(s);
       if (s.pendingAdvance) return chooseAdvance(s);
       let a: Action | null = null;
       if (s.phase === 'invasion') a = invasionAction(s);

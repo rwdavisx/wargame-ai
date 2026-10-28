@@ -72,6 +72,23 @@ export function bondsOf(s: GameState, side: Side): Bonds {
       }
     }
   }
+  // A unit may anchor a Hexside Bond (not a Hex Bond) on a friendly Entry Area (7.5): the bond runs
+  // between the two edge hexes of the area that both touch the unit's hex.
+  for (const [name, ea] of Object.entries(MAP.entryAreas)) {
+    if ((s.control[name] ?? 'German') !== side) continue;
+    const edge = new Set(ea.hexes.filter(isLand));
+    for (const a of list) {
+      if (edge.has(a)) continue;
+      const touching = neighbors(a).filter((n) => edge.has(n));
+      for (let i = 0; i < touching.length; i++) {
+        for (let j = i + 1; j < touching.length; j++) {
+          const [c1, c2] = [touching[i], touching[j]];
+          if (!neighbors(c1).includes(c2) || (enemy(c1) && enemy(c2))) continue;
+          if (legOk(a, c1) || legOk(a, c2)) out.sides.add(sideKey(c1, c2));
+        }
+      }
+    }
+  }
   return out;
 }
 

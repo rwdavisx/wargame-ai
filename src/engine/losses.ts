@@ -8,7 +8,7 @@ const POOLS: Record<string, string[]> = {
   CW: ['BR-REM-A', 'BR-REM-B', 'BR-REM-C'],
 };
 
-function remnantFor(s: GameState, unitId: string): UnitState | null {
+export function remnantFor(s: GameState, unitId: string): UnitState | null {
   const r = def(unitId).remnant;
   if (!r) return null;
   const ids = POOLS[r] ?? [r];

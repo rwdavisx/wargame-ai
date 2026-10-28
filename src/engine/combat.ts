@@ -5,9 +5,10 @@ import { eliminate, loseStep, takeSteps } from './losses';
 import { weatherBox } from './movement';
 import { retreatStack, planRetreat, triggerFullRetreats } from './retreat';
 import { rollD6 } from './rng';
+import { areaFriendly, supplyChecker } from './supply';
 import type { CombatReport, GameState, PendingAdvance, Side, UnitState } from './types';
 import {
-  canStack, def, goodOrder, isLand, nationGroup, occupancy, other, sideOf, stepsRemaining, supportNation, unitsAt, values,
+  canStack, def, goodOrder, stackPoints, isLand, nationGroup, occupancy, other, sideOf, stepsRemaining, supportNation, unitsAt, values,
 } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 
@@ -19,6 +20,8 @@ export interface AttackPlan {
   naval?: boolean;
   battleships?: boolean;
   asus?: string[];
+  /** Breakthrough Combat during an advance (15.0): no ASU, air or naval support. */
+  breakthrough?: boolean;
 }
 
 export interface OddsInfo {
@@ -44,9 +47,12 @@ export const columnLabel = (i: number) => RULES.combat.columns[Math.max(0, Math.
 
 // ------------------------------------------------------------------ helpers
 
+/** Rows north of the Sorrento peninsula (Campanella Point) get no naval support (9.6). */
+const NAVAL_MIN_ROW = 4;
+
 function gunfireSea(hex: HexId): boolean {
   const h = MAP.hexes[hex];
-  return !!h && h.terrain === 'sea' && parseInt(hex.slice(2), 10) >= 6;
+  return !!h && h.terrain === 'sea' && parseInt(hex.slice(2), 10) > NAVAL_MIN_ROW;
 }
 
 let navalCache: Map<HexId, boolean> | null = null;
@@ -55,16 +61,49 @@ export function inNavalRange(hex: HexId): boolean {
   if (!navalCache) {
     navalCache = new Map();
     const seas = Object.keys(MAP.hexes).filter(gunfireSea);
-    for (const h of Object.keys(MAP.hexes)) navalCache.set(h, seas.some((sea) => distance(sea, h) <= RULES.combat.navalRange));
+    for (const h of Object.keys(MAP.hexes)) {
+      navalCache.set(h, parseInt(h.slice(2), 10) >= NAVAL_MIN_ROW && seas.some((sea) => distance(sea, h) <= RULES.combat.navalRange));
+    }
   }
   return navalCache.get(hex) ?? false;
 }
 
 export function attackedHexesThisPhase(s: GameState): Set<HexId> {
-  return new Set(s.combats.filter((c) => c.turn === s.turn && c.attackerSide === s.activeSide).map((c) => c.defenderHex));
+  return new Set(s.combats.filter((c) => c.turn === s.turn && c.attackerSide === s.activeSide && c.phase === s.phase).map((c) => c.defenderHex));
 }
 
 const halve = (n: number) => Math.ceil(n / 2);
+
+/** Entry areas an off-map unit stands in (an edge code such as 'N' covers several). */
+export function entryAreasOf(area: string): string[] {
+  if (area === 'N') return ['N1', 'N2'];
+  if (area === 'S') return ['S1', 'S2', 'S3'];
+  if (area === 'E') return ['E1', 'E2', 'E3', 'E4', 'E5'];
+  return [area];
+}
+
+/** The hex a unit attacks or supports from, or null when it is in an Entry Area. */
+function originHex(u: UnitState): HexId | null {
+  return u.where.kind === 'map' ? u.where.hex : null;
+}
+
+/** Is `target` next to the unit: adjacent on the map, or an edge hex of its Entry Area (21.3.4)? */
+export function adjacentForCombat(s: GameState, u: UnitState, target: HexId): boolean {
+  if (u.where.kind === 'map') return neighbors(u.where.hex).includes(target);
+  if (u.where.kind !== 'entry' || u.where.area.startsWith('airdrop')) return false;
+  const side = sideOf(u);
+  return entryAreasOf(u.where.area).some((a) => MAP.entryAreas[a]?.hexes.includes(target) && areaFriendly(s, a, side));
+}
+
+function hexsideToward(u: UnitState, target: HexId) {
+  const h = originHex(u);
+  return h ? MAP.hexsides[sideKey(h, target)] ?? {} : {};
+}
+
+/** A key grouping attackers by stack (hex or Entry Area). */
+function stackKey(u: UnitState): string {
+  return u.where.kind === 'map' ? u.where.hex : `entry:${(u.where as { area: string }).area}`;
+}
 
 function defenderHexTerrain(hex: HexId): 'Clear' | 'Other' | 'City' {
   const d = MAP.hexes[hex];
@@ -82,11 +121,15 @@ export function readyAsusFor(s: GameState, side: Side, target: HexId, involved: 
   const groups = new Set(involved.map(nationGroup));
   const divisions = new Set(involved.map((id) => def(id).division).filter(Boolean));
   return Object.values(s.units).filter((u) => {
-    if (u.where.kind !== 'map' || sideOf(u) !== side) return false;
+    if ((u.where.kind !== 'map' && u.where.kind !== 'entry') || sideOf(u) !== side) return false;
     const d = def(u.id);
     if (!d.asu || u.fired || !goodOrder(u) || u.halfEff) return false;
-    if (u.hexesMoved > 1) return false;
-    if (distance(u.where.hex, target) > (d.asuRange ?? 0)) return false;
+    // An ASU that landed this turn supports only if it has not moved since (18.4.2).
+    if (u.landedTurn === s.turn && u.hexesMoved > 0) return false;
+    if (u.where.kind === 'entry') {
+      // From an Entry Area only adjacent hexes, and not after moving into or between areas (21.3.4, 21.5).
+      if (u.stopped || !adjacentForCombat(s, u, target)) return false;
+    } else if (distance(u.where.hex, target) > (d.asuRange ?? 0)) return false;
     if (!groups.has(nationGroup(u.id))) return false;
     if (d.asu === 'division' && !divisions.has(d.division)) return false;
     return true;
@@ -106,10 +149,10 @@ export function mafOptions(attackers: string[]): string[] {
 
 function mafMembers(s: GameState, attackers: string[], maf: string): string[] {
   const core = attackers.filter((id) => (def(id).division ?? id) === maf);
-  const coreHexes = new Set(core.map((id) => (s.units[id].where as { hex: HexId }).hex));
+  const coreHexes = new Set(core.map((id) => stackKey(s.units[id])));
   const side = def(attackers[0]).side;
   // One attachment stacked with a MAF unit.
-  const candidates = attackers.filter((id) => !core.includes(id) && coreHexes.has((s.units[id].where as { hex: HexId }).hex))
+  const candidates = attackers.filter((id) => !core.includes(id) && coreHexes.has(stackKey(s.units[id])))
     .filter((id) => side === 'German' || def(id).silhouette || def(id).sp <= 1)
     .sort((a, b) => values(s.units[b]).attack - values(s.units[a]).attack);
   return candidates.length ? [...core, candidates[0]] : core;
@@ -117,34 +160,41 @@ function mafMembers(s: GameState, attackers: string[], maf: string): string[] {
 
 // ------------------------------------------------------------------ odds
 
-export function validateAttackers(s: GameState, target: HexId, attackers: string[]): string | null {
+export function validateAttackers(s: GameState, target: HexId, attackers: string[], breakthrough = false): string | null {
   const side = s.activeSide;
   if (!unitsAt(s, target).some((u) => sideOf(u) !== side)) return 'No enemy units in the target hex.';
-  if (attackedHexesThisPhase(s).has(target)) return 'That hex has already been attacked this phase.';
+  if (!breakthrough && attackedHexesThisPhase(s).has(target)) return 'That hex has already been attacked this phase.';
   if (!attackers.length) return 'Select at least one attacking unit.';
   const groups = new Set<string>();
   const armies = new Set<boolean>();
   for (const id of attackers) {
     const u = s.units[id];
-    if (!u || u.where.kind !== 'map') return `${def(id).name} is not on the map.`;
+    if (!u || (u.where.kind !== 'map' && u.where.kind !== 'entry')) return `${def(id).name} is not on the map.`;
     const d = def(id);
     if (sideOf(u) !== side) return `${d.name} is not yours.`;
     if (d.asu || d.cat === 'bh' || d.variable) return `${d.name} cannot attack.`;
-    if (u.attacked) return `${d.name} has already attacked.`;
-    if (u.autoDs) return `${d.name} made an Auto DS this turn.`;
+    if (u.attacked && !breakthrough) return `${d.name} has already attacked.`;
+    if (u.autoDs && !breakthrough) return `${d.name} made an Auto DS this turn.`;
     if (!goodOrder(u)) return `${d.name} is ${u.status === 'disrupted' ? 'disrupted' : 'in Full Retreat'}.`;
     if (u.truck) return `${d.name} moved by truck (attack 0).`;
-    if (unitsAt(s, u.where.hex).some((x) => x.repl)) return `A unit in ${u.where.hex} received a replacement: no combat from that hex.`;
-    if (!neighbors(u.where.hex).includes(target)) return `${d.name} is not adjacent to the target.`;
-    const hs = MAP.hexsides[sideKey(u.where.hex, target)] ?? {};
-    if (hs.mountain && !hs.road && !hs.pass && d.vehicle) return `${d.name} cannot attack across a mountain hexside.`;
-    if (hs.mountain && !hs.road && !hs.pass && u.halfEff) return `${d.name} is ½ Eff and cannot attack across a mountain hexside.`;
+    if (u.where.kind === 'map' && unitsAt(s, u.where.hex).some((x) => x.repl)) return `A unit in ${u.where.hex} received a replacement: no combat from that hex.`;
+    if (u.where.kind === 'entry') {
+      if (u.repl) return `${d.name} received a replacement this turn.`;
+      if (u.stopped) return `${d.name} moved this turn and cannot attack out of the Entry Area.`;
+    }
+    if (!adjacentForCombat(s, u, target)) return `${d.name} is not adjacent to the target.`;
+    const hs = hexsideToward(u, target);
+    if (breakthrough && (hs.mountain || hs.river) && !hs.road) return 'Breakthrough Combat may cross mountain and river hexsides only along roads.';
+    if (hs.mountain && !hs.road && !hs.pass && d.vehicle) return `${d.name} cannot attack across a mountain hexside without a road or pass.`;
+    if ((hs.mountain || hs.pass) && u.halfEff) return `${d.name} is ½ Eff and cannot attack across a mountain hexside.`;
     if (hs.river && d.vehicle && (u.halfEff || (weatherBox(s).rain && !hs.road))) return `${d.name} cannot attack across that river now.`;
     if (values(u).attack <= 0) return `${d.name} has no attack strength.`;
     groups.add(nationGroup(id));
     armies.add(!!d.army8);
   }
   if (groups.has('US') && groups.has('CW')) return 'US and Commonwealth units may not attack together.';
+  const fromEntry = attackers.filter((id) => s.units[id].where.kind === 'entry');
+  if (stackPoints(fromEntry) > RULES.stackingLimit) return 'Units attacking out of an Entry Area must respect the stacking limit.';
   if (armies.size > 1) return '5th and 8th Army units may not attack together.';
   return null;
 }
@@ -157,14 +207,16 @@ interface DefenseCalc {
   bhSupporters: string[];
 }
 
-function defenseOf(s: GameState, target: HexId, attackerIds: string[], variableValue?: Record<string, number>): DefenseCalc {
+function defenseOf(s: GameState, target: HexId, attackerIds: string[], variableValue?: Record<string, number>, breakthrough = false): DefenseCalc {
   const side = sideOf(s.units[attackerIds[0]] ?? Object.values(s.units)[0]);
   const enemy = other(side);
   const hex = MAP.hexes[target];
-  const defenders = unitsAt(s, target).filter((u) => sideOf(u) === enemy && !u.retreatedThisPhase);
+  // Units that already retreated this phase count only against Breakthrough Combat, at half strength (15.3).
+  const defenders = unitsAt(s, target).filter((u) => sideOf(u) === enemy && (breakthrough || !u.retreatedThisPhase));
+  // The defender doubles when every attacker is across a river or attacking out of a marsh (TEC).
   const allAcrossRiver = attackerIds.length > 0 && attackerIds.every((id) => {
-    const h = (s.units[id].where as { hex: HexId }).hex;
-    return !!MAP.hexsides[sideKey(h, target)]?.river || MAP.hexes[h].terrain === 'marsh';
+    const h = originHex(s.units[id]);
+    return !!h && (!!MAP.hexsides[sideKey(h, target)]?.river || MAP.hexes[h].terrain === 'marsh');
   });
   const terrainDoubles = hex.city || hex.terrain === 'hill' || hex.terrain === 'marsh';
   let total = 0;
@@ -174,7 +226,7 @@ function defenseOf(s: GameState, target: HexId, attackerIds: string[], variableV
   const regular = defenders.filter((u) => !def(u.id).parenthesized);
   for (const u of regular) {
     const d = def(u.id);
-    if (u.status === 'fullRetreat') continue;
+    if (u.status === 'fullRetreat') continue; // Full Retreat: defense 0 (13.3.2)
     let base = values(u).defense;
     let lo = base;
     let hi = base;
@@ -186,8 +238,9 @@ function defenseOf(s: GameState, target: HexId, attackerIds: string[], variableV
         base = 1;
       }
     }
-    const doubled = !d.variable && ((terrainDoubles && (d.infantryType || d.cat === 'recon')) || allAcrossRiver);
-    const halved = u.status === 'disrupted';
+    // Hills, marsh and cities double everyone except silhouetted tanks, ASUs and variable-strength units (9.8).
+    const doubled = !d.variable && ((terrainDoubles && !d.silhouette && !d.asu) || allAcrossRiver);
+    const halved = u.status !== 'good';
     const f = (v: number) => (doubled && !halved ? v * 2 : halved && !doubled ? halve(v) : v);
     total += f(base);
     low += f(lo);
@@ -204,7 +257,7 @@ function defenseOf(s: GameState, target: HexId, attackerIds: string[], variableV
   // Beachhead hexes draw half the strength of adjacent good-order units that also face the attackers.
   const bhSupporters: string[] = [];
   if (defenders.some((u) => def(u.id).cat === 'bh')) {
-    const attackerHexes = new Set(attackerIds.map((id) => (s.units[id].where as { hex: HexId }).hex));
+    const attackerHexes = new Set(attackerIds.map((id) => originHex(s.units[id])).filter((h): h is HexId => !!h));
     let extra = 0;
     for (const n of neighbors(target)) {
       if (!neighbors(n).some((x) => attackerHexes.has(x))) continue;
@@ -239,8 +292,10 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     ok: false, reason, maf: '', mafUnits: [], attack: 0, defense: 0, baseIndex: 0, shifts: [], finalIndex: 0, autoDs: false, drm: 0,
     defenderAir: false, attackerAsus: [], bhSupporters: [],
   });
-  const bad = validateAttackers(s, plan.target, plan.attackers);
+  const bt = !!plan.breakthrough;
+  const bad = validateAttackers(s, plan.target, plan.attackers, bt);
   if (bad) return fail(bad);
+  if (bt && (plan.air || plan.naval || plan.asus?.length)) return fail('No artillery, air or naval support in Breakthrough Combat.');
   const side = s.activeSide;
   const enemy = other(side);
   const target = plan.target;
@@ -251,9 +306,10 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     for (const id of plan.attackers) {
       const u = s.units[id];
       const d = def(id);
-      const hs = MAP.hexsides[sideKey((u.where as { hex: HexId }).hex, target)] ?? {};
+      const hs = hexsideToward(u, target);
       let a = values(u).attack;
-      const halved = (hs.river && d.vehicle) || (hs.mountain && !hs.road) || hs.pass || u.halfEff || u.outOfSupply || !members.includes(id);
+      // Halved: vehicles across rivers, anyone across a mountain hexside (even by road or pass), ½ Eff, out of supply, outside the MAF.
+      const halved = (hs.river && d.vehicle) || hs.mountain || hs.pass || u.halfEff || u.outOfSupply || !members.includes(id);
       if (halved) a = halve(a);
       attack += a;
     }
@@ -274,19 +330,22 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     }
   }
   const { members, attack } = evalMaf(maf);
-  const dc = defenseOf(s, target, plan.attackers, opts.variableValue);
+  const dc = defenseOf(s, target, plan.attackers, opts.variableValue, bt);
   const defense = opts.autoDs ? dc.high : dc.defense;
   const baseIndex = baseIndexFor(attack, defense);
   if (baseIndex < 0) return fail('Odds below 1-3 are not allowed.');
   const shifts: { reason: string; shift: number }[] = [];
-  const defenders = unitsAt(s, target).filter((u) => sideOf(u) === enemy && u.status !== 'fullRetreat' && !u.retreatedThisPhase);
+  const defenders = unitsAt(s, target).filter((u) => sideOf(u) === enemy && u.status !== 'fullRetreat' && (bt || !u.retreatedThisPhase));
   // Tank shifts.
   if (tankTerrainOk(target)) {
     const rating = (id: string) => (def(id).tankRating ?? 0) - (def(id).tankDestroyer ? 1 : 0);
     const mafTanks = members.filter((id) => def(id).tankRating);
+    // Tanks attacking across a river or mountain hexside, or out of a marsh, cannot earn the shift (9.3.3, TEC).
     const gainers = mafTanks.filter((id) => {
-      const hs = MAP.hexsides[sideKey((s.units[id].where as { hex: HexId }).hex, target)] ?? {};
-      return !hs.river && !hs.mountain;
+      const u = s.units[id];
+      const hs = hexsideToward(u, target);
+      const h = originHex(u);
+      return !hs.river && !hs.mountain && !hs.pass && !(h && MAP.hexes[h].terrain === 'marsh');
     });
     const attBest = Math.max(0, ...gainers.map(rating));
     const attAny = Math.max(0, ...mafTanks.map(rating));
@@ -334,7 +393,10 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     // Defensive air support, committed automatically for threatened hexes.
     const pre = baseIndex + shifts.reduce((a, b) => a + b.shift, 0);
     const defAir = defenders.map((u) => markerFor(u.id, 'air')).find((k) => s.support.ready.includes(k));
-    if (defAir && (pre >= 4 || (MAP.hexes[target].vp ?? 0) > 0)) {
+    // The defender's standing order for air support (default: at 3-1 or worse for him, or to hold a VP hex).
+    const policy = s.options?.defensiveAir?.[enemy] ?? 'auto';
+    const commit = policy === 'always' || (policy === 'auto' && (pre >= 4 || (MAP.hexes[target].vp ?? 0) > 0));
+    if (defAir && commit) {
       defenderAir = true;
       shifts.push({ reason: 'Defensive air support', shift: -1 });
     }
@@ -381,6 +443,13 @@ function advanceAllowance(s: GameState, id: string, adv: number): number {
 }
 
 function makeAdvance(s: GameState, rep: CombatReport, adv: number, limited: boolean): PendingAdvance | null {
+  // A breakthrough combat earns no advance of its own (15.2.5); the group continues instead.
+  if (rep.breakthrough) return null;
+  // The Commandos' Turn 1 breakthrough on Salerno may only enter the city (24.2.4).
+  if (rep.phase === 'invasion') {
+    limited = true;
+    adv = 1;
+  }
   const survivors = rep.attackers.filter((id) => s.units[id].where.kind === 'map' && !def(id).asu && !s.units[id].repl);
   if (!survivors.length || adv <= 0) return null;
   if (unitsAt(s, rep.defenderHex).some((u) => sideOf(u) !== rep.attackerSide)) return null;
@@ -388,9 +457,9 @@ function makeAdvance(s: GameState, rep: CombatReport, adv: number, limited: bool
   const from: Record<string, HexId> = {};
   for (const id of survivors) {
     maxByUnit[id] = limited ? 1 : advanceAllowance(s, id, adv);
-    from[id] = (s.units[id].where as { hex: HexId }).hex;
+    from[id] = originHex(s.units[id]) ?? rep.defenderHex;
   }
-  return { combatId: rep.id, vacated: rep.defenderHex, from, maxByUnit, limited };
+  return { combatId: rep.id, vacated: rep.defenderHex, from, maxByUnit, limited, btAllowed: !limited && adv >= 2 };
 }
 
 function defenderIds(s: GameState, hex: HexId, side: Side): string[] {
@@ -476,19 +545,31 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
     maf: odds.maf, defenders: defenderIds(s, plan.target, enemy), attack: odds.attack, defense: odds.defense,
     baseColumn: odds.defense <= 0 ? 'no defense' : odds.baseIndex >= 9 ? `${odds.baseIndex - 1}-1` : columnLabel(odds.baseIndex), shifts: odds.shifts,
     finalColumn: columnLabel(odds.finalIndex), roll, drm: odds.drm, result: cell.result + (cell.adv ? ` Adv ${cell.adv}` : ''), notes,
+    phase: s.phase,
+    ...(plan.breakthrough ? { breakthrough: true } : {}),
   };
   s.combats.push(report);
   const mafAlive = () => odds.mafUnits.filter((id) => s.units[id].where.kind === 'map');
-  const defs = () => defenderIds(s, plan.target, enemy).filter((id) => !s.units[id].retreatedThisPhase);
+  const bt = !!plan.breakthrough;
+  const defs = () => defenderIds(s, plan.target, enemy).filter((id) => bt || !s.units[id].retreatedThisPhase);
   const contributors = () => defs().filter((id) => !def(id).parenthesized);
   const parenthesized = () => defs().filter((id) => def(id).parenthesized);
   const defSteps = defs().reduce((a, id) => a + stepsRemaining(s.units[id]), 0);
-  const attackerHexes = plan.attackers.map((id) => (s.units[id].where as { hex: HexId }).hex);
+  const attackerHexes = plan.attackers.map((id) => originHex(s.units[id])).filter((h): h is HexId => !!h);
   const r = cell.result;
-
-  const finishRetreat = (dist: number, status: 'disrupted' | 'fullRetreat', adv: number) => {
+  // Optional rule 25.2: a recon unit alone in its hex ignores the step loss of a D1 or DS.
+  const reconAlone = () => {
     const ids = defs();
-    if (ids.length) retreatStack(s, ids, dist, plan.target, status, notes);
+    if (!s.options?.recon || ids.length !== 1 || def(ids[0]).cat !== 'recon') return false;
+    s.units[ids[0]].reconSaved = true;
+    return true;
+  };
+
+  // Units that already retreated into the hex retreat with it and are eliminated (12.5); not against Breakthrough Combat.
+  const everyone = () => defenderIds(s, plan.target, enemy);
+  const finishRetreat = (dist: number, status: 'disrupted' | 'fullRetreat', adv: number) => {
+    const ids = everyone();
+    if (ids.length) retreatStack(s, ids, dist, plan.target, status, notes, { again: bt });
     s.pendingAdvance = makeAdvance(s, report, adv, false);
   };
 
@@ -499,25 +580,29 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
     takeSteps(s, mafAlive(), 1, 'opponent', notes, plan.attackers);
     if (defSteps === 1 && !defs().length) s.pendingAdvance = makeAdvance(s, report, 1, true);
   } else if (r === 'Dis') {
-    const ids = defs();
-    if (ids.some((id) => s.units[id].status !== 'good' && def(id).cat !== 'bh')) {
-      for (const id of ids) if (def(id).cat !== 'bh') s.units[id].status = 'fullRetreat';
-      retreatStack(s, ids.filter((id) => def(id).cat !== 'bh'), 2, plan.target, 'fullRetreat', notes);
-      notes.push('Already disrupted: Full Retreat');
-    } else {
-      for (const id of ids) if (def(id).cat !== 'bh') s.units[id].status = 'disrupted';
-      notes.push('Defenders disrupted');
+    // Good Order defenders become Disrupted; those already Disrupted go into Full Retreat and retreat 2 (10.1, 13.1.3).
+    const ids = defs().filter((id) => def(id).cat !== 'bh');
+    const again = ids.filter((id) => s.units[id].status !== 'good');
+    for (const id of ids) if (s.units[id].status === 'good') s.units[id].status = 'disrupted';
+    notes.push('Defenders disrupted');
+    if (again.length) {
+      for (const id of again) s.units[id].status = 'fullRetreat';
+      retreatStack(s, again, 2, plan.target, 'fullRetreat', notes, { again: bt });
+      notes.push(`${again.map((id) => def(id).name).join(', ')}: already disrupted, Full Retreat`);
     }
   } else if (r === 'DR4') {
     finishRetreat(4, 'fullRetreat', cell.adv);
   } else if (r === 'DS') {
-    takeSteps(s, contributors(), 1, 'opponent', notes, parenthesized());
+    if (reconAlone()) notes.push('Recon unit ignores the step loss');
+    else takeSteps(s, contributors(), 1, 'opponent', notes, parenthesized());
     finishRetreat(4, 'fullRetreat', cell.adv || 4);
   } else {
     // DR2, A1/DR2, DRX, A1/D1, D1: losses, then retreat or Determined Defense.
     const dist = r === 'D1' ? 3 : 2;
     if (r === 'A1/DR2' || r === 'A1/D1') takeSteps(s, mafAlive(), 1, 'owner', notes, plan.attackers);
-    if (r === 'A1/D1' || r === 'D1') takeSteps(s, contributors(), 1, 'owner', notes, parenthesized());
+    const reconSave = r === 'D1' && reconAlone();
+    if (reconSave) notes.push('Recon unit ignores the step loss (no Determined Defense)');
+    else if (r === 'A1/D1' || r === 'D1') takeSteps(s, contributors(), 1, 'owner', notes, parenthesized());
     if (r === 'DRX') {
       takeSteps(s, contributors(), 1, 'opponent', notes, parenthesized());
       takeSteps(s, mafAlive(), 1, 'opponent', notes, plan.attackers);
@@ -526,10 +611,10 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
     if (!ids.length) {
       s.pendingAdvance = makeAdvance(s, report, cell.adv, false);
     } else {
-      const canDd = cell.color !== 'r' && ids.some((id) => canLead(s.units[id]));
+      const canDd = cell.color !== 'r' && !reconSave && ids.some((id) => canLead(s.units[id]) && !s.units[id].reconSaved);
       if (canDd) {
         const plan2 = planRetreat(s, ids, dist, plan.target);
-        const desperate = plan2.lost.length > 0;
+        const desperate = plan2.lost.length > 0 || retreatCutsSupply(s, ids, plan2, plan.target, enemy);
         s.pendingDefense = {
           combatId: report.id, hex: plan.target, defenderSide: enemy, attackerHexes, attackers: plan.attackers,
           retreat: dist, advance: cell.adv, yellow: cell.color === 'y', desperate,
@@ -544,8 +629,8 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
 
 // ------------------------------------------------------------------ Determined Defense
 
-function pickLead(s: GameState, hex: HexId, side: Side): UnitState | null {
-  const cands = unitsAt(s, hex).filter((u) => sideOf(u) === side && canLead(u) && !u.retreatedThisPhase);
+function pickLead(s: GameState, hex: HexId, side: Side, breakthrough = false): UnitState | null {
+  const cands = unitsAt(s, hex).filter((u) => sideOf(u) === side && canLead(u) && (breakthrough || !u.retreatedThisPhase));
   if (!cands.length) return null;
   cands.sort((a, b) => Number(!!def(b.id).elite) - Number(!!def(a.id).elite) || Number(!!def(a.id).lowQuality) - Number(!!def(b.id).lowQuality) ||
     stepsRemaining(b) - stepsRemaining(a));
@@ -554,6 +639,8 @@ function pickLead(s: GameState, hex: HexId, side: Side): UnitState | null {
 
 export interface DefenseChoice {
   choice: 'retreat' | 'dd';
+  /** Hexes to fall back on a Delay result (1-3, 11.6.1). */
+  delay?: number;
   support?: string | null;
   battleships?: boolean;
   prefer?: 'hold' | 'delay';
@@ -567,7 +654,10 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
   const notes = rep.notes;
   const side = pd.defenderSide;
   const attackSide = other(side);
-  const defs = () => unitsAt(s, pd.hex).filter((u) => sideOf(u) === side && !u.retreatedThisPhase).map((u) => u.id);
+  const bt = !!rep.breakthrough;
+  const defs = () => unitsAt(s, pd.hex).filter((u) => sideOf(u) === side && (bt || !u.retreatedThisPhase)).map((u) => u.id);
+  // Units that already retreated into the hex go with the stack and are eliminated (12.5).
+  const everyone = () => unitsAt(s, pd.hex).filter((u) => sideOf(u) === side).map((u) => u.id);
   const mafAlive = () => rep.attackers.filter((id) => s.units[id].where.kind === 'map');
   const advanceAfter = (limited: boolean) => {
     const before = s.activeSide;
@@ -576,9 +666,18 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     s.activeSide = before;
   };
   if (c.choice === 'retreat') {
-    retreatStack(s, defs(), pd.retreat, pd.hex, 'disrupted', notes);
+    retreatStack(s, everyone(), pd.retreat, pd.hex, 'disrupted', notes, { again: bt });
     advanceAfter(false);
     return;
+  }
+  if (pd.desperate) {
+    // Units that can retreat must do so; only the others fight a Desperate Defense (11.5.4).
+    const stuck = new Set(planRetreat(s, defs(), pd.retreat, pd.hex).lost);
+    const movers = defs().filter((id) => !stuck.has(id));
+    if (stuck.size && movers.length) {
+      retreatStack(s, movers, pd.retreat, pd.hex, 'disrupted', notes, { again: bt });
+      notes.push('Units able to retreat fall back; the rest make a Desperate Defense');
+    }
   }
   // Defensive support (declared once, applies to every roll of a Desperate Defense).
   let supportDrm = 0;
@@ -597,9 +696,10 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     s.support.battleships -= 1;
   }
   const column = defenderHexTerrain(pd.hex);
+  const delayHexes = Math.max(1, Math.min(3, c.delay ?? 1));
   let delays = 0;
   for (let attempt = 0; attempt < 12; attempt++) {
-    const lead = pickLead(s, pd.hex, side);
+    const lead = pickLead(s, pd.hex, side, bt);
     if (!lead) break;
     const ld = def(lead.id);
     let drm = supportDrm + shipDrm + (ld.elite ? 1 : 0) - (ld.lowQuality ? 1 : 0) - (pd.yellow ? 1 : 0);
@@ -615,24 +715,30 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     const [losses, letter] = pick.split(' ');
     const [att, dfn] = losses.split('/');
     const steps = defs().reduce((a, id) => a + stepsRemaining(s.units[id]), 0);
-    if (att.startsWith('1')) takeSteps(s, mafAlive(), 1, att.includes('*') ? 'opponent' : 'owner', notes, rep.attackers);
-    if (dfn === '1') loseStep(s, lead, notes);
-    if (dfn === 'dis' && lead.where.kind === 'map') lead.status = 'disrupted';
     let outcome = letter ?? 'fail';
-    if (outcome === 'P') {
-      if (s.cityBattle[pd.hex]) outcome = 'D';
-      else {
-        s.cityBattle[pd.hex] = 1;
-        notes.push('City Battle marker placed');
-        outcome = 'H';
-      }
-    }
+    if (outcome === 'P' && s.cityBattle[pd.hex]) outcome = 'D'; // a second Partial counts as a Delay
     if (outcome === 'D' && pd.desperate) {
+      // In a Desperate Defense a Delay counts as a failure; a second Delay becomes -/1 H (11.6.1).
       delays += 1;
       if (delays >= 2) {
         loseStep(s, lead, notes);
         outcome = 'H';
       } else outcome = 'fail';
+    }
+    if (pd.desperate && outcome === 'fail') {
+      // Ignore the result: the Lead Unit loses a step and the defender rolls again (11.5.3).
+      loseStep(s, lead, notes);
+      if (!defs().length) break;
+      notes.push('Desperate Defense: rolling again');
+      continue;
+    }
+    if (att.startsWith('1')) takeSteps(s, mafAlive(), 1, att.includes('*') ? 'opponent' : 'owner', notes, rep.attackers);
+    if (dfn === '1') loseStep(s, lead, notes);
+    if (dfn === 'dis' && lead.where.kind === 'map') lead.status = 'disrupted';
+    if (outcome === 'P') {
+      s.cityBattle[pd.hex] = 1;
+      notes.push('City Battle marker placed');
+      outcome = 'H';
     }
     if (outcome === 'H') {
       if (!defs().length && steps === 1) advanceAfter(true);
@@ -640,23 +746,26 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
       return;
     }
     if (outcome === 'D') {
-      retreatStack(s, defs(), 1, pd.hex, 'disrupted', notes);
+      retreatStack(s, everyone(), delayHexes, pd.hex, 'disrupted', notes, { again: bt });
       advanceAfter(true);
       return;
     }
-    // Failed stand.
-    if (pd.desperate && defs().length) {
-      const l = pickLead(s, pd.hex, side);
-      if (!l) break;
-      loseStep(s, l, notes);
-      if (!defs().length) break;
-      notes.push('Desperate Defense: rolling again');
-      continue;
-    }
-    break;
+    break; // the stand fails
   }
-  if (defs().length) retreatStack(s, defs(), pd.retreat, pd.hex, 'disrupted', notes);
+  if (everyone().length) retreatStack(s, everyone(), pd.retreat, pd.hex, 'disrupted', notes, { again: bt });
   advanceAfter(false);
+}
+
+/** A port or beachhead stack may make a Desperate Defense if losing the hex would leave it out of supply (11.5.2). */
+function retreatCutsSupply(s: GameState, ids: string[], plan: ReturnType<typeof planRetreat>, hex: HexId, side: Side): boolean {
+  const isBh = unitsAt(s, hex).some((u) => def(u.id).cat === 'bh');
+  if ((!MAP.hexes[hex].port && !isBh) || plan.intoArea || !plan.path.length) return false;
+  const end = plan.path[plan.path.length - 1];
+  const c = structuredClone({ ...s, log: [], combats: [] });
+  for (const u of unitsAt(c, hex)) if (sideOf(u) === side) u.where = { kind: 'removed', reason: 'what-if' };
+  for (const id of ids) c.units[id].where = { kind: 'map', hex: end };
+  c.control[hex] = other(side);
+  return !supplyChecker(c, side).inSupply(end);
 }
 
 // ------------------------------------------------------------------ advance after combat
@@ -665,14 +774,16 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
 export function advanceDestinations(s: GameState, pa: PendingAdvance, unitId: string): Map<HexId, HexId[]> {
   const u = s.units[unitId];
   const out = new Map<HexId, HexId[]>();
-  if (!u || u.where.kind !== 'map' || !(unitId in pa.maxByUnit)) return out;
+  if (!u || (u.where.kind !== 'map' && u.where.kind !== 'entry') || !(unitId in pa.maxByUnit)) return out;
   const side = sideOf(u);
   const d = def(unitId);
   const occ = occupancy(s);
   const ezoc = zocOf(s, other(side));
   const bonds = bondsOf(s, other(side));
   const max = pa.maxByUnit[unitId];
-  const start = u.where.hex;
+  // Units that attacked out of an Entry Area come onto the map through the vacated hex.
+  const fromEntry = u.where.kind === 'entry';
+  const start = u.where.kind === 'map' ? u.where.hex : pa.vacated;
   const stepOk = (from: HexId, to: HexId, first: boolean): { ok: boolean; stop: boolean; halfEff: boolean } => {
     const no = { ok: false, stop: true, halfEff: false };
     if (!isLand(to) || occ.get(to) === other(side)) return no;
@@ -686,13 +797,23 @@ export function advanceDestinations(s: GameState, pa: PendingAdvance, unitId: st
     if (hs.river && !hs.road && (!first || to !== pa.vacated)) return no;
     const dest = MAP.hexes[to];
     let stop = false;
-    if (dest.terrain === 'marsh') stop = true;
+    if (dest.terrain === 'marsh' && !hs.road) stop = true;
     if (dest.terrain === 'hill' && !dest.city && !hs.road) stop = true;
     if (to !== pa.vacated && ezoc.has(to)) stop = true;
     return { ok: true, stop, halfEff };
   };
+  // Enemy units whose ZOC covers both hexes: no advance from one such EZOC straight into another (14.4.1).
+  const enemyHexes = [...occ.entries()].filter(([, sd]) => sd === other(side)).map(([h]) => h);
+  const sameEnemyZoc = (a: HexId, b: HexId) =>
+    ezoc.has(a) && ezoc.has(b) && enemyHexes.some((e) => neighbors(e).includes(a) && neighbors(e).includes(b));
   type Node = { hex: HexId; path: HexId[]; stopped: boolean; hillRoad: number };
-  const q: Node[] = [{ hex: start, path: [], stopped: false, hillRoad: 0 }];
+  const q: Node[] = [];
+  if (fromEntry) {
+    if (occ.get(pa.vacated) === other(side)) return out;
+    const vd = MAP.hexes[pa.vacated];
+    out.set(pa.vacated, [pa.vacated]);
+    q.push({ hex: pa.vacated, path: [pa.vacated], stopped: vd.terrain === 'marsh' || (vd.terrain === 'hill' && !vd.city), hillRoad: 0 });
+  } else q.push({ hex: start, path: [], stopped: false, hillRoad: 0 });
   const seen = new Map<HexId, number>();
   while (q.length) {
     const cur = q.shift()!;
@@ -702,8 +823,7 @@ export function advanceDestinations(s: GameState, pa: PendingAdvance, unitId: st
       const first = cur.path.length === 0;
       const st = stepOk(cur.hex, n, first);
       if (!st.ok) continue;
-      // No EZOC-to-EZOC unless entering or leaving the vacated hex.
-      if (!first && cur.hex !== pa.vacated && n !== pa.vacated && ezoc.has(cur.hex) && ezoc.has(n)) continue;
+      if (cur.hex !== pa.vacated && n !== pa.vacated && sameEnemyZoc(cur.hex, n)) continue;
       const path = [...cur.path, n];
       const dest = MAP.hexes[n];
       const hs = MAP.hexsides[sideKey(cur.hex, n)] ?? {};
@@ -729,7 +849,7 @@ export function applyAdvance(s: GameState, unitIds: string[], to: HexId, notes: 
     const path = dests.get(to);
     if (!path) throw new Error(`${def(id).name} cannot advance to ${to}.`);
     const u = s.units[id];
-    let prev = (u.where as { hex: HexId }).hex;
+    let prev = originHex(u) ?? path[0];
     for (const h of path) {
       const hs = MAP.hexsides[sideKey(prev, h)] ?? {};
       if (hs.mountain && !hs.road && !hs.pass) u.halfEff = true;

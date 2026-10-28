@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { distance, isAdjacent, neighbors, sideKey } from '../src/engine/hex';
 import { MAP, UNIT_DEFS } from '../src/engine/data';
-import { actingSide, applyAction, IllegalAction, landingHexes, newGame } from '../src/engine/game';
+import { actingSide, applyAction, IllegalAction, landingHexes, navalDestinations, newGame } from '../src/engine/game';
+import { breakthroughTargets } from '../src/engine/breakthrough';
 import { legalDestinations, stepCost } from '../src/engine/movement';
 import { computeOdds, parseCell } from '../src/engine/combat';
 import { supplyChecker } from '../src/engine/supply';
@@ -178,5 +179,155 @@ describe('supply', () => {
     const s = newGame('campaign', 3);
     expect(supplyChecker(s, 'German').inSupply('3203')).toBe(true);
     expect(supplyChecker(s, 'Allied').inSupply('2617')).toBe(true);
+  });
+});
+
+describe('breakthrough combat', () => {
+  it('lets one group keep advancing and attack again', () => {
+    let tried = 0;
+    for (let seed = 1; seed < 80; seed++) {
+      const s = newGame('campaign', seed);
+      clearMap(s);
+      s.turn = 3;
+      s.phase = 'combat';
+      s.activeSide = 'German';
+      s.support.ready = [];
+      for (const id of ['GE-IIa2', 'GE-IIb2', 'GE-KGDor', 'GE-I64']) put(s, id, '3014');
+      put(s, 'US-1-142', '3013');
+      put(s, 'US-143', '2912');
+      applyAction(s, { type: 'attack', target: '3013', attackers: ['GE-IIa2', 'GE-IIb2', 'GE-KGDor', 'GE-I64'] });
+      if (s.pendingDefense) applyAction(s, { type: 'defend', choice: 'retreat' });
+      if (!s.pendingAdvance?.btAllowed) continue;
+      tried++;
+      applyAction(s, { type: 'btStart', unitIds: ['GE-IIa2', 'GE-KGDor'], form: 'vacated' });
+      const b = s.breakthrough!;
+      expect(b.hex).toBe('3013');
+      expect(b.left).toBe(s.combats[0].result.includes('Adv 4') ? 3 : s.combats[0].result.includes('Adv 3') ? 2 : 1);
+      // The others wait for the group.
+      expect(s.pendingAdvance).toBeNull();
+      expect(breakthroughTargets(s)).toContain('2912');
+      applyAction(s, { type: 'btAttack', target: '2912' });
+      if (s.pendingDefense) applyAction(s, { type: 'defend', choice: 'retreat' });
+      const after = s.breakthrough;
+      if (after?.freeHex) {
+        applyAction(s, { type: 'btMove', to: '2912' });
+        expect(s.units['GE-IIa2'].where).toEqual({ kind: 'map', hex: '2912' });
+      }
+      applyAction(s, { type: 'endPhase' }); // stop the group
+      expect(s.breakthrough ?? null).toBeNull();
+      if (s.pendingAdvance) expect(Object.keys(s.pendingAdvance.maxByUnit).sort()).toEqual(['GE-I64', 'GE-IIb2']);
+      return;
+    }
+    expect(tried).toBeGreaterThan(0);
+  });
+});
+
+describe('naval movement', () => {
+  it('moves a unit between beachheads and allows 2-turn transfers to small ports', () => {
+    const s = newGame('campaign', 4);
+    for (let i = 0; i < 5; i++) applyAction(s, { type: 'endPhase' });
+    // Allied movement, turn 2: pretend it is turn 3 so naval movement is allowed and Amalfi is ours.
+    s.turn = 3;
+    s.control['2306'] = 'Allied';
+    s.portsAtStart = ['2306'];
+    const id = 'US-179';
+    s.units[id].where = { kind: 'map', hex: '2617' };
+    s.units[id].status = 'good';
+    const dests = navalDestinations(s, id);
+    expect(dests.map((d) => d.to)).toContain('reserve');
+    const amalfi = dests.find((d) => d.to === '2306');
+    expect(amalfi?.twoTurn).toBe(true);
+    applyAction(s, { type: 'naval', unitId: id, to: '2306' });
+    expect(s.units[id].where).toEqual({ kind: 'atSea', port: '2306', since: 3 });
+    expect(landingHexes(s, id)).toEqual([]);
+    // Only 3 LP a turn between ports and beachheads.
+    expect(s.navalLp).toBe(3);
+  });
+});
+
+describe('rules audit fixes', () => {
+  const combatSetup = (seed = 1) => {
+    const s = newGame('campaign', seed);
+    clearMap(s);
+    s.turn = 4;
+    s.phase = 'combat';
+    s.activeSide = 'Allied';
+    s.support.ready = [];
+    return s;
+  };
+
+  it('halves attackers across a mountain hexside even along a road', () => {
+    const s = combatSetup();
+    // 2421-2422 is a mountain hexside crossed by a road.
+    put(s, 'US-179', '2421');
+    put(s, 'GE-I64', '2422');
+    const odds = computeOdds(s, { target: '2422', attackers: ['US-179'] });
+    expect(odds.ok).toBe(true);
+    expect(odds.attack).toBe(3);
+  });
+
+  it('lets units in an Entry Area that did not move attack onto the map', () => {
+    const s = combatSetup();
+    s.activeSide = 'German';
+    s.units['GE-I1HG'].where = { kind: 'entry', area: 'N1' };
+    s.units['GE-I1HG'].stopped = false;
+    put(s, 'US-1Rgr', '2300');
+    expect(computeOdds(s, { target: '2300', attackers: ['GE-I1HG'] }).ok).toBe(true);
+    s.units['GE-I1HG'].stopped = true;
+    expect(computeOdds(s, { target: '2300', attackers: ['GE-I1HG'] }).ok).toBe(false);
+  });
+
+  it('clears Auto DS markers when the combat phase ends', () => {
+    const s = combatSetup();
+    put(s, 'US-179', '2910');
+    s.units['US-179'].autoDs = true;
+    applyAction(s, { type: 'endPhase' });
+    expect(s.units['US-179'].autoDs).toBe(false);
+  });
+
+  it('brings a 3-step unit back from the Eliminated Box as its remnant', () => {
+    const s = newGame('campaign', 2);
+    s.phase = 'initial';
+    s.activeSide = 'Allied';
+    s.replacements.US.inf = 1;
+    s.units['US-179'].where = { kind: 'eliminated' };
+    applyAction(s, { type: 'replace', unitId: 'US-179' });
+    expect(s.units['US-179'].where.kind).toBe('remnantHeld');
+    const rem = Object.values(s.units).find((u) => u.represents === 'US-179');
+    expect(rem?.where).toEqual({ kind: 'reserve' });
+  });
+
+  it('lets a human owner pick another legal retreat hex', () => {
+    for (let seed = 1; seed < 120; seed++) {
+      const s = combatSetup(seed);
+      s.options = { chooseRetreats: ['German'] };
+      put(s, 'US-179', '3014');
+      put(s, 'US-751', '3014');
+      put(s, 'GE-I64', '3013');
+      applyAction(s, { type: 'attack', target: '3013', attackers: ['US-179', 'US-751'] });
+      if (s.pendingDefense) applyAction(s, { type: 'defend', choice: 'retreat' });
+      const rq = s.retreatQueue?.[0];
+      if (!rq || rq.options.length < 2) continue;
+      expect(actingSide(s)).toBe('German');
+      expect(() => applyAction(s, { type: 'endPhase' })).toThrow(IllegalAction);
+      const other = rq.options.findIndex((_, i) => i !== rq.current);
+      applyAction(s, { type: 'retreatChoice', index: other });
+      expect(s.units['GE-I64'].where).toEqual({ kind: 'map', hex: rq.options[other].end });
+      expect(s.retreatQueue?.length ?? 0).toBe(0);
+      return;
+    }
+    throw new Error('no seed produced a retreat with a choice');
+  });
+
+  it('allows trucks with Extended Movement on turn 1 (3 + 3 MP)', () => {
+    const s = newGame('campaign', 42);
+    applyAction(s, { type: 'endPhase' });
+    applyAction(s, { type: 'endPhase' });
+    const u = s.units['GE-III1FJ'];
+    u.frozenUntil = undefined;
+    const d = legalDestinations(s, 'GE-III1FJ', 'truckExtended');
+    expect(d.size).toBeGreaterThan(0);
+    for (const [, r] of d) expect(r.cost).toBeLessThanOrEqual(6);
+    expect([...d.values()].some((r) => r.cost > 3)).toBe(true);
   });
 });

@@ -108,6 +108,7 @@ export type Where =
   | { kind: 'landing'; beach: string } // Turn 1 assault landing boxes
   | { kind: 'followUp'; corps: string } // Turn 1 follow-up wave
   | { kind: 'pending'; turn: number; at: string }
+  | { kind: 'atSea'; port: HexId; since: number } // 2-turn naval transfer to a small port
   | { kind: 'entry'; area: string } // off-map entry area (N1, S2, ...), 'airdrop' or 'hex:XXXX'
   | { kind: 'eliminated'; permanent?: boolean }
   | { kind: 'remnantPool' }
@@ -115,7 +116,7 @@ export type Where =
   | { kind: 'removed'; reason: string };
 
 export type Status = 'good' | 'disrupted' | 'fullRetreat';
-export type MoveMode = 'normal' | 'extended' | 'tactical' | 'truck';
+export type MoveMode = 'normal' | 'extended' | 'tactical' | 'truck' | 'truckExtended';
 
 export interface UnitState {
   id: string;
@@ -143,6 +144,10 @@ export interface UnitState {
   autoDs: boolean;
   /** For remnants on the map: the unit it stands for. */
   represents?: string;
+  /** Turn the unit came ashore by naval transport (ASUs may then support only if they stay put). */
+  landedTurn?: number;
+  /** Optional recon rule used this combat phase: no Determined Defense. */
+  reconSaved?: boolean;
   /** Turn an airborne unit dropped (it is in supply that turn). */
   droppedTurn?: number;
 }
@@ -187,6 +192,32 @@ export interface PendingAdvance {
   from: Record<string, HexId>;
   maxByUnit: Record<string, number>;
   limited: boolean;
+  /** The attack earned two or more hexes: one stack may form a Breakthrough Group. */
+  btAllowed?: boolean;
+  /** Some unit has already advanced (a Breakthrough Group must go first). */
+  started?: boolean;
+}
+
+export interface Breakthrough {
+  /** The attack that earned the advance. */
+  combatId: number;
+  vacated: HexId;
+  units: string[];
+  hex: HexId;
+  /** Hexes of the advance allowance left. */
+  left: number;
+  /** The group is no longer in its starting position (no "changing direction" cost due). */
+  committed: boolean;
+  /** Entered a hill by road: the next hex must also be by road or the group stops. */
+  hillRoad: boolean;
+  /** A breakthrough combat awaiting the defender's decision. */
+  pendingCombat: number | null;
+  /** After a successful breakthrough combat: the vacated hex may be entered for free. */
+  freeHex: HexId | null;
+  /** DR4/DS: the group may keep going after the free advance. */
+  mayContinue: boolean;
+  /** The original advance for the units outside the group. */
+  rest: PendingAdvance | null;
 }
 
 export interface CombatReport {
@@ -206,11 +237,36 @@ export interface CombatReport {
   drm: number;
   result: string;
   dd?: { roll: number; drm: number; column: string; result: string };
+  breakthrough?: boolean;
+  phase?: Phase;
   notes: string[];
+}
+
+/** Optional rules (25.2, 25.3). */
+export interface GameOptions {
+  recon?: boolean;
+  limitedPortSupply?: boolean;
+  /** Sides whose player picks retreat destinations (human players). */
+  chooseRetreats?: Side[];
+  /** When each side commits its air support to defense: automatically, whenever possible, or never. */
+  defensiveAir?: Partial<Record<Side, 'auto' | 'always' | 'never'>>;
+}
+
+export interface RetreatChoice {
+  side: Side;
+  units: string[];
+  from: HexId;
+  distance: number;
+  /** Index of the option applied by default. */
+  current: number;
+  options: { end: HexId; path: HexId[]; intoArea?: string; halfEff: string[] }[];
+  prevHalfEff: Record<string, boolean>;
+  prevControl: Record<HexId, Side | null>;
 }
 
 export interface GameState {
   scenarioId: string;
+  options?: GameOptions;
   turn: number;
   lastTurn: number;
   phase: Phase;
@@ -226,11 +282,18 @@ export interface GameState {
   /** Naval transport bookkeeping for the current Allied movement phase. */
   landingPoints: number;
   portUse: Record<HexId, number>;
+  /** Each port or beachhead either ships units out or receives them in a turn, not both. */
+  portMode?: Record<HexId, 'in' | 'out'>;
+  /** Landing points used this turn for port/beachhead to port/beachhead moves (max 3). */
+  navalLp?: number;
   /** Ports Allied-controlled at the start of the Allied movement phase. */
   portsAtStart?: HexId[];
   trucksUsed: number;
   pendingDefense: PendingDefense | null;
   pendingAdvance: PendingAdvance | null;
+  breakthrough?: Breakthrough | null;
+  /** Retreats whose destination the owning player still has to confirm. */
+  retreatQueue?: RetreatChoice[];
   /** Auto DS advances queued for the end of the combat phase. */
   autoDsQueue: PendingAdvance[];
   combats: CombatReport[];
@@ -240,6 +303,8 @@ export interface GameState {
   victoryNote?: string;
   northVp: Record<string, boolean>;
   abandoned8th: boolean;
+  /** Declared this German turn; takes effect in the German Supply Phase. */
+  abandon8thDeclared?: boolean;
   seq: number;
 }
 
@@ -248,13 +313,20 @@ export interface GameState {
 export type Action =
   | { type: 'move'; unitId: string; to: HexId; mode?: MoveMode }
   | { type: 'land'; unitId: string; to: HexId }
+  | { type: 'naval'; unitId: string; to: HexId | 'reserve' }
   | { type: 'enter'; unitId: string; to: HexId; mode?: MoveMode }
   | { type: 'changeArea'; unitId: string; area: string }
   | { type: 'fullRetreat'; unitId: string }
   | { type: 'attack'; target: HexId; attackers: string[]; maf?: string; air?: boolean; naval?: boolean; battleships?: boolean; asus?: string[] }
   | { type: 'autoDs'; target: HexId; attackers: string[] }
-  | { type: 'defend'; choice: 'retreat' | 'dd'; support?: string | null; battleships?: boolean; prefer?: 'hold' | 'delay' }
+  | { type: 'defend'; choice: 'retreat' | 'dd'; support?: string | null; battleships?: boolean; prefer?: 'hold' | 'delay'; delay?: number }
   | { type: 'advance'; unitIds: string[]; to?: HexId }
+  | { type: 'btStart'; unitIds: string[]; form: 'stack' | 'vacated' }
+  | { type: 'btMove'; to: HexId }
+  | { type: 'btAttack'; target: HexId }
+  | { type: 'btDrop'; unitIds: string[] }
+  | { type: 'btEnd' }
+  | { type: 'retreatChoice'; index: number }
   | { type: 'disengage'; hex: HexId }
   | { type: 'replace'; unitId: string; to?: HexId }
   | { type: 'readyAsu'; unitId: string }

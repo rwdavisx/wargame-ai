@@ -6410,7 +6410,7 @@
   "title": "Salerno \u201943 map data"
  },
  "navalLine": {
-  "maxRowExclusive": 3,
+  "maxRowExclusive": 4,
   "note": "No naval support, port supply or naval transport north of this line",
   "restrictedPorts": [
    "1803",

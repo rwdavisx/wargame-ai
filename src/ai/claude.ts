@@ -10,7 +10,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { MAP } from '../engine/data';
 import { alliedVp, applyAction, benchmark, currentWeather, entryReach, landingHexes } from '../engine/game';
 import { distance, neighbors, type HexId } from '../engine/hex';
-import { allowedModes, cannotMove, legalDestinations } from '../engine/movement';
+import { allowedModes, cannotMove, entryModes, legalDestinations } from '../engine/movement';
 import type { Action, GameState, MoveMode, Side } from '../engine/types';
 import { def, goodOrder, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
 import { columnLabel } from '../engine/combat';
@@ -38,6 +38,7 @@ function whereText(s: GameState, id: string): string {
     case 'entry': return `offmap@${u.where.area}`;
     case 'reserve': return 'floating reserve (lands at a beachhead or port)';
     case 'followUp': return `follow-up wave (lands at ${u.where.corps} beaches)`;
+    case 'atSea': return `at sea, landing at ${u.where.port}`;
     default: return u.where.kind;
   }
 }
@@ -72,7 +73,7 @@ function sitrep(s: GameState, side: Side): string {
   lines.push('Your units:');
   for (const u of Object.values(s.units)) {
     if (sideOf(u) !== side) continue;
-    if (['map', 'entry', 'reserve', 'followUp'].includes(u.where.kind)) lines.push(fmt(u.id));
+    if (['map', 'entry', 'reserve', 'followUp', 'atSea'].includes(u.where.kind)) lines.push(fmt(u.id));
   }
   lines.push('Enemy units on the map:');
   for (const u of Object.values(s.units)) {
@@ -151,12 +152,12 @@ function orderToAction(s: GameState, unitId: string, target: HexId): Action | nu
     }
     return null;
   }
-  if (u.where.kind === 'reserve' || u.where.kind === 'followUp') {
+  if (u.where.kind === 'reserve' || u.where.kind === 'followUp' || u.where.kind === 'atSea') {
     const best = closest(landingHexes(s, unitId), target);
     return best ? { type: 'land', unitId, to: best } : null;
   }
   if (u.where.kind === 'entry' && !u.where.area.startsWith('airdrop')) {
-    const mode: MoveMode = s.turn === 1 && sideOf(u) === 'Allied' ? 'tactical' : 'normal';
+    const mode: MoveMode = entryModes(s, u).includes('normal') ? 'normal' : 'tactical';
     const best = closest(entryReach(s, unitId, mode).keys(), target);
     return best ? { type: 'enter', unitId, to: best, mode } : null;
   }
@@ -246,8 +247,8 @@ export function createClaudeAi(opts: ClaudeAiOptions): AiPlayer {
   return {
     name: 'Claude',
     async nextAction(s: GameState): Promise<Action> {
-      // The defender's choice and post-combat advances are answered by the built-in AI.
-      if (s.pendingDefense || s.pendingAdvance) return fallback.nextAction(s);
+      // The defender's choice, post-combat advances and breakthroughs are handled by the built-in AI.
+      if (s.retreatQueue?.length || s.pendingDefense || s.pendingAdvance || s.breakthrough) return fallback.nextAction(s);
       const k = `${s.turn}|${s.activeSide}|${s.phase}`;
       if (k !== memoKey) {
         memoKey = k;

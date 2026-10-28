@@ -1,5 +1,5 @@
 {
-  "_note": "Order of battle from the Campaign Game / Avalanche Scenario set-up cards. a-d-m = attack-defense-movement, sp = stacking points (the boxed number), tr = tank rating (silhouetted tanks). Counter back sides were not available: reduced strengths are computed proportionally from the number of steps (steps = stacking points, minimum 1).",
+  "_note": "Order of battle from the Campaign Game / Avalanche Scenario set-up cards. a-d-m = attack-defense-movement, sp = stacking points (the boxed number), tr = tank rating (silhouetted tanks). Optional back = the counter's reduced side as \"a-d-m\" (3-step units then become their Remnant), or \"none\" for a one-step counter. Without back, reduced strengths are estimated: steps = stacking points (1-3), each step -2/-2.",
   "categories": {
     "infantry":    { "mech": false, "maxAdv": 2, "repl": "inf" },
     "garrison":    { "mech": false, "maxAdv": 0, "repl": "inf", "variable": true },

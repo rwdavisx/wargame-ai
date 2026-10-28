@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MAP, SCENARIOS } from '../engine/data';
-import { advanceDestinations, computeOdds } from '../engine/combat';
+import { adjacentForCombat, advanceDestinations, computeOdds, entryAreasOf } from '../engine/combat';
+import { breakthroughMoves, breakthroughPlan, breakthroughTargets } from '../engine/breakthrough';
 import { actingSide, alliedVp, benchmark, currentWeather, entryReach, IllegalAction, landingHexes, newGame, withAction } from '../engine/game';
 import { neighbors, type HexId } from '../engine/hex';
-import { legalDestinations } from '../engine/movement';
-import type { Action, GameState, MoveMode, Side } from '../engine/types';
+import { entryModes, legalDestinations } from '../engine/movement';
+import type { Action, GameOptions, GameState, MoveMode, Side } from '../engine/types';
 import { canStack, def, goodOrder, sideOf, unitsAt, values } from '../engine/units';
 import { createHeuristicAi, type AiPlayer } from '../ai/heuristic';
 import { createClaudeAi } from '../ai/claude';
@@ -15,7 +16,7 @@ import { effectiveMode, eligibleAttackers, NO_SUPPORT, type SupportPick } from '
 
 export const dateOf = (turn: number) => `${8 + turn} Sept 1943`;
 
-const UNDOABLE = new Set(['move', 'enter', 'land', 'changeArea', 'fullRetreat', 'replace', 'readyAsu']);
+const UNDOABLE = new Set(['move', 'enter', 'land', 'naval', 'changeArea', 'fullRetreat', 'replace', 'readyAsu', 'btMove', 'btDrop']);
 
 export default function App() {
   const [game, setGame] = useState<GameState>(() => loadAutosave() ?? newGame('campaign'));
@@ -43,6 +44,16 @@ export default function App() {
   };
 
   useEffect(() => autosave(game), [game]);
+  // Human players choose their own retreat destinations; each side's defensive air policy comes from Setup.
+  useEffect(() => {
+    const human = (['Allied', 'German'] as const).filter((sd) => settings.controllers[sd] === 'human');
+    const air = settings.defensiveAir;
+    setGame((g) => {
+      const o = g.options ?? {};
+      if (JSON.stringify(o.chooseRetreats ?? []) === JSON.stringify(human) && JSON.stringify(o.defensiveAir ?? {}) === JSON.stringify(air)) return g;
+      return { ...g, options: { ...o, chooseRetreats: [...human], defensiveAir: { ...air } } };
+    });
+  }, [settings.controllers, settings.defensiveAir, game.options]);
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(null), 3500);
@@ -86,9 +97,13 @@ export default function App() {
             return withAction(g, a);
           } catch (e) {
             setAiStatus(`AI proposed an illegal action (${(e as Error).message}); skipping it.`);
-            const fallback: Action = g.pendingDefense
+            const fallback: Action = g.retreatQueue?.length
+              ? { type: 'retreatChoice', index: 0 }
+              : g.pendingDefense
               ? { type: 'defend', choice: 'retreat' }
-              : g.pendingAdvance
+              : g.breakthrough
+                ? { type: 'btEnd' }
+                : g.pendingAdvance
                 ? { type: 'advance', unitIds: [] }
                 : { type: 'endPhase' };
             return withAction(g, fallback);
@@ -145,8 +160,8 @@ export default function App() {
     setSelectedUnit(null);
   };
 
-  const startNew = (scenario: string) => {
-    const g = newGame(scenario);
+  const startNew = (scenario: string, options: GameOptions = {}) => {
+    const g = newGame(scenario, undefined, options);
     aiRef.current = {};
     setHistory([]);
     setGame(g);
@@ -163,8 +178,27 @@ export default function App() {
     const act = new Map<HexId, Action>();
     if (!humanTurn) return { highlights: m, clickActions: act };
     const g = game;
+    if (g.retreatQueue?.length) {
+      const rq = g.retreatQueue[0];
+      rq.options.forEach((o, i) => {
+        if (o.intoArea) return;
+        m.set(o.end, { color: i === rq.current ? '#5aa469' : '#3b82c4', label: i === rq.current ? 'here' : 'move' });
+        act.set(o.end, { type: 'retreatChoice', index: i });
+      });
+      return { highlights: m, clickActions: act };
+    }
     if (g.pendingDefense) {
       m.set(g.pendingDefense.hex, { color: '#d0574a', label: 'defend' });
+      return { highlights: m, clickActions: act };
+    }
+    if (g.breakthrough) {
+      const b = g.breakthrough;
+      m.set(b.hex, { color: '#9b59b6', label: `${b.left} left` });
+      for (const [h, cost] of breakthroughMoves(g)) {
+        m.set(h, { color: '#9b59b6', label: cost ? String(cost) : 'free' });
+        act.set(h, { type: 'btMove', to: h });
+      }
+      for (const h of breakthroughTargets(g)) m.set(h, { color: '#d0574a', label: 'BT' });
       return { highlights: m, clickActions: act };
     }
     if (g.pendingAdvance) {
@@ -196,14 +230,15 @@ export default function App() {
             act.set(h, { type: 'move', unitId: mine.id, to: h, mode });
           }
         }
-      } else if (mine.where.kind === 'reserve' || mine.where.kind === 'followUp') {
+      } else if (mine.where.kind === 'reserve' || mine.where.kind === 'followUp' || mine.where.kind === 'atSea') {
         for (const h of landingHexes(g, mine.id)) {
           // Orange: landing here would overstack the hex (fix it before the phase ends).
           m.set(h, canStack(g, h, [mine.id]) ? { color: '#3b82c4', label: 'land' } : { color: '#e7a53b', label: 'full' });
           act.set(h, { type: 'land', unitId: mine.id, to: h });
         }
       } else if (mine.where.kind === 'entry' && !mine.where.area.startsWith('airdrop')) {
-        const mode: MoveMode = g.turn === 1 && g.activeSide === 'Allied' ? 'tactical' : moveMode === 'extended' || moveMode === 'truck' ? moveMode : 'normal';
+        const modes = entryModes(g, mine);
+        const mode: MoveMode = modes.includes(moveMode) ? moveMode : modes.includes('normal') ? 'normal' : 'tactical';
         for (const [h, r] of entryReach(g, mine.id, mode)) {
           m.set(h, { color: r.stop ? '#e7a53b' : '#3b82c4', label: String(+r.cost.toFixed(1)) });
           act.set(h, { type: 'enter', unitId: mine.id, to: h, mode });
@@ -213,9 +248,14 @@ export default function App() {
     if (g.phase === 'combat' || g.phase === 'movement' || g.phase === 'invasion') {
       // Enemy hexes that can be attacked (or overrun with an Auto DS in the movement phase).
       for (const u of Object.values(g.units)) {
-        if (u.where.kind !== 'map' || sideOf(u) !== g.activeSide || u.attacked || !goodOrder(u) || def(u.id).asu) continue;
+        if (sideOf(u) !== g.activeSide || u.attacked || !goodOrder(u) || def(u.id).asu) continue;
         if (g.phase === 'invasion' && def(u.id).formation !== 'Commando Bde') continue;
-        for (const n of neighbors(u.where.hex)) {
+        // Units in an Entry Area that have not moved may attack the edge hexes of their area (21.3.4).
+        const near = u.where.kind === 'map' ? neighbors(u.where.hex)
+          : g.phase === 'combat' && u.where.kind === 'entry' && !u.stopped
+            ? entryAreasOf(u.where.area).flatMap((a) => MAP.entryAreas[a]?.hexes ?? []).filter((h) => adjacentForCombat(g, u, h))
+            : [];
+        for (const n of near) {
           if (!m.has(n) && unitsAt(g, n).some((x) => sideOf(x) !== g.activeSide)) m.set(n, { color: '#d0574a' });
         }
       }
@@ -224,7 +264,9 @@ export default function App() {
   }, [game, selUnit, moveMode, humanTurn, advanceSel]);
 
   const odds = useMemo(() => {
-    if (!attackTarget || !['combat', 'movement', 'invasion'].includes(game.phase) || game.pendingAdvance || game.pendingDefense) return null;
+    if (!attackTarget || game.pendingDefense) return null;
+    if (game.breakthrough) return breakthroughTargets(game).includes(attackTarget) ? computeOdds(game, breakthroughPlan(game, attackTarget)) : null;
+    if (!['combat', 'movement', 'invasion'].includes(game.phase) || game.pendingAdvance) return null;
     const ids = [...attackers];
     if (game.phase === 'movement') return computeOdds(game, { target: attackTarget, attackers: ids }, { autoDs: true });
     if (game.phase === 'invasion') return computeOdds(game, { target: attackTarget, attackers: ids });
@@ -249,7 +291,12 @@ export default function App() {
       }
       return;
     }
-    const canAttack = ['combat', 'movement', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.pendingDefense;
+    if (humanTurn && game.breakthrough && breakthroughTargets(game).includes(hex)) {
+      setAttackTarget(hex);
+      setTab('play');
+      return;
+    }
+    const canAttack = ['combat', 'movement', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.pendingDefense && !game.breakthrough;
     if (humanTurn && canAttack && highlights.get(hex)?.color === '#d0574a' && here.some((u) => sideOf(u) !== game.activeSide)) {
       setAttackTarget(hex);
       let ids = eligibleAttackers(game, hex);

@@ -29,6 +29,23 @@ export function cannotMove(s: GameState, u: UnitState): string | null {
   return null;
 }
 
+export const isTruck = (mode: MoveMode) => mode === 'truck' || mode === 'truckExtended';
+export const isExtended = (mode: MoveMode) => mode === 'extended' || mode === 'truckExtended';
+
+/** Up to two German non-mechanized units in supply and in Good Order may ride trucks each turn (5.8). */
+function truckOk(s: GameState, u: UnitState): boolean {
+  return sideOf(u) === 'German' && !def(u.id).mech && !def(u.id).vehicle && !u.outOfSupply && s.trucksUsed < 2 && u.status === 'good';
+}
+
+/** Modes for a unit entering from an Entry Area. */
+export function entryModes(s: GameState, u: UnitState): MoveMode[] {
+  if (s.turn === 1 && sideOf(u) === 'Allied') return ['tactical'];
+  if (u.repl) return ['tactical']; // one hex at most (20.4)
+  const modes: MoveMode[] = ['normal', 'extended', 'tactical'];
+  if (truckOk(s, u)) modes.push('truck', 'truckExtended');
+  return modes;
+}
+
 /** Movement modes this unit may use right now. */
 export function allowedModes(s: GameState, u: UnitState): MoveMode[] {
   const d = def(u.id);
@@ -38,14 +55,14 @@ export function allowedModes(s: GameState, u: UnitState): MoveMode[] {
   if (u.status === 'disrupted') return ['tactical'];
   if (u.outOfSupply && d.mech) return ['tactical'];
   const modes: MoveMode[] = ['normal', 'extended', 'tactical'];
-  if (sideOf(u) === 'German' && !d.mech && !u.outOfSupply && s.trucksUsed < 2 && u.status === 'good') modes.push('truck');
+  if (truckOk(s, u)) modes.push('truck', 'truckExtended');
   return modes;
 }
 
 export function movementAllowance(s: GameState, u: UnitState, mode: MoveMode): number {
-  let ma = mode === 'truck' ? 5 : values(u).move;
+  let ma = isTruck(mode) ? 5 : values(u).move;
   if (s.turn === 1 && sideOf(u) === 'German') ma = Math.ceil(ma / 2);
-  if (mode === 'extended') ma += RULES.movement.extendedBonus;
+  if (isExtended(mode)) ma += RULES.movement.extendedBonus;
   return ma;
 }
 
@@ -61,7 +78,8 @@ export function stepCost(s: GameState, u: UnitState, from: HexId, to: HexId, mod
   const dest = MAP.hexes[to];
   if (!dest || dest.terrain === 'sea' || !isAdjacent(from, to)) return null;
   const d = def(u.id);
-  const mech = mode === 'truck' ? true : d.mech;
+  // Trucked infantry moves at mechanized rates but is still infantry for rivers and mountains (5.8).
+  const mech = isTruck(mode) || d.mech;
   const key = mech ? 'mech' : 'inf';
   const hs = MAP.hexsides[sideKey(from, to)] ?? {};
   const m = RULES.movement;
@@ -75,14 +93,14 @@ export function stepCost(s: GameState, u: UnitState, from: HexId, to: HexId, mod
   let firstHexOnly = false;
   let mountainCrossing = false;
   if (hs.mountain && !hs.pass) {
-    if (d.vehicle || mode === 'truck') return null;
+    if (d.vehicle) return null;
     firstHexOnly = true;
     mountainCrossing = true;
   } else if (hs.pass) {
     cost += m.pass[key];
   }
   if (hs.river) {
-    if (d.vehicle || mode === 'truck') {
+    if (d.vehicle) {
       if (weatherBox(s).rain) return null;
       firstHexOnly = true;
     } else cost += m.riverInf;
@@ -100,6 +118,14 @@ export function reachable(s: GameState, u: UnitState, start: HexId, mode: MoveMo
   const maxHexes = u.repl ? 1 : RULES.movement.tacticalHexes - (u.moveMode === 'tactical' ? u.tacHexes : 0);
   const ma = movementAllowance(s, u, mode);
   const fullRetreat = u.status === 'fullRetreat';
+  const extended = isExtended(mode);
+  // Enemy units in Full Retreat have no ZOC but still bar Extended Movement next to them (13.3.3).
+  const frAdjacent = new Set<HexId>();
+  if (extended) {
+    for (const e of Object.values(s.units)) {
+      if (e.where.kind === 'map' && sideOf(e) !== side && e.status === 'fullRetreat') for (const n of neighbors(e.where.hex)) frAdjacent.add(n);
+    }
+  }
   const fresh = u.mpSpent === null && u.tacHexes === 0 && !fromEntry;
   const out = new Map<HexId, Reach>();
   out.set(start, { cost: 0, hexes: 0, prev: null, stop: false, halfEff: false });
@@ -120,8 +146,10 @@ export function reachable(s: GameState, u: UnitState, start: HexId, mode: MoveMo
       if (step.mountainCrossing && u.crossedMountain) continue;
       const nInZoc = ezoc.has(n);
       if (fullRetreat && nInZoc && !friendsAt(s, n, side).some((f) => f.status !== 'fullRetreat')) continue;
-      if (mode === 'extended' && nInZoc) continue;
-      if (mode === 'extended' && curInZoc && cur !== start) continue;
+      if (extended && (nInZoc || frAdjacent.has(n))) continue;
+      if (extended && curInZoc && cur !== start) continue;
+      // Units in Full Retreat may not enter enemy-controlled cities (13.3.2).
+      if (fullRetreat && MAP.hexes[n].city && (s.control[n] ?? 'German') !== side) continue;
       let cost = here.cost;
       let hexes = here.hexes + 1;
       if (tactical) {
@@ -166,18 +194,24 @@ export function entryDestinations(s: GameState, unitId: string, area: string, mo
   const occ = occupancy(s);
   const ezoc = zocOf(s, other(side));
   const ma = movementAllowance(s, u, mode);
+  const bonds = bondsOf(s, other(side));
+  // While Allied units are in N1/N2, Germans may only come out into hexes free of Allied ZOC (23.1.4).
+  const alliedInArea = side === 'German' && (area === 'N1' || area === 'N2') &&
+    Object.values(s.units).some((x) => x.where.kind === 'entry' && x.where.area === area && sideOf(x) === 'Allied');
   for (const h of ea.hexes) {
     if (!isLand(h) || occ.get(h) === other(side)) continue;
-    if (mode === 'extended' && ezoc.has(h)) continue;
+    if (bonds.hexes.has(h)) continue; // may not enter an enemy ZOC Bond as they enter (21.3.3)
+    if (alliedInArea && ezoc.has(h)) continue;
+    if (isExtended(mode) && ezoc.has(h)) continue;
     // Entering costs the first hex's terrain (road rate if the road runs off the map edge).
     const edgeRoad = Object.keys(MAP.hexsides).some((k) => k.includes(h) && MAP.hexsides[k].road);
-    const mech = mode === 'truck' || def(unitId).mech;
+    const mech = isTruck(mode) || def(unitId).mech;
     const terrain = MAP.hexes[h].city ? 'city' : MAP.hexes[h].terrain;
     const firstCost = mode === 'tactical' ? 0 : edgeRoad ? (mech ? RULES.movement.majorRoad.mech : 1) : RULES.movement.terrain[terrain]?.[mech ? 'mech' : 'inf'] ?? 1;
     if (mode !== 'tactical' && firstCost > ma) continue;
     const here: Reach = { cost: firstCost, hexes: 1, prev: null, stop: ezoc.has(h), halfEff: false };
     if (!res.has(h) || res.get(h)!.cost > here.cost) res.set(h, here);
-    if (here.stop) continue;
+    if (here.stop || u.repl) continue;
     const ghost: UnitState = { ...u, mpSpent: firstCost, tacHexes: 1, moveMode: mode, where: { kind: 'map', hex: h } };
     const r = reachable(s, ghost, h, mode, true);
     for (const [k, v] of r) {

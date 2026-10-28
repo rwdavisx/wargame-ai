@@ -30,7 +30,7 @@ export function usablePorts(s: GameState): HexId[] {
     .map(([h]) => h);
 }
 
-export function supplySources(s: GameState, side: Side): HexId[] {
+export function supplySources(s: GameState, side: Side, opts: { ports?: boolean } = {}): HexId[] {
   const occ = occupancy(s);
   const out = new Set<HexId>();
   for (const [name, ea] of Object.entries(MAP.entryAreas)) {
@@ -39,7 +39,7 @@ export function supplySources(s: GameState, side: Side): HexId[] {
   }
   if (side === 'Allied') {
     for (const h of beachheadHexes(s)) out.add(h);
-    for (const h of usablePorts(s)) out.add(h);
+    if (opts.ports !== false) for (const h of usablePorts(s)) out.add(h);
   }
   return [...out];
 }
@@ -50,6 +50,8 @@ interface TraceCtx {
   ezoc: Set<HexId>;
   bonds: ReturnType<typeof bondsOf>;
   roadNet: Set<HexId>;
+  sources: Set<HexId>;
+  enemyControlled: (h: HexId) => boolean;
 }
 
 function makeCtx(s: GameState, side: Side, targets: HexId[]): TraceCtx {
@@ -59,7 +61,7 @@ function makeCtx(s: GameState, side: Side, targets: HexId[]): TraceCtx {
   const zocFree = (h: HexId) => !ezoc.has(h) || occ.get(h) === side;
   const enemyControlled = (h: HexId) => {
     const d = MAP.hexes[h];
-    return !!d && (d.vp || d.city || d.port) && occ.get(h) !== side && (s.control[h] ?? 'German') !== side;
+    return !!(d && (d.vp || d.city || d.port)) && occ.get(h) !== side && (s.control[h] ?? 'German') !== side;
   };
   // Road portion: any length along roads from the targets, never through enemy units or EZOCs.
   const roadNet = new Set<HexId>();
@@ -80,7 +82,7 @@ function makeCtx(s: GameState, side: Side, targets: HexId[]): TraceCtx {
       stack.push(n);
     }
   }
-  return { side, occ, ezoc, bonds, roadNet };
+  return { side, occ, ezoc, bonds, roadNet, sources: new Set(targets), enemyControlled };
 }
 
 /**
@@ -89,7 +91,7 @@ function makeCtx(s: GameState, side: Side, targets: HexId[]): TraceCtx {
  * first step cross a mountain hexside (Line of Communication).
  */
 function overland(ctx: TraceCtx, from: HexId, limit: number, firstMountainOk: boolean): boolean {
-  if (ctx.roadNet.has(from)) return true;
+  if (ctx.roadNet.has(from) || ctx.sources.has(from)) return true;
   type St = { h: HexId; prevZoc: boolean };
   const best = new Map<string, number>();
   const zocAt = (h: HexId) => ctx.ezoc.has(h) && ctx.occ.get(h) !== ctx.side;
@@ -100,6 +102,8 @@ function overland(ctx: TraceCtx, from: HexId, limit: number, firstMountainOk: bo
     const { st, cost } = q.shift()!;
     for (const n of neighbors(st.h)) {
       if (!isLand(n) || ctx.occ.get(n) === other(ctx.side)) continue;
+      // Never through a vacant enemy-controlled port, city or VP hex (16.3.4).
+      if (ctx.enemyControlled(n) && !ctx.sources.has(n)) continue;
       if (blockedByBond(ctx.bonds, st.h, n)) continue;
       const hs = MAP.hexsides[sideKey(st.h, n)] ?? {};
       if (hs.mountain && !hs.road && !hs.pass && !(firstMountainOk && st.h === from)) continue;
@@ -107,7 +111,8 @@ function overland(ctx: TraceCtx, from: HexId, limit: number, firstMountainOk: bo
       if (z && st.prevZoc) continue;
       const c = cost + (MAP.hexes[n].terrain === 'marsh' && !hs.road ? 2 : 1);
       if (c > limit) continue;
-      if (ctx.roadNet.has(n)) return true;
+      // A vacant source hex may be reached overland even inside an enemy ZOC.
+      if (ctx.roadNet.has(n) || ctx.sources.has(n)) return true;
       const key = `${n}|${z ? 1 : 0}`;
       if ((best.get(key) ?? Infinity) <= c) continue;
       best.set(key, c);
@@ -122,8 +127,8 @@ export interface SupplyChecker {
   hasLoc(hex: HexId): boolean;
 }
 
-export function supplyChecker(s: GameState, side: Side): SupplyChecker {
-  const ctx = makeCtx(s, side, supplySources(s, side));
+export function supplyChecker(s: GameState, side: Side, opts: { ports?: boolean } = {}): SupplyChecker {
+  const ctx = makeCtx(s, side, supplySources(s, side, opts));
   const cacheS = new Map<HexId, boolean>();
   const cacheL = new Map<HexId, boolean>();
   return {

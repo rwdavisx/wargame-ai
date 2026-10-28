@@ -1,9 +1,9 @@
 // Helpers shared by the play UI components.
-import type { AttackPlan } from '../engine/combat';
-import { neighbors, type HexId } from '../engine/hex';
+import { adjacentForCombat, type AttackPlan } from '../engine/combat';
+import type { HexId } from '../engine/hex';
 import { allowedModes } from '../engine/movement';
 import type { GameState, MoveMode } from '../engine/types';
-import { def, goodOrder, sideOf, unitsAt, values } from '../engine/units';
+import { def, goodOrder, sideOf, values } from '../engine/units';
 
 export type SupportPick = Omit<AttackPlan, 'target' | 'attackers'>;
 export const NO_SUPPORT: SupportPick = { air: false, naval: false, battleships: false, asus: [] };
@@ -19,12 +19,12 @@ export function effectiveMode(s: GameState, unitId: string, wanted: MoveMode): M
 /** Own units that could take part in an attack on `hex`. */
 export function eligibleAttackers(s: GameState, hex: HexId): string[] {
   const side = s.activeSide;
-  return neighbors(hex)
-    .flatMap((n) => unitsAt(s, n))
+  return Object.values(s.units)
+    .filter((u) => (u.where.kind === 'map' || u.where.kind === 'entry') && sideOf(u) === side && adjacentForCombat(s, u, hex))
     .filter((u) => {
       const d = def(u.id);
-      return sideOf(u) === side && !d.asu && d.cat !== 'bh' && !d.variable && !u.attacked && !u.autoDs && goodOrder(u) && !u.truck &&
-        values(u).attack > 0;
+      return !d.asu && d.cat !== 'bh' && !d.variable && !u.attacked && !u.autoDs && goodOrder(u) && !u.truck && values(u).attack > 0 &&
+        !(u.where.kind === 'entry' && (u.stopped || u.repl));
     })
     .map((u) => u.id);
 }
