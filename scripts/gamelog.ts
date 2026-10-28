@@ -11,5 +11,5 @@ for (const l of s.log) {
 }
 console.log('--- final positions');
 for (const u of Object.values(s.units)) {
-  if (u.where.kind === 'map') console.log(u.id.padEnd(10), u.where.hex, u.stepsLost ? `-${u.stepsLost}` : '', u.disrupted ? 'disrupted' : '', u.outOfSupply ? 'OOS' : '');
+  if (u.where.kind === 'map') console.log(u.id.padEnd(10), u.where.hex, u.stepsLost ? `-${u.stepsLost}` : '', u.status !== 'good' ? u.status : '', u.outOfSupply ? 'OOS' : '');
 }

@@ -105,7 +105,8 @@ select, input[type='text'], input[type='number'], input[type='password'] {
 }
 .gameover .card { background: var(--panel); border: 1px solid var(--accent); padding: 24px 28px; border-radius: 8px; max-width: 420px; text-align: center; }
 table.crt { border-collapse: collapse; font-size: 12px; margin-top: 6px; }
-table.crt td, table.crt th { border: 1px solid var(--border); padding: 2px 5px; text-align: center; }
+table.crt td, table.crt th { border: 1px solid var(--border); padding: 2px 4px; text-align: center; white-space: nowrap; }
+.tablewrap { overflow-x: auto; max-width: 100%; }
 table.crt th { background: var(--panel-2); }
 textarea { width: 100%; font: 12px monospace; background: var(--bg); color: var(--text); border: 1px solid var(--border); }
 

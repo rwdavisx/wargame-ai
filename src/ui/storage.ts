@@ -7,10 +7,10 @@ export interface Settings {
   aiDelayMs: number;
   claudeApiKey: string;
   claudeModel: string;
-  bannerDismissed: boolean;
+  noticeDismissed: boolean;
 }
 
-const GAME_KEY = 's43.autosave.v1';
+const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
 const SETTINGS_KEY = 's43.settings.v1';
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -18,7 +18,7 @@ export const DEFAULT_SETTINGS: Settings = {
   aiDelayMs: 350,
   claudeApiKey: '',
   claudeModel: 'claude-opus-5-5',
-  bannerDismissed: false,
+  noticeDismissed: false,
 };
 
 function get(key: string): string | null {

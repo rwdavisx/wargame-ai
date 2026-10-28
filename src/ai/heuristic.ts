@@ -1,17 +1,16 @@
-// A rule-of-thumb AI that can play either side. It is deliberately simple:
-// it scores destination hexes for each unit and greedily takes the best
-// attacks by expected step-loss exchange.
-import { MAP } from '../engine/data';
-import { applyAction, landingHexes } from '../engine/game';
+// A rule-of-thumb AI that can play either side. It scores destination hexes
+// for each unit, plans coordinated assaults, and takes attacks by expected
+// step-loss exchange. It also answers the defender's Determined Defense choice.
+import { MAP, RULES } from '../engine/data';
+import { advanceDestinations } from '../engine/combat';
+import { applyAction, entryReach, landingHexes } from '../engine/game';
 import { neighbors, sideKey, type HexId } from '../engine/hex';
-import { entryDestinations, legalDestinations, type Reach } from '../engine/movement';
-import { RULES } from '../engine/data';
-import { suppliedHexes } from '../engine/supply';
+import { allowedModes, cannotMove, legalDestinations, type Reach } from '../engine/movement';
+import { supplyChecker, beachheadHexes } from '../engine/supply';
 import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
-import { adjacentEnemy, def, isCombatUnit, sideOf, stackCount, unitsAt, values } from '../engine/units';
-import {
-  bestAttackOn, defenseAt, distanceField, enemyAdjacentHexes, nearestEnemyDistance, threatAt,
-} from './evaluate';
+import { canStack, def, goodOrder, nationGroup, sideOf, stackPoints, stepsRemaining, unitsAt, values } from '../engine/units';
+import { zocOf } from '../engine/zoc';
+import { bestAttackOn, defenseAt, distanceField, enemyAdjacentHexes, nearestEnemyDistance, threatAt } from './evaluate';
 
 export interface AiPlayer {
   name: string;
@@ -28,33 +27,31 @@ function isLegal(s: GameState, a: Action): boolean {
   }
 }
 
-/** Aggression in [0,1] by side and turn: Germans counterattack early, Allies push later. */
+/** Aggression in [0,1]: Germans counterattack hard on turns 1-8, Allies push later. */
 export function aggressionFor(s: GameState, side: Side): number {
-  if (side === 'German') return s.turn <= 7 ? 0.75 : s.turn <= 10 ? 0.4 : 0.2;
-  return s.turn <= 3 ? 0.35 : s.turn <= 8 ? 0.45 : 0.7;
+  if (side === 'German') return s.turn <= 3 ? 0.65 : s.turn <= 8 ? 0.8 : s.turn <= 11 ? 0.4 : 0.2;
+  return s.turn <= 4 ? 0.35 : s.turn <= 9 ? 0.5 : 0.75;
 }
 
 interface Ctx {
   side: Side;
   aggression: number;
-  supplied: Set<HexId>;
+  supply: ReturnType<typeof supplyChecker>;
   objective: Map<HexId, number>;
   threat: Map<HexId, number>;
+  beaches: Set<HexId>;
+  bhHexes: Set<HexId>;
 }
 
 function objectives(s: GameState, side: Side, aggression: number): HexId[] {
   const out: HexId[] = [];
   for (const [h, d] of Object.entries(MAP.hexes)) {
     if (!d.vp) continue;
-    if (s.control[h] !== side) out.push(h);
-    else if (aggression < 0.5) out.push(h); // hold what we have
+    if ((s.control[h] ?? 'German') !== side) out.push(h);
+    else if (aggression < 0.5) out.push(h);
   }
-  if (side === 'German' && aggression >= 0.5) {
-    for (const b of Object.values(MAP.beaches)) out.push(b.hex);
-  }
-  if (side === 'Allied' && s.turn >= 12) {
-    out.push(...MAP.entryAreas.N1.hexes);
-  }
+  if (side === 'German' && aggression >= 0.5) out.push(...beachheadHexes(s));
+  if (side === 'Allied' && s.turn >= 12) out.push(...MAP.entryAreas.N1.hexes, ...MAP.entryAreas.N2.hexes);
   return out;
 }
 
@@ -62,11 +59,12 @@ function makeCtx(s: GameState): Ctx {
   const side = s.activeSide;
   const aggression = aggressionFor(s, side);
   return {
-    side,
-    aggression,
-    supplied: suppliedHexes(s, side),
+    side, aggression,
+    supply: supplyChecker(s, side),
     objective: distanceField(objectives(s, side, aggression)),
     threat: new Map(),
+    beaches: new Set(Object.values(MAP.beaches).map((b) => b.hex)),
+    bhHexes: new Set(beachheadHexes(s)),
   };
 }
 
@@ -79,40 +77,42 @@ function scoreHex(s: GameState, ctx: Ctx, u: UnitState, h: HexId): number {
   const d = def(u.id);
   const hd = MAP.hexes[h];
   let score = 0;
-  if (!ctx.supplied.has(h)) score -= 5;
-  if (d.type === 'asu') {
+  if (!ctx.supply.inSupply(h)) score -= 4;
+  if (d.asu) {
     const ne = nearestEnemyDistance(s, h, ctx.side);
     score -= Math.abs(ne - 2) * 1.2;
     if (ne <= 1) score -= 4;
     return score;
   }
   const dist = ctx.objective.get(h) ?? 30;
-  score -= dist * (0.35 + ctx.aggression * 0.35);
+  score -= dist * (0.3 + ctx.aggression * 0.35);
   if (hd.city) score += 0.6;
-  else if (hd.terrain === 'hill') score += 0.35;
-  if (hd.vp && s.control[h] === ctx.side) score += 0.5 + 0.3 * hd.vp;
+  else if (hd.terrain === 'hill' && (d.infantryType || d.cat === 'recon')) score += 0.4;
+  if (hd.vp && (s.control[h] ?? 'German') === ctx.side) score += 0.5 + 0.3 * hd.vp;
+  if (ctx.side === 'Allied' && ctx.bhHexes.has(h)) {
+    const holders = unitsAt(s, h).filter((x) => sideOf(x) === 'Allied' && def(x.id).cat !== 'bh' && !def(x.id).asu && x.id !== u.id).length;
+    score += holders === 0 ? 2.5 : holders === 1 ? 0.8 : 0.2;
+  }
   const t = threat(ctx, s, h);
-  const defense = defenseAt(s, h, ctx.side, u) + 0.01;
-  const risk = t / defense;
-  score -= Math.max(0, risk - (1.2 + ctx.aggression)) * (1.6 - ctx.aggression);
-  const adjEnemies = enemyAdjacentHexes(s, h, ctx.side);
-  if (adjEnemies.length) {
+  const defense = defenseAt(s, h, ctx.side, u) + 0.5;
+  score -= Math.max(0, t / defense - (1.3 + ctx.aggression)) * (1.5 - ctx.aggression);
+  const adj = enemyAdjacentHexes(s, h, ctx.side);
+  if (adj.length) {
     let weak = 0;
-    for (const e of adjEnemies) {
+    for (const e of adj) {
       const ed = unitsAt(s, e).reduce((a, x) => a + values(x).defense, 0);
       if (ed <= values(u).attack * 1.5) weak++;
     }
     score += ctx.aggression * 0.5 * Math.min(2, weak);
   }
-  const friends = unitsAt(s, h).filter((x) => sideOf(x) === ctx.side && isCombatUnit(x) && x.id !== u.id).length;
-  score += 0.15 * friends;
+  score += 0.15 * unitsAt(s, h).filter((x) => sideOf(x) === ctx.side && !def(x.id).asu && x.id !== u.id).length;
   return score;
 }
 
-function bestDestination(s: GameState, ctx: Ctx, u: UnitState, dests: Map<HexId, unknown>, current?: HexId) {
+function bestOf(s: GameState, ctx: Ctx, u: UnitState, hexes: Iterable<HexId>, current?: HexId): HexId | null {
   let best: HexId | null = null;
   let bestScore = current ? scoreHex(s, ctx, u, current) + 0.25 : -Infinity;
-  for (const h of dests.keys()) {
+  for (const h of hexes) {
     const sc = scoreHex(s, ctx, u, h);
     if (sc > bestScore) {
       bestScore = sc;
@@ -123,110 +123,175 @@ function bestDestination(s: GameState, ctx: Ctx, u: UnitState, dests: Map<HexId,
 }
 
 function ratioIndex(ratio: number): number {
-  let idx = 0;
-  RULES.combat.ratios.forEach((r, i) => {
-    if (ratio + 1e-9 >= r) idx = i;
-  });
-  return idx;
+  if (ratio < 1 / 3) return -1;
+  if (ratio < 0.5) return 0;
+  if (ratio < 1) return 1;
+  return 1 + Math.floor(ratio + 1e-9);
 }
 
-/**
- * Plans coordinated attacks for this movement phase: picks enemy hexes where
- * units that can get adjacent this turn would reach good odds, and returns
- * the moves that put them there.
- */
+function forbidden(s: GameState, side: Side, h: HexId): boolean {
+  if (side === 'German' && s.turn === 1 && Object.values(MAP.beaches).some((b) => b.hex === h)) return true;
+  if (side === 'German' && s.abandoned8th && MAP.hexes[h].sector8) return true;
+  return false;
+}
+
+/** Plans moves that bring enough strength next to good targets. */
 export function planAssaults(s: GameState, aggression: number): Action[] {
   const side = s.activeSide;
-  const minIndex = aggression >= 0.6 ? 4 : aggression >= 0.4 ? 5 : 6;
-  type Cand = { u: UnitState; here: HexId | null; dests: Map<HexId, Reach>; area?: string };
+  const minIndex = aggression >= 0.7 ? 3 : aggression >= 0.45 ? 4 : 5;
+  type Cand = { u: UnitState; here: HexId | null; dests: Map<HexId, Reach>; mode: MoveMode; entry: boolean };
   const cands: Cand[] = [];
   for (const u of Object.values(s.units)) {
-    if (sideOf(u) !== side || !isCombatUnit(u) || values(u).attack <= 0 || u.disrupted) continue;
-    if (u.frozenUntil && s.turn < u.frozenUntil) continue;
-    if (u.where.kind === 'map' && u.mpSpent === null) {
-      cands.push({ u, here: u.where.hex, dests: legalDestinations(s, u.id, 'tactical') });
-    } else if (u.where.kind === 'entry' && u.where.area !== 'airdrop' && !u.where.area.startsWith('hex:')) {
-      cands.push({ u, here: null, dests: entryDestinations(s, u.id, u.where.area, 'tactical'), area: u.where.area });
+    if (sideOf(u) !== side || def(u.id).asu || def(u.id).cat === 'bh' || def(u.id).variable || values(u).attack <= 0 || !goodOrder(u)) continue;
+    if (u.where.kind === 'map' && !cannotMove(s, u)) {
+      const mode: MoveMode = allowedModes(s, u).includes('normal') ? 'normal' : 'tactical';
+      cands.push({ u, here: u.where.hex, dests: legalDestinations(s, u.id, mode), mode, entry: false });
+    } else if (u.where.kind === 'entry' && !u.where.area.startsWith('airdrop') && !u.stopped && !(side === 'Allied' && u.where.area.startsWith('N'))) {
+      const mode: MoveMode = s.turn === 1 && side === 'Allied' ? 'tactical' : 'normal';
+      cands.push({ u, here: null, dests: entryReach(s, u.id, mode), mode, entry: true });
     }
   }
   const enemyHexes = new Map<HexId, UnitState[]>();
   for (const u of Object.values(s.units)) {
     if (u.where.kind !== 'map' || sideOf(u) === side) continue;
-    const list = enemyHexes.get(u.where.hex) ?? [];
-    list.push(u);
-    enemyHexes.set(u.where.hex, list);
+    enemyHexes.set(u.where.hex, [...(enemyHexes.get(u.where.hex) ?? []), u]);
   }
-  const beachHexes = new Set(Object.values(MAP.beaches).map((b) => b.hex));
+  const bh = new Set(beachheadHexes(s));
   const valueOf = (h: HexId, us: UnitState[]) =>
-    (MAP.hexes[h].vp ?? 0) * 2 + (side === 'German' && beachHexes.has(h) ? 1.5 : 0) -
-    us.reduce((a, u) => a + values(u).defense, 0) * 0.1;
+    (MAP.hexes[h].vp ?? 0) * 2 + (side === 'German' && bh.has(h) ? 2 : 0) - us.reduce((a, u) => a + values(u).defense, 0) * 0.1;
   const targets = [...enemyHexes.entries()].sort((a, b) => valueOf(b[0], b[1]) - valueOf(a[0], a[1]));
   const used = new Set<string>();
-  const planned = new Map<HexId, number>();
+  const planned = new Map<HexId, string[]>();
   const actions: Action[] = [];
-  const airBonus = s.support[side].air.length ? 1 : 0;
   for (const [E, defenders] of targets) {
-    if (defenders.every((u) => !isCombatUnit(u))) continue;
-    const D = Math.max(1, defenders.reduce((a, u) => a + values(u).defense * (u.disrupted ? 0.5 : 1), 0));
     const hd = MAP.hexes[E];
-    const terrainShift = hd.city ? RULES.combat.terrainShift.city : RULES.combat.terrainShift[hd.terrain] ?? 0;
-    const defArmor = defenders.some((u) => def(u.id).tankRating);
-    const opts: { c: Cand; hex: HexId; att: number; moveNeeded: boolean }[] = [];
-    for (const c of cands) {
-      if (used.has(c.u.id)) continue;
-      const att = values(c.u).attack * (c.u.outOfSupply ? 0.5 : 1);
-      if (c.here && neighbors(c.here).includes(E)) {
-        opts.push({ c, hex: c.here, att, moveNeeded: false });
-        continue;
-      }
-      let best: HexId | null = null;
-      let bestCost = Infinity;
-      for (const n of neighbors(E)) {
-        const r = c.dests.get(n);
-        if (!r) continue;
-        const room = def(c.u.id).freeStack || stackCount(s, n) + (planned.get(n) ?? 0) < RULES.stackingLimit;
-        if (room && r.cost < bestCost) {
-          best = n;
-          bestCost = r.cost;
+    const doubles = hd.city || hd.terrain === 'hill' || hd.terrain === 'marsh';
+    const D = Math.max(1, defenders.reduce((a, u) => {
+      const dd = def(u.id);
+      if (dd.asu || u.status === 'fullRetreat') return a;
+      const v = dd.variable ? 1 : values(u).defense;
+      return a + (doubles && (dd.infantryType || dd.cat === 'recon') ? v * 2 : v) * (u.status === 'disrupted' ? 0.5 : 1);
+    }, 0));
+    const defTank = defenders.some((u) => def(u.id).tankRating);
+    for (const group of side === 'Allied' ? ['US|5', 'CW|5', 'CW|8'] : ['GE|5']) {
+      const opts: { c: Cand; hex: HexId; att: number; move: boolean }[] = [];
+      for (const c of cands) {
+        if (used.has(c.u.id)) continue;
+        if (`${nationGroup(c.u.id)}|${def(c.u.id).army8 ? 8 : 5}` !== group) continue;
+        let att = values(c.u).attack * (c.u.outOfSupply ? 0.5 : 1);
+        if (c.here && neighbors(c.here).includes(E)) {
+          const hs = MAP.hexsides[sideKey(c.here, E)] ?? {};
+          if (hs.mountain && !hs.road && !hs.pass && def(c.u.id).vehicle) continue;
+          if ((hs.mountain && !hs.road) || hs.pass || (hs.river && def(c.u.id).vehicle)) att /= 2;
+          opts.push({ c, hex: c.here, att, move: false });
+          continue;
+        }
+        let best: HexId | null = null;
+        let bestCost = Infinity;
+        for (const n of neighbors(E)) {
+          const r = c.dests.get(n);
+          if (!r || forbidden(s, side, n)) continue;
+          const hs = MAP.hexsides[sideKey(n, E)] ?? {};
+          if (hs.mountain && !hs.road && !hs.pass && def(c.u.id).vehicle) continue;
+          const room = stackPoints([...unitsAt(s, n).map((x) => x.id), ...(planned.get(n) ?? []), c.u.id]) <= RULES.stackingLimit;
+          if (room && r.cost < bestCost) {
+            best = n;
+            bestCost = r.cost;
+          }
+        }
+        if (best) {
+          const hs = MAP.hexsides[sideKey(best, E)] ?? {};
+          if ((hs.mountain && !hs.road) || hs.pass || (hs.river && def(c.u.id).vehicle)) att /= 2;
+          opts.push({ c, hex: best, att, move: true });
         }
       }
-      if (best) opts.push({ c, hex: best, att, moveNeeded: true });
-    }
-    if (!opts.length) continue;
-    opts.sort((a, b) => b.att - a.att);
-    const chosen: typeof opts = [];
-    let A = 0;
-    let est = -1;
-    for (const o of opts) {
-      // Respect stacking among this plan's own picks.
-      const extra = chosen.filter((x) => x.hex === o.hex && x.moveNeeded).length;
-      if (o.moveNeeded && !def(o.c.u.id).freeStack && stackCount(s, o.hex) + (planned.get(o.hex) ?? 0) + extra >= RULES.stackingLimit) continue;
-      chosen.push(o);
-      A += o.att;
-      const sides = chosen.map((x) => MAP.hexsides[sideKey(x.hex, E)] ?? {});
-      let shift = terrainShift + airBonus;
-      if (sides.every((h) => h.river)) shift += RULES.combat.allAcrossRiverShift;
-      if (sides.every((h) => h.mountain)) shift += sides.some((h) => !h.pass) ? RULES.combat.allAcrossMountainShift : RULES.combat.allAcrossPassShift;
-      if (!defArmor && hd.terrain === 'clear' && !hd.city && chosen.some((x) => def(x.c.u.id).tankRating)) shift += RULES.combat.armorShift;
-      est = ratioIndex(A / D) + shift;
-      if (est >= minIndex + 1) break;
-    }
-    if (est < minIndex) continue;
-    for (const o of chosen) {
-      used.add(o.c.u.id);
-      if (!o.moveNeeded) continue;
-      planned.set(o.hex, (planned.get(o.hex) ?? 0) + (def(o.c.u.id).freeStack ? 0 : 1));
-      actions.push(o.c.area ? { type: 'enter', unitId: o.c.u.id, to: o.hex } : { type: 'move', unitId: o.c.u.id, to: o.hex });
+      if (!opts.length) continue;
+      opts.sort((a, b) => b.att - a.att);
+      const chosen: typeof opts = [];
+      let A = 0;
+      let est = -1;
+      for (const o of opts) {
+        if (o.move && stackPoints([...unitsAt(s, o.hex).map((x) => x.id), ...(planned.get(o.hex) ?? []), ...chosen.filter((x) => x.hex === o.hex && x.move).map((x) => x.c.u.id), o.c.u.id]) > RULES.stackingLimit) continue;
+        chosen.push(o);
+        A += o.att * (chosen.length > 2 ? 0.75 : 1); // units outside the Main Assault Force attack at half
+        let shift = 0;
+        if (!doubles && !defTank && chosen.some((x) => def(x.c.u.id).tankRating)) shift += 1;
+        if (chosen.some((x) => def(x.c.u.id).elite) && !defenders.some((u) => def(u.id).elite)) shift += 1;
+        est = ratioIndex(Math.min(20, A) / Math.min(20, D)) + shift;
+        if (est >= minIndex + 1) break;
+      }
+      if (est < minIndex) continue;
+      for (const o of chosen) {
+        used.add(o.c.u.id);
+        if (!o.move) continue;
+        planned.set(o.hex, [...(planned.get(o.hex) ?? []), o.c.u.id]);
+        actions.push(o.c.entry ? { type: 'enter', unitId: o.c.u.id, to: o.hex, mode: o.c.mode } : { type: 'move', unitId: o.c.u.id, to: o.hex, mode: o.c.mode });
+      }
+      break;
     }
   }
   return actions;
 }
 
+// ------------------------------------------------------------------ decisions
+
+export function chooseDefense(s: GameState): Action {
+  const pd = s.pendingDefense!;
+  const hex = pd.hex;
+  const d = MAP.hexes[hex];
+  const column = d.city ? 'City' : d.terrain === 'clear' && !d.town ? 'Clear' : 'Other';
+  const defenders = unitsAt(s, hex).filter((u) => sideOf(u) === pd.defenderSide);
+  const lead = defenders.find((u) => goodOrder(u) && !def(u.id).asu && def(u.id).elite) ?? defenders.find((u) => goodOrder(u) && !def(u.id).asu);
+  const support = pd.supportOptions[0] ?? null;
+  const drm = Math.min(2, (support ? 1 : 0) + (lead && def(lead.id).elite ? 1 : 0)) - (pd.yellow ? 1 : 0);
+  const steps = defenders.reduce((a, u) => a + stepsRemaining(u), 0);
+  const value = 1 + (d.vp ?? 0) * 0.8 + (d.city ? 0.5 : 0) + (Object.values(MAP.beaches).some((b) => b.hex === hex) && pd.defenderSide === 'Allied' ? 1.5 : 0);
+  const prefer: 'hold' | 'delay' = steps >= 2 || value > 1.5 ? 'hold' : 'delay';
+  let dd = 0;
+  for (let r = 1; r <= 6; r++) {
+    const entry = RULES.dd.table[column][Math.max(1, Math.min(7, r + drm)) - 1];
+    const opts = entry.split('|');
+    const pick = opts.length > 1 ? opts.find((o) => (prefer === 'hold' ? o.includes('H') : !o.includes('H'))) ?? opts[0] : opts[0];
+    const [losses, letter] = pick.split(' ');
+    const [att, dfn] = losses.split('/');
+    let v = (att.startsWith('1') ? 0.9 : 0) - (dfn === '1' ? 0.9 : 0) - (dfn === 'dis' ? 0.2 : 0);
+    if (letter === 'H' || (letter === 'P' && !s.cityBattle[hex])) v += value;
+    else if (letter === 'D' || letter === 'P') v += 0.2;
+    else v -= pd.desperate ? 1 : 0.15;
+    dd += v / 6;
+  }
+  const retreat = pd.desperate ? -steps * 1.2 : -0.35 * value;
+  if (dd > retreat) return { type: 'defend', choice: 'dd', support, prefer, battleships: support?.endsWith('-naval') && s.support.battleships > 0 };
+  return { type: 'defend', choice: 'retreat' };
+}
+
+function chooseAdvance(s: GameState): Action {
+  const pa = s.pendingAdvance!;
+  const side = s.activeSide;
+  const aggression = aggressionFor(s, side);
+  const hd = MAP.hexes[pa.vacated];
+  const ids = Object.keys(pa.maxByUnit).filter((id) => s.units[id]?.where.kind === 'map');
+  const cands = ids.filter((id) => advanceDestinations(s, pa, id).has(pa.vacated))
+    .sort((a, b) => values(s.units[b]).defense - values(s.units[a]).defense);
+  const want = hd.vp || hd.city ? 3 : aggression > 0.45 ? 2 : 1;
+  const chosen: string[] = [];
+  for (const id of cands) {
+    if (chosen.length >= want) break;
+    if (stackPoints([...unitsAt(s, pa.vacated).map((u) => u.id), ...chosen, id]) > RULES.stackingLimit) continue;
+    const t = threatAt(s, pa.vacated, side);
+    const dd = defenseAt(s, pa.vacated, side, s.units[id]) + chosen.reduce((a, x) => a + values(s.units[x]).defense, 0);
+    if (t / (dd + 0.5) < 2.5 || hd.vp) chosen.push(id);
+  }
+  return chosen.length ? { type: 'advance', unitIds: chosen, to: pa.vacated } : { type: 'advance', unitIds: [] };
+}
+
+// ------------------------------------------------------------------ the player
+
 export function createHeuristicAi(): AiPlayer {
   const considered = new Set<string>();
   let memoKey = '';
   let assaultQueue: Action[] | null = null;
-  const resetIfNewPhase = (s: GameState) => {
+  const reset = (s: GameState) => {
     const k = `${s.turn}|${s.activeSide}|${s.phase}`;
     if (k !== memoKey) {
       memoKey = k;
@@ -235,21 +300,77 @@ export function createHeuristicAi(): AiPlayer {
     }
   };
 
+  function invasionAction(s: GameState): Action | null {
+    const cdos = ['BR-2Cdo', 'BR-41Cdo'].filter((id) => s.units[id].where.kind === 'map' && s.units[id].tacHexes === 1 && !s.units[id].stopped &&
+      neighbors((s.units[id].where as { hex: HexId }).hex).includes('2707'));
+    if (cdos.length && !considered.has('cdo') && unitsAt(s, '2707').some((u) => sideOf(u) === 'German')) {
+      considered.add('cdo');
+      const a: Action = { type: 'attack', target: '2707', attackers: cdos };
+      if (isLegal(s, a)) return a;
+    }
+    return moveUnits(s, makeCtx(s));
+  }
+
   function initialAction(s: GameState): Action | null {
     const side = s.activeSide;
+    const ctx = makeCtx(s);
+    for (const u of Object.values(s.units)) {
+      if (sideOf(u) !== side || u.where.kind !== 'entry' || !u.where.area.startsWith('airdrop') || considered.has(u.id)) continue;
+      considered.add(u.id);
+      const zoc = zocOf(s, 'German');
+      const hexes = landingHexes(s, u.id).filter((h) => !zoc.has(h) && MAP.hexes[h].terrain !== 'marsh');
+      const best = bestOf(s, ctx, u, hexes.length ? hexes : landingHexes(s, u.id));
+      if (best) return { type: 'land', unitId: u.id, to: best };
+    }
     const own = Object.values(s.units).filter((u) => sideOf(u) === side);
-    const reduced = own
-      .filter((u) => u.stepsLost > 0 && (u.where.kind === 'map' || u.where.kind === 'reserve') && !considered.has('r' + u.id))
-      .sort((a, b) => def(b.id).steps[0].attack - def(a.id).steps[0].attack);
-    for (const u of reduced) {
+    const replCands = own
+      .filter((u) => !considered.has('r' + u.id) && def(u.id).repl &&
+        ((u.where.kind === 'map' && (u.stepsLost > 0 || !!u.represents)) || (u.where.kind === 'eliminated' && !u.where.permanent && def(u.id).cat !== 'bh')))
+      .sort((a, b) => def(b.id).steps[0].attack + def(b.id).steps[0].defense - (def(a.id).steps[0].attack + def(a.id).steps[0].defense));
+    for (const u of replCands) {
       considered.add('r' + u.id);
       const a: Action = { type: 'replace', unitId: u.id };
       if (isLegal(s, a)) return a;
     }
     for (const u of own) {
-      if (def(u.id).type === 'asu' && u.fired && s.supplyPoints[side] > 0 && u.where.kind === 'map') {
-        return { type: 'readyAsu', unitId: u.id };
+      if (def(u.id).asu && u.fired && s.supplyPoints[side] > 0 && u.where.kind === 'map' && !considered.has('a' + u.id)) {
+        considered.add('a' + u.id);
+        const a: Action = { type: 'readyAsu', unitId: u.id };
+        if (isLegal(s, a)) return a;
       }
+    }
+    return null;
+  }
+
+  function moveUnits(s: GameState, ctx: Ctx): Action | null {
+    const side = s.activeSide;
+    const movers = Object.values(s.units)
+      .filter((u) => u.where.kind === 'map' && sideOf(u) === side && !considered.has(u.id) && !cannotMove(s, u))
+      .map((u) => ({ u, d: nearestEnemyDistance(s, (u.where as { hex: HexId }).hex, side) }))
+      .sort((a, b) => b.d - a.d);
+    for (const { u, d } of movers) {
+      considered.add(u.id);
+      const here = (u.where as { hex: HexId }).hex;
+      if (enemyAdjacentHexes(s, here, side).length && !def(u.id).asu) {
+        const risk = threat(ctx, s, here) / (defenseAt(s, here, side) + 0.5);
+        if (risk < 2.5 || ctx.aggression > 0.6) continue;
+      }
+      const modes = allowedModes(s, u);
+      let best: { h: HexId; mode: MoveMode; score: number } | null = null;
+      const tryMode = (mode: MoveMode) => {
+        const dests = legalDestinations(s, u.id, mode);
+        for (const h of dests.keys()) {
+          if (forbidden(s, side, h)) continue;
+          if (def(u.id).asu && (dests.get(h)!.hexes > 1) && d <= 4) continue; // keep artillery able to fire
+          const sc = scoreHex(s, ctx, u, h);
+          if (!best || sc > best.score) best = { h, mode, score: sc };
+        }
+      };
+      if (modes.includes('normal')) tryMode('normal');
+      if (modes.includes('extended') && d >= 4) tryMode('extended');
+      if (!modes.includes('normal')) tryMode('tactical');
+      const b = best as { h: HexId; mode: MoveMode; score: number } | null;
+      if (b && b.score > scoreHex(s, ctx, u, here) + 0.25) return { type: 'move', unitId: u.id, to: b.h, mode: b.mode };
     }
     return null;
   }
@@ -257,56 +378,35 @@ export function createHeuristicAi(): AiPlayer {
   function movementAction(s: GameState): Action | null {
     const side = s.activeSide;
     const ctx = makeCtx(s);
-    const mode: MoveMode = 'tactical';
-    // 1) Landings and airdrops.
     if (side === 'Allied') {
-      for (const u of Object.values(s.units)) {
-        if (sideOf(u) !== side || considered.has(u.id)) continue;
-        const off = u.where.kind === 'reserve' || (u.where.kind === 'entry' && (u.where.area === 'airdrop' || u.where.area.startsWith('hex:')));
-        if (!off) continue;
+      const waiting = Object.values(s.units)
+        .filter((u) => sideOf(u) === side && (u.where.kind === 'reserve' || u.where.kind === 'followUp') && !considered.has(u.id))
+        .sort((a, b) => def(b.id).sp - def(a.id).sp);
+      for (const u of waiting) {
         considered.add(u.id);
-        const hexes = landingHexes(s, u.id);
-        if (!hexes.length) continue;
-        const best = bestDestination(s, ctx, u, new Map(hexes.map((h) => [h, null])));
+        let hexes = landingHexes(s, u.id).filter((h) => canStack(s, h, [u.id]));
+        if (def(u.id).asu) hexes = hexes.filter((h) => !enemyAdjacentHexes(s, h, side).length);
+        const best = bestOf(s, ctx, u, hexes);
         if (best) return { type: 'land', unitId: u.id, to: best };
       }
     }
-    // 2) Coordinated assaults: move units adjacent to good targets.
     if (assaultQueue === null) assaultQueue = planAssaults(s, ctx.aggression);
     while (assaultQueue.length) {
       const a = assaultQueue.shift()!;
       if (a.type === 'move' || a.type === 'enter') considered.add(a.unitId);
       if (isLegal(s, a)) return a;
     }
-    // 3) Reinforcements waiting at entry areas.
     for (const u of Object.values(s.units)) {
-      if (sideOf(u) !== side || considered.has(u.id) || u.where.kind !== 'entry') continue;
-      if (u.where.area === 'airdrop' || u.where.area.startsWith('hex:')) continue;
+      if (sideOf(u) !== side || considered.has(u.id) || u.where.kind !== 'entry' || u.where.area.startsWith('airdrop') || u.stopped) continue;
+      if (side === 'Allied' && u.where.area.startsWith('N')) continue;
       considered.add(u.id);
-      const dests = entryDestinations(s, u.id, u.where.area, mode);
-      const best = bestDestination(s, ctx, u, dests);
+      if (u.status !== 'good') continue;
+      const mode: MoveMode = s.turn === 1 && side === 'Allied' ? 'tactical' : 'normal';
+      const dests = [...entryReach(s, u.id, mode).keys()].filter((h) => !forbidden(s, side, h));
+      const best = bestOf(s, ctx, u, dests);
       if (best) return { type: 'enter', unitId: u.id, to: best, mode };
     }
-    // 4) Units on the map, rear units first.
-    const movers = Object.values(s.units)
-      .filter((u) => u.where.kind === 'map' && sideOf(u) === side && !considered.has(u.id) && u.mpSpent === null &&
-        (!u.frozenUntil || s.turn >= u.frozenUntil))
-      .map((u) => ({ u, d: nearestEnemyDistance(s, (u.where as { hex: HexId }).hex, side) }))
-      .sort((a, b) => b.d - a.d);
-    for (const { u } of movers) {
-      considered.add(u.id);
-      const here = (u.where as { hex: HexId }).hex;
-      // Units already engaged hold unless clearly outclassed.
-      if (adjacentEnemy(s, here, side) && def(u.id).type !== 'asu') {
-        const risk = threat(ctx, s, here) / (defenseAt(s, here, side) + 0.01);
-        if (risk < 2.5 || ctx.aggression > 0.6) continue;
-      }
-      const dests = legalDestinations(s, u.id, mode);
-      if (!dests.size) continue;
-      const best = bestDestination(s, ctx, u, dests, here);
-      if (best && best !== here) return { type: 'move', unitId: u.id, to: best, mode };
-    }
-    return null;
+    return moveUnits(s, ctx);
   }
 
   function combatAction(s: GameState): Action | null {
@@ -314,10 +414,8 @@ export function createHeuristicAi(): AiPlayer {
     const aggression = aggressionFor(s, side);
     const targets = new Set<HexId>();
     for (const u of Object.values(s.units)) {
-      if (u.where.kind !== 'map' || sideOf(u) !== side || !isCombatUnit(u) || u.attacked || u.disrupted) continue;
-      for (const n of neighbors(u.where.hex)) {
-        if (unitsAt(s, n).some((x) => sideOf(x) !== side)) targets.add(n);
-      }
+      if (u.where.kind !== 'map' || sideOf(u) !== side || u.attacked || !goodOrder(u)) continue;
+      for (const n of neighbors(u.where.hex)) if (unitsAt(s, n).some((x) => sideOf(x) !== side)) targets.add(n);
     }
     let best: ReturnType<typeof bestAttackOn> = null;
     for (const t of targets) {
@@ -325,7 +423,7 @@ export function createHeuristicAi(): AiPlayer {
       const opt = bestAttackOn(s, t, aggression);
       if (opt && (!best || opt.score > best.score)) best = opt;
     }
-    const threshold = 0.15 - aggression * 0.25;
+    const threshold = 0.2 - aggression * 0.3;
     if (best && best.score > threshold) {
       considered.add('t' + best.plan.target);
       return { type: 'attack', ...best.plan };
@@ -333,36 +431,19 @@ export function createHeuristicAi(): AiPlayer {
     return null;
   }
 
-  function advanceAction(s: GameState): Action {
-    const p = s.pendingAdvance!;
-    const side = s.activeSide;
-    const aggression = aggressionFor(s, side);
-    const hd = MAP.hexes[p.hex];
-    const cands = p.unitIds
-      .map((id) => s.units[id])
-      .filter((u) => u.where.kind === 'map')
-      .sort((a, b) => values(b).defense - values(a).defense);
-    const want = hd.vp || hd.city ? 2 : aggression > 0.5 ? 1 : 0;
-    const chosen: string[] = [];
-    for (const u of cands) {
-      if (chosen.length >= Math.min(want, p.max)) break;
-      const t = threatAt(s, p.hex, side);
-      const d = defenseAt(s, p.hex, side, u) + chosen.reduce((a, id) => a + values(s.units[id]).defense, 0);
-      if (t / (d + 0.01) < 2.5 || hd.vp) chosen.push(u.id);
-    }
-    return { type: 'advance', unitIds: chosen };
-  }
-
   return {
     name: 'Heuristic AI',
     nextAction(s: GameState): Action {
-      resetIfNewPhase(s);
-      if (s.pendingAdvance) return advanceAction(s);
+      if (s.pendingDefense) return chooseDefense(s);
+      reset(s);
+      if (s.pendingAdvance) return chooseAdvance(s);
       let a: Action | null = null;
-      if (s.phase === 'initial') a = initialAction(s);
+      if (s.phase === 'invasion') a = invasionAction(s);
+      else if (s.phase === 'initial') a = initialAction(s);
       else if (s.phase === 'movement') a = movementAction(s);
       else if (s.phase === 'combat') a = combatAction(s);
       return a ?? { type: 'endPhase' };
     },
   };
 }
+

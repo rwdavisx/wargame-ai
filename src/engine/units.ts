@@ -1,5 +1,5 @@
 import { MAP, RULES, UNIT_DEFS } from './data';
-import { neighbors, type HexId } from './hex';
+import { type HexId } from './hex';
 import type { GameState, Side, StepValues, UnitDef, UnitState } from './types';
 
 export const other = (s: Side): Side => (s === 'Allied' ? 'German' : 'Allied');
@@ -19,12 +19,20 @@ export function values(u: UnitState): StepValues {
   return d.steps[Math.min(u.stepsLost, d.steps.length - 1)];
 }
 
-export function isOnMap(u: UnitState): u is UnitState & { where: { kind: 'map'; hex: HexId } } {
-  return u.where.kind === 'map';
-}
-
 export function hexOf(u: UnitState): HexId | null {
   return u.where.kind === 'map' ? u.where.hex : null;
+}
+
+export function sideOf(u: UnitState): Side {
+  return def(u.id).side;
+}
+
+export function isAsu(u: UnitState | string): boolean {
+  return !!def(typeof u === 'string' ? u : u.id).asu;
+}
+
+export function goodOrder(u: UnitState): boolean {
+  return u.status === 'good';
 }
 
 export function unitsAt(s: GameState, hex: HexId): UnitState[] {
@@ -33,55 +41,61 @@ export function unitsAt(s: GameState, hex: HexId): UnitState[] {
   return out;
 }
 
-export function sideOf(u: UnitState): Side {
-  return def(u.id).side;
+export function friendsAt(s: GameState, hex: HexId, side: Side): UnitState[] {
+  return unitsAt(s, hex).filter((u) => sideOf(u) === side);
 }
 
-export function isCombatUnit(u: UnitState): boolean {
-  return def(u.id).type !== 'asu';
+export function liveUnits(s: GameState, side?: Side): UnitState[] {
+  return Object.values(s.units).filter((u) => u.where.kind === 'map' && (!side || sideOf(u) === side));
 }
 
-/** Map of hex -> side for every occupied hex. */
+/** Map of hex -> side for every hex holding a combat unit. */
 export function occupancy(s: GameState): Map<HexId, Side> {
   const m = new Map<HexId, Side>();
   for (const u of Object.values(s.units)) if (u.where.kind === 'map') m.set(u.where.hex, sideOf(u));
   return m;
 }
 
-/** Hexes in the zone of control of `side`'s units. */
-export function zocOf(s: GameState, side: Side): Set<HexId> {
-  const z = new Set<HexId>();
-  for (const u of Object.values(s.units)) {
-    if (u.where.kind !== 'map' || sideOf(u) !== side) continue;
-    const d = def(u.id);
-    if (d.noZoc || d.type === 'asu') continue;
-    for (const n of neighbors(u.where.hex)) {
-      const h = MAP.hexes[n];
-      if (h && h.terrain !== 'sea') z.add(n);
-    }
+/** Stacking points used by a set of units in one hex. One silhouetted tank stacks free. */
+export function stackPoints(ids: Iterable<string>): number {
+  let pts = 0;
+  let freeTank = false;
+  for (const id of ids) {
+    const d = def(id);
+    if (d.silhouette) {
+      if (!freeTank) freeTank = true;
+      else pts += 1;
+    } else pts += d.sp;
   }
-  return z;
+  return pts;
 }
 
-export function stackCount(s: GameState, hex: HexId, extra: string[] = []): number {
-  let n = 0;
+export function canStack(s: GameState, hex: HexId, unitIds: string[]): boolean {
   const ids = new Set(unitsAt(s, hex).map((u) => u.id));
-  for (const e of extra) ids.add(e);
-  for (const id of ids) if (!def(id).freeStack) n++;
-  return n;
+  for (const id of unitIds) ids.add(id);
+  return stackPoints(ids) <= RULES.stackingLimit;
 }
 
-export function canStack(s: GameState, hex: HexId, unitId: string): boolean {
-  if (def(unitId).freeStack) return true;
-  const already = unitsAt(s, hex).some((u) => u.id === unitId);
-  return already || stackCount(s, hex) + 1 <= RULES.stackingLimit;
+export function isVehicle(id: string): boolean {
+  return def(id).vehicle;
 }
 
-export function adjacentEnemy(s: GameState, hex: HexId, side: Side): boolean {
+export function adjacentEnemy(s: GameState, hex: HexId, side: Side, neighborsOf: (h: HexId) => HexId[]): boolean {
   const occ = occupancy(s);
-  return neighbors(hex).some((n) => occ.get(n) === other(side));
+  return neighborsOf(hex).some((n) => occ.get(n) === other(side));
 }
 
-export function liveUnits(s: GameState, side?: Side): UnitState[] {
-  return Object.values(s.units).filter((u) => u.where.kind === 'map' && (!side || sideOf(u) === side));
+export function isLand(hex: HexId): boolean {
+  const h = MAP.hexes[hex];
+  return !!h && h.terrain !== 'sea';
+}
+
+export function nationGroup(id: string): 'US' | 'CW' | 'GE' {
+  const n = def(id).nation;
+  return n === 'US' ? 'US' : n === 'GE' ? 'GE' : 'CW';
+}
+
+export function supportNation(id: string): 'US' | 'BR' | 'GE' {
+  const g = nationGroup(id);
+  return g === 'CW' ? 'BR' : g;
 }

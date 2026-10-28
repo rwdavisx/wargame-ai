@@ -1,13 +1,13 @@
 import mapJson from '../../data/map.json';
 import rulesJson from '../../data/rules.json';
 import oobJson from '../../data/oob.json';
-import type { MapData, Side, StepValues, UnitDef, UnitType } from './types';
+import type { Category, MapData, StepValues, UnitDef } from './types';
 
 export const MAP = mapJson as unknown as MapData;
 
 type Valued<T> = T | { value: T };
 const val = <T,>(v: Valued<T>): T =>
-  v !== null && typeof v === 'object' && 'value' in (v as object) ? (v as { value: T }).value : (v as T);
+  v !== null && typeof v === 'object' && !Array.isArray(v) && 'value' in (v as object) ? (v as { value: T }).value : (v as T);
 
 export interface WeatherBox {
   box: string;
@@ -19,138 +19,122 @@ export interface WeatherBox {
   germanSupply: number;
   clear?: boolean;
   rain?: boolean;
-  germanAirDrm?: number;
 }
 
-export interface Rules {
-  turnOrder: Side[];
-  stackingLimit: number;
+const r = rulesJson as any;
+
+export const RULES = {
+  turnOrder: r.turnOrder as ['German', 'Allied'],
+  stackingLimit: val<number>(r.stacking.limit ?? r.stacking),
   movement: {
-    terrainCost: Record<string, number>;
-    vehicleTerrainCost: Record<string, number>;
-    riverCost: number;
-    vehicleRiverCost: number;
-    mountainCost: number;
-    passCost: number;
-    vehicleMountainProhibited: boolean;
-    majorRoadCost: number;
-    minorRoadCost: number;
-    eighthArmyRoadCost: number;
-    exitZocCost: number;
-    strategicMultiplier: number;
-    rainVehicleExtra: number;
-    turn1GermanMaFactor: number;
-    turn1AlliedTacticalOnly: boolean;
-  };
+    terrain: r.movement.terrain as Record<string, { inf: number; mech: number }>,
+    majorRoad: r.movement.majorRoad as { inf: number; mech: number },
+    minorRoad: r.movement.minorRoad as { inf: number; mech: number },
+    alliedMechRoadIn8thSector: r.movement.alliedMechRoadIn8thSector as number,
+    pass: r.movement.pass as { inf: number; mech: number },
+    riverInf: r.movement.riverInf as number,
+    exitEzoc: r.movement.exitEzoc as number,
+    extendedBonus: 3,
+    tacticalHexes: 2,
+  },
   combat: {
-    columns: string[];
-    ratios: number[];
-    crt: Record<string, string[]>;
-    resultKey: Record<string, string>;
-    terrainShift: Record<string, number>;
-    allAcrossRiverShift: number;
-    allAcrossMountainShift: number;
-    allAcrossPassShift: number;
-    armorShift: number;
-    airShift: number;
-    navalShift: number;
-    navalRange: number;
-    asuShiftEach: number;
-    asuMaxPerSide: number;
-    rainShift: number;
-    outOfSupplyAttackFactor: number;
-    disruptedDefenseFactor: number;
-    retreatIntoZocLosesStep: boolean;
-    advanceMax: number;
-  };
-  recovery: { rallyRollNeeded: number; autoRallyIfNotAdjacentToEnemy: boolean };
-  supply: {
-    overlandHexes: number;
-    isolationLossOn: number;
-    alliedClearWeatherDrm: number;
-    supplyPointCap: number;
-    salernoPortOpenRadius: number;
-  };
-  weather: { track: WeatherBox[]; advanceByRoll: Record<string, number>; wraps: boolean };
-  benchmarks: Record<number, number>;
-  suddenDeathBelowBenchmark: boolean;
-  drawMargin: number;
-  replacementSchedule: Record<number, Partial<Record<'German' | 'BR' | 'US', Partial<Record<'inf' | 'armor' | 'any', number>>>>>;
-  turnNotes: Record<number, string>;
-}
+    columns: r.combat.columns as string[],
+    ratios: r.combat.ratios as number[],
+    crt: r.combat.crt as Record<string, string[]>,
+    results: r.combat.results as Record<string, string>,
+    strengthCap: 20,
+    autoDsRatio: 10,
+    nonMechAdvanceCap: r.combat.nonMechAdvanceCap as number,
+    oosAdvanceCap: r.combat.oosAdvanceCap as number,
+    halfEffAdvanceCap: r.combat.halfEffAdvanceCap as number,
+    navalRange: 2,
+  },
+  dd: {
+    table: { Clear: r.determinedDefense.Clear, Other: r.determinedDefense.Other, City: r.determinedDefense.City } as Record<string, string[]>,
+    drms: r.determinedDefense.drms as Record<string, number>,
+  },
+  isolation: {
+    lossOn: r.isolation.lossOn as number[],
+    cityOrCorpsDrm: r.isolation.cityOrCorpsDrm as number,
+    alliedClearWeatherDrm: r.isolation.alliedClearWeatherDrm as number,
+  },
+  supply: { overlandHexes: val<number>(r.supply.overlandHexes), cap: 19, salernoPortOpenRadius: r.supply.salernoPortOpenRadius as number },
+  rally: r.rally as { success: number[]; bhOrCityDrm: number; eliteDrm: number; lowQualityDrm: number },
+  invasion: r.invasion as Record<'Rangers' | 'Uncle' | 'Other', string[]>,
+  airdrop: r.airdrop as { table: { max: number; result: string }[]; cityMarshMountainDrm: number; ezocDrm: number },
+  disengagement: r.disengagement as { table: Record<string, string>; mechDrm: number },
+  variableStrength: r.variableStrength as number[],
+  landingPoints: r.landingPoints as { costBySp: number[]; perTurn: number },
+  weather: r.weather as { track: WeatherBox[]; advanceByRoll: Record<string, number>; wraps: boolean },
+  benchmarks: Object.fromEntries(Object.entries(r.victory.benchmarks).map(([k, v]) => [Number(k), v as number])) as Record<number, number>,
+  automaticMargin: 5,
+  automaticAlliedVp: 20,
+  replacementSchedule: Object.fromEntries(Object.entries(r.replacements.schedule).map(([k, v]) => [Number(k), v])) as Record<
+    number,
+    Partial<Record<'German' | 'BR' | 'US', Partial<Record<'inf' | 'armor' | 'special', number>>>>
+  >,
+  turnNotes: Object.fromEntries(Object.entries(r.turnNotes).map(([k, v]) => [Number(k), v as string])) as Record<number, string>,
+};
 
-function buildRules(): Rules {
-  const r = rulesJson as any;
-  const m = r.movement;
-  const c = r.combat;
-  const s = r.supply;
-  const benchmarks: Record<number, number> = {};
-  for (const [k, v] of Object.entries(r.victory.benchmarks)) {
-    if (/^\d+$/.test(k)) benchmarks[Number(k)] = v as number;
-  }
-  const replacementSchedule: Rules['replacementSchedule'] = {};
-  for (const [k, v] of Object.entries(r.replacements.schedule)) replacementSchedule[Number(k)] = v as any;
-  const turnNotes: Record<number, string> = {};
-  for (const [k, v] of Object.entries(r.turnNotes)) turnNotes[Number(k)] = v as string;
-  return {
-    turnOrder: r.turnOrder,
-    stackingLimit: r.stackingLimit,
-    movement: {
-      ...m,
-      eighthArmyRoadCost: val(m.eighthArmyRoadCost),
-      turn1GermanMaFactor: val(m.turn1GermanMaFactor),
-      turn1AlliedTacticalOnly: val(m.turn1AlliedTacticalOnly),
-    },
-    combat: { ...c, rainShift: val(c.rainShift) },
-    recovery: r.recovery,
-    supply: {
-      overlandHexes: s.overlandHexes,
-      isolationLossOn: s.isolationLossOn,
-      alliedClearWeatherDrm: val(s.alliedClearWeatherDrm),
-      supplyPointCap: val(s.supplyPointCap),
-      salernoPortOpenRadius: val(s.salernoPortOpenRadius),
-    },
-    weather: r.weather,
-    benchmarks,
-    suddenDeathBelowBenchmark: r.victory.suddenDeathBelowBenchmark,
-    drawMargin: r.victory.drawMargin ?? 0,
-    replacementSchedule,
-    turnNotes,
-  };
-}
+// ------------------------------------------------------------------ units
 
-export const RULES = buildRules();
+const o = oobJson as any;
+const INDEPENDENT = new Set(['VI Corps', 'X Corps', '23 Armd Bde', 'Coastal', 'LXXVI Pz', 'XIV Pz', 'Remnant', '1 CN Armd Bde']);
+const TANK_DESTROYERS = new Set(['US-601', 'US-636', 'US-645']);
+// Units that double on defense in hills, marsh and cities and may cross mountain hexsides.
+const INFANTRY_TYPES = new Set(['infantry', 'airborne', 'glider', 'engineer', 'ranger', 'pg', 'motorized']);
 
 export interface UnitSetup {
-  start?: { hex?: string; beach?: string; reserve?: boolean };
+  start?: { hex?: string; beach?: string; followUp?: string; remnant?: boolean };
   arrive?: { turn: number; at: string };
   frozenUntil?: number;
-  removeOnTurn?: number;
 }
 
-function buildUnits(): { defs: Record<string, UnitDef>; setup: Record<string, UnitSetup> } {
-  const o = oobJson as any;
+function buildUnits() {
   const defs: Record<string, UnitDef> = {};
   const setup: Record<string, UnitSetup> = {};
   for (const u of o.units) {
-    const t = o.templates[u.template] ?? {};
-    const steps: StepValues[] = (u.steps ?? t.steps).map(([attack, defense, move]: number[]) => ({ attack, defense, move }));
+    const cat = o.categories[u.cat] as { mech: boolean; maxAdv: number; repl: string | null; asu?: string; variable?: boolean };
+    const tank = u.cat === 'tank';
+    const silhouette = tank && u.sp <= 1;
+    const isAsu = !!cat.asu;
+    const steps: StepValues[] = [{ attack: u.a, defense: u.d, move: u.m }];
+    // Counter backs were not available: a reduced step is the full unit less one battalion (-2/-2).
+    const nSteps = isAsu || u.cat === 'bh' || u.cat === 'garrison' || silhouette || u.start?.remnant ? 1 : Math.max(1, Math.min(3, u.sp));
+    for (let i = 1; i < nSteps; i++) {
+      const prev = steps[i - 1];
+      steps.push({ attack: Math.max(1, prev.attack - 2), defense: Math.max(1, prev.defense - 2), move: u.m });
+    }
+    const army8 = typeof u.arrive?.at === 'string' && /^S[123]$/.test(u.arrive.at) && u.side === 'Allied';
     defs[u.id] = {
       id: u.id,
       name: u.name,
       side: u.side,
       nation: u.nation,
-      type: (u.type ?? t.type) as UnitType,
+      cat: u.cat as Category,
       formation: u.formation,
+      division: INDEPENDENT.has(u.formation) || u.id === 'US-2-509' || u.cat === 'bh' ? null : u.formation,
       steps,
-      tankRating: u.tankRating ?? t.tankRating,
-      freeStack: u.freeStack ?? t.freeStack,
-      noZoc: u.noZoc ?? t.noZoc,
-      vehicle: u.vehicle ?? t.vehicle,
-      asuRange: u.asuRange ?? t.asuRange,
-      replCategory: u.replCategory ?? t.replCategory,
+      sp: u.sp,
+      tankRating: u.tr,
+      tankDestroyer: TANK_DESTROYERS.has(u.id),
+      silhouette,
+      elite: !!u.elite,
+      lowQuality: !!u.lowQuality,
+      mech: cat.mech,
+      vehicle: tank || u.cat === 'recon' || isAsu,
+      infantryType: INFANTRY_TYPES.has(u.cat),
+      maxAdv: cat.maxAdv,
+      repl: (cat.repl as UnitDef['repl']) ?? null,
+      asu: isAsu ? (u.cat === 'nebelwerfer' ? 'corps' : (cat.asu as 'division' | 'corps')) : undefined,
+      asuRange: u.range,
+      variable: !!cat.variable,
+      parenthesized: isAsu,
+      remnant: army8 ? undefined : u.remnant,
+      isRemnant: !!u.start?.remnant,
+      army8,
     };
-    setup[u.id] = { start: u.start, arrive: u.arrive, frozenUntil: u.frozenUntil, removeOnTurn: u.removeOnTurn };
+    setup[u.id] = { start: u.start, arrive: u.arrive, frozenUntil: u.frozenUntil };
   }
   return { defs, setup };
 }
@@ -158,4 +142,7 @@ function buildUnits(): { defs: Record<string, UnitDef>; setup: Record<string, Un
 const built = buildUnits();
 export const UNIT_DEFS = built.defs;
 export const UNIT_SETUP = built.setup;
-export const SCENARIOS = (oobJson as any).scenarios as Record<string, { name: string; lastTurn: number; description: string }>;
+export const SCENARIOS = o.scenarios as Record<string, { name: string; lastTurn: number; description: string }>;
+export const STARTING_SP = o.startingSupplyPoints as { German: number; Allied: number };
+export const WITHDRAWAL = o.withdrawal as { turn: number; side: 'German'; defense: number; prefer: string };
+export const BATTLESHIPS_TURN = o.support.battleshipsTurn as number;

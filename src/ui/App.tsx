@@ -1,20 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MAP, SCENARIOS } from '../engine/data';
-import { computeOdds } from '../engine/combat';
-import { alliedVp, benchmark, currentWeather, IllegalAction, landingHexes, newGame, withAction } from '../engine/game';
+import { advanceDestinations, computeOdds } from '../engine/combat';
+import { actingSide, alliedVp, benchmark, currentWeather, entryReach, IllegalAction, landingHexes, newGame, withAction } from '../engine/game';
 import { neighbors, type HexId } from '../engine/hex';
-import { entryDestinations, legalDestinations } from '../engine/movement';
+import { legalDestinations } from '../engine/movement';
 import type { Action, GameState, MoveMode, Side } from '../engine/types';
-import { def, isCombatUnit, sideOf, unitsAt, values } from '../engine/units';
+import { canStack, def, goodOrder, sideOf, unitsAt, values } from '../engine/units';
 import { createHeuristicAi, type AiPlayer } from '../ai/heuristic';
 import { createClaudeAi } from '../ai/claude';
 import { MapView, type Highlight } from './MapView';
 import { Sidebar } from './Sidebar';
 import { autosave, loadAutosave, loadSettings, saveSettings, type Settings } from './storage';
+import { effectiveMode, eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
 
 export const dateOf = (turn: number) => `${8 + turn} Sept 1943`;
 
-const UNDOABLE = new Set(['move', 'enter', 'land', 'exitMap', 'replace', 'readyAsu']);
+const UNDOABLE = new Set(['move', 'enter', 'land', 'changeArea', 'fullRetreat', 'replace', 'readyAsu']);
 
 export default function App() {
   const [game, setGame] = useState<GameState>(() => loadAutosave() ?? newGame('campaign'));
@@ -22,10 +23,11 @@ export default function App() {
   const [history, setHistory] = useState<GameState[]>([]);
   const [selectedHex, setSelectedHex] = useState<HexId | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
-  const [moveMode, setMoveMode] = useState<MoveMode>('tactical');
+  const [moveMode, setMoveMode] = useState<MoveMode>('normal');
   const [attackTarget, setAttackTarget] = useState<HexId | null>(null);
   const [attackers, setAttackers] = useState<Set<string>>(new Set());
-  const [support, setSupport] = useState<{ air: boolean; naval: boolean; asus: string[] }>({ air: false, naval: false, asus: [] });
+  const [support, setSupport] = useState<SupportPick>(NO_SUPPORT);
+  const [advanceSel, setAdvanceSel] = useState<string[]>([]);
   const [hover, setHover] = useState<HexId | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [paused, setPaused] = useState(false);
@@ -47,7 +49,9 @@ export default function App() {
     return () => clearTimeout(t);
   }, [toast]);
 
-  const controller = settings.controllers[game.activeSide];
+  // The defender answers a Determined Defense choice even during the other side's turn.
+  const acting = actingSide(game);
+  const controller = settings.controllers[acting];
   const humanTurn = controller === 'human' && game.phase !== 'gameOver';
 
   // ---------------------------------------------------------------- AI players
@@ -73,7 +77,7 @@ export default function App() {
     const seq = game.seq;
     const timer = setTimeout(async () => {
       try {
-        const ai = aiFor(game.activeSide);
+        const ai = aiFor(acting);
         const a = await ai.nextAction(game);
         if (cancelled) return;
         setGame((g) => {
@@ -81,8 +85,13 @@ export default function App() {
           try {
             return withAction(g, a);
           } catch (e) {
-            setAiStatus(`AI proposed an illegal action (${(e as Error).message}); ending its phase.`);
-            return withAction(g, { type: 'endPhase' });
+            setAiStatus(`AI proposed an illegal action (${(e as Error).message}); skipping it.`);
+            const fallback: Action = g.pendingDefense
+              ? { type: 'defend', choice: 'retreat' }
+              : g.pendingAdvance
+                ? { type: 'advance', unitIds: [] }
+                : { type: 'endPhase' };
+            return withAction(g, fallback);
           }
         });
       } catch (e) {
@@ -96,17 +105,20 @@ export default function App() {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [game, humanTurn, paused, settings.aiDelayMs, aiFor]);
+  }, [game, acting, humanTurn, paused, settings.aiDelayMs, aiFor]);
 
   // Clear transient selection when the phase or side changes.
   const phaseKey = `${game.turn}|${game.activeSide}|${game.phase}`;
   useEffect(() => {
     setAttackTarget(null);
     setAttackers(new Set());
-    setSupport({ air: false, naval: false, asus: [] });
+    setSupport(NO_SUPPORT);
     setSelectedUnit(null);
+    setAdvanceSel([]);
     setHistory([]);
   }, [phaseKey]);
+  const advanceKey = game.pendingAdvance ? `${game.pendingAdvance.combatId}|${game.pendingAdvance.vacated}` : '';
+  useEffect(() => setAdvanceSel([]), [advanceKey]);
 
   // ---------------------------------------------------------------- human actions
   const dispatch = useCallback(
@@ -144,37 +156,79 @@ export default function App() {
     setOverDismissed(false);
   };
 
-  // ---------------------------------------------------------------- highlights
+  // ---------------------------------------------------------------- highlights and click actions
   const selUnit = selectedUnit ? game.units[selectedUnit] : null;
-  const highlights = useMemo(() => {
+  const { highlights, clickActions } = useMemo(() => {
     const m = new Map<HexId, Highlight>();
-    if (!humanTurn) return m;
-    if (game.phase === 'movement' && selUnit && sideOf(selUnit) === game.activeSide) {
-      if (selUnit.where.kind === 'map') {
-        for (const [h, r] of legalDestinations(game, selUnit.id, moveMode))
-          m.set(h, { color: r.stop ? '#e7a53b' : '#5aa469', label: String(r.cost) });
-      } else if (selUnit.where.kind === 'reserve' || (selUnit.where.kind === 'entry' && (selUnit.where.area === 'airdrop' || selUnit.where.area.startsWith('hex:')))) {
-        for (const h of landingHexes(game, selUnit.id)) m.set(h, { color: '#3b82c4', label: 'land' });
-      } else if (selUnit.where.kind === 'entry') {
-        for (const [h, r] of entryDestinations(game, selUnit.id, selUnit.where.area, moveMode))
-          m.set(h, { color: r.stop ? '#e7a53b' : '#3b82c4', label: String(r.cost) });
-      }
+    const act = new Map<HexId, Action>();
+    if (!humanTurn) return { highlights: m, clickActions: act };
+    const g = game;
+    if (g.pendingDefense) {
+      m.set(g.pendingDefense.hex, { color: '#d0574a', label: 'defend' });
+      return { highlights: m, clickActions: act };
     }
-    if (game.phase === 'combat') {
-      for (const u of Object.values(game.units)) {
-        if (u.where.kind !== 'map' || sideOf(u) !== game.activeSide || !isCombatUnit(u) || u.attacked || u.disrupted) continue;
-        for (const n of neighbors(u.where.hex)) {
-          if (unitsAt(game, n).some((x) => sideOf(x) !== game.activeSide) && !m.has(n)) m.set(n, { color: '#d0574a' });
+    if (g.pendingAdvance) {
+      const pa = g.pendingAdvance;
+      m.set(pa.vacated, { color: '#9b59b6', label: 'vacated' });
+      if (advanceSel.length) {
+        const [first, ...rest] = advanceSel.map((id) => advanceDestinations(g, pa, id));
+        for (const [h, path] of first) {
+          if (rest.some((d) => !d.has(h))) continue;
+          m.set(h, { color: '#9b59b6', label: String(path.length) });
+          act.set(h, { type: 'advance', unitIds: advanceSel, to: h });
         }
       }
-      if (game.pendingAdvance) m.set(game.pendingAdvance.hex, { color: '#9b59b6', label: 'advance?' });
+      return { highlights: m, clickActions: act };
     }
-    return m;
-  }, [game, selUnit, moveMode, humanTurn]);
+    const mine = selUnit && sideOf(selUnit) === g.activeSide ? selUnit : null;
+    if (mine && g.phase === 'initial' && mine.where.kind === 'entry' && mine.where.area.startsWith('airdrop')) {
+      for (const h of landingHexes(g, mine.id)) {
+        m.set(h, { color: '#3b82c4', label: 'drop' });
+        act.set(h, { type: 'land', unitId: mine.id, to: h });
+      }
+    }
+    if (mine && (g.phase === 'movement' || g.phase === 'invasion')) {
+      if (mine.where.kind === 'map') {
+        const mode = effectiveMode(g, mine.id, moveMode);
+        if (mode) {
+          for (const [h, r] of legalDestinations(g, mine.id, mode)) {
+            m.set(h, { color: r.stop ? '#e7a53b' : '#5aa469', label: mode === 'tactical' ? `${r.hexes}h` : String(+r.cost.toFixed(1)) });
+            act.set(h, { type: 'move', unitId: mine.id, to: h, mode });
+          }
+        }
+      } else if (mine.where.kind === 'reserve' || mine.where.kind === 'followUp') {
+        for (const h of landingHexes(g, mine.id)) {
+          // Orange: landing here would overstack the hex (fix it before the phase ends).
+          m.set(h, canStack(g, h, [mine.id]) ? { color: '#3b82c4', label: 'land' } : { color: '#e7a53b', label: 'full' });
+          act.set(h, { type: 'land', unitId: mine.id, to: h });
+        }
+      } else if (mine.where.kind === 'entry' && !mine.where.area.startsWith('airdrop')) {
+        const mode: MoveMode = g.turn === 1 && g.activeSide === 'Allied' ? 'tactical' : moveMode === 'extended' || moveMode === 'truck' ? moveMode : 'normal';
+        for (const [h, r] of entryReach(g, mine.id, mode)) {
+          m.set(h, { color: r.stop ? '#e7a53b' : '#3b82c4', label: String(+r.cost.toFixed(1)) });
+          act.set(h, { type: 'enter', unitId: mine.id, to: h, mode });
+        }
+      }
+    }
+    if (g.phase === 'combat' || g.phase === 'movement' || g.phase === 'invasion') {
+      // Enemy hexes that can be attacked (or overrun with an Auto DS in the movement phase).
+      for (const u of Object.values(g.units)) {
+        if (u.where.kind !== 'map' || sideOf(u) !== g.activeSide || u.attacked || !goodOrder(u) || def(u.id).asu) continue;
+        if (g.phase === 'invasion' && def(u.id).formation !== 'Commando Bde') continue;
+        for (const n of neighbors(u.where.hex)) {
+          if (!m.has(n) && unitsAt(g, n).some((x) => sideOf(x) !== g.activeSide)) m.set(n, { color: '#d0574a' });
+        }
+      }
+    }
+    return { highlights: m, clickActions: act };
+  }, [game, selUnit, moveMode, humanTurn, advanceSel]);
 
   const odds = useMemo(() => {
-    if (!attackTarget || game.phase !== 'combat') return null;
-    return computeOdds(game, { target: attackTarget, attackers: [...attackers], ...support });
+    if (!attackTarget || !['combat', 'movement', 'invasion'].includes(game.phase) || game.pendingAdvance || game.pendingDefense) return null;
+    const ids = [...attackers];
+    if (game.phase === 'movement') return computeOdds(game, { target: attackTarget, attackers: ids }, { autoDs: true });
+    if (game.phase === 'invasion') return computeOdds(game, { target: attackTarget, attackers: ids });
+    return computeOdds(game, { target: attackTarget, attackers: ids, ...support });
   }, [game, attackTarget, attackers, support]);
 
   // ---------------------------------------------------------------- map clicks
@@ -185,41 +239,33 @@ export default function App() {
       return;
     }
     const here = unitsAt(game, hex);
-    if (humanTurn && game.phase === 'movement') {
-      const hl = highlights.get(hex);
-      if (selUnit && hl) {
-        let a: Action;
-        if (selUnit.where.kind === 'map') a = { type: 'move', unitId: selUnit.id, to: hex, mode: moveMode };
-        else if (selUnit.where.kind === 'entry' && selUnit.where.area !== 'airdrop' && !selUnit.where.area.startsWith('hex:'))
-          a = { type: 'enter', unitId: selUnit.id, to: hex, mode: moveMode };
-        else a = { type: 'land', unitId: selUnit.id, to: hex };
-        const next = dispatch(a);
-        if (next && next.units[selUnit.id].mpSpent !== null && next.units[selUnit.id].mpSpent! >= 1e9) setSelectedUnit(null);
-        return;
+    const clickAct = clickActions.get(hex);
+    if (humanTurn && clickAct) {
+      const next = dispatch(clickAct);
+      if (next && clickAct.type === 'advance') setAdvanceSel([]);
+      if (next && (clickAct.type === 'move' || clickAct.type === 'enter' || clickAct.type === 'land')) {
+        const u = next.units[clickAct.unitId];
+        if (u.stopped || u.where.kind !== 'map') setSelectedUnit(null);
       }
-      const own = here.filter((u) => sideOf(u) === game.activeSide);
-      if (own.length) {
-        const idx = own.findIndex((u) => u.id === selectedUnit);
-        setSelectedUnit(own[(idx + 1) % own.length].id);
-        return;
-      }
-      setSelectedUnit(null);
       return;
     }
-    if (humanTurn && game.phase === 'combat' && !game.pendingAdvance) {
-      if (here.some((u) => sideOf(u) !== game.activeSide)) {
-        setAttackTarget(hex);
-        const eligible = neighbors(hex)
-          .flatMap((n) => unitsAt(game, n))
-          .filter((u) => sideOf(u) === game.activeSide && isCombatUnit(u) && !u.attacked && !u.disrupted && !u.strategic && values(u).attack > 0);
-        setAttackers(new Set(eligible.map((u) => u.id)));
-        setSupport({ air: false, naval: false, asus: [] });
-        setTab('play');
-        return;
-      }
+    const canAttack = ['combat', 'movement', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.pendingDefense;
+    if (humanTurn && canAttack && highlights.get(hex)?.color === '#d0574a' && here.some((u) => sideOf(u) !== game.activeSide)) {
+      setAttackTarget(hex);
+      let ids = eligibleAttackers(game, hex);
+      if (game.phase === 'invasion') ids = ids.filter((id) => def(id).formation === 'Commando Bde');
+      setAttackers(new Set(ids));
+      setSupport(NO_SUPPORT);
+      setTab('play');
+      return;
     }
     const own = here.filter((u) => sideOf(u) === game.activeSide);
-    setSelectedUnit(own[0]?.id ?? here[0]?.id ?? null);
+    if (own.length) {
+      const idx = own.findIndex((u) => u.id === selectedUnit);
+      setSelectedUnit(own[(idx + 1) % own.length].id);
+      return;
+    }
+    setSelectedUnit(here[0]?.id ?? null);
   };
 
   // ---------------------------------------------------------------- hover info
@@ -232,13 +278,15 @@ export default function App() {
     else if (d.town) parts.push(d.town);
     if (d.vp) parts.push(`${d.vp} VP (${game.control[hover] ?? 'German'})`);
     if (d.port) parts.push(`port ${d.port.capacity}${d.port.restricted ? ' (no naval use)' : ''}`);
+    if (d.airfield) parts.push('airfield');
     if (d.sector8) parts.push('8th Army sector');
+    if (game.cityBattle[hover]) parts.push('City Battle');
     const beach = Object.entries(MAP.beaches).find(([, b]) => b.hex === hover);
     if (beach) parts.push(`${beach[0]} beach`);
     const us = unitsAt(game, hover);
     if (us.length) parts.push(us.map((u) => `${def(u.id).name} ${values(u).attack}-${values(u).defense}-${values(u).move}`).join(', '));
     const hl = highlights.get(hover);
-    if (hl?.label && /^\d/.test(hl.label)) parts.push(`move cost ${hl.label}`);
+    if (hl?.label && /^[\d.]+$/.test(hl.label)) parts.push(`cost ${hl.label}`);
     return parts.join(' · ');
   }, [hover, game, highlights]);
 
@@ -257,8 +305,9 @@ export default function App() {
         </span>
         <span className={`chip ${game.activeSide === 'Allied' ? 'allied' : 'german'}`}>
           {game.phase === 'gameOver' ? 'Game over' : `${game.activeSide} ${game.phase} phase`}
-          {controller !== 'human' && game.phase !== 'gameOver' ? ' (AI)' : ''}
+          {settings.controllers[game.activeSide] !== 'human' && game.phase !== 'gameOver' ? ' (AI)' : ''}
         </span>
+        {game.pendingDefense && <span className="chip warn">{acting} must choose: retreat or Determined Defense</span>}
         <span className={`chip ${wb.rain ? 'warn' : ''}`}>
           Weather {wb.box}: {wb.name}
         </span>
@@ -269,9 +318,11 @@ export default function App() {
         <span className="chip">
           Supply pts A {game.supplyPoints.Allied} · G {game.supplyPoints.German}
         </span>
-        <span className="chip">
-          Air A[{game.support.Allied.air.join(',')}] G[{game.support.German.air.join(',')}] · Naval [{game.support.Allied.naval.join(',')}]
+        <span className="chip" title="Ready air and naval support markers">
+          Support: {game.support.ready.join(' ') || 'none ready'}
+          {game.turn >= 8 && game.support.battleships ? ` · Valiant/Warspite ×${game.support.battleships}` : ''}
         </span>
+        {game.phase === 'movement' && game.activeSide === 'Allied' && <span className="chip">Landing points {game.landingPoints}</span>}
       </div>
       <div className="main">
         <MapView
@@ -281,18 +332,18 @@ export default function App() {
           selectedHex={selectedHex}
           selectedUnitId={selectedUnit}
           attackTarget={attackTarget}
-          attackers={attackers}
+          attackers={new Set([...attackers, ...advanceSel])}
           lastCombatHex={lastCombat && lastCombat.turn === game.turn ? lastCombat.defenderHex : null}
           onHexClick={onHexClick}
           onHover={setHover}
           hoverText={hoverText}
           banner={
-            settings.bannerDismissed ? null : (
+            settings.noticeDismissed ? null : (
               <div className="banner">
-                Map transcribed from your photos. Combat values, set-up and rule tables are provisional stand-ins until you enter the
-                values from your own counters and player aids (see README).
+                Rules, tables and set-up follow your player aids and the living rules. Reduced-step values are estimates (−2/−2) until
+                you enter the backs of your counters; a few advanced rules are not modelled yet (see README).
                 <div>
-                  <button onClick={() => setSettings({ ...settings, bannerDismissed: true })}>Got it</button>
+                  <button onClick={() => setSettings({ ...settings, noticeDismissed: true })}>Got it</button>
                 </div>
               </div>
             )
@@ -300,6 +351,7 @@ export default function App() {
         />
         <Sidebar
           game={game}
+          acting={acting}
           settings={settings}
           setSettings={setSettings}
           tab={tab}
@@ -319,6 +371,8 @@ export default function App() {
           setAttackers={setAttackers}
           support={support}
           setSupport={setSupport}
+          advanceSel={advanceSel}
+          setAdvanceSel={setAdvanceSel}
           odds={odds}
           paused={paused}
           setPaused={setPaused}

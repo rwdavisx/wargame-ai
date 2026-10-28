@@ -1,18 +1,13 @@
 import type { HexId } from './hex';
 
 export type Side = 'Allied' | 'German';
-export type ReplPool = 'German' | 'BR' | 'US';
 export type Nation = 'US' | 'BR' | 'CN' | 'GE';
 export type Terrain = 'clear' | 'hill' | 'marsh' | 'sea';
-export type UnitType =
-  | 'inf'
-  | 'mech'
-  | 'armor'
-  | 'recon'
-  | 'para'
-  | 'commando'
-  | 'eng'
-  | 'asu';
+export type ReplPool = 'German' | 'BR' | 'US';
+export type ReplType = 'inf' | 'special' | 'armor';
+export type Category =
+  | 'infantry' | 'garrison' | 'motorized' | 'pg' | 'engineer' | 'bh' | 'airborne' | 'glider'
+  | 'ranger' | 'recon' | 'divAsu' | 'corpsAsu' | 'nebelwerfer' | 'tank';
 
 // ---------------------------------------------------------------- map data
 
@@ -76,61 +71,85 @@ export interface UnitDef {
   name: string;
   side: Side;
   nation: Nation;
-  type: UnitType;
-  formation?: string;
-  /** Values per remaining step: index 0 = full strength. */
+  cat: Category;
+  formation: string;
+  /** Formation used for the Main Assault Force; null for independent units. */
+  division: string | null;
+  /** Values per step, index 0 = full strength. */
   steps: StepValues[];
-  /** Tank rating shown on silhouetted armour counters (armour shift). */
+  /** Stacking points (the boxed number on the counter). */
+  sp: number;
   tankRating?: number;
-  /** Outlined counters: do not count for stacking. */
-  freeStack?: boolean;
-  /** Unit exerts no zone of control. */
-  noZoc?: boolean;
-  /** Wheeled/tracked unit (rain and marsh effects). */
-  vehicle?: boolean;
-  /** Artillery support unit: range in hexes. */
+  /** Tank destroyers: rating is one lower when attacking. */
+  tankDestroyer?: boolean;
+  /** Silhouetted tank counter (one per hex stacks free). */
+  silhouette?: boolean;
+  elite?: boolean;
+  lowQuality?: boolean;
+  mech: boolean;
+  vehicle: boolean;
+  infantryType: boolean;
+  maxAdv: number;
+  repl: ReplType | null;
+  asu?: 'division' | 'corps';
   asuRange?: number;
-  /** Replacement category used to rebuild this unit. */
-  replCategory?: 'inf' | 'armor';
+  variable?: boolean;
+  /** Defense counts only when alone in the hex (ASUs). */
+  parenthesized?: boolean;
+  /** Remnant pool or unit id used when this 3-step unit loses its second step. */
+  remnant?: string;
+  isRemnant?: boolean;
+  army8?: boolean;
 }
 
 export type Where =
   | { kind: 'map'; hex: HexId }
-  | { kind: 'reserve' } // Allied floating reserve (offshore)
-  | { kind: 'pending'; turn: number; at: string } // future reinforcement
-  | { kind: 'entry'; area: string } // available at an off-map entry area
-  | { kind: 'transit'; to: string; arrive: number } // off-map movement between entry areas
-  | { kind: 'eliminated' }
-  | { kind: 'removed'; reason: string }
-  | { kind: 'exited'; area: string };
+  | { kind: 'reserve' } // Allied Floating Reserve box
+  | { kind: 'landing'; beach: string } // Turn 1 assault landing boxes
+  | { kind: 'followUp'; corps: string } // Turn 1 follow-up wave
+  | { kind: 'pending'; turn: number; at: string }
+  | { kind: 'entry'; area: string } // off-map entry area (N1, S2, ...), 'airdrop' or 'hex:XXXX'
+  | { kind: 'eliminated'; permanent?: boolean }
+  | { kind: 'remnantPool' }
+  | { kind: 'remnantHeld' } // 3-step unit represented by a remnant on the map
+  | { kind: 'removed'; reason: string };
+
+export type Status = 'good' | 'disrupted' | 'fullRetreat';
+export type MoveMode = 'normal' | 'extended' | 'tactical' | 'truck';
 
 export interface UnitState {
   id: string;
   where: Where;
   stepsLost: number;
-  disrupted: boolean;
-  /** Movement points spent this movement phase (null = has not moved). */
-  mpSpent: number | null;
-  strategic: boolean;
-  attacked: boolean;
+  status: Status;
+  halfEff: boolean;
+  repl: boolean;
+  truck: boolean;
   outOfSupply: boolean;
-  /** ASU state: ready to fire or already fired. */
+  isolated: boolean;
+  isolatedSince?: number;
   fired: boolean;
-  /** Set-up restriction (e.g. FJ unit frozen until a given turn). */
   frozenUntil?: number;
+  /** Movement this phase. */
+  mpSpent: number | null;
+  moveMode: MoveMode | null;
+  tacHexes: number;
+  stopped: boolean;
+  crossedMountain: boolean;
+  /** Hexes moved this phase (ASUs moving more than one hex become disrupted). */
+  hexesMoved: number;
+  attacked: boolean;
+  retreatedThisPhase: boolean;
+  autoDs: boolean;
+  /** For remnants on the map: the unit it stands for. */
+  represents?: string;
+  /** Turn an airborne unit dropped (it is in supply that turn). */
+  droppedTurn?: number;
 }
 
 // ---------------------------------------------------------------- state
 
-export type Phase =
-  | 'weather'
-  | 'initial'
-  | 'movement'
-  | 'combat'
-  | 'recovery'
-  | 'supply'
-  | 'victory'
-  | 'gameOver';
+export type Phase = 'invasion' | 'weather' | 'initial' | 'movement' | 'combat' | 'recovery' | 'supply' | 'victory' | 'gameOver';
 
 export interface LogEntry {
   turn: number;
@@ -140,15 +159,34 @@ export interface LogEntry {
   kind?: 'combat' | 'move' | 'info' | 'dice' | 'victory';
 }
 
-export interface SupportPool {
-  air: string[]; // nations with an air support marker ready (e.g. ['BR','US'])
-  naval: string[];
+export interface SupportMarkers {
+  /** Ready support markers: 'US-air', 'US-naval', 'BR-air', 'BR-naval', 'GE-air'. */
+  ready: string[];
+  /** Valiant & Warspite uses left (from turn 8). */
+  battleships: number;
+}
+
+export interface PendingDefense {
+  combatId: number;
+  hex: HexId;
+  defenderSide: Side;
+  attackerHexes: HexId[];
+  attackers: string[];
+  retreat: number;
+  advance: number;
+  yellow: boolean;
+  /** Retreat would eliminate the stack: a failed stand costs a step and may be retried. */
+  desperate: boolean;
+  supportOptions: string[];
 }
 
 export interface PendingAdvance {
-  hex: HexId;
-  unitIds: string[];
-  max: number;
+  combatId: number;
+  vacated: HexId;
+  /** Hexes the attackers attacked from (for river/mountain first-hex rules). */
+  from: Record<string, HexId>;
+  maxByUnit: Record<string, number>;
+  limited: boolean;
 }
 
 export interface CombatReport {
@@ -157,6 +195,7 @@ export interface CombatReport {
   attackerSide: Side;
   defenderHex: HexId;
   attackers: string[];
+  maf: string;
   defenders: string[];
   attack: number;
   defense: number;
@@ -166,6 +205,7 @@ export interface CombatReport {
   roll: number;
   drm: number;
   result: string;
+  dd?: { roll: number; drm: number; column: string; result: string };
   notes: string[];
 }
 
@@ -175,39 +215,48 @@ export interface GameState {
   lastTurn: number;
   phase: Phase;
   activeSide: Side;
-  /** Index into the weather track (0 = box A). */
   weather: number;
   supplyPoints: Record<Side, number>;
-  support: Record<Side, SupportPool>;
+  support: SupportMarkers;
   units: Record<string, UnitState>;
-  /** Control of VP hexes and entry areas. */
+  /** Control of ports, cities and VP hexes (by hex) and of entry areas (by name). */
   control: Record<string, Side>;
-  /** Replacement steps available, by pool (German, British/Commonwealth, US). */
-  replacements: Record<ReplPool, { inf: number; armor: number; any: number }>;
+  cityBattle: Record<HexId, number>;
+  replacements: Record<ReplPool, Record<ReplType, number>>;
+  /** Naval transport bookkeeping for the current Allied movement phase. */
+  landingPoints: number;
+  portUse: Record<HexId, number>;
+  /** Ports Allied-controlled at the start of the Allied movement phase. */
+  portsAtStart?: HexId[];
+  trucksUsed: number;
+  pendingDefense: PendingDefense | null;
   pendingAdvance: PendingAdvance | null;
+  /** Auto DS advances queued for the end of the combat phase. */
+  autoDsQueue: PendingAdvance[];
   combats: CombatReport[];
   log: LogEntry[];
   rng: number;
   winner: Side | 'draw' | null;
   victoryNote?: string;
-  /** Allied VP from units exited off the north edge (Naples/Benevento). */
-  exitVp: number;
-  /** Units landed through each port this movement phase (capacity check). */
-  landings: Record<HexId, number>;
+  northVp: Record<string, boolean>;
+  abandoned8th: boolean;
   seq: number;
 }
 
 // ---------------------------------------------------------------- actions
 
-export type MoveMode = 'tactical' | 'strategic';
-
 export type Action =
   | { type: 'move'; unitId: string; to: HexId; mode?: MoveMode }
   | { type: 'land'; unitId: string; to: HexId }
   | { type: 'enter'; unitId: string; to: HexId; mode?: MoveMode }
-  | { type: 'exitMap'; unitId: string; area: string }
-  | { type: 'attack'; target: HexId; attackers: string[]; air?: boolean; naval?: boolean; asus?: string[] }
-  | { type: 'advance'; unitIds: string[] }
-  | { type: 'replace'; unitId: string }
+  | { type: 'changeArea'; unitId: string; area: string }
+  | { type: 'fullRetreat'; unitId: string }
+  | { type: 'attack'; target: HexId; attackers: string[]; maf?: string; air?: boolean; naval?: boolean; battleships?: boolean; asus?: string[] }
+  | { type: 'autoDs'; target: HexId; attackers: string[] }
+  | { type: 'defend'; choice: 'retreat' | 'dd'; support?: string | null; battleships?: boolean; prefer?: 'hold' | 'delay' }
+  | { type: 'advance'; unitIds: string[]; to?: HexId }
+  | { type: 'disengage'; hex: HexId }
+  | { type: 'replace'; unitId: string; to?: HexId }
   | { type: 'readyAsu'; unitId: string }
+  | { type: 'abandon8th' }
   | { type: 'endPhase' };

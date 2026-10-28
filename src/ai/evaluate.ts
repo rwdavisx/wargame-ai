@@ -1,36 +1,32 @@
 // Shared evaluation helpers for the AI players.
-import { RULES, MAP } from '../engine/data';
-import { computeOdds, inNavalRange, supportAvailable, type AttackPlan, type OddsInfo } from '../engine/combat';
+import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
+import { computeOdds, inNavalRange, parseCell, readyAsusFor, type AttackPlan, type OddsInfo } from '../engine/combat';
 import { distance, neighbors, type HexId } from '../engine/hex';
-import { isLand } from '../engine/movement';
 import type { GameState, Side, UnitState } from '../engine/types';
-import { def, isCombatUnit, occupancy, other, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
+import { def, goodOrder, isLand, nationGroup, occupancy, other, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
 
-/** Expected outcome of a CRT column (with DRM) in steps. */
+/** Expected outcome of one CRT column in steps and retreat chance. */
 export function expectedOutcome(finalIndex: number, drm: number, defenderSteps: number) {
   let defLoss = 0;
   let attLoss = 0;
   let retreat = 0;
+  let disrupt = 0;
   for (let roll = 1; roll <= 6; roll++) {
-    const r = RULES.combat.crt[String(Math.max(1, Math.min(6, roll + drm)))][finalIndex];
-    if (r === 'A1') attLoss += 1;
-    else if (r === 'A2') attLoss += 2;
-    else if (r === 'EX') {
-      defLoss += 1;
+    const cell = parseCell(RULES.combat.crt[String(Math.min(6, roll + drm))][finalIndex]);
+    const r = cell.result;
+    if (r.startsWith('A1')) attLoss += 1;
+    if (r === 'EX' || r === 'DRX') {
       attLoss += 1;
-    } else if (r === 'DR') retreat += 1;
-    else if (r === 'D1R') {
       defLoss += 1;
-      retreat += 1;
-    } else if (r === 'D2R') {
-      defLoss += 2;
-      retreat += 1;
-    } else if (r === 'DE') {
-      defLoss += defenderSteps;
-      retreat += 1;
     }
+    if (r.includes('D1') || r === 'DS') defLoss += 1;
+    if (r === 'Dis') disrupt += 1;
+    // Retreat results the defender may try to cancel by Determined Defense (roughly half the time).
+    if (/DR2|DRX|D1/.test(r)) retreat += cell.color === 'r' ? 1 : 0.55;
+    if (r === 'DR4' || r === 'DS') retreat += 1.3;
   }
-  return { defLoss: defLoss / 6, attLoss: attLoss / 6, retreat: retreat / 6 };
+  defLoss = Math.min(defLoss, defenderSteps * 6);
+  return { defLoss: defLoss / 6, attLoss: attLoss / 6, retreat: retreat / 6, disrupt: disrupt / 6 };
 }
 
 export interface AttackOption {
@@ -39,38 +35,55 @@ export interface AttackOption {
   score: number;
 }
 
-/** Best attack (with support choices) against `target`, or null if nothing legal. */
-export function bestAttackOn(s: GameState, target: HexId, aggression: number): AttackOption | null {
+/** Best attack (attacker group and support) against `target`, or null. */
+export function bestAttackOn(s: GameState, target: HexId, aggression: number, opts: { noSupport?: boolean } = {}): AttackOption | null {
   const side = s.activeSide;
-  const attackers = neighbors(target)
+  const eligible = neighbors(target)
     .flatMap((h) => unitsAt(s, h))
-    .filter((u) => sideOf(u) === side && isCombatUnit(u) && !u.attacked && !u.disrupted && !u.strategic && values(u).attack > 0);
-  if (!attackers.length) return null;
+    .filter((u) => sideOf(u) === side && !def(u.id).asu && def(u.id).cat !== 'bh' && !def(u.id).variable && !u.attacked && !u.autoDs &&
+      goodOrder(u) && !u.truck && values(u).attack > 0 && !unitsAt(s, (u.where as { hex: HexId }).hex).some((x) => x.repl));
+  if (!eligible.length) return null;
   const defenders = unitsAt(s, target).filter((u) => sideOf(u) !== side);
   if (!defenders.length) return null;
   const defSteps = defenders.reduce((a, u) => a + stepsRemaining(u), 0);
-  const asuIds = Object.values(s.units)
-    .filter((u) => u.where.kind === 'map' && sideOf(u) === side && def(u.id).type === 'asu' && !u.fired &&
-      distance(u.where.hex, target) <= (def(u.id).asuRange ?? 0))
-    .map((u) => u.id)
-    .slice(0, RULES.combat.asuMaxPerSide);
-  const ids = attackers.map((u) => u.id);
-  const hasAir = supportAvailable(s, side, 'air');
-  const hasNaval = side === 'Allied' && supportAvailable(s, side, 'naval') && inNavalRange(target);
+  // US and Commonwealth (and 5th/8th Army) units attack separately.
+  const groups = new Map<string, UnitState[]>();
+  for (const u of eligible) {
+    const k = `${nationGroup(u.id)}|${def(u.id).army8 ? 8 : 5}`;
+    groups.set(k, [...(groups.get(k) ?? []), u]);
+  }
   const vpHere = MAP.hexes[target].vp ?? 0;
   let best: AttackOption | null = null;
-  const combos: { air: boolean; naval: boolean; asus: string[] }[] = [];
-  for (const air of hasAir ? [false, true] : [false])
-    for (const naval of hasNaval ? [false, true] : [false])
-      for (const n of asuIds.length ? [0, asuIds.length] : [0]) combos.push({ air, naval, asus: asuIds.slice(0, n) });
-  for (const c of combos) {
-    const plan: AttackPlan = { target, attackers: ids, air: c.air, naval: c.naval, asus: c.asus };
-    const odds = computeOdds(s, plan);
-    if (!odds.ok) continue;
-    const e = expectedOutcome(odds.finalIndex, odds.drm, defSteps);
-    const supportCost = (c.air ? 0.25 : 0) + (c.naval ? 0.25 : 0) + c.asus.length * 0.2;
-    const score = e.defLoss * 1.0 + e.retreat * (0.5 + vpHere * 0.4) - e.attLoss * (1.15 - aggression * 0.4) - supportCost;
-    if (!best || score > best.score) best = { plan, odds, score };
+  for (const members of groups.values()) {
+    const ids = members.map((u) => u.id);
+    const base = computeOdds(s, { target, attackers: ids });
+    if (!base.ok) continue;
+    const asus = opts.noSupport ? [] : readyAsusFor(s, side, target, base.mafUnits.length ? ids : []);
+    const div = asus.find((u) => def(u.id).asu === 'division');
+    const corps = asus.find((u) => def(u.id).asu === 'corps');
+    const airKey = ids.map((id) => `${nationGroup(id) === 'CW' ? 'BR' : nationGroup(id)}-air`).find((k) => s.support.ready.includes(k));
+    const navalKey = side === 'Allied' && inNavalRange(target)
+      ? ids.map((id) => `${nationGroup(id) === 'CW' ? 'BR' : 'US'}-naval`).find((k) => s.support.ready.includes(k))
+      : undefined;
+    const combos: AttackPlan[] = [];
+    for (const air of airKey && !opts.noSupport ? [false, true] : [false])
+      for (const useDiv of div ? [false, true] : [false])
+        for (const extra of ['none', ...(corps ? ['corps'] : []), ...(navalKey && !opts.noSupport ? ['naval'] : [])]) {
+          const asuIds = [...(useDiv ? [div!.id] : []), ...(extra === 'corps' ? [corps!.id] : [])];
+          combos.push({
+            target, attackers: ids, air, naval: extra === 'naval', asus: asuIds,
+            battleships: extra === 'naval' && s.support.battleships > 0 && s.turn >= BATTLESHIPS_TURN,
+          });
+        }
+    for (const plan of combos) {
+      const odds = computeOdds(s, plan);
+      if (!odds.ok) continue;
+      const e = odds.autoDs ? { defLoss: 1, attLoss: 0, retreat: 1.3, disrupt: 0 } : expectedOutcome(odds.finalIndex, odds.drm, defSteps);
+      const supportCost = (plan.air ? 0.3 : 0) + (plan.naval ? 0.3 : 0) + (plan.asus?.length ?? 0) * 0.25 + (plan.battleships ? 0.4 : 0);
+      const score = e.defLoss * 1.1 + e.retreat * (0.45 + vpHere * 0.35) + e.disrupt * 0.3 -
+        e.attLoss * (1.2 - aggression * 0.45) - supportCost;
+      if (!best || score > best.score) best = { plan, odds, score };
+    }
   }
   return best;
 }
@@ -97,26 +110,33 @@ export function distanceField(targets: HexId[], limit = 40): Map<HexId, number> 
   return d;
 }
 
-/** Enemy attack strength that could reach `hex` next turn (units within 2 hexes). */
+/** Enemy attack strength that could reach `hex` next turn. */
 export function threatAt(s: GameState, hex: HexId, side: Side): number {
   let t = 0;
   for (const u of Object.values(s.units)) {
-    if (u.where.kind !== 'map' || sideOf(u) === side || !isCombatUnit(u)) continue;
+    if (u.where.kind !== 'map' || sideOf(u) === side || def(u.id).asu || !goodOrder(u)) continue;
     const dd = distance(u.where.hex, hex);
-    if (dd === 1) t += values(u).attack;
-    else if (dd === 2) t += values(u).attack * 0.6;
-    else if (dd === 3 && def(u.id).vehicle) t += values(u).attack * 0.3;
+    const a = values(u).attack;
+    if (dd === 1) t += a;
+    else if (dd === 2) t += a * 0.6;
+    else if (dd <= 4 && def(u.id).mech) t += a * 0.3;
   }
   return t;
 }
 
 export function defenseAt(s: GameState, hex: HexId, side: Side, extra?: UnitState): number {
   let d = 0;
-  for (const u of unitsAt(s, hex)) if (sideOf(u) === side && u.id !== extra?.id) d += values(u).defense;
-  if (extra) d += values(extra).defense;
   const h = MAP.hexes[hex];
-  const mult = h.city ? 1.6 : h.terrain === 'hill' ? 1.4 : h.terrain === 'marsh' ? 1.3 : 1;
-  return d * mult;
+  const doubles = h.city || h.terrain === 'hill' || h.terrain === 'marsh';
+  const add = (u: UnitState) => {
+    const dd = def(u.id);
+    if (dd.asu) return;
+    const v = values(u).defense;
+    d += doubles && (dd.infantryType || dd.cat === 'recon') ? v * 2 : v;
+  };
+  for (const u of unitsAt(s, hex)) if (sideOf(u) === side && u.id !== extra?.id) add(u);
+  if (extra) add(extra);
+  return Math.min(20, d);
 }
 
 export function enemyAdjacentHexes(s: GameState, hex: HexId, side: Side): HexId[] {
@@ -127,7 +147,7 @@ export function enemyAdjacentHexes(s: GameState, hex: HexId, side: Side): HexId[
 export function nearestEnemyDistance(s: GameState, hex: HexId, side: Side): number {
   let best = 99;
   for (const u of Object.values(s.units)) {
-    if (u.where.kind !== 'map' || sideOf(u) === side || !isCombatUnit(u)) continue;
+    if (u.where.kind !== 'map' || sideOf(u) === side || def(u.id).asu) continue;
     best = Math.min(best, distance(u.where.hex, hex));
   }
   return best;

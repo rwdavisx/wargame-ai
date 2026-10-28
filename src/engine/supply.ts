@@ -1,78 +1,153 @@
+// Lines of Supply (LOS) and Lines of Communication (LOC).
 import { MAP, RULES } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
-import { isLand } from './movement';
 import type { GameState, Side } from './types';
-import { occupancy, other, sideOf, zocOf } from './units';
+import { def, isLand, occupancy, other, sideOf } from './units';
+import { blockedByBond, bondsOf, zocOf } from './zoc';
 
-/** Turn from which the south edge counts as friendly to the Allies. */
 export const SOUTH_EDGE_ALLIED_TURN = 11;
+const MINED_PORTS = new Set(['1803', '2202']);
 
-export function supplySources(s: GameState, side: Side): HexId[] {
-  const occ = occupancy(s);
+export function areaFriendly(s: GameState, area: string, side: Side): boolean {
+  const ea = MAP.entryAreas[area];
+  if (!ea) return false;
+  if (ea.side === 'north') return side === 'German';
+  const owner = s.control[area] ?? 'German';
+  return owner === side;
+}
+
+export function beachheadHexes(s: GameState): HexId[] {
   const out: HexId[] = [];
-  const add = (h: HexId) => {
-    if (isLand(h) && occ.get(h) !== other(side)) out.push(h);
-  };
-  const southAllied = s.turn >= SOUTH_EDGE_ALLIED_TURN;
-  for (const [name, ea] of Object.entries(MAP.entryAreas)) {
-    const south = ea.side === 'south';
-    if (side === 'German' && (!south || !southAllied)) ea.hexes.forEach(add);
-    if (side === 'Allied' && south && southAllied) ea.hexes.forEach(add);
-    void name;
-  }
-  if (side === 'Allied') {
-    for (const b of Object.values(MAP.beaches)) add(b.hex);
-    for (const [h, d] of Object.entries(MAP.hexes)) {
-      if (d.port && !d.port.restricted && s.control[h] === 'Allied') add(h);
-    }
-  }
+  for (const u of Object.values(s.units)) if (u.where.kind === 'map' && def(u.id).cat === 'bh') out.push(u.where.hex);
   return out;
 }
 
-/** Set of hexes in supply for `side`. */
-export function suppliedHexes(s: GameState, side: Side): Set<HexId> {
+export function usablePorts(s: GameState): HexId[] {
+  const gz = zocOf(s, 'German');
+  const occ = occupancy(s);
+  return Object.entries(MAP.hexes)
+    .filter(([h, d]) => d.port && !MINED_PORTS.has(h) && s.control[h] === 'Allied' && occ.get(h) !== 'German' && (occ.get(h) === 'Allied' || !gz.has(h)))
+    .map(([h]) => h);
+}
+
+export function supplySources(s: GameState, side: Side): HexId[] {
+  const occ = occupancy(s);
+  const out = new Set<HexId>();
+  for (const [name, ea] of Object.entries(MAP.entryAreas)) {
+    if (!areaFriendly(s, name, side)) continue;
+    for (const h of ea.hexes) if (isLand(h) && occ.get(h) !== other(side)) out.add(h);
+  }
+  if (side === 'Allied') {
+    for (const h of beachheadHexes(s)) out.add(h);
+    for (const h of usablePorts(s)) out.add(h);
+  }
+  return [...out];
+}
+
+interface TraceCtx {
+  side: Side;
+  occ: Map<HexId, Side>;
+  ezoc: Set<HexId>;
+  bonds: ReturnType<typeof bondsOf>;
+  roadNet: Set<HexId>;
+}
+
+function makeCtx(s: GameState, side: Side, targets: HexId[]): TraceCtx {
   const occ = occupancy(s);
   const ezoc = zocOf(s, other(side));
-  const passable = (h: HexId) =>
-    isLand(h) && occ.get(h) !== other(side) && (!ezoc.has(h) || occ.get(h) === side);
-  const sources = supplySources(s, side);
-  // 1) Road net from the sources, unlimited length.
-  const road = new Set<HexId>(sources);
-  const stack = [...sources];
+  const bonds = bondsOf(s, other(side));
+  const zocFree = (h: HexId) => !ezoc.has(h) || occ.get(h) === side;
+  const enemyControlled = (h: HexId) => {
+    const d = MAP.hexes[h];
+    return !!d && (d.vp || d.city || d.port) && occ.get(h) !== side && (s.control[h] ?? 'German') !== side;
+  };
+  // Road portion: any length along roads from the targets, never through enemy units or EZOCs.
+  const roadNet = new Set<HexId>();
+  const stack: HexId[] = [];
+  for (const t of targets) {
+    if (occ.get(t) === other(side) || !zocFree(t)) continue;
+    roadNet.add(t);
+    stack.push(t);
+  }
   while (stack.length) {
     const cur = stack.pop()!;
     for (const n of neighbors(cur)) {
-      if (road.has(n) || !passable(n)) continue;
+      if (roadNet.has(n) || !isLand(n)) continue;
       if (!MAP.hexsides[sideKey(cur, n)]?.road) continue;
-      road.add(n);
+      if (occ.get(n) === other(side) || !zocFree(n) || enemyControlled(n)) continue;
+      if (blockedByBond(bonds, cur, n)) continue;
+      roadNet.add(n);
       stack.push(n);
     }
   }
-  // 2) Overland trace of limited length from the road net.
-  const dist = new Map<HexId, number>();
-  const queue: HexId[] = [];
-  for (const h of road) {
-    dist.set(h, 0);
-    queue.push(h);
-  }
-  while (queue.length) {
-    const cur = queue.shift()!;
-    const d = dist.get(cur)!;
-    if (d >= RULES.supply.overlandHexes) continue;
-    for (const n of neighbors(cur)) {
-      if (dist.has(n) || !passable(n)) continue;
-      dist.set(n, d + 1);
-      queue.push(n);
+  return { side, occ, ezoc, bonds, roadNet };
+}
+
+/**
+ * Overland trace from `from` to the road net (or a target). `limit` is the
+ * overland length (marsh off-road counts double); `firstMountainOk` lets the
+ * first step cross a mountain hexside (Line of Communication).
+ */
+function overland(ctx: TraceCtx, from: HexId, limit: number, firstMountainOk: boolean): boolean {
+  if (ctx.roadNet.has(from)) return true;
+  type St = { h: HexId; prevZoc: boolean };
+  const best = new Map<string, number>();
+  const zocAt = (h: HexId) => ctx.ezoc.has(h) && ctx.occ.get(h) !== ctx.side;
+  const q: { st: St; cost: number }[] = [{ st: { h: from, prevZoc: false }, cost: 0 }];
+  best.set(`${from}|0`, 0);
+  while (q.length) {
+    q.sort((a, b) => a.cost - b.cost);
+    const { st, cost } = q.shift()!;
+    for (const n of neighbors(st.h)) {
+      if (!isLand(n) || ctx.occ.get(n) === other(ctx.side)) continue;
+      if (blockedByBond(ctx.bonds, st.h, n)) continue;
+      const hs = MAP.hexsides[sideKey(st.h, n)] ?? {};
+      if (hs.mountain && !hs.road && !hs.pass && !(firstMountainOk && st.h === from)) continue;
+      const z = zocAt(n);
+      if (z && st.prevZoc) continue;
+      const c = cost + (MAP.hexes[n].terrain === 'marsh' && !hs.road ? 2 : 1);
+      if (c > limit) continue;
+      if (ctx.roadNet.has(n)) return true;
+      const key = `${n}|${z ? 1 : 0}`;
+      if ((best.get(key) ?? Infinity) <= c) continue;
+      best.set(key, c);
+      q.push({ st: { h: n, prevZoc: z }, cost: c });
     }
   }
-  return new Set(dist.keys());
+  return false;
+}
+
+export interface SupplyChecker {
+  inSupply(hex: HexId): boolean;
+  hasLoc(hex: HexId): boolean;
+}
+
+export function supplyChecker(s: GameState, side: Side): SupplyChecker {
+  const ctx = makeCtx(s, side, supplySources(s, side));
+  const cacheS = new Map<HexId, boolean>();
+  const cacheL = new Map<HexId, boolean>();
+  return {
+    inSupply(hex) {
+      if (!cacheS.has(hex)) cacheS.set(hex, overland(ctx, hex, RULES.supply.overlandHexes, false));
+      return cacheS.get(hex)!;
+    },
+    hasLoc(hex) {
+      if (!cacheL.has(hex)) cacheL.set(hex, overland(ctx, hex, 999, true));
+      return cacheL.get(hex)!;
+    },
+  };
+}
+
+/** Can a Line of Supply be traced from `hex` to any of `targets`? */
+export function losTo(s: GameState, side: Side, hex: HexId, targets: HexId[]): boolean {
+  if (!targets.length) return false;
+  return overland(makeCtx(s, side, targets), hex, RULES.supply.overlandHexes, false);
 }
 
 export function salernoPortOpen(s: GameState): boolean {
+  if (s.control['2707'] !== 'Allied') return false;
   for (const u of Object.values(s.units)) {
-    if (u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2707') <= RULES.supply.salernoPortOpenRadius) {
-      return false;
-    }
+    if (u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2707') <= RULES.supply.salernoPortOpenRadius) return false;
   }
   return true;
 }

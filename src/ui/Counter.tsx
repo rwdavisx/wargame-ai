@@ -1,6 +1,11 @@
 import { memo } from 'react';
 import { def, stepsRemaining, values } from '../engine/units';
-import type { UnitState } from '../engine/types';
+import type { Category, UnitState } from '../engine/types';
+
+const SYMBOL: Record<Category, string> = {
+  infantry: 'inf', garrison: 'inf', bh: 'bh', motorized: 'mech', pg: 'mech', engineer: 'eng', airborne: 'para', glider: 'para',
+  ranger: 'commando', recon: 'recon', divAsu: 'asu', corpsAsu: 'asu', nebelwerfer: 'asu', tank: 'armor',
+};
 
 const FILL: Record<string, string> = { US: '#7d8f4c', BR: '#cdb07a', CN: '#cdb07a', GE: '#9aa3a8' };
 const TEXT: Record<string, string> = { US: '#14180c', BR: '#22190a', CN: '#22190a', GE: '#121518' };
@@ -39,6 +44,8 @@ function Symbol({ type, x, y, w, h }: { type: string; x: number; y: number; w: n
       return <>{box}<path d={`M${x + w * 0.2},${y + h * 0.7} v-${h * 0.35} h${w * 0.6} v${h * 0.35} M${x + w / 2},${y + h * 0.35} v${h * 0.35}`} {...st} /></>;
     case 'asu':
       return <>{box}<circle cx={x + w / 2} cy={y + h / 2} r={h * 0.18} fill="#111" /></>;
+    case 'bh':
+      return <>{box}<path d={`M${x},${y + h * 0.7} q${w / 4},-${h * 0.25} ${w / 2},0 t${w / 2},0`} {...st} /></>;
     default:
       return box;
   }
@@ -61,7 +68,9 @@ export const Counter = memo(function Counter({ unit, x, y, size, selected, dim, 
   const fill = FILL[d.nation];
   const text = TEXT[d.nation];
   const half = size / 2;
-  const label = d.type === 'asu' ? `R${d.asuRange}` : `${v.attack}-${v.defense}-${v.move}`;
+  const label = d.asu ? `R${d.asuRange}` : `${v.attack}-${v.defense}-${v.move}`;
+  const symbol = d.cat === 'infantry' && d.formation === 'Commando Bde' ? 'commando' : SYMBOL[d.cat];
+  const mark = unit.status === 'disrupted' ? 'D' : unit.status === 'fullRetreat' ? 'FR' : unit.halfEff ? '½' : '';
   return (
     <g transform={`translate(${x - half},${y - half})`} opacity={dim ? 0.55 : 1}>
       {count && count > 1 ? (
@@ -74,17 +83,17 @@ export const Counter = memo(function Counter({ unit, x, y, size, selected, dim, 
         fill={fill}
         stroke={selected ? '#ffd84a' : '#222'}
         strokeWidth={selected ? 2.4 : 0.8}
-        strokeDasharray={d.freeStack ? '2 1.5' : undefined}
+        strokeDasharray={d.silhouette || d.sp === 0 ? '2 1.5' : undefined}
       />
       {d.nation === 'CN' && <rect width={size} height={3} fill="#b3261e" />}
       {reduced && <rect y={size - 3} width={size} height={3} fill="#c0392b" />}
-      <Symbol type={d.type} x={size * 0.24} y={size * 0.12} w={size * 0.52} h={size * 0.34} />
+      <Symbol type={symbol} x={size * 0.24} y={size * 0.12} w={size * 0.52} h={size * 0.34} />
       <text x={half} y={size * 0.82} fontSize={size * 0.27} textAnchor="middle" fill={text} fontWeight={600}>
         {label}
       </text>
-      {unit.disrupted && (
-        <text x={size - 2} y={size * 0.3} fontSize={size * 0.3} textAnchor="end" fill="#b3261e" fontWeight={700}>
-          D
+      {mark && (
+        <text x={size - 2} y={size * 0.3} fontSize={size * 0.28} textAnchor="end" fill="#b3261e" fontWeight={700}>
+          {mark}
         </text>
       )}
       {unit.outOfSupply && (
@@ -92,7 +101,7 @@ export const Counter = memo(function Counter({ unit, x, y, size, selected, dim, 
           ⊘
         </text>
       )}
-      {d.type === 'asu' && unit.fired && <line x1={2} y1={size - 2} x2={size - 2} y2={2} stroke="#b3261e" strokeWidth={2} />}
+      {d.asu && unit.fired && <line x1={2} y1={size - 2} x2={size - 2} y2={2} stroke="#b3261e" strokeWidth={2} />}
       {count && count > 1 ? (
         <g>
           <circle cx={size} cy={0} r={size * 0.2} fill="#111" />
@@ -101,7 +110,7 @@ export const Counter = memo(function Counter({ unit, x, y, size, selected, dim, 
           </text>
         </g>
       ) : null}
-      <title>{`${d.name} (${d.formation ?? ''}) ${label}${stepsRemaining(unit) < d.steps.length ? ' reduced' : ''}`}</title>
+      <title>{`${d.name} (${d.formation}) ${label}${stepsRemaining(unit) < d.steps.length ? ' reduced' : ''}${unit.status !== 'good' ? ` ${unit.status}` : ''}${unit.halfEff ? ' ½ effective' : ''}`}</title>
     </g>
   );
 });

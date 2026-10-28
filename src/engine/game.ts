@@ -1,16 +1,28 @@
-import { MAP, RULES, SCENARIOS, UNIT_DEFS, UNIT_SETUP } from './data';
-import { neighbors, type HexId } from './hex';
-import { resolveAttack } from './combat';
-import { entryDestinations, legalDestinations, pathTo, STOPPED } from './movement';
+import { MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP, WITHDRAWAL, BATTLESHIPS_TURN } from './data';
+import { distance, neighbors, sideKey, type HexId } from './hex';
+import {
+  applyAdvance, computeOdds, resolveAttack, resolveDefense, resolveDisengage, advanceDestinations,
+} from './combat';
+import { eliminate, loseStep, takeSteps, stepValue } from './losses';
+import { allowedModes, cannotMove, entryDestinations, legalDestinations, pathTo, weatherBox } from './movement';
+import { eliminateExposedFullRetreat, triggerFullRetreats } from './retreat';
 import { rollD6 } from './rng';
-import { salernoPortOpen, suppliedHexes } from './supply';
-import type { Action, GameState, LogEntry, Phase, ReplPool, Side, UnitState } from './types';
-import { adjacentEnemy, canStack, def, other, sideOf, stepsRemaining, unitsAt } from './units';
+import { areaFriendly, beachheadHexes, losTo, salernoPortOpen, supplyChecker, usablePorts, SOUTH_EDGE_ALLIED_TURN } from './supply';
+import type { Action, GameState, LogEntry, MoveMode, Phase, ReplPool, ReplType, Side, UnitState } from './types';
+import {
+  canStack, def, goodOrder, isLand, occupancy, other, sideOf, stackPoints, stepsRemaining, unitsAt, values,
+} from './units';
+import { bondsOf, zocOf } from './zoc';
 
-export const INPUT_PHASES: Phase[] = ['initial', 'movement', 'combat'];
+export const INPUT_PHASES: Phase[] = ['invasion', 'initial', 'movement', 'combat'];
+
+export class IllegalAction extends Error {}
+function need(cond: unknown, msg: string): asserts cond {
+  if (!cond) throw new IllegalAction(msg);
+}
 
 export function log(s: GameState, text: string, kind: LogEntry['kind'] = 'info'): void {
-  s.log.push({ turn: s.turn, side: s.phase === 'weather' ? null : s.activeSide, phase: s.phase, text, kind });
+  s.log.push({ turn: s.turn, side: s.phase === 'weather' || s.phase === 'victory' ? null : s.activeSide, phase: s.phase, text, kind });
 }
 
 export function benchmark(turn: number): number | null {
@@ -20,6 +32,19 @@ export function benchmark(turn: number): number | null {
 export function replPool(unitId: string): ReplPool {
   const n = def(unitId).nation;
   return n === 'GE' ? 'German' : n === 'US' ? 'US' : 'BR';
+}
+
+/** The side that must act next (the defender answers a Determined Defense choice). */
+export function actingSide(s: GameState): Side {
+  return s.pendingDefense ? s.pendingDefense.defenderSide : s.activeSide;
+}
+
+export function currentWeather(s: GameState) {
+  return weatherBox(s);
+}
+
+function emptyRepl(): Record<ReplType, number> {
+  return { inf: 0, special: 0, armor: 0 };
 }
 
 // ------------------------------------------------------------------ setup
@@ -32,42 +57,32 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647): Gam
     const st = UNIT_SETUP[id];
     let where: UnitState['where'];
     if (st.start?.hex) where = { kind: 'map', hex: st.start.hex };
-    else if (st.start?.beach) where = { kind: 'map', hex: MAP.beaches[st.start.beach].hex };
-    else if (st.start?.reserve) where = { kind: 'reserve' };
+    else if (st.start?.beach) where = { kind: 'landing', beach: st.start.beach };
+    else if (st.start?.followUp) where = { kind: 'followUp', corps: st.start.followUp };
+    else if (st.start?.remnant) where = { kind: 'remnantPool' };
     else if (st.arrive) where = { kind: 'pending', turn: st.arrive.turn, at: st.arrive.at };
     else where = { kind: 'removed', reason: 'no set-up' };
     units[id] = {
-      id, where, stepsLost: 0, disrupted: false, mpSpent: null, strategic: false,
-      attacked: false, outOfSupply: false, fired: false, frozenUntil: st.frozenUntil,
+      id, where, stepsLost: 0, status: 'good', halfEff: false, repl: false, truck: false, outOfSupply: false, isolated: false,
+      fired: false, frozenUntil: st.frozenUntil, mpSpent: null, moveMode: null, tacHexes: 0, stopped: false, crossedMountain: false,
+      hexesMoved: 0, attacked: false, retreatedThisPhase: false, autoDs: false,
     };
   }
   const control: Record<string, Side> = {};
-  for (const [h, d] of Object.entries(MAP.hexes)) if (d.vp || d.port) control[h] = 'German';
+  for (const [h, d] of Object.entries(MAP.hexes)) if (d.vp || d.port || d.city) control[h] = 'German';
+  for (const [a, ea] of Object.entries(MAP.entryAreas)) if (ea.side !== 'north') control[a] = 'German';
   const s: GameState = {
-    scenarioId,
-    turn: 1,
-    lastTurn: sc.lastTurn,
-    phase: 'weather',
-    activeSide: RULES.turnOrder[0],
-    weather: 0,
-    supplyPoints: { Allied: 0, German: 0 },
-    support: { Allied: { air: [], naval: [] }, German: { air: [], naval: [] } },
-    units,
-    control,
-    replacements: { German: { inf: 0, armor: 0, any: 0 }, BR: { inf: 0, armor: 0, any: 0 }, US: { inf: 0, armor: 0, any: 0 } },
-    pendingAdvance: null,
-    combats: [],
-    log: [],
-    rng: seed >>> 0,
-    winner: null,
-    exitVp: 0,
-    landings: {},
-    seq: 0,
+    scenarioId, turn: 1, lastTurn: sc.lastTurn, phase: 'invasion', activeSide: 'Allied', weather: 0,
+    supplyPoints: { Allied: STARTING_SP.Allied, German: STARTING_SP.German },
+    support: { ready: ['US-air', 'US-naval', 'BR-air', 'BR-naval'], battleships: 0 },
+    units, control, cityBattle: {},
+    replacements: { German: emptyRepl(), BR: emptyRepl(), US: emptyRepl() },
+    landingPoints: RULES.landingPoints.perTurn, portUse: {}, trucksUsed: 0,
+    pendingDefense: null, pendingAdvance: null, autoDsQueue: [], combats: [], log: [], rng: seed >>> 0,
+    winner: null, northVp: {}, abandoned8th: false, seq: 0,
   };
-  for (const u of Object.values(units)) if (u.where.kind === 'map') claimHex(s, u.where.hex, sideOf(u));
   log(s, `${sc.name} begins. ${RULES.turnNotes[1] ?? ''}`.trim());
-  enterPhase(s);
-  advancePhase(s);
+  runInvasion(s);
   return s;
 }
 
@@ -75,19 +90,42 @@ function claimHex(s: GameState, hex: HexId, side: Side): void {
   if (hex in s.control && s.control[hex] !== side) {
     s.control[hex] = side;
     const d = MAP.hexes[hex];
-    if (d.vp) log(s, `${side} takes ${d.city ?? d.town ?? hex} (${d.vp} VP).`, 'victory');
+    if (d?.vp) log(s, `${side} takes ${d.city ?? d.town ?? hex} (${d.vp} VP).`, 'victory');
   }
+}
+
+// ------------------------------------------------------------------ turn 1 invasion
+
+function runInvasion(s: GameState): void {
+  for (const [name, beach] of Object.entries(MAP.beaches)) {
+    const ids = Object.values(s.units).filter((u) => u.where.kind === 'landing' && u.where.beach === name).map((u) => u.id);
+    if (!ids.length) continue;
+    const col = name === 'Maiori' || name === 'Vietri' ? 'Rangers' : name === 'Uncle' ? 'Uncle' : 'Other';
+    const roll = rollD6(s);
+    const res = RULES.invasion[col][roll - 1];
+    const lose = res.startsWith('-1');
+    const adv = Number(res.split(',').pop());
+    for (const id of ids) {
+      const u = s.units[id];
+      u.where = { kind: 'map', hex: beach.hex };
+      u.moveMode = 'tactical';
+      u.tacHexes = 1 + (2 - adv); // the beach hex is the first hex of the advance
+      u.stopped = adv < 2 || def(id).cat === 'bh';
+    }
+    const notes: string[] = [];
+    if (lose) takeSteps(s, ids.filter((id) => def(id).cat !== 'bh'), 1, 'owner', notes);
+    claimHex(s, beach.hex, 'Allied');
+    log(s, `${name} beach: invasion roll ${roll} → ${lose ? 'one step lost, ' : ''}advance ${adv}. ${notes.join('; ')}`, 'dice');
+  }
+  log(s, 'Invasion Combat Phase: units with an advance of 2 may move one more hex; the Commandos may attack Salerno.');
 }
 
 // ------------------------------------------------------------------ phase engine
 
-function phaseOrder(side: Side): Phase[] {
-  const p: Phase[] = ['initial', 'movement', 'combat', 'recovery', 'supply'];
-  if (side === 'Allied') p.push('victory');
-  return p;
+function phaseOrder(): Phase[] {
+  return ['initial', 'movement', 'combat', 'recovery', 'supply'];
 }
 
-/** Moves to the next phase (and turn), running automatic phases, until input is needed. */
 export function advancePhase(s: GameState): void {
   const over = () => (s.phase as Phase) === 'gameOver';
   for (let guard = 0; guard < 40; guard++) {
@@ -100,41 +138,62 @@ export function advancePhase(s: GameState): void {
 }
 
 function stepPhase(s: GameState): void {
-  if (s.phase === 'weather') {
+  if (s.phase === 'invasion' || s.phase === 'weather') {
+    s.activeSide = 'German';
     s.phase = 'initial';
-    s.activeSide = RULES.turnOrder[0];
     return;
   }
-  const order = phaseOrder(s.activeSide);
-  const i = order.indexOf(s.phase);
-  if (i < order.length - 1) s.phase = order[i + 1];
-  else if (s.activeSide === RULES.turnOrder[0]) {
-    s.activeSide = RULES.turnOrder[1];
-    s.phase = 'initial';
-  } else if (s.turn >= s.lastTurn) {
-    endGame(s);
-  } else {
+  if (s.phase === 'victory') {
+    if (s.turn >= s.lastTurn) {
+      endGame(s);
+      return;
+    }
     s.turn += 1;
     s.phase = 'weather';
+    return;
   }
+  const order = phaseOrder();
+  const i = order.indexOf(s.phase);
+  if (i < order.length - 1) s.phase = order[i + 1];
+  else if (s.activeSide === 'German') {
+    s.activeSide = 'Allied';
+    s.phase = 'initial';
+  } else s.phase = 'victory';
 }
 
 function enterPhase(s: GameState): void {
+  for (const u of Object.values(s.units)) u.retreatedThisPhase = false;
   switch (s.phase) {
     case 'weather':
       return doWeather(s);
     case 'initial':
       return doInitial(s);
-    case 'movement':
+    case 'movement': {
+      const notes: string[] = [];
+      eliminateExposedFullRetreat(s, notes);
+      if (notes.length) log(s, `Full Retreat units caught next to the enemy: ${notes.join('; ')}`);
       for (const u of Object.values(s.units)) {
+        if (sideOf(u) !== s.activeSide) continue;
         u.mpSpent = null;
-        u.strategic = false;
+        u.moveMode = null;
+        u.tacHexes = 0;
+        u.stopped = false;
+        u.crossedMountain = false;
+        u.hexesMoved = 0;
       }
-      s.landings = {};
+      s.landingPoints = RULES.landingPoints.perTurn;
+      s.portUse = {};
+      s.trucksUsed = 0;
+      s.portsAtStart = usablePorts(s);
       return;
-    case 'combat':
-      for (const u of Object.values(s.units)) u.attacked = false;
+    }
+    case 'combat': {
+      const notes: string[] = [];
+      eliminateExposedFullRetreat(s, notes);
+      if (notes.length) log(s, `Full Retreat units caught next to the enemy: ${notes.join('; ')}`);
+      for (const u of Object.values(s.units)) if (sideOf(u) === s.activeSide) u.attacked = false;
       return;
+    }
     case 'recovery':
       return doRecovery(s);
     case 'supply':
@@ -144,330 +203,746 @@ function enterPhase(s: GameState): void {
   }
 }
 
-function doWeather(s: GameState): void {
-  if (s.turn > 1) {
-    const roll = rollD6(s);
-    const adv = RULES.weather.advanceByRoll[String(roll)] ?? 0;
-    const n = RULES.weather.track.length;
-    s.weather = RULES.weather.wraps ? (s.weather + adv) % n : Math.min(n - 1, s.weather + adv);
-    log(s, `Turn ${s.turn}. Weather roll ${roll}: marker moves ${adv}, now box ${RULES.weather.track[s.weather].box} (${RULES.weather.track[s.weather].name}).`, 'dice');
-  } else {
-    log(s, 'Turn 1: no weather roll; weather is box A (Clear).');
+function readySupport(s: GameState): void {
+  const wb = weatherBox(s);
+  const ready: string[] = [];
+  for (const n of ['US', 'BR']) {
+    if (wb.air.includes(n)) ready.push(`${n}-air`);
+    if (wb.naval.includes(n)) ready.push(`${n}-naval`);
   }
-  const wb = RULES.weather.track[s.weather];
-  s.support.Allied.air = wb.air.filter((n) => n !== 'GE');
-  s.support.Allied.naval = [...wb.naval];
-  s.support.German.air = wb.air.filter((n) => n === 'GE');
-  s.support.German.naval = [];
+  if (wb.air.includes('GE')) {
+    const alliedField = s.control['2811'] === 'Allied' &&
+      !Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2811') <= 3);
+    if (!alliedField) ready.push('GE-air');
+  }
+  s.support.ready = ready;
+}
+
+function doWeather(s: GameState): void {
+  const roll = rollD6(s);
+  const adv = RULES.weather.advanceByRoll[String(roll)] ?? 0;
+  const n = RULES.weather.track.length;
+  s.weather = (s.weather + adv) % n;
+  const wb = weatherBox(s);
+  log(s, `Turn ${s.turn}. Weather roll ${roll}: marker moves ${adv}, now box ${wb.box} (${wb.name}).`, 'dice');
+  readySupport(s);
+  if (s.turn === BATTLESHIPS_TURN) {
+    s.support.battleships = 2;
+    log(s, 'HMS Valiant and Warspite arrive (+1 DRM, two uses, with a naval support marker).');
+  }
   let allied = wb.alliedSupply;
   if (wb.alliedPortBonus && salernoPortOpen(s)) allied += 1;
-  const cap = RULES.supply.supplyPointCap;
-  s.supplyPoints.Allied = Math.min(cap, s.supplyPoints.Allied + allied);
-  s.supplyPoints.German = Math.min(cap, s.supplyPoints.German + wb.germanSupply);
+  s.supplyPoints.Allied = Math.min(RULES.supply.cap, s.supplyPoints.Allied + allied);
+  s.supplyPoints.German = Math.min(RULES.supply.cap, s.supplyPoints.German + wb.germanSupply);
   log(s, `Supply points: Allied +${allied} (${s.supplyPoints.Allied}), German +${wb.germanSupply} (${s.supplyPoints.German}).`);
-  const note = RULES.turnNotes[s.turn];
-  if (note && s.turn > 1) log(s, note);
+  if (RULES.turnNotes[s.turn]) log(s, RULES.turnNotes[s.turn]);
 }
 
 function doInitial(s: GameState): void {
   const side = s.activeSide;
+  const notes: string[] = [];
+  if (side === 'German' && s.turn === WITHDRAWAL.turn) withdraw16Pz(s);
+  if (side === 'Allied' && s.turn === SOUTH_EDGE_ALLIED_TURN) {
+    for (const a of ['S1', 'S2', 'S3']) {
+      s.control[a] = 'Allied';
+      for (const u of Object.values(s.units)) {
+        if (u.where.kind === 'entry' && (u.where.area === a || u.where.area === 'S') && sideOf(u) === 'German') eliminate(s, u, notes);
+      }
+    }
+    log(s, `The south map edge is now friendly to the Allies. ${notes.join('; ')}`);
+  }
   for (const u of Object.values(s.units)) {
     if (sideOf(u) !== side) continue;
-    const st = UNIT_SETUP[u.id];
     if (u.where.kind === 'pending' && u.where.turn <= s.turn) {
       const at = u.where.at;
-      if (at === 'reserve') u.where = { kind: 'reserve' };
-      else u.where = { kind: 'entry', area: at };
-      log(s, `Reinforcement: ${def(u.id).name} available (${at === 'reserve' ? 'floating reserve' : at}).`);
-    }
-    if (u.where.kind === 'transit' && u.where.arrive <= s.turn) {
-      u.where = { kind: 'entry', area: u.where.to };
-    }
-    if (st.removeOnTurn && st.removeOnTurn <= s.turn && u.where.kind !== 'eliminated' && u.where.kind !== 'removed') {
-      u.where = { kind: 'removed', reason: 'withdrawn' };
-      log(s, `${def(u.id).name} is withdrawn from play.`);
+      u.where = at === 'reserve' ? { kind: 'reserve' } : { kind: 'entry', area: at === 'hex:3303' ? 'airdrop509' : at };
+      log(s, `Reinforcement: ${def(u.id).name} ${at === 'reserve' ? 'enters the Floating Reserve' : at.startsWith('hex') || at === 'airdrop' ? 'is ready to drop' : `arrives at ${at}`}.`);
     }
     if (u.frozenUntil && s.turn >= u.frozenUntil) {
       u.frozenUntil = undefined;
       log(s, `${def(u.id).name} is released.`);
     }
+    if (def(u.id).cat === 'nebelwerfer' && u.fired && u.where.kind === 'map' && goodOrder(u) && supplyChecker(s, side).inSupply(u.where.hex)) {
+      u.fired = false;
+      log(s, `${def(u.id).name} is ready again.`);
+    }
   }
+  // Replacements: used this phase or lost.
+  for (const p of ['German', 'BR', 'US'] as ReplPool[]) s.replacements[p] = emptyRepl();
   const sched = RULES.replacementSchedule[s.turn];
   if (sched) {
     const pools: ReplPool[] = side === 'German' ? ['German'] : ['BR', 'US'];
     for (const p of pools) {
       const add = sched[p];
       if (!add) continue;
-      for (const k of ['inf', 'armor', 'any'] as const) s.replacements[p][k] += add[k] ?? 0;
-      log(s, `${p === 'German' ? 'German' : p} replacements arrive: ${Object.entries(add).map(([k, v]) => `${v} ${k}`).join(', ')}.`);
+      for (const k of ['inf', 'armor', 'special'] as ReplType[]) s.replacements[p][k] += add[k] ?? 0;
+      log(s, `${p === 'BR' ? 'Commonwealth' : p} replacements: ${Object.entries(add).map(([k, v]) => `${v} ${k}`).join(', ')} (use them this phase).`);
     }
   }
 }
 
+function withdraw16Pz(s: GameState): void {
+  const notes: string[] = [];
+  const sc = supplyChecker(s, 'German');
+  let total = 0;
+  const asu = s.units['GE-16Art'];
+  if (asu && asu.where.kind === 'map') {
+    total += values(asu).defense;
+    asu.where = { kind: 'removed', reason: '16th Panzer Division withdrawn' };
+    notes.push(def(asu.id).name);
+  }
+  const pick = (pref: boolean) =>
+    Object.values(s.units)
+      .filter((u) => u.where.kind === 'map' && sideOf(u) === 'German' && !def(u.id).asu && sc.inSupply(u.where.hex) &&
+        (def(u.id).formation === WITHDRAWAL.prefer) === pref)
+      .sort((a, b) => values(b).defense - values(a).defense);
+  for (const group of [pick(true), pick(false)]) {
+    for (const u of group) {
+      if (total >= WITHDRAWAL.defense) break;
+      total += values(u).defense;
+      u.where = { kind: 'removed', reason: '16th Panzer Division withdrawn' };
+      notes.push(def(u.id).name);
+    }
+  }
+  log(s, `16th Panzer Division withdrawal (${total} defense): ${notes.join(', ')}.`);
+}
+
 function doRecovery(s: GameState): void {
   const side = s.activeSide;
+  const ezoc = zocOf(s, other(side));
   for (const u of Object.values(s.units)) {
-    if (u.where.kind !== 'map' || sideOf(u) !== side || !u.disrupted) continue;
-    if (RULES.recovery.autoRallyIfNotAdjacentToEnemy && !adjacentEnemy(s, u.where.hex, side)) {
-      u.disrupted = false;
-      log(s, `${def(u.id).name} rallies.`);
-    } else {
+    if (sideOf(u) !== side) continue;
+    u.repl = false;
+    u.halfEff = false;
+    u.truck = false;
+    if (u.where.kind !== 'map' && u.where.kind !== 'entry') continue;
+    if (u.status === 'good') continue;
+    const inZoc = u.where.kind === 'map' && ezoc.has(u.where.hex);
+    let recover = !inZoc;
+    if (inZoc) {
+      const d = def(u.id);
+      const hex = (u.where as { hex: HexId }).hex;
+      const drm = (MAP.hexes[hex].city || unitsAt(s, hex).some((x) => def(x.id).cat === 'bh') ? RULES.rally.bhOrCityDrm : 0) +
+        (d.elite ? RULES.rally.eliteDrm : 0) + (d.lowQuality ? RULES.rally.lowQualityDrm : 0);
       const r = rollD6(s);
-      if (r >= RULES.recovery.rallyRollNeeded) {
-        u.disrupted = false;
-        log(s, `${def(u.id).name} rallies (roll ${r}).`, 'dice');
-      } else log(s, `${def(u.id).name} fails to rally (roll ${r}).`, 'dice');
+      recover = RULES.rally.success.includes(Math.max(1, Math.min(6, r + drm)));
+      log(s, `${d.name} rally roll ${r}${drm ? `+${drm}` : ''}: ${recover ? 'recovers' : 'no change'}.`, 'dice');
     }
+    if (recover) u.status = u.status === 'fullRetreat' ? 'disrupted' : 'good';
+  }
+  for (const h of Object.keys(s.cityBattle)) {
+    const holders = unitsAt(s, h);
+    const enemyNear = holders.length && neighbors(h).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== sideOf(holders[0])));
+    if (!holders.length || !enemyNear) delete s.cityBattle[h];
   }
 }
 
 function doSupply(s: GameState): void {
   const side = s.activeSide;
-  const supplied = suppliedHexes(s, side);
-  const wb = RULES.weather.track[s.weather];
+  const sc = supplyChecker(s, side);
+  const wb = weatherBox(s);
+  const cityTargets = Object.entries(MAP.hexes).filter(([h, d]) => d.city && (s.control[h] ?? 'German') === side).map(([h]) => h);
+  const corpsHexes = Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === side && def(u.id).cat === 'corpsAsu')
+    .map((u) => (u.where as { hex: HexId }).hex);
+  const nonAsuHexes = Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === side && !def(u.id).asu)
+    .map((u) => (u.where as { hex: HexId }).hex);
   for (const u of Object.values(s.units)) {
     if (u.where.kind !== 'map' || sideOf(u) !== side) continue;
-    const ok = supplied.has(u.where.hex);
+    const hex = u.where.hex;
+    if (u.droppedTurn === s.turn) continue; // airborne units are supplied on the turn they drop
+    const ok = sc.inSupply(hex);
     u.outOfSupply = !ok;
-    if (ok || def(u.id).type === 'asu') continue;
-    const drm = side === 'German' && wb.clear ? RULES.supply.alliedClearWeatherDrm : 0;
+    const isolated = !ok && !sc.hasLoc(hex);
+    if (isolated && !u.isolated) u.isolatedSince = s.turn;
+    u.isolated = isolated;
+    if (!isolated) continue;
+    const notes: string[] = [];
+    if (def(u.id).asu) {
+      const covered = unitsAt(s, hex).some((x) => sideOf(x) === side && !def(x.id).asu) || losTo(s, side, hex, nonAsuHexes);
+      if (!covered) {
+        eliminate(s, u, notes);
+        log(s, `Isolated: ${notes.join('; ')}.`);
+      }
+      continue;
+    }
+    if (u.isolatedSince === s.turn) continue;
+    if (!neighbors(hex).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== side && !def(x.id).asu))) continue;
+    const drm = (losTo(s, side, hex, [...cityTargets, ...corpsHexes]) ? RULES.isolation.cityOrCorpsDrm : 0) +
+      (side === 'Allied' && wb.clear ? RULES.isolation.alliedClearWeatherDrm : 0);
     const r = rollD6(s);
-    if (r + drm >= RULES.supply.isolationLossOn) {
-      const notes: string[] = [];
-      u.stepsLost += 1;
-      if (stepsRemaining(u) <= 0) {
-        u.where = { kind: 'eliminated' };
-        notes.push('eliminated');
-      } else notes.push('loses a step');
-      log(s, `${def(u.id).name} is isolated; attrition roll ${r}${drm ? `+${drm}` : ''}: ${notes.join(', ')}.`, 'dice');
-    } else log(s, `${def(u.id).name} is isolated; attrition roll ${r}${drm ? `+${drm}` : ''}: no loss.`, 'dice');
+    const eff = Math.max(1, Math.min(6, r + drm));
+    if (RULES.isolation.lossOn.includes(eff)) {
+      loseStep(s, u, notes, true);
+      log(s, `${def(u.id).name} is isolated: attrition roll ${r}${drm ? `+${drm}` : ''}: ${notes.join('; ')}.`, 'dice');
+    } else log(s, `${def(u.id).name} is isolated: attrition roll ${r}${drm ? `+${drm}` : ''}: no effect.`, 'dice');
   }
+  // Spend supply points to ready fired ASUs (second chance this turn).
+  const asus = Object.values(s.units)
+    .filter((u) => u.where.kind === 'map' && sideOf(u) === side && def(u.id).asu && def(u.id).cat !== 'nebelwerfer' && u.fired && goodOrder(u) &&
+      !u.outOfSupply)
+    .sort((a, b) => (def(a.id).cat === 'corpsAsu' ? -1 : 0) - (def(b.id).cat === 'corpsAsu' ? -1 : 0));
+  for (const u of asus) {
+    if (s.supplyPoints[side] < 1) break;
+    s.supplyPoints[side] -= 1;
+    u.fired = false;
+    log(s, `${def(u.id).name} readied in the supply phase (1 SP).`);
+  }
+}
+
+export function vpBreakdown(s: GameState, final = false): { total: number; parts: string[] } {
+  const parts: string[] = [];
+  let vp = 0;
+  const sc = supplyChecker(s, 'Allied');
+  for (const [h, d] of Object.entries(MAP.hexes)) {
+    if (!d.vp) continue;
+    const allied = s.control[h] === 'Allied';
+    if (allied && sc.inSupply(h)) {
+      vp += d.vp;
+      parts.push(`${d.city ?? d.town ?? h} +${d.vp}`);
+    } else if (final && !allied && !supplyChecker(s, 'German').hasLoc(h)) {
+      vp += d.vp;
+      parts.push(`${d.city ?? d.town ?? h} (isolated) +${d.vp}`);
+    }
+  }
+  for (const area of ['N1', 'N2']) {
+    if (s.northVp[area]) {
+      vp += MAP.entryAreas[area].vp ?? 0;
+      parts.push(`${area} +${MAP.entryAreas[area].vp}`);
+    }
+  }
+  for (const u of Object.values(s.units)) {
+    if (u.where.kind !== 'eliminated') continue;
+    const d = def(u.id);
+    if (d.side === 'Allied' && (d.cat === 'airborne' || d.cat === 'glider') && d.sp >= 2) {
+      vp -= 1;
+      parts.push(`${d.name} lost -1`);
+    }
+    if (d.asu) {
+      vp += d.side === 'German' ? 1 : -1;
+      parts.push(`${d.name} lost ${d.side === 'German' ? '+1' : '-1'}`);
+    }
+    if (d.cat === 'bh' && !(final && s.scenarioId === 'campaign')) {
+      vp -= 1;
+      parts.push(`${d.name} lost -1`);
+    }
+  }
+  return { total: vp, parts };
 }
 
 export function alliedVp(s: GameState): number {
-  let vp = 0;
-  for (const [h, side] of Object.entries(s.control)) {
-    if (side === 'Allied') vp += MAP.hexes[h]?.vp ?? 0;
-  }
-  for (const [name, ea] of Object.entries(MAP.entryAreas)) {
-    if (ea.vp && s.control[name] === 'Allied') vp += ea.vp;
-  }
-  return vp;
+  return vpBreakdown(s).total;
 }
 
 function doVictoryCheck(s: GameState): void {
+  updateNorthVp(s);
   const vp = alliedVp(s);
   const b = benchmark(s.turn);
-  log(s, `Victory check: Allied ${vp} VP${b !== null ? ` vs benchmark ${b}` : ''}.`, 'victory');
-  if (b !== null && RULES.suddenDeathBelowBenchmark && vp < b && s.turn < s.lastTurn) {
+  log(s, `Victory check: Allied ${vp} VP${b !== null ? ` (benchmark ${b})` : ''}.`, 'victory');
+  if (b === null) return;
+  if (vp >= b + RULES.automaticMargin || vp >= RULES.automaticAlliedVp) {
+    s.winner = 'Allied';
+    s.victoryNote = `Automatic Allied victory: ${vp} VP against a benchmark of ${b}.`;
+  } else if (vp <= b - RULES.automaticMargin) {
     s.winner = 'German';
-    s.victoryNote = `Allied VP (${vp}) fell below the turn ${s.turn} benchmark (${b}).`;
+    s.victoryNote = `Automatic German victory: the Allies have only ${vp} VP against a benchmark of ${b}.`;
+  }
+  if (s.winner) {
     s.phase = 'gameOver';
-    log(s, `German victory: ${s.victoryNote}`, 'victory');
+    log(s, s.victoryNote!, 'victory');
   }
 }
 
 function endGame(s: GameState): void {
-  const vp = alliedVp(s);
-  const b = benchmark(s.turn) ?? 0;
-  s.winner = vp >= b ? 'Allied' : vp >= b - RULES.drawMargin ? 'draw' : 'German';
-  s.victoryNote = `Final Allied VP ${vp} vs benchmark ${b}.`;
+  const { total } = vpBreakdown(s, true);
+  const need = s.scenarioId === 'short' ? 8 : 20;
+  s.winner = total >= need ? 'Allied' : 'German';
+  s.victoryNote = `Final Allied VP ${total} (needed ${need}).`;
   s.phase = 'gameOver';
-  log(s, `${s.winner === 'draw' ? 'Draw' : `${s.winner} victory`}. ${s.victoryNote}`, 'victory');
+  log(s, `${s.winner} victory. ${s.victoryNote}`, 'victory');
+}
+
+function updateNorthVp(s: GameState): void {
+  const sc = supplyChecker(s, 'Allied');
+  for (const area of ['N1', 'N2']) {
+    if (s.northVp[area]) continue;
+    const here = Object.values(s.units).filter((u) => u.where.kind === 'entry' && u.where.area === area && sideOf(u) === 'Allied' && !def(u.id).army8);
+    const att = here.reduce((a, u) => a + values(u).attack, 0);
+    if (here.length >= 2 && att >= 6 && MAP.entryAreas[area].hexes.some((h) => sc.inSupply(h))) {
+      s.northVp[area] = true;
+      log(s, `The Allies reach ${area}: +${MAP.entryAreas[area].vp} VP.`, 'victory');
+    }
+  }
 }
 
 // ------------------------------------------------------------------ actions
-
-export class IllegalAction extends Error {}
-
-function need(cond: unknown, msg: string): asserts cond {
-  if (!cond) throw new IllegalAction(msg);
-}
 
 function ownUnit(s: GameState, id: string): UnitState {
   const u = s.units[id];
   need(u, `Unknown unit ${id}`);
   need(sideOf(u) === s.activeSide, `${def(id).name} is not the active player's unit.`);
-  need(!u.frozenUntil || s.turn >= u.frozenUntil, `${def(id).name} is frozen until turn ${u.frozenUntil}.`);
   return u;
 }
 
-/** Landing hexes for an Allied unit in the floating reserve or an airdrop box. */
-export function landingHexes(s: GameState, unitId: string): HexId[] {
-  const u = s.units[unitId];
-  const out: HexId[] = [];
-  const enemyIn = (h: HexId) => unitsAt(s, h).some((x) => sideOf(x) === 'German');
-  if (u.where.kind === 'reserve') {
-    const landedHere = (h: HexId) => s.landings[h] ?? 0;
-    for (const b of Object.values(MAP.beaches)) {
-      if (!enemyIn(b.hex) && canStack(s, b.hex, unitId)) out.push(b.hex);
-    }
-    for (const [h, d] of Object.entries(MAP.hexes)) {
-      if (!d.port || d.port.restricted || s.control[h] !== 'Allied' || enemyIn(h)) continue;
-      const cap = d.port.capacity;
-      if (landedHere(h) < cap && canStack(s, h, unitId) && !out.includes(h)) out.push(h);
-    }
-  } else if (u.where.kind === 'entry' && u.where.area === 'airdrop') {
-    for (const x of Object.values(s.units)) {
-      if (x.where.kind !== 'map' || sideOf(x) !== 'Allied' || def(x.id).type === 'asu') continue;
-      const h = x.where.hex;
-      if (!adjacentEnemy(s, h, 'Allied') && canStack(s, h, unitId) && !out.includes(h)) out.push(h);
-    }
-  } else if (u.where.kind === 'entry' && u.where.area.startsWith('hex:')) {
-    const h = u.where.area.slice(4);
-    if (!enemyIn(h)) out.push(h);
-    for (const n of neighbors(h)) if (MAP.hexes[n]?.terrain !== 'sea' && MAP.hexes[n] && !enemyIn(n)) out.push(n);
-  }
+export function lpCost(id: string): number {
+  return RULES.landingPoints.costBySp[Math.min(3, Math.max(0, def(id).sp))];
+}
+
+/** BH hexes (and Sugar beach on turn 1) usable for landings. */
+function landingBeaches(s: GameState): HexId[] {
+  const out = beachheadHexes(s);
+  if (s.turn === 1 && !unitsAt(s, MAP.beaches.Sugar.hex).some((u) => sideOf(u) === 'German')) out.push(MAP.beaches.Sugar.hex);
   return out;
 }
 
-function moveAlong(s: GameState, u: UnitState, path: HexId[], spent: number, stop: boolean, strategic: boolean): void {
-  const side = sideOf(u);
-  for (const h of path) claimHex(s, h, side);
-  u.where = { kind: 'map', hex: path[path.length - 1] };
-  u.mpSpent = stop ? STOPPED : spent;
-  u.strategic = strategic;
+export function landingCapacity(s: GameState, hex: HexId): number {
+  const d = MAP.hexes[hex];
+  if (beachheadHexes(s).includes(hex) || (s.turn === 1 && hex === MAP.beaches.Sugar.hex)) return 3;
+  if (d.port) {
+    if (hex === '2707' && Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2707') <= 2)) return 1;
+    return d.port.capacity;
+  }
+  return 0;
 }
 
-/** Applies an action to the state (mutating it). Throws IllegalAction if not allowed. */
+function fullMountainHex(hex: HexId): boolean {
+  return neighbors(hex).every((n) => !isLand(n) || MAP.hexsides[sideKey(hex, n)]?.mountain);
+}
+
+/** Hexes where an Allied unit waiting off-map may land or drop. */
+export function landingHexes(s: GameState, unitId: string): HexId[] {
+  const u = s.units[unitId];
+  const occ = occupancy(s);
+  if (s.phase !== 'movement' && !(s.phase === 'initial' && u.where.kind === 'entry')) return [];
+  if (u.where.kind === 'reserve' || u.where.kind === 'followUp') {
+    if (s.phase !== 'movement') return [];
+    let hexes = [...landingBeaches(s), ...(s.turn === 1 ? [] : (s.portsAtStart ?? []))];
+    if (u.where.kind === 'followUp') {
+      const corps = u.where.corps;
+      hexes = hexes.filter((h) => Object.values(MAP.beaches).some((b) => b.hex === h && b.corps === corps && !['Maiori', 'Vietri'].includes(b.formation)));
+    }
+    const cost = lpCost(unitId);
+    if (cost > s.landingPoints) return [];
+    return [...new Set(hexes)].filter((h) => occ.get(h) !== 'German' && (s.portUse[h] ?? 0) + cost <= landingCapacity(s, h));
+  }
+  if (u.where.kind === 'entry' && (u.where.area === 'airdrop' || u.where.area === 'airdrop509')) {
+    const bonds = bondsOf(s, 'German');
+    const bh = beachheadHexes(s);
+    return Object.keys(MAP.hexes).filter((h) => {
+      const d = MAP.hexes[h];
+      if (d.terrain === 'sea' || d.city || occ.get(h) === 'German' || bonds.hexes.has(h)) return false;
+      if (u.where.kind === 'entry' && u.where.area === 'airdrop') return bh.some((b) => distance(b, h) <= 3);
+      return !d.sector8;
+    });
+  }
+  return [];
+}
+
+function moveAlong(s: GameState, u: UnitState, path: HexId[]): void {
+  for (const h of path) claimHex(s, h, sideOf(u));
+  u.where = { kind: 'map', hex: path[path.length - 1] };
+}
+
+function afterMoveChecks(s: GameState, u: UnitState): void {
+  const hex = (u.where as { hex?: HexId }).hex;
+  if (!hex) return;
+  const notes: string[] = [];
+  triggerFullRetreats(s, hex, sideOf(u), notes);
+  if (notes.length) log(s, notes.join('; '));
+  // The Torre Annunziata garrison is released when Allied units come within 3 hexes.
+  if (sideOf(u) === 'Allied') {
+    for (const g of Object.values(s.units)) {
+      if (g.frozenUntil && g.where.kind === 'map' && distance(g.where.hex, hex) <= 3) {
+        g.frozenUntil = undefined;
+        log(s, `${def(g.id).name} is released by the Allied approach.`);
+      }
+    }
+  }
+}
+
+const AREA_LINKS: [string, string][] = [['N1', 'N2'], ['E5', 'E4'], ['E4', 'E3'], ['E3', 'E2'], ['E2', 'E1'], ['E1', 'S3'], ['S3', 'S2'], ['S2', 'S1']];
+
+function areaOfEdge(area: string): string[] {
+  if (area === 'N') return ['N1', 'N2'];
+  if (area === 'S') return ['S1', 'S2', 'S3'];
+  if (area === 'E') return ['E1', 'E2', 'E3', 'E4', 'E5'];
+  return [area];
+}
+
+/** Destinations for a unit waiting in an entry area (or an edge code N/S/E). */
+export function entryReach(s: GameState, unitId: string, mode: MoveMode) {
+  const u = s.units[unitId];
+  const side = sideOf(u);
+  const res = new Map<HexId, ReturnType<typeof entryDestinations> extends Map<HexId, infer R> ? R : never>();
+  if (u.where.kind !== 'entry') return res;
+  for (const a of areaOfEdge(u.where.area)) {
+    if (!MAP.entryAreas[a] || !areaFriendly(s, a, side) && !(side === 'Allied' && (a === 'N1' || a === 'N2'))) continue;
+    for (const [h, r] of entryDestinations(s, unitId, a, mode)) if (!res.has(h) || res.get(h)!.cost > r.cost) res.set(h, r);
+  }
+  if (side === 'German' && s.abandoned8th) for (const h of [...res.keys()]) if (MAP.hexes[h].sector8) res.delete(h);
+  return res;
+}
+
 export function applyAction(s: GameState, a: Action): void {
   need(s.phase !== 'gameOver', 'The game is over.');
   s.seq += 1;
+  if (s.pendingDefense && a.type !== 'defend') throw new IllegalAction('The defender must first choose: retreat or Determined Defense.');
   switch (a.type) {
-    case 'endPhase': {
-      if (s.pendingAdvance) s.pendingAdvance = null;
-      advancePhase(s);
+    case 'endPhase':
+      return endPhase(s);
+    case 'defend': {
+      need(s.pendingDefense, 'No defense decision is pending.');
+      resolveDefense(s, a);
+      const rep = s.combats[s.combats.length - 1];
+      log(s, `Defender's decision: ${a.choice === 'dd' ? 'Determined Defense' : 'retreat'}. ${rep.notes.slice(-4).join('; ')}`, 'combat');
       return;
     }
     case 'move': {
-      need(s.phase === 'movement', 'Units move in the movement phase.');
+      need(s.phase === 'movement' || s.phase === 'invasion', 'Units move in the movement phase.');
+      need(!s.pendingAdvance, 'Finish the advance after combat first.');
       const u = ownUnit(s, a.unitId);
       need(u.where.kind === 'map', 'Unit is not on the map.');
-      const mode = a.mode ?? 'tactical';
-      need(!(mode === 'strategic' && s.turn === 1 && s.activeSide === 'Allied' && RULES.movement.turn1AlliedTacticalOnly),
-        'Allied units may only use tactical movement on turn 1.');
-      const dests = legalDestinations(s, a.unitId, mode);
+      const why = cannotMove(s, u);
+      need(!why, `${def(u.id).name} ${why}.`);
+      const mode = s.phase === 'invasion' || u.moveMode === 'tactical' ? 'tactical' : a.mode ?? 'normal';
+      need(allowedModes(s, u).includes(mode), `${def(u.id).name} may not use ${mode} movement now.`);
+      if (mode === 'truck') need(s.trucksUsed < 2, 'Both truck markers are in use.');
+      const dests = legalDestinations(s, u.id, mode);
       const r = dests.get(a.to);
-      need(r, `${def(a.unitId).name} cannot reach ${a.to}.`);
+      need(r, `${def(u.id).name} cannot reach ${a.to}.`);
+      if (sideOf(u) === 'German' && s.abandoned8th) need(!MAP.hexes[a.to].sector8, 'German units may not enter the 8th Army sector.');
+      if (s.turn === 1 && sideOf(u) === 'German') need(!Object.values(MAP.beaches).some((b) => b.hex === a.to), 'German units may not enter the landing beaches on turn 1.');
       const from = u.where.hex;
       const path = pathTo(dests, a.to);
-      moveAlong(s, u, path, r.cost, r.stop, mode === 'strategic');
-      log(s, `${def(u.id).name} moves ${from} → ${a.to}${mode === 'strategic' ? ' (strategic)' : ''}.`, 'move');
+      moveAlong(s, u, path);
+      u.hexesMoved += path.length - 1;
+      u.mpSpent = (u.mpSpent ?? 0) + r.cost;
+      u.tacHexes += mode === 'tactical' ? r.hexes : 0;
+      u.moveMode = mode;
+      u.stopped = true;
+      if (r.halfEff) {
+        u.halfEff = true;
+        u.crossedMountain = true;
+      }
+      if (mode === 'truck') {
+        u.truck = true;
+        s.trucksUsed += 1;
+      }
+      if (def(u.id).asu && u.hexesMoved > 1) u.status = u.status === 'good' ? 'disrupted' : u.status;
+      log(s, `${def(u.id).name} moves ${from} → ${a.to}${mode !== 'normal' ? ` (${mode})` : ''}.`, 'move');
+      afterMoveChecks(s, u);
       return;
     }
     case 'enter': {
       need(s.phase === 'movement', 'Reinforcements enter in the movement phase.');
       const u = ownUnit(s, a.unitId);
-      need(u.where.kind === 'entry' && !u.where.area.startsWith('hex:') && u.where.area !== 'airdrop', 'Unit is not waiting at an entry area.');
-      const mode = a.mode ?? 'tactical';
-      const dests = entryDestinations(s, a.unitId, u.where.area, mode);
+      need(u.where.kind === 'entry' && !u.where.area.startsWith('airdrop'), 'Unit is not waiting at an entry area.');
+      need(u.status === 'good', 'Only units in Good Order may leave an entry area.');
+      need(!u.stopped, 'Unit has already moved this phase.');
+      need(!(sideOf(u) === 'Allied' && ['N1', 'N2'].includes(u.where.area)), 'Allied units never leave the north entry areas.');
+      const mode = a.mode ?? 'normal';
+      need(s.turn !== 1 || sideOf(u) !== 'Allied' || mode === 'tactical', 'Allied units use tactical movement on turn 1.');
+      const dests = entryReach(s, u.id, mode);
       const r = dests.get(a.to);
-      need(r, `${def(a.unitId).name} cannot reach ${a.to} this turn.`);
+      need(r, `${def(u.id).name} cannot reach ${a.to} this turn.`);
       const area = u.where.area;
-      moveAlong(s, u, pathTo(dests, a.to), r.cost, r.stop, mode === 'strategic');
-      log(s, `${def(u.id).name} enters at ${area} and moves to ${a.to}.`, 'move');
+      moveAlong(s, u, pathTo(dests, a.to));
+      u.stopped = true;
+      u.moveMode = mode;
+      if (mode === 'truck') {
+        u.truck = true;
+        s.trucksUsed += 1;
+      }
+      log(s, `${def(u.id).name} enters from ${area} to ${a.to}.`, 'move');
+      afterMoveChecks(s, u);
+      return;
+    }
+    case 'changeArea': {
+      need(s.phase === 'movement', 'Only in the movement phase.');
+      const u = ownUnit(s, a.unitId);
+      need(!u.stopped && u.status === 'good', 'Unit must be in Good Order and not yet moved.');
+      const side = sideOf(u);
+      const target = MAP.entryAreas[a.area];
+      need(target, 'Unknown entry area.');
+      if (side === 'Allied') {
+        need(a.area === 'N1' || a.area === 'N2' ? !def(u.id).army8 : areaFriendly(s, a.area, 'Allied') || (target.side === 'east' && !!def(u.id).army8),
+          'Allied units may not enter that entry area.');
+        if (target.side === 'east') need(def(u.id).army8, 'Only 8th Army units may use the east entry areas.');
+      } else need(areaFriendly(s, a.area, 'German'), 'That entry area is in Allied hands.');
+      if (u.where.kind === 'map') {
+        need(target.hexes.includes(u.where.hex), 'Unit must be on an edge hex of that entry area.');
+      } else {
+        need(u.where.kind === 'entry', 'Unit must be on the map or in an entry area.');
+        const from = u.where.area;
+        const linked = AREA_LINKS.some(([x, y]) => areaOfEdge(from).some((f) => (f === x && y === a.area) || (f === y && x === a.area)));
+        need(linked, `${a.area} is not next to ${from}.`);
+        if (from.startsWith('N') && a.area.startsWith('N')) need(side === 'German', 'Only German units move between N1 and N2.');
+      }
+      u.where = { kind: 'entry', area: a.area };
+      u.stopped = true;
+      log(s, `${def(u.id).name} moves into entry area ${a.area}.`, 'move');
+      if (side === 'Allied' && target.side === 'east' && s.control[a.area] !== 'Allied') {
+        s.control[a.area] = 'Allied';
+        const notes: string[] = [];
+        for (const g of Object.values(s.units)) if (g.where.kind === 'entry' && g.where.area === a.area && sideOf(g) === 'German') eliminate(s, g, notes);
+        log(s, `${a.area} falls to the 8th Army. ${notes.join('; ')}`);
+      }
       return;
     }
     case 'land': {
-      need(s.phase === 'movement' && s.activeSide === 'Allied', 'Landings happen in the Allied movement phase.');
       const u = ownUnit(s, a.unitId);
+      need(s.activeSide === 'Allied', 'Only the Allies land from the sea or the air.');
       need(landingHexes(s, a.unitId).includes(a.to), `${def(a.unitId).name} cannot land at ${a.to}.`);
-      const how = u.where.kind === 'reserve' ? 'lands' : 'drops';
-      if (u.where.kind === 'reserve' && MAP.hexes[a.to].port && !Object.values(MAP.beaches).some((b) => b.hex === a.to)) {
-        s.landings[a.to] = (s.landings[a.to] ?? 0) + 1;
-      }
-      u.where = { kind: 'map', hex: a.to };
-      u.mpSpent = STOPPED;
-      claimHex(s, a.to, 'Allied');
-      log(s, `${def(u.id).name} ${how} at ${a.to}.`, 'move');
-      return;
-    }
-    case 'exitMap': {
-      need(s.phase === 'movement', 'Units leave the map in the movement phase.');
-      const u = ownUnit(s, a.unitId);
-      need(u.where.kind === 'map', 'Unit is not on the map.');
-      need(u.mpSpent === null || u.mpSpent < STOPPED, 'Unit has finished moving.');
-      const hex = u.where.hex;
-      const fromArea = Object.entries(MAP.entryAreas).find(([, ea]) => ea.hexes.includes(hex))?.[0];
-      need(fromArea, 'Unit is not on a map-edge entry hex.');
-      const side = sideOf(u);
-      if (side === 'Allied') {
-        need(a.area === fromArea && MAP.entryAreas[fromArea].vp, 'Allied units may only exit through N1 or N2.');
-        u.where = { kind: 'exited', area: fromArea };
-        if (s.control[fromArea] !== 'Allied') {
-          s.control[fromArea] = 'Allied';
-          log(s, `${def(u.id).name} exits via ${fromArea}: Allied gain ${MAP.entryAreas[fromArea].vp} VP.`, 'victory');
-        } else log(s, `${def(u.id).name} exits via ${fromArea}.`, 'move');
+      const notes: string[] = [];
+      if (u.where.kind === 'entry') {
+        // Airdrop.
+        const zoc = zocOf(s, 'German');
+        const d = MAP.hexes[a.to];
+        const drm = (d.terrain === 'marsh' || fullMountainHex(a.to) ? -2 : 0) + (zoc.has(a.to) ? -2 : 0);
+        const roll = rollD6(s);
+        const eff = roll + drm;
+        const res = RULES.airdrop.table.find((t) => eff <= t.max)!.result;
+        u.where = { kind: 'map', hex: a.to };
+        u.droppedTurn = s.turn;
+        u.outOfSupply = false;
+        if (res === 'eliminated') eliminate(s, u, notes);
+        else if (res === 'stepDisrupted') {
+          loseStep(s, u, notes);
+          u.status = 'disrupted';
+        } else if (res === 'disrupted') u.status = 'disrupted';
+        else if (res === 'halfEff') u.halfEff = true;
+        if (u.where.kind === 'map') claimHex(s, a.to, 'Allied');
+        log(s, `${def(u.id).name} drops at ${a.to}: roll ${roll}${drm ? drm : ''} → ${res}. ${notes.join('; ')}`, 'dice');
         return;
       }
-      const link = MAP.offmapLinks.find(
-        (l) => (l.from === fromArea && l.to === a.area) || (l.to === fromArea && l.from === a.area),
-      );
-      need(link, `No off-map route from ${fromArea} to ${a.area}.`);
-      u.where = { kind: 'transit', to: a.area, arrive: s.turn + link.turns };
-      log(s, `${def(u.id).name} moves off-map from ${fromArea} toward ${a.area} (arrives turn ${s.turn + link.turns}).`, 'move');
+      need(s.phase === 'movement', 'Naval landings happen in the movement phase.');
+      const cost = lpCost(u.id);
+      s.landingPoints -= cost;
+      s.portUse[a.to] = (s.portUse[a.to] ?? 0) + cost;
+      const beach = Object.values(MAP.beaches).find((b) => b.hex === a.to);
+      const otherNation = beach && ((beach.corps === 'X') !== (def(u.id).nation !== 'US')) && !['Maiori', 'Vietri'].includes(beach.formation);
+      u.where = { kind: 'map', hex: a.to };
+      u.moveMode = 'tactical';
+      u.tacHexes = 1;
+      u.hexesMoved = 0;
+      u.stopped = zocOf(s, 'German').has(a.to);
+      u.mpSpent = 0;
+      if (otherNation) u.status = 'disrupted';
+      else if (def(u.id).cat !== 'ranger') u.halfEff = true;
+      claimHex(s, a.to, 'Allied');
+      log(s, `${def(u.id).name} lands at ${a.to} (${cost} LP${otherNation ? ', other nation\'s beach: disrupted' : ''}).`, 'move');
+      afterMoveChecks(s, u);
+      return;
+    }
+    case 'fullRetreat': {
+      need(s.phase === 'movement', 'Only in the movement phase.');
+      const u = ownUnit(s, a.unitId);
+      need(u.where.kind === 'map' && u.mpSpent === null && !u.stopped, 'Unit must be on the map and not yet moved.');
+      u.status = 'fullRetreat';
+      log(s, `${def(u.id).name} goes into Full Retreat.`, 'move');
+      return;
+    }
+    case 'autoDs': {
+      need(s.phase === 'movement', 'Auto DS is declared in the movement phase.');
+      for (const id of a.attackers) ownUnit(s, id);
+      const odds = computeOdds(s, { target: a.target, attackers: a.attackers }, { autoDs: true });
+      need(odds.ok && odds.autoDs, odds.reason ?? 'Auto DS needs 10-1 odds or better.');
+      const rep = resolveAttack(s, { target: a.target, attackers: a.attackers }, true);
+      for (const id of a.attackers) if (s.units[id]) s.units[id].stopped = true;
+      if (s.pendingAdvance) {
+        s.autoDsQueue.push(s.pendingAdvance);
+        s.pendingAdvance = null;
+      }
+      log(s, `Auto DS against ${a.target}: ${rep.notes.join('; ')}`, 'combat');
       return;
     }
     case 'attack': {
-      need(s.phase === 'combat', 'Attacks happen in the combat phase.');
+      need(s.phase === 'combat' || s.phase === 'invasion', 'Attacks happen in the combat phase.');
       need(!s.pendingAdvance, 'Resolve the pending advance first.');
       for (const id of a.attackers) ownUnit(s, id);
+      if (s.phase === 'invasion') {
+        need(a.attackers.every((id) => def(id).formation === 'Commando Bde' && s.units[id].tacHexes === 1 && !s.units[id].stopped),
+          'On the invasion turn only Commandos with an advance left may attack (Salerno).');
+        need(a.target === '2707', 'The invasion breakthrough may only target Salerno.');
+        need(!a.air && !a.naval && !a.asus?.length, 'No support in the invasion breakthrough.');
+      }
       const rep = resolveAttack(s, a);
+      if (s.phase === 'invasion') for (const id of a.attackers) s.units[id].stopped = true;
       const shifts = rep.shifts.map((x) => `${x.reason} ${x.shift > 0 ? '+' : ''}${x.shift}`).join('; ');
       log(s,
-        `Attack on ${rep.defenderHex}: ${rep.attack} vs ${rep.defense} = ${rep.baseColumn}${shifts ? ` [${shifts}]` : ''} → ${rep.finalColumn}. ` +
-        `Roll ${rep.roll}${rep.drm ? (rep.drm > 0 ? `+${rep.drm}` : rep.drm) : ''}: ${rep.result}. ${rep.notes.join('; ')}`,
+        `Attack on ${rep.defenderHex} (MAF ${rep.maf}): ${rep.attack} vs ${rep.defense} = ${rep.baseColumn}${shifts ? ` [${shifts}]` : ''} → ${rep.finalColumn}. ` +
+          `Roll ${rep.roll}${rep.drm ? `+${rep.drm}` : ''}: ${rep.result}. ${rep.notes.join('; ')}`,
         'combat');
       return;
     }
     case 'advance': {
-      const p = s.pendingAdvance;
-      need(p, 'No advance is pending.');
-      need(a.unitIds.length <= p.max, `At most ${p.max} units may advance.`);
-      for (const id of a.unitIds) {
-        need(p.unitIds.includes(id), `${def(id).name} did not take part in that attack.`);
-        const u = s.units[id];
-        if (u.where.kind !== 'map') continue;
-        u.where = { kind: 'map', hex: p.hex };
+      const pa = s.pendingAdvance;
+      need(pa, 'No advance is pending.');
+      if (!a.unitIds.length || !a.to) {
+        s.pendingAdvance = null;
+        return;
       }
-      if (a.unitIds.length) {
-        claimHex(s, p.hex, s.activeSide);
-        log(s, `${a.unitIds.map((id) => def(id).name).join(', ')} advance into ${p.hex}.`, 'move');
-      }
-      s.pendingAdvance = null;
+      const notes: string[] = [];
+      applyAdvance(s, a.unitIds, a.to, notes);
+      log(s, `${a.unitIds.map((id) => def(id).name).join(', ')} advance to ${a.to}. ${notes.join('; ')}`, 'move');
+      if (!Object.keys(pa.maxByUnit).some((id) => s.units[id].where.kind === 'map')) s.pendingAdvance = null;
+      return;
+    }
+    case 'disengage': {
+      need(s.phase === 'combat', 'Disengagement happens in the combat phase.');
+      need(!s.pendingAdvance, 'Resolve the pending advance first.');
+      const notes: string[] = [];
+      resolveDisengage(s, a.hex, notes);
+      log(s, notes.join('; '), 'dice');
       return;
     }
     case 'replace': {
       need(s.phase === 'initial', 'Replacements are used in the initial phase.');
       const u = ownUnit(s, a.unitId);
-      need(u.stepsLost > 0, 'Unit is at full strength.');
-      need(u.where.kind === 'map' || u.where.kind === 'reserve', 'Unit must be on the map or in reserve.');
-      if (u.where.kind === 'map') {
-        need(!adjacentEnemy(s, u.where.hex, s.activeSide), 'Unit is adjacent to the enemy.');
-        need(!u.outOfSupply, 'Unit is out of supply.');
-      }
-      const pool = s.replacements[replPool(u.id)];
-      const cat = def(u.id).replCategory ?? 'inf';
-      if (pool[cat] > 0) pool[cat] -= 1;
-      else {
-        need(pool.any > 0, `No ${cat} replacements available.`);
-        pool.any -= 1;
-      }
-      u.stepsLost -= 1;
-      log(s, `${def(u.id).name} receives a replacement step.`);
-      return;
+      return applyReplacement(s, u, a.to);
     }
     case 'readyAsu': {
       need(s.phase === 'initial', 'Artillery is resupplied in the initial phase.');
       const u = ownUnit(s, a.unitId);
-      need(def(u.id).type === 'asu' && u.fired, 'Unit is not a fired artillery support unit.');
+      need(def(u.id).asu && u.fired, 'Unit is not a fired artillery support unit.');
+      need(def(u.id).cat !== 'nebelwerfer', 'The Nebelwerfer readies for free when in supply.');
+      need(goodOrder(u) && u.where.kind === 'map' && supplyChecker(s, s.activeSide).inSupply(u.where.hex), 'Only ASUs in Good Order and in supply can be readied.');
       need(s.supplyPoints[s.activeSide] > 0, 'No supply points left.');
       s.supplyPoints[s.activeSide] -= 1;
       u.fired = false;
-      log(s, `${def(u.id).name} is resupplied (1 supply point).`);
+      log(s, `${def(u.id).name} is readied (1 SP).`);
+      return;
+    }
+    case 'abandon8th': {
+      need(s.activeSide === 'German' && s.turn >= 16 && !s.abandoned8th, 'Only the German player may do this, from turn 16.');
+      const notes: string[] = [];
+      s.abandoned8th = true;
+      for (const u of Object.values(s.units)) {
+        if (u.where.kind === 'map' && sideOf(u) === 'German' && MAP.hexes[u.where.hex].sector8) eliminate(s, u, notes);
+        if (def(u.id).army8 && u.where.kind !== 'eliminated') u.where = { kind: 'removed', reason: '8th Army sector abandoned' };
+      }
+      for (const a2 of ['E1', 'E2', 'E3', 'E4', 'E5']) s.control[a2] = 'Allied';
+      for (const [h, d] of Object.entries(MAP.hexes)) if (d.vp && d.sector8) s.control[h] = 'Allied';
+      log(s, `The Germans abandon the 8th Army sector. ${notes.join('; ')}`);
       return;
     }
   }
+}
+
+function applyReplacement(s: GameState, u: UnitState, to?: HexId): void {
+  const side = sideOf(u);
+  const d = def(u.id);
+  need(d.repl, `${d.name} cannot be replaced.`);
+  need(!u.repl, `${d.name} already received a replacement this turn.`);
+  const pool = s.replacements[replPool(u.id)];
+  const spend = () => {
+    if (pool[d.repl!] > 0) pool[d.repl!] -= 1;
+    else if (d.repl === 'inf' && pool.special > 0) pool.special -= 1;
+    else throw new IllegalAction(`No ${d.repl} replacement available.`);
+  };
+  const sc = supplyChecker(s, side);
+  if (u.where.kind === 'map') {
+    need(goodOrder(u) && sc.inSupply(u.where.hex), 'The unit must be in Good Order and in supply.');
+    if (u.represents) {
+      const orig = s.units[u.represents];
+      spend();
+      orig.where = { ...u.where };
+      orig.stepsLost = 1;
+      orig.repl = true;
+      orig.status = 'good';
+      u.where = { kind: 'remnantPool' };
+      u.represents = undefined;
+      log(s, `${def(orig.id).name} rebuilt from its remnant.`);
+      return;
+    }
+    need(u.stepsLost > 0, 'Unit is at full strength.');
+    spend();
+    u.stepsLost -= 1;
+    u.repl = true;
+    log(s, `${d.name} receives a replacement step.`);
+    return;
+  }
+  need(u.where.kind === 'eliminated' && !u.where.permanent, 'Only reduced or eliminated units can be replaced.');
+  need(d.cat !== 'bh' && !d.isRemnant, 'Beachhead units and remnants cannot return.');
+  const fifthArmy = side === 'Allied' && !d.army8;
+  let dest: UnitState['where'];
+  if (!to) {
+    need(side === 'German' || d.army8 || fifthArmy, 'Choose a placement hex.');
+    dest = fifthArmy ? { kind: 'reserve' } : { kind: 'entry', area: side === 'German' ? 'N' : 'S' };
+  } else {
+    const ok = unitsAt(s, to).some((x) => sideOf(x) === side && (def(x.id).cat === 'corpsAsu' || (def(x.id).cat === 'divAsu' && def(x.id).division === d.division)));
+    need(ok && sc.inSupply(to), 'Returning units go to a hex with a friendly corps ASU or their division ASU, in supply.');
+    need(!neighbors(to).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== side)), 'Not next to the enemy.');
+    dest = { kind: 'map', hex: to };
+  }
+  spend();
+  u.stepsLost = d.steps.length - 1;
+  u.status = 'good';
+  u.repl = true;
+  u.fired = !!d.asu;
+  u.where = dest;
+  if (d.steps.length === 3 && d.remnant) {
+    // Three-step units come back as their remnant.
+    u.stepsLost = 1;
+    const notes: string[] = [];
+    loseStep(s, u, notes);
+  }
+  log(s, `${d.name} returns from the Eliminated Box.`);
+}
+
+function endPhase(s: GameState): void {
+  if (s.pendingAdvance) {
+    s.pendingAdvance = null;
+    return;
+  }
+  if (s.phase === 'combat' && s.autoDsQueue.length) {
+    s.pendingAdvance = s.autoDsQueue.shift()!;
+    log(s, 'Auto DS units may now advance.');
+    return;
+  }
+  if (s.phase === 'initial' && s.activeSide === 'Allied') {
+    for (const u of Object.values(s.units)) {
+      if (u.where.kind === 'entry' && u.where.area.startsWith('airdrop')) {
+        const hexes = landingHexes(s, u.id);
+        need(!hexes.length, `${def(u.id).name} must drop this turn.`);
+      }
+    }
+  }
+  if (s.phase === 'movement') endOfMovement(s);
+  if (s.phase === 'invasion') for (const u of Object.values(s.units)) if (sideOf(u) === 'Allied') {
+    u.moveMode = null;
+    u.tacHexes = 0;
+    u.stopped = false;
+  }
+  advancePhase(s);
+}
+
+function endOfMovement(s: GameState): void {
+  const side = s.activeSide;
+  const notes: string[] = [];
+  // Stacking is enforced now: excess units are lost.
+  const hexes = new Set(Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === side).map((u) => (u.where as { hex: HexId }).hex));
+  for (const h of hexes) {
+    let here = unitsAt(s, h).filter((u) => sideOf(u) === side);
+    while (stackPoints(here.map((u) => u.id)) > RULES.stackingLimit) {
+      // Only units that count for stacking can be removed to fix it.
+      const counted = here.filter((u) => stackPoints(here.filter((x) => x.id !== u.id).map((x) => x.id)) < stackPoints(here.map((x) => x.id)));
+      if (!counted.length) break;
+      counted.sort((a, b) => stepValue(a) - stepValue(b));
+      eliminate(s, counted[0], notes);
+      here = here.filter((u) => u.id !== counted[0].id);
+    }
+  }
+  // 8th Army: at most one unit across the army boundary.
+  if (side === 'Allied') {
+    const across = Object.values(s.units).filter((u) => u.where.kind === 'map' && def(u.id).army8 && !MAP.hexes[u.where.hex].sector8);
+    for (const u of across.slice(1)) eliminate(s, u, notes);
+  }
+  // ½ Eff markers only matter next to the enemy.
+  for (const u of Object.values(s.units)) {
+    if (u.where.kind !== 'map' || sideOf(u) !== side || !u.halfEff) continue;
+    if (!neighbors(u.where.hex).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== side))) u.halfEff = false;
+  }
+  if (notes.length) log(s, `End of movement: ${notes.join('; ')}`);
 }
 
 /** Clone-and-apply convenience used by the UI and AI. */
@@ -477,12 +952,4 @@ export function withAction(s: GameState, a: Action): GameState {
   return next;
 }
 
-export function currentWeather(s: GameState) {
-  return RULES.weather.track[s.weather];
-}
-
-export function sideLabel(side: Side): string {
-  return side === 'Allied' ? 'Allied' : 'German';
-}
-
-export { other };
+export { other, advanceDestinations, stepsRemaining, canStack, legalDestinations };
