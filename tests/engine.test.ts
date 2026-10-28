@@ -258,10 +258,10 @@ describe('rules audit fixes', () => {
 
   it('halves attackers across a mountain hexside even along a road', () => {
     const s = combatSetup();
-    // 2421-2422 is a mountain hexside crossed by a road.
-    put(s, 'US-179', '2421');
-    put(s, 'GE-I64', '2422');
-    const odds = computeOdds(s, { target: '2422', attackers: ['US-179'] });
+    // 2321-2421 is a mountain hexside crossed by a road.
+    put(s, 'US-179', '2321');
+    put(s, 'GE-I64', '2421');
+    const odds = computeOdds(s, { target: '2421', attackers: ['US-179'] });
     expect(odds.ok).toBe(true);
     expect(odds.attack).toBe(3);
   });

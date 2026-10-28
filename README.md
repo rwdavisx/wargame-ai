@@ -96,9 +96,11 @@ The tables in `data/rules.json` are what the engine uses; the **Rules** tab show
 
 ### Known map uncertainties
 
-- **Minor roads** were detected automatically, so some are missing or extra. Major roads were traced by hand.
-- **Mountain hexsides** are hexsides crossing the map's dark mountain shading, detected by colour. Mountain passes are the seven `)(` symbols.
-- Coastal hexes whose centre falls in the sea but which contain land (the beach hexes 2709–2712 and 2614–2618) are treated as clear land.
+The map was checked twice against the photos. The second pass drew the data over every photo and corrected it hexside by hexside (`tools/map-transcription/recheck.py`, `apply_recheck.py`, `fixes_photos.txt`).
+
+- **Mountain hexsides** follow the rulebook definition: the shading must cover the whole hexside, and every land side of a fully shaded hex counts. Sides where the shading only partly covers the side are not mountain hexsides. Borderline sides were judged by eye.
+- **Minor roads** were detected automatically and then checked by eye. A few may still be missing or extra, especially where a road runs exactly along a hexside.
+- Coastal hexes are land when their centre is land or they hold a town (Castellabate). The beach hexes 2709–2712 and 2614–2618, whose centres fall in the sea, are treated as clear land.
 - The exact hexes of the north, east and south entry areas, and the 8th Army sector boundary line, are approximate.
 
 ## Project layout
