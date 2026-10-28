@@ -1,0 +1,30 @@
+{
+  "name": "salerno43-digital",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Digital play aid for Salerno '43 (GMT Games) with an AI opponent. Requires your own copy of the game.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "selfplay": "vite-node scripts/selfplay.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "~5.6.3",
+    "vite": "^6.0.3",
+    "vite-node": "^3.0.0",
+    "vitest": "^3.0.0"
+  }
+}

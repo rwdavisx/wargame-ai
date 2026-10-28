@@ -1,0 +1,127 @@
+{
+  "_note": "PROVISIONAL values. The rulebook and player aids could not be downloaded in the build environment, so these numbers are a reasonable stand-in in the style of the game system. Replace them with the values from your own copy of the player aid cards. Values taken directly from the map sheet are marked 'fromMap'.",
+  "turnOrder": ["Allied", "German"],
+  "stackingLimit": 3,
+  "movement": {
+    "terrainCost": { "clear": 1, "hill": 2, "marsh": 3 },
+    "vehicleTerrainCost": { "clear": 1, "hill": 2, "marsh": 4 },
+    "riverCost": 1,
+    "vehicleRiverCost": 2,
+    "mountainCost": 2,
+    "passCost": 1,
+    "vehicleMountainProhibited": true,
+    "majorRoadCost": 0.5,
+    "minorRoadCost": 1,
+    "eighthArmyRoadCost": { "value": 1, "side": "Allied", "fromMap": true },
+    "exitZocCost": 1,
+    "strategicMultiplier": 2,
+    "rainVehicleExtra": 1,
+    "turn1GermanMaFactor": { "value": 0.5, "fromMap": true },
+    "turn1AlliedTacticalOnly": { "value": true, "fromMap": true }
+  },
+  "combat": {
+    "columns": ["1:3", "1:2", "1:1", "1.5:1", "2:1", "3:1", "4:1", "5:1", "6:1"],
+    "ratios": [0.3333, 0.5, 1, 1.5, 2, 3, 4, 5, 6],
+    "crt": {
+      "1": ["A2", "A1", "A1", "A1", "A1", "EX", "DR", "DR", "D1R"],
+      "2": ["A1", "A1", "A1", "EX", "EX", "DR", "DR", "D1R", "D1R"],
+      "3": ["A1", "A1", "EX", "EX", "DR", "DR", "D1R", "D1R", "D2R"],
+      "4": ["A1", "EX", "EX", "DR", "DR", "D1R", "D1R", "D2R", "D2R"],
+      "5": ["EX", "EX", "DR", "DR", "D1R", "D1R", "D2R", "D2R", "DE"],
+      "6": ["EX", "DR", "DR", "D1R", "D1R", "D2R", "D2R", "DE", "DE"]
+    },
+    "resultKey": {
+      "A1": "Attacker loses 1 step",
+      "A2": "Attacker loses 2 steps",
+      "EX": "Exchange: defender loses 1 step, then attacker loses 1 step",
+      "DR": "Defender retreats 1 hex and is disrupted",
+      "D1R": "Defender loses 1 step, then retreats 1 hex and is disrupted",
+      "D2R": "Defender loses 2 steps, then retreats 2 hexes and is disrupted",
+      "DE": "Defender eliminated"
+    },
+    "terrainShift": { "clear": 0, "hill": -1, "marsh": -1, "city": -1 },
+    "allAcrossRiverShift": -1,
+    "allAcrossMountainShift": -2,
+    "allAcrossPassShift": -1,
+    "armorShift": 1,
+    "airShift": 1,
+    "navalShift": 1,
+    "navalRange": 3,
+    "asuShiftEach": 1,
+    "asuMaxPerSide": 2,
+    "rainShift": { "value": -1, "fromMap": true },
+    "outOfSupplyAttackFactor": 0.5,
+    "disruptedDefenseFactor": 0.5,
+    "retreatIntoZocLosesStep": true,
+    "advanceMax": 3
+  },
+  "recovery": { "rallyRollNeeded": 4, "autoRallyIfNotAdjacentToEnemy": true },
+  "supply": {
+    "overlandHexes": 5,
+    "isolationLossOn": 5,
+    "alliedClearWeatherDrm": { "value": 1, "fromMap": true, "appliesTo": "German" },
+    "supplyPointCap": { "value": 9, "fromMap": true },
+    "salernoPortOpenRadius": { "value": 2, "fromMap": true }
+  },
+  "weather": {
+    "fromMap": true,
+    "track": [
+      { "box": "A", "name": "Clear", "air": ["BR", "US"], "naval": ["BR", "US"], "alliedSupply": 1, "alliedPortBonus": true, "germanSupply": 1, "clear": true },
+      { "box": "B", "name": "Clear", "air": ["BR", "US"], "naval": ["BR", "US"], "alliedSupply": 1, "alliedPortBonus": true, "germanSupply": 1, "clear": true },
+      { "box": "C", "name": "Air Support", "air": ["GE"], "naval": ["BR", "US"], "alliedSupply": 1, "germanSupply": 2, "germanAirDrm": 1 },
+      { "box": "D", "name": "Cloudy", "air": ["BR"], "naval": ["BR", "US"], "alliedSupply": 2, "germanSupply": 1 },
+      { "box": "E", "name": "Cloudy", "air": ["US"], "naval": ["BR", "US"], "alliedSupply": 2, "germanSupply": 2 },
+      { "box": "F", "name": "Rain", "air": [], "naval": [], "alliedSupply": 0, "germanSupply": 0, "rain": true }
+    ],
+    "advanceByRoll": { "1": 0, "2": 1, "3": 1, "4": 1, "5": 2, "6": 2 },
+    "wraps": true
+  },
+  "victory": {
+    "benchmarks": { "fromMap": true, "4": 6, "5": 7, "6": 7, "7": 7, "8": 8, "9": 8, "10": 8, "11": 9, "12": 9, "13": 10, "14": 10, "15": 11, "16": 11, "17": 12, "18": 12, "19": 14, "20": 16, "21": 18, "22": 20 },
+    "suddenDeathBelowBenchmark": false,
+    "drawMargin": 1,
+    "_victoryNote": "PROVISIONAL: the game ends after the last turn; Allied VP at or above that turn's benchmark is an Allied win, within drawMargin below is a draw, otherwise German. Set suddenDeathBelowBenchmark to true to end the game whenever Allied VP drop below the current benchmark."
+  },
+  "replacements": {
+    "fromMap": true,
+    "schedule": {
+      "4": { "German": { "any": 1 } },
+      "5": { "German": { "armor": 1 }, "BR": { "inf": 1 }, "US": { "inf": 1 } },
+      "6": { "German": { "inf": 1 }, "BR": { "armor": 1 }, "US": { "armor": 1 } },
+      "7": { "German": { "inf": 1 } },
+      "8": { "German": { "any": 1 } },
+      "9": { "German": { "armor": 1 }, "BR": { "inf": 1 }, "US": { "inf": 1 } },
+      "10": { "German": { "inf": 1 }, "BR": { "any": 1 }, "US": { "any": 1 } },
+      "11": { "German": { "inf": 1 } },
+      "12": { "German": { "any": 1 } },
+      "13": { "German": { "armor": 1 }, "BR": { "inf": 1 }, "US": { "inf": 1 } },
+      "14": { "German": { "inf": 1 }, "BR": { "armor": 1 }, "US": { "armor": 1 } },
+      "15": { "German": { "inf": 1 } },
+      "16": { "German": { "any": 1 } },
+      "17": { "German": { "armor": 1 }, "BR": { "inf": 1 }, "US": { "inf": 1 } },
+      "18": { "German": { "inf": 1 }, "BR": { "any": 1 }, "US": { "any": 1 } },
+      "19": { "German": { "inf": 1 } },
+      "20": { "German": { "any": 1 } },
+      "21": { "German": { "armor": 1 }, "BR": { "inf": 1 }, "US": { "inf": 1 } }
+    }
+  },
+  "turnNotes": {
+    "1": "D-Day, 9 Sept. No weather roll. German units move at half MA; Allied units use tactical movement only.",
+    "3": "The German FJ unit set up in 2202 is released.",
+    "5": "Heavy German counterattacks. 82nd Airborne elements drop into the beachhead overnight.",
+    "6": "Main German counterattack. The 2/509th drops near Avellino.",
+    "7": "Continued German attacks.",
+    "8": "Short scenario ends after this turn.",
+    "9": "Historically the 504th attacked Altavilla.",
+    "11": "8th Army arrives. The south map edge becomes friendly to Allied units.",
+    "12": "Historically the Canadians took Potenza.",
+    "13": "Historically 5th Division reached Auletta.",
+    "14": "Historically 3rd Division took Acerno. The German 16th Panzer Division is withdrawn.",
+    "16": "The German player may abandon the 8th Army sector.",
+    "18": "Historically 45th Division reached Teora.",
+    "19": "Historically 3rd Division was near Avellino.",
+    "20": "Historically Nocera Inferiore and the Chiunzi pass were captured.",
+    "21": "Historically 7th Armoured took Scafati and Torre Annunziata was liberated.",
+    "22": "Historically 3rd Division took Avellino. Last turn."
+  }
+}
