@@ -1145,9 +1145,9 @@ function enforceStacking(s: GameState, side: Side, notes: string[]): void {
   const hexes = new Set(Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === side).map((u) => (u.where as { hex: HexId }).hex));
   for (const h of hexes) {
     let here = unitsAt(s, h).filter((u) => sideOf(u) === side);
-    while (stackPoints(here.map((u) => u.id)) > RULES.stackingLimit) {
+    while (stackPoints(here.map((u) => u.id), s) > RULES.stackingLimit) {
       // Only units that count for stacking can be removed to fix it.
-      const counted = here.filter((u) => stackPoints(here.filter((x) => x.id !== u.id).map((x) => x.id)) < stackPoints(here.map((x) => x.id)));
+      const counted = here.filter((u) => stackPoints(here.filter((x) => x.id !== u.id).map((x) => x.id), s) < stackPoints(here.map((x) => x.id), s));
       if (!counted.length) break;
       counted.sort((a, b) => stepValue(a) - stepValue(b));
       eliminate(s, counted[0], notes);

@@ -194,7 +194,7 @@ export function validateAttackers(s: GameState, target: HexId, attackers: string
   }
   if (groups.has('US') && groups.has('CW')) return 'US and Commonwealth units may not attack together.';
   const fromEntry = attackers.filter((id) => s.units[id].where.kind === 'entry');
-  if (stackPoints(fromEntry) > RULES.stackingLimit) return 'Units attacking out of an Entry Area must respect the stacking limit.';
+  if (stackPoints(fromEntry, s) > RULES.stackingLimit) return 'Units attacking out of an Entry Area must respect the stacking limit.';
   if (armies.size > 1) return '5th and 8th Army units may not attack together.';
   return null;
 }

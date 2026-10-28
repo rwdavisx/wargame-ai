@@ -744,7 +744,7 @@ function SelectedHexInfo(p: Props) {
   if (!h) return null;
   const d = MAP.hexes[h];
   const us = unitsAt(g, h);
-  const sp = stackPoints(us.map((u) => u.id));
+  const sp = stackPoints(us.map((u) => u.id), g);
   return (
     <>
       <h3>

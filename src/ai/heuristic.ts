@@ -219,7 +219,7 @@ export function planAssaults(s: GameState, aggression: number): Action[] {
           if (!r || forbidden(s, side, n)) continue;
           const hs = MAP.hexsides[sideKey(n, E)] ?? {};
           if (hs.mountain && !hs.road && !hs.pass && def(c.u.id).vehicle) continue;
-          const room = stackPoints([...unitsAt(s, n).map((x) => x.id), ...(planned.get(n) ?? []), c.u.id]) <= RULES.stackingLimit;
+          const room = stackPoints([...unitsAt(s, n).map((x) => x.id), ...(planned.get(n) ?? []), c.u.id], s) <= RULES.stackingLimit;
           if (room && r.cost < bestCost) {
             best = n;
             bestCost = r.cost;
@@ -237,7 +237,7 @@ export function planAssaults(s: GameState, aggression: number): Action[] {
       let A = 0;
       let est = -1;
       for (const o of opts) {
-        if (o.move && stackPoints([...unitsAt(s, o.hex).map((x) => x.id), ...(planned.get(o.hex) ?? []), ...chosen.filter((x) => x.hex === o.hex && x.move).map((x) => x.c.u.id), o.c.u.id]) > RULES.stackingLimit) continue;
+        if (o.move && stackPoints([...unitsAt(s, o.hex).map((x) => x.id), ...(planned.get(o.hex) ?? []), ...chosen.filter((x) => x.hex === o.hex && x.move).map((x) => x.c.u.id), o.c.u.id], s) > RULES.stackingLimit) continue;
         chosen.push(o);
         A += o.att * (chosen.length > 2 ? 0.75 : 1); // units outside the Main Assault Force attack at half
         let shift = 0;
@@ -355,7 +355,7 @@ function chooseAdvance(s: GameState): Action {
   const chosen: string[] = [];
   for (const id of cands) {
     if (chosen.length >= want) break;
-    if (stackPoints([...unitsAt(s, pa.vacated).map((u) => u.id), ...chosen, id]) > RULES.stackingLimit) continue;
+    if (stackPoints([...unitsAt(s, pa.vacated).map((u) => u.id), ...chosen, id], s) > RULES.stackingLimit) continue;
     const t = threatAt(s, pa.vacated, side);
     const dd = defenseAt(s, pa.vacated, side, s.units[id]) + chosen.reduce((a, x) => a + values(s.units[x]).defense, 0);
     if (t / (dd + 0.5) < 2.5 || hd.vp) chosen.push(id);

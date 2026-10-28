@@ -331,3 +331,24 @@ describe('rules audit fixes', () => {
     expect([...d.values()].some((r) => r.cost > 3)).toBe(true);
   });
 });
+
+describe('counter backs', () => {
+  it('uses the printed reduced sides and Remnants', () => {
+    const ladder = (id: string) => UNIT_DEFS[id].steps.map((v) => `${v.attack}-${v.defense}-${v.move}`);
+    expect(ladder('US-7')).toEqual(['6-7-3', '4-5-3', '1-3-3']);
+    expect(ladder('US-142')).toEqual(['4-4-3', '1-3-3']);
+    expect(ladder('GE-129')).toEqual(['6-9-5', '4-6-5', '1-3-5']);
+    expect(ladder('GE-KGDor')).toEqual(['4-4-6', '2-2-6']);
+    expect(ladder('GE-III1FJ')).toEqual(['2-2-3']);
+  });
+
+  it('counts the stacking points of a reduced side', () => {
+    const s = newGame('campaign', 1);
+    clearMap(s);
+    put(s, 'US-7', '2913');
+    put(s, 'US-179', '2913');
+    expect(stackPoints(['US-7', 'US-179'], s)).toBe(6);
+    s.units['US-7'].stepsLost = 1;
+    expect(stackPoints(['US-7', 'US-179'], s)).toBe(5);
+  });
+});

@@ -90,20 +90,23 @@ export interface UnitSetup {
   frozenUntil?: number;
 }
 
-/** `back` in oob.json: the counter's reduced side as "a-d-m", or "none" for a one-step unit. */
-function parseBack(back: unknown): StepValues | 'none' | null {
+/** `back` in oob.json: the counter's reduced side as "a-d-m", or "none" for a one-step unit.
+ * `backSp` gives the stacking points printed on the back when they differ from the front. */
+function parseBack(back: unknown, backSp: unknown): StepValues | 'none' | null {
   if (back === 'none') return 'none';
   if (typeof back !== 'string') return null;
   const m = /^(\d+)-(\d+)-(\d+)$/.exec(back.trim());
   if (!m) throw new Error(`Bad counter back "${back}" in oob.json (use "a-d-m" or "none").`);
-  return { attack: Number(m[1]), defense: Number(m[2]), move: Number(m[3]) };
+  const v: StepValues = { attack: Number(m[1]), defense: Number(m[2]), move: Number(m[3]) };
+  if (typeof backSp === 'number') v.sp = backSp;
+  return v;
 }
 
 /** Values of the Remnant that stands in for a 3-step unit's last step. */
 function remnantValues(remnant: string, fallback: StepValues): StepValues {
   const pool: Record<string, string> = { US: 'US-REM-A', CW: 'BR-REM-A' };
   const r = (o.units as { id: string; a: number; d: number; m: number }[]).find((x) => x.id === (pool[remnant] ?? remnant));
-  return r ? { attack: r.a, defense: r.d, move: r.m } : fallback;
+  return r ? { attack: r.a, defense: r.d, move: r.m, sp: 1 } : fallback;
 }
 
 function buildUnits() {
@@ -116,13 +119,14 @@ function buildUnits() {
     const isAsu = !!cat.asu;
     const steps: StepValues[] = [{ attack: u.a, defense: u.d, move: u.m }];
     const army8 = typeof u.arrive?.at === 'string' && /^S[123]$/.test(u.arrive.at) && u.side === 'Allied';
-    const back = parseBack(u.back);
+    const back = parseBack(u.back, u.backSp);
     if (back === 'none') {
       // A one-step counter.
     } else if (back) {
-      // The reduced side of the counter, then the Remnant for 3-step units.
+      // The reduced side of the counter, then the Remnant for 3-step units (the 3 stacking-point
+      // regiments and brigades; a "(-)" unit's back is its last step).
       steps.push(back);
-      if (u.remnant && !army8) steps.push(remnantValues(u.remnant, back));
+      if (u.remnant && u.sp >= 3 && !army8) steps.push(remnantValues(u.remnant, back));
     } else {
       // Counter back not entered yet: a reduced step is the full unit less one battalion (-2/-2).
       const nSteps = isAsu || u.cat === 'bh' || u.cat === 'garrison' || silhouette || u.start?.remnant ? 1 : Math.max(1, Math.min(3, u.sp));

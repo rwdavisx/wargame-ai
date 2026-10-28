@@ -64,6 +64,8 @@ export interface StepValues {
   attack: number;
   defense: number;
   move: number;
+  /** Stacking points printed on this side of the counter, when it differs from the front. */
+  sp?: number;
 }
 
 export interface UnitDef {

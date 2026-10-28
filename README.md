@@ -82,7 +82,7 @@ The tables in `data/rules.json` are what the engine uses; the **Rules** tab show
 
 ### Simplifications and assumptions
 
-- **Reduced strengths:** until the counter backs are entered (see below), each lost step costs 2 attack and 2 defense, and a unit has as many steps as its stacking points (1 to 3). Silhouetted tanks, ASUs, beachheads, garrisons and remnants have one step.
+- **Steps:** reduced strengths and stacking points come from the backs of the owner's counters. Units with a blank back have one step. The 3-stacking-point regiments and brigades become their Remnant after their second loss; 131/7A Bde has no Remnant and is eliminated instead.
 - **Automatic choices:** which unit takes a step loss is picked by the program (the owner loses its least valuable step; a step the opponent chooses is the most valuable one). Supply points left over in the Supply Phase are spent on fired ASUs automatically. Defensive air support follows each side's standing order from Settings instead of being asked attack by attack.
 - **Not included:** the Tournament set-up (S1.4), which needs the back of the Allied At Start card.
 - Old saves from the earlier provisional version are ignored.
@@ -91,7 +91,7 @@ The tables in `data/rules.json` are what the engine uses; the **Rules** tab show
 
 1. **Rules tables:** edit `data/rules.json`.
 2. **Counters and set-up:** edit `data/oob.json`. Each unit has `a`, `d`, `m` (full strength), `sp`, a category (`cat`), a `start` (`hex`, `beach` or `followUp`) or an `arrive` (`turn` and `at`: `reserve`, `airdrop`, `hex:XXXX`, an edge `N`/`S`/`E` or an entry area such as `S2`).
-3. **Counter backs:** add `"back": "a-d-m"` to a unit for the values on the reverse of its counter (a 3-step unit then becomes its Remnant after the second loss), or `"back": "none"` for a counter with a single step. Units without `back` keep the estimate above.
+3. **Counter backs:** `"back": "a-d-m"` is the reverse of a counter and `"backSp"` its stacking points when they differ from the front; `"back": "none"` marks a one-step counter. A unit without `back` falls back to an estimate (each step -2 attack and -2 defense).
 4. **Map fixes:** open **Settings → Open the map editor** during a game and click any hex to change its terrain, city, VP, port and its six hexsides (river, mountain, pass, road). Edits apply immediately and persist in the browser. **Export map.json** to save them into `data/map.json` for good.
 
 ### Known map uncertainties

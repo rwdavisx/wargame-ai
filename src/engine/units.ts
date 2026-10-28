@@ -62,16 +62,18 @@ export function occupancy(s: GameState): Map<HexId, Side> {
   return m;
 }
 
-/** Stacking points used by a set of units in one hex. One silhouetted tank stacks free. */
-export function stackPoints(ids: Iterable<string>): number {
+/** Stacking points used by a set of units in one hex. One silhouetted tank stacks free.
+ * With the game state, a reduced unit counts the stacking points on its current side. */
+export function stackPoints(ids: Iterable<string>, s?: GameState): number {
   let pts = 0;
   let freeTank = false;
   for (const id of ids) {
     const d = def(id);
+    const u = s?.units[id];
     if (d.silhouette) {
       if (!freeTank) freeTank = true;
       else pts += 1;
-    } else pts += d.sp;
+    } else pts += (u && values(u).sp) ?? d.sp;
   }
   return pts;
 }
@@ -79,7 +81,7 @@ export function stackPoints(ids: Iterable<string>): number {
 export function canStack(s: GameState, hex: HexId, unitIds: string[]): boolean {
   const ids = new Set(unitsAt(s, hex).map((u) => u.id));
   for (const id of unitIds) ids.add(id);
-  return stackPoints(ids) <= RULES.stackingLimit;
+  return stackPoints(ids, s) <= RULES.stackingLimit;
 }
 
 export function isVehicle(id: string): boolean {
