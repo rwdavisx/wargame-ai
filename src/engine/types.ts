@@ -292,6 +292,8 @@ export interface GameState {
   pendingDefense: PendingDefense | null;
   pendingAdvance: PendingAdvance | null;
   breakthrough?: Breakthrough | null;
+  /** Paths units took during the last action (for animation; not part of the rules). */
+  trails?: Record<string, HexId[]>;
   /** Retreats whose destination the owning player still has to confirm. */
   retreatQueue?: RetreatChoice[];
   /** Auto DS advances queued for the end of the combat phase. */

@@ -8,7 +8,7 @@ import { rollD6 } from './rng';
 import { areaFriendly, supplyChecker } from './supply';
 import type { CombatReport, GameState, PendingAdvance, Side, UnitState } from './types';
 import {
-  canStack, def, goodOrder, stackPoints, isLand, nationGroup, occupancy, other, sideOf, stepsRemaining, supportNation, unitsAt, values,
+  canStack, def, goodOrder, isLand, nationGroup, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values,
 } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 
@@ -856,6 +856,7 @@ export function applyAdvance(s: GameState, unitIds: string[], to: HexId, notes: 
       if (h in s.control || MAP.hexes[h].vp || MAP.hexes[h].city) s.control[h] = sideOf(u);
       prev = h;
     }
+    recordTrail(s, id, [originHex(u) ?? path[0], ...path].filter((h, i, a) => i === 0 || h !== a[i - 1]));
     u.where = { kind: 'map', hex: to };
     delete pa.maxByUnit[id];
   }

@@ -9,7 +9,7 @@ import { applyAdvance, advanceDestinations, resolveAttack } from './combat';
 import { neighbors, sideKey, type HexId } from './hex';
 import { triggerFullRetreats } from './retreat';
 import type { Breakthrough, CombatReport, GameState, Side } from './types';
-import { canStack, def, isLand, occupancy, other, sideOf, unitsAt } from './units';
+import { canStack, def, isLand, occupancy, other, recordTrail, sideOf, unitsAt } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 
 function fail(msg: string): never {
@@ -77,6 +77,7 @@ function claim(s: GameState, hex: HexId, side: Side) {
 function moveGroup(s: GameState, b: Breakthrough, to: HexId, notes: string[], mountain = false) {
   const side = groupSide(s, b);
   for (const id of groupUnits(s, b)) {
+    recordTrail(s, id, [b.hex, to]);
     s.units[id].where = { kind: 'map', hex: to };
     if (mountain) s.units[id].halfEff = true;
   }

@@ -13,7 +13,7 @@ import { rollD6 } from './rng';
 import { areaFriendly, beachheadHexes, losTo, salernoPortOpen, supplyChecker, usablePorts, SOUTH_EDGE_ALLIED_TURN } from './supply';
 import type { Action, GameOptions, GameState, LogEntry, MoveMode, Phase, ReplPool, ReplType, Side, UnitState } from './types';
 import {
-  canStack, def, goodOrder, isLand, occupancy, other, sideOf, stackPoints, stepsRemaining, unitsAt, values,
+  canStack, def, goodOrder, isLand, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, unitsAt, values,
 } from './units';
 import { bondsOf, zocOf } from './zoc';
 
@@ -666,6 +666,8 @@ export function navalDestinations(s: GameState, unitId: string): { to: HexId | '
 }
 
 function moveAlong(s: GameState, u: UnitState, path: HexId[]): void {
+  const from = u.where.kind === 'map' ? [u.where.hex] : [];
+  recordTrail(s, u.id, [...from.filter((h) => h !== path[0]), ...path]);
   for (const h of path) claimHex(s, h, sideOf(u));
   u.where = { kind: 'map', hex: path[path.length - 1] };
 }
@@ -713,6 +715,7 @@ export function entryReach(s: GameState, unitId: string, mode: MoveMode) {
 export function applyAction(s: GameState, a: Action): void {
   need(s.phase !== 'gameOver', 'The game is over.');
   s.seq += 1;
+  s.trails = {};
   if (s.retreatQueue?.length && a.type !== 'retreatChoice') throw new IllegalAction(`The ${s.retreatQueue[0].side} player must first confirm where the retreating units go.`);
   if (s.pendingDefense && a.type !== 'defend') throw new IllegalAction('The defender must first choose: retreat or Determined Defense.');
   switch (a.type) {

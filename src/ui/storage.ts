@@ -9,6 +9,13 @@ export interface Settings {
   claudeModel: string;
   noticeDismissed: boolean;
   defensiveAir: Record<Side, 'auto' | 'always' | 'never'>;
+  sound: boolean;
+  volume: number;
+  followAi: boolean;
+  /** Animation duration multiplier (0.5 fast to 1.5 slow). */
+  animSpeed: number;
+  showGrid: boolean;
+  showLabels: boolean;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -16,12 +23,23 @@ const SETTINGS_KEY = 's43.settings.v1';
 
 export const DEFAULT_SETTINGS: Settings = {
   controllers: { Allied: 'human', German: 'heuristic' },
-  aiDelayMs: 350,
+  aiDelayMs: 450,
   claudeApiKey: '',
   claudeModel: 'claude-opus-5-5',
   noticeDismissed: false,
   defensiveAir: { Allied: 'auto', German: 'auto' },
+  sound: true,
+  volume: 0.5,
+  followAi: true,
+  animSpeed: 1,
+  showGrid: true,
+  showLabels: true,
 };
+
+export function hasAutosave(): boolean {
+  const g = loadAutosave();
+  return !!g && g.phase !== 'gameOver';
+}
 
 function get(key: string): string | null {
   try {

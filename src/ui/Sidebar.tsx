@@ -1,15 +1,16 @@
-import { useRef, useState } from 'react';
-import { BATTLESHIPS_TURN, MAP, RULES, SCENARIOS } from '../engine/data';
+import { useState } from 'react';
+import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
 import { columnLabel, inNavalRange, mafOptions, parseCell, readyAsusFor, type OddsInfo } from '../engine/combat';
 import { applyAction, landingHexes, lpCost, navalDestinations, replPool } from '../engine/game';
 import { neighbors, sideKey, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove } from '../engine/movement';
 import { breakthroughTargets, groupUnits } from '../engine/breakthrough';
 import { areaFriendly, supplyChecker } from '../engine/supply';
-import type { Action, CombatReport, GameOptions, GameState, HexData, HexsideData, MoveMode, ReplPool, Side, Terrain, UnitState } from '../engine/types';
+import type { Action, CombatReport, GameState, HexData, HexsideData, MoveMode, ReplPool, Side, Terrain, UnitState } from '../engine/types';
 import { def, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values } from '../engine/units';
 import { clearOverrides, editHex, editHexside, exportMapJson, overrideCount } from './mapEditor';
-import { downloadText, type Controller, type Settings } from './storage';
+import { downloadText, type Settings } from './storage';
+import { TokenIcon } from './render/units';
 import { eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
 
 interface Props {
@@ -40,14 +41,11 @@ interface Props {
   paused: boolean;
   setPaused: (p: boolean) => void;
   aiStatus: string;
-  startNew: (scenario: string, options?: GameOptions) => void;
-  loadGame: (g: GameState) => void;
   editorOn: boolean;
   setEditorOn: (b: boolean) => void;
   bumpMap: () => void;
 }
 
-const NATION_COLOR: Record<string, string> = { GE: '#5d666b', US: '#4d5e2a', BR: '#8a7444', CN: '#8a7444' };
 
 function isLegal(s: GameState, a: Action): boolean {
   try {
@@ -63,7 +61,7 @@ function UnitRow({ u, selected, onClick, extra }: { u: UnitState; selected?: boo
   const v = values(u);
   return (
     <div className={`unitrow${selected ? ' selected' : ''}`} onClick={onClick}>
-      <span className="tag" style={{ background: NATION_COLOR[d.nation] }}>{d.nation}</span>
+      <TokenIcon unit={u} size={34} />
       <span className="name">
         {d.name}
         {u.stepsLost > 0 && <span className="tag red"> {stepsRemaining(u)}/{d.steps.length} steps</span>}
@@ -84,11 +82,10 @@ function UnitRow({ u, selected, onClick, extra }: { u: UnitState; selected?: boo
 
 export function Sidebar(p: Props) {
   const tabs: [string, string][] = [
-    ['play', 'Play'],
-    ['units', 'Off-map'],
+    ['play', 'Orders'],
+    ['units', 'Forces'],
     ['log', 'Log'],
-    ['crt', 'Tables'],
-    ['setup', 'Setup'],
+    ['crt', 'Rules'],
   ];
   if (p.editorOn) tabs.push(['editor', 'Map editor']);
   return (
@@ -105,7 +102,6 @@ export function Sidebar(p: Props) {
         {p.tab === 'units' && <OffMapPanel {...p} />}
         {p.tab === 'log' && <LogPanel game={p.game} />}
         {p.tab === 'crt' && <TablesPanel />}
-        {p.tab === 'setup' && <SetupPanel {...p} />}
         {p.tab === 'editor' && <EditorPanel {...p} />}
       </div>
     </div>
@@ -151,7 +147,8 @@ function PlayPanel(p: Props) {
   if (g.pendingDefense) {
     return (
       <>
-        <DefenseControls {...p} />
+        <h3>Your units are under attack</h3>
+        <p className="muted">Decide in the dialog: retreat, or make a Determined Defense in {g.pendingDefense.hex}.</p>
         <SelectedHexInfo {...p} />
       </>
     );
@@ -381,8 +378,8 @@ function MovementControls(p: Props) {
     <>
       <h3>{side} movement phase</h3>
       <p className="muted">
-        Click one of your units, then a highlighted hex (green: may continue, orange: must stop there; numbers are MP, or hexes for tactical
-        moves). Click a stack again to cycle through it. Click a red enemy hex to plan an Auto DS overrun.
+        Click one of your units, then a highlighted hex: blue it can reach, amber where it must stop. Hover a hex to see the route and its
+        cost. Click a stack again to cycle through it, or a red enemy hex to plan an Auto DS overrun.
         {side === 'Allied' ? ` Landing points left: ${g.landingPoints}.` : ` Trucks used: ${g.trucksUsed}/2.`}
       </p>
       <div className="row">
@@ -420,7 +417,7 @@ function CombatControls(p: Props) {
     <>
       <h3>{side} combat phase</h3>
       {last && last.turn === g.turn && last.attackerSide === side && <CombatResult r={last} />}
-      {p.attackTarget ? <AttackPlanner {...p} kind="attack" /> : <p className="muted">Click a red-tinted enemy hex to plan an attack.</p>}
+      {p.attackTarget ? <AttackPlanner {...p} kind="attack" /> : <p className="muted">Click a red enemy hex to plan an attack.</p>}
       {canDisengage && (
         <div className="row">
           <button title="Roll to pull the units in this hex back one hex; they may not attack this phase."
@@ -572,7 +569,7 @@ function RetreatChoiceControls(p: Props) {
       <h3>{rq.side}: choose where your units retreat</h3>
       <p className="muted">
         {rq.units.map((id) => def(id).name).join(', ')} retreat {rq.distance} hex{rq.distance > 1 ? 'es' : ''} from {rq.from}. They are now at{' '}
-        {rq.options[rq.current].end}. Click another blue hex to retreat there instead (every option follows the retreat priorities and loses
+        {rq.options[rq.current].end}. Click another highlighted hex to retreat there instead (every option follows the retreat priorities and loses
         no more units), or keep the current one.
       </p>
       <div className="row">
@@ -584,6 +581,11 @@ function RetreatChoiceControls(p: Props) {
       </div>
     </>
   );
+}
+
+/** The defender's decision, shown in a dialog over the map. */
+export function DefensePanel({ game, acting, dispatch }: { game: GameState; acting: Side; dispatch: (a: Action) => GameState | null }) {
+  return <DefenseControls {...({ game, acting, dispatch } as unknown as Props)} />;
 }
 
 function DefenseControls(p: Props) {
@@ -650,7 +652,7 @@ function AdvanceControls(p: Props) {
     <>
       {last && <CombatResult r={last} />}
       <h3>Advance after combat{pa.limited ? ' (limited: vacated hex only)' : ''}</h3>
-      <p className="muted">Tick the units that advance together, then click a purple hex. Units may advance separately. Finish when done.</p>
+      <p className="muted">Tick the units that advance together, then click a violet hex. Units may advance separately. Finish when done.</p>
       {ids.map((id) => (
         <label key={id} className="unitrow">
           <input type="checkbox" checked={p.advanceSel.includes(id)}
@@ -694,7 +696,7 @@ function BreakthroughControls(p: Props) {
       {last && last.turn === g.turn && <CombatResult r={last} />}
       <h3>Breakthrough Group at {b.hex}: {b.left} hex{b.left === 1 ? '' : 'es'} left</h3>
       <p className="muted">
-        Click a purple hex to advance (the number is its cost) or a red hex to attack it.
+        Click a violet hex to advance (the number is its cost) or a red hex to attack it.
         {b.freeHex ? ` The group may enter ${b.freeHex} for free${b.mayContinue ? ' and keep going' : ' and must then stop'}.` : ''}
         {!b.committed ? ' Turning away from the vacated hex costs 1 extra hex.' : ''}
       </p>
@@ -951,115 +953,23 @@ function TablesPanel() {
   );
 }
 
-function SetupPanel(p: Props) {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [scenario, setScenario] = useState('campaign');
-  const [options, setOptions] = useState<GameOptions>({});
-  const s = p.settings;
-  const setCtl = (side: 'Allied' | 'German', c: Controller) => p.setSettings({ ...s, controllers: { ...s.controllers, [side]: c } });
-  return (
-    <>
-      <h3>Players</h3>
-      {(['Allied', 'German'] as const).map((side) => (
-        <div key={side} className="row">
-          <span style={{ width: 60 }}>{side}</span>
-          <select value={s.controllers[side]} onChange={(e) => setCtl(side, e.target.value as Controller)}>
-            <option value="human">Human</option>
-            <option value="heuristic">Computer (built-in AI)</option>
-            <option value="claude">Claude (API key required)</option>
-          </select>
-        </div>
-      ))}
-      <h3>Defensive air support</h3>
-      <p className="muted">When a side's ready air marker is spent to defend (−1 column for the attacker). The default commits it at 3-1 or worse, or to hold a VP hex.</p>
-      {(['Allied', 'German'] as const).map((side) => (
-        <div key={side} className="row">
-          <span style={{ width: 60 }}>{side}</span>
-          <select value={s.defensiveAir[side]} onChange={(e) => p.setSettings({ ...s, defensiveAir: { ...s.defensiveAir, [side]: e.target.value as 'auto' | 'always' | 'never' } })}>
-            <option value="auto">when threatened (default)</option>
-            <option value="always">whenever attacked</option>
-            <option value="never">never</option>
-          </select>
-        </div>
-      ))}
-      <div className="row">
-        AI speed
-        <input type="range" min={0} max={1500} step={50} value={s.aiDelayMs} onChange={(e) => p.setSettings({ ...s, aiDelayMs: Number(e.target.value) })} />
-        <span className="muted">{s.aiDelayMs} ms/action</span>
-      </div>
-      <h3>Claude opponent</h3>
-      <p className="muted">
-        Optional. Claude plans each phase; the engine checks every order. Your key is kept only in this browser's local storage and sent only to
-        api.anthropic.com.
-      </p>
-      <div className="row">
-        <input type="password" placeholder="sk-ant-..." value={s.claudeApiKey} style={{ flex: 1 }}
-          onChange={(e) => p.setSettings({ ...s, claudeApiKey: e.target.value.trim() })} />
-      </div>
-      <div className="row">
-        Model
-        <select value={s.claudeModel} onChange={(e) => p.setSettings({ ...s, claudeModel: e.target.value })}>
-          <option value="claude-opus-5-5">Claude Opus 5.5</option>
-          <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
-          <option value="claude-haiku-5-5">Claude Haiku 5.5</option>
-        </select>
-      </div>
-      <h3>New game</h3>
-      <div className="row">
-        <select value={scenario} onChange={(e) => setScenario(e.target.value)}>
-          {Object.entries(SCENARIOS).map(([k, v]) => (
-            <option key={k} value={k}>{v.name} ({v.lastTurn} turns)</option>
-          ))}
-        </select>
-        <button className="danger" onClick={() => confirm('Abandon the current game?') && p.startNew(scenario, options)}>Start</button>
-      </div>
-      <p className="muted">{SCENARIOS[scenario]?.description}</p>
-      <label className="row" title="A recon unit alone in a hex ignores the step loss of a D1 or DS result (it still retreats, and may not make a Determined Defense that phase).">
-        <input type="checkbox" checked={!!options.recon} onChange={(e) => setOptions({ ...options, recon: e.target.checked })} /> Optional rule 25.2: Reconnaissance units
-      </label>
-      <label className="row" title="Allied units that can only trace supply to a port share its capacity: the port's LP value x 10 in LP of units.">
-        <input type="checkbox" checked={!!options.limitedPortSupply} onChange={(e) => setOptions({ ...options, limitedPortSupply: e.target.checked })} /> Optional rule 25.3: Limited supply from ports
-      </label>
-      {(p.game.options?.recon || p.game.options?.limitedPortSupply) && (
-        <p className="muted">
-          This game uses: {[p.game.options.recon && 'recon units', p.game.options.limitedPortSupply && 'limited port supply'].filter(Boolean).join(', ')}.
-        </p>
-      )}
-      <h3>Save / load</h3>
-      <p className="muted">The game autosaves in this browser after every action.</p>
-      <div className="row">
-        <button onClick={() => downloadText(`salerno43-turn${p.game.turn}.json`, JSON.stringify(p.game))}>Export save</button>
-        <button onClick={() => fileRef.current?.click()}>Import save</button>
-        <input ref={fileRef} type="file" accept="application/json" style={{ display: 'none' }}
-          onChange={async (e) => {
-            const f = e.target.files?.[0];
-            if (!f) return;
-            try {
-              p.loadGame(JSON.parse(await f.text()) as GameState);
-            } catch {
-              alert('That file is not a saved game.');
-            }
-          }} />
-      </div>
-      <h3>Map editor</h3>
-      <p className="muted">
-        Correct the transcribed map against your copy: click a hex to edit its terrain, features and hexsides. {overrideCount()} edits stored.
-      </p>
-      <div className="row">
-        <button onClick={() => { p.setEditorOn(!p.editorOn); p.setTab(p.editorOn ? 'setup' : 'editor'); }}>
-          {p.editorOn ? 'Close editor' : 'Open editor'}
-        </button>
-        <button onClick={() => downloadText('map.json', exportMapJson())}>Export map.json</button>
-        <button onClick={() => { if (confirm('Discard all map edits and reload?')) { clearOverrides(); location.reload(); } }}>Reset edits</button>
-      </div>
-    </>
-  );
-}
-
 function EditorPanel(p: Props) {
   const h = p.selectedHex;
   const [, force] = useState(0);
-  if (!h) return <p className="muted">Click a hex on the map to edit it.</p>;
+  const tools = (
+    <>
+      <p className="muted">
+        Correct the transcribed map against your copy: click a hex to edit its terrain, features and hexsides. {overrideCount()} edits stored.
+        The painted map is redrawn after each edit.
+      </p>
+      <div className="row">
+        <button onClick={() => downloadText('map.json', exportMapJson())}>Export map.json</button>
+        <button onClick={() => { if (confirm('Discard all map edits and reload?')) { clearOverrides(); location.reload(); } }}>Reset edits</button>
+        <button onClick={() => { p.setEditorOn(false); p.setTab('play'); }}>Close editor</button>
+      </div>
+    </>
+  );
+  if (!h) return tools;
   const d: HexData = MAP.hexes[h];
   const save = (nd: HexData) => {
     editHex(h, nd);
@@ -1073,6 +983,7 @@ function EditorPanel(p: Props) {
   };
   return (
     <>
+      {tools}
       <h3>Hex {h}</h3>
       <div className="row">
         Terrain

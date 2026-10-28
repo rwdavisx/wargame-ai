@@ -4,7 +4,7 @@ import { distance, neighbors, sideKey, type HexId } from './hex';
 import { eliminate } from './losses';
 import { areaFriendly, supplyChecker } from './supply';
 import type { GameState, Side, Status, UnitState } from './types';
-import { def, isLand, occupancy, other, sideOf, unitsAt, values } from './units';
+import { def, isLand, occupancy, other, recordTrail, sideOf, unitsAt, values } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 
 interface RetreatPlan {
@@ -173,6 +173,7 @@ export function retreatStack(s: GameState, ids: string[], dist: number, origin: 
       eliminate(s, u, notes);
       continue;
     }
+    if (plan.path.length) recordTrail(s, id, [(u.where as { hex: HexId }).hex, ...plan.path]);
     if (plan.intoArea) u.where = { kind: 'entry', area: plan.intoArea };
     else if (plan.path.length) u.where = { kind: 'map', hex: plan.path[plan.path.length - 1] };
     // The last side to occupy or pass through a port, city or VP hex controls it (16.3.4).
@@ -209,6 +210,7 @@ export function chooseRetreat(s: GameState, index: number, notes: string[]): voi
   for (const id of item.units) {
     const u = s.units[id];
     if (u.where.kind !== 'map' && u.where.kind !== 'entry') continue;
+    if (u.where.kind === 'map') recordTrail(s, id, [u.where.hex, opt.end]);
     u.where = opt.intoArea ? { kind: 'entry', area: opt.intoArea } : { kind: 'map', hex: opt.end };
     u.halfEff = item.prevHalfEff[id] || opt.halfEff.includes(id);
     for (const h of opt.path) if (MAP.hexes[h].vp || MAP.hexes[h].city || MAP.hexes[h].port) s.control[h] = sideOf(u);

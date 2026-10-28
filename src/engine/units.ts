@@ -4,6 +4,12 @@ import type { GameState, Side, StepValues, UnitDef, UnitState } from './types';
 
 export const other = (s: Side): Side => (s === 'Allied' ? 'German' : 'Allied');
 
+/** Notes the hexes a unit passed through in the current action, so the UI can animate it. */
+export function recordTrail(s: GameState, unitId: string, path: HexId[]): void {
+  if (!path.length) return;
+  (s.trails ??= {})[unitId] = path;
+}
+
 export function def(id: string): UnitDef {
   const d = UNIT_DEFS[id];
   if (!d) throw new Error(`Unknown unit ${id}`);
