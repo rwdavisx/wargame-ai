@@ -4,6 +4,8 @@ A browser version of GMT Games' **Salerno '43** for owners of the physical game,
 
 This is a personal play aid. It contains no GMT artwork or rulebook text. The map is an original rendering of hex data transcribed from photos of the owner's map, the tables and set-up come from the owner's player aids, and the rules are implemented in the program's own code. You need your own copy of the game for the rulebook and counters.
 
+![Opening Allied turn](docs/game.png)
+
 ## Running it
 
 ```bash
