@@ -51,7 +51,7 @@ export interface MapViewProps {
   /** The computer is acting: the camera may follow its moves. */
   aiActive: boolean;
   humanSides: Side[];
-  onHexClick: (hex: HexId, e: { shift: boolean }) => void;
+  onHexClick: (hex: HexId, e: { shift: boolean; touch: boolean }) => void;
   onHover: (hex: HexId | null) => void;
   hoverText: string | null;
 }
@@ -400,11 +400,16 @@ export function MapView(props: MapViewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [vb, setVb] = useState<View>(() => {
     const [cx, cy] = center('2711');
-    return { x: cx - 520, y: cy - 330, w: 1040, h: 660 };
+    // Phones start closer in so the counters are big enough to tap.
+    const w = typeof window !== 'undefined' && window.innerWidth < 820 ? 440 : 1040;
+    return { x: cx - w / 2, y: cy - (w * 0.63) / 2, w, h: w * 0.63 };
   });
   const vbRef = useRef(vb);
   vbRef.current = vb;
   const drag = useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
+  // Touch: every finger on the map, and the pinch in progress (start distance, midpoint and view).
+  const fingers = useRef(new Map<number, { x: number; y: number }>());
+  const pinch = useRef<{ d: number; mx: number; my: number; v: View } | null>(null);
   const [dragging, setDragging] = useState(false);
   const [hoverHex, setHoverHex] = useState<HexId | null>(null);
   const [effects, setEffects] = useState<Effect[]>([]);
@@ -416,7 +421,9 @@ export function MapView(props: MapViewProps) {
   const clampView = useCallback(
     (v: View): View => {
       const w = Math.min(b.w * 1.15, Math.max(330, v.w));
-      const h = (v.h / v.w) * w;
+      // Always keep the element's aspect ratio, whatever view was asked for.
+      const r = svgRef.current?.getBoundingClientRect();
+      const h = r && r.width && r.height ? (w * r.height) / r.width : (v.h / v.w) * w;
       const x = Math.min(b.x + b.w - w * 0.35, Math.max(b.x - w * 0.65, v.x));
       const y = Math.min(b.y + b.h - h * 0.35, Math.max(b.y - h * 0.65, v.y));
       return { x, y, w, h };
@@ -444,6 +451,12 @@ export function MapView(props: MapViewProps) {
 
   const toSvg = useCallback((clientX: number, clientY: number) => {
     const el = svgRef.current!;
+    // The browser's own screen transform, so letterboxing can never shift a tap.
+    const m = el.getScreenCTM();
+    if (m) {
+      const p = new DOMPoint(clientX, clientY).matrixTransform(m.inverse());
+      return { x: p.x, y: p.y, scale: 1 / m.a };
+    }
     const rect = el.getBoundingClientRect();
     const v = vbRef.current;
     const scale = v.w / rect.width;
@@ -674,14 +687,47 @@ export function MapView(props: MapViewProps) {
         preserveAspectRatio="xMidYMid meet"
         onPointerDown={(e) => {
           if (anim.current) cancelAnimationFrame(anim.current);
+          if (e.pointerType !== 'mouse') {
+            fingers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            (e.currentTarget as Element).setPointerCapture?.(e.pointerId);
+            if (fingers.current.size === 2) {
+              // A second finger turns the drag into a pinch; neither finger will count as a tap.
+              const [a, c] = [...fingers.current.values()];
+              pinch.current = { d: Math.hypot(a.x - c.x, a.y - c.y) || 1, mx: (a.x + c.x) / 2, my: (a.y + c.y) / 2, v: vbRef.current };
+              if (drag.current) drag.current.moved = true;
+              setDragging(true);
+              return;
+            }
+            if (fingers.current.size > 2) return;
+          }
           drag.current = { x: e.clientX, y: e.clientY, vx: vb.x, vy: vb.y, moved: false };
         }}
         onPointerMove={(e) => {
+          if (e.pointerType !== 'mouse' && fingers.current.has(e.pointerId)) {
+            fingers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            const pz = pinch.current;
+            if (pz && fingers.current.size >= 2) {
+              const [a, c] = [...fingers.current.values()];
+              const d = Math.hypot(a.x - c.x, a.y - c.y) || 1;
+              const mx = (a.x + c.x) / 2;
+              const my = (a.y + c.y) / 2;
+              const rect = svgRef.current!.getBoundingClientRect();
+              const k0 = pz.v.w / rect.width;
+              // The map point under the starting midpoint stays under the fingers.
+              const px = pz.v.x + (pz.mx - rect.left) * k0;
+              const py = pz.v.y + (pz.my - rect.top) * k0;
+              const w = Math.min(b.w * 1.15, Math.max(330, (pz.v.w * pz.d) / d));
+              const h = (pz.v.h / pz.v.w) * w;
+              const k = w / rect.width;
+              setVb(clampView({ x: px - (mx - rect.left) * k, y: py - (my - rect.top) * k, w, h }));
+              return;
+            }
+          }
           const d = drag.current;
           if (d) {
             const dx = e.clientX - d.x;
             const dy = e.clientY - d.y;
-            if (!d.moved && Math.hypot(dx, dy) > 5) {
+            if (!d.moved && Math.hypot(dx, dy) > (e.pointerType === 'mouse' ? 5 : 10)) {
               d.moved = true;
               setDragging(true);
               (e.target as Element).setPointerCapture?.(e.pointerId);
@@ -692,6 +738,7 @@ export function MapView(props: MapViewProps) {
               return;
             }
           }
+          if (e.pointerType !== 'mouse') return; // no hover on touch screens
           const p = toSvg(e.clientX, e.clientY);
           const h = pixelToHex(p.x, p.y);
           const hex = MAP.hexes[h] ? h : null;
@@ -701,16 +748,42 @@ export function MapView(props: MapViewProps) {
           }
         }}
         onPointerUp={(e) => {
+          const touch = e.pointerType !== 'mouse';
+          if (touch) {
+            fingers.current.delete(e.pointerId);
+            if (pinch.current) {
+              if (fingers.current.size < 2) pinch.current = null;
+              if (fingers.current.size === 0) {
+                drag.current = null;
+                setDragging(false);
+              }
+              return;
+            }
+          }
           const d = drag.current;
           drag.current = null;
           setDragging(false);
           if (d && !d.moved) {
             const p = toSvg(e.clientX, e.clientY);
             const h = pixelToHex(p.x, p.y);
-            if (MAP.hexes[h]) props.onHexClick(h, { shift: e.shiftKey });
+            if (MAP.hexes[h]) {
+              if (touch) {
+                // A tap stands in for hovering: show the hex details and the route there.
+                setHoverHex(h);
+                props.onHover(h);
+              }
+              props.onHexClick(h, { shift: e.shiftKey, touch });
+            }
           }
         }}
-        onPointerLeave={() => {
+        onPointerCancel={(e) => {
+          fingers.current.delete(e.pointerId);
+          if (fingers.current.size < 2) pinch.current = null;
+          drag.current = null;
+          setDragging(false);
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== 'mouse') return;
           setHoverHex(null);
           props.onHover(null);
         }}

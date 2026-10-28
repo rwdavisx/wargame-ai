@@ -6,6 +6,8 @@
   "description": "Digital play aid for Salerno '43 (GMT Games) with an AI opponent. Requires your own copy of the game.",
   "scripts": {
     "dev": "vite",
+    "phone": "tsc --noEmit && vite build && vite preview --host --port 4173",
+    "phone:dev": "vite --host",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",

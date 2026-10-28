@@ -1,5 +1,6 @@
 // The battle screen: map, HUD, command panel and the AI loop.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { PORTRAIT_PHONE, usePhone } from './usePhone';
 import { MAP } from '../engine/data';
 import { adjacentForCombat, advanceDestinations, computeOdds, entryAreasOf } from '../engine/combat';
 import { breakthroughMoves, breakthroughPlan, breakthroughTargets } from '../engine/breakthrough';
@@ -20,6 +21,11 @@ import type { Settings } from './storage';
 import { effectiveMode, eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
 
 export const dateOf = (turn: number) => `${8 + turn} September 1943`;
+
+const CONFIRM_LABEL: Record<string, string> = {
+  move: 'Tap again to move here', enter: 'Tap again to enter here', land: 'Tap again to land here', advance: 'Tap again to advance',
+  btMove: 'Tap again to move the group', retreatChoice: 'Tap again to retreat here',
+};
 
 const UNDOABLE = new Set(['move', 'enter', 'land', 'naval', 'changeArea', 'fullRetreat', 'replace', 'readyAsu', 'btMove', 'btDrop']);
 
@@ -52,7 +58,12 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const [tab, setTab] = useState('play');
   const [menu, setMenu] = useState<'none' | 'pause' | 'settings'>('none');
   const [overDismissed, setOverDismissed] = useState(false);
+  const phone = usePhone(PORTRAIT_PHONE);
+  const touch = usePhone('(pointer: coarse)');
   const [panelOpen, setPanelOpen] = useState(true);
+  // On a touch screen the first tap on a destination previews it; a second tap carries it out.
+  const [confirmHex, setConfirmHex] = useState<HexId | null>(null);
+  useEffect(() => setConfirmHex(null), [selectedUnit, moveMode, advanceSel, game.phase, game.activeSide]);
 
   const humanSides = useMemo(() => (['Allied', 'German'] as const).filter((sd) => settings.controllers[sd] === 'human'), [settings.controllers]);
 
@@ -301,7 +312,14 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   }, [game, attackTarget, attackers, support]);
 
   // ---------------------------------------------------------------- map clicks
-  const onHexClick = (hex: HexId) => {
+  const onHexClick = (hex: HexId, e?: { touch: boolean }) => {
+    const clickAct0 = clickActions.get(hex);
+    if (e?.touch && humanTurn && clickAct0 && !editorOn && confirmHex !== hex) {
+      setConfirmHex(hex);
+      sfx.click();
+      return;
+    }
+    setConfirmHex(null);
     setSelectedHex(hex);
     if (editorOn) {
       setTab('editor');
@@ -369,15 +387,15 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       lines.push(`${def(u.id).name}  ${def(u.id).asu ? `art. range ${def(u.id).asuRange}` : `${v.attack}-${v.defense}-${v.move}`}${u.status !== 'good' ? ` · ${u.status}` : ''}`);
     }
     const hl = highlights.get(hover);
-    if (hl?.kind === 'attack' && humanTurn) lines.push('Click to plan an attack');
+    if (hl?.kind === 'attack' && humanTurn) lines.push(touch ? 'Tap to plan an attack' : 'Click to plan an attack');
     return lines.join('\n');
-  }, [hover, game, highlights, humanTurn]);
+  }, [hover, game, highlights, humanTurn, touch]);
 
   const cardUnit = selUnit ?? (selectedHex ? unitsAt(game, selectedHex)[0] ?? null : null);
   const showDefense = humanTurn && !!game.pendingDefense;
 
   return (
-    <div className="game">
+    <div className={`game${panelOpen ? ' panel-open' : ' panel-closed'}`}>
       <MapView
         state={game}
         terrain={terrain}
@@ -391,7 +409,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         preview={preview}
         aiActive={!humanTurn}
         humanSides={humanSides}
-        onHexClick={onHexClick}
+        onHexClick={(h, e) => onHexClick(h, e)}
         onHover={setHover}
         hoverText={hoverText}
       />
@@ -402,9 +420,15 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       {game.retreatQueue?.length && humanTurn ? (
         <div className="prompt">Choose where your retreating units go: click a highlighted hex, or keep the green one.</div>
       ) : null}
+      {confirmHex && clickActions.has(confirmHex) && humanTurn && (
+        <div className="confirm-hint">
+          <span>{CONFIRM_LABEL[clickActions.get(confirmHex)!.type] ?? 'Tap again to confirm'}</span>
+          <button onClick={() => setConfirmHex(null)}>Cancel</button>
+        </div>
+      )}
       <aside className={`command${panelOpen ? '' : ' closed'}`}>
         <button className="command-toggle" onClick={() => setPanelOpen((o) => !o)} title={panelOpen ? 'Hide orders' : 'Show orders'}>
-          {panelOpen ? '›' : '‹'}
+          {phone ? (panelOpen ? '▾' : '▴ Orders') : panelOpen ? '›' : '‹'}
         </button>
         <Sidebar
           game={game}
@@ -412,7 +436,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           settings={settings}
           setSettings={setSettings}
           tab={tab}
-          setTab={setTab}
+          setTab={(t) => { setTab(t); setPanelOpen(true); }}
           humanTurn={humanTurn}
           dispatch={dispatch}
           undo={undo}

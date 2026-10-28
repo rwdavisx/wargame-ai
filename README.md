@@ -18,6 +18,27 @@ npm run selfplay -- short 1 3      # three AI-vs-AI games from the command line
 
 The first launch paints the map (a few seconds); the result is cached in the browser, so later launches start straight at the title screen. The game autosaves after every action and **Continue** on the title screen picks it up. Save files can be exported and imported from the pause menu (**Esc**).
 
+### On your phone
+
+1. On your computer, in the project folder, run:
+
+   ```bash
+   npm run phone
+   ```
+
+   It builds the game and prints two addresses. Use the **Network** one, for example `http://192.168.1.20:4173`.
+2. Connect your phone to the same WiFi and open that address in Safari or Chrome.
+3. Optional: use **Share → Add to Home Screen** (iPhone) or **⋮ → Add to Home screen** (Android) to get a full-screen app icon.
+
+If the phone can't connect, allow Node through your computer's firewall when asked (on Windows, choose Private networks). The computer must stay on while you play. Saves live on the phone, separate from the computer's browser. `npm run phone:dev` does the same with the development server, which reloads when the code changes.
+
+On a touch screen:
+
+- **Drag** to pan and **pinch** to zoom.
+- **Tap** a unit to select it and see its details.
+- **Tap a highlighted hex** to preview the route, then **tap it again** to carry out the move or advance. Cancel, or tap elsewhere, to back out.
+- Held upright, the orders are in a sheet at the bottom: tap **Orders** or a tab to open it, and **▾** to lower it. Held sideways, they sit in a side panel.
+
 ## Playing
 
 ### Starting an operation
@@ -33,7 +54,7 @@ The first launch paints the map (a few seconds); the result is cached in the bro
 - **Minimap** (bottom): click or drag to jump around the map.
 - **Event feed:** recent combat results and landings. Combat pops up a result card with the odds and the dice.
 - **Banners** announce each new phase and player turn. During the computer's turn the camera follows its moves (turn this off in Settings) and returns to your view afterwards.
-- **Camera:** drag to pan, wheel or **+**/**−** to zoom, arrows or WASD to scroll. **Esc** cancels the current target, then the selection, then opens the pause menu.
+- **Camera:** drag to pan, wheel, pinch or **+**/**−** to zoom, arrows or WASD to scroll. **Esc** cancels the current target, then the selection, then opens the pause menu.
 
 ### Highlight colours
 
