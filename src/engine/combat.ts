@@ -2,7 +2,7 @@
 import { BATTLESHIPS_TURN, MAP, RULES } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import { eliminate, loseStep, takeSteps } from './losses';
-import { weatherBox } from './movement';
+import { isExtended, movementAllowance, weatherBox } from './movement';
 import { retreatStack, planRetreat, triggerFullRetreats } from './retreat';
 import { rollD6 } from './rng';
 import { areaFriendly, supplyChecker } from './supply';
@@ -17,6 +17,8 @@ export interface AttackPlan {
   target: HexId;
   attackers: string[];
   maf?: string;
+  /** The one unit attached to the MAF (8.4.3); chosen automatically when omitted. */
+  attach?: string;
   air?: boolean;
   naval?: boolean;
   battleships?: boolean;
@@ -148,8 +150,17 @@ export function mafOptions(attackers: string[]): string[] {
   return [...opts];
 }
 
-function mafMembers(s: GameState, attackers: string[], maf: string): string[] {
+/** Units that may attach to `maf` (8.4.3): stacked with a MAF unit; for the Allies only a silhouetted tank or a battalion. */
+function attachCandidates(s: GameState, attackers: string[], core: string[]): string[] {
+  const coreHexes = new Set(core.map((id) => stackKey(s.units[id])));
+  const side = def(attackers[0]).side;
+  return attackers.filter((id) => !core.includes(id) && coreHexes.has(stackKey(s.units[id])))
+    .filter((id) => side === 'German' || def(id).silhouette || def(id).sp <= 1);
+}
+
+function mafMembers(s: GameState, attackers: string[], maf: string, attach?: string): string[] {
   const core = attackers.filter((id) => (def(id).division ?? id) === maf);
+  if (attach !== undefined) return attachCandidates(s, attackers, core).includes(attach) ? [...core, attach] : core;
   const coreHexes = new Set(core.map((id) => stackKey(s.units[id])));
   const side = def(attackers[0]).side;
   // One attachment stacked with a MAF unit.
@@ -178,6 +189,10 @@ export function validateAttackers(s: GameState, target: HexId, attackers: string
     if (u.autoDs && !breakthrough) return `${d.name} made an Auto DS this turn.`;
     if (!goodOrder(u)) return `${d.name} is ${u.status === 'disrupted' ? 'disrupted' : 'in Full Retreat'}.`;
     if (u.truck) return `${d.name} moved by truck (attack 0).`;
+    // The MA is the most a unit may spend and still attack (2.3.2): Extended Movement past it rules out attacking.
+    if (!breakthrough && u.moveMode && isExtended(u.moveMode) && (u.mpSpent ?? 0) > movementAllowance(s, u, 'normal') + 1e-9) {
+      return `${d.name} used Extended Movement and cannot attack this turn.`;
+    }
     if (u.where.kind === 'map' && unitsAt(s, u.where.hex).some((x) => x.repl)) return `A unit in ${u.where.hex} received a replacement: no combat from that hex.`;
     if (u.where.kind === 'entry') {
       if (u.repl) return `${d.name} received a replacement this turn.`;
@@ -283,7 +298,8 @@ function baseIndexFor(attack: number, defense: number): number {
   if (ratio < 1) {
     if (ratio + 1e-9 >= 0.5) return 1;
     if (ratio + 1e-9 >= 1 / 3) return 0;
-    return -1;
+    // Below 1-3 (1-4 = -1, 1-5 = -2, ... rounded against the attacker): legal only if shifts lift it to 1-3 (8.6.2).
+    return 3 - Math.ceil(defense / attack - 1e-9);
   }
   return 1 + Math.floor(ratio + 1e-9); // 1-1 = 2, 2-1 = 3, ... beyond 7-1 keeps counting
 }
@@ -301,8 +317,12 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
   const enemy = other(side);
   const target = plan.target;
   const options = mafOptions(plan.attackers);
+  if (plan.attach !== undefined) {
+    const core = plan.attackers.filter((id) => (def(id).division ?? id) === (plan.maf ?? ''));
+    if (!plan.maf || !attachCandidates(s, plan.attackers, core).includes(plan.attach)) return fail(`${def(plan.attach)?.name ?? plan.attach} cannot attach to that Main Assault Force.`);
+  }
   const evalMaf = (maf: string) => {
-    const members = mafMembers(s, plan.attackers, maf);
+    const members = mafMembers(s, plan.attackers, maf, plan.attach);
     let attack = 0;
     for (const id of plan.attackers) {
       const u = s.units[id];
@@ -334,7 +354,6 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
   const dc = defenseOf(s, target, plan.attackers, opts.variableValue, bt);
   const defense = opts.autoDs ? dc.high : dc.defense;
   const baseIndex = baseIndexFor(attack, defense);
-  if (baseIndex < 0) return fail('Odds below 1-3 are not allowed.');
   const shifts: { reason: string; shift: number }[] = [];
   const defenders = unitsAt(s, target).filter((u) => sideOf(u) === enemy && u.status !== 'fullRetreat' && (bt || !u.retreatedThisPhase));
   // Tank shifts.
@@ -393,6 +412,7 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     }
     // Defensive air support, committed automatically for threatened hexes.
     const pre = baseIndex + shifts.reduce((a, b) => a + b.shift, 0);
+    if (pre < 0) return fail('Odds below 1-3 are not allowed.');
     const defAir = defenders.map((u) => markerFor(u.id, 'air')).find((k) => s.support.ready.includes(k));
     // The defender's standing order for air support (default: at 3-1 or worse for him, or to hold a VP hex).
     const policy = s.options?.defensiveAir?.[enemy] ?? 'auto';
@@ -403,6 +423,8 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     }
   }
   const net = baseIndex + shifts.reduce((a, b) => a + b.shift, 0);
+  // The minimum is checked on the attacker's declared odds; a defensive air shift after that leaves it on 1-3 (8.6.2).
+  if (opts.autoDs && net < 0) return fail('Odds below 1-3 are not allowed.');
   const autoDs = defense <= 0 || net >= 11;
   const finalIndex = Math.max(0, Math.min(8, net));
   if (opts.autoDs && !autoDs) return { ...fail('Auto DS needs 10-1 odds or better.'), attack, defense, baseIndex, shifts, finalIndex, maf, mafUnits: members };
@@ -547,7 +569,7 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
   const report: CombatReport = {
     id: s.combats.length + 1, turn: s.turn, attackerSide: side, defenderHex: plan.target, attackers: [...plan.attackers],
     maf: odds.maf, defenders: defenderIds(s, plan.target, enemy), attack: odds.attack, defense: odds.defense,
-    baseColumn: odds.defense <= 0 ? 'no defense' : odds.baseIndex >= 9 ? `${odds.baseIndex - 1}-1` : columnLabel(odds.baseIndex), shifts: odds.shifts,
+    baseColumn: odds.defense <= 0 ? 'no defense' : odds.baseIndex >= 9 ? `${odds.baseIndex - 1}-1` : odds.baseIndex < 0 ? `1-${3 - odds.baseIndex}` : columnLabel(odds.baseIndex), shifts: odds.shifts,
     finalColumn: columnLabel(odds.finalIndex), roll, drm: odds.drm, result: cell.result + (cell.adv ? ` Adv ${cell.adv}` : ''), notes,
     phase: s.phase,
     ...(plan.breakthrough ? { breakthrough: true } : {}),
@@ -556,8 +578,10 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
   const mafAlive = () => odds.mafUnits.filter((id) => s.units[id].where.kind === 'map');
   const bt = !!plan.breakthrough;
   const defs = () => defenderIds(s, plan.target, enemy).filter((id) => bt || !s.units[id].retreatedThisPhase);
-  const contributors = () => defs().filter((id) => !def(id).parenthesized);
-  const parenthesized = () => defs().filter((id) => def(id).parenthesized);
+  // Parenthesized units and units that added no strength (Full Retreat) take losses last (10.2.2).
+  const contributes = (id: string) => !def(id).parenthesized && s.units[id].status !== 'fullRetreat';
+  const contributors = () => defs().filter(contributes);
+  const parenthesized = () => defs().filter((id) => !contributes(id));
   const defSteps = defs().reduce((a, id) => a + stepsRemaining(s.units[id]), 0);
   const attackerHexes = plan.attackers.map((id) => originHex(s.units[id])).filter((h): h is HexId => !!h);
   const r = cell.result;
@@ -634,9 +658,25 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
 
 // ------------------------------------------------------------------ Determined Defense
 
-function pickLead(s: GameState, hex: HexId, side: Side, breakthrough = false): UnitState | null {
+/** Units that may be the Lead Unit (11.2.3); with Defensive Support, only those of its nationality (11.3). */
+function leadCandidates(s: GameState, hex: HexId, side: Side, breakthrough: boolean, nation?: string): UnitState[] {
   const cands = unitsAt(s, hex).filter((u) => sideOf(u) === side && canLead(u) && (breakthrough || !u.retreatedThisPhase));
+  if (!nation) return cands;
+  const same = cands.filter((u) => supportNation(u.id) === nation);
+  return same.length ? same : cands;
+}
+
+/** The nationality ('US', 'BR', 'GE') of a support marker or ASU. */
+function supportNationOf(s: GameState, support: string): string {
+  return s.units[support] ? supportNation(support) : support.split('-')[0];
+}
+
+/** The defender's Lead Unit: his pick if he named an eligible one, else the best candidate. */
+function pickLead(s: GameState, hex: HexId, side: Side, breakthrough = false, prefer?: string, nation?: string): UnitState | null {
+  const cands = leadCandidates(s, hex, side, breakthrough, nation);
   if (!cands.length) return null;
+  const chosen = prefer ? cands.find((u) => u.id === prefer) : undefined;
+  if (chosen) return chosen;
   cands.sort((a, b) => Number(!!def(b.id).elite) - Number(!!def(a.id).elite) || Number(!!def(a.id).lowQuality) - Number(!!def(b.id).lowQuality) ||
     stepsRemaining(b) - stepsRemaining(a));
   return cands[0];
@@ -649,11 +689,22 @@ export interface DefenseChoice {
   support?: string | null;
   battleships?: boolean;
   prefer?: 'hold' | 'delay';
+  /** The Lead Unit the defender picks (11.2.1); chosen automatically when omitted. */
+  lead?: string;
 }
 
 /** Resolves the defender's pending choice. */
 export function resolveDefense(s: GameState, c: DefenseChoice): void {
   const pd = s.pendingDefense!;
+  if (c.choice === 'dd' && c.lead !== undefined) {
+    // The Lead Unit must be able to lead, and match the nationality of any Defensive Support (11.2.3, 11.3).
+    const bt = !!s.combats.find((x) => x.id === pd.combatId)?.breakthrough;
+    const ok = !!s.units[c.lead] && leadCandidates(s, pd.hex, pd.defenderSide, bt).some((x) => x.id === c.lead);
+    if (!ok) throw new Error(`${def(c.lead).name} cannot be the Lead Unit.`);
+    if (c.support && pd.supportOptions.includes(c.support) && supportNationOf(s, c.support) !== supportNation(c.lead)) {
+      throw new Error('Defensive Support must be of the Lead Unit\'s nationality.');
+    }
+  }
   s.pendingDefense = null;
   const rep = s.combats.find((x) => x.id === pd.combatId)!;
   const notes = rep.notes;
@@ -703,8 +754,9 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
   const column = defenderHexTerrain(pd.hex);
   const delayHexes = Math.max(1, Math.min(3, c.delay ?? 1));
   let delays = 0;
+  const supportNat = c.support && pd.supportOptions.includes(c.support) ? supportNationOf(s, c.support) : undefined;
   for (let attempt = 0; attempt < 12; attempt++) {
-    const lead = pickLead(s, pd.hex, side, bt);
+    const lead = pickLead(s, pd.hex, side, bt, c.lead, supportNat);
     if (!lead) break;
     const ld = def(lead.id);
     let drm = supportDrm + shipDrm + (ld.elite ? 1 : 0) - (ld.lowQuality ? 1 : 0) - (pd.yellow ? 1 : 0);

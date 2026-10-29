@@ -15,6 +15,8 @@ interface RetreatPlan {
   halfEff: string[];
   intoArea?: string;
   score: number;
+  /** A hex after the first is a vacant hex in an EZOC (against guideline 3 of 12.1.3). */
+  laterZoc?: boolean;
 }
 
 function friendlyCityOrBh(s: GameState, hex: HexId, side: Side): boolean {
@@ -44,6 +46,8 @@ export function retreatChoices(s: GameState, ids: string[], dist: number, origin
   let opts = all.filter((p) => p.lost.length === minLost);
   const away = (p: RetreatPlan) => p.path.every((h, i) => distance(h, origin) > distance(i ? p.path[i - 1] : start, origin));
   if (opts.some(away)) opts = opts.filter(away);
+  // Guideline 3: only the first hex may be in an EZOC.
+  if (opts.some((p) => !p.laterZoc)) opts = opts.filter((p) => !p.laterZoc);
   const sc = supplyChecker(s, side);
   const supplied = (p: RetreatPlan) => !!p.intoArea || (p.path.length > 0 && sc.inSupply(p.path[p.path.length - 1]));
   if (opts.some(supplied)) opts = opts.filter(supplied);
@@ -107,7 +111,8 @@ function allRetreats(s: GameState, ids: string[], dist: number, origin: HexId, e
     score += neighbors(end).filter((n) => unitsAt(s, n).some((u) => sideOf(u) === side)).length;
     score -= halfEff.size;
     if (intoArea) score += 6;
-    return { path, lost: [...lost], halfEff: [...halfEff], intoArea, score };
+    const laterZoc = path.some((h, i) => i > 0 && vacantZoc(h));
+    return { path, lost: [...lost], halfEff: [...halfEff], intoArea, score, laterZoc };
   };
 
   const consider = (p: RetreatPlan) => {

@@ -782,6 +782,8 @@ export function applyAction(s: GameState, a: Action): void {
   need(s.phase !== 'gameOver', 'The game is over.');
   s.seq += 1;
   s.trails = {};
+  // A City Battle marker goes as soon as the defender has vacated the city (11.6.3).
+  for (const h of Object.keys(s.cityBattle)) if (!unitsAt(s, h).length) delete s.cityBattle[h];
   if (s.retreatQueue?.length && a.type !== 'retreatChoice') throw new IllegalAction(`The ${s.retreatQueue[0].side} player must first confirm where the retreating units go.`);
   if (s.pendingDefense && a.type !== 'defend') throw new IllegalAction('The defender must first choose: retreat or Determined Defense.');
   switch (a.type) {
@@ -810,7 +812,11 @@ export function applyAction(s: GameState, a: Action): void {
       need(!why, `${def(u.id).name} ${why}.`);
       const mode = s.phase === 'invasion' || u.moveMode === 'tactical' ? 'tactical' : a.mode ?? 'normal';
       need(allowedModes(s, u).includes(mode), `${def(u.id).name} may not use ${mode} movement now.`);
-      if (isTruck(mode)) need(s.trucksUsed < 2, 'Both truck markers are in use.');
+      if (isTruck(mode)) {
+        need(s.trucksUsed < 2, 'Both truck markers are in use.');
+        // Supply for trucks is judged at that instant (5.8), not by the last Supply Phase's marker.
+        need(supplyChecker(s, sideOf(u)).inSupply(u.where.hex), `${def(u.id).name} is out of supply and cannot use trucks.`);
+      }
       const dests = legalDestinations(s, u.id, mode);
       const r = dests.get(a.to);
       need(r, `${def(u.id).name} cannot reach ${a.to}.`);
@@ -854,6 +860,7 @@ export function applyAction(s: GameState, a: Action): void {
       moveAlong(s, u, path);
       u.stopped = true;
       u.moveMode = mode;
+      u.mpSpent = r.cost;
       u.hexesMoved = path.length;
       if (isTruck(mode)) {
         u.truck = true;
