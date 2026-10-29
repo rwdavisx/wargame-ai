@@ -12,6 +12,7 @@ import '@fontsource/barlow/600.css';
 import '@fontsource/special-elite/400.css';
 import './ui/theme.css';
 import './ui/log.css';
+import './ui/qol.css';
 
 applyMapOverrides();
 

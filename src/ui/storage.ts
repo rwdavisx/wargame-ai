@@ -19,6 +19,10 @@ export interface Settings {
   showGrid: boolean;
   showLabels: boolean;
   mouseControls: MouseControls;
+  /** Ready-to-act cues, odds on targets and movement left on the map. */
+  showCues: boolean;
+  /** Map mode: normal, supply, control, zoc, support, terrain or stacking (see mapModes.ts). */
+  mapMode: string;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -38,6 +42,8 @@ export const DEFAULT_SETTINGS: Settings = {
   showGrid: true,
   showLabels: true,
   mouseControls: 'rts',
+  showCues: true,
+  mapMode: 'normal',
 };
 
 export function hasAutosave(): boolean {

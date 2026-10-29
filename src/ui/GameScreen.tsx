@@ -21,6 +21,9 @@ import type { TerrainImage } from './render/terrain';
 import { sfx } from './sound';
 import type { Settings } from './storage';
 import { effectiveMode, eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
+import { moveLeft, stackText, unitFlags, useQol } from './qol';
+import { Recap } from './Recap';
+import { movementAllowance } from '../engine/movement';
 
 export const dateOf = (turn: number) => `${8 + turn} September 1943`;
 
@@ -314,8 +317,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     const path = pathTo(reach, hover);
     if (path[0] !== selUnit.where.hex) path.unshift(selUnit.where.hex);
     const mode = effectiveMode(game, selUnit.id, moveMode);
-    const label = mode === 'tactical' ? `${r.hexes} HEX` : `${+r.cost.toFixed(1)} MP`;
-    return { path, label: r.stop ? `${label} · STOP` : label };
+    // Cost against the allowance, and the stacking the destination would have.
+    const label = mode === 'tactical' ? `${r.hexes} HEX` : `${+r.cost.toFixed(1)}/${mode ? movementAllowance(game, selUnit, mode) : '?'} MP`;
+    return { path, label: `${r.stop ? `${label} · STOP` : label} · ${stackText(game, hover, [selUnit.id])}` };
   }, [hover, reach, selUnit, game, moveMode]);
 
   const odds = useMemo(() => {
@@ -456,13 +460,19 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     const lines = [title, facts.filter(Boolean).join(' · ')];
     for (const u of unitsAt(game, hover)) {
       const v = values(u);
-      lines.push(`${def(u.id).name}  ${def(u.id).asu ? `art. range ${def(u.id).asuRange}` : `${v.attack}-${v.defense}-${v.move}`}${u.status !== 'good' ? ` · ${u.status}` : ''}`);
+      const flags = unitFlags(game, u);
+      lines.push(`${def(u.id).name}  ${def(u.id).asu ? `art. range ${def(u.id).asuRange}` : `${v.attack}-${v.defense}-${v.move}`}${flags.length ? ` · ${flags.join(' · ')}` : ''}`);
+    }
+    if (unitsAt(game, hover).length) lines.push(`Stacking ${stackText(game, hover)}`);
+    // With one of your units selected: what the stack here would come to if it moved or landed here.
+    if (selUnit && sideOf(selUnit) === game.activeSide && hexOf(selUnit) !== hover && highlights.has(hover) && highlights.get(hover)?.kind !== 'attack') {
+      lines.push(`With ${def(selUnit.id).name}: ${stackText(game, hover, [selUnit.id])}`);
     }
     const hl = highlights.get(hover);
     const act = touch ? 'Tap' : rightClick ? 'Right-click' : 'Click';
     if (hl?.kind === 'attack' && humanTurn) lines.push(attackTarget === hover ? `${act} again to attack` : `${act} to plan an attack`);
     return lines.join('\n');
-  }, [hover, game, highlights, humanTurn, touch, rightClick, attackTarget]);
+  }, [hover, game, highlights, humanTurn, touch, rightClick, attackTarget, selUnit]);
 
   // ---------------------------------------------------------------- the action bar
   const side = game.activeSide;
@@ -489,6 +499,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const targets = humanTurn && !game.pendingAdvance && !game.pendingDefense && !game.retreatQueue?.length
     ? [...highlights.entries()].filter(([, h]) => h.kind === 'attack').map(([h]) => h).sort()
     : [];
+
+  const qol = useQol({ game, humanTurn, humanSides, settings, setSettings, readyUnits, targets, selected: selUnit });
 
   const selectNext = (list: { id: string }[]) => {
     if (!list.length) return;
@@ -561,7 +573,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         modes = why ? [] : game.phase === 'invasion' ? ['tactical'] : allowedModes(game, mineSel);
         const r = confirmHex && reach?.get(confirmHex);
         unitNote = why ? `Cannot move: ${why}.`
-          : `${mineSel.mpSpent === null ? 'Ready to move' : `${+mineSel.mpSpent.toFixed(1)} MP used`} · ${verbL} a blue or amber hex${r ? '' : ''}`;
+          : `${mineSel.mpSpent === null ? 'Ready to move' : moveLeft(game, mineSel) ? `${moveLeft(game, mineSel)} left` : `${+mineSel.mpSpent.toFixed(1)} MP used`} · ${verbL} a blue or amber hex${r ? '' : ''}`;
       } else if (game.phase === 'combat') {
         unitNote = targets.length ? `${verb} a red hex to attack it.` : 'No enemy within reach.';
       } else unitNote = `${def(mineSel.id).formation} · ${def(mineSel.id).cat}`;
@@ -720,11 +732,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         focus={focus}
         onHover={setHover}
         hoverText={hoverText}
+        qol={qol.map}
       />
       <TopBar game={game} settings={settings} setSettings={setSettings} humanTurn={humanTurn} acting={acting}
         onMenu={() => setMenu('pause')} onSettings={() => setMenu('settings')} aiStatus={humanTurn ? '' : aiStatus} />
       {game.phase !== 'gameOver' && <PhaseBanner game={game} humanSides={humanSides} />}
       <EventFeed game={game} onFocus={focusOn} humanSides={humanSides} />
+      <Recap game={game} humanSides={humanSides} onJump={(h) => { focusOn(h); qol.pulse(h); }} />
       <ActionBar
         game={game}
         humanTurn={humanTurn}

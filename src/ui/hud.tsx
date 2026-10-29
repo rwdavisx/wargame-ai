@@ -10,6 +10,7 @@ import { Insignia, TokenIcon } from './render/units';
 import { setSound, sfx } from './sound';
 import { downloadText, type Settings } from './storage';
 import { EventCard, feedWorthy, readMs, sideOfEntry, type FeedItem, type FocusFn } from './logView';
+import { moveLeft } from './qol';
 
 const DATE = (turn: number) => `${8 + turn} SEPT 1943`;
 
@@ -267,6 +268,8 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
   if (unit.isolated) chips.push(['Isolated', 'red']);
   else if (unit.outOfSupply) chips.push(['Out of supply', 'red']);
   if (unit.repl) chips.push(['Replacement', 'blue']);
+  if (unit.truck) chips.push(['On trucks', 'grey']);
+  if (unit.attacked && own && game.phase === 'combat') chips.push(['Has attacked', 'grey']);
   if (d.asu) chips.push([unit.fired ? 'Fired' : 'Ready to fire', unit.fired ? 'grey' : 'green']);
   if (unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([`Frozen until day ${unit.frozenUntil}`, 'blue']);
   if (d.army8) chips.push(['8th Army', 'gold']);
@@ -297,7 +300,7 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
           <div className="uc-where">
             {whereText(unit)}
             {own && unit.where.kind === 'map' && game.phase === 'movement' && (
-              <> · {why ? `cannot move: ${why}` : unit.mpSpent === null ? `can move (${allowedModes(game, unit).join(', ')})` : `${+unit.mpSpent.toFixed(1)} MP used`}</>
+              <> · {why ? `cannot move: ${why}` : unit.mpSpent === null ? `can move (${allowedModes(game, unit).join(', ')})` : moveLeft(game, unit) ? `${moveLeft(game, unit)} left` : `${+unit.mpSpent.toFixed(1)} MP used`}</>
             )}
           </div>
         </div>
