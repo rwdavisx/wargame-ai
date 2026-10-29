@@ -11,6 +11,7 @@ import { triggerFullRetreats } from './retreat';
 import type { Breakthrough, CombatReport, GameState, Side } from './types';
 import { canStack, def, isLand, occupancy, other, recordTrail, sideOf, unitsAt } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
+import { hexes, nameList, place, verb } from './words';
 
 function fail(msg: string): never {
   throw new Error(msg);
@@ -135,7 +136,9 @@ export function startBreakthrough(s: GameState, unitIds: string[], form: 'stack'
     pendingCombat: null, freeHex: null, mayContinue: false, rest: { ...pa, started: true },
   };
   s.pendingAdvance = null;
-  notes.push(`Breakthrough Group: ${ids.map((id) => def(id).name).join(', ')} at ${hex}, ${left} hex${left === 1 ? '' : 'es'} of advance left`);
+  notes.push(left > 0
+    ? `${nameList(ids)} ${verb(ids, 'forms', 'form')} a Breakthrough Group at ${place(hex)}: ${verb(ids, 'it', 'they')} may drive on up to ${hexes(left)} and attack again on the way.`
+    : `${nameList(ids)} ${verb(ids, 'forms', 'form')} a Breakthrough Group at ${place(hex)}, but the ground stops ${verb(ids, 'it', 'them')} there.`);
   maybeEnd(s, s.breakthrough);
 }
 

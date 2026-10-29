@@ -702,7 +702,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       <TopBar game={game} settings={settings} setSettings={setSettings} humanTurn={humanTurn} acting={acting}
         onMenu={() => setMenu('pause')} onSettings={() => setMenu('settings')} aiStatus={humanTurn ? '' : aiStatus} />
       {game.phase !== 'gameOver' && <PhaseBanner game={game} humanSides={humanSides} />}
-      <EventFeed game={game} />
+      <EventFeed game={game} onFocus={focusOn} humanSides={humanSides} />
       <ActionBar
         game={game}
         humanTurn={humanTurn}
@@ -769,6 +769,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           editorOn={editorOn}
           setEditorOn={setEditorOn}
           bumpMap={bumpMap}
+          onFocusHex={(h) => { focusOn(h); if (phone) setPanelOpen(false); }}
         />
       </aside>
       {cardUnit && !showDefense && !(small && mineSel && cardUnit.id === mineSel.id) && (

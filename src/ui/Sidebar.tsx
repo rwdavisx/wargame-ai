@@ -12,6 +12,8 @@ import { clearOverrides, editHex, editHexside, exportMapJson, overrideCount } fr
 import { downloadText, type Settings } from './storage';
 import { TokenIcon } from './render/units';
 import { eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
+import { FullLog, LogList, RichText } from './logView';
+import { attackDetail, oddsText, place, resultHeadline } from '../engine/words';
 
 interface Props {
   game: GameState;
@@ -44,6 +46,8 @@ interface Props {
   editorOn: boolean;
   setEditorOn: (b: boolean) => void;
   bumpMap: () => void;
+  /** Moves the camera to a hex (log entries). */
+  onFocusHex?: (h: HexId) => void;
 }
 
 
@@ -100,7 +104,7 @@ export function Sidebar(p: Props) {
       <div className="panel">
         {p.tab === 'play' && <PlayPanel {...p} />}
         {p.tab === 'units' && <OffMapPanel {...p} />}
-        {p.tab === 'log' && <LogPanel game={p.game} />}
+        {p.tab === 'log' && <FullLog entries={p.game.log} onFocus={p.onFocusHex} />}
         {p.tab === 'crt' && <TablesPanel />}
         {p.tab === 'editor' && <EditorPanel {...p} />}
       </div>
@@ -131,7 +135,7 @@ function PlayPanel(p: Props) {
         <div className="row">
           <button onClick={() => p.setPaused(!p.paused)}>{p.paused ? 'Resume AI' : 'Pause AI'}</button>
         </div>
-        <RecentLog game={g} n={8} />
+        <RecentLog game={g} n={8} onFocus={p.onFocusHex} onMore={() => p.setTab('log')} />
         <SelectedHexInfo {...p} />
       </>
     );
@@ -170,7 +174,7 @@ function PlayPanel(p: Props) {
         </>
       )}
       <SelectedHexInfo {...p} />
-      <RecentLog game={g} n={6} />
+      <RecentLog game={g} n={6} onFocus={p.onFocusHex} onMore={() => p.setTab('log')} />
     </>
   );
 }
@@ -180,7 +184,7 @@ function InvasionControls(p: Props) {
     <>
       <h3>Invasion phase</h3>
       <p className="muted">
-        The assault waves have landed (see the log for each beach's invasion roll). Units that may still advance can move up to their remaining
+        The assault waves have landed (the log shows each beach's landing roll). Units that may still advance can move up to their remaining
         tactical hexes. The Commandos at Vietri may attack Salerno: click the red hex.
       </p>
       <SelectedUnitBox {...p} />
@@ -716,16 +720,28 @@ function BreakthroughControls(p: Props) {
 }
 
 function CombatResult({ r }: { r: CombatReport }) {
-  const key = r.result.replace(/\/\d.*$/, '');
+  const key = r.result.replace(/ Adv \d+$/, '').replace(/\/\d.*$/, '');
+  const color = /^(DS|DR4)/.test(key) ? 'big' : key === 'A1' ? 'bad' : /^(EX|A1\/)/.test(key) ? 'mixed' : 'good';
   return (
-    <div className="result-box">
-      <div>
-        {r.attackerSide} attack on <b>{r.defenderHex}</b>: {r.attack} vs {r.defense} → {r.finalColumn}, roll <b>{r.roll}</b>
-        {r.drm ? ` ${r.drm > 0 ? '+' : ''}${r.drm}` : ''}: <b>{r.result}</b>
+    <div className={`result-box combat-result ${r.attackerSide === 'Allied' ? 's-allied' : 's-german'}`}>
+      <div className="cr-head">
+        {r.breakthrough ? 'Breakthrough attack' : `${r.attackerSide} attack`} · <b>{place(r.defenderHex)}</b>
       </div>
-      <div className="muted">{RULES.combat.results[key] ?? ''}</div>
-      {r.dd && <div>Determined Defense ({r.dd.column}): roll {r.dd.roll}{r.dd.drm ? ` ${r.dd.drm > 0 ? '+' : ''}${r.dd.drm}` : ''} → {r.dd.result}</div>}
-      {r.notes.length > 0 && <div>{r.notes.join('; ')}</div>}
+      <div className="cr-line">
+        {r.roll ? (
+          <span className="cr-odds">{r.defense > 0 ? oddsText(r.finalColumn) : 'no defense'} · roll {r.roll}{r.drm ? ` +${r.drm}` : ''}</span>
+        ) : (
+          <span className="cr-odds">no roll needed</span>
+        )}
+        <span className={`cr-result ${color}`}>{resultHeadline(r.result)}</span>
+      </div>
+      {r.notes.length > 0 && (
+        <ul className="cr-notes">
+          {r.notes.map((n, i) => <li key={i}><RichText text={n} /></li>)}
+        </ul>
+      )}
+      <div className="log-detail">{attackDetail(r)}{r.dd ? ` Determined Defense: ${r.dd.column} column, roll ${r.dd.roll}${r.dd.drm ? ` ${r.dd.drm > 0 ? '+' : ''}${r.dd.drm}` : ''} → ${r.dd.result}.` : ''}</div>
+      <div className="log-detail">{key}: {RULES.combat.results[key] ?? ''}</div>
     </div>
   );
 }
@@ -762,15 +778,21 @@ function SelectedHexInfo(p: Props) {
   );
 }
 
-function RecentLog({ game, n }: { game: GameState; n: number }) {
+function RecentLog({ game, n, onFocus, onMore }: { game: GameState; n: number; onFocus?: (h: HexId) => void; onMore: () => void }) {
+  // The last few entries, with the phase headers they belong to.
+  const recent: GameState['log'] = [];
+  let count = 0;
+  for (let i = game.log.length - 1; i >= 0 && count < n; i--) {
+    recent.unshift(game.log[i]);
+    if (game.log[i].kind !== 'phase') count++;
+  }
   return (
     <>
-      <h3>Recent events</h3>
-      <div className="log">
-        {game.log.slice(-n).reverse().map((l, i) => (
-          <div key={i} className={l.kind}>{l.text}</div>
-        ))}
-      </div>
+      <h3 className="recent-head">
+        Recent events
+        <button className="link" onClick={onMore}>Full log ›</button>
+      </h3>
+      <LogList entries={recent} onFocus={onFocus} compact />
     </>
   );
 }
@@ -822,28 +844,6 @@ function OffMapPanel(p: Props) {
           })}
         </div>
       ))}
-    </>
-  );
-}
-
-function LogPanel({ game }: { game: GameState }) {
-  const [filter, setFilter] = useState('all');
-  const list = game.log.filter((l) => filter === 'all' || l.kind === filter);
-  return (
-    <>
-      <div className="row">
-        {['all', 'combat', 'move', 'dice', 'victory'].map((f) => (
-          <button key={f} className={filter === f ? 'primary' : ''} onClick={() => setFilter(f)}>{f}</button>
-        ))}
-      </div>
-      <div className="log">
-        {list.slice().reverse().map((l, i) => (
-          <div key={i} className={l.kind}>
-            <span className="muted">T{l.turn} {l.side ?? ''} {l.phase}: </span>
-            {l.text}
-          </div>
-        ))}
-      </div>
     </>
   );
 }

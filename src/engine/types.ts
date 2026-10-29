@@ -158,12 +158,25 @@ export interface UnitState {
 
 export type Phase = 'invasion' | 'weather' | 'initial' | 'movement' | 'combat' | 'recovery' | 'supply' | 'victory' | 'gameOver';
 
+export type LogKind =
+  | 'phase' | 'move' | 'combat' | 'loss' | 'retreat' | 'supply' | 'reinforcement' | 'landing' | 'airdrop' | 'victory' | 'weather' | 'dice' | 'info';
+
 export interface LogEntry {
   turn: number;
+  /** The side whose turn it is (null in the weather and victory phases). */
   side: Side | null;
   phase: Phase;
+  /** One or two plain-English sentences. */
   text: string;
-  kind?: 'combat' | 'move' | 'info' | 'dice' | 'victory';
+  kind?: LogKind;
+  /** Whose action or loss this is, when it is not the side whose turn it is. */
+  actor?: Side;
+  /** The hex the entry is about (the UI can jump there). */
+  hex?: HexId;
+  /** A short technical line: strengths, column shifts, die rolls and table results. */
+  detail?: string;
+  /** Combat results, captures, eliminations and victory: shown prominently. */
+  important?: boolean;
 }
 
 export interface SupportMarkers {
