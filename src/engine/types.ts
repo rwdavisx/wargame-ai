@@ -264,6 +264,8 @@ export interface GameOptions {
   /** 25.1 Disengagement (optional rule; on unless switched off, as in games saved before it was optional). */
   disengagement?: boolean;
   /** Sides whose player picks retreat destinations (human players). */
+  /** The Allied player rolls each beach's Invasion CRT die himself (one action per beach) instead of all at once at the start. */
+  rollLandings?: boolean;
   /** S1.4 tournament start: skip the invasion; the Allies start ashore and play begins with the German player turn. */
   optionalStart?: boolean;
   chooseRetreats?: Side[];
@@ -351,6 +353,7 @@ export type Action =
   | { type: 'btEnd' }
   | { type: 'retreatChoice'; index: number }
   | { type: 'disengage'; hex: HexId }
+  | { type: 'landBeach'; beach: string }
   | { type: 'replace'; unitId: string; to?: HexId }
   | { type: 'readyAsu'; unitId: string }
   | { type: 'abandon8th' }

@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { MAP, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP } from '../../src/engine/data';
 import { neighbors } from '../../src/engine/hex';
 import { computeOdds } from '../../src/engine/combat';
-import { landingCapacity, landingHexes, newGame, vpBreakdown } from '../../src/engine/game';
+import { landingCapacity, landingHexes, landingsLeft, newGame, vpBreakdown } from '../../src/engine/game';
 import { loseStep } from '../../src/engine/losses';
 import { allowedModes, legalDestinations, movementAllowance, stepCost } from '../../src/engine/movement';
 import { unitsAt, values } from '../../src/engine/units';
@@ -199,6 +199,31 @@ describe('24 Turn 1', () => {
     expect(s.log.filter((l) => l.text.includes('Landing roll')).length).toBe(7);
     expect(s.control['2407']).toBe('Allied'); // Maiori
     expect(s.control['2607']).toBe('Allied'); // Vietri
+  });
+
+  it('[24.2.1] the Allied player rolls each beach himself: nothing lands until its die is rolled, and the phase waits for every beach', () => {
+    const s = newGame('short', 1, { rollLandings: true });
+    expect(s.phase).toBe('invasion');
+    expect(landingsLeft(s)).toEqual(ORDER);
+    for (const id of ASSAULT.Uncle) expect(s.units[id].where.kind).toBe('landing');
+    expect(refused(s, { type: 'endPhase' })).toBe(true);
+    // Uncle rolls 1 (a step lost, advance 1); Red rolls 4 (advance 2).
+    dice(s, 1);
+    act(s, { type: 'landBeach', beach: 'Uncle' });
+    for (const id of ASSAULT.Uncle) expect(s.units[id].where).toEqual({ kind: 'map', hex: BEACH_HEX.Uncle });
+    expect(ASSAULT.Uncle.filter((id) => s.units[id].stepsLost > 0 || s.units[id].where.kind === 'eliminated').length).toBe(1);
+    expect(s.units['BR-128'].stopped).toBe(true);
+    for (const id of ASSAULT.Red) expect(s.units[id].where.kind).toBe('landing');
+    dice(s, 4);
+    act(s, { type: 'landBeach', beach: 'Red' });
+    expect(s.units['US-142'].stopped).toBe(false);
+    expect(refused(s, { type: 'landBeach', beach: 'Red' })).toBe(true); // each beach once
+    expect(refused(s, { type: 'endPhase' })).toBe(true);
+    for (const b of landingsLeft(s)) act(s, { type: 'landBeach', beach: b });
+    expect(landingsLeft(s)).toEqual([]);
+    expect(s.log.filter((l) => l.text.includes('Landing roll')).length).toBe(7);
+    act(s, { type: 'endPhase' });
+    expect([s.activeSide, s.phase]).toEqual(['German', 'initial']);
   });
 
   it('[24.2.2] Uncle beach 1-2 costs a step from one of its assault units; the other columns never do', () => {

@@ -30,6 +30,12 @@ describe('heuristic AI', () => {
     }
   }, 90000);
 
+  it('rolls each beach itself when the landings are played one by one', () => {
+    const { state, illegal } = playOut('short', 3, 30000, { rollLandings: true });
+    expect(illegal).toEqual([]);
+    expect(state.log.filter((l) => l.text.includes('Landing roll')).length).toBe(7);
+  }, 60000);
+
   it('plays the campaign to a result', () => {
     const { state, illegal } = playOut('campaign', 11);
     expect(illegal).toEqual([]);

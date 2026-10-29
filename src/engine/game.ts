@@ -112,7 +112,8 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
   }
   log(s, phaseTitle(1, 'Allied', 'invasion'), 'phase');
   log(s, `${sc.name} begins. ${RULES.turnNotes[1] ?? ''}`.trim());
-  runInvasion(s);
+  if (options.rollLandings) log(s, 'The assault waves are off the beaches: roll the Invasion table for each beach.');
+  else runInvasion(s);
   return s;
 }
 
@@ -126,10 +127,31 @@ function claimHex(s: GameState, hex: HexId, side: Side): void {
 
 // ------------------------------------------------------------------ turn 1 invasion
 
+/** Beaches whose assault units are still waiting in their landing box (24.2.1). */
+export function landingsLeft(s: GameState): string[] {
+  return Object.keys(MAP.beaches).filter((name) => Object.values(s.units).some((u) => u.where.kind === 'landing' && u.where.beach === name));
+}
+
+/** The Invasion CRT column a beach uses (24.2). */
+export function invasionColumn(name: string): 'Rangers' | 'Uncle' | 'Other' {
+  return name === 'Maiori' || name === 'Vietri' ? 'Rangers' : name === 'Uncle' ? 'Uncle' : 'Other';
+}
+
 function runInvasion(s: GameState): void {
-  for (const [name, beach] of Object.entries(MAP.beaches)) {
+  for (const name of landingsLeft(s)) landBeach(s, name);
+  finishLandings(s);
+}
+
+function finishLandings(s: GameState): void {
+  log(s, 'Units that got ashore cleanly may now move one more hex inland, and the Commandos may attack Salerno.');
+}
+
+/** One beach's Initial Assault: roll on the Invasion CRT, take any step loss, land in the beach hex (24.2). */
+function landBeach(s: GameState, name: string): void {
+  const beach = MAP.beaches[name];
+  {
     const ids = Object.values(s.units).filter((u) => u.where.kind === 'landing' && u.where.beach === name).map((u) => u.id);
-    if (!ids.length) continue;
+    if (!ids.length) return;
     const col = name === 'Maiori' || name === 'Vietri' ? 'Rangers' : name === 'Uncle' ? 'Uncle' : 'Other';
     const roll = rollD6(s);
     const res = RULES.invasion[col][roll - 1];
@@ -149,7 +171,6 @@ function runInvasion(s: GameState): void {
     log(s, `${nameList(ids)} ${verb(ids, 'lands', 'land')} on ${name} beach (${beach.hex}). Landing roll ${roll}: ${lose ? 'heavy casualties, and ' : ''}${how}.${notes.length ? ` ${say(notes)}` : ''}`,
       'landing', { hex: beach.hex, detail: `Invasion table, ${col === 'Other' ? 'standard' : col} column: roll ${roll} → ${res}.` });
   }
-  log(s, 'Units that got ashore cleanly may now move one more hex inland, and the Commandos may attack Salerno.');
 }
 
 // ------------------------------------------------------------------ phase engine
@@ -803,7 +824,15 @@ export function applyAction(s: GameState, a: Action): void {
   if (s.retreatQueue?.length && a.type !== 'retreatChoice') throw new IllegalAction(`The ${s.retreatQueue[0].side} player must first confirm where the retreating units go.`);
   if (s.pendingDefense && a.type !== 'defend') throw new IllegalAction('The defender must first choose: retreat or Determined Defense.');
   switch (a.type) {
+    case 'landBeach': {
+      need(s.phase === 'invasion', 'Beaches are assaulted only in the Invasion phase.');
+      need(landingsLeft(s).includes(a.beach), `No assault units are waiting off ${a.beach} beach.`);
+      landBeach(s, a.beach);
+      if (!landingsLeft(s).length) finishLandings(s);
+      return;
+    }
     case 'endPhase':
+      need(!(s.phase === 'invasion' && landingsLeft(s).length), 'Roll the Invasion table for every beach first.');
       return endPhase(s);
     case 'defend': {
       need(s.pendingDefense, 'No defense decision is pending.');

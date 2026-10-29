@@ -73,7 +73,7 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
   const [opponent, setOpponent] = useState<Controller>(
     (role === 'Allied' ? settings.controllers.German : settings.controllers.Allied) === 'claude' ? 'claude' : 'heuristic',
   );
-  const [options, setOptions] = useState<GameOptions>({ disengagement: true });
+  const [options, setOptions] = useState<GameOptions>({ disengagement: true, rollLandings: true });
   const start = () => {
     const ai: Controller = opponent;
     const controllers: Record<Side, Controller> =

@@ -4,7 +4,7 @@ import { PORTRAIT_PHONE, usePhone } from './usePhone';
 import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
 import { adjacentForCombat, advanceDestinations, computeOdds, entryAreasOf, inNavalRange, readyAsusFor } from '../engine/combat';
 import { breakthroughMoves, breakthroughPlan, breakthroughTargets, groupUnits } from '../engine/breakthrough';
-import { actingSide, entryReach, IllegalAction, landingHexes, withAction } from '../engine/game';
+import { actingSide, entryReach, IllegalAction, landingHexes, landingsLeft, withAction } from '../engine/game';
 import { neighbors, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove, entryModes, legalDestinations, pathTo, type Reach } from '../engine/movement';
 import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
@@ -15,6 +15,7 @@ import { MapView, type BattleMark, type Highlight } from './MapView';
 import { ActionBar, type AttackKind } from './ActionBar';
 import { Sidebar } from './Sidebar';
 import { BattleScreen, NO_INSET, type BattleInset, type PlannedAttack } from './combat/BattleScreen';
+import { LandingPanel } from './combat/LandingPanel';
 import { CombatPopup, EventFeed, GameOverScreen, PauseMenu, PhaseBanner, TopBar, UnitCard } from './hud';
 import { lpCost } from '../engine/game';
 import { SettingsModal } from './SettingsModal';
@@ -128,12 +129,25 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   useEffect(() => {
     if (!battle && viewing === null && candidate !== null) setViewing(candidate);
   }, [battle, viewing, candidate]);
+  // D-Day: the Allied player rolls each beach's landing on the landing panel (24.2).
+  const [landingClosed, setLandingClosed] = useState(false);
+  const [landingSeen, setLandingSeen] = useState(false);
+  const landingsWaiting = game.phase === 'invasion' ? landingsLeft(game).length : 0;
+  useEffect(() => {
+    if (landingsWaiting && humanTurn) setLandingSeen(true);
+  }, [landingsWaiting, humanTurn]);
+  // Open while beaches wait for their roll, and after the last one until the player closes it.
+  const showLanding = game.phase === 'invasion' && humanTurn && !landingClosed && (landingsWaiting > 0 || landingSeen);
   // The battle panel docks beside the map: its battle is marked on the map and framed clear of the panel.
   const [battleInset, setBattleInset] = useState<BattleInset>(NO_INSET);
   const battleRep = viewerId !== null ? game.combats.find((c) => c.id === viewerId) ?? null : null;
   const battleKey = battle ? `plan:${battle.target}` : battleRep ? `combat:${battleRep.id}` : null;
   const battleMark = useRef<BattleMark | null>(null);
-  if (!battleKey) battleMark.current = null;
+  // The beach being rolled on the landing panel is framed and ringed the same way.
+  const [landingBeach, setLandingBeach] = useState<HexId | null>(null);
+  if (!battleKey && showLanding && landingBeach) {
+    if (battleMark.current?.key !== `land:${landingBeach}`) battleMark.current = { key: `land:${landingBeach}`, target: landingBeach, from: [] };
+  } else if (!battleKey) battleMark.current = null;
   else if (battleMark.current?.key !== battleKey) {
     // Where the attackers stood when the fight began (before any losses or advance).
     const units = battle ? game.units : beforeCombat.current.get(battleRep!.id) ?? game.units;
@@ -831,7 +845,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const showDefense = viewerOpen;
 
   return (
-    <div className={`game${panelOpen ? ' panel-open' : ' panel-closed'}${viewerOpen ? ' battle-open' : ''}`}>
+    <div className={`game${panelOpen ? ' panel-open' : ' panel-closed'}${viewerOpen || showLanding ? ' battle-open' : ''}`}>
       <MapView
         state={heldMap ?? game}
         terrain={terrain}
@@ -948,6 +962,10 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
             setAiGate(null);
             if (id !== null) setCombatSeen((n) => Math.max(n, id));
           }} />
+      )}
+      {showLanding && (
+        <LandingPanel game={game} dispatch={dispatch} speed={settings.animSpeed} onHold={holdMap} onFocus={setLandingBeach} onFootprint={setBattleInset}
+          onClose={() => { setHeldMap(null); setLandingClosed(true); setLandingBeach(null); }} />
       )}
       {toast && <div className="toast">{toast}</div>}
       {game.phase === 'gameOver' && !overDismissed && (

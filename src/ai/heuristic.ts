@@ -6,7 +6,7 @@
 import { MAP, RULES } from '../engine/data';
 import { advanceDestinations, computeOdds } from '../engine/combat';
 import { breakthroughMoves, breakthroughPlan, breakthroughTargets } from '../engine/breakthrough';
-import { alliedVp, applyAction, benchmark, entryReach, landingHexes } from '../engine/game';
+import { alliedVp, applyAction, benchmark, entryReach, landingHexes, landingsLeft } from '../engine/game';
 import { distance, neighbors, sideKey, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove, entryModes, legalDestinations, type Reach } from '../engine/movement';
 import { nextRandom } from '../engine/rng';
@@ -549,6 +549,9 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
   }
 
   function invasionAction(s: GameState): Action | null {
+    // Each beach's assault is rolled first, one beach at a time (24.2).
+    const left = landingsLeft(s);
+    if (left.length) return { type: 'landBeach', beach: left[0] };
     const cdos = ['BR-2Cdo', 'BR-41Cdo'].filter((id) => s.units[id].where.kind === 'map' && s.units[id].tacHexes === 1 && !s.units[id].stopped &&
       neighbors((s.units[id].where as { hex: HexId }).hex).includes('2707'));
     if (cdos.length && !considered.has('cdo') && unitsAt(s, '2707').some((u) => sideOf(u) === 'German')) {
