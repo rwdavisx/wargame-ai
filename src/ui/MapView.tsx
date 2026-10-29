@@ -947,7 +947,7 @@ export function MapView(props: MapViewProps) {
         {qol && <ModeTools qol={qol} />}
       </div>
       {props.hoverText && hoverScreen && !dragging && (
-        <div className="hex-tip" style={{ left: hoverScreen.left + 28, top: hoverScreen.top - 10 }}>
+        <div key={props.hoverText} className="hex-tip" style={{ left: hoverScreen.left + 28, top: hoverScreen.top - 10 }}>
           {props.hoverText.split('\n').map((l, i) => <div key={i} className={i ? 'sub' : 'head'}>{l}</div>)}
         </div>
       )}

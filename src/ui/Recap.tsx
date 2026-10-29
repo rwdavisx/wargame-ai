@@ -133,6 +133,18 @@ export function Recap({ game, humanSides, onJump }: { game: GameState; humanSide
     }
   }, [game, enemyActive, human]);
 
+  // Once the player gets on with the turn (any action), the card folds back into its pill.
+  // (Phases that run by themselves right after the enemy turn don't count: give the card a few seconds.)
+  const shownAt = useRef({ seq: 0, t: 0 });
+  useEffect(() => {
+    if (open) shownAt.current = { seq: game.seq, t: Date.now() };
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!open) return;
+    if (Date.now() - shownAt.current.t < 4000) shownAt.current.seq = game.seq;
+    else if (game.seq > shownAt.current.seq) setOpen(false);
+  }, [game.seq]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // R opens or closes the recap.
   useEffect(() => {
     if (!recap) return;

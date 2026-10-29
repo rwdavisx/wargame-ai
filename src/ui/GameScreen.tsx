@@ -885,7 +885,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           onFocusHex={(h) => { focusOn(h); if (phone) setPanelOpen(false); }}
         />
       </aside>
-      {cardUnit && !showDefense && !(small && mineSel && cardUnit.id === mineSel.id) && (
+      {cardUnit && !showDefense && !attackTarget && !game.pendingAdvance && !(small && mineSel && cardUnit.id === mineSel.id) && (
         <UnitCard game={game} unit={cardUnit} hex={selectedHex} onSelect={(id) => setSelectedUnit(id)} onClose={() => { setSelectedUnit(null); setSelectedHex(null); }} />
       )}
       {game.phase !== 'gameOver' && !viewerOpen && <CombatPopup game={game} humanSides={humanSides} speed={settings.animSpeed} />}
