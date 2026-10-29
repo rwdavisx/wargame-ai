@@ -81,3 +81,17 @@ export function openGround(): HexId {
 
 /** Text of the log since the scenario was built (for checking what the engine reported). */
 export const logText = (s: GameState) => s.log.map((l) => l.text).join('\n');
+
+/** A new game whose first die rolls (the Turn 1 invasion rolls, in beach order) are `rolls`. */
+export function invasionGame(rolls: number[], scenarioId: 'short' | 'campaign' = 'short', seed = 1): GameState {
+  return newGame(scenarioId, seed, {}, rolls);
+}
+
+/** `scenario` with no air or naval support markers ready (so neither side commits support by itself) and every
+ * port, city, VP hex and Entry Area back under German control, as before the landings. */
+export function quiet(o: ScenarioOpts = {}): GameState {
+  const s = scenario(o);
+  s.support.ready = [];
+  for (const k of Object.keys(s.control)) s.control[k] = 'German';
+  return s;
+}

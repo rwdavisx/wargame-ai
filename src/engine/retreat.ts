@@ -142,6 +142,8 @@ function allRetreats(s: GameState, ids: string[], dist: number, origin: HexId, e
   return all;
 }
 
+let frDepth = 0;
+
 /** Retreats a stack, applying the new status, and returns notes. */
 export function retreatStack(s: GameState, ids: string[], dist: number, origin: HexId, status: Status | null, notes: string[],
   opts: { again?: boolean } = {}): void {
@@ -189,6 +191,15 @@ export function retreatStack(s: GameState, ids: string[], dist: number, origin: 
       : moved.some((id) => s.units[id].status !== 'good') ? ', disrupted' : '';
     const where = plan.intoArea ? `off the map into ${areaName(plan.intoArea)}` : `${hexes(plan.path.length)} to ${place(end)}`;
     notes.push(`${nameList(moved)} ${verb(moved, 'falls', 'fall')} back ${where}${how}.`);
+  }
+  // A retreat that ends next to enemy units in Full Retreat drives them back too (13.3.2).
+  if (!plan.intoArea && plan.path.length && moved.some((id) => s.units[id].where.kind === 'map') && frDepth < 4) {
+    frDepth += 1;
+    try {
+      triggerFullRetreats(s, plan.path[plan.path.length - 1], side, notes);
+    } finally {
+      frDepth -= 1;
+    }
   }
   // A human owner may pick another destination with the same losses (12.1.2-12.1.3).
   const sameLosses = choices.filter((p) => p.lost.length === plan.lost.length && p.lost.every((id) => plan.lost.includes(id)));

@@ -76,7 +76,7 @@ describe('turn 1', () => {
     expect(() => applyAction(s, { type: 'move', unitId: 'GE-III1FJ', to: '2302' })).toThrow(IllegalAction);
   });
 
-  it('lands the follow-up wave at its corps beaches', () => {
+  it('lands the follow-up wave at the open beaches', () => {
     const s = newGame('campaign', 42);
     for (let i = 0; i < 4; i++) applyAction(s, { type: 'endPhase' }); // through the German turn
     expect(s.activeSide).toBe('Allied');
@@ -84,8 +84,9 @@ describe('turn 1', () => {
     expect(s.phase).toBe('movement');
     const hexes = landingHexes(s, 'US-143');
     expect(hexes.length).toBeGreaterThan(0);
-    for (const h of hexes) expect(['2616', '2617']).toContain(h);
-    applyAction(s, { type: 'land', unitId: 'US-143', to: hexes[0] });
+    const us = hexes.find((h) => h === '2616' || h === '2617');
+    expect(us).toBeDefined();
+    applyAction(s, { type: 'land', unitId: 'US-143', to: us! });
     expect(s.units['US-143'].halfEff || s.units['US-143'].status === 'disrupted').toBe(true);
   });
 });

@@ -66,7 +66,8 @@ function emptyRepl(): Record<ReplType, number> {
 
 // ------------------------------------------------------------------ setup
 
-export function newGame(scenarioId: string, seed = Date.now() % 2147483647, options: GameOptions = {}): GameState {
+/** `rolls` (tests only) are used, in order, for the first die rolls, starting with the invasion. */
+export function newGame(scenarioId: string, seed = Date.now() % 2147483647, options: GameOptions = {}, rolls?: number[]): GameState {
   const sc = SCENARIOS[scenarioId];
   if (!sc) throw new Error(`Unknown scenario ${scenarioId}`);
   const units: Record<string, UnitState> = {};
@@ -98,6 +99,7 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
     pendingDefense: null, pendingAdvance: null, breakthrough: null, autoDsQueue: [], combats: [], log: [], rng: seed >>> 0,
     winner: null, northVp: {}, abandoned8th: false, seq: 0, options: { ...options },
   };
+  if (rolls) s.forcedRolls = [...rolls];
   log(s, phaseTitle(1, 'Allied', 'invasion'), 'phase');
   log(s, `${sc.name} begins. ${RULES.turnNotes[1] ?? ''}`.trim());
   runInvasion(s);
@@ -636,11 +638,9 @@ export function landingHexes(s: GameState, unitId: string): HexId[] {
   }
   if (u.where.kind === 'reserve' || u.where.kind === 'followUp') {
     if (s.phase !== 'movement' || u.stopped || u.repl) return []; // replacement units may not use naval transport (20.4)
-    let hexes = [...landingBeaches(s), ...(s.turn === 1 ? [] : (s.portsAtStart ?? []))];
-    if (u.where.kind === 'followUp') {
-      const corps = u.where.corps;
-      hexes = hexes.filter((h) => Object.values(MAP.beaches).some((b) => b.hex === h && b.corps === corps && !['Maiori', 'Vietri'].includes(b.formation)));
-    }
+    // The Turn 1 follow-up wave may use any open beach or friendly port, like any seaborne reinforcement (24.4.2);
+    // landing on the other nation's beachhead disrupts the unit (18.4.2).
+    const hexes = [...landingBeaches(s), ...(s.portsAtStart ?? [])];
     const cost = lpCost(unitId);
     if (cost > s.landingPoints) return [];
     return [...new Set(hexes)].filter((h) => occ.get(h) !== 'German' && receiveMode(s, h, cost) !== null);
@@ -678,7 +678,7 @@ function arriveBySea(s: GameState, u: UnitState, hex: HexId, tacHexes: number): 
 /** Port/beachhead hexes (or the Floating Reserve) a unit may reach by sea now (18.4.5). */
 export function navalDestinations(s: GameState, unitId: string): { to: HexId | 'reserve'; twoTurn: boolean }[] {
   const u = s.units[unitId];
-  if (s.phase !== 'movement' || s.activeSide !== 'Allied' || s.turn === 1 || sideOf(u) !== 'Allied' || u.where.kind !== 'map') return [];
+  if (s.phase !== 'movement' || s.activeSide !== 'Allied' || sideOf(u) !== 'Allied' || u.where.kind !== 'map') return [];
   if (u.status !== 'good' || def(u.id).cat === 'bh' || u.frozenUntil || u.repl) return [];
   // Naval movement uses one of the unit's two tactical hexes.
   const fresh = u.mpSpent === null && u.moveMode === null;
@@ -815,7 +815,6 @@ export function applyAction(s: GameState, a: Action): void {
       const r = dests.get(a.to);
       need(r, `${def(u.id).name} cannot reach ${a.to}.`);
       if (sideOf(u) === 'German' && s.abandoned8th) need(!MAP.hexes[a.to].sector8, 'German units may not enter the 8th Army sector.');
-      if (s.turn === 1 && sideOf(u) === 'German') need(!Object.values(MAP.beaches).some((b) => b.hex === a.to), 'German units may not enter the landing beaches on turn 1.');
       const from = u.where.hex;
       const path = pathTo(dests, a.to);
       moveAlong(s, u, path);

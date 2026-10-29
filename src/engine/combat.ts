@@ -224,7 +224,16 @@ function defenseOf(s: GameState, target: HexId, attackerIds: string[], variableV
   let low = 0;
   let high = 0;
   const contributors: string[] = [];
-  const regular = defenders.filter((u) => !def(u.id).parenthesized);
+  let regular = defenders.filter((u) => !def(u.id).parenthesized);
+  // Against Breakthrough Combat, units beyond the stacking limit (the defender keeps his strongest) add nothing (15.3).
+  if (breakthrough && stackPoints(regular.map((u) => u.id), s) > RULES.stackingLimit) {
+    const strength = (u: UnitState) => (u.status === 'fullRetreat' ? -1 : values(u).defense);
+    const kept: UnitState[] = [];
+    for (const u of [...regular].sort((a, b) => strength(b) - strength(a))) {
+      if (stackPoints([...kept, u].map((x) => x.id), s) <= RULES.stackingLimit) kept.push(u);
+    }
+    regular = kept;
+  }
   for (const u of regular) {
     const d = def(u.id);
     if (u.status === 'fullRetreat') continue; // Full Retreat: defense 0 (13.3.2)
