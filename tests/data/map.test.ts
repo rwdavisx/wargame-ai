@@ -170,8 +170,9 @@ describe('rivers', () => {
 
   it('start inland only at the sources seen on the photos', () => {
     // Each of these is where a river line begins on the map (checked on the photos,
-    // map-review/river_ends_*.png), except 2302-2303, the Sarno's mouth (above); any other loose
-    // end is a missing or extra river hexside.
+    // map-review/river_ends_*.png), except two mouths: 2302-2303 (the Sarno, above) and 2814-2815
+    // (the Sele, which crosses the marsh hexes 2714 and 2615 to the sea). Any other loose end is a missing or
+    // extra river hexside.
     const sources = [
       '2302-2303', '2502-2603', '2623-2722', '2624-2625', '2814-2815', '2821-2920', '2922-3023', '3023-3122',
       '3220-3221', '3222-3321', '3303-3404', '3705-3806', '3911-3912', '4010-4109', '4023-4122', '4104-4204',
