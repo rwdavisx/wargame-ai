@@ -51,7 +51,8 @@ export function bondsOf(s: GameState, side: Side): Bonds {
     !(anchors.get(anchor)!.vehicleOnly && mountainWithoutRoad(anchor, mid));
   const routeOk = (a: HexId, c: HexId, b: HexId) =>
     isLand(c) && !enemy(c) && legOk(a, c) && legOk(b, c) &&
-    !(crossesMountainWithoutRoad(a, c) && crossesMountainWithoutRoad(c, b));
+    // Two non-road mountain hexsides block a bond; a road-less pass does not help (7.6.1).
+    !(mountainWithoutRoad(a, c) && mountainWithoutRoad(c, b));
   const out: Bonds = { hexes: new Set(), sides: new Set() };
   const list = [...anchors.keys()];
   for (let i = 0; i < list.length; i++) {

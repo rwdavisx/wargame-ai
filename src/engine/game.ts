@@ -398,6 +398,11 @@ function doRecovery(s: GameState): void {
     }
     if (recover) u.status = u.status === 'fullRetreat' ? 'disrupted' : 'good';
   }
+  dropCityBattles(s);
+}
+
+/** City Battle markers go once the defender has left the city or no enemy unit is adjacent (11.6.3). */
+function dropCityBattles(s: GameState): void {
   for (const h of Object.keys(s.cityBattle)) {
     const holders = unitsAt(s, h);
     const enemyNear = holders.length && neighbors(h).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== sideOf(holders[0])));
@@ -794,6 +799,7 @@ export function applyAction(s: GameState, a: Action): void {
   need(s.phase !== 'gameOver', 'The game is over.');
   s.seq += 1;
   s.trails = {};
+  dropCityBattles(s);
   if (s.retreatQueue?.length && a.type !== 'retreatChoice') throw new IllegalAction(`The ${s.retreatQueue[0].side} player must first confirm where the retreating units go.`);
   if (s.pendingDefense && a.type !== 'defend') throw new IllegalAction('The defender must first choose: retreat or Determined Defense.');
   switch (a.type) {
@@ -822,7 +828,11 @@ export function applyAction(s: GameState, a: Action): void {
       need(!why, `${def(u.id).name} ${why}.`);
       const mode = s.phase === 'invasion' || u.moveMode === 'tactical' ? 'tactical' : a.mode ?? 'normal';
       need(allowedModes(s, u).includes(mode), `${def(u.id).name} may not use ${mode} movement now.`);
-      if (isTruck(mode)) need(s.trucksUsed < 2, 'Both truck markers are in use.');
+      if (isTruck(mode)) {
+        need(s.trucksUsed < 2, 'Both truck markers are in use.');
+        // Supply for trucks is judged at that instant (5.8), not by the last Supply Phase's marker.
+        need(supplyChecker(s, sideOf(u)).inSupply(u.where.hex), `${def(u.id).name} is out of supply and cannot use trucks.`);
+      }
       const dests = legalDestinations(s, u.id, mode);
       const r = dests.get(a.to);
       need(r, `${def(u.id).name} cannot reach ${a.to}.`);
@@ -865,6 +875,7 @@ export function applyAction(s: GameState, a: Action): void {
       moveAlong(s, u, path);
       u.stopped = true;
       u.moveMode = mode;
+      u.mpSpent = r.cost;
       u.hexesMoved = path.length;
       if (isTruck(mode)) {
         u.truck = true;
@@ -1003,7 +1014,18 @@ export function applyAction(s: GameState, a: Action): void {
       for (const id of a.attackers) ownUnit(s, id);
       const odds = computeOdds(s, { target: a.target, attackers: a.attackers }, { autoDs: true });
       need(odds.ok && odds.autoDs, odds.reason ?? 'Auto DS needs 10-1 odds or better.');
-      const rep = resolveAttack(s, { target: a.target, attackers: a.attackers }, true);
+      // Stacking is checked at the moment an Auto DS is resolved (4.4): excess units are lost first.
+      const onMap = (x: GameState) => a.attackers.filter((id) => x.units[id].where.kind === 'map' || x.units[id].where.kind === 'entry');
+      const over: string[] = [];
+      if (Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === s.activeSide && !canStack(s, u.where.hex, []))) {
+        const c = structuredClone(s);
+        enforceStacking(c, c.activeSide, []);
+        const left = onMap(c);
+        need(left.length && computeOdds(c, { target: a.target, attackers: left }, { autoDs: true }).autoDs, 'After the stacking losses the odds are below 10-1.');
+        enforceStacking(s, s.activeSide, over);
+        if (over.length) log(s, say(over), 'loss', { important: true });
+      }
+      const rep = resolveAttack(s, { target: a.target, attackers: onMap(s) }, true);
       for (const id of a.attackers) if (s.units[id]) s.units[id].stopped = true;
       if (s.pendingAdvance) {
         s.autoDsQueue.push(s.pendingAdvance);

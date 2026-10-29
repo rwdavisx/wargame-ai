@@ -15,6 +15,10 @@ interface RetreatPlan {
   halfEff: string[];
   intoArea?: string;
   score: number;
+  /** A hex after the first is a vacant hex in an EZOC (against guideline 3 of 12.1.3). */
+  laterZoc?: boolean;
+  /** One hex beyond the required length, allowed only to escape ending in an EZOC (12.2). */
+  extra?: boolean;
 }
 
 function friendlyCityOrBh(s: GameState, hex: HexId, side: Side): boolean {
@@ -42,8 +46,12 @@ export function retreatChoices(s: GameState, ids: string[], dist: number, origin
   const start = (units[0].where as { hex: HexId }).hex;
   const minLost = Math.min(...all.map((p) => p.lost.length));
   let opts = all.filter((p) => p.lost.length === minLost);
+  // The extra hex is only for a stack that would otherwise be eliminated (12.2).
+  if (opts.some((p) => !p.extra)) opts = opts.filter((p) => !p.extra);
   const away = (p: RetreatPlan) => p.path.every((h, i) => distance(h, origin) > distance(i ? p.path[i - 1] : start, origin));
   if (opts.some(away)) opts = opts.filter(away);
+  // Guideline 3: only the first hex may be in an EZOC.
+  if (opts.some((p) => !p.laterZoc)) opts = opts.filter((p) => !p.laterZoc);
   const sc = supplyChecker(s, side);
   const supplied = (p: RetreatPlan) => !!p.intoArea || (p.path.length > 0 && sc.inSupply(p.path[p.path.length - 1]));
   if (opts.some(supplied)) opts = opts.filter(supplied);
@@ -107,7 +115,8 @@ function allRetreats(s: GameState, ids: string[], dist: number, origin: HexId, e
     score += neighbors(end).filter((n) => unitsAt(s, n).some((u) => sideOf(u) === side)).length;
     score -= halfEff.size;
     if (intoArea) score += 6;
-    return { path, lost: [...lost], halfEff: [...halfEff], intoArea, score };
+    const laterZoc = path.some((h, i) => i > 0 && vacantZoc(h));
+    return { path, lost: [...lost], halfEff: [...halfEff], intoArea, score, laterZoc };
   };
 
   const consider = (p: RetreatPlan) => {
@@ -121,7 +130,7 @@ function allRetreats(s: GameState, ids: string[], dist: number, origin: HexId, e
       if (vacantZoc(cur)) {
         for (const n of neighbors(cur)) {
           if (!isLand(n) || visited.has(n) || occ.get(n) === other(side)) continue;
-          consider({ ...evaluate([...path, n]), score: evaluate([...path, n]).score - 1 });
+          consider({ ...evaluate([...path, n]), score: evaluate([...path, n]).score - 1, extra: true });
         }
       }
       return;

@@ -144,6 +144,8 @@ export function reachable(s: GameState, u: UnitState, start: HexId, mode: MoveMo
       if (!step) continue;
       if (step.firstHexOnly && !(tactical && cur === start && fresh)) continue;
       if (step.mountainCrossing && u.crossedMountain) continue;
+      // No voluntary move that would earn a second 1/2 Eff marker the same turn (5.7).
+      if (step.firstHexOnly && u.halfEff) continue;
       const nInZoc = ezoc.has(n);
       if (fullRetreat && nInZoc && !friendsAt(s, n, side).some((f) => f.status !== 'fullRetreat')) continue;
       if (extended && (nInZoc || frAdjacent.has(n))) continue;

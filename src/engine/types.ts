@@ -338,9 +338,9 @@ export type Action =
   | { type: 'enter'; unitId: string; to: HexId; mode?: MoveMode }
   | { type: 'changeArea'; unitId: string; area: string }
   | { type: 'fullRetreat'; unitId: string }
-  | { type: 'attack'; target: HexId; attackers: string[]; maf?: string; air?: boolean; naval?: boolean; battleships?: boolean; asus?: string[] }
+  | { type: 'attack'; target: HexId; attackers: string[]; maf?: string; attach?: string; air?: boolean; naval?: boolean; battleships?: boolean; asus?: string[] }
   | { type: 'autoDs'; target: HexId; attackers: string[] }
-  | { type: 'defend'; choice: 'retreat' | 'dd'; support?: string | null; battleships?: boolean; prefer?: 'hold' | 'delay'; delay?: number }
+  | { type: 'defend'; choice: 'retreat' | 'dd'; support?: string | null; battleships?: boolean; prefer?: 'hold' | 'delay'; delay?: number; lead?: string }
   | { type: 'advance'; unitIds: string[]; to?: HexId }
   | { type: 'btStart'; unitIds: string[]; form: 'stack' | 'vacated' }
   | { type: 'btMove'; to: HexId }
