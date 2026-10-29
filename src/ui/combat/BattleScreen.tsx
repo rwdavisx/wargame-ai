@@ -702,7 +702,13 @@ function Decision(p: {
   const anyChoice = f.faces.some((x) => x.choice);
   const anyDelay = f.faces.some((x) => x.kind === 'delay');
   return (
-    <div className="dfx">
+    <div className="dfx" ref={(el) => {
+      // The choice is the point of this step: bring it into view (on a phone it starts below the fold).
+      if (el && !el.dataset.shown) {
+        el.dataset.shown = '1';
+        window.setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+      }
+    }}>
       <p className="cbx-say accent">Your units in {placeLong(pd.hex)} are being forced back. Retreat, or stand and fight?</p>
       <div className="dfx-cards">
         <div className={`dfx-card retreat${trapped.length ? ' warn' : ''}`}>

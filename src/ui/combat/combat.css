@@ -268,7 +268,7 @@
 /* ---------------------------------------------------------------- while the panel is open */
 /* The map stays live (pan, zoom); the HUD that would sit under or around the panel steps aside. */
 .game.battle-open .action-bar, .game.battle-open .unit-card, .game.battle-open .command,
-.game.battle-open .recap, .game.battle-open .recap-pill { display: none; }
+.game.battle-open .recap, .game.battle-open .recap-pill, .game.battle-open .event-feed { display: none; }
 
 /* ---------------------------------------------------------------- phones held upright: a bottom sheet */
 
