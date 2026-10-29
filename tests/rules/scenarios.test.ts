@@ -1,6 +1,7 @@
 // Set-up, Turn 1 (section 24) and the scenario rules (S1, S2). The set-up tables below are what the engine uses;
-// they were checked against the Campaign Game / Avalanche Scenario At Start and Reinforcement cards and the
-// counters (hex or arrival code printed on each). A correction to data/oob.json shows up here as a diff.
+// they match the owner's photos of the Campaign Game / Avalanche Scenario Axis and Allied At Start cards (with
+// their reinforcement schedules), the back of the Allied card (S1.4 optional start) and the counters (set-up hex or
+// arrival code printed on each). A correction to data/oob.json shows up here as a diff.
 import { describe, expect, it } from 'vitest';
 import { MAP, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP } from '../../src/engine/data';
 import { neighbors } from '../../src/engine/hex';
@@ -8,7 +9,7 @@ import { computeOdds } from '../../src/engine/combat';
 import { landingCapacity, landingHexes, newGame, vpBreakdown } from '../../src/engine/game';
 import { loseStep } from '../../src/engine/losses';
 import { allowedModes, legalDestinations, movementAllowance, stepCost } from '../../src/engine/movement';
-import { unitsAt } from '../../src/engine/units';
+import { unitsAt, values } from '../../src/engine/units';
 import type { GameState } from '../../src/engine/types';
 import { act, dice, invasionGame, openGround, place, quiet, refused } from './harness';
 
@@ -118,6 +119,20 @@ describe('set-up', () => {
     expect(all.sort()).toEqual(Object.keys(UNIT_DEFS).sort());
     expect(Object.fromEntries(Object.entries(MAP.beaches).map(([k, b]) => [k, b.hex]))).toEqual(BEACH_HEX);
     expect(UNIT_SETUP['GE-III1FJ'].frozenUntil).toBe(3);
+    // Only I+II/HG Pz is shown on its reduced (3-2-5) side among the reinforcements of the Axis card.
+    expect(Object.keys(UNIT_SETUP).filter((id) => UNIT_SETUP[id].arrive?.reduced)).toEqual(['GE-HGI']);
+  });
+
+  it('[S1.1] [21.1.1] I+II/HG Pz enters on turn 4 already reduced to 3-2-5, as the Axis card shows (fixed)', () => {
+    const s = quiet({ side: 'Allied', phase: 'victory', turn: 3, scenario: 'campaign' });
+    s.units['GE-HGI'].where = { kind: 'pending', turn: 4, at: 'N' };
+    dice(s, 1);
+    act(s, { type: 'endPhase' }); // victory -> weather (turn 4) -> German initial
+    expect([s.turn, s.activeSide, s.phase]).toEqual([4, 'German', 'initial']);
+    const u = s.units['GE-HGI'];
+    expect(u.where).toEqual({ kind: 'entry', area: 'N' });
+    expect(u.stepsLost).toBe(1);
+    expect([values(u).attack, values(u).defense, values(u).move]).toEqual([3, 2, 5]);
   });
 
   it('[S1.1] three airborne drops (504th turn 5; 505th and 2/509th turn 6); 3/504th and the 325th glider regiment come by sea on turn 8', () => {

@@ -86,7 +86,8 @@ const INFANTRY_TYPES = new Set(['infantry', 'airborne', 'glider', 'engineer', 'r
 
 export interface UnitSetup {
   start?: { hex?: string; beach?: string; followUp?: string; remnant?: boolean };
-  arrive?: { turn: number; at: string };
+  /** `reduced`: the unit enters with its first step already lost (shown on its reduced side on the set-up card). */
+  arrive?: { turn: number; at: string; reduced?: boolean };
   frozenUntil?: number;
 }
 

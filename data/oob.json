@@ -51,7 +51,7 @@
     { "id": "GE-14Pz", "name": "XIV Pz Corps ASU", "side": "German", "nation": "GE", "formation": "XIV Pz", "cat": "corpsAsu", "a": 0, "d": 1, "m": 5, "sp": 0, "back": "none", "range": 5, "arrive": { "turn": 3, "at": "N" } },
     { "id": "GE-71", "name": "71 PG Rgt (-)", "side": "German", "nation": "GE", "formation": "29 PG", "cat": "pg", "a": 4, "d": 6, "m": 5, "sp": 2, "back": "2-4-5", "backSp": 1, "arrive": { "turn": 3, "at": "S" } },
     { "id": "GE-26AA", "name": "26 Pz Recon", "side": "German", "nation": "GE", "formation": "26 Pz", "cat": "recon", "a": 3, "d": 3, "m": 6, "sp": 1, "back": "1-2-6", "arrive": { "turn": 3, "at": "S" } },
-    { "id": "GE-HGI", "name": "I+II/HG Pz", "side": "German", "nation": "GE", "formation": "HG", "cat": "tank", "a": 5, "d": 4, "m": 5, "sp": 1, "back": "3-2-5", "tr": 3, "elite": true, "arrive": { "turn": 4, "at": "N" } },
+    { "id": "GE-HGI", "name": "I+II/HG Pz", "side": "German", "nation": "GE", "formation": "HG", "cat": "tank", "a": 5, "d": 4, "m": 5, "sp": 1, "back": "3-2-5", "tr": 3, "elite": true, "arrive": { "turn": 4, "at": "N", "reduced": true } },
     { "id": "GE-129Pz", "name": "129 Pz Abt", "side": "German", "nation": "GE", "formation": "29 PG", "cat": "tank", "a": 2, "d": 2, "m": 5, "sp": 1, "back": "none", "tr": 3, "arrive": { "turn": 4, "at": "S" } },
     { "id": "GE-II15", "name": "II/15 PG", "side": "German", "nation": "GE", "formation": "29 PG", "cat": "pg", "a": 2, "d": 3, "m": 5, "sp": 1, "back": "1-2-5", "arrive": { "turn": 4, "at": "S" } },
     { "id": "GE-29AA", "name": "29 PG Recon", "side": "German", "nation": "GE", "formation": "29 PG", "cat": "recon", "a": 3, "d": 3, "m": 6, "sp": 1, "back": "1-2-6", "arrive": { "turn": 5, "at": "S" } },

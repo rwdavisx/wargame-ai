@@ -312,6 +312,7 @@ function doInitial(s: GameState): void {
       // 'hex:3303' is the 2/509th's old code in saved games; it drops anywhere in the 5th Army sector (21.6.1).
       u.where = at === 'reserve' ? { kind: 'reserve' } : { kind: 'entry', area: at === 'hex:3303' ? 'airdrop509' : at };
       const key = at.startsWith('hex') || at.startsWith('airdrop') ? 'airdrop' : at;
+      if (UNIT_SETUP[u.id]?.arrive?.reduced && u.stepsLost === 0) u.stepsLost = 1; // enters on its reduced side (set-up card)
       arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
     }
     if (u.frozenUntil && s.turn >= u.frozenUntil) {
