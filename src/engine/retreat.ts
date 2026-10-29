@@ -6,6 +6,7 @@ import { areaFriendly, supplyChecker } from './supply';
 import type { GameState, Side, Status, UnitState } from './types';
 import { def, isLand, occupancy, other, recordTrail, sideOf, unitsAt, values } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
+import { areaName, hexes, nameList, place, verb } from './words';
 
 interface RetreatPlan {
   path: HexId[];
@@ -149,7 +150,7 @@ export function retreatStack(s: GameState, ids: string[], dist: number, origin: 
   // Units already retreated this phase are eliminated if forced to retreat again (not after Breakthrough Combat, 15.3).
   for (const id of alive) {
     const u = s.units[id];
-    if (u.retreatedThisPhase && !opts.again) eliminate(s, u, notes);
+    if (u.retreatedThisPhase && !opts.again) eliminate(s, u, notes, false, 'was already driven back once this phase and is destroyed');
   }
   const rest = alive.filter((id) => s.units[id].where.kind === 'map');
   if (!rest.length) return;
@@ -162,15 +163,14 @@ export function retreatStack(s: GameState, ids: string[], dist: number, origin: 
   for (const id of plan.lost) {
     const u = s.units[id];
     if (u.where.kind === 'map') {
-      notes.push(`${def(id).name} cannot retreat safely`);
-      eliminate(s, u, notes);
+      eliminate(s, u, notes, false, 'has no safe line of retreat and is destroyed');
     }
   }
   for (const id of rest) {
     const u = s.units[id];
     if (u.where.kind !== 'map') continue;
     if (def(id).cat === 'bh') {
-      eliminate(s, u, notes);
+      eliminate(s, u, notes, false, 'cannot retreat and is overrun');
       continue;
     }
     if (plan.path.length) recordTrail(s, id, [(u.where as { hex: HexId }).hex, ...plan.path]);
@@ -184,7 +184,12 @@ export function retreatStack(s: GameState, ids: string[], dist: number, origin: 
   }
   const end = plan.intoArea ?? plan.path[plan.path.length - 1];
   const moved = rest.filter((id) => s.units[id].where.kind === 'map' || s.units[id].where.kind === 'entry');
-  if (end && moved.length) notes.push(`retreat to ${end}`);
+  if (end && moved.length) {
+    const how = moved.every((id) => s.units[id].status === 'fullRetreat') ? ', in Full Retreat'
+      : moved.some((id) => s.units[id].status !== 'good') ? ', disrupted' : '';
+    const where = plan.intoArea ? `off the map into ${areaName(plan.intoArea)}` : `${hexes(plan.path.length)} to ${place(end)}`;
+    notes.push(`${nameList(moved)} ${verb(moved, 'falls', 'fall')} back ${where}${how}.`);
+  }
   // A human owner may pick another destination with the same losses (12.1.2-12.1.3).
   const sameLosses = choices.filter((p) => p.lost.length === plan.lost.length && p.lost.every((id) => plan.lost.includes(id)));
   if (moved.length && sameLosses.length > 1 && s.options?.chooseRetreats?.includes(side)) {
@@ -215,7 +220,7 @@ export function chooseRetreat(s: GameState, index: number, notes: string[]): voi
     u.halfEff = item.prevHalfEff[id] || opt.halfEff.includes(id);
     for (const h of opt.path) if (MAP.hexes[h].vp || MAP.hexes[h].city || MAP.hexes[h].port) s.control[h] = sideOf(u);
   }
-  notes.push(`${item.units.map((id) => def(id).name).join(', ')} retreat to ${opt.end} instead`);
+  notes.push(`${nameList(item.units)} ${verb(item.units, 'retreats', 'retreat')} to ${opt.intoArea ? areaName(opt.intoArea) : place(opt.end)} instead.`);
 }
 
 /** Enemy units in Full Retreat next to `hex` (and not stacked with good-order friends) fall back 2 hexes. */
@@ -229,7 +234,8 @@ export function triggerFullRetreats(s: GameState, hex: HexId, moverSide: Side, n
     // No extra penalty for a further retreat while in Full Retreat (13.3.2).
     retreatStack(s, fr.map((u) => u.id), 2, hex, 'fullRetreat', notes, { again: true });
     for (const u of fr) u.retreatedThisPhase = false;
-    if (notes.length > before) notes.splice(before, 0, `${fr.map((u) => def(u.id).name).join(', ')} (Full Retreat) fall back`);
+    const ids = fr.map((u) => u.id);
+    if (notes.length > before) notes.splice(before, 0, `${nameList(ids)}, in Full Retreat, ${verb(ids, 'falls', 'fall')} back as the enemy comes close.`);
   }
 }
 
@@ -240,7 +246,9 @@ export function eliminateExposedFullRetreat(s: GameState, notes: string[]): void
     const hex = u.where.hex;
     const side = sideOf(u);
     if (unitsAt(s, hex).some((x) => sideOf(x) === side && x.status !== 'fullRetreat')) continue;
-    if (neighbors(hex).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== side))) eliminate(s, u, notes);
+    if (neighbors(hex).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== side))) {
+      eliminate(s, u, notes, false, `is caught in Full Retreat next to the enemy at ${place(hex)} and destroyed`);
+    }
   }
 }
 

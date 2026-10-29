@@ -1,7 +1,7 @@
 // Settings dialog: players, computer opponents, pacing, display and sound.
 import type { Side } from '../engine/types';
 import { setSound, sfx } from './sound';
-import type { Controller, Settings } from './storage';
+import type { Controller, MouseControls, Settings } from './storage';
 
 interface Props {
   settings: Settings;
@@ -92,6 +92,14 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, edito
             </label>
             <label className="check">
               <input type="checkbox" checked={s.showLabels} onChange={(e) => set({ showLabels: e.target.checked })} /> Place names
+            </label>
+            <h3>Controls</h3>
+            <label className="field">
+              <span>Mouse controls</span>
+              <select value={s.mouseControls} onChange={(e) => set({ mouseControls: e.target.value as MouseControls })}>
+                <option value="rts">Right-click to move and attack</option>
+                <option value="classic">Left-click does everything</option>
+              </select>
             </label>
             <h3>Sound</h3>
             <label className="check">

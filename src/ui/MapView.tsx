@@ -56,6 +56,10 @@ export interface MapViewProps {
   onHover: (hex: HexId | null) => void;
   /** Right-click: back out of the current selection. */
   onCancel?: () => void;
+  /** Mouse right-click on a hex, when right-click moves and attacks (it replaces onCancel). */
+  onHexRightClick?: (hex: HexId) => void;
+  /** CSS cursor over the hovered hex (move, attack, select). */
+  cursor?: string;
   /** Bring this hex into view whenever `n` changes. */
   focus?: { hex: HexId; n: number } | null;
   hoverText: string | null;
@@ -411,7 +415,8 @@ export function MapView(props: MapViewProps) {
   });
   const vbRef = useRef(vb);
   vbRef.current = vb;
-  const drag = useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
+  // `t` is when the press began; `long` marks a touch long press, which only shows the hex details.
+  const drag = useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean; t: number; long?: boolean } | null>(null);
   // Touch: every finger on the map, and the pinch in progress (start distance, midpoint and view).
   const fingers = useRef(new Map<number, { x: number; y: number }>());
   const pinch = useRef<{ d: number; mx: number; my: number; v: View } | null>(null);
@@ -738,9 +743,10 @@ export function MapView(props: MapViewProps) {
         className="map-svg"
         viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
         preserveAspectRatio="xMidYMid meet"
+        style={props.cursor && !dragging ? { cursor: props.cursor } : undefined}
         onPointerDown={(e) => {
           lastPointer.current = e.pointerType;
-          if (e.pointerType === 'mouse' && e.button !== 0) return; // right-click cancels (onContextMenu), never selects
+          if (e.pointerType === 'mouse' && e.button !== 0) return; // right-click is handled by onContextMenu, never selects
           if (anim.current) cancelAnimationFrame(anim.current);
           if (e.pointerType !== 'mouse') {
             fingers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -755,7 +761,7 @@ export function MapView(props: MapViewProps) {
             }
             if (fingers.current.size > 2) return;
           }
-          drag.current = { x: e.clientX, y: e.clientY, vx: vb.x, vy: vb.y, moved: false };
+          drag.current = { x: e.clientX, y: e.clientY, vx: vb.x, vy: vb.y, moved: false, t: e.timeStamp };
         }}
         onPointerMove={(e) => {
           if (e.pointerType !== 'mouse' && fingers.current.has(e.pointerId)) {
@@ -826,6 +832,8 @@ export function MapView(props: MapViewProps) {
                 // A tap stands in for hovering: show the hex details and the route there.
                 setHoverHex(h);
                 props.onHover(h);
+                // A long press never moves, attacks or backs out.
+                if (d.long || e.timeStamp - d.t > 600) return;
               }
               props.onHexClick(h, { shift: e.shiftKey, touch });
             }
@@ -839,8 +847,15 @@ export function MapView(props: MapViewProps) {
         }}
         onContextMenu={(e) => {
           e.preventDefault();
-          // A long press on a touch screen also raises this event; only a mouse right-click backs out.
-          if (lastPointer.current === 'mouse') props.onCancel?.();
+          // A long press on a touch screen also raises this event; only a mouse right-click acts or backs out.
+          if (lastPointer.current !== 'mouse') {
+            if (drag.current) drag.current.long = true;
+            return;
+          }
+          const p = toSvg(e.clientX, e.clientY);
+          const h = pixelToHex(p.x, p.y);
+          if (props.onHexRightClick && MAP.hexes[h]) props.onHexRightClick(h);
+          else props.onCancel?.();
         }}
         onPointerLeave={(e) => {
           if (e.pointerType !== 'mouse') return;

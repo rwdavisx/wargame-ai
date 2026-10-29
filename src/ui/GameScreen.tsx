@@ -59,6 +59,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const phone = usePhone(PORTRAIT_PHONE);
   const touch = usePhone('(pointer: coarse)');
   const small = usePhone();
+  // With a mouse, right-click moves and attacks unless Settings asks for left-click to do everything.
+  const rightClick = !touch && settings.mouseControls !== 'classic';
   const [panelOpen, setPanelOpen] = useState(() => !window.matchMedia('(max-width: 820px), (max-height: 520px)').matches);
   const [focus, setFocus] = useState<{ hex: HexId; n: number } | null>(null);
   const focusOn = (hex: HexId) => setFocus((f) => ({ hex, n: (f?.n ?? 0) + 1 }));
@@ -417,7 +419,15 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   };
 
   // ---------------------------------------------------------------- map clicks
+  // An enemy hex the active side may attack now (or the Breakthrough Group's next target).
+  const attackableAt = (hex: HexId) => {
+    if (game.breakthrough) return breakthroughTargets(game).includes(hex);
+    return ['combat', 'movement', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.pendingDefense &&
+      highlights.get(hex)?.kind === 'attack' && unitsAt(game, hex).some((u) => sideOf(u) !== game.activeSide);
+  };
   const onHexClick = (hex: HexId, e?: { touch: boolean }) => {
+    // With right-click controls a mouse left-click on the map only selects and inspects.
+    const inspect = rightClick && !!e && !e.touch;
     const clickAct0 = clickActions.get(hex);
     if (e?.touch && humanTurn && clickAct0 && !editorOn && confirmHex !== hex) {
       // First tap on a destination: preview it; the action bar asks for confirmation.
@@ -434,7 +444,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     }
     const here = unitsAt(game, hex);
     const clickAct = clickActions.get(hex);
-    if (humanTurn && clickAct) {
+    if (humanTurn && clickAct && !inspect) {
       const next = dispatch(clickAct);
       if (touch) setHover(null);
       if (next && clickAct.type === 'advance') setSelectedHex(null);
@@ -447,11 +457,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       }
       return;
     }
-    const enemyHere = here.some((u) => sideOf(u) !== game.activeSide);
-    const btTarget = !!game.breakthrough && breakthroughTargets(game).includes(hex);
-    const canAttack = ['combat', 'movement', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.pendingDefense && !game.breakthrough &&
-      highlights.get(hex)?.kind === 'attack' && enemyHere;
-    if (humanTurn && (btTarget || canAttack)) {
+    if (humanTurn && !inspect && attackableAt(hex)) {
       // Selecting the planned target a second time attacks it.
       if (attackTarget === hex) executeAttack();
       else planAttack(hex);
@@ -468,6 +474,16 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     setSelectedUnit(here[0]?.id ?? null);
     if (!here.length && attackTarget) clearAttack();
   };
+  // Mouse right-click (right-click controls): act on a destination or an enemy in reach, otherwise back out.
+  const onHexRightClick = (hex: HexId) => {
+    if (humanTurn && !editorOn && (clickActions.has(hex) || attackableAt(hex))) onHexClick(hex);
+    else cancelAll();
+  };
+  // The selected unit's own hex reads as a unit to select, not as a destination.
+  const hoverCursor = !hover || touch || !humanTurn || editorOn ? undefined
+    : clickActions.has(hover) && !(selUnit?.where.kind === 'map' && selUnit.where.hex === hover) ? 'move'
+      : attackableAt(hover) ? 'crosshair'
+        : unitsAt(game, hover).some((u) => sideOf(u) === game.activeSide) ? 'pointer' : undefined;
 
   // ---------------------------------------------------------------- hover info
   const hoverText = useMemo(() => {
@@ -489,9 +505,10 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       lines.push(`${def(u.id).name}  ${def(u.id).asu ? `art. range ${def(u.id).asuRange}` : `${v.attack}-${v.defense}-${v.move}`}${u.status !== 'good' ? ` · ${u.status}` : ''}`);
     }
     const hl = highlights.get(hover);
-    if (hl?.kind === 'attack' && humanTurn) lines.push(attackTarget === hover ? `${touch ? 'Tap' : 'Click'} again to attack` : `${touch ? 'Tap' : 'Click'} to plan an attack`);
+    const act = touch ? 'Tap' : rightClick ? 'Right-click' : 'Click';
+    if (hl?.kind === 'attack' && humanTurn) lines.push(attackTarget === hover ? `${act} again to attack` : `${act} to plan an attack`);
     return lines.join('\n');
-  }, [hover, game, highlights, humanTurn, touch, attackTarget]);
+  }, [hover, game, highlights, humanTurn, touch, rightClick, attackTarget]);
 
   // ---------------------------------------------------------------- the action bar
   const side = game.activeSide;
@@ -577,6 +594,10 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
 
   // The selected own unit: movement modes and a one-line status.
   const mineSel = selUnit && sideOf(selUnit) === side && humanTurn ? selUnit : null;
+  // How the player selects (selVerb) and how they move or attack (verb) with this pointer.
+  const selVerb = touch ? 'Tap' : 'Click';
+  const verb = touch ? 'Tap' : rightClick ? 'Right-click' : 'Click';
+  const verbL = verb.toLowerCase();
   let unitNote = '';
   let modes: MoveMode[] = [];
   if (mineSel) {
@@ -586,14 +607,14 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         modes = why ? [] : game.phase === 'invasion' ? ['tactical'] : allowedModes(game, mineSel);
         const r = confirmHex && reach?.get(confirmHex);
         unitNote = why ? `Cannot move: ${why}.`
-          : `${mineSel.mpSpent === null ? 'Ready to move' : `${+mineSel.mpSpent.toFixed(1)} MP used`} · ${touch ? 'tap' : 'click'} a blue or amber hex${r ? '' : ''}`;
+          : `${mineSel.mpSpent === null ? 'Ready to move' : `${+mineSel.mpSpent.toFixed(1)} MP used`} · ${verbL} a blue or amber hex${r ? '' : ''}`;
       } else if (game.phase === 'combat') {
-        unitNote = targets.length ? `${touch ? 'Tap' : 'Click'} a red hex to attack it.` : 'No enemy within reach.';
+        unitNote = targets.length ? `${verb} a red hex to attack it.` : 'No enemy within reach.';
       } else unitNote = `${def(mineSel.id).formation} · ${def(mineSel.id).cat}`;
     } else if (mineSel.where.kind === 'reserve' || mineSel.where.kind === 'followUp' || mineSel.where.kind === 'atSea') {
-      unitNote = `Waiting to land (${lpCost(mineSel.id)} LP, ${game.landingPoints} left): ${touch ? 'tap' : 'click'} a blue beach or port.`;
+      unitNote = `Waiting to land (${lpCost(mineSel.id)} LP, ${game.landingPoints} left): ${verbL} a blue beach or port.`;
     } else if (mineSel.where.kind === 'entry') {
-      unitNote = mineSel.where.area.startsWith('airdrop') ? `Airborne: ${touch ? 'tap' : 'click'} a blue hex to drop.` : `In entry area ${mineSel.where.area}: ${touch ? 'tap' : 'click'} a blue hex to enter.`;
+      unitNote = mineSel.where.area.startsWith('airdrop') ? `Airborne: ${verbL} a blue hex to drop.` : `In entry area ${mineSel.where.area}: ${verbL} a blue hex to enter.`;
       if (!mineSel.where.area.startsWith('airdrop') && game.phase === 'movement') modes = entryModes(game, mineSel);
     }
   }
@@ -655,7 +676,6 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     }
     : null;
 
-  const verb = touch ? 'Tap' : 'Click';
   const phasePrompt = (): { title: string; sub: string } => {
     if (game.retreatQueue?.length) {
       const rq = game.retreatQueue[0];
@@ -669,7 +689,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     switch (game.phase) {
       case 'invasion': return { title: 'Invasion: the troops are ashore', sub: `Units with advance left may move (Next unit).${targets.length ? ` ${verb} the red hex at Salerno to send in the Commandos.` : ''}` };
       case 'initial': return { title: `${side} initial phase`, sub: drops.length ? `Airborne drops waiting: use Next drop.` : 'Replacements and artillery are under Details.' };
-      case 'movement': return { title: `${side} movement`, sub: readyUnits.length ? `${readyUnits.length} unit${readyUnits.length === 1 ? '' : 's'} ready. ${verb} a unit, or use Next unit.` : 'All units have moved.' };
+      case 'movement': return { title: `${side} movement`, sub: readyUnits.length ? `${readyUnits.length} unit${readyUnits.length === 1 ? '' : 's'} ready. ${selVerb} a unit, or use Next unit.` : 'All units have moved.' };
       case 'combat': return { title: `${side} combat`, sub: targets.length ? `${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} in reach. ${verb} a red hex to plan an attack.` : 'No enemy within reach.' };
       default: return { title: `${side} ${game.phase}`, sub: '' };
     }
@@ -741,6 +761,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         humanSides={humanSides}
         onHexClick={(h, e) => onHexClick(h, e)}
         onCancel={() => cancelAll()}
+        onHexRightClick={rightClick ? onHexRightClick : undefined}
+        cursor={hoverCursor}
         focus={focus}
         onHover={setHover}
         hoverText={hoverText}
@@ -748,12 +770,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       <TopBar game={game} settings={settings} setSettings={setSettings} humanTurn={humanTurn} acting={acting}
         onMenu={() => setMenu('pause')} onSettings={() => setMenu('settings')} aiStatus={humanTurn ? '' : aiStatus} />
       {game.phase !== 'gameOver' && <PhaseBanner game={game} humanSides={humanSides} />}
-      <EventFeed game={game} />
+      <EventFeed game={game} onFocus={focusOn} humanSides={humanSides} />
       <ActionBar
         game={game}
         humanTurn={humanTurn}
         acting={acting}
         touch={touch}
+        rightClick={rightClick}
         aiStatus={aiStatus}
         paused={paused}
         setPaused={setPaused}
@@ -816,6 +839,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           setEditorOn={setEditorOn}
           bumpMap={bumpMap}
           onAttack={executeAttack}
+          onFocusHex={(h) => { focusOn(h); if (phone) setPanelOpen(false); }}
         />
       </aside>
       {cardUnit && !showDefense && !(small && mineSel && cardUnit.id === mineSel.id) && (

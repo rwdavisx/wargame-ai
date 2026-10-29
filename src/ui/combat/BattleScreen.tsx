@@ -13,7 +13,7 @@ import type { Settings } from '../storage';
 import { Die3D, Pips } from './Die';
 import {
   cap, columnIndex, columnLabel, crtFaces, DD_KIND_LABEL, ddFaces, ddForecast, ddRolls, explainDd, explainResult, forceText, oddsWords,
-  placeName, RESULT_TITLE, resultAdvance, resultKey, resultTone, shipsAllowed, sideAdj, sideNoun, signed, supportLabel, type DdFace,
+  placeName, RESULT_TITLE, resultAdvance, resultTitle, resultKey, resultTone, shipsAllowed, sideAdj, sideNoun, signed, supportLabel, type DdFace,
 } from './model';
 import './combat.css';
 
@@ -350,7 +350,7 @@ export function BattleScreen(p: Props) {
             <div className={`cbx-result tone-${resultTone(key)}`}>
               {!noDie && <Outcomes faces={faces} drm={drm} lit={rolled} pick={null} onPick={() => {}} att={attWho} dfn={defWho} compact />}
               <div className="cbx-verdict">
-                <div className="cbx-stamp">{RESULT_TITLE[key] ?? key}</div>
+                <div className="cbx-stamp">{resultTitle(rep.result)}</div>
                 <code>{rep.result}</code>
               </div>
               <p className="cbx-say">
@@ -400,7 +400,7 @@ export function BattleScreen(p: Props) {
 
           {step === 'decide' && rep && (
             <div className={`cbx-verdict small tone-${resultTone(key)}`}>
-              <div className="cbx-stamp">{RESULT_TITLE[key] ?? key}</div>
+              <div className="cbx-stamp">{resultTitle(rep.result)}</div>
               <code>{rep.result}</code>
               <p className="cbx-say small">{attRoller} rolled {noDie ? 'no die' : `a ${rolled}`}: {lower(explainResult(key, attWho, defWho))}</p>
             </div>

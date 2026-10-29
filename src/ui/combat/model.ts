@@ -6,22 +6,20 @@ import type { HexId } from '../../engine/hex';
 import { planRetreat } from '../../engine/retreat';
 import type { CombatReport, GameState, PendingDefense, Side, UnitState } from '../../engine/types';
 import { def, goodOrder, sideOf, stepsRemaining, unitsAt } from '../../engine/units';
+import { nameList, oddsText, placeShort, resultAdvance, resultHeadline, SIDE_PEOPLE, supportName, unitName } from '../../engine/words';
 
-export const sideNoun = (s: Side) => (s === 'Allied' ? 'the Allies' : 'the Germans');
+export const sideNoun = (s: Side) => SIDE_PEOPLE[s];
 export const sideAdj = (s: Side) => (s === 'Allied' ? 'Allied' : 'German');
 export const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
-export function placeName(hex: HexId): string {
-  const h = MAP.hexes[hex];
-  return h?.city ?? h?.town ?? `hex ${hex}`;
-}
+// Wording shared with the game log.
+export const placeName = placeShort;
+export const supportLabel = supportName;
+export const oddsWords = oddsText;
+export { resultAdvance };
 
-/** Name of a defensive support option (air, naval or an artillery unit). */
-export function supportLabel(id: string): string {
-  if (id.endsWith('-air')) return `${id.split('-')[0]} air support`;
-  if (id.endsWith('-naval')) return `${id.split('-')[0]} naval gunfire`;
-  return def(id).name;
-}
+/** The log's headline for a result, as a sentence start: "The defenders must give ground". */
+export const resultTitle = (result: string) => cap(resultHeadline(result));
 
 const NOUN: Record<string, string> = {
   infantry: 'infantry', garrison: 'coastal garrison', motorized: 'motorized infantry', pg: 'panzergrenadiers', engineer: 'engineers',
@@ -31,22 +29,16 @@ const NOUN: Record<string, string> = {
 
 /** "II/1 HG (panzergrenadiers)", "2/5 Queen's and 128 Bde (-)", "5 units". */
 export function forceText(ids: string[]): string {
-  const names = ids.map((id) => def(id).name);
-  if (names.length === 1) return `${names[0]} (${NOUN[def(ids[0]).cat] ?? def(ids[0]).cat})`;
-  if (names.length <= 3) return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
-  return `${names.length} units (${names.slice(0, 2).join(', ')} and others)`;
+  if (ids.length === 1) return `${unitName(ids[0])} (${NOUN[def(ids[0]).cat] ?? def(ids[0]).cat})`;
+  return nameList(ids, 3);
 }
 
-/** "3-1" → "3 to 1". */
-export const oddsWords = (col: string) => col.replace('-', ' to ');
+export const resultKey = (r: string) => r.replace(/ Adv \d+$/, '');
 
-export const resultKey = (r: string) => r.replace(/ Adv \d$/, '');
-export const resultAdvance = (r: string) => Number(/ Adv (\d)$/.exec(r)?.[1] ?? 0);
-
-/** A short headline for each CRT result. */
+/** A few words per result for the outcome tiles (the log's headlines, shortened). */
 export const RESULT_TITLE: Record<string, string> = {
-  A1: 'Attack repulsed', EX: 'Exchange', Dis: 'Defender disrupted', DR2: 'Defender pushed back', 'A1/DR2': 'Costly push',
-  DRX: 'Bloody push', 'A1/D1': 'Bloody push', D1: 'Defender battered', DR4: 'Defender routed', DS: 'Defender shattered',
+  A1: 'Thrown back', EX: 'Bloody exchange', Dis: 'Pinned down', DR2: 'Give ground', 'A1/DR2': 'Costly success',
+  DRX: 'Losses both sides', 'A1/D1': 'Losses both sides', D1: 'Losses, give ground', DR4: 'Routed', DS: 'Shattered',
 };
 
 /** How good a result is for the attacker: colours the outcome table. */

@@ -100,10 +100,10 @@
 .cbx-result { display: flex; flex-direction: column; gap: 12px; animation: cbx-reveal 0.45s ease-out; }
 @keyframes cbx-reveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .cbx-verdict { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
-.cbx-stamp { font: 400 34px/1.05 var(--display); letter-spacing: 2px; text-transform: uppercase; color: var(--gold-2); text-shadow: 0 3px 0 rgba(0, 0, 0, 0.6); animation: stamp 0.5s cubic-bezier(0.2, 1.6, 0.4, 1); }
+.cbx-stamp { font: 400 30px/1.1 var(--display); letter-spacing: 2px; text-transform: uppercase; color: var(--gold-2); text-shadow: 0 3px 0 rgba(0, 0, 0, 0.6); animation: stamp 0.5s cubic-bezier(0.2, 1.6, 0.4, 1); }
 .cbx-verdict code { font: 600 14px var(--hud); letter-spacing: 1px; color: #bdb69f; border: 1px solid var(--line-soft); padding: 1px 7px; border-radius: 3px; }
 .cbx-verdict.small { padding: 10px 12px; border-radius: 8px; background: rgba(0, 0, 0, 0.25); border: 1px solid var(--line-soft); }
-.cbx-verdict.small .cbx-stamp { font-size: 22px; animation: none; }
+.cbx-verdict.small .cbx-stamp { font-size: 20px; animation: none; }
 .cbx-verdict.small .cbx-say { flex-basis: 100%; }
 .tone-bad .cbx-stamp, .dd-fail .cbx-stamp { color: #f08a78; }
 .tone-mixed .cbx-stamp { color: #f0c27a; }
@@ -258,7 +258,7 @@
   .cbx-face b { font-size: 14px; }
   .cbx-face-name { display: none; }
   .cbx-face-flags i { font-size: 10px; padding: 0 2px; }
-  .cbx-stamp { font-size: 26px; }
+  .cbx-stamp { font-size: 22px; }
   .dfx-cards { grid-template-columns: 1fr; }
   .dfx-card { padding: 12px; }
   .dd-seg b { font-size: 11px; }
@@ -298,7 +298,7 @@
   .cbx-face { min-height: 62px; padding: 5px 2px; }
   .cbx-face-name { display: none; }
   .cbx-face b { font-size: 13px; }
-  .cbx-stamp { font-size: 24px; }
+  .cbx-stamp { font-size: 20px; }
   .dfx-cards { grid-template-columns: 1fr; }
   .cbx-actions { grid-area: actions; padding: 8px 12px max(8px, env(safe-area-inset-bottom)); border-left: 1px solid var(--line-soft); border-radius: 0; }
   .cbx-primary { min-height: 46px; font-size: 17px !important; padding: 8px 18px; }

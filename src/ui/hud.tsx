@@ -9,6 +9,7 @@ import { def, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
 import { Insignia, TokenIcon } from './render/units';
 import { setSound, sfx } from './sound';
 import { downloadText, type Settings } from './storage';
+import { EventCard, feedWorthy, readMs, sideOfEntry, type FeedItem, type FocusFn } from './logView';
 
 const DATE = (turn: number) => `${8 + turn} SEPT 1943`;
 
@@ -195,27 +196,35 @@ export function PhaseBanner({ game, humanSides }: { game: GameState; humanSides:
 
 // ------------------------------------------------------------------ event feed
 
-export function EventFeed({ game }: { game: GameState }) {
-  const [items, setItems] = useState<{ id: number; text: string; kind: string }[]>([]);
+/** Cards for the important new log entries, newest on top; tap one to look at the hex. */
+export function EventFeed({ game, onFocus, humanSides = [] }: { game: GameState; onFocus?: FocusFn; humanSides?: Side[] }) {
+  const [items, setItems] = useState<FeedItem[]>([]);
   const seen = useRef(game.log.length);
   const counter = useRef(0);
+  const hover = useRef(false);
   useEffect(() => {
+    // Undo or loading a game shortens the log: start over from there.
+    if (game.log.length < seen.current) seen.current = game.log.length;
     const fresh = game.log.slice(seen.current);
     seen.current = game.log.length;
-    if (fresh.length > 30) return;
-    const picked = fresh
-      .filter((l) => l.kind === 'victory' || l.kind === 'combat' || /takes|returns|withdraw|abandon|released|lands at|drops at|eliminated|arrives/i.test(l.text))
-      .filter((l) => !/^Reinforcement:/.test(l.text))
-      .map((l) => ({ id: ++counter.current, text: l.text.length > 150 ? `${l.text.slice(0, 147)}…` : l.text, kind: l.kind ?? 'info' }));
-    if (!picked.length) return;
-    setItems((cur) => [...cur, ...picked].slice(-4));
-    const ids = new Set(picked.map((p) => p.id));
-    setTimeout(() => setItems((cur) => cur.filter((x) => !ids.has(x.id))), 7000);
+    if (fresh.length > 60) return;
+    const now = Date.now();
+    const picked = fresh.filter(feedWorthy).map((l) => ({ id: ++counter.current, l, ms: readMs(l.text), until: now + readMs(l.text) }));
+    if (picked.length) setItems((cur) => [...picked.reverse(), ...cur].slice(0, 4));
   }, [game.log.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!items.length) return;
+    const tick = 400;
+    const t = setInterval(() => {
+      const now = Date.now();
+      setItems((cur) => (hover.current ? cur.map((i) => ({ ...i, until: i.until + tick })) : cur.filter((i) => i.until > now)));
+    }, tick);
+    return () => clearInterval(t);
+  }, [items.length]);
   return (
-    <div className="event-feed">
+    <div className="event-feed" onPointerEnter={() => (hover.current = true)} onPointerLeave={() => (hover.current = false)} aria-live="polite">
       {items.map((i) => (
-        <div key={i.id} className={`event ${i.kind}`}>{i.text}</div>
+        <EventCard key={i.id} item={i} onFocus={onFocus} mine={humanSides.includes(sideOfEntry(i.l) as Side) && humanSides.length === 1} />
       ))}
     </div>
   );

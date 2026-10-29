@@ -11,6 +11,7 @@ import {
   canStack, def, goodOrder, isLand, nationGroup, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values,
 } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
+import { nameList, place, supportName, unitName, verb } from './words';
 
 export interface AttackPlan {
   target: HexId;
@@ -498,7 +499,9 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
       else {
         const r = rollD6(s);
         variableValue[u.id] = RULES.variableStrength[r - 1];
-        notes.push(`${def(u.id).name} rolls ${r}: defense ${variableValue[u.id]}`);
+        notes.push(variableValue[u.id]
+          ? `${unitName(u.id)} turns out to have a defense strength of ${variableValue[u.id]} (roll ${r}).`
+          : `${unitName(u.id)} turns out to be a hollow position (roll ${r}).`);
       }
     }
   }
@@ -506,7 +509,7 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
   if (!odds.ok) throw new Error(odds.reason);
   const hadOnly = unitsAt(s, plan.target).filter((u) => sideOf(u) === enemy);
   for (const [id, v] of Object.entries(variableValue)) {
-    if (v === 0 && s.units[id].where.kind === 'map') eliminate(s, s.units[id], notes);
+    if (v === 0 && s.units[id].where.kind === 'map') eliminate(s, s.units[id], notes, false, 'melts away');
   }
   const vacatedByZero = hadOnly.length > 0 && !unitsAt(s, plan.target).some((u) => sideOf(u) === enemy);
 
@@ -534,7 +537,8 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
   let cell: Cell;
   if (vacatedByZero || odds.autoDs) {
     cell = { result: 'DS', adv: 4, color: 'r' };
-    notes.push(vacatedByZero ? 'Defender gone: treated as DS' : 'Odds of 10-1 or more: automatic DS');
+    notes.push(vacatedByZero ? 'With nobody left to defend it, the hex falls as if the defenders had been shattered.'
+      : 'The odds are overwhelming (10 to 1 or more): the defenders are shattered without a roll.');
   } else {
     roll = rollD6(s);
     const eff = Math.min(6, roll + odds.drm);
@@ -583,17 +587,18 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
     // Good Order defenders become Disrupted; those already Disrupted go into Full Retreat and retreat 2 (10.1, 13.1.3).
     const ids = defs().filter((id) => def(id).cat !== 'bh');
     const again = ids.filter((id) => s.units[id].status !== 'good');
+    const fresh = ids.filter((id) => s.units[id].status === 'good');
     for (const id of ids) if (s.units[id].status === 'good') s.units[id].status = 'disrupted';
-    notes.push('Defenders disrupted');
+    if (fresh.length) notes.push(`${nameList(fresh)} ${verb(fresh, 'is', 'are')} disrupted.`);
     if (again.length) {
       for (const id of again) s.units[id].status = 'fullRetreat';
+      notes.push(`${nameList(again)}, already disrupted, ${verb(again, 'breaks', 'break')} into Full Retreat.`);
       retreatStack(s, again, 2, plan.target, 'fullRetreat', notes, { again: bt });
-      notes.push(`${again.map((id) => def(id).name).join(', ')}: already disrupted, Full Retreat`);
     }
   } else if (r === 'DR4') {
     finishRetreat(4, 'fullRetreat', cell.adv);
   } else if (r === 'DS') {
-    if (reconAlone()) notes.push('Recon unit ignores the step loss');
+    if (reconAlone()) notes.push('The recon unit slips away without losing a step.');
     else takeSteps(s, contributors(), 1, 'opponent', notes, parenthesized());
     finishRetreat(4, 'fullRetreat', cell.adv || 4);
   } else {
@@ -601,7 +606,7 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
     const dist = r === 'D1' ? 3 : 2;
     if (r === 'A1/DR2' || r === 'A1/D1') takeSteps(s, mafAlive(), 1, 'owner', notes, plan.attackers);
     const reconSave = r === 'D1' && reconAlone();
-    if (reconSave) notes.push('Recon unit ignores the step loss (no Determined Defense)');
+    if (reconSave) notes.push('The recon unit slips away without losing a step, but cannot make a Determined Defense.');
     else if (r === 'A1/D1' || r === 'D1') takeSteps(s, contributors(), 1, 'owner', notes, parenthesized());
     if (r === 'DRX') {
       takeSteps(s, contributors(), 1, 'opponent', notes, parenthesized());
@@ -620,7 +625,7 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
           retreat: dist, advance: cell.adv, yellow: cell.color === 'y', desperate,
           supportOptions: defensiveSupportOptions(s, plan.target, enemy),
         };
-        notes.push('Defender may retreat or make a Determined Defense');
+        notes.push(`The defenders must choose: fall back ${dist} hexes, or make a Determined Defense, rolling a die to try to hold the hex${desperate ? ' (with no safe way back, a failed roll costs a step and they roll again)' : ''}.`);
       } else finishRetreat(dist, 'disrupted', cell.adv);
     }
   }
@@ -675,8 +680,8 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     const stuck = new Set(planRetreat(s, defs(), pd.retreat, pd.hex).lost);
     const movers = defs().filter((id) => !stuck.has(id));
     if (stuck.size && movers.length) {
+      notes.push('Units that can retreat fall back; the rest, with nowhere to go, make a Desperate Defense.');
       retreatStack(s, movers, pd.retreat, pd.hex, 'disrupted', notes, { again: bt });
-      notes.push('Units able to retreat fall back; the rest make a Desperate Defense');
     }
   }
   // Defensive support (declared once, applies to every roll of a Desperate Defense).
@@ -688,7 +693,7 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
       const i = s.support.ready.indexOf(c.support);
       if (i >= 0) s.support.ready.splice(i, 1);
     }
-    notes.push(`Defensive support: ${s.units[c.support] ? def(c.support).name : c.support}`);
+    notes.push(`${supportName(c.support)} ${s.units[c.support] ? 'fires in support of' : 'supports'} the defenders.`);
   }
   let shipDrm = 0;
   if (c.battleships && c.support?.endsWith('-naval') && s.support.battleships > 0 && s.turn >= BATTLESHIPS_TURN) {
@@ -711,12 +716,16 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     let pick = opts[0];
     if (opts.length > 1) pick = opts.find((o) => (c.prefer === 'delay' ? !o.includes('H') : o.includes('H'))) ?? opts[0];
     rep.dd = { roll, drm, column, result: pick };
-    notes.push(`Determined Defense (${column}, lead ${ld.name}): roll ${roll}${drm ? (drm > 0 ? `+${drm}` : drm) : ''} → ${pick}`);
     const [losses, letter] = pick.split(' ');
     const [att, dfn] = losses.split('/');
     const steps = defs().reduce((a, id) => a + stepsRemaining(s.units[id]), 0);
     let outcome = letter ?? 'fail';
     if (outcome === 'P' && s.cityBattle[pd.hex]) outcome = 'D'; // a second Partial counts as a Delay
+    const how = outcome === 'H' ? 'they hold' : outcome === 'P' ? 'they cling on in the streets'
+      : outcome === 'D' && pd.desperate ? (delays ? 'a second delay, so they hold at the cost of a step' : 'a delay, which counts as a failure with nowhere to go')
+      : outcome === 'D' ? (letter === 'P' ? 'a second partial result here, so they must fall back' : 'they fight a delaying action and give ground slowly')
+      : 'the stand fails';
+    notes.push(`${unitName(lead.id)} ${attempt ? 'rolls again' : 'leads a Determined Defense'}: roll ${roll}${drm ? (drm > 0 ? ` +${drm}` : ` ${drm}`) : ''}, ${how}.`);
     if (outcome === 'D' && pd.desperate) {
       // In a Desperate Defense a Delay counts as a failure; a second Delay becomes -/1 H (11.6.1).
       delays += 1;
@@ -729,7 +738,7 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
       // Ignore the result: the Lead Unit loses a step and the defender rolls again (11.5.3).
       loseStep(s, lead, notes);
       if (!defs().length) break;
-      notes.push('Desperate Defense: rolling again');
+      notes.push('With nowhere to go, they fight on (Desperate Defense).');
       continue;
     }
     if (att.startsWith('1')) takeSteps(s, mafAlive(), 1, att.includes('*') ? 'opponent' : 'owner', notes, rep.attackers);
@@ -737,12 +746,12 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     if (dfn === 'dis' && lead.where.kind === 'map') lead.status = 'disrupted';
     if (outcome === 'P') {
       s.cityBattle[pd.hex] = 1;
-      notes.push('City Battle marker placed');
+      notes.push('A City Battle marker is placed: a second such result here will force them out.');
       outcome = 'H';
     }
     if (outcome === 'H') {
       if (!defs().length && steps === 1) advanceAfter(true);
-      notes.push(defs().length ? 'Defender holds' : 'Defender destroyed holding the hex');
+      notes.push(defs().length ? `The defenders hold ${place(pd.hex)}.` : 'The defenders die holding their ground.');
       return;
     }
     if (outcome === 'D') {
@@ -860,7 +869,7 @@ export function applyAdvance(s: GameState, unitIds: string[], to: HexId, notes: 
     u.where = { kind: 'map', hex: to };
     delete pa.maxByUnit[id];
   }
-  if (!canStack(s, to, [])) notes.push(`${to} is overstacked`);
+  if (!canStack(s, to, [])) notes.push(`${place(to)} is over the stacking limit: the excess will be lost at the end of the phase.`);
   triggerFullRetreats(s, to, s.activeSide, notes);
 }
 
@@ -875,7 +884,8 @@ export function resolveDisengage(s: GameState, hex: HexId, notes: string[]): voi
   const eff = Math.max(1, Math.min(6, roll + (allMech ? RULES.disengagement.mechDrm : 0)));
   const res = RULES.disengagement.table[String(eff)];
   for (const id of ids) s.units[id].attacked = true;
-  notes.push(`Disengagement from ${hex}: roll ${roll}${allMech ? '+1' : ''} → ${res === 'no' ? 'fails' : res === 'yesStep' ? 'succeeds, one step lost' : 'succeeds'}`);
+  const how = res === 'no' ? 'they cannot break contact and stay put' : res === 'yesStep' ? 'they get away, but lose a step doing it' : 'they get away';
+  notes.push(`${nameList(ids)} at ${place(hex)} ${verb(ids, 'tries', 'try')} to disengage from the enemy: roll ${roll}${allMech ? ' +1' : ''}, ${how}.`);
   if (res === 'no') return;
   if (res === 'yesStep') takeSteps(s, ids, 1, 'owner', notes);
   const alive = ids.filter((id) => s.units[id].where.kind === 'map');
