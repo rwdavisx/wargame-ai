@@ -63,6 +63,13 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, edito
                 <option value={1.5}>Slow</option>
               </select>
             </label>
+            <label className="field">
+              <span>Combat</span>
+              <select value={s.combatDice} onChange={(e) => set({ combatDice: e.target.value as Settings['combatDice'] })}>
+                <option value="watch">Step through it and roll the dice</option>
+                <option value="quick">Quick result only</option>
+              </select>
+            </label>
             <label className="check">
               <input type="checkbox" checked={s.followAi} onChange={(e) => set({ followAi: e.target.checked })} /> Camera follows the computer's moves
             </label>

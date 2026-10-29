@@ -7,14 +7,15 @@ import { breakthroughMoves, breakthroughPlan, breakthroughTargets, groupUnits } 
 import { actingSide, entryReach, IllegalAction, landingHexes, withAction } from '../engine/game';
 import { neighbors, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove, entryModes, legalDestinations, pathTo, type Reach } from '../engine/movement';
-import type { Action, GameState, MoveMode, Side } from '../engine/types';
-import { canStack, def, goodOrder, hexOf, sideOf, supportNation, unitsAt, values } from '../engine/units';
+import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
+import { canStack, def, goodOrder, hexOf, other, sideOf, supportNation, unitsAt, values } from '../engine/units';
 import { createHeuristicAi, type AiPlayer } from '../ai/heuristic';
 import { createClaudeAi } from '../ai/claude';
 import { MapView, type Highlight } from './MapView';
 import { ActionBar, type AttackKind } from './ActionBar';
-import { DefensePanel, Sidebar } from './Sidebar';
-import { CombatPopup, DefenseModal, EventFeed, GameOverScreen, PauseMenu, PhaseBanner, TopBar, UnitCard } from './hud';
+import { Sidebar } from './Sidebar';
+import { BattleScreen, type PlannedAttack } from './combat/BattleScreen';
+import { CombatPopup, EventFeed, GameOverScreen, PauseMenu, PhaseBanner, TopBar, UnitCard } from './hud';
 import { lpCost } from '../engine/game';
 import { SettingsModal } from './SettingsModal';
 import type { TerrainImage } from './render/terrain';
@@ -92,7 +93,33 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const acting = actingSide(game);
   const controller = settings.controllers[acting];
   const humanTurn = controller === 'human' && game.phase !== 'gameOver';
-  const halted = paused || menu !== 'none';
+
+  // ---------------------------------------------------------------- the battle screen
+  // The player's own attack until it is rolled and read; then every enemy attack on the player's units, one at a time.
+  const [battle, setBattle] = useState<PlannedAttack | null>(null);
+  const [combatSeen, setCombatSeen] = useState(game.combats.length);
+  const [viewing, setViewing] = useState<number | null>(null);
+  const [aiGate, setAiGate] = useState<number | null>(null);
+  const prevGame = useRef(game);
+  useEffect(() => {
+    prevGame.current = game;
+  }, [game]);
+  const beforeCombat = useRef(new Map<number, Record<string, UnitState>>());
+  const stepCombats = settings.combatDice !== 'quick';
+  const incoming = stepCombats
+    ? game.combats.slice(Math.min(combatSeen, game.combats.length)).find((c) => humanSides.includes(other(c.attackerSide)) && !humanSides.includes(c.attackerSide)) ?? null
+    : null;
+  // Remember the units as they stood before an enemy attack, to show what it cost.
+  if (incoming && !beforeCombat.current.has(incoming.id) && prevGame.current.combats.length < incoming.id) beforeCombat.current.set(incoming.id, prevGame.current.units);
+  const pdHuman = !!game.pendingDefense && settings.controllers[game.pendingDefense.defenderSide] === 'human' && game.phase !== 'gameOver';
+  const candidate = incoming?.id ?? (pdHuman ? game.pendingDefense!.combatId : null);
+  const viewerId = battle ? null : viewing ?? candidate;
+  const viewerOpen = !!battle || viewerId !== null;
+  useEffect(() => {
+    if (!battle && viewing === null && candidate !== null) setViewing(candidate);
+  }, [battle, viewing, candidate]);
+  // The computer never acts under the battle screen, except to answer the defense decision it is shown making.
+  const halted = paused || menu !== 'none' || (viewerOpen && (aiGate === null || aiGate !== game.pendingDefense?.combatId));
 
   // ---------------------------------------------------------------- AI players
   const aiRef = useRef<Record<string, AiPlayer>>({});
@@ -342,11 +369,30 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         ? { type: 'autoDs', target: attackTarget, attackers: ids }
         : { type: 'attack', target: attackTarget, attackers: ids, ...(attackKind === 'attack' ? support : {}) };
     if (attackKind === 'autoDs' && !odds.autoDs) return;
+    if (battle) return;
+    if (stepCombats) {
+      // Open the battle screen; the attack is resolved when the player rolls.
+      const who = attackKind === 'breakthrough' && game.breakthrough ? breakthroughPlan(game, attackTarget).attackers : ids;
+      setBattle({ action: a, odds, target: attackTarget, attackers: who });
+      sfx.click();
+      return;
+    }
     if (dispatch(a)) {
       clearAttack();
       setSelectedUnit(null);
       setHover(null);
     }
+  };
+  const rollAttack = () => {
+    if (!battle) return null;
+    const next = dispatch(battle.action);
+    if (next) {
+      clearAttack();
+      setSelectedUnit(null);
+      setHover(null);
+      setCombatSeen(next.combats.length);
+    }
+    return next;
   };
   const planAttack = (hex: HexId) => {
     setAttackTarget(hex);
@@ -676,7 +722,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   }, [menu]);
 
   const cardUnit = selUnit ?? (selectedHex ? unitsAt(game, selectedHex)[0] ?? null : null);
-  const showDefense = humanTurn && !!game.pendingDefense;
+  const showDefense = viewerOpen;
 
   return (
     <div className={`game${panelOpen ? ' panel-open' : ' panel-closed'}`}>
@@ -769,23 +815,30 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           editorOn={editorOn}
           setEditorOn={setEditorOn}
           bumpMap={bumpMap}
+          onAttack={executeAttack}
         />
       </aside>
       {cardUnit && !showDefense && !(small && mineSel && cardUnit.id === mineSel.id) && (
         <UnitCard game={game} unit={cardUnit} hex={selectedHex} onSelect={(id) => setSelectedUnit(id)} onClose={() => { setSelectedUnit(null); setSelectedHex(null); }} />
       )}
-      {game.phase !== 'gameOver' && <CombatPopup game={game} humanSides={humanSides} />}
-      {showDefense && (
-        <DefenseModal>
-          <DefensePanel game={game} acting={acting} dispatch={dispatch} />
-        </DefenseModal>
+      {game.phase !== 'gameOver' && !viewerOpen && <CombatPopup game={game} humanSides={humanSides} speed={settings.animSpeed} />}
+      {viewerOpen && (
+        <BattleScreen key={battle ? 'plan' : `combat-${viewerId}`} game={game} settings={settings} humanSides={humanSides} plan={battle} combatId={viewerId}
+          startAt={stepCombats ? 'intro' : 'decide'} before={viewerId !== null ? beforeCombat.current.get(viewerId) : undefined}
+          onRoll={rollAttack} dispatch={dispatch} onAiGate={setAiGate} quick={!stepCombats}
+          onClose={(id) => {
+            setBattle(null);
+            setViewing(null);
+            setAiGate(null);
+            if (id !== null) setCombatSeen((n) => Math.max(n, id));
+          }} />
       )}
       {toast && <div className="toast">{toast}</div>}
       {game.phase === 'gameOver' && !overDismissed && (
         <GameOverScreen game={game} humanSides={humanSides} onReview={() => setOverDismissed(true)} onMenu={onQuit} />
       )}
       {menu === 'pause' && (
-        <PauseMenu game={game} onResume={() => setMenu('none')} onSettings={() => setMenu('settings')} onQuit={onQuit} onLoad={(g) => { setMenu('none'); onLoad(g); }}
+        <PauseMenu game={game} onResume={() => setMenu('none')} onSettings={() => setMenu('settings')} onQuit={onQuit} onLoad={(g) => { setMenu('none'); setCombatSeen(g.combats.length); onLoad(g); }}
           onRules={() => { setMenu('none'); setTab('crt'); setPanelOpen(true); }} />
       )}
       {menu === 'settings' && (
