@@ -81,3 +81,10 @@ major+ 2715-2815
 # of the city to 3303 is the dashed minor road (photo 2).
 minor+ 3203-3303
 major+ 3302-3303
+
+# Confirmed by the owner on the physical board (after the audit's open questions):
+# 1. Pisciotta: 2427 is a coastal land hex holding the town, on the coast road.
+#    2427 sea -> clear, town Pisciotta, 8th Army sector (as its neighbours); 2527 loses the town;
+#    minor road 2426-2427 and 2427-2527 (the coast road runs on south off the map edge from 2527).
+# 2. 2724-2825 west of Vallo della Lucania is a road (kept as a major road).
+# 3. The Ariano-Savignano road runs 4401-4500 (kept).

@@ -225,11 +225,11 @@ describe('roads', () => {
     expect(ends.sort()).toEqual(spurs);
   });
 
-  it('reach every city and town except the four printed without a road', () => {
-    // Bracigliano (2903), Albanella (3017) and Mercogliano (3101) have no road on the map; for
-    // Pisciotta see the open question in the audit notes (its circle may be in 2427).
+  it('reach every city and town except the three printed without a road', () => {
+    // Bracigliano (2903), Albanella (3017) and Mercogliano (3101) have no road on the map.
+    // Pisciotta stands on the coast strip of 2427 on the coast road (confirmed by the owner on the board).
     const roadless = ids.filter((h) => (H[h].city || H[h].town) && !roadHexes.has(h)).sort();
-    expect(roadless).toEqual(['2527', '2903', '3017', '3101']);
+    expect(roadless).toEqual(['2903', '3017', '3101']);
   });
 
   it('major roads join up into networks that reach the map edge', () => {

@@ -916,7 +916,9 @@
    "town": "Ascea"
   },
   "2427": {
-   "terrain": "sea"
+   "sector8": true,
+   "terrain": "clear",
+   "town": "Pisciotta"
   },
   "2500": {
    "terrain": "clear",
@@ -1006,8 +1008,7 @@
   },
   "2527": {
    "sector8": true,
-   "terrain": "hill",
-   "town": "Pisciotta"
+   "terrain": "hill"
   },
   "2601": {
    "terrain": "clear"
@@ -1029,7 +1030,7 @@
   },
   "2606": {
    "terrain": "hill",
-   "town": "Cava de\u2019 Tirreni"
+   "town": "Cava de’ Tirreni"
   },
   "2607": {
    "port": {
@@ -2359,7 +2360,7 @@
   },
   "4007": {
    "terrain": "hill",
-   "town": "Sant\u2019Angelo dei Lombardi"
+   "town": "Sant’Angelo dei Lombardi"
   },
   "4008": {
    "terrain": "hill"
@@ -2598,7 +2599,7 @@
   "4212": {
    "sector8": true,
    "terrain": "clear",
-   "town": "Sant\u2019Andrea di Conza"
+   "town": "Sant’Andrea di Conza"
   },
   "4213": {
    "sector8": true,
@@ -6139,12 +6140,18 @@
   },
   "4626-4627": {
    "road": "minor"
+  },
+  "2426-2427": {
+   "road": "minor"
+  },
+  "2427-2527": {
+   "road": "minor"
   }
  },
  "meta": {
   "grid": "flat-top hexes in vertical columns; odd columns are offset half a hex down; id = CCRR",
-  "source": "Transcribed from photos of the owner\u2019s physical map; verify against your copy.",
-  "title": "Salerno \u201943 map data"
+  "source": "Transcribed from photos of the owner’s physical map; verify against your copy.",
+  "title": "Salerno ’43 map data"
  },
  "navalLine": {
   "maxRowExclusive": 4,
