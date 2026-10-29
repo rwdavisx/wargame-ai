@@ -59,6 +59,10 @@ On a touch screen:
 - **Camera:** drag to pan, wheel, pinch or **+**/**−** to zoom, arrows or WASD to scroll. Next unit and Next target bring the camera to the unit.
 - **Mouse and keyboard:** left-click selects, moves and attacks (click a planned target again to attack). **Right-click** or **Esc** backs out of the current step; Esc with nothing selected opens the pause menu. **N** or **Tab**: next unit or target. **Z**: undo. **Space**: end the phase. **Enter**: confirm or attack. **1–5**: movement mode.
 
+### Counters
+
+Counters follow the printed ones: olive for the US, tan for the British, brown for the Canadians, grey for the Germans (blue-grey for Hermann Göring and the paratroopers), with a yellow band along the top of 8th Army units. The NATO box carries the division's colour and the unit type (X infantry, oval armour, oval and slash armoured recon, X with wheels motorized, X with oval mechanized, a canopy for airborne, E engineers, a dot for artillery). Above the box is the unit size (II, III, X, with (-) for detached parts), up the left side the unit's name, and beside it the black stacking-points box. Along the bottom: attack (with the tank rating raised), defense (in a red box for elite units) and movement; artillery reads S (defense) movement with its range in the circle. A flipped unit shows the white stripe of the printed back: thin on a 3-step unit's middle step, wide on a last step.
+
 ### Highlight colours
 
 | Colour | Meaning |
@@ -140,10 +144,10 @@ src/ui/        React UI
   MapView.tsx      map camera, overlays, unit stacks, animations, minimap
   hud.tsx          top bar, banners, event feed, unit card, combat card, menus
   Sidebar.tsx      command panel tabs and the map editor
-  render/          painted terrain (canvas, cached in IndexedDB), hex geometry, unit token art
+  render/          painted terrain (canvas, cached in IndexedDB), hex geometry, NATO-style unit counters
   sound.ts         synthesized sound effects (WebAudio)
   theme.css        the interface theme
-  dev/Gallery.tsx  token gallery, dev builds only (open /#gallery)
+  dev/Gallery.tsx  every counter on one page, dev builds only (open /#gallery)
 scripts/       command-line self-play and game logs
 tests/         vitest tests for the engine and the AI
 tools/map-transcription/   Python scripts used to turn the photos into map.json
