@@ -67,3 +67,17 @@ major+ 4103-4203
 road- 3918-3919
 road- 3919-4019
 major+ 3918-4019
+# Palma Campania (2700): its roads run west to 2601 and north off the map; nothing runs east into
+# 2801, which has no road at all (photo 2).
+road- 2700-2801
+# Paestum: the major road from 2617 crosses 2716, goes north into 2715 and crosses into 2815 just
+# above the 2715/2815/2816 vertex; it never enters 2816, which has no road (photo 5).
+road- 2716-2816
+road- 2815-2816
+major+ 2715-2716
+major+ 2715-2815
+# Avellino - Atripalda: the major road leaves the city east into 3302, where it forks; the Atripalda
+# branch drops across the 3302/3303 hexside and runs east through 3303. The road from the south side
+# of the city to 3303 is the dashed minor road (photo 2).
+minor+ 3203-3303
+major+ 3302-3303
