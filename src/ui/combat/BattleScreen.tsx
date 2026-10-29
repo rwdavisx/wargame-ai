@@ -330,7 +330,7 @@ export function BattleScreen(p: Props) {
               )}
             </div>
             <div className="cbx-die-cap">
-              {ddStage ? 'Determined Defense' : noDie ? '' : step === 'rolling' ? 'rolling…' : rolled && shown ? `rolled ${rolled}${drm ? ` ${signed(drm)}` : ''}` : drm ? `die ${signed(drm)}` : 'one die'}
+              {ddStage ? (pd?.desperate ? 'Desperate Defense' : 'Determined Defense') : noDie ? '' : step === 'rolling' ? 'rolling…' : rolled && shown ? `rolled ${rolled}${drm ? ` ${signed(drm)}` : ''}` : drm ? `die ${signed(drm)}` : 'one die'}
             </div>
           </div>
           <Force side={defSide} role={mineDef ? 'Your units' : 'Defender'} ids={defenders} strength={defense} label="defense"

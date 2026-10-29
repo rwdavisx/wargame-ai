@@ -693,7 +693,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       const rq = game.retreatQueue[0];
       return { title: 'Choose where your units retreat', sub: `${verb} a highlighted hex, or keep ${rq.options[rq.current].end}.` };
     }
-    if (game.pendingDefense) return { title: 'Your units are under attack', sub: 'Choose Retreat or Determined Defense in the dialog.' };
+    if (game.pendingDefense) return { title: 'Your units are under attack', sub: 'Fall back or make a stand: choose on the battle screen.' };
     if (game.breakthrough) {
       const b = game.breakthrough;
       return { title: `Breakthrough Group · ${b.left} hex${b.left === 1 ? '' : 'es'} left`, sub: `${verb} a violet hex to move or a red hex to attack.` };

@@ -160,7 +160,7 @@ function PlayPanel(p: Props) {
     return (
       <>
         <h3>Your units are under attack</h3>
-        <p className="muted">Decide in the dialog: retreat, or make a Determined Defense in {g.pendingDefense.hex}.</p>
+        <p className="muted">Your units in {g.pendingDefense.hex} must fall back or make a stand. Choose on the battle screen.</p>
         <SelectedHexInfo {...p} />
       </>
     );
