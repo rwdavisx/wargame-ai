@@ -1,0 +1,2163 @@
+[
+ {
+  "id": "13.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/units.ts:goodOrder",
+   "src/engine/game.ts:doRecovery"
+  ],
+  "tests": [
+   "13.1.1",
+   "13.4"
+  ],
+  "notes": "Section heading; the three unit states and recovery are covered by 13.1-13.5."
+ },
+ {
+  "id": "13.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/units.ts:goodOrder"
+  ],
+  "tests": [
+   "13.1.1",
+   "13.1.2",
+   "13.1.3"
+  ],
+  "notes": "Heading; see 13.1.1-13.1.3."
+ },
+ {
+  "id": "13.1.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/units.ts:goodOrder"
+  ],
+  "tests": [
+   "13.1.1"
+  ],
+  "notes": "Status per unit (good/disrupted/fullRetreat); stacking with other states leaves them unchanged."
+ },
+ {
+  "id": "13.1.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveAttack",
+   "src/engine/retreat.ts:retreatStack"
+  ],
+  "tests": [
+   "13.1.2"
+  ],
+  "notes": "Dis result and retreats after D1, A1/D1, DR2, A1/DR2, DRX disrupt."
+ },
+ {
+  "id": "13.1.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveAttack",
+   "src/engine/retreat.ts:retreatStack",
+   "src/engine/game.ts:applyAction case 'fullRetreat'"
+  ],
+  "tests": [
+   "13.1.3"
+  ],
+  "notes": "DR4/DS and a second disruption give Full Retreat; voluntary via 13.3.4."
+ },
+ {
+  "id": "13.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:allowedModes",
+   "src/engine/zoc.ts:bondsOf",
+   "src/engine/combat.ts:defenseOf"
+  ],
+  "tests": [
+   "13.2.1",
+   "13.2.2",
+   "13.2.3"
+  ],
+  "notes": "Heading; see 13.2.1-13.2.3."
+ },
+ {
+  "id": "13.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:allowedModes",
+   "src/engine/zoc.ts:bondsOf",
+   "src/engine/combat.ts:validateAttackers",
+   "src/engine/combat.ts:defenseOf",
+   "src/engine/combat.ts:canLead",
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "13.2.1"
+  ],
+  "notes": "Tactical only (and no leaving an Entry Area), no bond, no attack, half defence rounded up, no Lead Unit, no ASU flip, no replacement."
+ },
+ {
+  "id": "13.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/zoc.ts:zocOf",
+   "src/engine/combat.ts:computeOdds"
+  ],
+  "tests": [
+   "13.2.2"
+  ],
+  "notes": "Disrupted units keep ZOC and tank shift."
+ },
+ {
+  "id": "13.2.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:reachable"
+  ],
+  "tests": [
+   "13.2.3"
+  ],
+  "notes": "Moving through disrupted friends has no effect on the mover."
+ },
+ {
+  "id": "13.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:reachable",
+   "src/engine/retreat.ts:triggerFullRetreats",
+   "src/engine/retreat.ts:eliminateExposedFullRetreat"
+  ],
+  "tests": [
+   "13.3.1",
+   "13.3.2",
+   "13.3.3",
+   "13.3.4"
+  ],
+  "notes": "Heading; see 13.3.1-13.3.4."
+ },
+ {
+  "id": "13.3.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:allowedModes"
+  ],
+  "tests": [
+   "13.3.1"
+  ],
+  "notes": "Full MA and Extended Movement allowed."
+ },
+ {
+  "id": "13.3.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/zoc.ts:zocOf",
+   "src/engine/movement.ts:reachable",
+   "src/engine/retreat.ts:triggerFullRetreats",
+   "src/engine/retreat.ts:eliminateExposedFullRetreat",
+   "src/engine/retreat.ts:retreatStack",
+   "src/engine/combat.ts:defenseOf"
+  ],
+  "tests": [
+   "13.3.2"
+  ],
+  "notes": "No ZOC, adjacency only with a non-FR friend, no enemy cities, auto-retreat 2 hexes when an enemy moves/advances/retreats adjacent (retreat trigger fixed in the earlier run), eliminated at start of Movement/Combat Phase next to the enemy, defence 0 and no tank shift."
+ },
+ {
+  "id": "13.3.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:reachable"
+  ],
+  "tests": [
+   "13.3.3"
+  ],
+  "notes": "FR units still bar enemy Extended Movement next to them."
+ },
+ {
+  "id": "13.3.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'fullRetreat'",
+   "src/engine/movement.ts:reachable"
+  ],
+  "tests": [
+   "13.3.4"
+  ],
+  "notes": "Unmoved Good Order/Disrupted unit may enter FR in its Movement Phase; no +2 MP to leave the EZOC."
+ },
+ {
+  "id": "13.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doRecovery"
+  ],
+  "tests": [
+   "13.4"
+  ],
+  "notes": "Away from EZOC: recover one level; in EZOC: Rally Table."
+ },
+ {
+  "id": "13.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doRecovery",
+   "data/rules.json"
+  ],
+  "tests": [
+   "13.5"
+  ],
+  "notes": "5-6 recovers; +2 BH/City, +1 Elite, -1 Low Quality (garrisons flagged lowQuality in oob.json by the earlier run)."
+ },
+ {
+  "id": "14.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceAllowance",
+   "src/engine/combat.ts:advanceDestinations",
+   "src/engine/combat.ts:applyAdvance"
+  ],
+  "tests": [
+   "14.1",
+   "14.2.1",
+   "14.3"
+  ],
+  "notes": "Heading; see 14.1-14.5."
+ },
+ {
+  "id": "14.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:makeAdvance",
+   "src/engine/combat.ts:applyAdvance"
+  ],
+  "tests": [
+   "14.1"
+  ],
+  "notes": "All attackers except ASUs that shifted may advance; no MP cost; stacking checked at the end."
+ },
+ {
+  "id": "14.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceAllowance"
+  ],
+  "tests": [
+   "14.2.1",
+   "14.2.2"
+  ],
+  "notes": "Heading; see 14.2.1-14.2.2."
+ },
+ {
+  "id": "14.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceAllowance"
+  ],
+  "tests": [
+   "14.2.1"
+  ],
+  "notes": "CRT advance length; non-mechanized capped at 2."
+ },
+ {
+  "id": "14.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:makeAdvance"
+  ],
+  "tests": [
+   "14.2.2"
+  ],
+  "notes": "Delay, EX elimination or successful DD give a Limited Advance into the vacated hex only."
+ },
+ {
+  "id": "14.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceDestinations"
+  ],
+  "tests": [
+   "14.3"
+  ],
+  "notes": "Any direction; vacated hex optional."
+ },
+ {
+  "id": "14.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceDestinations"
+  ],
+  "tests": [
+   "14.4.1",
+   "14.4.2"
+  ],
+  "notes": "Heading; see 14.4.1-14.4.2."
+ },
+ {
+  "id": "14.4.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceDestinations"
+  ],
+  "tests": [
+   "14.4.1"
+  ],
+  "notes": "Stop on entering an EZOC except in the vacated hex; no EZOC-to-EZOC of the same enemy unit."
+ },
+ {
+  "id": "14.4.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceDestinations"
+  ],
+  "tests": [
+   "14.4.2"
+  ],
+  "notes": "Enemy ZOC Bonds closed except the vacated hex."
+ },
+ {
+  "id": "14.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceDestinations"
+  ],
+  "tests": [
+   "14.5"
+  ],
+  "notes": "Unbridged rivers and mountain hexsides only into the attacked hex as first hex (mountain gives 1/2 Eff); hills stop unless by road."
+ },
+ {
+  "id": "15.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts"
+  ],
+  "tests": [
+   "15.1",
+   "15.2.1",
+   "15.3",
+   "15.4"
+  ],
+  "notes": "Heading; see 15.1-15.4."
+ },
+ {
+  "id": "15.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:startBreakthrough"
+  ],
+  "tests": [
+   "15.1"
+  ],
+  "notes": "Advance of 2+ allows Breakthrough Combat."
+ },
+ {
+  "id": "15.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts"
+  ],
+  "tests": [
+   "15.2.1",
+   "15.2.2",
+   "15.2.4",
+   "15.2.9"
+  ],
+  "notes": "Heading; see 15.2.1-15.2.9."
+ },
+ {
+  "id": "15.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:startBreakthrough",
+   "src/engine/breakthrough.ts:breakthroughAttack",
+   "src/engine/breakthrough.ts:finishBreakthroughCombat"
+  ],
+  "tests": [
+   "15.2.1"
+  ],
+  "notes": "Group declared/formed first, then the others advance; success: enter vacated hex and stop, or go on after DR4/DS."
+ },
+ {
+  "id": "15.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:startBreakthrough"
+  ],
+  "tests": [
+   "15.2.2"
+  ],
+  "notes": "One stack per attack, before the other attackers; any participant may join."
+ },
+ {
+  "id": "15.2.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:startBreakthrough"
+  ],
+  "tests": [
+   "15.2.3"
+  ],
+  "notes": "Forming in the vacated hex costs one hex; up to the stacking limit."
+ },
+ {
+  "id": "15.2.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:turnCost",
+   "src/engine/breakthrough.ts:breakthroughMove"
+  ],
+  "tests": [
+   "15.2.4"
+  ],
+  "notes": "Turning away from the vacated hex 1, a hex 1, an attack 1 (entering after success free)."
+ },
+ {
+  "id": "15.2.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:advanceAllowance",
+   "src/engine/breakthrough.ts:finishBreakthroughCombat"
+  ],
+  "tests": [
+   "15.2.5"
+  ],
+  "notes": "Breakthrough attack earns no new allowance."
+ },
+ {
+  "id": "15.2.6",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:breakthroughTargets",
+   "src/engine/breakthrough.ts:targetCheck"
+  ],
+  "tests": [
+   "15.2.6"
+  ],
+  "notes": "Targets adjacent; not across river/mountain hexsides except along roads; not into hexes it could not advance into."
+ },
+ {
+  "id": "15.2.7",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:computeOdds"
+  ],
+  "tests": [
+   "15.2.7"
+  ],
+  "notes": "No ASU, air or naval shifts; tank/elite shifts apply."
+ },
+ {
+  "id": "15.2.8",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:finishBreakthroughCombat"
+  ],
+  "tests": [
+   "15.2.8"
+  ],
+  "notes": "Failure ends the advance."
+ },
+ {
+  "id": "15.2.9",
+  "status": "implemented",
+  "code": [
+   "src/engine/breakthrough.ts:breakthroughDrop"
+  ],
+  "tests": [
+   "15.2.9"
+  ],
+  "notes": "Units may be dropped off (they stop), not picked up."
+ },
+ {
+  "id": "15.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:defenseOf",
+   "src/engine/retreat.ts:retreatStack"
+  ],
+  "tests": [
+   "15.3"
+  ],
+  "notes": "fixed (earlier run): units beyond the stacking limit add nothing vs Breakthrough Combat; the engine keeps the strongest (the defender's best choice). Already-retreated units defend at half and survive a second retreat."
+ },
+ {
+  "id": "15.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'autoDs'",
+   "src/engine/game.ts:endPhase"
+  ],
+  "tests": [
+   "15.4"
+  ],
+  "notes": "One Breakthrough Group per Auto DS."
+ },
+ {
+  "id": "16.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts",
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "16.1",
+   "16.3.1",
+   "16.5.1"
+  ],
+  "notes": "Heading; see 16.1-16.5."
+ },
+ {
+  "id": "16.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "16.1"
+  ],
+  "notes": "Owning player's Supply Phase marks/clears Out of Supply."
+ },
+ {
+  "id": "16.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplySources"
+  ],
+  "tests": [
+   "16.2.1",
+   "16.2.2"
+  ],
+  "notes": "Heading; see 16.2.1-16.2.2."
+ },
+ {
+  "id": "16.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplySources",
+   "src/engine/supply.ts:areaFriendly"
+  ],
+  "tests": [
+   "16.2.1"
+  ],
+  "notes": "N1/N2 plus friendly S/E areas."
+ },
+ {
+  "id": "16.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplySources",
+   "src/engine/supply.ts:beachheadHexes",
+   "src/engine/supply.ts:usablePorts"
+  ],
+  "tests": [
+   "16.2.2"
+  ],
+  "notes": "BHs, ports (occupied or EZOC-free), south edge from turn 11, captured east areas."
+ },
+ {
+  "id": "16.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplyChecker",
+   "src/engine/supply.ts:overland"
+  ],
+  "tests": [
+   "16.3.1",
+   "16.3.2",
+   "16.3.3",
+   "16.3.4"
+  ],
+  "notes": "Heading; see 16.3.1-16.3.4."
+ },
+ {
+  "id": "16.3.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplyChecker"
+  ],
+  "tests": [
+   "16.3.1"
+  ],
+  "notes": "Overland portion first, then road portion."
+ },
+ {
+  "id": "16.3.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:overland"
+  ],
+  "tests": [
+   "16.3.2"
+  ],
+  "notes": "5 hexes (marsh off-road 2), no all-sea or mountain hexside without road/pass, no enemy hex/bond, no two consecutive EZOC hexes (friends negate)."
+ },
+ {
+  "id": "16.3.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplyChecker"
+  ],
+  "tests": [
+   "16.3.3"
+  ],
+  "notes": "Road portion any length; no enemy hex, EZOC or enemy city/VP hex."
+ },
+ {
+  "id": "16.3.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:claimHex",
+   "src/engine/supply.ts:makeCtx"
+  ],
+  "tests": [
+   "16.3.4"
+  ],
+  "notes": "Control of ports/cities/VP hexes by last occupation/passage; vacant enemy-controlled ones block a LOS."
+ },
+ {
+  "id": "16.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:allowedModes",
+   "src/engine/combat.ts:computeOdds",
+   "src/engine/combat.ts:advanceAllowance",
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "16.4"
+  ],
+  "notes": "Mechanized tactical only, attack halved (round up), advance max 2, no ASU flip, no replacement."
+ },
+ {
+  "id": "16.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doSupply",
+   "src/engine/supply.ts:supplyChecker"
+  ],
+  "tests": [
+   "16.5.1",
+   "16.5.2",
+   "16.5.4"
+  ],
+  "notes": "Heading; see 16.5.1-16.5.6."
+ },
+ {
+  "id": "16.5.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplyChecker"
+  ],
+  "tests": [
+   "16.5.1"
+  ],
+  "notes": "LOC: unlimited overland, may cross one adjacent mountain hexside."
+ },
+ {
+  "id": "16.5.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "16.5.2"
+  ],
+  "notes": "Attrition only next to the enemy, not on the turn isolated; isolated ASUs without a non-ASU friend in LOS are eliminated."
+ },
+ {
+  "id": "16.5.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doSupply",
+   "data/rules.json"
+  ],
+  "tests": [
+   "16.5.3"
+  ],
+  "notes": "1-4 lose a step, 5-6 no effect."
+ },
+ {
+  "id": "16.5.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "16.5.4"
+  ],
+  "notes": "Roll per unit; last step can be lost."
+ },
+ {
+  "id": "16.5.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "16.5.5"
+  ],
+  "notes": "+2 LOS to friendly city or corps ASU (not cumulative); +1 Allies in clear weather."
+ },
+ {
+  "id": "16.5.6",
+  "status": "implemented",
+  "code": [
+   "src/engine/losses.ts:eliminate",
+   "src/engine/game.ts:applyReplacement",
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "16.5.6"
+  ],
+  "notes": "Not replaceable; still count for VPs."
+ },
+ {
+  "id": "17.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:readyAsusFor"
+  ],
+  "tests": [
+   "17.1",
+   "17.2",
+   "17.6.1"
+  ],
+  "notes": "Heading; see 17.1-17.7."
+ },
+ {
+  "id": "17.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:readyAsusFor",
+   "src/engine/combat.ts:resolveAttack"
+  ],
+  "tests": [
+   "17.1"
+  ],
+  "notes": "Column shift and flip to Fired."
+ },
+ {
+  "id": "17.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/units.ts:stackPoints",
+   "src/engine/zoc.ts:bondsOf",
+   "src/engine/combat.ts:canLead"
+  ],
+  "tests": [
+   "17.2"
+  ],
+  "notes": "No stacking value, one step, ZOC without bond, no advance after shifting, never Lead Unit, cannot attack; corps ASU DRM (16.5.5) and return location (20.3.1) elsewhere."
+ },
+ {
+  "id": "17.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'move'"
+  ],
+  "tests": [
+   "17.3"
+  ],
+  "notes": "Moving more than one hex disrupts the ASU."
+ },
+ {
+  "id": "17.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:readyAsusFor"
+  ],
+  "tests": [
+   "17.4"
+  ],
+  "notes": "Printed range to the defender's hex."
+ },
+ {
+  "id": "17.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'readyAsu'",
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "17.5"
+  ],
+  "notes": "One Supply Point per flip in the Initial or Supply Phase; Good Order and in supply."
+ },
+ {
+  "id": "17.6",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:readyAsusFor",
+   "src/engine/combat.ts:defensiveSupportOptions"
+  ],
+  "tests": [
+   "17.6.1",
+   "17.6.2",
+   "17.6.3"
+  ],
+  "notes": "Heading; see 17.6.1-17.6.3."
+ },
+ {
+  "id": "17.6.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:computeOdds"
+  ],
+  "tests": [
+   "17.6.1"
+  ],
+  "notes": "One shift; two with a division and a corps ASU."
+ },
+ {
+  "id": "17.6.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:defensiveSupportOptions",
+   "src/engine/combat.ts:resolveDefense"
+  ],
+  "tests": [
+   "17.6.2"
+  ],
+  "notes": "One ASU +1 to a DD roll."
+ },
+ {
+  "id": "17.6.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:readyAsusFor"
+  ],
+  "tests": [
+   "17.6.3"
+  ],
+  "notes": "Ready, Good Order, not 1/2 Eff, in range; division ASUs only for their division; corps/Nebelwerfer by nationality."
+ },
+ {
+  "id": "17.7",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:defenseOf"
+  ],
+  "tests": [
+   "17.7"
+  ],
+  "notes": "Defends only alone in the hex, one ASU counted; may still give DD support."
+ },
+ {
+  "id": "18.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:beachheadHexes",
+   "src/engine/game.ts:landingHexes"
+  ],
+  "tests": [
+   "18.1.1",
+   "18.2.1",
+   "18.4.1"
+  ],
+  "notes": "Heading; see 18.1-18.4."
+ },
+ {
+  "id": "18.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:beachheadHexes"
+  ],
+  "tests": [
+   "18.1.1",
+   "18.1.2",
+   "18.1.3",
+   "18.1.4"
+  ],
+  "notes": "Heading; see 18.1.1-18.1.4."
+ },
+ {
+  "id": "18.1.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:cannotMove",
+   "src/engine/units.ts:stackPoints"
+  ],
+  "tests": [
+   "18.1.1"
+  ],
+  "notes": "BH units never move and have no stacking value; their presence opens the beach."
+ },
+ {
+  "id": "18.1.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:supplySources"
+  ],
+  "tests": [
+   "18.1.2"
+  ],
+  "notes": "Each BH supplies all Allied units."
+ },
+ {
+  "id": "18.1.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveAttack",
+   "src/engine/losses.ts:loseStep",
+   "src/engine/combat.ts:canLead",
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "18.1.3"
+  ],
+  "notes": "Ignores Dis, eliminated by a step loss or retreat, may lead a DD, never replaced, -1 VP (23.1.3)."
+ },
+ {
+  "id": "18.1.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:defenseOf"
+  ],
+  "tests": [
+   "18.1.4"
+  ],
+  "notes": "2 + stacked units + half (round down) of adjacent Good Order units also adjacent to an attacker; those add no tank shift or lead and take no losses. Rulebook example K checked."
+ },
+ {
+  "id": "18.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:usablePorts",
+   "src/engine/game.ts:landingCapacity"
+  ],
+  "tests": [
+   "18.2.1",
+   "18.2.2"
+  ],
+  "notes": "Heading; see 18.2.1-18.2.2."
+ },
+ {
+  "id": "18.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:usablePorts",
+   "src/engine/game.ts:enterPhase 'movement'"
+  ],
+  "tests": [
+   "18.2.1"
+  ],
+  "notes": "Ports act as BHs if friendly at the start of the Allied Movement Phase; never eliminated."
+ },
+ {
+  "id": "18.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:usablePorts",
+   "src/engine/supply.ts:supplySources"
+  ],
+  "tests": [
+   "18.2.2"
+  ],
+  "notes": "Sorrento and Torre Annunziata unusable for transport and supply."
+ },
+ {
+  "id": "18.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:landingHexes"
+  ],
+  "tests": [
+   "18.3"
+  ],
+  "notes": "Unlimited Floating Reserve."
+ },
+ {
+  "id": "18.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:landingHexes",
+   "src/engine/game.ts:navalDestinations"
+  ],
+  "tests": [
+   "18.4.1",
+   "18.4.2",
+   "18.4.3",
+   "18.4.4",
+   "18.4.5"
+  ],
+  "notes": "Heading; see 18.4.1-18.4.5."
+ },
+ {
+  "id": "18.4.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:navalDestinations",
+   "src/engine/game.ts:applyAction case 'land'"
+  ],
+  "tests": [
+   "18.4.1"
+  ],
+  "notes": "Allied only, Allied Movement Phase only."
+ },
+ {
+  "id": "18.4.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:arriveBySea",
+   "src/engine/combat.ts:readyAsusFor",
+   "src/engine/game.ts:endOfMovement"
+  ],
+  "tests": [
+   "18.4.2"
+  ],
+  "notes": "Good Order, tactical, landing hex is the first hex; 1/2 Eff (not Rangers/Commandos); other nation's BH disrupts; landed ASU may support if unmoved and not in an EZOC. 1/2 Eff markers are dropped at the end of movement from units not next to the enemy (no effect there)."
+ },
+ {
+  "id": "18.4.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:lpCost",
+   "data/rules.json"
+  ],
+  "tests": [
+   "18.4.3"
+  ],
+  "notes": "12 LP per turn; sp 0/1=1, 2=2, 3=3."
+ },
+ {
+  "id": "18.4.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:landingCapacity",
+   "src/engine/game.ts:receiveMode"
+  ],
+  "tests": [
+   "18.4.4"
+  ],
+  "notes": "BH 3, port value, Salerno 1 with Germans within 2; in or out not both; 2-turn transfers to capacity-1 ports."
+ },
+ {
+  "id": "18.4.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:navalDestinations",
+   "src/engine/game.ts:applyAction case 'naval'"
+  ],
+  "tests": [
+   "18.4.5"
+  ],
+  "notes": "Port/BH to port/BH or back to the reserve, may start in EZOC, costs one of the two tactical hexes, max 3 LP port-to-port per turn."
+ },
+ {
+  "id": "19.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/data.ts",
+   "data/oob.json"
+  ],
+  "tests": [
+   "19.1",
+   "19.2",
+   "19.3",
+   "19.4"
+  ],
+  "notes": "Heading; see 19.1-19.4."
+ },
+ {
+  "id": "19.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doInitial",
+   "src/engine/combat.ts:readyAsusFor"
+  ],
+  "tests": [
+   "19.1"
+  ],
+  "notes": "Shifts like a corps ASU, once per turn, readies free in the German Initial Phase if in supply."
+ },
+ {
+  "id": "19.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:afterMoveChecks",
+   "src/engine/game.ts:doInitial",
+   "data/oob.json"
+  ],
+  "tests": [
+   "19.2"
+  ],
+  "notes": "III/1 FJ in 2202 frozen until an Allied unit is within 3 hexes or turn 3 (card: \"May not move until Turn 3\" / \"Release\" in the turn 3 box)."
+ },
+ {
+  "id": "19.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:defenseOf",
+   "src/engine/combat.ts:validateAttackers",
+   "src/engine/movement.ts:cannotMove",
+   "src/engine/retreat.ts:retreatStack"
+  ],
+  "tests": [
+   "19.3"
+  ],
+  "notes": "Cannot attack; strength rolled per combat 0,0,0,1,1,2; 0 = eliminated (DS if alone); never doubled; MA 0 never moves and dies on retreat; Auto DS assumes 2."
+ },
+ {
+  "id": "19.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:computeOdds",
+   "src/engine/combat.ts:resolveDefense",
+   "src/engine/data.ts"
+  ],
+  "tests": [
+   "19.4"
+  ],
+  "notes": "From turn 8, +1 with a naval marker, used twice, CRT roll max 6, DD max 7."
+ },
+ {
+  "id": "20.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "20.1.1",
+   "20.2",
+   "20.3.1",
+   "20.4"
+  ],
+  "notes": "Heading; see 20.1-20.4."
+ },
+ {
+  "id": "20.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement",
+   "src/engine/game.ts:doInitial"
+  ],
+  "tests": [
+   "20.1.1",
+   "20.1.2"
+  ],
+  "notes": "Heading; see 20.1.1-20.1.2."
+ },
+ {
+  "id": "20.1.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement",
+   "src/engine/game.ts:doInitial",
+   "data/rules.json"
+  ],
+  "tests": [
+   "20.1.1"
+  ],
+  "notes": "One step or out of the Eliminated Box at lowest step; Initial Phase only, unused ones lost; schedule from the turn track."
+ },
+ {
+  "id": "20.1.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:replPool",
+   "data/oob.json"
+  ],
+  "tests": [
+   "20.1.2"
+  ],
+  "notes": "Tank, infantry, special (special may be used as infantry)."
+ },
+ {
+  "id": "20.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "20.2"
+  ],
+  "notes": "In supply, Good Order, one per unit per turn."
+ },
+ {
+  "id": "20.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "20.3.1",
+   "20.3.2",
+   "20.3.3",
+   "20.3.4",
+   "20.3.5"
+  ],
+  "notes": "Heading; see 20.3.1-20.3.5."
+ },
+ {
+  "id": "20.3.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "20.3.1"
+  ],
+  "notes": "Entry Area (Germans, 8th Army), Floating Reserve (5th Army), or a corps/own division ASU hex in supply; not next to the enemy."
+ },
+ {
+  "id": "20.3.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:enforceStacking"
+  ],
+  "tests": [
+   "20.3.2"
+  ],
+  "notes": "Overstacking allowed until the end of the Movement Phase."
+ },
+ {
+  "id": "20.3.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "20.3.3"
+  ],
+  "notes": "Returning ASUs come back Fired."
+ },
+ {
+  "id": "20.3.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement",
+   "src/engine/losses.ts:remnantFor"
+  ],
+  "tests": [
+   "20.3.4"
+  ],
+  "notes": "3-step unit returns as its Remnant."
+ },
+ {
+  "id": "20.3.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyReplacement"
+  ],
+  "tests": [
+   "20.3.5"
+  ],
+  "notes": "Remnant + replacement = the unit on its reduced side."
+ },
+ {
+  "id": "20.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:allowedModes",
+   "src/engine/game.ts:landingHexes",
+   "src/engine/combat.ts:validateAttackers"
+  ],
+  "tests": [
+   "20.4"
+  ],
+  "notes": "Max one hex, no naval transport or area change, no attack/advance/disengage, blocks all attacks from the hex until Recovery (ASUs unaffected)."
+ },
+ {
+  "id": "21.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doInitial",
+   "src/engine/game.ts:applyAction case 'enter'"
+  ],
+  "tests": [
+   "21.1.1",
+   "21.2.1",
+   "21.3.1",
+   "21.6.1"
+  ],
+  "notes": "Heading; see 21.1-21.6."
+ },
+ {
+  "id": "21.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doInitial"
+  ],
+  "tests": [
+   "21.1.1",
+   "21.1.2",
+   "21.1.3"
+  ],
+  "notes": "Heading; see 21.1.1-21.1.3."
+ },
+ {
+  "id": "21.1.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doInitial",
+   "src/engine/game.ts:areaOfEdge",
+   "data/oob.json"
+  ],
+  "tests": [
+   "21.1.1"
+  ],
+  "notes": "Initial Phase arrival: 5th Army to the Floating Reserve, 8th Army to the card's S1/S2/S3, Germans to their edge code (the player picks N1/N2, S1-S3 or E1-E5 when entering). fixed: I+II/HG Pz arrives reduced (arrive.reduced), as the Axis card shows."
+ },
+ {
+  "id": "21.1.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:landingHexes",
+   "src/engine/game.ts:arriveBySea"
+  ],
+  "tests": [
+   "21.1.2"
+  ],
+  "notes": "Land at a friendly port/BH in the Movement Phase, tactical, landing hex first; stop if in an EZOC; overstacking until end of movement."
+ },
+ {
+  "id": "21.1.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:entryDestinations",
+   "src/engine/movement.ts:entryModes"
+  ],
+  "tests": [
+   "21.1.3"
+  ],
+  "notes": "Enter paying the first hex's cost with full MA incl. Extended Movement, or stay, or change area."
+ },
+ {
+  "id": "21.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:areaFriendly"
+  ],
+  "tests": [
+   "21.2.1",
+   "21.2.2",
+   "21.2.3"
+  ],
+  "notes": "Heading; see 21.2.1-21.2.3."
+ },
+ {
+  "id": "21.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doInitial",
+   "src/engine/game.ts:applyAction case 'enter'"
+  ],
+  "tests": [
+   "21.2.1"
+  ],
+  "notes": "S1-S3 Allied from the Allied turn 11 (Germans there eliminated); an east area falls when an 8th Army unit enters it; Germans then barred."
+ },
+ {
+  "id": "21.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'changeArea'",
+   "src/engine/movement.ts:entryDestinations"
+  ],
+  "tests": [
+   "21.2.2"
+  ],
+  "notes": "Only 8th Army Allied units use E1-E5."
+ },
+ {
+  "id": "21.2.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/supply.ts:areaFriendly"
+  ],
+  "tests": [
+   "21.2.3"
+  ],
+  "notes": "N1/N2 always German; both sides may share them."
+ },
+ {
+  "id": "21.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts",
+   "src/engine/combat.ts"
+  ],
+  "tests": [
+   "21.3.1",
+   "21.3.2",
+   "21.3.3",
+   "21.3.4"
+  ],
+  "notes": "Heading; see 21.3.1-21.3.4."
+ },
+ {
+  "id": "21.3.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:validateAttackers"
+  ],
+  "tests": [
+   "21.3.1"
+  ],
+  "notes": "No stacking limit except for units attacking out of the area."
+ },
+ {
+  "id": "21.3.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'changeArea'",
+   "src/engine/movement.ts:entryDestinations"
+  ],
+  "tests": [
+   "21.3.2"
+  ],
+  "notes": "Entering costs 1 MP / 1 hex and stops the unit until next turn; Good Order needed to re-enter the map."
+ },
+ {
+  "id": "21.3.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/zoc.ts:zocOf",
+   "src/engine/zoc.ts:bondsOf",
+   "src/engine/movement.ts:entryDestinations"
+  ],
+  "tests": [
+   "21.3.3"
+  ],
+  "notes": "No ZOC into or out of areas; may enter into an EZOC but not a ZOC Bond; hexside bonds anchor on a friendly area."
+ },
+ {
+  "id": "21.3.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:adjacentForCombat",
+   "src/engine/combat.ts:validateAttackers",
+   "src/engine/combat.ts:readyAsusFor"
+  ],
+  "tests": [
+   "21.3.4"
+  ],
+  "notes": "Cannot be attacked; unmoved units may attack adjacent edge hexes (stacking applies), may advance; ASUs there support adjacent hexes only."
+ },
+ {
+  "id": "21.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/retreat.ts:planRetreat",
+   "src/engine/retreat.ts:retreatStack"
+  ],
+  "tests": [
+   "21.4"
+  ],
+  "notes": "Retreat off-map into a friendly area: placed there Disrupted/FR; into an enemy area: eliminated."
+ },
+ {
+  "id": "21.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'changeArea'",
+   "src/engine/combat.ts:validateAttackers"
+  ],
+  "tests": [
+   "21.5"
+  ],
+  "notes": "Whole MA, Good Order only; N1-N2 German only; never N2-E5; no attack/support that turn."
+ },
+ {
+  "id": "21.6",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:landingHexes",
+   "src/engine/game.ts:applyAction case 'land'"
+  ],
+  "tests": [
+   "21.6.1",
+   "21.6.2",
+   "21.6.3",
+   "21.6.4"
+  ],
+  "notes": "Heading; see 21.6.1-21.6.4."
+ },
+ {
+  "id": "21.6.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doInitial",
+   "src/engine/game.ts:landingHexes",
+   "src/engine/game.ts:applyAction case 'land'",
+   "src/engine/game.ts:endPhase",
+   "data/oob.json",
+   "data/rules.json"
+  ],
+  "tests": [
+   "21.6.1"
+  ],
+  "notes": "504th T5, 505th and 2/509th T6 (card: Air Drop); must drop in the Allied Initial Phase; 504/505 within 3 hexes of a BH unit, 2/509 anywhere in the 5th Army sector (data code renamed hex:3303 -> airdrop509; it was never a fixed hex); no city, enemy hex or enemy hex bond; drop table <=-2 elim, 0/-1 step+Dis, 1-2 Dis, 3-4 1/2 Eff, 5-6 ok."
+ },
+ {
+  "id": "21.6.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'land'",
+   "src/engine/game.ts:fullMountainHex"
+  ],
+  "tests": [
+   "21.6.2"
+  ],
+  "notes": "-2 marsh or full mountain (cities are barred anyway); -2 EZOC, not cumulative."
+ },
+ {
+  "id": "21.6.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'land'",
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "21.6.3"
+  ],
+  "notes": "In supply on the drop turn; checked normally afterwards."
+ },
+ {
+  "id": "21.6.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'land'"
+  ],
+  "tests": [
+   "21.6.4"
+  ],
+  "notes": "Weather ignored."
+ },
+ {
+  "id": "22.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doWeather"
+  ],
+  "tests": [
+   "22.1",
+   "22.2.1",
+   "22.3.1",
+   "22.4"
+  ],
+  "notes": "Heading; see 22.1-22.5."
+ },
+ {
+  "id": "22.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doWeather",
+   "data/rules.json"
+  ],
+  "tests": [
+   "22.1"
+  ],
+  "notes": "Starts in A; from turn 2 moves 0/1/2 boxes, F wraps to A."
+ },
+ {
+  "id": "22.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:readySupport"
+  ],
+  "tests": [
+   "22.2.1",
+   "22.2.2",
+   "22.2.3"
+  ],
+  "notes": "Heading; see 22.2.1-22.2.3."
+ },
+ {
+  "id": "22.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:readySupport",
+   "data/rules.json"
+  ],
+  "tests": [
+   "22.2.1"
+  ],
+  "notes": "Box sets which air/naval markers are ready."
+ },
+ {
+  "id": "22.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:readySupport"
+  ],
+  "tests": [
+   "22.2.2"
+  ],
+  "notes": "Luftwaffe only in box C and while Montecorvino is unusable for the Allies."
+ },
+ {
+  "id": "22.2.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:readySupport"
+  ],
+  "tests": [
+   "22.2.3"
+  ],
+  "notes": "Allied control of 2811 with no German within 3 grounds the Luftwaffe."
+ },
+ {
+  "id": "22.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doWeather"
+  ],
+  "tests": [
+   "22.3.1",
+   "22.3.2"
+  ],
+  "notes": "Heading; see 22.3.1-22.3.2."
+ },
+ {
+  "id": "22.3.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doWeather",
+   "data/rules.json"
+  ],
+  "tests": [
+   "22.3.1"
+  ],
+  "notes": "Supply points from the box, cap 19."
+ },
+ {
+  "id": "22.3.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doWeather",
+   "src/engine/supply.ts:salernoPortOpen"
+  ],
+  "tests": [
+   "22.3.2"
+  ],
+  "notes": "+1 Allied on starred boxes once Salerno is Allied with no German within 2."
+ },
+ {
+  "id": "22.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:computeOdds",
+   "src/engine/movement.ts:stepCost"
+  ],
+  "tests": [
+   "22.4"
+  ],
+  "notes": "Rain: one column left; vehicles may not cross/attack across unbridged rivers."
+ },
+ {
+  "id": "22.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doSupply"
+  ],
+  "tests": [
+   "22.5"
+  ],
+  "notes": "Clear/cloudy: no effect except the isolation +1."
+ },
+ {
+  "id": "23.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:vpBreakdown",
+   "src/engine/game.ts:doVictoryCheck"
+  ],
+  "tests": [
+   "23.1.1",
+   "23.2"
+  ],
+  "notes": "Heading; see 23.1-23.2."
+ },
+ {
+  "id": "23.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "23.1.1",
+   "23.1.2",
+   "23.1.3",
+   "23.1.4"
+  ],
+  "notes": "Heading; see 23.1.1-23.1.4."
+ },
+ {
+  "id": "23.1.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "23.1.1"
+  ],
+  "notes": "Allied VP hexes count only with a LOS to an Allied port, BH or friendly area."
+ },
+ {
+  "id": "23.1.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "23.1.2"
+  ],
+  "notes": "-1 per eliminated Allied airborne/glider regiment (not battalions, not while its Remnant stands in) or ASU; +1 per German ASU."
+ },
+ {
+  "id": "23.1.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "23.1.3"
+  ],
+  "notes": "-1 per lost BH for automatic victory and the Avalanche Scenario; not at the end of the campaign."
+ },
+ {
+  "id": "23.1.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:updateNorthVp",
+   "src/engine/movement.ts:entryDestinations"
+  ],
+  "tests": [
+   "23.1.4"
+  ],
+  "notes": "2+ 5th Army units with 6+ attack: N1 5 VP, N2 4 VP if an Allied supply line reaches the area; Germans exit only into hexes free of Allied ZOC; Allies never leave."
+ },
+ {
+  "id": "23.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doVictoryCheck",
+   "data/rules.json"
+  ],
+  "tests": [
+   "23.2"
+  ],
+  "notes": "From turn 4: benchmark +5 or 20 VPs Allied win, benchmark -5 German win."
+ },
+ {
+  "id": "24.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:newGame",
+   "src/engine/game.ts:runInvasion"
+  ],
+  "tests": [
+   "24.1",
+   "24.2.1",
+   "24.3",
+   "24.4.1"
+  ],
+  "notes": "Heading; see 24.1-24.4."
+ },
+ {
+  "id": "24.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:newGame",
+   "src/engine/game.ts:stepPhase"
+  ],
+  "tests": [
+   "24.1"
+  ],
+  "notes": "Invasion Combat Phase replaces the weather; then a German and an Allied player turn."
+ },
+ {
+  "id": "24.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:runInvasion"
+  ],
+  "tests": [
+   "24.2.1",
+   "24.2.2",
+   "24.2.3",
+   "24.2.4"
+  ],
+  "notes": "Heading; see 24.2.1-24.2.4."
+ },
+ {
+  "id": "24.2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:runInvasion",
+   "data/oob.json",
+   "data/rules.json"
+  ],
+  "tests": [
+   "24.2.1"
+  ],
+  "notes": "One Invasion CRT roll per beach with the card's assault units; no odds. Beaches are rolled in a fixed order (any order is allowed; they do not interact)."
+ },
+ {
+  "id": "24.2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:runInvasion",
+   "src/engine/losses.ts:takeSteps"
+  ],
+  "tests": [
+   "24.2.2"
+  ],
+  "notes": "Uncle 1-2: one step lost from that beach's units (owner's choice; the engine never offers the BH unit, which would close the beach)."
+ },
+ {
+  "id": "24.2.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:runInvasion"
+  ],
+  "tests": [
+   "24.2.3"
+  ],
+  "notes": "Beach hex is the first hex; Adv 2 leaves one more tactical hex; BH units stop."
+ },
+ {
+  "id": "24.2.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'attack'",
+   "src/engine/combat.ts:computeOdds"
+  ],
+  "tests": [
+   "24.2.4"
+  ],
+  "notes": "Only Commandos with a hex left may attack, only Salerno; Elite shift only; garrison not doubled. Rulebook example (roll 6 = 2, 4:2 + Elite = 3-1, DR, failed DD at -1) checked."
+ },
+ {
+  "id": "24.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:movementAllowance"
+  ],
+  "tests": [
+   "24.3"
+  ],
+  "notes": "German MA halved round up on turn 1; Extended (+3) and Tactical unaffected. fixed (earlier run): removed an invented ban on Germans entering beach hexes on turn 1."
+ },
+ {
+  "id": "24.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:allowedModes",
+   "src/engine/game.ts:landingHexes"
+  ],
+  "tests": [
+   "24.4.1",
+   "24.4.2",
+   "24.4.3"
+  ],
+  "notes": "Heading; see 24.4.1-24.4.3."
+ },
+ {
+  "id": "24.4.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:allowedModes",
+   "src/engine/movement.ts:entryModes",
+   "src/engine/game.ts:doInitial"
+  ],
+  "tests": [
+   "24.4.1"
+  ],
+  "notes": "Allies tactical only on turn 1; only the Follow-Up Wave lands (the card's turn-2 Floating Reserve group is held until the Allied turn 2 Initial Phase)."
+ },
+ {
+  "id": "24.4.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:landingHexes",
+   "src/engine/game.ts:arriveBySea",
+   "src/engine/game.ts:endOfMovement"
+  ],
+  "tests": [
+   "24.4.2"
+  ],
+  "notes": "Land in the Allied Movement Phase, beach = first hex; 1/2 Eff kept only next to Germans; unlanded units go to the Floating Reserve. fixed (earlier run): may use any open beach or friendly port (other nation's BH disrupts), as the extended example states."
+ },
+ {
+  "id": "24.4.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:landingBeaches",
+   "src/engine/game.ts:landingCapacity"
+  ],
+  "tests": [
+   "24.4.3"
+  ],
+  "notes": "Sugar takes 3 LP of follow-up units on turn 1, closed afterwards."
+ },
+ {
+  "id": "25.0",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveDisengage",
+   "src/engine/game.ts:newGame"
+  ],
+  "tests": [
+   "25.1.2",
+   "25.2",
+   "25.3"
+  ],
+  "notes": "Heading; see 25.1-25.3."
+ },
+ {
+  "id": "25.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveDisengage"
+  ],
+  "tests": [
+   "25.1.2",
+   "25.1.3",
+   "25.1.4"
+  ],
+  "notes": "Disengagement is always available in the engine (no on/off option, unlike 25.2/25.3)."
+ },
+ {
+  "id": "25.1.1",
+  "status": "n/a",
+  "code": [],
+  "tests": [],
+  "notes": "Statement of purpose; no rule content."
+ },
+ {
+  "id": "25.1.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveDisengage",
+   "data/rules.json"
+  ],
+  "tests": [
+   "25.1.2"
+  ],
+  "notes": "1-2 No, 3 Yes -1 step, 4-6 Yes; +1 if all mechanized; clamped 1-6."
+ },
+ {
+  "id": "25.1.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveDisengage",
+   "src/engine/combat.ts:validateAttackers"
+  ],
+  "tests": [
+   "25.1.3"
+  ],
+  "notes": "Any non-attacking unit (Disrupted too), any time in the Combat Phase; attack or disengage, not both; per unit or per stack."
+ },
+ {
+  "id": "25.1.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveDisengage",
+   "src/engine/retreat.ts:retreatStack"
+  ],
+  "tests": [
+   "25.1.4"
+  ],
+  "notes": "Yes: retreat 1-2, Disrupted (FR if already); no EZOC without a friend; -1 step first on 3."
+ },
+ {
+  "id": "25.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:resolveAttack"
+  ],
+  "tests": [
+   "25.2"
+  ],
+  "notes": "Option recon: a lone recon unit ignores the D1/DS step loss (not the retreat), then no DD that phase."
+ },
+ {
+  "id": "25.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:portSupplied"
+  ],
+  "tests": [
+   "25.3"
+  ],
+  "notes": "Option limitedPortSupply: a port supplies 10x its LP value in LPs of units."
+ },
+ {
+  "id": "S1.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:newGame",
+   "data/oob.json",
+   "src/engine/data.ts"
+  ],
+  "tests": [
+   "S1.1"
+  ],
+  "notes": "8 turns; Campaign At Start cards (data/oob.json matches the photographed Axis and Allied cards and counters); all four Allied support markers ready, Luftwaffe on the weather track; SP Allied 0 / German 3; weather A, turn 1."
+ },
+ {
+  "id": "S1.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doVictoryCheck",
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "S1.2"
+  ],
+  "notes": "Allied win with 8+ VPs at the end of turn 8; each lost BH -1."
+ },
+ {
+  "id": "S1.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:newGame"
+  ],
+  "tests": [
+   "S1.3",
+   "24.1"
+  ],
+  "notes": "Turn 1 special rules (24.0) apply."
+ },
+ {
+  "id": "S1.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:newGame",
+   "data/oob.json",
+   "src/engine/types.ts:GameOptions.optionalStart",
+   "src/ui/screens.tsx"
+  ],
+  "tests": [
+   "S1.4"
+  ],
+  "notes": "new (option optionalStart): no invasion; play opens with the German Turn 1 with the Allied units at the hexes on the back of the Allied At Start card; follow-up wave, reserve and markers as normal. German side: normal set-up minus Garrison C (Salerno is held by the Commandos) - no German card for this start was photographed."
+ },
+ {
+  "id": "S2.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:newGame",
+   "data/oob.json"
+  ],
+  "tests": [
+   "S2.1"
+  ],
+  "notes": "Same set-up as S1.1; 22 turns."
+ },
+ {
+  "id": "S2.2",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:withdraw16Pz",
+   "data/oob.json"
+  ],
+  "tests": [
+   "S2.2"
+  ],
+  "notes": "Turn 14 German Initial Phase: remove 12+ current defence of in-supply units, 16th Pz first, its ASU always."
+ },
+ {
+  "id": "S2.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/data.ts:army8",
+   "data/oob.json"
+  ],
+  "tests": [
+   "S2.3",
+   "S2.3.1",
+   "S2.3.3"
+  ],
+  "notes": "8th Army = the units arriving at S1-S3 (yellow stripe)."
+ },
+ {
+  "id": "S2.3.1",
+  "status": "implemented",
+  "code": [
+   "src/engine/combat.ts:validateAttackers"
+  ],
+  "tests": [
+   "S2.3.1"
+  ],
+  "notes": "5th and 8th Army never attack together (may stack)."
+ },
+ {
+  "id": "S2.3.2",
+  "status": "implemented",
+  "code": [
+   "data/oob.json"
+  ],
+  "tests": [
+   "S2.3.2"
+  ],
+  "notes": "No 8th Army ASUs, hence no supply points."
+ },
+ {
+  "id": "S2.3.3",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:endOfMovement"
+  ],
+  "tests": [
+   "S2.3.3"
+  ],
+  "notes": "At most one 8th Army unit across the boundary at the end of the Allied Movement Phase."
+ },
+ {
+  "id": "S2.3.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/movement.ts:stepCost"
+  ],
+  "tests": [
+   "S2.3.4"
+  ],
+  "notes": "Roads in the 8th Army sector cost Allied mechanized units 1 MP."
+ },
+ {
+  "id": "S2.3.5",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:applyAction case 'changeArea'"
+  ],
+  "tests": [
+   "S2.3.5"
+  ],
+  "notes": "East edge areas only for Germans and 8th Army."
+ },
+ {
+  "id": "S2.3.6",
+  "status": "implemented",
+  "code": [
+   "data/oob.json",
+   "src/engine/losses.ts:loseStep"
+  ],
+  "tests": [
+   "S2.3.6"
+  ],
+  "notes": "No 8th Army Remnants."
+ },
+ {
+  "id": "S2.3.7",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:abandon8thSector",
+   "src/engine/game.ts:purge8thSector"
+  ],
+  "tests": [
+   "S2.3.7"
+  ],
+  "notes": "From turn 16 the Germans may abandon the sector in their Supply Phase."
+ },
+ {
+  "id": "S2.4",
+  "status": "implemented",
+  "code": [
+   "src/engine/game.ts:doVictoryCheck",
+   "src/engine/game.ts:vpBreakdown"
+  ],
+  "tests": [
+   "S2.4"
+  ],
+  "notes": "20 VPs at the end; isolated German VP hexes count, lost BHs do not."
+ }
+]
