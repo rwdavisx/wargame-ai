@@ -101,6 +101,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const acting = actingSide(game);
   const controller = settings.controllers[acting];
   const humanTurn = controller === 'human' && game.phase !== 'gameOver';
+  // The player's own advance after combat (not the enemy's, while the player picks a retreat for its own units).
+  const myAdvance = !!game.pendingAdvance && humanTurn && acting === game.activeSide && !game.retreatQueue?.length && !game.pendingDefense;
 
   // ---------------------------------------------------------------- the battle screen
   // The player's own attack until it is rolled and read; then every enemy attack on the player's units, one at a time.
@@ -158,6 +160,20 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     [settings.controllers, settings.claudeApiKey, settings.claudeModel],
   );
 
+  // The computer's attack on the player's units, as a battle for the panel (when combats are stepped through).
+  const enemyAttack = useRef<(a: Action) => PlannedAttack | null>(() => null);
+  enemyAttack.current = (a: Action) => {
+    if (settings.combatDice === 'quick' || humanSides.includes(acting)) return null;
+    if (a.type !== 'attack' && a.type !== 'autoDs' && a.type !== 'btAttack') return null;
+    if (!unitsAt(game, a.target).some((u) => humanSides.includes(sideOf(u)))) return null;
+    const plan = a.type === 'btAttack' ? breakthroughPlan(game, a.target) : a;
+    const odds = computeOdds(game, plan, a.type === 'autoDs' ? { autoDs: true } : {});
+    return odds.ok ? { action: a, odds, target: a.target, attackers: plan.attackers } : null;
+  };
+  // While a die is in the air the map keeps showing the moment before the roll; the result plays out when it lands.
+  const [heldMap, setHeldMap] = useState<GameState | null>(null);
+  const holdMap = useCallback((on: boolean) => setHeldMap(on ? game : null), [game]);
+
   // Until when the map is still playing the last change; the computer waits for it before its next action.
   const busyUntil = useRef(0);
   const onMapBusy = useCallback((ms: number) => {
@@ -172,6 +188,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         const ai = aiFor(acting);
         const a = await ai.nextAction(game);
         if (cancelled) return;
+        // An attack on the player's units waits on the battle panel: nothing happens on the map until the player
+        // has watched the computer roll.
+        const enemy = enemyAttack.current(a);
+        if (enemy) {
+          setBattle(enemy);
+          return;
+        }
         setGame((g) => {
           if (g.seq !== seq) return g;
           try {
@@ -217,7 +240,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const advanceKey = game.pendingAdvance ? `${game.pendingAdvance.combatId}|${game.pendingAdvance.vacated}|${Object.keys(game.pendingAdvance.maxByUnit).join(',')}` : '';
   useEffect(() => {
     const pa = game.pendingAdvance;
-    if (!pa || !humanTurn || game.breakthrough) {
+    if (!pa || !myAdvance || game.breakthrough) {
       setAdvanceSel([]);
       return;
     }
@@ -233,7 +256,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       sp += def(id).sp;
     }
     setAdvanceSel(pick);
-  }, [advanceKey, humanTurn]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [advanceKey, myAdvance]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------------------------------------------------------- human actions
   const dispatch = useCallback(
@@ -726,7 +749,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     };
   }
 
-  const advance = game.pendingAdvance && humanTurn && !game.breakthrough
+  const advance = game.pendingAdvance && myAdvance && !game.breakthrough
     ? {
       ids: Object.keys(game.pendingAdvance.maxByUnit).filter((id) => game.units[id]?.where.kind === 'map'),
       sel: advanceSel,
@@ -810,7 +833,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   return (
     <div className={`game${panelOpen ? ' panel-open' : ' panel-closed'}${viewerOpen ? ' battle-open' : ''}`}>
       <MapView
-        state={game}
+        state={heldMap ?? game}
         terrain={terrain}
         version={mapVersion}
         settings={settings}
@@ -917,8 +940,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       {viewerOpen && (
         <BattleScreen key={battle ? 'plan' : `combat-${viewerId}`} game={game} settings={settings} humanSides={humanSides} plan={battle} combatId={viewerId}
           startAt={stepCombats ? 'intro' : 'decide'} before={viewerId !== null ? beforeCombat.current.get(viewerId) : undefined}
-          onRoll={rollAttack} dispatch={dispatch} onAiGate={setAiGate} quick={!stepCombats} onFootprint={setBattleInset}
+          onRoll={rollAttack} dispatch={dispatch} onAiGate={setAiGate} quick={!stepCombats} onFootprint={setBattleInset} onHold={holdMap}
           onClose={(id) => {
+            setHeldMap(null);
             setBattle(null);
             setViewing(null);
             setAiGate(null);

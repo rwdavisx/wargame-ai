@@ -48,6 +48,8 @@ interface Props {
   onAiGate: (combatId: number | null) => void;
   onClose: (combatId: number | null) => void;
   quick?: boolean;
+  /** Keep the map at the moment before a roll (true) until the die lands (false). */
+  onHold?: (on: boolean) => void;
   /** How much of the map the panel covers, in screen pixels (for the camera). */
   onFootprint?: (inset: BattleInset) => void;
 }
@@ -165,8 +167,12 @@ export function BattleScreen(p: Props) {
   // ---------------------------------------------------------------- steps
   const roll = () => {
     if (!p.onRoll) return;
+    p.onHold?.(true);
     const next = p.onRoll();
-    if (!next) return;
+    if (!next) {
+      p.onHold?.(false);
+      return;
+    }
     const r = next.combats[next.combats.length - 1];
     setId(r.id);
     if (next.pendingDefense?.combatId === r.id) setPdSnap(next.pendingDefense);
@@ -207,6 +213,11 @@ export function BattleScreen(p: Props) {
     return () => clearTimeout(t);
   }, [step, pending]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => p.onAiGate(null), []); // eslint-disable-line react-hooks/exhaustive-deps
+  // The die has landed (or there was none): let the map show what happened.
+  useEffect(() => {
+    if (step !== 'rolling' && step !== 'ddRolling') p.onHold?.(false);
+  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => p.onHold?.(false), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const retreat = () => {
     if (forecast?.trapped.length && !confirmRetreat) {
@@ -221,8 +232,12 @@ export function BattleScreen(p: Props) {
   };
   const canShips = pd ? shipsAllowed(game, pd, support) : false;
   const rollDd = () => {
+    p.onHold?.(true);
     const next = p.dispatch({ type: 'defend', choice: 'dd', support, battleships: canShips && ships, prefer, delay });
-    if (!next) return;
+    if (!next) {
+      p.onHold?.(false);
+      return;
+    }
     if (p.quick) {
       setStep('ddResult');
       return;
@@ -238,8 +253,13 @@ export function BattleScreen(p: Props) {
   let secondary: Btn | null = null;
   switch (step) {
     case 'ready':
-      primary = { label: noDie ? 'Overrun!' : 'Roll the die', run: roll };
-      secondary = { label: 'Cancel', run: () => p.onClose(null) };
+      if (mineAtt || !mineDef) {
+        primary = { label: noDie ? 'Overrun!' : 'Roll the die', run: roll };
+        secondary = { label: 'Cancel', run: () => p.onClose(null) };
+      } else {
+        // The computer's attack on the player: it is coming whatever happens; the player only watches the roll.
+        primary = { label: noDie ? 'See the result ▶' : 'Watch their roll ▶', run: roll };
+      }
       break;
     case 'intro':
       primary = { label: noDie ? 'See the result ▶' : `Watch ${mineAtt ? 'your' : 'their'} roll ▶`, run: watchRoll };
