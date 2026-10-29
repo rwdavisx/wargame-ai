@@ -21,6 +21,8 @@ m = json.load(open(os.path.join(HERE, '../../data/map.json')))
 HX, SD = m['hexes'], m['hexsides']
 FB = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 FR = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+EXT = os.environ.get('REVIEW_EXT', 'jpg')
+SAVE = {'quality': 88} if EXT == 'jpg' else {}
 TC = {'clear': (255, 255, 255), 'hill': (255, 140, 0), 'marsh': (0, 200, 120), 'sea': (0, 90, 255)}
 
 
@@ -119,14 +121,14 @@ def draw(name, out, tiles=(2, 3)):
             d.text((cx - 30 * k, cy + 24 * k), 'B:' + beach_at[h], fill=(255, 255, 0), font=f, stroke_width=2, stroke_fill=(0, 0, 0))
         if h in entry_at:
             d.text((cx - 10 * k, cy - 30 * k), entry_at[h], fill=(255, 255, 255), font=F, stroke_width=2, stroke_fill=(0, 0, 160))
-    im.save(f'{out}/{name}_full.jpg', quality=88)
+    im.save(f'{out}/{name}_full.{EXT}', **SAVE)
     cols, rows = tiles
     for i in range(cols):
         for j in range(rows):
             x0, y0 = i * W // cols, j * H // rows
             m_ = int(hexpx * 0.6)
             im.crop((max(0, x0 - m_), max(0, y0 - m_), min(W, x0 + W // cols + m_), min(H, y0 + H // rows + m_))).save(
-                f'{out}/{name}_{j}{i}.jpg', quality=88)
+                f'{out}/{name}_{j}{i}.{EXT}', **SAVE)
 
 
 if __name__ == '__main__':

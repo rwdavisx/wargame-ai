@@ -5417,21 +5417,18 @@
   "3917-3918": {
    "river": true
   },
-  "3918-3919": {
-   "road": "major"
-  },
   "3918-4018": {
    "river": true
   },
   "3918-4019": {
-   "river": true
+   "river": true,
+   "road": "major"
   },
   "3919-3920": {
    "road": "minor"
   },
   "3919-4019": {
-   "river": true,
-   "road": "major"
+   "river": true
   },
   "3919-4020": {
    "river": true

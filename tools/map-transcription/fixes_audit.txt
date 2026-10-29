@@ -61,3 +61,9 @@ minor+ 4515-4616
 road- 4102-4203
 major+ 4102-4103
 major+ 4103-4203
+# Auletta - Vietri di Potenza: the major road curves north into 3918 and crosses the Platano straight
+# into 4019 (about a third of a hexside from the 3918/3919/4019 vertex); it never enters 3919, whose
+# only road is the dashed Auletta - Caggiano road (photo 6).
+road- 3918-3919
+road- 3919-4019
+major+ 3918-4019
