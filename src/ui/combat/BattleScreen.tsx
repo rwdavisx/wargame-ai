@@ -8,12 +8,13 @@ import type { HexId } from '../../engine/hex';
 import type { Action, CombatReport, GameState, PendingDefense, Side, UnitState } from '../../engine/types';
 import { def, other, sideOf, stepsRemaining } from '../../engine/units';
 import { TokenIcon } from '../render/units';
+import { unitName } from '../../engine/words';
 import { sfx } from '../sound';
 import type { Settings } from '../storage';
 import { Die3D, Pips } from './Die';
 import {
   cap, columnIndex, columnLabel, crtFaces, DD_KIND_LABEL, ddFaces, ddForecast, ddRolls, explainDd, explainResult, forceText, oddsWords,
-  placeName, RESULT_TITLE, resultAdvance, resultTitle, resultKey, resultTone, shipsAllowed, sideAdj, sideNoun, signed, supportLabel, type DdFace,
+  placeLong, placeName, RESULT_TITLE, resultAdvance, resultTitle, resultKey, resultTone, shipsAllowed, sideAdj, sideNoun, signed, supportLabel, type DdFace,
 } from './model';
 import './combat.css';
 
@@ -115,14 +116,14 @@ export function BattleScreen(p: Props) {
   const shown = step !== 'ready' && step !== 'intro' && step !== 'rolling';
   const key = rep ? resultKey(rep.result) : '';
   // Variable-strength defenders roll their strength when attacked.
-  const hidden = (rep?.notes ?? []).map((n) => /^(.+) rolls \d: defense (\d)$/.exec(n)).filter((m): m is RegExpExecArray => !!m)
-    .map((m) => ({ name: m[1], value: Number(m[2]) }));
-  const gone = !!rep?.notes.includes('Defender gone: treated as DS');
+  const hidden = (rep?.notes ?? []).filter((n) => / turns out to (have a defense strength|be a hollow position)/.test(n));
+  const goneNote = rep?.notes.find((n) => n.startsWith('With nobody left to defend it'));
+  const gone = !!goneNote;
   // Every defender destroyed by the stand.
   const wiped = !!rep?.dd && defenders.every((d) => game.units[d]?.where.kind !== 'map');
   const adv = rep ? resultAdvance(rep.result) : 0;
 
-  const intro = `${mineAtt ? 'Your' : sideAdj(attSide)} ${forceText(attackers)} ${attackers.length === 1 ? 'attacks' : 'attack'} ${mineDef ? 'your' : `the ${sideAdj(defSide)}`} ${forceText(defenders)} in ${place}${noDie ? '' : ` at ${oddsWords(finalCol)}`}.`;
+  const intro = `${mineAtt ? 'Your' : sideAdj(attSide)} ${forceText(attackers)} ${attackers.length === 1 ? 'attacks' : 'attack'} ${mineDef ? 'your' : `the ${sideAdj(defSide)}`} ${forceText(defenders)} in ${placeLong(target)}${noDie ? '' : ` at ${oddsWords(finalCol)}`}.`;
 
   // ---------------------------------------------------------------- the Determined Defense
   const forecast = useMemo(
@@ -144,6 +145,9 @@ export function BattleScreen(p: Props) {
       return { ...r, ...out };
     });
   })();
+
+  const lastOutcome = ddOutcomes[ddOutcomes.length - 1];
+  const heldToDeath = wiped && lastOutcome?.kind !== 'fail';
 
   // ---------------------------------------------------------------- steps
   const roll = () => {
@@ -354,10 +358,11 @@ export function BattleScreen(p: Props) {
                 <code>{rep.result}</code>
               </div>
               <p className="cbx-say">
-                {hidden.map((h) => `${h.name}'s hidden strength turns out to be ${h.value}${h.value === 0 ? ': it melts away' : ''}. `)}
-                {rep.notes.includes('Defender gone: treated as DS') ? 'With nobody left to defend it, the hex counts as shattered. '
+                {hidden.map((h) => `${h} `)}
+                {goneNote ? `${goneNote} `
                   : noDie ? 'Overrun! ' : `${attRoller} rolled a ${rolled}${drm ? `, ${signed(drm)} for the battleships, making ${rolledRow}` : ''}. `}
                 {gone ? `${cap(attWho)} may advance up to ${adv} hexes.` : explainResult(key, attWho, defWho)}
+                {!gone && !pending && !pdSnap && defenders.every((d) => game.units[d]?.where.kind !== 'map') ? ' The losses destroy the defenders: the hex is cleared.' : ''}
                 {adv && !gone && !pending && !pdSnap ? ` If the hex is cleared, ${attWho} may advance up to ${adv} hex${adv > 1 ? 'es' : ''}.` : ''}
               </p>
               {pd && (
@@ -386,7 +391,7 @@ export function BattleScreen(p: Props) {
               </div>
               {rep.dd ? (
                 <p className="cbx-say">
-                  They choose a {pd?.desperate ? 'Desperate' : 'Determined'} Defense and roll a die to hold {place}
+                  They choose a {pd?.desperate ? 'Desperate' : 'Determined'} Defense and roll a die to hold {placeLong(target)}
                   {supportUsed(rep) ? `, backed by ${supportUsed(rep)}` : ''}.
                 </p>
               ) : (
@@ -428,8 +433,8 @@ export function BattleScreen(p: Props) {
               {step === 'ddRolling' && <p className="cbx-say">{defRoller} roll{defRoller === 'You' ? '' : 's'} for the Determined Defense…</p>}
               {step === 'ddResult' && lastDd && (
                 <>
-                  <div className={`cbx-verdict dd-${KIND_TONE[ddOutcomes[ddOutcomes.length - 1]?.kind ?? 'fail']}`}>
-                    <div className="cbx-stamp">{wiped ? 'Wiped out' : finalDdTitle(rep, ddOutcomes[ddOutcomes.length - 1]?.title)}</div>
+                  <div className={`cbx-verdict dd-${wiped ? 'fail' : KIND_TONE[lastOutcome?.kind ?? 'fail']}`}>
+                    <div className="cbx-stamp">{heldToDeath ? 'Destroyed holding the hex' : wiped ? 'Wiped out' : finalDdTitle(rep, lastOutcome?.title)}</div>
                     <code>DD {rep.dd!.column} {rep.dd!.result}</code>
                   </div>
                   {ddOutcomes.length > 1 && (
@@ -441,7 +446,8 @@ export function BattleScreen(p: Props) {
                   )}
                   <p className="cbx-say">
                     {defRoller} rolled a {lastDd.roll}{lastDd.drm ? `, ${signed(lastDd.drm)} for modifiers, making ${Math.max(1, Math.min(7, lastDd.roll + lastDd.drm))}` : ''}:{' '}
-                    {wiped ? 'the stand fails and the last of the defenders is destroyed.' : lower(ddOutcomes[ddOutcomes.length - 1]?.detail ?? '')}
+                    {heldToDeath ? 'the hex is held, but the losses take the last of the defenders.'
+                      : wiped ? 'the stand fails and the last of the defenders is destroyed.' : lower(lastOutcome?.detail ?? '')}
                   </p>
                   <Aftermath game={game} rep={rep} defenders={defenders} before={before} humanSides={humanSides} />
                 </>
@@ -475,14 +481,12 @@ export function BattleScreen(p: Props) {
 }
 
 function supportUsed(rep: CombatReport): string {
-  const n = rep.notes.find((x) => x.startsWith('Defensive support: '));
-  if (!n) return '';
-  const k = n.slice('Defensive support: '.length);
-  return /-(air|naval)$/.test(k) ? supportLabel(k) : k;
+  const m = rep.notes.map((x) => /^(.+) (?:fires in support of|supports) the defenders\.$/.exec(x)).find(Boolean);
+  return m ? m[1] : '';
 }
 
 function finalDdTitle(rep: CombatReport, title?: string): string {
-  if (rep.notes.includes('Defender destroyed holding the hex')) return 'Destroyed holding the hex';
+  if (rep.notes.includes('The defenders die holding their ground.')) return 'Destroyed holding the hex';
   return title ?? 'Determined Defense';
 }
 
@@ -494,7 +498,7 @@ function Force({ side, role, ids, strength, label, note, game, before }: {
   return (
     <div className={`cbx-force ${side === 'Allied' ? 'allied' : 'german'}`}>
       <div className="cbx-band"><span>{sideAdj(side)}</span><em>{role}</em></div>
-      <div className="cbx-units">
+      <div className={`cbx-units${ids.length > 4 ? ' many' : ''}`}>
         {ids.map((id) => {
           const u = game.units[id] ?? before[id];
           if (!u) return null;
@@ -631,7 +635,7 @@ function Decision(p: {
   const anyDelay = f.faces.some((x) => x.kind === 'delay');
   return (
     <div className="dfx">
-      <p className="cbx-say accent">Your units in {placeName(pd.hex)} are being forced back. Retreat, or stand and fight?</p>
+      <p className="cbx-say accent">Your units in {placeLong(pd.hex)} are being forced back. Retreat, or stand and fight?</p>
       <div className="dfx-cards">
         <div className={`dfx-card retreat${trapped.length ? ' warn' : ''}`}>
           <div className="dfx-card-head"><span className="dfx-icon" aria-hidden>⇦</span><h3>Retreat {pd.retreat} hexes</h3></div>
@@ -710,8 +714,8 @@ function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameSta
     const was = before[id];
     if (!now) return [];
     const out: { text: string; tone: string }[] = [];
-    const reduced = rep.notes.find((n) => n.startsWith(`${def(id).name} reduced to `));
-    if (now.where.kind === 'eliminated' || now.where.kind === 'removed') out.push({ text: reduced ? `Reduced to ${reduced.split(' reduced to ')[1]}` : 'Destroyed', tone: 'red' });
+    const reduced = rep.notes.map((n) => /^(.+) is worn down to a remnant \((.+)\)\.$/.exec(n)).find((m) => m && m[1] === unitName(id));
+    if (now.where.kind === 'eliminated' || now.where.kind === 'removed') out.push({ text: reduced ? `Worn down to ${reduced[2]}` : 'Destroyed', tone: 'red' });
     else {
       const lost = was ? now.stepsLost - was.stepsLost : 0;
       if (lost > 0) out.push({ text: `Lost ${lost === 1 ? 'a step' : `${lost} steps`} (${stepsRemaining(now)} left)`, tone: 'red' });
@@ -744,7 +748,7 @@ function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameSta
         })}
       </ul>
       {youRetreat ? <p className="cbx-say small">After you continue, pick where your units retreat to on the map (or keep the suggested hex).</p> : null}
-      {youAdvance ? <p className="cbx-say small">After you continue, you may advance into {placeName(rep.defenderHex)}: pick the units and a violet hex.</p> : null}
+      {youAdvance ? <p className="cbx-say small">After you continue, you may advance into {placeLong(rep.defenderHex)}: pick the units and a violet hex.</p> : null}
       {rep.notes.length > 0 && (
         <details className="cbx-notes">
           <summary>Combat record</summary>

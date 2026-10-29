@@ -243,6 +243,7 @@
   .cbx-band { flex-direction: column; gap: 0; font-size: 13px; letter-spacing: 1px; }
   .cbx-units { min-height: 40px; gap: 4px; }
   .cbx-unit svg { width: 38px; height: auto; }
+  .cbx-units.many svg { width: 30px; }
   .cbx-str b { font-size: 26px; }
   .cbx-str span { font-size: 11px; letter-spacing: 1px; }
   .cbx-center { min-width: 96px; }
@@ -286,6 +287,7 @@
   .cbx-band { flex-direction: column; gap: 0; font-size: 12.5px; letter-spacing: 1px; }
   .cbx-units { min-height: 36px; gap: 3px; }
   .cbx-unit svg { width: 34px; height: auto; }
+  .cbx-units.many svg { width: 28px; }
   .cbx-str b { font-size: 22px; }
   .cbx-center { min-width: 92px; }
   .cbx-odds { padding: 3px 8px 4px; }

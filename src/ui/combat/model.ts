@@ -6,7 +6,7 @@ import type { HexId } from '../../engine/hex';
 import { planRetreat } from '../../engine/retreat';
 import type { CombatReport, GameState, PendingDefense, Side, UnitState } from '../../engine/types';
 import { def, goodOrder, sideOf, stepsRemaining, unitsAt } from '../../engine/units';
-import { nameList, oddsText, placeShort, resultAdvance, resultHeadline, SIDE_PEOPLE, supportName, unitName } from '../../engine/words';
+import { nameList, oddsText, place, placeShort, resultAdvance, resultHeadline, SIDE_PEOPLE, supportName, unitName } from '../../engine/words';
 
 export const sideNoun = (s: Side) => SIDE_PEOPLE[s];
 export const sideAdj = (s: Side) => (s === 'Allied' ? 'Allied' : 'German');
@@ -14,6 +14,8 @@ export const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 // Wording shared with the game log.
 export const placeName = placeShort;
+/** For sentences: "Salerno (2707)", "hex 2913 near Eboli". */
+export const placeLong = place;
 export const supportLabel = supportName;
 export const oddsWords = oddsText;
 export { resultAdvance };
@@ -131,7 +133,7 @@ export function explainDd(pick: string, o: { retreat: number; delay: number; des
   if (o.desperate && (out === '' || (out === 'D' && o.first !== false))) {
     return { kind: 'fail', title: out === 'D' ? 'Delay counts as a failure' : 'Stand fails', detail: `the lead unit loses a step and ${you} roll again (Desperate Defense).` };
   }
-  if (out === 'H') return { kind: extra.length ? 'holdLoss' : 'hold', title: 'Hold', detail: `The hex is held: no retreat${tail}.` };
+  if (out === 'H') return { kind: extra.length ? 'holdLoss' : 'hold', title: 'Hold', detail: `The hex is held, with no retreat${tail}.` };
   if (out === 'P') return { kind: 'partial', title: 'Partial hold', detail: `The hex is held and a City Battle marker is placed${tail}.` };
   if (out === 'D') return { kind: 'delay', title: 'Delay', detail: `Fall back ${o.delay} hex${o.delay > 1 ? 'es' : ''} and become disrupted; the attacker may only enter the vacated hex${tail}.` };
   return { kind: 'fail', title: 'Stand fails', detail: `Retreat ${o.retreat} hexes anyway and become disrupted${tail}.` };
@@ -204,12 +206,20 @@ export function ddFaces(column: string, drm: number, prefer: 'hold' | 'delay', o
 
 /** Every Determined Defense roll recorded on a report (a Desperate Defense may roll several times). */
 export function ddRolls(rep: CombatReport): { roll: number; drm: number; pick: string }[] {
+  if (!rep.dd) return [];
+  const dd = rep.dd;
   const out: { roll: number; drm: number; pick: string }[] = [];
   for (const n of rep.notes) {
-    const m = /^Determined Defense \([^)]*\): roll (\d)([+-]\d)? → (.+)$/.exec(n);
-    if (m) out.push({ roll: Number(m[1]), drm: Number(m[2] ?? 0), pick: m[3] });
+    const m = / (?:leads a Determined Defense|rolls again): roll (\d)(?: ([+-]\d))?, /.exec(n);
+    if (!m) continue;
+    // Earlier rolls of a Desperate Defense did not end it: read their entry from the table.
+    const roll = Number(m[1]);
+    const drm = Number(m[2] ?? 0);
+    const opts = (RULES.dd.table[dd.column]?.[Math.max(1, Math.min(7, roll + drm)) - 1] ?? '').split('|');
+    out.push({ roll, drm, pick: opts.find((o) => !o.includes('H')) ?? opts[0] });
   }
-  if (!out.length && rep.dd) out.push({ roll: rep.dd.roll, drm: rep.dd.drm, pick: rep.dd.result });
+  if (out.length) out[out.length - 1].pick = dd.result;
+  else out.push({ roll: dd.roll, drm: dd.drm, pick: dd.result });
   return out;
 }
 
