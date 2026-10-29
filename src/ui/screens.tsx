@@ -218,22 +218,23 @@ export function HowToPlay({ onClose }: { onClose: () => void }) {
             <h3>The day</h3>
             <p>Each turn is one day: weather, then the German player turn, then the Allied player turn, then the victory check. A player turn runs through initial, movement, combat, recovery and supply phases; the program skips phases with nothing to decide.</p>
             <h3>Moving</h3>
-            <p>Click one of your units. Blue hexes it can reach; amber ones are where it must stop (enemy zone of control). Hover to see the route. Choose Normal, Extended (+3 MP, never next to the enemy), Tactical (1–2 hexes over any terrain) or Truck in the orders panel. Reserves land at beaches and ports; reinforcements enter from the map edges.</p>
+            <p>Select one of your units (or press Next unit). Blue hexes it can reach; amber ones are where it must stop. Select a hex to move there: with a mouse one click moves, on a touch screen the first tap shows the route and the second tap (or Move here) confirms. The bar at the bottom offers Normal, Extended, Tactical and Truck movement. Land brings in reserves at the beaches and ports.</p>
           </section>
           <section>
             <h3>Fighting</h3>
-            <p>Click a red enemy hex. Tick the attackers and any air, naval or artillery support; the panel shows the odds, column shifts and every possible result. Only one division (the Main Assault Force) attacks at full strength. A defender told to retreat may make a Determined Defense instead.</p>
+            <p>Select a red enemy hex to see the attack: the bar shows the odds, the column shifts and toggles for air, naval and artillery support. Select the hex again, or press Attack!, to attack. Next target steps through every enemy in reach; Units… opens the full list to choose who attacks. A defender told to retreat may make a Determined Defense instead.</p>
             <h3>After combat</h3>
-            <p>Advance into the vacated hex, or form a Breakthrough Group to keep going and attack again. Retreating units can end up disrupted or in Full Retreat; units cut off from supply suffer attrition.</p>
+            <p>Pick the units that advance in the bar, then select a violet hex; or form a Breakthrough Group under Details to keep going. End phase asks again if units have not moved or you have not attacked.</p>
           </section>
           <section>
             <h3>Controls</h3>
             <ul>
-              <li>Drag, arrow keys or WASD: pan</li>
-              <li>Mouse wheel or + / −: zoom</li>
-              <li>Minimap: jump around the map</li>
-              <li>Click a stack again: next unit in it</li>
-              <li>Esc: cancel or open the menu</li>
+              <li>Select / move / attack: click or tap (tap twice to confirm on touch)</li>
+              <li>Right-click or Esc: cancel; Esc again opens the menu</li>
+              <li>N or Tab: next unit or target · Z: undo</li>
+              <li>Space: end the phase · Enter: confirm or attack</li>
+              <li>1–5: movement mode</li>
+              <li>Drag, arrows or WASD: pan · wheel, pinch or + / −: zoom</li>
             </ul>
             <h3>Winning</h3>
             <p>The Allies score VP for objective hexes they hold in supply and must keep up with a rising daily benchmark. The top bar shows Allied VP against the benchmark.</p>

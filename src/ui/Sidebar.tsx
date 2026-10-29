@@ -169,14 +169,6 @@ function PlayPanel(p: Props) {
           {g.phase === 'combat' && <CombatControls {...p} />}
         </>
       )}
-      <div className="row" style={{ marginTop: 12 }}>
-        <button className="primary" onClick={() => p.dispatch({ type: 'endPhase' })}>
-          {g.breakthrough ? 'Stop the Breakthrough Group' : g.pendingAdvance ? 'Finish advance' : `End ${g.phase} phase`}
-        </button>
-        <button onClick={p.undo} disabled={!p.canUndo}>
-          Undo
-        </button>
-      </div>
       <SelectedHexInfo {...p} />
       <RecentLog game={g} n={6} />
     </>

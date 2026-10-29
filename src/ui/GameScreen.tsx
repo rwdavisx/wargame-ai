@@ -1,19 +1,21 @@
 // The battle screen: map, HUD, command panel and the AI loop.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PORTRAIT_PHONE, usePhone } from './usePhone';
-import { MAP } from '../engine/data';
-import { adjacentForCombat, advanceDestinations, computeOdds, entryAreasOf } from '../engine/combat';
-import { breakthroughMoves, breakthroughPlan, breakthroughTargets } from '../engine/breakthrough';
+import { BATTLESHIPS_TURN, MAP } from '../engine/data';
+import { adjacentForCombat, advanceDestinations, computeOdds, entryAreasOf, inNavalRange, readyAsusFor } from '../engine/combat';
+import { breakthroughMoves, breakthroughPlan, breakthroughTargets, groupUnits } from '../engine/breakthrough';
 import { actingSide, entryReach, IllegalAction, landingHexes, withAction } from '../engine/game';
 import { neighbors, type HexId } from '../engine/hex';
-import { entryModes, legalDestinations, pathTo, type Reach } from '../engine/movement';
+import { allowedModes, cannotMove, entryModes, legalDestinations, pathTo, type Reach } from '../engine/movement';
 import type { Action, GameState, MoveMode, Side } from '../engine/types';
-import { canStack, def, goodOrder, sideOf, unitsAt, values } from '../engine/units';
+import { canStack, def, goodOrder, hexOf, sideOf, supportNation, unitsAt, values } from '../engine/units';
 import { createHeuristicAi, type AiPlayer } from '../ai/heuristic';
 import { createClaudeAi } from '../ai/claude';
 import { MapView, type Highlight } from './MapView';
+import { ActionBar, type AttackKind } from './ActionBar';
 import { DefensePanel, Sidebar } from './Sidebar';
 import { CombatPopup, DefenseModal, EventFeed, GameOverScreen, PauseMenu, PhaseBanner, TopBar, UnitCard } from './hud';
+import { lpCost } from '../engine/game';
 import { SettingsModal } from './SettingsModal';
 import type { TerrainImage } from './render/terrain';
 import { sfx } from './sound';
@@ -21,11 +23,6 @@ import type { Settings } from './storage';
 import { effectiveMode, eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
 
 export const dateOf = (turn: number) => `${8 + turn} September 1943`;
-
-const CONFIRM_LABEL: Record<string, string> = {
-  move: 'Tap again to move here', enter: 'Tap again to enter here', land: 'Tap again to land here', advance: 'Tap again to advance',
-  btMove: 'Tap again to move the group', retreatChoice: 'Tap again to retreat here',
-};
 
 const UNDOABLE = new Set(['move', 'enter', 'land', 'naval', 'changeArea', 'fullRetreat', 'replace', 'readyAsu', 'btMove', 'btDrop']);
 
@@ -60,7 +57,16 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const [overDismissed, setOverDismissed] = useState(false);
   const phone = usePhone(PORTRAIT_PHONE);
   const touch = usePhone('(pointer: coarse)');
-  const [panelOpen, setPanelOpen] = useState(true);
+  const small = usePhone();
+  const [panelOpen, setPanelOpen] = useState(() => !window.matchMedia('(max-width: 820px), (max-height: 520px)').matches);
+  const [focus, setFocus] = useState<{ hex: HexId; n: number } | null>(null);
+  const focusOn = (hex: HexId) => setFocus((f) => ({ hex, n: (f?.n ?? 0) + 1 }));
+  const [endArmed, setEndArmed] = useState(false);
+  useEffect(() => {
+    if (!endArmed) return;
+    const t = setTimeout(() => setEndArmed(false), 4000);
+    return () => clearTimeout(t);
+  }, [endArmed]);
   // On a touch screen the first tap on a destination previews it; a second tap carries it out.
   const [confirmHex, setConfirmHex] = useState<HexId | null>(null);
   useEffect(() => setConfirmHex(null), [selectedUnit, moveMode, advanceSel, game.phase, game.activeSide]);
@@ -81,17 +87,6 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     const t = setTimeout(() => setToast(null), 3500);
     return () => clearTimeout(t);
   }, [toast]);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (attackTarget) setAttackTarget(null);
-        else if (selectedUnit) setSelectedUnit(null);
-        else setMenu((m) => (m === 'none' ? 'pause' : 'none'));
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [attackTarget, selectedUnit]);
 
   // The defender answers a Determined Defense choice even during the other side's turn.
   const acting = actingSide(game);
@@ -311,10 +306,55 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     return computeOdds(game, { target: attackTarget, attackers: ids, ...support });
   }, [game, attackTarget, attackers, support]);
 
+  // ---------------------------------------------------------------- attacks
+  const attackKind: AttackKind = game.breakthrough ? 'breakthrough' : game.phase === 'movement' ? 'autoDs' : game.phase === 'invasion' ? 'invasion' : 'attack';
+  const clearAttack = () => {
+    setAttackTarget(null);
+    setAttackers(new Set());
+    setSupport(NO_SUPPORT);
+  };
+  const executeAttack = () => {
+    if (!attackTarget || !odds?.ok) return;
+    const ids = [...attackers];
+    const a: Action = attackKind === 'breakthrough'
+      ? { type: 'btAttack', target: attackTarget }
+      : attackKind === 'autoDs'
+        ? { type: 'autoDs', target: attackTarget, attackers: ids }
+        : { type: 'attack', target: attackTarget, attackers: ids, ...(attackKind === 'attack' ? support : {}) };
+    if (attackKind === 'autoDs' && !odds.autoDs) return;
+    if (dispatch(a)) {
+      clearAttack();
+      setSelectedUnit(null);
+      setHover(null);
+    }
+  };
+  const planAttack = (hex: HexId) => {
+    setAttackTarget(hex);
+    if (!game.breakthrough) {
+      let ids = eligibleAttackers(game, hex);
+      if (game.phase === 'invasion') ids = ids.filter((id) => def(id).formation === 'Commando Bde');
+      setAttackers(new Set(ids));
+      setSupport(NO_SUPPORT);
+    }
+    setSelectedUnit(null);
+    setTab('play');
+    sfx.select();
+  };
+  const cancelAll = () => {
+    if (confirmHex) setConfirmHex(null);
+    else if (attackTarget) clearAttack();
+    else if (selectedUnit || selectedHex) {
+      setSelectedUnit(null);
+      setSelectedHex(null);
+    } else return false;
+    return true;
+  };
+
   // ---------------------------------------------------------------- map clicks
   const onHexClick = (hex: HexId, e?: { touch: boolean }) => {
     const clickAct0 = clickActions.get(hex);
     if (e?.touch && humanTurn && clickAct0 && !editorOn && confirmHex !== hex) {
+      // First tap on a destination: preview it; the action bar asks for confirmation.
       setConfirmHex(hex);
       sfx.click();
       return;
@@ -330,41 +370,37 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     const clickAct = clickActions.get(hex);
     if (humanTurn && clickAct) {
       const next = dispatch(clickAct);
+      if (touch) setHover(null);
       if (next && clickAct.type === 'advance') setAdvanceSel([]);
       if (next && (clickAct.type === 'move' || clickAct.type === 'enter' || clickAct.type === 'land')) {
         const u = next.units[clickAct.unitId];
-        if (u.stopped || u.where.kind !== 'map') setSelectedUnit(null);
+        if (u.stopped || u.where.kind !== 'map') {
+          setSelectedUnit(null);
+          setSelectedHex(null);
+        }
       }
       return;
     }
-    if (humanTurn && game.breakthrough && breakthroughTargets(game).includes(hex)) {
-      setAttackTarget(hex);
-      setTab('play');
-      setPanelOpen(true);
-      sfx.select();
-      return;
-    }
-    const canAttack = ['combat', 'movement', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.pendingDefense && !game.breakthrough;
-    if (humanTurn && canAttack && highlights.get(hex)?.kind === 'attack' && here.some((u) => sideOf(u) !== game.activeSide)) {
-      setAttackTarget(hex);
-      let ids = eligibleAttackers(game, hex);
-      if (game.phase === 'invasion') ids = ids.filter((id) => def(id).formation === 'Commando Bde');
-      setAttackers(new Set(ids));
-      setSupport(NO_SUPPORT);
-      setTab('play');
-      setPanelOpen(true);
-      sfx.select();
+    const enemyHere = here.some((u) => sideOf(u) !== game.activeSide);
+    const btTarget = !!game.breakthrough && breakthroughTargets(game).includes(hex);
+    const canAttack = ['combat', 'movement', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.pendingDefense && !game.breakthrough &&
+      highlights.get(hex)?.kind === 'attack' && enemyHere;
+    if (humanTurn && (btTarget || canAttack)) {
+      // Selecting the planned target a second time attacks it.
+      if (attackTarget === hex) executeAttack();
+      else planAttack(hex);
       return;
     }
     const own = here.filter((u) => sideOf(u) === game.activeSide);
     if (own.length) {
       const idx = own.findIndex((u) => u.id === selectedUnit);
       setSelectedUnit(own[(idx + 1) % own.length].id);
+      if (attackTarget) clearAttack();
       sfx.select();
       return;
     }
     setSelectedUnit(here[0]?.id ?? null);
-    if (!here.length) setAttackTarget(null);
+    if (!here.length && attackTarget) clearAttack();
   };
 
   // ---------------------------------------------------------------- hover info
@@ -387,9 +423,229 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       lines.push(`${def(u.id).name}  ${def(u.id).asu ? `art. range ${def(u.id).asuRange}` : `${v.attack}-${v.defense}-${v.move}`}${u.status !== 'good' ? ` · ${u.status}` : ''}`);
     }
     const hl = highlights.get(hover);
-    if (hl?.kind === 'attack' && humanTurn) lines.push(touch ? 'Tap to plan an attack' : 'Click to plan an attack');
+    if (hl?.kind === 'attack' && humanTurn) lines.push(attackTarget === hover ? `${touch ? 'Tap' : 'Click'} again to attack` : `${touch ? 'Tap' : 'Click'} to plan an attack`);
     return lines.join('\n');
-  }, [hover, game, highlights, humanTurn, touch]);
+  }, [hover, game, highlights, humanTurn, touch, attackTarget]);
+
+  // ---------------------------------------------------------------- the action bar
+  const side = game.activeSide;
+  // Units that have not moved and have somewhere to go.
+  const readyUnits = useMemo(() => {
+    if (!(game.phase === 'movement' || game.phase === 'invasion') || !humanTurn || game.pendingAdvance || game.breakthrough) return [];
+    return Object.values(game.units)
+      .filter((u) => sideOf(u) === game.activeSide && u.where.kind === 'map' && !cannotMove(game, u) && u.mpSpent === null && !u.stopped)
+      .filter((u) => {
+        const mode = effectiveMode(game, u.id, 'normal');
+        return !!mode && [...legalDestinations(game, u.id, mode).keys()].some((h) => h !== hexOf(u));
+      })
+      // Fighting units first, garrisons and artillery last; west to east within each group.
+      .sort((a, b) => Number(!!def(a.id).asu || def(a.id).cat === 'garrison') - Number(!!def(b.id).asu || def(b.id).cat === 'garrison') ||
+        (hexOf(a) ?? '').localeCompare(hexOf(b) ?? ''));
+  }, [game, humanTurn]);
+  const waitingUnits = game.phase === 'movement' && humanTurn
+    ? Object.values(game.units).filter((u) => sideOf(u) === side && (u.where.kind === 'reserve' || u.where.kind === 'followUp' ||
+      (u.where.kind === 'atSea' && u.where.since < game.turn) || (u.where.kind === 'entry' && !u.where.area.startsWith('airdrop'))))
+    : [];
+  const drops = game.phase === 'initial' && humanTurn
+    ? Object.values(game.units).filter((u) => sideOf(u) === side && u.where.kind === 'entry' && u.where.area.startsWith('airdrop'))
+    : [];
+  const targets = humanTurn && !game.pendingAdvance && !game.pendingDefense && !game.retreatQueue?.length
+    ? [...highlights.entries()].filter(([, h]) => h.kind === 'attack').map(([h]) => h).sort()
+    : [];
+
+  const selectNext = (list: { id: string }[]) => {
+    if (!list.length) return;
+    const i = list.findIndex((u) => u.id === selectedUnit);
+    const u = game.units[list[(i + 1) % list.length].id];
+    clearAttack();
+    setConfirmHex(null);
+    setHover(null);
+    setSelectedUnit(u.id);
+    if (u.where.kind === 'map') {
+      setSelectedHex(u.where.hex);
+      focusOn(u.where.hex);
+    } else {
+      const land = u.where.kind === 'entry' && !u.where.area.startsWith('airdrop')
+        ? MAP.entryAreas[u.where.area]?.hexes[0]
+        : landingHexes(game, u.id)[0];
+      if (land) focusOn(land);
+    }
+    sfx.select();
+  };
+  const nextTarget = () => {
+    if (!targets.length) return;
+    const i = attackTarget ? targets.indexOf(attackTarget) : -1;
+    const h = targets[(i + 1) % targets.length];
+    planAttack(h);
+    focusOn(h);
+  };
+  const next = game.phase === 'combat' || (game.breakthrough && targets.length)
+    ? { label: 'Next target', count: targets.length, onClick: nextTarget }
+    : game.phase === 'initial'
+      ? { label: 'Next drop', count: drops.length, onClick: () => selectNext(drops) }
+      : { label: 'Next unit', count: readyUnits.length, onClick: () => selectNext(readyUnits) };
+
+  const endWarn = readyUnits.length
+    ? `${readyUnits.length} unit${readyUnits.length === 1 ? ' has' : 's have'} not moved yet.`
+    : game.phase === 'combat' && targets.length && !game.combats.some((c) => c.turn === game.turn && c.attackerSide === side)
+      ? 'You have not attacked this phase.'
+      : drops.length ? 'Airborne units are still waiting to drop.' : '';
+  const endLabel = game.breakthrough ? 'Stop the group' : game.pendingAdvance ? 'Finish advance' : `End ${game.phase === 'invasion' ? 'invasion' : game.phase}`;
+  const endPhase = () => {
+    if (endWarn && !endArmed && !game.pendingAdvance && !game.breakthrough) {
+      setEndArmed(true);
+      sfx.click();
+      return;
+    }
+    setEndArmed(false);
+    clearAttack();
+    setSelectedUnit(null);
+    dispatch({ type: 'endPhase' });
+  };
+  useEffect(() => setEndArmed(false), [phaseKey, game.seq]);
+
+  // The selected own unit: movement modes and a one-line status.
+  const mineSel = selUnit && sideOf(selUnit) === side && humanTurn ? selUnit : null;
+  let unitNote = '';
+  let modes: MoveMode[] = [];
+  if (mineSel) {
+    if (mineSel.where.kind === 'map') {
+      const why = game.phase === 'movement' || game.phase === 'invasion' ? cannotMove(game, mineSel) : null;
+      if (game.phase === 'movement' || game.phase === 'invasion') {
+        modes = why ? [] : game.phase === 'invasion' ? ['tactical'] : allowedModes(game, mineSel);
+        const r = confirmHex && reach?.get(confirmHex);
+        unitNote = why ? `Cannot move: ${why}.`
+          : `${mineSel.mpSpent === null ? 'Ready to move' : `${+mineSel.mpSpent.toFixed(1)} MP used`} · ${touch ? 'tap' : 'click'} a blue or amber hex${r ? '' : ''}`;
+      } else if (game.phase === 'combat') {
+        unitNote = targets.length ? `${touch ? 'Tap' : 'Click'} a red hex to attack it.` : 'No enemy within reach.';
+      } else unitNote = `${def(mineSel.id).formation} · ${def(mineSel.id).cat}`;
+    } else if (mineSel.where.kind === 'reserve' || mineSel.where.kind === 'followUp' || mineSel.where.kind === 'atSea') {
+      unitNote = `Waiting to land (${lpCost(mineSel.id)} LP, ${game.landingPoints} left): ${touch ? 'tap' : 'click'} a blue beach or port.`;
+    } else if (mineSel.where.kind === 'entry') {
+      unitNote = mineSel.where.area.startsWith('airdrop') ? `Airborne: ${touch ? 'tap' : 'click'} a blue hex to drop.` : `In entry area ${mineSel.where.area}: ${touch ? 'tap' : 'click'} a blue hex to enter.`;
+      if (!mineSel.where.area.startsWith('airdrop') && game.phase === 'movement') modes = entryModes(game, mineSel);
+    }
+  }
+  const shownMode: MoveMode = modes.includes(moveMode) ? moveMode : modes.includes('tactical') ? 'tactical' : modes[0] ?? 'normal';
+
+  // A tapped destination waiting for its second tap.
+  let confirm: { title: string; button: string } | null = null;
+  const ca = confirmHex ? clickActions.get(confirmHex) : undefined;
+  if (confirmHex && ca && humanTurn) {
+    const name = 'unitId' in ca && ca.unitId ? def(ca.unitId).name : '';
+    const r = reach?.get(confirmHex);
+    const cost = r ? (effectiveMode(game, mineSel?.id ?? '', moveMode) === 'tactical' ? ` · ${r.hexes} hex${r.hexes > 1 ? 'es' : ''}` : ` · ${+r.cost.toFixed(1)} MP`) : '';
+    confirm = ca.type === 'move' ? { title: `Move ${name} to ${confirmHex}${cost}${r?.stop ? ' (must stop)' : ''}`, button: 'Move here' }
+      : ca.type === 'land' ? { title: `${game.phase === 'initial' ? 'Drop' : 'Land'} ${name} at ${confirmHex}`, button: game.phase === 'initial' ? 'Drop here' : 'Land here' }
+        : ca.type === 'enter' ? { title: `Enter the map at ${confirmHex} with ${name}`, button: 'Enter here' }
+          : ca.type === 'advance' ? { title: `Advance ${advanceSel.length} unit${advanceSel.length > 1 ? 's' : ''} to ${confirmHex}`, button: 'Advance' }
+            : ca.type === 'btMove' ? { title: `Move the Breakthrough Group to ${confirmHex}`, button: 'Move group' }
+              : ca.type === 'retreatChoice' ? { title: `Retreat to ${confirmHex}`, button: 'Retreat here' }
+                : { title: `Confirm ${confirmHex}`, button: 'Confirm' };
+  }
+
+  // The planned attack, with the support that can join it.
+  let attackInfo: React.ComponentProps<typeof ActionBar>['attack'] = null;
+  if (attackTarget && humanTurn && !game.pendingDefense && !game.pendingAdvance) {
+    const chosen = [...attackers];
+    const nations = new Set(chosen.map((id) => supportNation(id)));
+    const air = attackKind === 'attack' && [...nations].some((n) => game.support.ready.includes(`${n}-air`));
+    const navalReady = [...nations].some((n) => game.support.ready.includes(`${n}-naval`));
+    const naval = attackKind === 'attack' && side === 'Allied' && navalReady && inNavalRange(attackTarget);
+    const enemy = unitsAt(game, attackTarget).filter((u) => sideOf(u) !== side);
+    const place = MAP.hexes[attackTarget]?.city ?? MAP.hexes[attackTarget]?.town;
+    attackInfo = {
+      kind: attackKind,
+      target: attackTarget,
+      targetName: place ?? `hex ${attackTarget}`,
+      defenders: enemy.length,
+      odds,
+      count: attackKind === 'breakthrough' && game.breakthrough ? groupUnits(game, game.breakthrough).length : chosen.length,
+      support,
+      setSupport,
+      air,
+      naval,
+      navalNote: 'Naval gunfire from the task force off the coast',
+      ships: naval && game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0,
+      asuIds: attackKind === 'attack' && chosen.length ? readyAsusFor(game, side, attackTarget, chosen).map((u) => u.id) : [],
+    };
+  }
+
+  const advance = game.pendingAdvance && humanTurn && !game.breakthrough
+    ? {
+      ids: Object.keys(game.pendingAdvance.maxByUnit).filter((id) => game.units[id]?.where.kind === 'map'),
+      sel: advanceSel,
+      toggle: (id: string) => setAdvanceSel((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id])),
+      limited: !!game.pendingAdvance.limited,
+      breakthrough: !!game.pendingAdvance.btAllowed && !game.pendingAdvance.started,
+    }
+    : null;
+
+  const verb = touch ? 'Tap' : 'Click';
+  const phasePrompt = (): { title: string; sub: string } => {
+    if (game.retreatQueue?.length) {
+      const rq = game.retreatQueue[0];
+      return { title: 'Choose where your units retreat', sub: `${verb} a highlighted hex, or keep ${rq.options[rq.current].end}.` };
+    }
+    if (game.pendingDefense) return { title: 'Your units are under attack', sub: 'Choose Retreat or Determined Defense in the dialog.' };
+    if (game.breakthrough) {
+      const b = game.breakthrough;
+      return { title: `Breakthrough Group · ${b.left} hex${b.left === 1 ? '' : 'es'} left`, sub: `${verb} a violet hex to move or a red hex to attack.` };
+    }
+    switch (game.phase) {
+      case 'invasion': return { title: 'Invasion: the troops are ashore', sub: `Units with advance left may move (Next unit).${targets.length ? ` ${verb} the red hex at Salerno to send in the Commandos.` : ''}` };
+      case 'initial': return { title: `${side} initial phase`, sub: drops.length ? `Airborne drops waiting: use Next drop.` : 'Replacements and artillery are under Details.' };
+      case 'movement': return { title: `${side} movement`, sub: readyUnits.length ? `${readyUnits.length} unit${readyUnits.length === 1 ? '' : 's'} ready. ${verb} a unit, or use Next unit.` : 'All units have moved.' };
+      case 'combat': return { title: `${side} combat`, sub: targets.length ? `${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} in reach. ${verb} a red hex to plan an attack.` : 'No enemy within reach.' };
+      default: return { title: `${side} ${game.phase}`, sub: '' };
+    }
+  };
+  const extra: { label: string; onClick: () => void; primary?: boolean }[] = [];
+  if (game.retreatQueue?.length && humanTurn) {
+    const rq = game.retreatQueue[0];
+    extra.push({ label: `Keep ${rq.options[rq.current].end}`, primary: true, onClick: () => dispatch({ type: 'retreatChoice', index: rq.current }) });
+  }
+  const toggleDetails = () => {
+    if (panelOpen && tab === (humanTurn ? 'play' : 'log')) setPanelOpen(false);
+    else {
+      setTab(humanTurn ? 'play' : 'log');
+      setPanelOpen(true);
+    }
+  };
+  const showEnd = humanTurn && !game.pendingDefense && !game.retreatQueue?.length && game.phase !== 'gameOver';
+
+  // ---------------------------------------------------------------- keyboard
+  const keys = useRef({ cancelAll, executeAttack, endPhase, undo, next, modes, setMoveMode, confirm: () => confirmHex && onHexClick(confirmHex), hasConfirm: !!confirm, hasAttack: !!attackInfo, showEnd });
+  keys.current = { cancelAll, executeAttack, endPhase, undo, next, modes, setMoveMode, confirm: () => confirmHex && onHexClick(confirmHex), hasConfirm: !!confirm, hasAttack: !!attackInfo, showEnd };
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')) return;
+      const k = keys.current;
+      if (e.key === 'Escape') {
+        if (!k.cancelAll()) setMenu((m) => (m === 'none' ? 'pause' : 'none'));
+        return;
+      }
+      if (menu !== 'none') return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (t && t.tagName === 'BUTTON') return; // the focused button handles it
+        e.preventDefault();
+        if (k.hasConfirm) k.confirm();
+        else if (k.hasAttack) k.executeAttack();
+        else if (e.key === ' ' && k.showEnd) k.endPhase();
+      } else if (e.key === 'n' || e.key === 'N' || e.key === 'Tab') {
+        e.preventDefault();
+        if (k.next.count) k.next.onClick();
+      } else if ((e.key === 'z' || e.key === 'Z') && !e.altKey) {
+        e.preventDefault();
+        k.undo();
+      } else if (/^[1-5]$/.test(e.key) && k.modes[Number(e.key) - 1]) {
+        k.setMoveMode(k.modes[Number(e.key) - 1]);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menu]);
 
   const cardUnit = selUnit ?? (selectedHex ? unitsAt(game, selectedHex)[0] ?? null : null);
   const showDefense = humanTurn && !!game.pendingDefense;
@@ -410,6 +666,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         aiActive={!humanTurn}
         humanSides={humanSides}
         onHexClick={(h, e) => onHexClick(h, e)}
+        onCancel={() => cancelAll()}
+        focus={focus}
         onHover={setHover}
         hoverText={hoverText}
       />
@@ -417,18 +675,40 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         onMenu={() => setMenu('pause')} onSettings={() => setMenu('settings')} aiStatus={humanTurn ? '' : aiStatus} />
       {game.phase !== 'gameOver' && <PhaseBanner game={game} humanSides={humanSides} />}
       <EventFeed game={game} />
-      {game.retreatQueue?.length && humanTurn ? (
-        <div className="prompt">Choose where your retreating units go: click a highlighted hex, or keep the green one.</div>
-      ) : null}
-      {confirmHex && clickActions.has(confirmHex) && humanTurn && (
-        <div className="confirm-hint">
-          <span>{CONFIRM_LABEL[clickActions.get(confirmHex)!.type] ?? 'Tap again to confirm'}</span>
-          <button onClick={() => setConfirmHex(null)}>Cancel</button>
-        </div>
-      )}
+      <ActionBar
+        game={game}
+        humanTurn={humanTurn}
+        acting={acting}
+        touch={touch}
+        aiStatus={aiStatus}
+        paused={paused}
+        setPaused={setPaused}
+        confirm={confirm}
+        onConfirm={() => confirmHex && onHexClick(confirmHex)}
+        onCancelConfirm={() => setConfirmHex(null)}
+        unit={mineSel}
+        unitNote={unitNote}
+        modes={modes}
+        moveMode={shownMode}
+        setMoveMode={setMoveMode}
+        onDeselect={() => { setSelectedUnit(null); setSelectedHex(null); }}
+        attack={attackInfo}
+        onAttack={executeAttack}
+        onCancelAttack={clearAttack}
+        advance={advance}
+        prompt={phasePrompt()}
+        next={humanTurn && !game.pendingAdvance && !game.pendingDefense && !game.retreatQueue?.length ? next : null}
+        reserves={waitingUnits.length ? { count: waitingUnits.length, onClick: () => selectNext(waitingUnits) } : null}
+        extra={extra}
+        onDetails={toggleDetails}
+        detailsOpen={panelOpen && tab === (humanTurn ? 'play' : 'log')}
+        canUndo={history.length > 0}
+        onUndo={undo}
+        end={showEnd ? { label: endLabel, armed: endArmed, warn: endWarn, onClick: endPhase } : null}
+      />
       <aside className={`command${panelOpen ? '' : ' closed'}`}>
         <button className="command-toggle" onClick={() => setPanelOpen((o) => !o)} title={panelOpen ? 'Hide orders' : 'Show orders'}>
-          {phone ? (panelOpen ? '▾' : '▴ Orders') : panelOpen ? '›' : '‹'}
+          {phone ? '▾ Close' : panelOpen ? '›' : '‹'}
         </button>
         <Sidebar
           game={game}
@@ -463,7 +743,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           bumpMap={bumpMap}
         />
       </aside>
-      {cardUnit && !showDefense && (
+      {cardUnit && !showDefense && !(small && mineSel && cardUnit.id === mineSel.id) && (
         <UnitCard game={game} unit={cardUnit} hex={selectedHex} onSelect={(id) => setSelectedUnit(id)} onClose={() => { setSelectedUnit(null); setSelectedHex(null); }} />
       )}
       {game.phase !== 'gameOver' && <CombatPopup game={game} humanSides={humanSides} />}

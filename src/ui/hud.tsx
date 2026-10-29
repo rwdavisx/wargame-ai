@@ -368,7 +368,8 @@ export function CombatPopup({ game, humanSides }: { game: GameState; humanSides:
   const place = MAP.hexes[r.defenderHex]?.city ?? MAP.hexes[r.defenderHex]?.town ?? `hex ${r.defenderHex}`;
   const yours = humanSides.includes(r.attackerSide);
   return (
-    <div className={`combat-pop ${r.attackerSide === 'Allied' ? 'allied' : 'german'}`} onClick={() => setShown(null)}>
+    <div className={`combat-pop ${r.attackerSide === 'Allied' ? 'allied' : 'german'}`}>
+      <button className="cp-close" title="Close" onClick={() => setShown(null)}>✕</button>
       <div className="cp-head">
         <span>{r.breakthrough ? 'BREAKTHROUGH' : r.phase === 'movement' ? 'OVERRUN' : 'ASSAULT'}</span>
         <b>{place.toUpperCase()}</b>

@@ -53,6 +53,10 @@ export interface MapViewProps {
   humanSides: Side[];
   onHexClick: (hex: HexId, e: { shift: boolean; touch: boolean }) => void;
   onHover: (hex: HexId | null) => void;
+  /** Right-click: back out of the current selection. */
+  onCancel?: () => void;
+  /** Bring this hex into view whenever `n` changes. */
+  focus?: { hex: HexId; n: number } | null;
   hoverText: string | null;
 }
 
@@ -410,6 +414,7 @@ export function MapView(props: MapViewProps) {
   // Touch: every finger on the map, and the pinch in progress (start distance, midpoint and view).
   const fingers = useRef(new Map<number, { x: number; y: number }>());
   const pinch = useRef<{ d: number; mx: number; my: number; v: View } | null>(null);
+  const lastPointer = useRef('mouse');
   const [dragging, setDragging] = useState(false);
   const [hoverHex, setHoverHex] = useState<HexId | null>(null);
   const [effects, setEffects] = useState<Effect[]>([]);
@@ -484,6 +489,17 @@ export function MapView(props: MapViewProps) {
     const v = vbRef.current;
     flyTo({ ...v, x: x - v.w / 2, y: y - v.h / 2 }, ms);
   }, [flyTo]);
+
+  // Pan to a hex chosen elsewhere (Next unit, Next target), unless it is already comfortably in view.
+  const focusN = props.focus?.n;
+  useEffect(() => {
+    if (!props.focus) return;
+    const [x, y] = center(props.focus.hex);
+    const v = vbRef.current;
+    // Keep clear of the top bar and of the action bar, unit card and orders along the bottom.
+    const inView = x > v.x + v.w * 0.2 && x < v.x + v.w * 0.8 && y > v.y + v.h * 0.25 && y < v.y + v.h * 0.55;
+    if (!inView) centerOn(x, y + v.h * 0.1, 380);
+  }, [focusN]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const zoomBy = useCallback(
     (f: number, at?: { x: number; y: number }) => {
@@ -686,6 +702,8 @@ export function MapView(props: MapViewProps) {
         viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
         preserveAspectRatio="xMidYMid meet"
         onPointerDown={(e) => {
+          lastPointer.current = e.pointerType;
+          if (e.pointerType === 'mouse' && e.button !== 0) return; // right-click cancels (onContextMenu), never selects
           if (anim.current) cancelAnimationFrame(anim.current);
           if (e.pointerType !== 'mouse') {
             fingers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -781,6 +799,11 @@ export function MapView(props: MapViewProps) {
           if (fingers.current.size < 2) pinch.current = null;
           drag.current = null;
           setDragging(false);
+        }}
+        onContextMenu={(e) => {
+          e.preventDefault();
+          // A long press on a touch screen also raises this event; only a mouse right-click backs out.
+          if (lastPointer.current === 'mouse') props.onCancel?.();
         }}
         onPointerLeave={(e) => {
           if (e.pointerType !== 'mouse') return;
