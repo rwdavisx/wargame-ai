@@ -1,5 +1,7 @@
 // Front-end screens: loading, title, new operation, briefing and how to play.
 import { useState } from 'react';
+import { CanvasImage } from './render/CanvasImage';
+import type { TerrainImage } from './render/terrain';
 import { SCENARIOS } from '../engine/data';
 import type { GameOptions, GameState, Side } from '../engine/types';
 import { Insignia } from './render/units';
@@ -20,17 +22,17 @@ export function LoadingScreen({ progress, label }: { progress: number; label: st
   );
 }
 
-function Backdrop({ image }: { image: string }) {
+function Backdrop({ terrain }: { terrain: TerrainImage }) {
   return (
     <div className="backdrop">
-      <div className="backdrop-img" style={{ backgroundImage: `url(${image})` }} />
+      <CanvasImage src={terrain.medium} className="backdrop-img" />
       <div className="backdrop-shade" />
     </div>
   );
 }
 
-export function TitleScreen({ image, canContinue, onContinue, onNew, onSettings, onHowTo }: {
-  image: string; canContinue: boolean; onContinue: () => void; onNew: () => void; onSettings: () => void; onHowTo: () => void;
+export function TitleScreen({ terrain, canContinue, onContinue, onNew, onSettings, onHowTo }: {
+  terrain: TerrainImage; canContinue: boolean; onContinue: () => void; onNew: () => void; onSettings: () => void; onHowTo: () => void;
 }) {
   const click = (f: () => void) => () => {
     sfx.click();
@@ -38,7 +40,7 @@ export function TitleScreen({ image, canContinue, onContinue, onNew, onSettings,
   };
   return (
     <div className="screen title">
-      <Backdrop image={image} />
+      <Backdrop terrain={terrain} />
       <div className="title-col">
         <div className="logo">
           <div className="logo-kicker">OPERATION AVALANCHE</div>
@@ -59,8 +61,8 @@ export function TitleScreen({ image, canContinue, onContinue, onNew, onSettings,
 
 type Role = 'Allied' | 'German' | 'hotseat' | 'watch';
 
-export function NewGameScreen({ image, settings, setSettings, onStart, onBack }: {
-  image: string; settings: Settings; setSettings: (s: Settings) => void;
+export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack }: {
+  terrain: TerrainImage; settings: Settings; setSettings: (s: Settings) => void;
   onStart: (scenario: string, options: GameOptions) => void; onBack: () => void;
 }) {
   const [scenario, setScenario] = useState('short');
@@ -87,7 +89,7 @@ export function NewGameScreen({ image, settings, setSettings, onStart, onBack }:
   ];
   return (
     <div className="screen setup">
-      <Backdrop image={image} />
+      <Backdrop terrain={terrain} />
       <div className="setup-panel">
         <h1>New operation</h1>
         <h3>Scenario</h3>
@@ -176,11 +178,11 @@ const BRIEF: Record<Side, { title: string; text: string[]; goals: (scenario: str
   },
 };
 
-export function BriefingScreen({ image, game, side, onBegin }: { image: string; game: GameState; side: Side | null; onBegin: () => void }) {
+export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: TerrainImage; game: GameState; side: Side | null; onBegin: () => void }) {
   const b = BRIEF[side ?? 'Allied'];
   return (
     <div className="screen briefing">
-      <Backdrop image={image} />
+      <Backdrop terrain={terrain} />
       <div className="dispatch">
         <div className="stamp">{side === 'German' ? 'GEHEIME KOMMANDOSACHE' : 'MOST SECRET'}</div>
         <div className="dispatch-head">

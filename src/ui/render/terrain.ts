@@ -8,15 +8,19 @@ import { distance, hexId, neighbors, parseHex, sideKey } from '../../engine/hex'
 import type { HexData } from '../../engine/types';
 import { center, chainSegments, corners, edge, mapBounds, rng, smoothPath, wiggle, type Bounds, type Pt } from './geom';
 
+/** The painted map, kept as pixels in memory rather than as a URL: sandboxed hosts and app web views
+ * may block blob: or data: images, but drawing one canvas onto another always works. */
 export interface TerrainImage {
-  url: string;
-  /** Small copy for the minimap and menus. */
-  thumb: string;
+  image: HTMLCanvasElement | ImageBitmap;
+  /** About 1600 px wide, for menu backdrops. */
+  medium: HTMLCanvasElement;
+  /** About 480 px wide, for the minimap. */
+  small: HTMLCanvasElement;
   bounds: Bounds;
 }
 
-/** Final pixels per map unit. */
-const SCALE = 2;
+/** Final pixels per map unit: a little less on phones, which have less memory for large images. */
+const SCALE = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches ? 1.5 : 2;
 
 type Rgb = [number, number, number];
 
@@ -139,10 +143,10 @@ const FIELDS: Rgb[] = [
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 3;
+const RENDER_VERSION = 4;
 
 function mapHash(): string {
-  const s = JSON.stringify([RENDER_VERSION, MAP.hexes, MAP.hexsides]);
+  const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
   return (h >>> 0).toString(36);
@@ -161,13 +165,13 @@ function idb(): Promise<IDBDatabase | null> {
   });
 }
 
-async function cacheGet(key: string): Promise<{ blob: Blob; thumb: string } | null> {
+async function cacheGet(key: string): Promise<{ blob: Blob } | null> {
   const db = await idb();
   if (!db) return null;
   return new Promise((res) => {
     try {
       const r = db.transaction('img').objectStore('img').get(key);
-      r.onsuccess = () => res((r.result as { blob: Blob; thumb: string }) ?? null);
+      r.onsuccess = () => res((r.result as { blob: Blob }) ?? null);
       r.onerror = () => res(null);
     } catch {
       res(null);
@@ -175,7 +179,7 @@ async function cacheGet(key: string): Promise<{ blob: Blob; thumb: string } | nu
   });
 }
 
-async function cachePut(key: string, value: { blob: Blob; thumb: string }): Promise<void> {
+async function cachePut(key: string, value: { blob: Blob }): Promise<void> {
   const db = await idb();
   if (!db) return;
   try {
@@ -187,31 +191,44 @@ async function cachePut(key: string, value: { blob: Blob; thumb: string }): Prom
   }
 }
 
-/** A data: URL for the image. Some hosts (such as sandboxed pages) block blob: images, never data: ones. */
-function toDataUrl(blob: Blob): Promise<string> {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result as string);
-    r.onerror = () => rej(r.error);
-    r.readAsDataURL(blob);
-  });
+/** A scaled copy, for the minimap and the menu backdrops. */
+function copyAt(src: CanvasImageSource, w: number, h: number, width: number): HTMLCanvasElement {
+  const c = makeCanvas(width, Math.round((width * h) / w));
+  const ctx = c.getContext('2d')!;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(src, 0, 0, c.width, c.height);
+  return c;
+}
+
+function finish(image: HTMLCanvasElement | ImageBitmap, bounds: Bounds): TerrainImage {
+  return { image, bounds, medium: copyAt(image, image.width, image.height, 1600), small: copyAt(image, image.width, image.height, 480) };
 }
 
 /** The painted map, from the browser cache when the map has not changed. */
 export async function renderTerrain(onProgress?: (fraction: number, label: string) => void): Promise<TerrainImage> {
   const key = mapHash();
   const cached = await cacheGet(key);
-  if (cached) {
-    onProgress?.(1, 'Ready');
-    return { url: await toDataUrl(cached.blob), thumb: cached.thumb, bounds: mapBounds(90) };
+  if (cached && typeof createImageBitmap === 'function') {
+    try {
+      const bmp = await createImageBitmap(cached.blob);
+      onProgress?.(1, 'Ready');
+      return finish(bmp, mapBounds(90));
+    } catch {
+      /* unreadable cache entry: paint again */
+    }
   }
   const result = await paintTerrain(onProgress);
-  await cachePut(key, { blob: result.blob, thumb: result.thumb });
-  URL.revokeObjectURL(result.url);
-  return { url: await toDataUrl(result.blob), thumb: result.thumb, bounds: result.bounds };
+  // Cache a compressed copy so the next start is instant; skip quietly if the browser cannot.
+  try {
+    const blob = await new Promise<Blob | null>((res) => result.canvas.toBlob(res, 'image/jpeg', 0.9));
+    if (blob) await cachePut(key, { blob });
+  } catch {
+    /* no cache */
+  }
+  return finish(result.canvas, result.bounds);
 }
 
-async function paintTerrain(onProgress?: (fraction: number, label: string) => void): Promise<TerrainImage & { blob: Blob }> {
+async function paintTerrain(onProgress?: (fraction: number, label: string) => void): Promise<{ canvas: HTMLCanvasElement; bounds: Bounds }> {
   const report = async (f: number, label: string) => {
     onProgress?.(f, label);
     await tick();
@@ -431,15 +448,8 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   drawTowns(ctx, b);
   await report(0.95, 'Printing the map');
 
-  const blob: Blob = await new Promise((res) => out.toBlob((bl) => res(bl!), 'image/jpeg', 0.9));
-  const url = URL.createObjectURL(blob);
-  const small = makeCanvas(480, Math.round((480 * H) / W));
-  const sctx = small.getContext('2d')!;
-  sctx.imageSmoothingQuality = 'high';
-  sctx.drawImage(out, 0, 0, small.width, small.height);
-  const thumb = small.toDataURL('image/jpeg', 0.85);
   await report(1, 'Ready');
-  return { url, thumb, bounds: b, blob };
+  return { canvas: out, bounds: b };
 }
 
 function drawTrees(ctx: CanvasRenderingContext2D, b: Bounds, W: number, land: Float32Array, hill: Float32Array, ridge: Float32Array,

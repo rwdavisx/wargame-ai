@@ -1,6 +1,6 @@
 // The battle map: painted terrain, crisp line work, movement and attack
 // overlays, unit tokens with move/combat animations, a minimap and camera.
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { MAP } from '../engine/data';
 import { neighbors, type HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
@@ -8,6 +8,7 @@ import { def, sideOf } from '../engine/units';
 import { center, chainSegments, corners, edge, pixelToHex, polyPoints, R, smoothPath, wiggle, type Pt } from './render/geom';
 import type { TerrainImage } from './render/terrain';
 import { Insignia, UnitToken } from './render/units';
+import { CanvasImage } from './render/CanvasImage';
 import { sfx } from './sound';
 
 export { R };
@@ -454,6 +455,41 @@ export function MapView(props: MapViewProps) {
     return () => ro.disconnect();
   }, [clampView]);
 
+  // The painted terrain is drawn on a canvas under the SVG, following the camera.
+  const bgRef = useRef<HTMLCanvasElement>(null);
+  const [sizeTick, setSizeTick] = useState(0);
+  useEffect(() => {
+    const el = svgRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setSizeTick((n) => n + 1));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  useLayoutEffect(() => {
+    const c = bgRef.current;
+    const svg = svgRef.current;
+    if (!c || !svg) return;
+    const r = svg.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    const W = Math.round(r.width * dpr);
+    const H = Math.round(r.height * dpr);
+    if (c.width !== W || c.height !== H) {
+      c.width = W;
+      c.height = H;
+    }
+    const ctx = c.getContext('2d');
+    const m = svg.getScreenCTM();
+    if (!ctx || !m) return;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = '#131614';
+    ctx.fillRect(0, 0, W, H);
+    ctx.setTransform(dpr * m.a, 0, 0, dpr * m.d, dpr * (m.e - r.left), dpr * (m.f - r.top));
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(terrain.image, b.x, b.y, b.w, b.h);
+  }, [vb, terrain, b, sizeTick]);
+
   const toSvg = useCallback((clientX: number, clientY: number) => {
     const el = svgRef.current!;
     // The browser's own screen transform, so letterboxing can never shift a tap.
@@ -696,6 +732,7 @@ export function MapView(props: MapViewProps) {
 
   return (
     <div className={`mapwrap${dragging ? ' dragging' : ''}`}>
+      <canvas ref={bgRef} className="map-canvas" aria-hidden />
       <svg
         ref={svgRef}
         className="map-svg"
@@ -828,8 +865,6 @@ export function MapView(props: MapViewProps) {
             <stop offset="1" stopColor="#000" stopOpacity={0.55} />
           </radialGradient>
         </defs>
-        <rect x={b.x - 5000} y={b.y - 5000} width={b.w + 10000} height={b.h + 10000} fill="#131614" />
-        <image href={terrain.url} x={b.x} y={b.y} width={b.w} height={b.h} preserveAspectRatio="none" />
         <StaticOverlay version={props.version} showGrid={settings.showGrid} showLabels={settings.showLabels} />
         <Markers state={state} />
         <Regions highlights={highlights} />
@@ -904,7 +939,7 @@ function Minimap({ terrain, state, view, onJump }: { terrain: TerrainImage; stat
   return (
     <div className="minimap" style={{ width: W, height: H }} onPointerDown={(e) => { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); jump(e); }}
       onPointerMove={(e) => e.buttons && jump(e)}>
-      <img src={terrain.thumb} width={W} height={H} alt="" draggable={false} />
+      <CanvasImage src={terrain.small} style={{ width: W, height: H }} />
       <svg width={W} height={H} viewBox={`${b.x} ${b.y} ${b.w} ${b.h}`}>
         {dots.map(([h, side]) => {
           const [x, y] = center(h);

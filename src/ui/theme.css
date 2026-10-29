@@ -63,7 +63,7 @@ input[type='checkbox'] { accent-color: var(--gold); }
 .screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .backdrop { position: absolute; inset: 0; z-index: 0; }
 .backdrop-img {
-  position: absolute; inset: -8%; background-size: cover; background-position: 35% 40%;
+  position: absolute; inset: -8%; width: 116%; height: 116%; object-fit: cover; object-position: 35% 40%;
   filter: saturate(0.9) contrast(1.05); animation: kenburns 60s ease-in-out infinite alternate;
 }
 .backdrop-shade {
@@ -150,7 +150,8 @@ input[type='checkbox'] { accent-color: var(--gold); }
 .game { position: fixed; inset: 0; overflow: hidden; background: #131614; }
 .mapwrap { position: absolute; inset: 0; cursor: grab; touch-action: none; }
 .mapwrap.dragging { cursor: grabbing; }
-.map-svg { width: 100%; height: 100%; display: block; user-select: none; }
+.map-svg { position: relative; width: 100%; height: 100%; display: block; user-select: none; }
+.map-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .map-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.55); }
 
 .topbar {
@@ -197,7 +198,7 @@ input[type='checkbox'] { accent-color: var(--gold); }
   position: absolute; left: 14px; bottom: 14px; z-index: 3; border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); cursor: crosshair; background: #0c0e0d;
 }
-.minimap img, .minimap svg { position: absolute; inset: 0; display: block; }
+.minimap canvas, .minimap svg { position: absolute; inset: 0; display: block; }
 
 .hex-tip {
   position: absolute; z-index: 4; pointer-events: none; background: rgba(12, 14, 13, 0.92); border: 1px solid var(--line); border-radius: 6px;
@@ -645,4 +646,13 @@ kbd {
   .ab-buttons { grid-column: auto; }
   .ab-row > .ab-prompt:first-child { grid-column: 1 / 3; }
   .ab-buttons button { min-height: 40px; }
+}
+
+/* Phones: the combat card stays compact so the hexes it is about stay in view. */
+@media (max-width: 820px), (max-height: 520px) {
+  .combat-pop .cp-units, .combat-pop .cp-label, .combat-pop .cp-result span:not(.dd), .combat-pop .cp-result small { display: none; }
+  .combat-pop .cp-body { padding: 4px 12px 2px; gap: 6px; }
+  .combat-pop .cp-head { padding: 5px 42px 5px 12px; }
+  .combat-pop .cp-result { padding: 4px 12px 8px; }
+  .combat-pop .die { width: 30px; height: 30px; }
 }

@@ -62,7 +62,7 @@ export interface ActionBarProps {
   onCancelAttack: () => void;
 
   /** Advance after combat. */
-  advance: { ids: string[]; sel: string[]; toggle: (id: string) => void; limited: boolean; breakthrough: boolean } | null;
+  advance: { ids: string[]; sel: string[]; toggle: (id: string) => void; limited: boolean; breakthrough: boolean; only: HexId | null; onAdvance: (h: HexId) => void } | null;
 
   /** What the phase asks for when nothing is selected. */
   prompt: { title: string; sub: string };
@@ -181,8 +181,11 @@ export function ActionBar(p: ActionBarProps) {
         <div className="ab-prompt">
           <div className="ab-title">Advance after combat{ad.limited ? ' (into the vacated hex)' : ''}</div>
           <div className="ab-sub">
-            {ad.ids.length ? `Pick the units that advance, then ${p.touch ? 'tap' : 'click'} a violet hex.` : 'No units left to advance.'}
-            {ad.breakthrough ? ' This attack allows a Breakthrough Group: open Details.' : ''}
+            {!ad.ids.length ? 'No units left to advance.'
+              : !ad.sel.length ? 'Tap the units below to choose who advances.'
+                : ad.only ? `Highlighted units advance into ${ad.only}. Tap a unit to leave it behind.`
+                  : `${p.touch ? 'Tap' : 'Click'} a violet hex to advance the highlighted units there. Tap a unit to leave it behind.`}
+            {ad.breakthrough ? ' This attack also allows a Breakthrough Group (Breakthrough…).' : ''}
           </div>
           <div className="ab-chips">
             {ad.ids.map((id) => (
@@ -194,7 +197,12 @@ export function ActionBar(p: ActionBarProps) {
         </div>
         <div className="ab-buttons">
           {ad.breakthrough && <button onClick={p.onDetails}>Breakthrough…</button>}
-          {p.end && <button className="primary" onClick={p.end.onClick}>{p.end.label}</button>}
+          {p.end && (
+            <button className={ad.only ? `end-btn${p.end.armed ? ' armed' : ''}` : `primary end-btn${p.end.armed ? ' armed' : ''}`} onClick={p.end.onClick}>
+              {p.end.armed ? 'Stay put?' : p.end.label}
+            </button>
+          )}
+          {ad.only && <button className="primary big-action" onClick={() => ad.onAdvance(ad.only!)}>Advance into {ad.only}</button>}
         </div>
       </>
     );

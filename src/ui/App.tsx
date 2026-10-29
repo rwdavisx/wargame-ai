@@ -38,10 +38,7 @@ export default function App() {
     rendering.current = true;
     renderTerrain((f, label) => setProgress({ f, label }))
       .then((t) => {
-        setTerrain((old) => {
-          if (old?.url.startsWith('blob:')) URL.revokeObjectURL(old.url);
-          return t;
-        });
+        setTerrain(t);
         setScreen((s) => (s === 'loading' ? 'title' : s));
       })
       .catch((e) => setProgress({ f: 1, label: `Could not paint the map (${(e as Error).message})` }))
@@ -69,11 +66,11 @@ export default function App() {
     <>
       <TokenDefs />
       {screen === 'title' && (
-        <TitleScreen image={terrain.url} canContinue={canContinue} onContinue={() => setScreen('game')} onNew={() => setScreen('new')}
+        <TitleScreen terrain={terrain} canContinue={canContinue} onContinue={() => setScreen('game')} onNew={() => setScreen('new')}
           onSettings={() => setModal('settings')} onHowTo={() => setModal('howto')} />
       )}
-      {screen === 'new' && <NewGameScreen image={terrain.url} settings={settings} setSettings={setSettings} onStart={startNew} onBack={() => setScreen('title')} />}
-      {screen === 'briefing' && <BriefingScreen image={terrain.url} game={game} side={humanSide} onBegin={() => setScreen('game')} />}
+      {screen === 'new' && <NewGameScreen terrain={terrain} settings={settings} setSettings={setSettings} onStart={startNew} onBack={() => setScreen('title')} />}
+      {screen === 'briefing' && <BriefingScreen terrain={terrain} game={game} side={humanSide} onBegin={() => setScreen('game')} />}
       {screen === 'game' && (
         <GameScreen
           game={game}

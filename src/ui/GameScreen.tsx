@@ -1,7 +1,7 @@
 // The battle screen: map, HUD, command panel and the AI loop.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PORTRAIT_PHONE, usePhone } from './usePhone';
-import { BATTLESHIPS_TURN, MAP } from '../engine/data';
+import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
 import { adjacentForCombat, advanceDestinations, computeOdds, entryAreasOf, inNavalRange, readyAsusFor } from '../engine/combat';
 import { breakthroughMoves, breakthroughPlan, breakthroughTargets, groupUnits } from '../engine/breakthrough';
 import { actingSide, entryReach, IllegalAction, landingHexes, withAction } from '../engine/game';
@@ -161,8 +161,27 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     setAdvanceSel([]);
     setHistory([]);
   }, [phaseKey]);
-  const advanceKey = game.pendingAdvance ? `${game.pendingAdvance.combatId}|${game.pendingAdvance.vacated}` : '';
-  useEffect(() => setAdvanceSel([]), [advanceKey]);
+  // After a won attack, pick every unit that can advance (within the stacking limit) so the destinations show at once.
+  const advanceKey = game.pendingAdvance ? `${game.pendingAdvance.combatId}|${game.pendingAdvance.vacated}|${Object.keys(game.pendingAdvance.maxByUnit).join(',')}` : '';
+  useEffect(() => {
+    const pa = game.pendingAdvance;
+    if (!pa || !humanTurn || game.breakthrough) {
+      setAdvanceSel([]);
+      return;
+    }
+    const ids = Object.keys(pa.maxByUnit).filter((id) => game.units[id]?.where.kind === 'map' && pa.maxByUnit[id] > 0);
+    const pick: string[] = [];
+    let sp = 0;
+    for (const id of ids) {
+      if (sp + def(id).sp > RULES.stackingLimit) continue;
+      const trial = [...pick, id].map((x) => advanceDestinations(game, pa, x));
+      const [first, ...rest] = trial;
+      if (![...first.keys()].some((h) => rest.every((d) => d.has(h)))) continue;
+      pick.push(id);
+      sp += def(id).sp;
+    }
+    setAdvanceSel(pick);
+  }, [advanceKey, humanTurn]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------------------------------------------------------- human actions
   const dispatch = useCallback(
@@ -371,7 +390,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     if (humanTurn && clickAct) {
       const next = dispatch(clickAct);
       if (touch) setHover(null);
-      if (next && clickAct.type === 'advance') setAdvanceSel([]);
+      if (next && clickAct.type === 'advance') setSelectedHex(null);
       if (next && (clickAct.type === 'move' || clickAct.type === 'enter' || clickAct.type === 'land')) {
         const u = next.units[clickAct.unitId];
         if (u.stopped || u.where.kind !== 'map') {
@@ -485,14 +504,19 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       ? { label: 'Next drop', count: drops.length, onClick: () => selectNext(drops) }
       : { label: 'Next unit', count: readyUnits.length, onClick: () => selectNext(readyUnits) };
 
-  const endWarn = readyUnits.length
+  const advanceTargets = [...clickActions.entries()].filter(([, a]) => a.type === 'advance').map(([h]) => h);
+  const noneAdvanced = !!game.pendingAdvance && !game.pendingAdvance.started &&
+    Object.keys(game.pendingAdvance.maxByUnit).some((id) => game.units[id]?.where.kind === 'map');
+  const endWarn = game.pendingAdvance
+    ? noneAdvanced ? 'No unit has advanced yet. Press again to stay put, or pick units and a violet hex.' : ''
+    : readyUnits.length
     ? `${readyUnits.length} unit${readyUnits.length === 1 ? ' has' : 's have'} not moved yet.`
     : game.phase === 'combat' && targets.length && !game.combats.some((c) => c.turn === game.turn && c.attackerSide === side)
       ? 'You have not attacked this phase.'
       : drops.length ? 'Airborne units are still waiting to drop.' : '';
-  const endLabel = game.breakthrough ? 'Stop the group' : game.pendingAdvance ? 'Finish advance' : `End ${game.phase === 'invasion' ? 'invasion' : game.phase}`;
+  const endLabel = game.breakthrough ? 'Stop the group' : game.pendingAdvance ? (noneAdvanced ? 'Stay put' : 'Finish advance') : `End ${game.phase === 'invasion' ? 'invasion' : game.phase}`;
   const endPhase = () => {
-    if (endWarn && !endArmed && !game.pendingAdvance && !game.breakthrough) {
+    if (endWarn && !endArmed && !game.breakthrough) {
       setEndArmed(true);
       sfx.click();
       return;
@@ -578,6 +602,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       toggle: (id: string) => setAdvanceSel((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id])),
       limited: !!game.pendingAdvance.limited,
       breakthrough: !!game.pendingAdvance.btAllowed && !game.pendingAdvance.started,
+      /** With a single destination (usually the vacated hex) one button does it. */
+      only: advanceTargets.length === 1 && advanceSel.length ? advanceTargets[0] : null,
+      onAdvance: (h: HexId) => onHexClick(h),
     }
     : null;
 
