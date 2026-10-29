@@ -56,3 +56,8 @@ town 4615 San Fele
 road- 4514-4614
 minor+ 4614-4615
 minor+ 4515-4616
+# Grottaminarda: the major road from the 4102 junction dips through 4103 (where the Frigento road
+# joins it) and crosses the river into 4203; it does not cross the 4102/4203 hexside (photo 3).
+road- 4102-4203
+major+ 4102-4103
+major+ 4103-4203

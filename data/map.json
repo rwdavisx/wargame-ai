@@ -5620,19 +5620,22 @@
   "4101-4102": {
    "river": true
   },
+  "4102-4103": {
+   "road": "major"
+  },
   "4102-4202": {
    "river": true,
    "road": "major"
   },
   "4102-4203": {
-   "river": true,
-   "road": "major"
+   "river": true
   },
   "4103-4104": {
    "road": "minor"
   },
   "4103-4203": {
-   "river": true
+   "river": true,
+   "road": "major"
   },
   "4103-4204": {
    "river": true
