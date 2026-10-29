@@ -381,8 +381,6 @@ textarea { width: 100%; font: 12px monospace; background: #0f1310; color: var(--
 .settings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .field { display: flex; flex-direction: column; gap: 4px; margin: 8px 0; font: 600 13px var(--hud); letter-spacing: 0.5px; color: #cfc9b5; }
 .hint { color: var(--muted); font-size: 12.5px; line-height: 1.4; }
-.modal.defense { width: 440px; font-size: 14px; }
-.modal.defense h3 { font-size: 15px; }
 .modal.howto { width: min(1000px, 94vw); }
 .howto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; line-height: 1.5; color: #d8d2bf; font-size: 14px; }
 .howto-grid ul { padding-left: 18px; margin: 0; }
@@ -515,7 +513,6 @@ input, textarea, select { -webkit-user-select: text; user-select: text; font-siz
   .modal h2 { font-size: 24px; }
   .modal.pause { width: min(380px, calc(100vw - 24px)); }
   .modal.settings, .modal.howto { width: calc(100vw - 16px); }
-  .modal.defense { width: min(440px, calc(100vw - 16px)); }
   .settings-grid, .howto-grid { grid-template-columns: 1fr; gap: 6px; }
 
   .go-card { padding: 16px; }

@@ -16,6 +16,8 @@ export interface Settings {
   followAi: boolean;
   /** Animation duration multiplier (0.5 fast to 1.5 slow). */
   animSpeed: number;
+  /** Combats you take part in: step through them and roll the die yourself, or just show the result. */
+  combatDice: 'watch' | 'quick';
   showGrid: boolean;
   showLabels: boolean;
   mouseControls: MouseControls;
@@ -39,6 +41,7 @@ export const DEFAULT_SETTINGS: Settings = {
   volume: 0.5,
   followAi: true,
   animSpeed: 1,
+  combatDice: 'watch',
   showGrid: true,
   showLabels: true,
   mouseControls: 'rts',

@@ -1,5 +1,5 @@
 // Heads-up display: top bar, phase banners, event feed, unit card,
-// combat pop-up with dice, defender's dialog, game over and pause menus.
+// combat pop-up with dice, game over and pause menus.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BATTLESHIPS_TURN, MAP, RULES, SCENARIOS } from '../engine/data';
 import { alliedVp, benchmark, currentWeather, vpBreakdown } from '../engine/game';
@@ -347,7 +347,8 @@ function resultText(r: string): string {
   return RULES.combat.results[key] ?? '';
 }
 
-export function CombatPopup({ game, humanSides }: { game: GameState; humanSides: Side[] }) {
+/** The compact result card for combats shown without the battle screen; `speed` scales how long it stays up. */
+export function CombatPopup({ game, humanSides, speed = 1 }: { game: GameState; humanSides: Side[]; speed?: number }) {
   const [shown, setShown] = useState<{ rep: CombatReport; key: number } | null>(null);
   const [rolling, setRolling] = useState(false);
   const seen = useRef(game.combats.length);
@@ -367,14 +368,14 @@ export function CombatPopup({ game, humanSides }: { game: GameState; humanSides:
   }, [game.combats]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!rolling) return;
-    const t = setTimeout(() => setRolling(false), 750);
+    const t = setTimeout(() => setRolling(false), 750 * speed);
     return () => clearTimeout(t);
   }, [rolling, shown?.key]);
   useEffect(() => {
     if (!shown) return;
-    const t = setTimeout(() => setShown(null), game.pendingDefense ? 60000 : 5200);
+    const t = setTimeout(() => setShown(null), game.pendingDefense ? 60000 : 7500 * speed);
     return () => clearTimeout(t);
-  }, [shown, game.pendingDefense]);
+  }, [shown, game.pendingDefense, speed]);
   if (!shown) return null;
   const r = shown.rep;
   const place = MAP.hexes[r.defenderHex]?.city ?? MAP.hexes[r.defenderHex]?.town ?? `hex ${r.defenderHex}`;
@@ -418,14 +419,6 @@ export function CombatPopup({ game, humanSides }: { game: GameState; humanSides:
 }
 
 // ------------------------------------------------------------------ dialogs
-
-export function DefenseModal({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="modal-back soft">
-      <div className="modal defense">{children}</div>
-    </div>
-  );
-}
 
 export function GameOverScreen({ game, humanSides, onReview, onMenu }: { game: GameState; humanSides: Side[]; onReview: () => void; onMenu: () => void }) {
   const breakdown = useMemo(() => vpBreakdown(game, true), [game]);

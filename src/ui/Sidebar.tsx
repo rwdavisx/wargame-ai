@@ -46,6 +46,8 @@ interface Props {
   editorOn: boolean;
   setEditorOn: (b: boolean) => void;
   bumpMap: () => void;
+  /** Opens the battle screen for the planned attack (or resolves it at once with quick dice). */
+  onAttack?: () => void;
   /** Moves the camera to a hex (log entries). */
   onFocusHex?: (h: HexId) => void;
 }
@@ -432,10 +434,6 @@ function CombatControls(p: Props) {
   );
 }
 
-function supportLabel(id: string): string {
-  return id.includes('-air') || id.includes('-naval') ? id.replace('-', ' ') : def(id).name;
-}
-
 function AttackPlanner(p: Props & { kind: 'attack' | 'autoDs' | 'invasion' }) {
   const g = p.game;
   const side = g.activeSide;
@@ -514,6 +512,7 @@ function AttackPlanner(p: Props & { kind: 'attack' | 'autoDs' | 'invasion' }) {
       <div className="row">
         <button className="primary" disabled={!o?.ok || (p.kind === 'autoDs' && !o.autoDs)}
           onClick={() => {
+            if (p.onAttack) return p.onAttack();
             const a: Action = p.kind === 'autoDs'
               ? { type: 'autoDs', target: t, attackers: chosen }
               : { type: 'attack', target: t, attackers: chosen, ...(p.kind === 'attack' ? p.support : {}) };
@@ -580,66 +579,6 @@ function RetreatChoiceControls(p: Props) {
             {o.intoArea ? `Entry Area ${o.intoArea}` : o.end}{i === rq.current ? ' (keep)' : ''}
           </button>
         ))}
-      </div>
-    </>
-  );
-}
-
-/** The defender's decision, shown in a dialog over the map. */
-export function DefensePanel({ game, acting, dispatch }: { game: GameState; acting: Side; dispatch: (a: Action) => GameState | null }) {
-  return <DefenseControls {...({ game, acting, dispatch } as unknown as Props)} />;
-}
-
-function DefenseControls(p: Props) {
-  const g = p.game;
-  const pd = g.pendingDefense!;
-  const rep = g.combats.find((c) => c.id === pd.combatId);
-  const [support, setSupport] = useState<string>('');
-  const [ships, setShips] = useState(false);
-  const [prefer, setPrefer] = useState<'hold' | 'delay'>('hold');
-  const [delay, setDelay] = useState(1);
-  const canShips = pd.defenderSide === 'Allied' && support.endsWith('-naval') && g.support.battleships > 0 && g.turn >= BATTLESHIPS_TURN;
-  return (
-    <>
-      <h3>{pd.defenderSide}: your units in {pd.hex} must retreat</h3>
-      {rep && <CombatResult r={rep} />}
-      <p>
-        Retreat {pd.retreat} hex{pd.retreat > 1 ? 'es' : ''} and become disrupted, or make a Determined Defense to try to hold.
-        {pd.yellow ? ' This result is a yellow cell: −1 on the Determined Defense roll.' : ''}
-      </p>
-      {pd.desperate && (
-        <p className="warn">The stack cannot retreat without being destroyed: a Determined Defense here is a Desperate Defense (each failure costs a step and you roll again).</p>
-      )}
-      <div className="row">
-        Defensive support (+1)
-        <select value={support} onChange={(e) => setSupport(e.target.value)}>
-          <option value="">none</option>
-          {pd.supportOptions.map((o) => <option key={o} value={o}>{supportLabel(o)}</option>)}
-        </select>
-      </div>
-      {canShips && (
-        <label className="row">
-          <input type="checkbox" checked={ships} onChange={(e) => setShips(e.target.checked)} /> Add Valiant/Warspite (+1 more)
-        </label>
-      )}
-      <div className="row">
-        If the result offers a choice:
-        <select value={prefer} onChange={(e) => setPrefer(e.target.value as 'hold' | 'delay')}>
-          <option value="hold">hold (take the step loss)</option>
-          <option value="delay">delay (fall back, no step loss)</option>
-        </select>
-      </div>
-      <div className="row" title="On a Delay result the defender falls back 1 to 3 hexes (its choice), is disrupted, and the attacker may only enter the vacated hex.">
-        On a Delay, fall back
-        <select value={delay} onChange={(e) => setDelay(Number(e.target.value))}>
-          {[1, 2, 3].map((n) => <option key={n} value={n}>{n} hex{n > 1 ? 'es' : ''}</option>)}
-        </select>
-      </div>
-      <div className="row">
-        <button className="primary" onClick={() => p.dispatch({ type: 'defend', choice: 'dd', support: support || null, battleships: canShips && ships, prefer, delay })}>
-          Determined Defense
-        </button>
-        <button onClick={() => p.dispatch({ type: 'defend', choice: 'retreat' })}>Retreat</button>
       </div>
     </>
   );
@@ -714,7 +653,7 @@ function BreakthroughControls(p: Props) {
           {p.odds && <OddsView o={p.odds} game={g} />}
           <div className="row">
             <button className="primary" disabled={!p.odds?.ok}
-              onClick={() => p.dispatch({ type: 'btAttack', target: t }) && p.setAttackTarget(null)}>
+              onClick={() => (p.onAttack ? p.onAttack() : p.dispatch({ type: 'btAttack', target: t }) && p.setAttackTarget(null))}>
               Breakthrough attack!
             </button>
             <button onClick={() => p.setAttackTarget(null)}>Cancel</button>
