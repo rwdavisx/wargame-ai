@@ -217,6 +217,19 @@ describe('stacking', () => {
     expect(unitsAt(s, full).length).toBe(2);
   });
 
+  it('[4.4] the limit is also enforced at the moment an Auto DS is resolved', () => {
+    const s = setup({ phase: 'movement' });
+    place(s, 'US-36Art', C); // defends at 1, alone
+    const n = go(C, N);
+    for (const id of ['GE-129', 'GE-71', 'GE-I71']) place(s, id, n); // 6 points
+    place(s, 'GE-II15', n); // 7: overstacked (as after a retreat)
+    place(s, 'GE-I15', go(C, NE));
+    place(s, 'GE-III15', go(C, NE));
+    act(s, { type: 'autoDs', target: C, attackers: ['GE-129', 'GE-71', 'GE-I71', 'GE-II15', 'GE-I15', 'GE-III15'] });
+    expect(stackPoints(unitsAt(s, n).map((u) => u.id), s)).toBe(6);
+    expect(s.units['US-36Art'].where.kind).not.toBe('map');
+  });
+
   it('[4.4] the phasing player loses excess units at the end of his combat phase', () => {
     const s = setup({ phase: 'combat' });
     for (const id of ['GE-129', 'GE-71', 'GE-I64', 'GE-II64']) place(s, id, C); // 7 points

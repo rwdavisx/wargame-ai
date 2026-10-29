@@ -1003,7 +1003,18 @@ export function applyAction(s: GameState, a: Action): void {
       for (const id of a.attackers) ownUnit(s, id);
       const odds = computeOdds(s, { target: a.target, attackers: a.attackers }, { autoDs: true });
       need(odds.ok && odds.autoDs, odds.reason ?? 'Auto DS needs 10-1 odds or better.');
-      const rep = resolveAttack(s, { target: a.target, attackers: a.attackers }, true);
+      // Stacking is checked at the moment an Auto DS is resolved (4.4): excess units are lost first.
+      const onMap = (x: GameState) => a.attackers.filter((id) => x.units[id].where.kind === 'map' || x.units[id].where.kind === 'entry');
+      const over: string[] = [];
+      if (Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === s.activeSide && !canStack(s, u.where.hex, []))) {
+        const c = structuredClone(s);
+        enforceStacking(c, c.activeSide, []);
+        const left = onMap(c);
+        need(left.length && computeOdds(c, { target: a.target, attackers: left }, { autoDs: true }).autoDs, 'After the stacking losses the odds are below 10-1.');
+        enforceStacking(s, s.activeSide, over);
+        if (over.length) log(s, say(over), 'loss', { important: true });
+      }
+      const rep = resolveAttack(s, { target: a.target, attackers: onMap(s) }, true);
       for (const id of a.attackers) if (s.units[id]) s.units[id].stopped = true;
       if (s.pendingAdvance) {
         s.autoDsQueue.push(s.pendingAdvance);
