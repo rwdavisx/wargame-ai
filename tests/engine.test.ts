@@ -58,7 +58,7 @@ describe('turn 1', () => {
     expect(s.activeSide).toBe('Allied');
     expect(unitsAt(s, '2617').map((u) => u.id)).toContain('US-BH531B');
     expect(unitsAt(s, '2710').some((u) => u.id === 'BR-128' || u.where.kind === 'map')).toBe(true);
-    expect(s.log.filter((l) => l.text.includes('invasion roll')).length).toBe(7);
+    expect(s.log.filter((l) => l.kind === 'landing' && l.text.includes('Landing roll')).length).toBe(7);
     expect(s.supplyPoints).toEqual({ Allied: 0, German: 3 });
   });
 

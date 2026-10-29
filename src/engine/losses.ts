@@ -2,6 +2,7 @@
 import { UNIT_DEFS } from './data';
 import type { GameState, UnitState } from './types';
 import { def, stepsRemaining, values } from './units';
+import { unitName } from './words';
 
 const POOLS: Record<string, string[]> = {
   US: ['US-REM-A', 'US-REM-B', 'US-REM-C'],
@@ -28,8 +29,9 @@ export function stepValue(u: UnitState): number {
   return v.attack - next.attack + (v.defense - next.defense) + 0.5;
 }
 
-export function eliminate(s: GameState, u: UnitState, notes: string[], permanent = false): void {
-  const name = def(u.id).name;
+/** `how` finishes the note's sentence, e.g. "is destroyed" or "is cut off and lost". */
+export function eliminate(s: GameState, u: UnitState, notes: string[], permanent = false, how = 'is destroyed'): void {
+  const name = unitName(u.id);
   if (u.represents) {
     const orig = s.units[u.represents];
     if (orig) orig.where = { kind: 'eliminated', permanent };
@@ -37,11 +39,11 @@ export function eliminate(s: GameState, u: UnitState, notes: string[], permanent
     u.represents = undefined;
     u.status = 'good';
     u.stepsLost = 0;
-    notes.push(`${name} (remnant of ${orig ? def(orig.id).name : '?'}) eliminated`);
+    notes.push(`${name}, the last of ${orig ? unitName(orig.id) : 'its unit'}, ${how}.`);
     return;
   }
   u.where = { kind: 'eliminated', permanent };
-  notes.push(`${name} eliminated`);
+  notes.push(`${name} ${how}.`);
 }
 
 /** Removes one step from `u`, swapping in a remnant when a 3-step unit takes its second loss. */
@@ -63,12 +65,12 @@ export function loseStep(s: GameState, u: UnitState, notes: string[], permanent 
       rem.stopped = u.stopped;
       rem.retreatedThisPhase = u.retreatedThisPhase;
       u.where = { kind: 'remnantHeld' };
-      notes.push(`${d.name} reduced to ${def(rem.id).name}`);
+      notes.push(`${unitName(u.id)} is worn down to a remnant (${unitName(rem.id)}).`);
       return;
     }
     return eliminate(s, u, notes, permanent);
   }
-  notes.push(`${d.name} reduced`);
+  notes.push(`${unitName(u.id)} loses a step.`);
 }
 
 /**
