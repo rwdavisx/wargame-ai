@@ -10,7 +10,7 @@ import type { TerrainImage } from './render/terrain';
 import { Insignia, UnitToken } from './render/units';
 import { CanvasImage } from './render/CanvasImage';
 import { stackMarkerMap, type Marker } from './render/markers';
-import { CueDefs, CueOverlay, FormationRings, ModeTools, ModeUnderlay } from './MapCues';
+import { CueDefs, CueOverlay, FormationRings, MapBar, ModeTools, ModeUnderlay } from './MapCues';
 import type { QolMapProps } from './qol';
 import { sfx } from './sound';
 
@@ -37,6 +37,9 @@ const KIND_COLOR: Record<HighlightKind, string> = {
 export interface MapSettings {
   showGrid: boolean;
   showLabels: boolean;
+  showUnits?: boolean;
+  showMarkers?: boolean;
+  showHexIds?: boolean;
   followAi: boolean;
   animSpeed: number;
 }
@@ -183,6 +186,25 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
 });
 
 // ------------------------------------------------------------------ markers
+
+/** Hex numbers (as the log and the printed map give them), only for the hexes in view. */
+function HexIds({ view }: { view: { x: number; y: number; w: number; h: number } }) {
+  const ids = Object.entries(MAP.hexes).filter(([h, d]) => {
+    if (d.terrain === 'sea') return false;
+    const [x, y] = center(h);
+    return x > view.x - R && x < view.x + view.w + R && y > view.y - R && y < view.y + view.h + R;
+  });
+  // Zoomed far out the numbers would be an unreadable carpet.
+  if (ids.length > 900) return null;
+  return (
+    <g pointerEvents="none" className="hex-ids">
+      {ids.map(([h]) => {
+        const [x, y] = center(h);
+        return <text key={h} x={x} y={y - R * 0.62} textAnchor="middle">{h}</text>;
+      })}
+    </g>
+  );
+}
 
 function Markers({ state }: { state: GameState }) {
   return (
@@ -442,6 +464,8 @@ export function MapView(props: MapViewProps) {
   const { state, terrain, settings, highlights, selectedHex, selectedUnitId, attackTarget, attackers } = props;
   const b = terrain.bounds;
   const svgRef = useRef<SVGSVGElement>(null);
+  // The map bar starts open where there is room for it (beside the minimap), closed on phones.
+  const [barOpen, setBarOpen] = useState(() => typeof window === 'undefined' || !window.matchMedia('(max-width: 820px), (max-height: 520px)').matches);
   const [vb, setVb] = useState<View>(() => {
     const [cx, cy] = center('2711');
     // Phones start closer in so the counters are big enough to tap.
@@ -974,7 +998,8 @@ export function MapView(props: MapViewProps) {
         {qol?.layer && <ModeUnderlay layer={qol.layer} part="fills" />}
         <StaticOverlay version={props.version} showGrid={settings.showGrid} showLabels={settings.showLabels} />
         {qol?.layer && <ModeUnderlay layer={qol.layer} part="lines" />}
-        <Markers state={state} />
+        {settings.showMarkers !== false && <Markers state={state} />}
+        {settings.showHexIds && <HexIds view={vb} />}
         <Regions highlights={highlights} />
         {props.preview && <PathPreview preview={props.preview} />}
         <g pointerEvents="none">
@@ -991,7 +1016,7 @@ export function MapView(props: MapViewProps) {
         {qol?.cues && qol.formation && qol.formationSide && (
           <FormationRings state={state} formation={qol.formation} side={qol.formationSide} selectedId={selectedUnitId} />
         )}
-        <g pointerEvents="none">
+        <g pointerEvents="none" display={settings.showUnits === false ? 'none' : undefined}>
           {[...stacks.entries()].map(([h, list]) => {
             const [x, y] = center(h);
             const sorted = [...list].sort((a, c) => (a.id === selectedUnitId ? 1 : c.id === selectedUnitId ? -1 : 0));
@@ -1021,12 +1046,13 @@ export function MapView(props: MapViewProps) {
       </svg>
       <div className="map-vignette" />
       <Minimap terrain={terrain} state={state} view={vb} onJump={(x, y) => centerOn(x, y, 350)} />
+      {qol && barOpen && <MapBar qol={qol} onClose={() => setBarOpen(false)} minimapH={(200 * b.h) / b.w} />}
       <div className="maptools">
         <button title="Zoom in (+)" onClick={() => zoomBy(1 / 1.3)}>＋</button>
         <button title="Zoom out (−)" onClick={() => zoomBy(1.3)}>－</button>
         <button title="Whole map" onClick={() => flyTo({ x: b.x, y: b.y, w: b.w, h: (b.w * vb.h) / vb.w })}>⤢</button>
         <button title="Back to the beaches" onClick={() => { const [x, y] = center('2711'); centerOn(x + 120, y, 500); }}>⌖</button>
-        {qol && <ModeTools qol={qol} />}
+        {qol && <ModeTools qol={qol} barOpen={barOpen} setBarOpen={setBarOpen} />}
       </div>
       {props.hoverText && hoverScreen && !dragging && (
         <div key={props.hoverText} className="hex-tip" style={{ left: hoverScreen.left + 28, top: hoverScreen.top - 10 }}>

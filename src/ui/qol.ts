@@ -119,6 +119,17 @@ export function unitFlags(s: GameState, u: UnitState): string[] {
 
 // ------------------------------------------------------------------ map plumbing
 
+/** Settings the map bar toggles. */
+export type LayerKey = 'showUnits' | 'showLabels' | 'showMarkers' | 'showGrid' | 'showHexIds' | 'showCues';
+const LAYERS: { key: LayerKey; label: string; note: string; def: boolean }[] = [
+  { key: 'showUnits', label: 'Counters', note: 'The units on the map', def: true },
+  { key: 'showLabels', label: 'Names', note: 'Town and city names', def: true },
+  { key: 'showMarkers', label: 'Ports & VP', note: 'Ports, airfields and victory point hexes', def: true },
+  { key: 'showGrid', label: 'Grid', note: 'The hex grid', def: true },
+  { key: 'showHexIds', label: 'Hex no.', note: 'Hex numbers, as in the log', def: false },
+  { key: 'showCues', label: 'Cues', note: 'Ready markers, odds on targets and movement left', def: true },
+];
+
 export interface QolMapProps {
   /** Show the ready / can-attack cues, odds and movement left. */
   cues: boolean;
@@ -134,6 +145,9 @@ export interface QolMapProps {
   /** The active map mode's shading, labels and legend. */
   layer: ModeLayer | null;
   toggleCues: () => void;
+  /** The map layers the map bar switches on and off. */
+  layers: { key: LayerKey; label: string; note: string; on: boolean }[];
+  toggleLayer: (k: LayerKey) => void;
   viewer: Side;
   /** Briefly ring this hex (after jumping to it from the recap). */
   pulse: { hex: HexId; n: number } | null;
@@ -204,6 +218,13 @@ export function useQol({ game, humanTurn, humanSides, settings, setSettings, rea
     const { settings: st, setSettings: set } = settingsRef.current;
     set({ ...st, mapMode: m });
   }, []);
+  const toggleLayer = useCallback((k: LayerKey) => {
+    const { settings: s, setSettings: set } = settingsRef.current;
+    const def = LAYERS.find((l) => l.key === k)?.def ?? true;
+    set({ ...s, [k]: !((s[k] as boolean | undefined) ?? def) });
+  }, []);
+  const layerKey = LAYERS.map((l) => (settings[l.key] as boolean | undefined) ?? l.def).join();
+  const layers = useMemo(() => LAYERS.map((l) => ({ key: l.key, label: l.label, note: l.note, on: (settings[l.key] as boolean | undefined) ?? l.def })), [layerKey]); // eslint-disable-line react-hooks/exhaustive-deps
   const toggleCues = useCallback(() => {
     const { settings: s, setSettings: set } = settingsRef.current;
     set({ ...s, showCues: s.showCues === false });
@@ -235,7 +256,7 @@ export function useQol({ game, humanTurn, humanSides, settings, setSettings, rea
   const formation = selected && selected.where.kind === 'map' && def(selected.id).division ? def(selected.id).formation : null;
   const map = useMemo<QolMapProps>(() => ({
     cues, ready, odds: attack.odds, moveLeft: left, formation, formationSide: selected ? sideOf(selected) : null,
-    mode, setMode, layer, toggleCues, viewer, pulse,
-  }), [cues, ready, attack.odds, left, formation, selected, mode, setMode, layer, toggleCues, viewer, pulse]);
+    mode, setMode, layer, toggleCues, layers, toggleLayer, viewer, pulse,
+  }), [cues, ready, attack.odds, left, formation, selected, mode, setMode, layer, toggleCues, layers, toggleLayer, viewer, pulse]);
   return { map, pulse: doPulse };
 }

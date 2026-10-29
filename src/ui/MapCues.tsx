@@ -7,7 +7,7 @@ import { def, sideOf } from '../engine/units';
 import { MAP_MODES, type MapMode, type ModeLayer, type Swatch } from './mapModes';
 import { center, polyPoints, R } from './render/geom';
 import { formationColour } from './render/units';
-import type { OddsCue, OddsTone, QolMapProps } from './qol';
+import type { LayerKey, OddsCue, OddsTone, QolMapProps } from './qol';
 
 /** Hatch patterns for the map modes (drawn in SVG: no image URLs). */
 export function CueDefs() {
@@ -146,40 +146,18 @@ function SwatchIcon({ s }: { s: Swatch }) {
   );
 }
 
-/** A map-tools button that opens the mode menu; the active mode's legend shows beside the tools. */
-export function ModeTools({ qol }: { qol: QolMapProps }) {
-  const [open, setOpen] = useState(false);
+/** The map-tools button that shows or hides the map bar; the active mode's legend shows beside the tools. */
+export function ModeTools({ qol, barOpen, setBarOpen }: { qol: QolMapProps; barOpen: boolean; setBarOpen: (b: boolean) => void }) {
   // The legend folds down to its title so it can stay on screen without hiding the map.
   const [folded, setFolded] = useState(false);
   const cur = MAP_MODES.find((m) => m.key === qol.mode) ?? MAP_MODES[0];
   return (
     <div className="mode-tools">
-      <button title={`Map mode: ${cur.label} (M)`} className={`mode-btn${open ? ' on' : ''}${qol.mode !== 'normal' ? ' active' : ''}`}
-        aria-expanded={open} aria-haspopup="menu" onClick={() => setOpen((o) => !o)}>
+      <button title={`Map modes and layers (${cur.label})`} className={`mode-btn${barOpen ? ' on' : ''}${qol.mode !== 'normal' ? ' active' : ''}`}
+        aria-expanded={barOpen} aria-controls="map-bar" onClick={() => setBarOpen(!barOpen)}>
         <ModeIcon mode={qol.mode} />
       </button>
-      {open && (
-        <div className="mode-menu" role="menu" aria-label="Map modes">
-          <div className="mode-menu-head">Map mode <kbd>M</kbd></div>
-          {MAP_MODES.map((m) => (
-            <button key={m.key} role="menuitemradio" aria-checked={qol.mode === m.key} className={qol.mode === m.key ? 'on' : ''}
-              onClick={() => { qol.setMode(m.key); setOpen(false); }}>
-              <ModeIcon mode={m.key} />
-              <span><b>{m.label}</b><small>{m.note}</small></span>
-            </button>
-          ))}
-          <div className="mode-menu-sep" />
-          <button role="menuitemcheckbox" aria-checked={qol.cues} className={qol.cues ? 'on' : ''} onClick={qol.toggleCues}
-            title="Ready markers, odds on targets and movement left">
-            <svg width={20} height={20} viewBox="-10 -10 20 20" aria-hidden>
-              <circle r={6.5} fill={qol.cues ? '#7be0a0' : 'none'} stroke={qol.cues ? '#101410' : 'currentColor'} strokeWidth={1.2} />
-              <path d="M-2.8,-2.6 L0,0 L-2.8,2.6 M0.4,-2.6 L3.2,0 L0.4,2.6" fill="none" stroke={qol.cues ? '#0f2a1a' : 'currentColor'} strokeWidth={1.4} strokeLinecap="round" />
-            </svg>
-            <span><b>Unit cues {qol.cues ? 'on' : 'off'}</b><small>Ready markers, odds, moves left</small></span>
-          </button>
-        </div>
-      )}
-      {!open && qol.layer && (
+      {qol.layer && (
         <div className="mode-legend" role="note" aria-label={`${cur.label} legend`}>
           <div className="mode-legend-head">
             <button className="mode-legend-title" onClick={() => setFolded((f) => !f)} aria-expanded={!folded} title={folded ? 'Show the legend' : 'Fold the legend'}>
@@ -201,6 +179,58 @@ export function ModeTools({ qol }: { qol: QolMapProps }) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+/** Little icons for the map layers. */
+function LayerIcon({ k }: { k: LayerKey }) {
+  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  return (
+    <svg width={20} height={20} viewBox="0 0 20 20" aria-hidden>
+      {k === 'showUnits' && <><rect x={3} y={4} width={14} height={12} rx={1.5} {...p} /><rect x={6.5} y={6.5} width={7} height={4.5} {...p} strokeWidth={1.2} /><path d="M6.5 6.5 L13.5 11 M13.5 6.5 L6.5 11" {...p} strokeWidth={1.1} /><path d="M7 13.6 H13" {...p} strokeWidth={1.2} /></>}
+      {k === 'showLabels' && <><path d="M3 15 L6.5 5 L10 15 M4.3 11.5 H8.7" {...p} /><path d="M12 9.5 Q14 8 15.8 9.2 V15 M15.8 12 Q12 11.3 12 13.4 Q12.3 15.4 15.8 14" {...p} strokeWidth={1.3} /></>}
+      {k === 'showMarkers' && <><path d="M10 3 L11.8 7.4 L16.5 7.7 L12.9 10.7 L14 15.3 L10 12.8 L6 15.3 L7.1 10.7 L3.5 7.7 L8.2 7.4 Z" {...p} /></>}
+      {k === 'showGrid' && <path d="M9.7 8.4 L6.3 10.4 L2.9 8.4 L2.9 4.5 L6.3 2.6 L9.7 4.5 Z M17.1 8.4 L13.7 10.4 L10.3 8.4 L10.3 4.5 L13.7 2.6 L17.1 4.5 Z M13.4 14.8 L10.0 16.8 L6.6 14.8 L6.6 10.9 L10.0 9.0 L13.4 10.9 Z" {...p} strokeWidth={1.3} />}
+      {k === 'showHexIds' && <><path d="M10 2.5 L16.5 6.2 V13.8 L10 17.5 L3.5 13.8 V6.2 Z" {...p} strokeWidth={1.3} /><text x={10} y={12.6} textAnchor="middle" fontSize={7.2} fontWeight={700} fill="currentColor" stroke="none">27</text></>}
+      {k === 'showCues' && <><circle cx={10} cy={10} r={6.5} {...p} /><path d="M7.2 7.4 L10 10 L7.2 12.6 M10.4 7.4 L13.2 10 L10.4 12.6" {...p} strokeWidth={1.4} /></>}
+    </svg>
+  );
+}
+
+/**
+ * The map bar, as in grand-strategy games: one button per map mode and switches for the map's layers.
+ * On a large screen it sits on the minimap; on a phone it opens above the action bar from the map tools.
+ */
+export function MapBar({ qol, onClose, minimapH }: { qol: QolMapProps; onClose: () => void; minimapH: number }) {
+  const [hot, setHot] = useState<MapMode | null>(null);
+  const shown = MAP_MODES.find((m) => m.key === (hot ?? qol.mode)) ?? MAP_MODES[0];
+  return (
+    <div className="map-bar" id="map-bar" role="toolbar" aria-label="Map modes and layers" style={{ '--mm-h': `${Math.round(minimapH)}px` } as React.CSSProperties}>
+      <div className="mb-head">
+        <span className="mb-now"><span className="mb-kicker">Map mode</span> <b>{shown.label}</b></span>
+        <button className="mb-close" onClick={onClose} title="Hide the map bar">✕</button>
+      </div>
+      <div className="mb-note">{shown.note}</div>
+      <div className="mb-modes" role="radiogroup" aria-label="Map mode" onPointerLeave={() => setHot(null)}>
+        {MAP_MODES.map((m) => (
+          <button key={m.key} role="radio" aria-checked={qol.mode === m.key} aria-label={m.label} title={`${m.label}: ${m.note}`}
+            className={qol.mode === m.key ? 'on' : ''} onPointerEnter={() => setHot(m.key)} onFocus={() => setHot(m.key)} onBlur={() => setHot(null)}
+            onClick={() => qol.setMode(m.key)}>
+            <ModeIcon mode={m.key} />
+            <span>{m.label === 'Zones of control' ? 'ZOC' : m.label === 'Support range' ? 'Support' : m.label}</span>
+          </button>
+        ))}
+      </div>
+      <div className="mb-sep">Show</div>
+      <div className="mb-layers">
+        {qol.layers.map((l) => (
+          <button key={l.key} aria-pressed={l.on} className={l.on ? 'on' : ''} title={`${l.label}: ${l.note} (${l.on ? 'shown' : 'hidden'})`} onClick={() => qol.toggleLayer(l.key)}>
+            <LayerIcon k={l.key} />
+            <span>{l.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

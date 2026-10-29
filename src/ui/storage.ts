@@ -25,6 +25,10 @@ export interface Settings {
   showCues: boolean;
   /** Map mode: normal, supply, control, zoc, support, terrain or stacking (see mapModes.ts). */
   mapMode: string;
+  /** Map layers that can be switched off from the map bar. */
+  showUnits: boolean;
+  showMarkers: boolean;
+  showHexIds: boolean;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -47,6 +51,9 @@ export const DEFAULT_SETTINGS: Settings = {
   mouseControls: 'rts',
   showCues: true,
   mapMode: 'normal',
+  showUnits: true,
+  showMarkers: true,
+  showHexIds: false,
 };
 
 export function hasAutosave(): boolean {

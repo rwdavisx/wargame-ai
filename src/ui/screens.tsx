@@ -250,6 +250,7 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
               <li>Space: end the phase · Enter: confirm or attack</li>
               <li>1–5: movement mode</li>
               <li>Drag, arrows or WASD: pan · wheel, pinch or + / −: zoom</li>
+              <li>Map bar (on the minimap, or the layers button): map modes and what the map shows · M / Shift+M: next / previous map mode</li>
             </ul>
             <h3>Winning</h3>
             <p>The Allies score VP for objective hexes they hold in supply and must keep up with a rising daily benchmark. The top bar shows Allied VP against the benchmark.</p>
