@@ -1,0 +1,83 @@
+# Corrections from the data audit (map invariants in tests/data/map.test.ts, then the owner's photos).
+# Review sheets: scratchpad map-review/*.png (spots.py). Apply with: python3 apply_fixes.py fixes_audit.txt
+
+# --- rivers
+# The river from Aquara turns south at the 3120-3220-3221 vertex and runs down the 3120/3221 hexside
+# to 3121/3221 (photo 5); without it the Aquara branch was cut off from the Calore.
+river+ 3120-3221
+# The Sabato runs north from Atripalda (3402/3403) up the west side of 3502, 3501 and 3500 to the north
+# map edge (photo 3, left edge; photo 2 shows it reaching the 3402-3403-3502 vertex).
+river+ 3402-3502
+river+ 3402-3501
+river+ 3401-3501
+river+ 3401-3500
+
+# --- roads and towns: road dead ends and roadless towns found by the invariants, checked on the photos
+# Sorrento: the coast road leaves the port eastwards only; nothing runs west into 1703 (photo 1).
+road- 1703-1803
+# 2101 is open sea (no land, no printed hex outline; photo 1). The Naples road leaves Torre Annunziata
+# north through 2201 and crosses the land strip of 2100 (N1) to the map edge (photos 1 and 2).
+terrain 2101 sea
+road- 2101-2201
+major+ 2100-2201
+# Orria - 2822 - Gioi (2823) - 2824: the road reaches Gioi; the dashes between 2723 and 2824 are the
+# Army Boundary Line (photo 5).
+minor+ 2822-2823
+road- 2723-2824
+# Vallo della Lucania: the road south from the 2725 junction runs through 2726 to 2827 (photo 5).
+minor+ 2725-2726
+# San Gregorio Magno (3916): the only road comes from Buccino (3817) and goes on east to 4017;
+# nothing runs into 3915 or 3917 (photo 6).
+road- 3915-3916
+road- 3817-3917
+# The road up the Melandro valley through 4022 and 4021 crosses into 4020 (Vietri di Potenza; photo 6).
+minor+ 4020-4021
+# No roads at all in 4115, 4116, 4216, 4217 (photo 6).
+road- 4115-4116
+road- 4116-4216
+road- 4116-4217
+# No roads in 4218 or 4318: Balvano's road runs south-east to 4219 (photo 6).
+road- 4218-4219
+road- 4218-4318
+# Brienza - 4223 - 4222 - Tito: the road climbs north through 4223 into 4222 and turns east (photo 6).
+minor+ 4222-4223
+# No road on the Toppo di Castelgrande (4414) or in 4513: the light line there is a fold (photo 3).
+road- 4414-4513
+# Calvello: the road from the 4525 junction snakes through 4426 into 4526 and down to Calvello (4527),
+# and runs east from 4525 through 4626 and 4627 to E1 (photo 6).
+minor+ 4426-4526
+minor+ 4525-4626
+# Bisaccia (4608): the road from 4408 runs through 4508 into the town (photo 3).
+minor+ 4508-4608
+# San Fele's circle is in 4615 (its name is printed across 4514/4515): the road runs Ruvo del Monte
+# (4614) - San Fele (4615) - 4616, where the road from 4515 joins it; nothing enters 4514 (photo 6).
+untown 4515
+town 4615 San Fele
+road- 4514-4614
+minor+ 4614-4615
+minor+ 4515-4616
+# Grottaminarda: the major road from the 4102 junction dips through 4103 (where the Frigento road
+# joins it) and crosses the river into 4203; it does not cross the 4102/4203 hexside (photo 3).
+road- 4102-4203
+major+ 4102-4103
+major+ 4103-4203
+# Auletta - Vietri di Potenza: the major road curves north into 3918 and crosses the Platano straight
+# into 4019 (about a third of a hexside from the 3918/3919/4019 vertex); it never enters 3919, whose
+# only road is the dashed Auletta - Caggiano road (photo 6).
+road- 3918-3919
+road- 3919-4019
+major+ 3918-4019
+# Palma Campania (2700): its roads run west to 2601 and north off the map; nothing runs east into
+# 2801, which has no road at all (photo 2).
+road- 2700-2801
+# Paestum: the major road from 2617 crosses 2716, goes north into 2715 and crosses into 2815 just
+# above the 2715/2815/2816 vertex; it never enters 2816, which has no road (photo 5).
+road- 2716-2816
+road- 2815-2816
+major+ 2715-2716
+major+ 2715-2815
+# Avellino - Atripalda: the major road leaves the city east into 3302, where it forks; the Atripalda
+# branch drops across the 3302/3303 hexside and runs east through 3303. The road from the south side
+# of the city to 3303 is the dashed minor road (photo 2).
+minor+ 3203-3303
+major+ 3302-3303
