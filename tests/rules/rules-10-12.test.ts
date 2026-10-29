@@ -307,3 +307,386 @@ describe('step losses and remnants', () => {
     expect(s.units['US-REM-A'].represents).toBe('US-180');
   });
 });
+
+// ------------------------------------------------------------------ 11.0 Determined Defense
+
+/** The first die roll that gives `result` on the CRT column this attack would be fought on. */
+function rollFor(s: GameState, plan: AttackPlan, result: string): number {
+  const o = computeOdds(s, plan);
+  expect(o.ok).toBe(true);
+  const r = [1, 2, 3, 4, 5, 6].find((n) => RULES.combat.crt[String(n)][o.finalIndex].split('/').slice(0, -1).join('/') === result ||
+    RULES.combat.crt[String(n)][o.finalIndex] === result);
+  if (!r) throw new Error(`no ${result} on column ${o.finalIndex}`);
+  return r;
+}
+
+/** German `attackers` (placed north of C unless already on the map) attack C and get `result`; then the DD rolls queue. */
+function ddFight(s: GameState, attackers: string[], result: string, ddRolls: number[] = []) {
+  for (const id of attackers) if (s.units[id].where.kind !== 'map') place(s, id, go(C, N));
+  const plan: AttackPlan = { target: C, attackers };
+  dice(s, rollFor(s, plan, result), ...ddRolls);
+  attack(s, plan);
+  expect(s.pendingDefense).not.toBeNull();
+}
+
+describe('Determined Defense', () => {
+  it('[11.1] a successful stand cancels the retreat, the disruption and the advance', () => {
+    const s = setup('German');
+    place(s, 'US-142', C);
+    place(s, 'US-1-142', C);
+    ddFight(s, ['GE-129'], 'DR2', [6]); // 6 to 6 = 1-1; Clear column, 6 = -/1 H
+    act(s, { type: 'defend', choice: 'dd', lead: 'US-142' });
+    expect(last(s).dd).toMatchObject({ column: 'Clear', roll: 6, result: '-/1 H' });
+    expect(s.units['US-142']).toMatchObject({ stepsLost: 1, status: 'good', where: { kind: 'map', hex: C } });
+    expect(s.units['US-1-142']).toMatchObject({ status: 'good', where: { kind: 'map', hex: C } });
+    expect(s.pendingAdvance).toBeNull();
+  });
+
+  it('[11.1] no Determined Defense on DR4 or DS, nor when no step survives the combat', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    for (const id of ['GE-129', 'GE-III115', 'GE-215']) place(s, id, go(C, N));
+    dice(s, 3); // 10 to 2 = 5-1, +1 tank = 6-1: DR4
+    attack(s, { target: C, attackers: ['GE-129', 'GE-III115', 'GE-215'] });
+    expect(last(s).result).toBe('DR4 Adv 3');
+    expect(s.pendingDefense).toBeNull();
+    const t = setup('German');
+    place(t, 'US-1-142', C);
+    place(t, 'GE-129', go(C, N));
+    place(t, 'GE-III115', go(C, N));
+    dice(t, 6); // 8 to 2 = 4-1, roll 6 = D1 (orange): the only step is lost
+    attack(t, { target: C, attackers: ['GE-129', 'GE-III115'] });
+    expect(gone(t, 'US-1-142')).toBe(true);
+    expect(t.pendingDefense).toBeNull();
+    expect(t.pendingAdvance).not.toBeNull();
+  });
+
+  it('[11.2.1] CRT losses come first; the defender names the Lead Unit; the hex picks the City, Clear or Other column', () => {
+    const s = setup('German');
+    place(s, 'US-142', C);
+    place(s, 'US-1-142', C);
+    for (const id of ['GE-129', 'GE-III115', 'GE-215']) place(s, id, go(C, N));
+    for (const id of ['GE-I71', 'GE-I15', 'GE-II15', 'GE-III15']) place(s, id, go(C, NW));
+    dice(s, 6, 1); // 3-1 with the tank shift: D1; then a 1 on the Clear column = -/1 (the lead loses a step)
+    attack(s, { target: C, attackers: ['GE-129', 'GE-III115', 'GE-215', 'GE-I71', 'GE-I15', 'GE-II15', 'GE-III15'] });
+    expect(s.units['US-142'].stepsLost).toBe(1); // the D1 loss is already taken
+    act(s, { type: 'defend', choice: 'dd', lead: 'US-1-142' });
+    expect(gone(s, 'US-1-142')).toBe(true); // the named lead took the -/1 loss
+    expect(s.units['US-142'].stepsLost).toBe(1);
+    const column = (hex: Parameters<typeof setHex>[1]) => {
+      const t = setup('German');
+      setHex(C, hex);
+      place(t, 'US-1-142', C);
+      ddFight(t, ['GE-71'], 'DR2', [3]);
+      act(t, { type: 'defend', choice: 'dd' });
+      return last(t).dd!.column;
+    };
+    expect(column({ terrain: 'clear' })).toBe('Clear');
+    expect(column({ terrain: 'clear', town: 'Testville' })).toBe('Other');
+    expect(column({ terrain: 'hill' })).toBe('Other');
+    expect(column({ terrain: 'clear', city: 'Testopoli' })).toBe('City');
+  });
+
+  it('[11.2.2] an orange CRT result gives -1 on the Determined Defense; a red one allows none, even with no way out', () => {
+    const s = setup('German');
+    place(s, 'US-142', C);
+    for (const id of ['GE-129', 'GE-III115', 'GE-215']) place(s, id, go(C, N));
+    place(s, 'GE-I71', go(C, NW));
+    place(s, 'GE-II29', go(C, NE));
+    dice(s, 6, 4); // 12 to 4 = 3-1, +1 tank = 4-1: a 6 is D1 on orange
+    attack(s, { target: C, attackers: ['GE-129', 'GE-III115', 'GE-215', 'GE-I71', 'GE-II29'] });
+    expect(last(s).result).toBe('D1 Adv 3');
+    expect(s.pendingDefense!.yellow).toBe(true);
+    act(s, { type: 'defend', choice: 'dd' });
+    expect(last(s).dd!.drm).toBe(-1);
+    // Red: surrounded, DR4, no stand allowed: the defender is lost.
+    const t = setup('German');
+    place(t, 'US-1-142', C);
+    for (const id of ['GE-129', 'GE-III115', 'GE-215']) place(t, id, go(C, N));
+    ['GE-I71', 'GE-I15', 'GE-II15', 'GE-III15', 'GE-I67'].forEach((id, i) => place(t, id, neighbors(C)[i + 1]));
+    dice(t, 3); // 10 to 2 = 5-1, +1 tank = 6-1: DR4 (red)
+    attack(t, { target: C, attackers: ['GE-129', 'GE-III115', 'GE-215'] });
+    expect(last(t).result).toBe('DR4 Adv 3');
+    expect(t.pendingDefense).toBeNull();
+    expect(gone(t, 'US-1-142')).toBe(true);
+  });
+
+  it('[11.2.3] the Lead Unit must be a Good Order combat unit, not an ASU; with none there is no Determined Defense', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    place(s, 'US-36Art', C);
+    place(s, 'US-2-141', C, { status: 'disrupted' });
+    ddFight(s, ['GE-129'], 'DR2', [3]);
+    expect(refused(s, { type: 'defend', choice: 'dd', lead: 'US-36Art' })).toBe(true);
+    expect(refused(s, { type: 'defend', choice: 'dd', lead: 'US-2-141' })).toBe(true);
+    expect(refused(s, { type: 'defend', choice: 'dd', lead: 'US-1-142' })).toBe(false);
+    // Only a disrupted unit and an ASU: straight to the retreat.
+    const t = setup('German');
+    place(t, 'US-2-141', C, { status: 'disrupted' });
+    place(t, 'US-36Art', C);
+    place(t, 'GE-I71', go(C, N));
+    dice(t, rollFor(t, { target: C, attackers: ['GE-I71'] }, 'DR2'));
+    attack(t, { target: C, attackers: ['GE-I71'] });
+    expect(t.pendingDefense).toBeNull();
+    expect(hexOf(t, 'US-2-141')).not.toBe(C);
+  });
+
+  it('[11.2.4] +1 Elite lead, -1 Low Quality lead, +1 Defensive Support; at most +2 without the battleships', () => {
+    const drm = (lead: string, support: boolean, patch?: () => () => void) => {
+      const undo = patch?.();
+      try {
+        const s = setup('German');
+        s.options = { defensiveAir: { Allied: 'never' } }; // keep the air marker for the stand, not the CRT shift
+        place(s, lead, C);
+        if (support) s.support.ready = ['US-air'];
+        ddFight(s, ['GE-129'], 'DR2', [3]);
+        act(s, { type: 'defend', choice: 'dd', support: support ? 'US-air' : null });
+        return last(s).dd!.drm;
+      } finally {
+        undo?.();
+      }
+    };
+    expect(drm('US-1-142', false)).toBe(0);
+    expect(drm('US-100', false)).toBe(1); // elite
+    expect(drm('US-1-142', true)).toBe(1);
+    expect(drm('US-100', true)).toBe(2);
+    // No counter in the game is Low Quality yet: mark one for the test.
+    expect(drm('US-1-142', false, () => {
+      UNIT_DEFS['US-1-142'].lowQuality = true;
+      return () => { UNIT_DEFS['US-1-142'].lowQuality = false; };
+    })).toBe(-1);
+  });
+
+  it('[11.3] one Ready Air, Naval or ASU of the Lead Unit\'s nationality, a division ASU only for its division; then flipped', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C); // 36th Division
+    place(s, 'BR-5H', C);
+    place(s, 'US-36Art', go(C, S, 2));
+    place(s, 'US-45Art', go(C, S, 2));
+    s.support.ready = ['US-air', 'BR-air'];
+    ddFight(s, ['GE-71'], 'DR2', [3]);
+    const opts = s.pendingDefense!.supportOptions;
+    expect(opts).toEqual(expect.arrayContaining(['US-air', 'BR-air', 'US-36Art']));
+    expect(opts).not.toContain('US-45Art'); // no 45th Division unit in the hex
+    expect(refused(s, { type: 'defend', choice: 'dd', lead: 'US-1-142', support: 'BR-air' })).toBe(true);
+    act(s, { type: 'defend', choice: 'dd', lead: 'US-1-142', support: 'US-36Art' });
+    expect(last(s).dd!.drm).toBe(1);
+    expect(s.units['US-36Art'].fired).toBe(true);
+    expect(s.support.ready).toEqual(['US-air', 'BR-air']);
+    const t = setup('German');
+    place(t, 'US-1-142', C);
+    t.support.ready = ['US-air'];
+    ddFight(t, ['GE-71'], 'DR2', [3]);
+    act(t, { type: 'defend', choice: 'dd', support: 'US-air' });
+    expect(t.support.ready).toEqual([]);
+  });
+
+  it('[11.4.1] the results: -/1 and -/- fail; -/1 H holds for a step; 1*/1 H costs both, the defender picking; 1/dis H', () => {
+    const run = (hex: Parameters<typeof setHex>[1], lead: string, roll: number) => {
+      const s = setup('German');
+      setHex(C, hex);
+      place(s, lead, C);
+      place(s, 'US-142', C);
+      for (const id of ['GE-129', 'GE-III115', 'GE-215']) place(s, id, go(C, N)); // the 15 PG MAF
+      place(s, 'GE-I71', go(C, NW));
+      place(s, 'GE-II29', go(C, NE)); // 12 to 6 = 2-1 +1 tank in the clear; 12 to 12 = 1-1 on a hill
+      ddFight(s, ['GE-129', 'GE-III115', 'GE-215', 'GE-I71', 'GE-II29'], 'DR2', [roll]);
+      act(s, { type: 'defend', choice: 'dd', lead });
+      return s;
+    };
+    const fail1 = run({ terrain: 'clear' }, 'US-1-142', 1); // -/1
+    expect(gone(fail1, 'US-1-142')).toBe(true);
+    expect(hexOf(fail1, 'US-142')).not.toBe(C);
+    expect(fail1.units['US-142'].status).toBe('disrupted');
+    const fail0 = run({ terrain: 'hill' }, 'US-1-142', 2); // Other 2: -/-
+    expect(last(fail0).dd!.result).toBe('-/-');
+    expect(hexOf(fail0, 'US-1-142')).not.toBe(C);
+    const both = run({ terrain: 'clear' }, 'US-100', 6); // 6 +1 Elite = 7: 1*/1 H
+    expect(last(both).dd!.result).toBe('1*/1 H');
+    expect(gone(both, 'US-100')).toBe(true);
+    expect(gone(both, 'GE-215')).toBe(true); // the defender takes the dearest MAF step (a one-step tank)
+    expect(hexOf(both, 'US-142')).toBe(C);
+    const dis = run({ terrain: 'hill' }, 'US-100', 6); // Other 7: 1/dis H
+    expect(last(dis).dd!.result).toBe('1/dis H');
+    expect(dis.units['US-100'].status).toBe('disrupted');
+    expect(dis.units['US-142'].status).toBe('good');
+    expect([dis.units['GE-III115'].stepsLost, dis.units['GE-129'].stepsLost, gone(dis, 'GE-215')]).toEqual([1, 0, false]); // his cheapest MAF step
+  });
+
+  it('[11.4.2] a lone one-step defender that dies holding gives the attacker a Limited Advance', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    ddFight(s, ['GE-71'], 'DR2', [6]); // 4 to 2 = 2-1; Clear 6 = -/1 H
+    act(s, { type: 'defend', choice: 'dd' });
+    expect(gone(s, 'US-1-142')).toBe(true);
+    expect(s.pendingAdvance).toMatchObject({ limited: true, maxByUnit: { 'GE-71': 1 } });
+  });
+
+  it('[11.4.3] where the table offers Delay or -/1 H, the defender picks', () => {
+    const run = (prefer: 'hold' | 'delay') => {
+      const s = setup('German');
+      place(s, 'US-142', C);
+      ddFight(s, ['GE-129'], 'DR2', [5]); // Clear 5 = -/- D | -/1 H
+      act(s, { type: 'defend', choice: 'dd', prefer });
+      return s;
+    };
+    const hold = run('hold');
+    expect([hexOf(hold, 'US-142'), hold.units['US-142'].stepsLost]).toEqual([C, 1]);
+    const delay = run('delay');
+    expect(delay.units['US-142'].stepsLost).toBe(0);
+    expect(distance(hexOf(delay, 'US-142')!, C)).toBe(1);
+  });
+
+  it('[11.4.4] a failed stand means the full CRT retreat and the full advance', () => {
+    const s = setup('German');
+    place(s, 'US-142', C);
+    ddFight(s, ['GE-129'], 'DR2', [3]); // Clear 3 = -/-
+    act(s, { type: 'defend', choice: 'dd' });
+    expect(distance(hexOf(s, 'US-142')!, C)).toBe(2);
+    expect(s.units['US-142'].status).toBe('disrupted');
+    expect(s.pendingAdvance).toMatchObject({ limited: false, maxByUnit: { 'GE-129': 2 } });
+  });
+});
+
+// ------------------------------------------------------------------ 11.5-11.6
+
+describe('Desperate Defense, Delay and City Battles', () => {
+  /** Germans in all six hexes round C: any retreat from C is fatal. */
+  function surround(s: GameState) {
+    const ring = [['GE-IIa2', 'GE-KGDor'], ['GE-II64', 'GE-III2'], ['GE-I64'], ['GE-I79'], ['GE-II79'], ['GE-IIb2']];
+    ring.forEach((ids, i) => ids.forEach((id) => place(s, id, neighbors(C)[i])));
+    return ring.flat();
+  }
+
+  it('[11.5.1] [11.5.3] the rulebook example: commandos and a brigade on a hill with no way out roll on until they hold', () => {
+    // The book's D1 first costs the 5H/46 its step: the engine picks D1 losses itself, so the
+    // example starts after that loss, with an A1/DR2 (no defender loss) on the same Other column.
+    const s = setup('German');
+    setHex(C, { terrain: 'hill' });
+    place(s, 'BR-2Cdo', C);
+    place(s, 'BR-138', C); // 5-7-3 brigade: 9 doubled = 18
+    const all = surround(s);
+    const plan: AttackPlan = { target: C, attackers: all, maf: '16 Pz' };
+    expect(computeOdds(s, plan)).toMatchObject({ attack: 20, defense: 18, finalIndex: 2 });
+    dice(s, rollFor(s, plan, 'A1/DR2'), 2, 3, 5);
+    attack(s, plan);
+    expect(s.pendingDefense!.desperate).toBe(true);
+    act(s, { type: 'defend', choice: 'dd', lead: 'BR-2Cdo' });
+    // 2 +1 Elite = 3: fail, the commandos go; the brigade rolls 3: fail, a step; then 5: -/1 H.
+    expect(gone(s, 'BR-2Cdo')).toBe(true);
+    expect(where(s, 'BR-138').kind).toBe('remnantHeld');
+    const rem = Object.values(s.units).find((u) => u.represents === 'BR-138')!;
+    expect(hexOf(s, rem.id)).toBe(C);
+    expect(UNIT_DEFS[rem.id].steps[0]).toMatchObject({ attack: 1, defense: 3, move: 3 });
+    expect(last(s).dd).toMatchObject({ roll: 5, result: '-/1 H' });
+    expect(s.pendingAdvance).toBeNull();
+  });
+
+  it('[11.5.2] Desperate Defense only when a retreat would eliminate someone, or would lose a port or beachhead and its supply', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    ddFight(s, ['GE-71'], 'DR2');
+    expect(s.pendingDefense!.desperate).toBe(false);
+    const t = setup('German');
+    place(t, 'US-1-142', C);
+    surround(t);
+    dice(t, rollFor(t, { target: C, attackers: ['GE-I64'] }, 'DR2'));
+    attack(t, { target: C, attackers: ['GE-I64'] });
+    expect(t.pendingDefense!.desperate).toBe(true);
+    // A port: with it lost, the stack would be out of supply at the end of its retreat.
+    const p = setup('German');
+    setHex(C, { terrain: 'clear', port: { capacity: 1 } });
+    place(p, 'US-1-142', C);
+    ddFight(p, ['GE-71'], 'DR2');
+    expect(p.pendingDefense!.desperate).toBe(true);
+    // Beachhead units cannot retreat at all (MA 0), so a stack with one always qualifies.
+    const b = setup('German');
+    place(b, 'US-1-142', C);
+    place(b, 'US-BH531R', C);
+    ddFight(b, ['GE-71'], 'DR2');
+    expect(b.pendingDefense!.desperate).toBe(true);
+  });
+
+  it('[11.5.4] units that can retreat must; a tank that cannot (unbridged rivers all round) fights a Desperate Defense', () => {
+    const s = setup('German');
+    for (const n of neighbors(C)) setSide(C, n, { river: true });
+    place(s, 'US-1-142', C);
+    place(s, 'US-191', C); // tank: dies crossing an unbridged river
+    // Defense 4 doubled behind the river = 8; 6 + 2 + 1 (a tank across a river is halved) = 9: 1-1.
+    // The German tank earns no shift across the river but cancels the defender's (9.3.3).
+    ddFight(s, ['GE-129', 'GE-III115', 'GE-215'], 'DR2', [6]); // Clear 6 = -/1 H for the tank
+    expect(s.pendingDefense!.desperate).toBe(true);
+    act(s, { type: 'defend', choice: 'dd', lead: 'US-191' });
+    expect(distance(hexOf(s, 'US-1-142')!, C)).toBe(2);
+    expect(gone(s, 'US-191')).toBe(true); // -/1 H: holds, at the cost of its only step
+  });
+
+  it('[11.6.1] Delay: back 1-3 hexes (defender\'s choice), Disrupted, and only a Limited Advance', () => {
+    for (const n of [1, 3]) {
+      const s = setup('German');
+      setHex(C, { terrain: 'hill' });
+      place(s, 'US-1-142', C);
+      ddFight(s, ['GE-129'], 'DR2', [4]); // Other 4 = -/- D
+      act(s, { type: 'defend', choice: 'dd', delay: n });
+      expect(last(s).dd!.result).toBe('-/- D');
+      expect(distance(hexOf(s, 'US-1-142')!, C)).toBe(n);
+      expect(s.units['US-1-142'].status).toBe('disrupted');
+      expect(s.pendingAdvance).toMatchObject({ limited: true, maxByUnit: { 'GE-129': 1 } });
+    }
+  });
+
+  it('[11.6.1] in a Desperate Defense a Delay counts as a failure, and a second Delay as -/1 H', () => {
+    const s = setup('German');
+    setHex(C, { terrain: 'hill' });
+    place(s, 'US-142', C, { stepsLost: 0 });
+    place(s, 'US-1-142', C);
+    surround(s);
+    const plan: AttackPlan = { target: C, attackers: ['GE-IIa2', 'GE-KGDor', 'GE-II64'] }; // 12 to 12 = 1-1
+    dice(s, rollFor(s, plan, 'DR2'), 4, 4); // Other 4 = -/- D, twice
+    attack(s, plan);
+    expect(s.pendingDefense!.desperate).toBe(true);
+    act(s, { type: 'defend', choice: 'dd', lead: 'US-142' });
+    // First Delay: a step from the lead; second: hold at the cost of another.
+    expect(gone(s, 'US-142')).toBe(true);
+    expect(hexOf(s, 'US-1-142')).toBe(C);
+    expect(s.pendingAdvance).toBeNull();
+  });
+
+  it('[11.6.2] a Partial Success in a City places a City Battle marker and holds; a second one there is a Delay', () => {
+    const s = setup('German');
+    setHex(C, { terrain: 'clear', city: 'Testopoli' });
+    place(s, 'US-142', C);
+    ddFight(s, ['GE-129', 'GE-III115', 'GE-I71'], 'DR2', [3]); // City 3 = -/- P
+    act(s, { type: 'defend', choice: 'dd' });
+    expect(last(s).dd!.result).toBe('-/- P');
+    expect(s.cityBattle[C]).toBe(1);
+    expect(hexOf(s, 'US-142')).toBe(C);
+    expect(s.pendingAdvance).toBeNull();
+    for (const id of ['GE-129', 'GE-III115', 'GE-I71']) s.units[id].attacked = false;
+    s.combats = [];
+    dice(s, rollFor(s, { target: C, attackers: ['GE-129', 'GE-III115', 'GE-I71'] }, 'DR2'), 3);
+    attack(s, { target: C, attackers: ['GE-129', 'GE-III115', 'GE-I71'] });
+    act(s, { type: 'defend', choice: 'dd' });
+    expect(distance(hexOf(s, 'US-142')!, C)).toBe(1);
+    expect(s.pendingAdvance!.limited).toBe(true);
+  });
+
+  it('[11.6.3] the City Battle marker goes when the defender leaves the city or no enemy is adjacent', () => {
+    const s = setup('German', { phase: 'movement' });
+    setHex(C, { terrain: 'clear', city: 'Testopoli' });
+    place(s, 'US-142', C);
+    place(s, 'GE-129', go(C, N));
+    s.cityBattle[C] = 1;
+    act(s, { type: 'move', unitId: 'GE-129', to: go(C, N, 3) });
+    act(s, { type: 'endPhase' });
+    expect(s.cityBattle[C]).toBeUndefined();
+    const t = setup('German', { phase: 'movement' });
+    setHex(C, { terrain: 'clear', city: 'Testopoli' });
+    place(t, 'US-142', C);
+    place(t, 'GE-129', go(C, N));
+    t.cityBattle[C] = 1;
+    t.units['US-142'].where = { kind: 'removed', reason: 'test' };
+    act(t, { type: 'endPhase' });
+    expect(t.cityBattle[C]).toBeUndefined();
+  });
+});

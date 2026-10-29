@@ -384,6 +384,11 @@ function doRecovery(s: GameState): void {
     }
     if (recover) u.status = u.status === 'fullRetreat' ? 'disrupted' : 'good';
   }
+  dropCityBattles(s);
+}
+
+/** City Battle markers go once the defender has left the city or no enemy unit is adjacent (11.6.3). */
+function dropCityBattles(s: GameState): void {
   for (const h of Object.keys(s.cityBattle)) {
     const holders = unitsAt(s, h);
     const enemyNear = holders.length && neighbors(h).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== sideOf(holders[0])));
@@ -782,8 +787,7 @@ export function applyAction(s: GameState, a: Action): void {
   need(s.phase !== 'gameOver', 'The game is over.');
   s.seq += 1;
   s.trails = {};
-  // A City Battle marker goes as soon as the defender has vacated the city (11.6.3).
-  for (const h of Object.keys(s.cityBattle)) if (!unitsAt(s, h).length) delete s.cityBattle[h];
+  dropCityBattles(s);
   if (s.retreatQueue?.length && a.type !== 'retreatChoice') throw new IllegalAction(`The ${s.retreatQueue[0].side} player must first confirm where the retreating units go.`);
   if (s.pendingDefense && a.type !== 'defend') throw new IllegalAction('The defender must first choose: retreat or Determined Defense.');
   switch (a.type) {
