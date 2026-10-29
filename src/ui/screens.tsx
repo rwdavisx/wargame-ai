@@ -7,6 +7,7 @@ import { DIFFICULTIES } from '../ai/heuristic';
 import type { GameOptions, GameState, Side } from '../engine/types';
 import { Insignia } from './render/units';
 import { sfx } from './sound';
+import { BUILD } from './version';
 import type { Controller, MouseControls, Settings } from './storage';
 
 export function LoadingScreen({ progress, label }: { progress: number; label: string }) {
@@ -54,7 +55,7 @@ export function TitleScreen({ terrain, canContinue, onContinue, onNew, onSetting
           <button onClick={click(onHowTo)}>How to play</button>
           <button onClick={click(onSettings)}>Settings</button>
         </nav>
-        <div className="title-foot">A digital companion to GMT Games' Salerno '43 · keep your copy of the game at hand for the full rules</div>
+        <div className="title-foot">A digital companion to GMT Games' Salerno '43 · keep your copy of the game at hand for the full rules<span className="build">Build {BUILD}</span></div>
       </div>
     </div>
   );

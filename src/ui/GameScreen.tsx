@@ -133,8 +133,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const [landingClosed, setLandingClosed] = useState(false);
   const [landingSeen, setLandingSeen] = useState(false);
   const landingsWaiting = game.phase === 'invasion' ? landingsLeft(game).length : 0;
-  // When the computer commands the Allies, the human player watches its landings on the same panel.
-  const watchLanding = !humanTurn && humanSides.length > 0 && game.activeSide === 'Allied';
+  // When the computer commands the Allies (also when it plays both sides), its landings play out on the same panel.
+  const watchLanding = !humanTurn && game.activeSide === 'Allied';
   useEffect(() => {
     if (landingsWaiting && (humanTurn || watchLanding)) setLandingSeen(true);
   }, [landingsWaiting, humanTurn, watchLanding]);

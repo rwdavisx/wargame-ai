@@ -677,3 +677,4 @@ kbd {
 .cards.difficulty .pips { letter-spacing: 1px; font-size: 13px; }
 .cards.difficulty .pips i { font-style: normal; color: rgba(255, 255, 255, 0.16); }
 .cards.difficulty .pips i.on { color: var(--gold-2); }
+.title-foot .build { display: block; margin-top: 6px; opacity: 0.7; letter-spacing: 1px; }
