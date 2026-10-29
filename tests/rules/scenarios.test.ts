@@ -7,10 +7,10 @@ import { neighbors } from '../../src/engine/hex';
 import { computeOdds } from '../../src/engine/combat';
 import { landingCapacity, landingHexes, vpBreakdown } from '../../src/engine/game';
 import { loseStep } from '../../src/engine/losses';
-import { allowedModes, movementAllowance, stepCost } from '../../src/engine/movement';
+import { allowedModes, legalDestinations, movementAllowance, stepCost } from '../../src/engine/movement';
 import { unitsAt } from '../../src/engine/units';
 import type { GameState } from '../../src/engine/types';
-import { act, dice, invasionGame, openGround, place, quiet, refused, scenario } from './harness';
+import { act, dice, invasionGame, openGround, place, quiet, refused } from './harness';
 
 // ------------------------------------------------------------------ the set-up as the engine has it
 
@@ -248,9 +248,12 @@ describe('24 Turn 1', () => {
     const s = exampleGame();
     act(s, { type: 'endPhase' });
     act(s, { type: 'endPhase' });
-    for (const id of ASSAULT.Sugar) s.units[id].where = { kind: 'map', hex: '2812' };
+    // Clear the British beaches (else 2711 sits in an Allied hex bond between Uncle and Roger).
+    for (const id of [...ASSAULT.Uncle, ...ASSAULT.Sugar, ...ASSAULT.Roger]) s.units[id].where = { kind: 'removed', reason: 'test' };
     place(s, 'GE-I64', '2811');
     expect(refused(s, { type: 'move', unitId: 'GE-I64', to: '2711', mode: 'tactical' })).toBe(false);
+    act(s, { type: 'move', unitId: 'GE-I64', to: '2711', mode: 'tactical' });
+    expect(s.units['GE-I64'].where).toEqual({ kind: 'map', hex: '2711' });
   });
 
   it('[24.4.1] on Turn 1 the Allies use only Tactical Movement and their only reinforcements are the Follow-Up Wave', () => {
@@ -268,7 +271,7 @@ describe('24 Turn 1', () => {
     act(s, { type: 'land', unitId: 'US-191', to: '2617' }); // next to II/79
     act(s, { type: 'land', unitId: 'BR-138', to: '2710' }); // Uncle, away from the Germans
     expect(s.units['BR-138'].halfEff).toBe(true);
-    expect([...new Set([...legalDestinations(s, 'BR-138')].map((r) => r.hexes))]).toEqual([1]);
+    expect([...new Set([...legalDestinations(s, 'BR-138', 'tactical').values()].map((r) => r.hexes))]).toEqual([1]); // one more hex
     act(s, { type: 'endPhase' });
     expect(s.units['US-191'].halfEff).toBe(true);
     expect(s.units['BR-138'].halfEff).toBe(false);
