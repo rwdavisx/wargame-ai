@@ -54,6 +54,8 @@ export interface MapViewProps {
   preview: { path: HexId[]; label?: string } | null;
   /** The computer is acting: the camera may follow its moves. */
   aiActive: boolean;
+  /** Told how long (ms) the animations of the latest change will play, so the computer can wait for them. */
+  onBusy?: (ms: number) => void;
   humanSides: Side[];
   onHexClick: (hex: HexId, e: { shift: boolean; touch: boolean }) => void;
   onHover: (hex: HexId | null) => void;
@@ -341,7 +343,7 @@ function PathPreview({ preview }: { preview: { path: HexId[]; label?: string } }
 // ------------------------------------------------------------------ effects
 
 type Effect =
-  | { id: number; kind: 'move'; unit: UnitState; pts: Pt[]; ms: number }
+  | { id: number; kind: 'move'; unit: UnitState; pts: Pt[]; ms: number; delay?: number }
   | { id: number; kind: 'boom'; at: Pt; big: boolean; ms: number }
   | { id: number; kind: 'float'; at: Pt; text: string; color: string; ms: number }
   | { id: number; kind: 'shot'; from: Pt; to: Pt; ms: number }
@@ -354,7 +356,8 @@ function MoveGhost({ e }: { e: Extract<Effect, { kind: 'move' }> }) {
     const el = ref.current;
     if (!el || !el.animate) return;
     const frames = e.pts.map(([x, y]) => ({ transform: `translate(${x}px, ${y}px)` }));
-    el.animate(frames, { duration: e.ms, easing: 'ease-in-out', fill: 'forwards' });
+    // A delayed move waits at its start hex (while the camera gets there).
+    el.animate(frames, { duration: e.ms, delay: e.delay ?? 0, easing: 'ease-in-out', fill: 'both' });
   }, [e]);
   const [x, y] = e.pts[0];
   return (
@@ -612,7 +615,8 @@ export function MapView(props: MapViewProps) {
         let path = state.trails?.[u.id] ?? [pw.hex, nw.hex];
         if (path[0] !== pw.hex) path = [pw.hex, ...path];
         if (path[path.length - 1] !== nw.hex) path = [...path, nw.hex];
-        const ms = (120 + 170 * (path.length - 1)) * speed;
+        // The computer's moves go at a pace the eye can follow.
+        const ms = (props.aiActive ? 260 + 280 * (path.length - 1) : 120 + 170 * (path.length - 1)) * speed;
         fx.push({ id: seq.current++, kind: 'move', unit: u, pts: path.map((h) => center(h)), ms });
         moving.add(u.id);
         moveSound = def(u.id).mech ? 'engine' : moveSound ?? 'march';
@@ -665,14 +669,47 @@ export function MapView(props: MapViewProps) {
       }
     }
     if (!fx.length) return;
-    if (boom) sfx.boom(boom > 1);
-    else if (moveSound === 'engine') sfx.engine();
-    else if (moveSound) sfx.march();
-    setEffects((e) => [...e, ...fx]);
+    // Follow the computer's actions when they happen off screen: the camera gets there first, then the action plays.
+    let lead = 0;
+    if (props.aiActive && settings.followAi) {
+      const first = fx.find((f) => f.kind === 'boom' || f.kind === 'move' || f.kind === 'ring');
+      if (first) {
+        const from = first.kind === 'move' ? first.pts[0] : (first as { at: Pt }).at;
+        const to = first.kind === 'move' ? first.pts[first.pts.length - 1] : from;
+        const v = vbRef.current;
+        const mx = v.w * 0.12;
+        const right = v.x + v.w - mx - 380 * (v.w / (svgRef.current?.clientWidth || 1));
+        const out = (p: Pt) => p[0] < v.x + mx || p[0] > right || p[1] < v.y + mx || p[1] > v.y + v.h - mx;
+        if (out(from) || out(to)) {
+          followed.current = true;
+          lead = Math.round(700 * speed);
+          // Frame the whole move when it fits, otherwise where it ends.
+          const fits = Math.abs(to[0] - from[0]) < v.w * 0.55 && Math.abs(to[1] - from[1]) < v.h * 0.6;
+          const at: Pt = fits ? [(from[0] + to[0]) / 2, (from[1] + to[1]) / 2] : to;
+          centerOn(at[0] + v.w * 0.08, at[1], lead);
+        }
+      }
+    }
+    const play = () => {
+      if (boom) sfx.boom(boom > 1);
+      else if (moveSound === 'engine') sfx.engine();
+      else if (moveSound) sfx.march();
+    };
+    if (lead) window.setTimeout(play, lead);
+    else play();
+    // Moves wait at their start; the other effects appear once the camera has arrived.
+    const moves = fx.filter((f) => f.kind === 'move').map((f) => ({ ...f, delay: lead }));
+    const rest = fx.filter((f) => f.kind !== 'move');
+    setEffects((e) => [...e, ...moves]);
+    if (rest.length) {
+      if (lead) window.setTimeout(() => setEffects((e) => [...e, ...rest]), lead);
+      else setEffects((e) => [...e, ...rest]);
+    }
     if (moving.size) {
       setAnimating((a) => new Set([...a, ...moving]));
     }
-    const maxMs = Math.max(...fx.map((f) => f.ms));
+    const maxMs = Math.max(...fx.map((f) => f.ms)) + lead;
+    props.onBusy?.(maxMs);
     const ids = new Set(fx.map((f) => f.id));
     window.setTimeout(() => {
       setEffects((e) => e.filter((f) => !ids.has(f.id)));
@@ -682,19 +719,6 @@ export function MapView(props: MapViewProps) {
         return n;
       });
     }, maxMs + 60);
-    // Follow the computer's actions when they happen off screen.
-    if (props.aiActive && settings.followAi) {
-      const first = fx.find((f) => f.kind === 'boom' || f.kind === 'move' || f.kind === 'ring');
-      if (first) {
-        const at = first.kind === 'move' ? first.pts[first.pts.length - 1] : (first as { at: Pt }).at;
-        const v = vbRef.current;
-        const mx = v.w * 0.12;
-        if (at[0] < v.x + mx || at[0] > v.x + v.w - mx - 380 * (v.w / (svgRef.current?.clientWidth || 1)) || at[1] < v.y + mx || at[1] > v.y + v.h - mx) {
-          followed.current = true;
-          centerOn(at[0] + v.w * 0.08, at[1], 500);
-        }
-      }
-    }
   }, [state]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // After the computer's turn, return the camera to where the player left it.

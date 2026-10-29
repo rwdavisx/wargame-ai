@@ -143,6 +143,11 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     [settings.controllers, settings.claudeApiKey, settings.claudeModel],
   );
 
+  // Until when the map is still playing the last change; the computer waits for it before its next action.
+  const busyUntil = useRef(0);
+  const onMapBusy = useCallback((ms: number) => {
+    busyUntil.current = Math.max(busyUntil.current, Date.now() + ms);
+  }, []);
   useEffect(() => {
     if (humanTurn || halted || game.phase === 'gameOver') return;
     let cancelled = false;
@@ -176,7 +181,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           setToast(`AI error: ${(e as Error).message}`);
         }
       }
-    }, settings.aiDelayMs);
+    }, settings.aiDelayMs + Math.max(0, busyUntil.current - Date.now()));
     return () => {
       cancelled = true;
       clearTimeout(timer);
@@ -799,6 +804,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         attackers={new Set([...attackers, ...advanceSel])}
         preview={preview}
         aiActive={!humanTurn}
+        onBusy={onMapBusy}
         humanSides={humanSides}
         onHexClick={(h, e) => onHexClick(h, e)}
         onCancel={() => cancelAll()}
