@@ -11,10 +11,10 @@ import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/typ
 import { canStack, def, goodOrder, hexOf, other, sideOf, supportNation, unitsAt, values } from '../engine/units';
 import { createHeuristicAi, type AiPlayer } from '../ai/heuristic';
 import { createClaudeAi } from '../ai/claude';
-import { MapView, type Highlight } from './MapView';
+import { MapView, type BattleMark, type Highlight } from './MapView';
 import { ActionBar, type AttackKind } from './ActionBar';
 import { Sidebar } from './Sidebar';
-import { BattleScreen, type PlannedAttack } from './combat/BattleScreen';
+import { BattleScreen, NO_INSET, type BattleInset, type PlannedAttack } from './combat/BattleScreen';
 import { CombatPopup, EventFeed, GameOverScreen, PauseMenu, PhaseBanner, TopBar, UnitCard } from './hud';
 import { lpCost } from '../engine/game';
 import { SettingsModal } from './SettingsModal';
@@ -28,6 +28,9 @@ import { movementAllowance } from '../engine/movement';
 
 export const dateOf = (turn: number) => `${8 + turn} September 1943`;
 
+// What the map shows of the player's own plans while a battle panel is open: nothing.
+const NO_HIGHLIGHTS = new Map<HexId, Highlight>();
+const NO_IDS = new Set<string>();
 const UNDOABLE = new Set(['move', 'enter', 'land', 'naval', 'changeArea', 'fullRetreat', 'replace', 'readyAsu', 'btMove', 'btDrop']);
 
 interface Props {
@@ -123,6 +126,18 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   useEffect(() => {
     if (!battle && viewing === null && candidate !== null) setViewing(candidate);
   }, [battle, viewing, candidate]);
+  // The battle panel docks beside the map: its battle is marked on the map and framed clear of the panel.
+  const [battleInset, setBattleInset] = useState<BattleInset>(NO_INSET);
+  const battleRep = viewerId !== null ? game.combats.find((c) => c.id === viewerId) ?? null : null;
+  const battleKey = battle ? `plan:${battle.target}` : battleRep ? `combat:${battleRep.id}` : null;
+  const battleMark = useRef<BattleMark | null>(null);
+  if (!battleKey) battleMark.current = null;
+  else if (battleMark.current?.key !== battleKey) {
+    // Where the attackers stood when the fight began (before any losses or advance).
+    const units = battle ? game.units : beforeCombat.current.get(battleRep!.id) ?? game.units;
+    const from = (battle ? battle.attackers : battleRep!.attackers).map((id) => (units[id] ? hexOf(units[id]) : null)).filter((h): h is HexId => !!h);
+    battleMark.current = { key: battleKey, target: battle ? battle.target : battleRep!.defenderHex, from: [...new Set(from)] };
+  }
   // The computer never acts under the battle screen, except to answer the defense decision it is shown making.
   const halted = paused || menu !== 'none' || (viewerOpen && (aiGate === null || aiGate !== game.pendingDefense?.combatId));
 
@@ -437,6 +452,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       highlights.get(hex)?.kind === 'attack' && unitsAt(game, hex).some((u) => sideOf(u) !== game.activeSide);
   };
   const onHexClick = (hex: HexId, e?: { touch: boolean }) => {
+    if (viewerOpen) return; // with a battle open the map only pans and zooms
     // With right-click controls a mouse left-click on the map only selects and inspects.
     const inspect = rightClick && !!e && !e.touch;
     const clickAct0 = clickActions.get(hex);
@@ -502,11 +518,12 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   };
   // Mouse right-click (right-click controls): act on a destination or an enemy in reach, otherwise back out.
   const onHexRightClick = (hex: HexId) => {
+    if (viewerOpen) return;
     if (humanTurn && !editorOn && (clickActions.has(hex) || attackableAt(hex))) onHexClick(hex);
     else cancelAll();
   };
   // The selected unit's own hex reads as a unit to select, not as a destination.
-  const hoverCursor = !hover || touch || !humanTurn || editorOn ? undefined
+  const hoverCursor = !hover || touch || !humanTurn || editorOn || viewerOpen ? undefined
     : clickActions.has(hover) && !(selUnit?.where.kind === 'map' && selUnit.where.hex === hover) ? 'move'
       : attackableAt(hover) ? 'crosshair'
         : unitsAt(game, hover).some((u) => sideOf(u) === game.activeSide) ? 'pointer' : undefined;
@@ -538,9 +555,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     }
     const hl = highlights.get(hover);
     const act = touch ? 'Tap' : rightClick ? 'Right-click' : 'Click';
-    if (hl?.kind === 'attack' && humanTurn) lines.push(attackTarget === hover ? `${act} again to attack` : `${act} to plan an attack`);
+    if (hl?.kind === 'attack' && humanTurn && !viewerOpen) lines.push(attackTarget === hover ? `${act} again to attack` : `${act} to plan an attack`);
     return lines.join('\n');
-  }, [hover, game, highlights, humanTurn, touch, rightClick, attackTarget, selUnit]);
+  }, [hover, game, highlights, humanTurn, touch, rightClick, attackTarget, selUnit, viewerOpen]);
 
   // ---------------------------------------------------------------- the action bar
   const side = game.activeSide;
@@ -786,27 +803,29 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const showDefense = viewerOpen;
 
   return (
-    <div className={`game${panelOpen ? ' panel-open' : ' panel-closed'}`}>
+    <div className={`game${panelOpen ? ' panel-open' : ' panel-closed'}${viewerOpen ? ' battle-open' : ''}`}>
       <MapView
         state={game}
         terrain={terrain}
         version={mapVersion}
         settings={settings}
-        highlights={highlights}
-        selectedHex={selectedHex}
+        highlights={viewerOpen ? NO_HIGHLIGHTS : highlights}
+        selectedHex={viewerOpen ? null : selectedHex}
         selectedUnitId={selectedUnit}
-        attackTarget={attackTarget}
-        attackers={new Set([...attackers, ...advanceSel])}
-        preview={preview}
+        attackTarget={viewerOpen ? null : attackTarget}
+        attackers={viewerOpen ? NO_IDS : new Set([...attackers, ...advanceSel])}
+        preview={viewerOpen ? null : preview}
+        battle={battleMark.current}
+        viewInset={battleInset}
         aiActive={!humanTurn}
         humanSides={humanSides}
         onHexClick={(h, e) => onHexClick(h, e)}
-        onCancel={() => cancelAll()}
+        onCancel={() => !viewerOpen && cancelAll()}
         onHexRightClick={rightClick ? onHexRightClick : undefined}
         cursor={hoverCursor}
         focus={focus}
         onHover={setHover}
-        hoverText={touch && attackTarget ? null : hoverText}
+        hoverText={touch && attackTarget && !viewerOpen ? null : hoverText}
         qol={qol.map}
       />
       <TopBar game={game} settings={settings} setSettings={setSettings} humanTurn={humanTurn} acting={acting}
@@ -892,7 +911,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       {viewerOpen && (
         <BattleScreen key={battle ? 'plan' : `combat-${viewerId}`} game={game} settings={settings} humanSides={humanSides} plan={battle} combatId={viewerId}
           startAt={stepCombats ? 'intro' : 'decide'} before={viewerId !== null ? beforeCombat.current.get(viewerId) : undefined}
-          onRoll={rollAttack} dispatch={dispatch} onAiGate={setAiGate} quick={!stepCombats}
+          onRoll={rollAttack} dispatch={dispatch} onAiGate={setAiGate} quick={!stepCombats} onFootprint={setBattleInset}
           onClose={(id) => {
             setBattle(null);
             setViewing(null);

@@ -68,7 +68,14 @@ export interface MapViewProps {
   hoverText: string | null;
   /** Ready cues, odds on targets and the map mode (see qol.ts). */
   qol?: QolMapProps;
+  /** The battle the battle panel is showing: its hex and the attackers' hexes are marked and framed. */
+  battle?: BattleMark | null;
+  /** Screen pixels the battle panel covers on the right and along the bottom, kept clear when framing. */
+  viewInset?: { right: number; bottom: number };
 }
+
+/** A battle to mark on the map; a new `key` frames it again. */
+export interface BattleMark { key: string; target: HexId; from: HexId[] }
 
 const NO_MARKERS: Marker[] = [];
 
@@ -294,6 +301,24 @@ function Regions({ highlights }: { highlights: Map<HexId, Highlight> }) {
           </g>
         );
       })}
+    </g>
+  );
+}
+
+/** The battle on the map: the attackers' hexes, arrows into the target and the target itself. */
+function BattleMarks({ battle }: { battle: BattleMark }) {
+  const [tx, ty] = center(battle.target);
+  return (
+    <g className="battle-marks">
+      {battle.from.filter((h) => h !== battle.target).map((h) => (
+        <polygon key={h} points={polyPoints(h, R - 2)} fill="rgba(255, 210, 122, 0.12)" stroke="#ffd27a" strokeWidth={2} strokeDasharray="5 3" />
+      ))}
+      {battle.from.filter((h) => h !== battle.target).map((h) => <Arrow key={`a${h}`} from={center(h)} to={[tx, ty]} color="#ef5a3c" width={3.4} />)}
+      <polygon points={polyPoints(battle.target, R - 1.5)} fill="rgba(239, 90, 60, 0.2)" stroke="#ef5a3c" strokeWidth={3.2} />
+      <g transform={`translate(${tx} ${ty})`}>
+        <circle r={25} fill="none" stroke="#ffd27a" strokeWidth={2.4} className="target-ring" />
+        <path d="M-30,0 h9 M21,0 h9 M0,-30 v9 M0,21 v9" stroke="#ffd27a" strokeWidth={2.6} />
+      </g>
     </g>
   );
 }
@@ -548,6 +573,38 @@ export function MapView(props: MapViewProps) {
     const inView = x > v.x + v.w * 0.2 && x < v.x + v.w * 0.8 && y > v.y + v.h * 0.25 && y < v.y + v.h * 0.55;
     if (!inView) centerOn(x, y + v.h * 0.1, 380);
   }, [focusN]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // A battle opens: put its hex in the middle of the part of the map the panel leaves in view.
+  // The panel reports its size just after it opens, so a change right after the first framing frames again.
+  const battleKey = props.battle?.key ?? null;
+  const insetR = props.viewInset?.right ?? 0;
+  const insetB = props.viewInset?.bottom ?? 0;
+  const framed = useRef<{ key: string; t: number } | null>(null);
+  useEffect(() => {
+    const bt = props.battle;
+    const el = svgRef.current;
+    if (!bt) {
+      framed.current = null;
+      return;
+    }
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    const v = vbRef.current;
+    const k = v.w / r.width;
+    const top = Math.min(56, r.height * 0.1); // under the top bar
+    const visW = Math.max(120, r.width - insetR);
+    const visH = Math.max(120, r.height - insetB - top);
+    const [x, y] = center(bt.target);
+    const sx = (x - v.x) / k;
+    const sy = (y - v.y) / k;
+    const fresh = framed.current?.key !== bt.key;
+    const recent = !fresh && performance.now() - framed.current!.t < 1500;
+    const inside = sx > visW * 0.15 && sx < visW * 0.85 && sy > top + visH * 0.15 && sy < top + visH * 0.85;
+    if (!fresh && !recent && inside) return;
+    if (fresh) framed.current = { key: bt.key, t: performance.now() };
+    flyTo({ ...v, x: x - (visW / 2) * k, y: y - (top + visH / 2) * k }, 450);
+  }, [battleKey, insetR, insetB]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const zoomBy = useCallback(
     (f: number, at?: { x: number; y: number }) => {
@@ -898,6 +955,7 @@ export function MapView(props: MapViewProps) {
         {props.preview && <PathPreview preview={props.preview} />}
         <g pointerEvents="none">
           {attackArrows.map((a, i) => <Arrow key={i} from={a.from} to={a.to} color="#ef5a3c" />)}
+          {props.battle && <BattleMarks battle={props.battle} />}
           {selectedHex && <polygon points={polyPoints(selectedHex, R - 1.5)} fill="none" stroke="#ffd84a" strokeWidth={2.4} className="sel-hex" />}
           {attackTarget && (
             <g transform={`translate(${center(attackTarget)[0]} ${center(attackTarget)[1]})`}>

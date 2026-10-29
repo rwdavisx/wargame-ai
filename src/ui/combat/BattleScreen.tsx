@@ -1,8 +1,10 @@
-// The battle screen: every combat the player takes part in, one step at a time.
+// The battle panel: every combat the player takes part in, one step at a time.
+// It docks beside the map (on the right, or as a bottom sheet on a phone held
+// upright) so the battlefield stays in view, and folds down to a slim strip.
 // The odds and the six possible outcomes, the die, the result in plain words,
 // the defender's choice (retreat or a Determined Defense), its roll, and what
 // the fight cost each side. Nothing moves on until the player says so.
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { OddsInfo } from '../../engine/combat';
 import type { HexId } from '../../engine/hex';
 import type { Action, CombatReport, GameState, PendingDefense, Side, UnitState } from '../../engine/types';
@@ -46,7 +48,16 @@ interface Props {
   onAiGate: (combatId: number | null) => void;
   onClose: (combatId: number | null) => void;
   quick?: boolean;
+  /** How much of the map the panel covers, in screen pixels (for the camera). */
+  onFootprint?: (inset: BattleInset) => void;
 }
+
+/** The part of the screen the battle panel covers: a band on the right, or along the bottom. */
+export interface BattleInset { right: number; bottom: number }
+export const NO_INSET: BattleInset = { right: 0, bottom: 0 };
+
+/** Keys that move the map camera; they pass through to the map while the panel is open. */
+const CAMERA_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'w', 'a', 's', 'd', 'W', 'A', 'S', 'D', '+', '=', '-', '_']);
 
 const KIND_TONE: Record<string, string> = { hold: 'hold', holdLoss: 'holdloss', partial: 'partial', delay: 'delay', fail: 'fail' };
 
@@ -66,6 +77,8 @@ export function BattleScreen(p: Props) {
   const [prefer, setPrefer] = useState<'hold' | 'delay'>('hold');
   const [delay, setDelay] = useState(1);
   const [confirmRetreat, setConfirmRetreat] = useState(false);
+  // Folded down to a strip to look at the map (for this battle only).
+  const [collapsed, setCollapsed] = useState(false);
   const changed = useRef(Date.now());
   const setStep = (s: Step) => {
     changed.current = Date.now();
@@ -271,7 +284,14 @@ export function BattleScreen(p: Props) {
     const onKey = (e: KeyboardEvent) => {
       const k = keyRef.current;
       const t = e.target as HTMLElement | null;
+      // The map camera keys (arrows, WASD, +/-) still pan and zoom; nothing else reaches the game underneath.
+      if (!e.ctrlKey && !e.metaKey && !e.altKey && CAMERA_KEYS.has(e.key)) return;
       e.stopPropagation(); // the map and the action bar must not react underneath
+      if ((e.key === 'v' || e.key === 'V') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        setCollapsed((c) => !c);
+        return;
+      }
       if (e.key === 'Escape') {
         e.preventDefault();
         if (k.step === 'ready' || k.step === 'ddReady') k.secondary?.run();
@@ -289,27 +309,73 @@ export function BattleScreen(p: Props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (step !== 'decide') primaryRef.current?.focus({ preventScroll: true });
-  }, [step]);
+  }, [step, collapsed]);
+
+  // ---------------------------------------------------------------- the panel's footprint, for the camera
+  const dockRef = useRef<HTMLDivElement>(null);
+  const footprint = useRef(p.onFootprint);
+  footprint.current = p.onFootprint;
+  useLayoutEffect(() => {
+    const el = dockRef.current;
+    if (!el) return;
+    const measure = () => {
+      // offset* ignore the slide-in transform. Tall and to the right: a side panel; full width: a bottom sheet; else a strip.
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const side = el.offsetHeight > H * 0.6 && el.offsetLeft > W * 0.2;
+      const sheet = !side && el.offsetLeft < 8 && el.offsetWidth > W * 0.9;
+      footprint.current?.({ right: side ? Math.max(0, W - el.offsetLeft) : 0, bottom: sheet ? Math.max(0, H - el.offsetTop) : 0 });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    window.addEventListener('resize', measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [collapsed]);
+  useEffect(() => () => footprint.current?.(NO_INSET), []);
 
   // ---------------------------------------------------------------- render
   const pills = ['Odds', 'Roll', 'Result', ...(pdSnap || pending ? ['Defense', 'Outcome'] : [])];
   const pillAt = { ready: 0, intro: 0, rolling: 1, result: 2, deciding: 3, aiChoice: 3, decide: 3, ddReady: 3, ddRolling: 3, ddResult: 4, retreated: 4 }[step];
   const ddStage = step === 'ddReady' || step === 'ddRolling' || step === 'ddResult' || (step === 'aiChoice' && !!rep?.dd);
-  const dieSize = 74;
+  const dieSize = 64;
+  // What the folded strip says about where the battle stands.
+  const stripStep = shown && rep && (step === 'result' || step === 'decide')
+    ? resultTitle(rep.result)
+    : step === 'ddResult' && rep?.dd ? `Stand: ${rep.dd.result}`
+      : step === 'deciding' ? 'Deciding…'
+        : step === 'aiChoice' ? (rep?.dd ? 'They stand' : 'They fall back')
+          : step === 'retreated' ? 'You fall back'
+            : step === 'ready' || step === 'intro' ? `${noDie ? 'Odds' : finalCol} · ${attack} v ${defense}` : pills[pillAt];
+  // Folded, the strip still carries the step's button; at the decision it opens the choices.
+  const stripPrimary: Btn | null = collapsed && !primary && step === 'decide' ? { label: 'Choose ▴', run: () => setCollapsed(false) } : primary;
+  const toggle = () => setCollapsed((c) => !c);
 
   return (
-    <div className={`cbx-back ${attSide === 'Allied' ? 'att-allied' : 'att-german'}`}>
-      <div className="cbx" role="dialog" aria-modal="true" aria-label={`${kind} on ${place}`}>
+    <div ref={dockRef} className={`cbx-dock ${attSide === 'Allied' ? 'att-allied' : 'att-german'}${collapsed ? ' collapsed' : ''}`}>
+      <div className="cbx" role="dialog" aria-modal="false" aria-label={`${kind} on ${place}`}>
         <header className="cbx-head">
           <div className="cbx-kicker">
             {mineAtt ? 'Your ' : mineDef ? `${sideAdj(attSide)} ` : `${sideAdj(attSide)} `}{kind.toLowerCase()}{mineDef ? ' on your units' : ''} · day {rep?.turn ?? game.turn}
           </div>
           <h2 className="cbx-title">{place}</h2>
-          <ol className="cbx-pills">
-            {pills.map((label, i) => <li key={label} className={i === pillAt ? 'on' : i < pillAt ? 'done' : ''}>{label}</li>)}
-          </ol>
+          {collapsed ? (
+            <div className="cbx-strip-step">{pills[pillAt]}<span> · {stripStep}</span></div>
+          ) : (
+            <ol className="cbx-pills">
+              {pills.map((label, i) => <li key={label} className={i === pillAt ? 'on' : i < pillAt ? 'done' : ''}>{label}</li>)}
+            </ol>
+          )}
+          <button className="cbx-fold" onClick={toggle} aria-expanded={!collapsed} title={collapsed ? 'Show the battle (V)' : 'Fold the panel to see the map (V)'}>
+            {collapsed ? <>▴<span> Battle</span></> : <>▾<span> Map</span></>}
+          </button>
         </header>
 
+        {/* Folded, the body stays mounted (a throw in progress must land) and only the die shows, in the strip. */}
+        <div className="cbx-body">
         <section className="cbx-field">
           <Force side={attSide} role={mineAtt ? 'Your attack' : 'Attacker'} ids={attackers} strength={attack} label="attack" game={game} before={before} />
           <div className="cbx-center">
@@ -463,14 +529,16 @@ export function BattleScreen(p: Props) {
             </div>
           )}
         </section>
+        </div>
 
-        {(primary || secondary) && (
+        {(stripPrimary || secondary) && (
           <footer className="cbx-actions">
-            {secondary && <button className="cbx-secondary" onClick={() => secondary!.run()}>{secondary.label}</button>}
-            {primary && (
-              <button ref={primaryRef} className={`primary cbx-primary${step === 'ready' ? ' roll' : ''}`} disabled={primary.disabled} onClick={() => press(primary)}>
-                {(step === 'ready' && !noDie) || step === 'ddReady' ? <><Pips n={5} size={22} /> {primary.label}</> : primary.label}
-                <kbd>{step === 'ready' || step === 'ddReady' ? 'Space' : 'Enter'}</kbd>
+            {secondary && !collapsed && <button className="cbx-secondary" onClick={() => secondary!.run()}>{secondary.label}</button>}
+            {stripPrimary && (
+              <button ref={primaryRef} className={`primary cbx-primary${step === 'ready' ? ' roll' : ''}`} disabled={stripPrimary.disabled}
+                onClick={() => (stripPrimary === primary ? press(primary) : stripPrimary.run())}>
+                {(step === 'ready' && !noDie) || step === 'ddReady' ? <><Pips n={5} size={20} /> {stripPrimary.label}</> : stripPrimary.label}
+                {stripPrimary === primary && <kbd>{step === 'ready' || step === 'ddReady' ? 'Space' : 'Enter'}</kbd>}
               </button>
             )}
           </footer>
@@ -505,7 +573,7 @@ function Force({ side, role, ids, strength, label, note, game, before }: {
           const gone = u.where.kind !== 'map' && u.where.kind !== 'entry';
           return (
             <span key={id} className={`cbx-unit${gone ? ' gone' : ''}`} title={`${def(id).name}${gone ? ' (destroyed)' : ''}`}>
-              <TokenIcon unit={u} size={52} />
+              <TokenIcon unit={u} size={ids.length > 4 ? 30 : 38} />
             </span>
           );
         })}
@@ -543,7 +611,7 @@ function Outcomes({ faces, drm, lit, pick, onPick, att, dfn, compact }: {
         {faces.map((f) => (
           <button key={f.face} role="listitem" className={`cbx-face tone-${resultTone(f.key)}${lit === f.face ? ' lit' : ''}${lit && lit !== f.face ? ' dim' : ''}${pick === f.face ? ' pick' : ''}`}
             onClick={() => onPick(pick === f.face ? null : f.face)} title={`${RESULT_TITLE[f.key] ?? f.key}: ${explainResult(f.key, att, dfn)}`} tabIndex={compact ? -1 : 0}>
-            <Pips n={f.face} size={compact ? 18 : 24} />
+            <Pips n={f.face} size={compact ? 16 : 20} />
             <b>{f.key}</b>
             {!compact && <span className="cbx-face-name">{RESULT_TITLE[f.key] ?? ''}</span>}
             <span className="cbx-face-flags">
@@ -576,7 +644,7 @@ export function DdBar({ faces, lit, legend, mine = true }: { faces: DdFace[]; li
       <div className="dd-bar" role="list">
         {faces.map((f) => (
           <div key={f.face} role="listitem" className={`dd-seg ${KIND_TONE[f.kind]}${lit === f.face ? ' lit' : ''}${lit && lit !== f.face ? ' dim' : ''}`} title={`${f.face}: ${f.title}. ${f.detail}`}>
-            <Pips n={f.face} size={18} />
+            <Pips n={f.face} size={16} />
             <b>{DD_KIND_LABEL[f.kind]}</b>
             {f.choice && <i>{mine ? 'your' : 'their'} pick</i>}
           </div>
@@ -740,7 +808,7 @@ function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameSta
           if (!u) return null;
           return (
             <li key={id} className={att ? 'att' : 'def'}>
-              <TokenIcon unit={u} size={34} />
+              <TokenIcon unit={u} size={28} />
               <span className="cbx-fate-name">{def(id).name}</span>
               <span className="cbx-fate-tags">{fate(id, att).map((t) => <i key={t.text} className={t.tone}>{t.text}</i>)}</span>
             </li>
