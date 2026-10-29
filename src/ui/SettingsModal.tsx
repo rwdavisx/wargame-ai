@@ -1,5 +1,7 @@
 // Settings dialog: players, computer opponents, pacing, display and sound.
 import type { Side } from '../engine/types';
+import { useRef, useState, useSyncExternalStore } from 'react';
+import { addMusicFiles, musicState, next as nextTrack, removeMusicTrack, subscribeMusic } from './music';
 import { setSound, sfx } from './sound';
 import type { Controller, MouseControls, Settings } from './storage';
 
@@ -113,6 +115,7 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, edito
               <input type="range" min={0} max={1} step={0.05} value={s.volume} onChange={(e) => { set({ volume: Number(e.target.value) }); setSound(s.sound, Number(e.target.value)); }}
                 onPointerUp={() => sfx.select()} />
             </label>
+            <MusicSettings settings={s} set={set} />
             {inGame && setEditorOn && (
               <>
                 <h3>Map</h3>
@@ -124,5 +127,63 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, edito
         </div>
       </div>
     </div>
+  );
+}
+
+/** Music: on or off, its own volume, what is playing, and the player's own tracks. */
+function MusicSettings({ settings: s, set }: { settings: Settings; set: (p: Partial<Settings>) => void }) {
+  const m = useSyncExternalStore(subscribeMusic, musicState);
+  const file = useRef<HTMLInputElement>(null);
+  const [note, setNote] = useState('');
+  const mine = m.tracks.filter((t) => t.mine);
+  const bundled = m.tracks.filter((t) => !t.mine);
+  return (
+    <>
+      <h3>Music</h3>
+      <label className="check">
+        <input type="checkbox" checked={s.music} onChange={(e) => set({ music: e.target.checked })} /> Background music
+      </label>
+      <label className="field">
+        <span>Music volume</span>
+        <input type="range" min={0} max={1} step={0.05} value={s.musicVolume} disabled={!s.music} onChange={(e) => set({ musicVolume: Number(e.target.value) })} />
+      </label>
+      {m.tracks.length ? (
+        <div className="music-now">
+          <span>{m.loading ? 'Loading…' : m.current ? <>Now playing: <b>{m.current.title}</b></> : s.music ? 'Starts with your next click' : 'Music is off'}</span>
+          <button disabled={!s.music || m.tracks.length < 2} onClick={() => void nextTrack()} title="Next track">Next ▶▶</button>
+        </div>
+      ) : (
+        <p className="hint">No music yet. Add some of your own below.</p>
+      )}
+      <div className="music-add">
+        <button onClick={() => file.current?.click()}>Add music files…</button>
+        <input ref={file} type="file" accept="audio/*,.ogg,.mp3,.m4a,.opus,.wav,.flac" multiple hidden
+          onChange={(e) => {
+            const f = e.target.files;
+            if (!f?.length) return;
+            setNote('Adding…');
+            void addMusicFiles(f).then((n) => setNote(n ? `Added ${n} track${n > 1 ? 's' : ''}.` : 'Those files are not music the browser can play.'));
+            e.target.value = '';
+          }} />
+        {note && <span className="hint">{note}</span>}
+      </div>
+      {mine.length > 0 && (
+        <ul className="music-list">
+          {mine.map((t) => (
+            <li key={t.id} className={m.current?.id === t.id ? 'on' : ''}>
+              <span>{t.title}</span>
+              <button className="close" title="Remove" onClick={() => void removeMusicTrack(t.id)}>✕</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {bundled.some((t) => t.credit) && (
+        <details className="music-credits">
+          <summary>Music credits</summary>
+          <ul>{bundled.map((t) => <li key={t.id}><b>{t.title}</b>{t.credit ? ` · ${t.credit}` : ''}</li>)}</ul>
+        </details>
+      )}
+      <p className="hint">Your own tracks stay in this browser.</p>
+    </>
   );
 }

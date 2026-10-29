@@ -95,7 +95,7 @@ With a mouse, "right-click" below means the default controls; with **Left-click 
 
 ### Settings
 
-Open from the title screen or the top bar: who commands each side, the Claude key and model, computer speed, animation speed, how combat is shown (step through it and roll, or quick result), camera follow, each side's standing order for defensive air support, grid, place names and unit cues, mouse controls (right-click to move and attack, or left-click does everything), sound and volume, and (in game) the map editor.
+Open from the title screen or the top bar: who commands each side, the Claude key and model, computer speed, animation speed, how combat is shown (step through it and roll, or quick result), camera follow, each side's standing order for defensive air support, grid, place names and unit cues, mouse controls (right-click to move and attack, or left-click does everything), sound and volume, background music (on or off, its own volume, next track, and **Add music files…** to play your own tracks, kept in your browser), and (in game) the map editor. Music files placed in `music/` are bundled with the game (see `music/README.md` for what may go there and how to credit it).
 
 ## The AI opponents
 

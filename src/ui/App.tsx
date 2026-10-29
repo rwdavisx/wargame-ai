@@ -7,6 +7,7 @@ import { renderTerrain, type TerrainImage } from './render/terrain';
 import { TokenDefs } from './render/units';
 import { BriefingScreen, HowToPlay, LoadingScreen, NewGameScreen, TitleScreen } from './screens';
 import { SettingsModal } from './SettingsModal';
+import { initMusic, setMusic } from './music';
 import { setSound } from './sound';
 import { autosave, hasAutosave, loadAutosave, loadSettings, saveSettings, type Settings } from './storage';
 
@@ -28,6 +29,8 @@ export default function App() {
     saveSettings(s);
   };
   useEffect(() => setSound(settings.sound, settings.volume), [settings.sound, settings.volume]);
+  useEffect(() => initMusic(), []);
+  useEffect(() => setMusic(settings.music, settings.musicVolume), [settings.music, settings.musicVolume]);
   useEffect(() => {
     if (screen === 'game') autosave(game);
   }, [game, screen]);

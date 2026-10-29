@@ -29,6 +29,9 @@ export interface Settings {
   showUnits: boolean;
   showMarkers: boolean;
   showHexIds: boolean;
+  /** Background music on or off, and its volume (0..1), separate from the sound effects. */
+  music: boolean;
+  musicVolume: number;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -54,6 +57,8 @@ export const DEFAULT_SETTINGS: Settings = {
   showUnits: true,
   showMarkers: true,
   showHexIds: false,
+  music: true,
+  musicVolume: 0.35,
 };
 
 export function hasAutosave(): boolean {
