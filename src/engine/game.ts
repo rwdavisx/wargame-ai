@@ -1,4 +1,4 @@
-import { MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP, WITHDRAWAL, BATTLESHIPS_TURN } from './data';
+import { MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import {
   applyAdvance, computeOdds, resolveAttack, resolveDefense, resolveDisengage, advanceDestinations,
@@ -100,6 +100,16 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
     winner: null, northVp: {}, abandoned8th: false, seq: 0, options: { ...options },
   };
   if (rolls) s.forcedRolls = [...rolls];
+  if (options.optionalStart) {
+    // S1.4: the Allies are already ashore (Allied At Start card, back); play opens with the German player turn.
+    for (const [id, hex] of Object.entries(OPTIONAL_START.hexes)) s.units[id].where = { kind: 'map', hex };
+    for (const id of OPTIONAL_START.eliminated) s.units[id].where = { kind: 'eliminated' };
+    for (const [id, hex] of Object.entries(OPTIONAL_START.hexes)) if (sideOf(s.units[id]) === 'Allied') claimHex(s, hex, 'Allied');
+    s.log = [];
+    log(s, `${sc.name} begins with the Allies already ashore (optional start).`);
+    advancePhase(s);
+    return s;
+  }
   log(s, phaseTitle(1, 'Allied', 'invasion'), 'phase');
   log(s, `${sc.name} begins. ${RULES.turnNotes[1] ?? ''}`.trim());
   runInvasion(s);
@@ -299,8 +309,9 @@ function doInitial(s: GameState): void {
     if (sideOf(u) !== side) continue;
     if (u.where.kind === 'pending' && u.where.turn <= s.turn) {
       const at = u.where.at;
+      // 'hex:3303' is the 2/509th's old code in saved games; it drops anywhere in the 5th Army sector (21.6.1).
       u.where = at === 'reserve' ? { kind: 'reserve' } : { kind: 'entry', area: at === 'hex:3303' ? 'airdrop509' : at };
-      const key = at.startsWith('hex') || at === 'airdrop' ? 'airdrop' : at;
+      const key = at.startsWith('hex') || at.startsWith('airdrop') ? 'airdrop' : at;
       arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
     }
     if (u.frozenUntil && s.turn >= u.frozenUntil) {

@@ -262,6 +262,8 @@ export interface GameOptions {
   recon?: boolean;
   limitedPortSupply?: boolean;
   /** Sides whose player picks retreat destinations (human players). */
+  /** S1.4 tournament start: skip the invasion; the Allies start ashore and play begins with the German player turn. */
+  optionalStart?: boolean;
   chooseRetreats?: Side[];
   /** When each side commits its air support to defense: automatically, whenever possible, or never. */
   defensiveAir?: Partial<Record<Side, 'auto' | 'always' | 'never'>>;

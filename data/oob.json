@@ -79,7 +79,7 @@
     { "id": "BR-40RTR", "name": "40 RTR", "side": "Allied", "nation": "BR", "formation": "23 Armd Bde", "cat": "tank", "a": 3, "d": 2, "m": 5, "sp": 1, "back": "none", "tr": 3, "start": { "beach": "Uncle" } },
     { "id": "BR-BH35", "name": "35 Beach Group", "side": "Allied", "nation": "BR", "formation": "X Corps", "cat": "bh", "a": 0, "d": 2, "m": 0, "sp": 0, "back": "none", "start": { "beach": "Uncle" } },
     { "id": "BR-169", "name": "169 Bde (-)", "side": "Allied", "nation": "BR", "formation": "56 Div", "cat": "infantry", "a": 3, "d": 5, "m": 3, "sp": 2, "back": "1-3-3", "backSp": 1, "remnant": "CW", "start": { "beach": "Sugar" } },
-    { "id": "BR-2-5Q", "name": "2/5 Queen's", "side": "Allied", "nation": "BR", "formation": "56 Div", "cat": "infantry", "a": 2, "d": 2, "m": 3, "sp": 1, "back": "none", "start": { "beach": "Sugar" } },
+    { "id": "BR-2-5Q", "name": "2/6 Queen's", "side": "Allied", "nation": "BR", "formation": "56 Div", "cat": "infantry", "a": 2, "d": 2, "m": 3, "sp": 1, "back": "none", "start": { "beach": "Sugar" } },
     { "id": "BR-167", "name": "167 Bde (-)", "side": "Allied", "nation": "BR", "formation": "56 Div", "cat": "infantry", "a": 3, "d": 5, "m": 3, "sp": 2, "back": "1-3-3", "backSp": 1, "remnant": "CW", "start": { "beach": "Roger" } },
     { "id": "BR-7OB", "name": "7 Ox & Bucks", "side": "Allied", "nation": "BR", "formation": "56 Div", "cat": "infantry", "a": 2, "d": 2, "m": 3, "sp": 1, "back": "none", "start": { "beach": "Roger" } },
     { "id": "BR-Greys", "name": "Royal Scots Greys", "side": "Allied", "nation": "BR", "formation": "X Corps", "cat": "tank", "a": 3, "d": 2, "m": 5, "sp": 1, "back": "none", "tr": 3, "start": { "beach": "Roger" } },
@@ -124,7 +124,7 @@
     { "id": "US-504", "name": "504 PIR (-)", "side": "Allied", "nation": "US", "formation": "82 Abn Div", "cat": "airborne", "a": 3, "d": 4, "m": 3, "sp": 2, "back": "1-3-3", "backSp": 1, "elite": true, "remnant": "US-REM-82", "arrive": { "turn": 5, "at": "airdrop" } },
     { "id": "US-180", "name": "180 RCT", "side": "Allied", "nation": "US", "formation": "45 Inf Div", "cat": "infantry", "a": 6, "d": 6, "m": 3, "sp": 3, "back": "4-4-3", "backSp": 2, "remnant": "US", "arrive": { "turn": 6, "at": "reserve" } },
     { "id": "US-505", "name": "505 PIR", "side": "Allied", "nation": "US", "formation": "82 Abn Div", "cat": "airborne", "a": 5, "d": 6, "m": 3, "sp": 3, "back": "3-4-3", "backSp": 2, "elite": true, "remnant": "US-REM-82", "arrive": { "turn": 6, "at": "airdrop" } },
-    { "id": "US-2-509", "name": "2/509 PIB", "side": "Allied", "nation": "US", "formation": "82 Abn Div", "cat": "airborne", "a": 2, "d": 2, "m": 3, "sp": 1, "back": "none", "elite": true, "arrive": { "turn": 6, "at": "hex:3303" } },
+    { "id": "US-2-509", "name": "2/509 PIB", "side": "Allied", "nation": "US", "formation": "82 Abn Div", "cat": "airborne", "a": 2, "d": 2, "m": 3, "sp": 1, "back": "none", "elite": true, "arrive": { "turn": 6, "at": "airdrop509" } },
     { "id": "US-2-157", "name": "2/157", "side": "Allied", "nation": "US", "formation": "45 Inf Div", "cat": "infantry", "a": 2, "d": 2, "m": 3, "sp": 1, "back": "none", "arrive": { "turn": 7, "at": "reserve" } },
     { "id": "BR-131", "name": "131 Bde", "side": "Allied", "nation": "BR", "formation": "7 Armd Div", "cat": "motorized", "a": 5, "d": 7, "m": 5, "sp": 3, "back": "3-5-5", "backSp": 2, "arrive": { "turn": 7, "at": "reserve" } },
     { "id": "US-325", "name": "325 GIR", "side": "Allied", "nation": "US", "formation": "82 Abn Div", "cat": "glider", "a": 5, "d": 6, "m": 3, "sp": 3, "back": "3-4-3", "backSp": 2, "elite": true, "remnant": "US-REM-82", "arrive": { "turn": 8, "at": "reserve" } },
@@ -162,6 +162,19 @@
   },
   "startingSupplyPoints": { "German": 3, "Allied": 0 },
   "withdrawal": { "turn": 14, "side": "German", "defense": 12, "prefer": "16 Pz" },
+  "optionalStart": {
+    "_note": "Rule S1.4 (tournament start), from the back of the Allied At Start card: the game begins with the German Player Turn of Turn 1, the assault units already ashore at these hexes. The German side of that start is not on the photographed card; the engine keeps the normal German set-up minus Garrison C, whose hex (Salerno) the Commandos hold.",
+    "hexes": {
+      "US-1Rgr": "2406", "US-3Rgr": "2406", "US-4Rgr": "2407",
+      "BR-2Cdo": "2707", "BR-41Cdo": "2707",
+      "BR-128": "2710", "BR-5H": "2710", "BR-40RTR": "2710", "BR-BH35": "2710",
+      "BR-169": "2811", "BR-2-5Q": "2811",
+      "BR-167": "2813", "BR-Greys": "2813", "BR-7OB": "2712", "BR-BH21": "2712",
+      "US-142": "2715", "US-1-142": "2616", "US-BH531R": "2616",
+      "US-141": "2717", "US-2-141": "2617", "US-BH531B": "2617"
+    },
+    "eliminated": ["GE-GarC"]
+  },
   "scenarios": {
     "campaign": { "name": "Campaign Game", "lastTurn": 22, "description": "The full campaign, 9 to 30 September 1943." },
     "short": { "name": "Avalanche Scenario", "lastTurn": 8, "description": "The landings and the German counterattacks, 9 to 16 September 1943." }

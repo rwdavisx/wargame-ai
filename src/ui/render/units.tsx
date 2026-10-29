@@ -92,7 +92,7 @@ const DIV_TAG: Record<string, string> = {
   '5 Div': '5', '1 CN Div': '1CN', '16 Pz': '16Pz', '29 PG': '29PG', '26 Pz': '26Pz', '15 PG': '15PG', '3 PG': '3PG', HG: 'HG', '1 FJ': '1FJ',
 };
 const SHORT: Record<string, string> = {
-  'GE-KGDor': 'Dör/16Pz', 'BR-Greys': 'RySct', 'BR-KDG': '1 KDG', 'BR-11H': '11H/7A', 'BR-5H': '5H/46', 'BR-2-5Q': '2/5Q/56', 'BR-7OB': '7OB/56',
+  'GE-KGDor': 'Dör/16Pz', 'BR-Greys': 'RySct', 'BR-KDG': '1 KDG', 'BR-11H': '11H/7A', 'BR-5H': '5H/46', 'BR-2-5Q': '2/6Q/56', 'BR-7OB': '7OB/56',
   'BR-41Cdo': '41 Cdo', 'BR-2Cdo': '2 Cdo', 'GE-HGAA': 'HG/HG', 'GE-26AA': '26/26Pz', 'GE-29AA': '129/29PG', 'GE-71NW': '71', 'US-3-531': '3/531',
   'US-2-509': '2/509', 'US-100': '100/34', 'GE-REM129': '129/15PG', 'BR-REM-22': '22/7A', 'US-REM-82': '82', 'GE-826': '8/26Pz', 'BR-22': '22/7A',
   'GE-HGI': 'HG I+II', 'GE-HGIII': 'HG III', 'BR-40RTR': '40 RTR', 'BR-5RTR': '5 RTR', 'CN-11': '11 CN', 'CN-14': '14 CN',

@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { MAP, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP } from '../../src/engine/data';
 import { neighbors } from '../../src/engine/hex';
 import { computeOdds } from '../../src/engine/combat';
-import { landingCapacity, landingHexes, vpBreakdown } from '../../src/engine/game';
+import { landingCapacity, landingHexes, newGame, vpBreakdown } from '../../src/engine/game';
 import { loseStep } from '../../src/engine/losses';
 import { allowedModes, legalDestinations, movementAllowance, stepCost } from '../../src/engine/movement';
 import { unitsAt } from '../../src/engine/units';
@@ -63,11 +63,11 @@ const GERMAN_ARRIVALS = {
   13: { N: ['GE-I2HG'] },
 };
 /** Allied reinforcements. The card shows the turn-2 group in the Floating Reserve at start; the engine holds them
- * until the Allied Initial Phase of turn 2, the first turn they may land (24.4.1). 'hex:3303' = the 2/509th drop. */
+ * until the Allied Initial Phase of turn 2, the first turn they may land (24.4.1). 'airdrop509' = the 2/509th drop anywhere in the 5th Army sector. */
 const ALLIED_ARRIVALS = {
   2: { reserve: ['BR-139', 'BR-46Art', 'BR-56Art', 'BR-XArt', 'US-157', 'US-179', 'US-3-531', 'US-45Art', 'US-601', 'US-751', 'US-753', 'US-VIArt'] },
   5: { airdrop: ['US-504'], reserve: ['US-636'] },
-  6: { airdrop: ['US-505'], 'hex:3303': ['US-2-509'], reserve: ['US-180'] },
+  6: { airdrop: ['US-505'], airdrop509: ['US-2-509'], reserve: ['US-180'] },
   7: { reserve: ['BR-131', 'US-2-157'] },
   8: { reserve: ['BR-5RTR', 'US-3-504', 'US-325'] },
   9: { reserve: ['BR-11H', 'US-756'] },
@@ -124,7 +124,7 @@ describe('set-up', () => {
     const airborne = Object.values(UNIT_DEFS).filter((d) => d.side === 'Allied' && (d.cat === 'airborne' || d.cat === 'glider') && !d.isRemnant).map((d) => d.id).sort();
     expect(airborne).toEqual(['US-2-509', 'US-3-504', 'US-325', 'US-504', 'US-505']);
     expect(airborne.map((id) => [id, UNIT_SETUP[id].arrive])).toEqual([
-      ['US-2-509', { turn: 6, at: 'hex:3303' }], ['US-3-504', { turn: 8, at: 'reserve' }], ['US-325', { turn: 8, at: 'reserve' }],
+      ['US-2-509', { turn: 6, at: 'airdrop509' }], ['US-3-504', { turn: 8, at: 'reserve' }], ['US-325', { turn: 8, at: 'reserve' }],
       ['US-504', { turn: 5, at: 'airdrop' }], ['US-505', { turn: 6, at: 'airdrop' }],
     ]);
   });
@@ -334,6 +334,40 @@ const hold = (s: GameState) => {
 };
 
 describe('S Scenarios', () => {
+  it('[S1.4] optional start: no invasion phase; play opens with the German Turn 1 with the Allies ashore as on the card', () => {
+    const s = newGame('short', 1, { optionalStart: true });
+    expect([s.turn, s.activeSide, s.phase]).toEqual([1, 'German', 'initial']);
+    expect(s.log.some((l) => l.text.includes('Landing roll'))).toBe(false);
+    const at = (h: string) => unitsAt(s, h).map((u) => u.id).sort();
+    expect(at('2406')).toEqual(['US-1Rgr', 'US-3Rgr']);
+    expect(at('2407')).toEqual(['US-4Rgr']);
+    expect(at('2707')).toEqual(['BR-2Cdo', 'BR-41Cdo']);
+    expect(at('2710')).toEqual(['BR-128', 'BR-40RTR', 'BR-5H', 'BR-BH35']);
+    expect(at('2811')).toEqual(['BR-169', 'BR-2-5Q']);
+    expect(at('2813')).toEqual(['BR-167', 'BR-Greys']);
+    expect(at('2712')).toEqual(['BR-7OB', 'BR-BH21']);
+    expect(at('2715')).toEqual(['US-142']);
+    expect(at('2616')).toEqual(['US-1-142', 'US-BH531R']);
+    expect(at('2717')).toEqual(['US-141']);
+    expect(at('2617')).toEqual(['US-2-141', 'US-BH531B']);
+    expect(UNIT_DEFS['BR-2-5Q'].name).toBe("2/6 Queen's");
+    // Garrison C cannot share Salerno with the Commandos; the rest of the German set-up is the normal one.
+    expect(s.units['GE-GarC'].where.kind).toBe('eliminated');
+    for (const [id, h] of Object.entries(AT_START_HEX)) if (id !== 'GE-GarC') expect(s.units[id].where).toEqual({ kind: 'map', hex: h });
+    for (const h of ['2407', '2707', '2811']) expect(s.control[h]).toBe('Allied');
+    for (const [corps, ids] of Object.entries(FOLLOW_UP)) for (const id of ids) expect(s.units[id].where).toEqual({ kind: 'followUp', corps });
+    expect(s.support.ready.sort()).toEqual(['BR-air', 'BR-naval', 'US-air', 'US-naval']);
+    expect(s.supplyPoints).toEqual({ Allied: 0, German: 3 });
+    // Turn 1 rules still apply: German reinforcements arrive now, German MAs are halved, the follow-up wave lands later.
+    expect(s.units['GE-HGAA'].where).toEqual({ kind: 'entry', area: 'N' });
+    act(s, { type: 'endPhase' });
+    expect(movementAllowance(s, s.units['GE-KGDor'], 'normal')).toBe(3);
+    until(s, (x) => x.activeSide === 'Allied' && x.phase === 'movement');
+    expect(s.turn).toBe(1);
+    expect(allowedModes(s, s.units['US-142'])).toEqual(['tactical']);
+    expect(landingHexes(s, 'US-143').length).toBeGreaterThan(0);
+  });
+
   it('[S1.2] Avalanche: the Allies win with 8 or more VPs at the end of turn 8; each lost beachhead costs one', () => {
     const s = quiet({ side: 'Allied' });
     hold(s);

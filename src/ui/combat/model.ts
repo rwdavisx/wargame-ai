@@ -29,7 +29,7 @@ const NOUN: Record<string, string> = {
   corpsAsu: 'corps artillery', nebelwerfer: 'rocket artillery', tank: 'armour',
 };
 
-/** "II/1 HG (panzergrenadiers)", "2/5 Queen's and 128 Bde (-)", "5 units". */
+/** "II/1 HG (panzergrenadiers)", "2/6 Queen's and 128 Bde (-)", "5 units". */
 export function forceText(ids: string[]): string {
   if (ids.length === 1) return `${unitName(ids[0])} (${NOUN[def(ids[0]).cat] ?? def(ids[0]).cat})`;
   return nameList(ids, 3);
