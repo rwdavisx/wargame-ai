@@ -49,7 +49,8 @@ describe('21 Reinforcements and entry areas', () => {
     const s = quiet({ side: 'German', turn: 3 });
     inArea(s, 'GE-I15', 'N1');
     const normal = entryDestinations(s, 'GE-I15', 'N1', 'normal');
-    expect(normal.get('2100')!.cost).toBe(RULES.movement.terrain.clear.mech);
+    // 2100 carries the Naples road off the map edge: road rate; 2300 has no road: its terrain cost.
+    expect(normal.get('2100')!.cost).toBe(RULES.movement.majorRoad.mech);
     expect(normal.get('2300')!.cost).toBe(RULES.movement.terrain.hill.mech);
     const ext = entryReach(s, 'GE-I15', 'extended');
     expect([...ext.keys()].some((h) => !normal.has(h))).toBe(true);
