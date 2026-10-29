@@ -557,7 +557,7 @@
    "terrain": "clear"
   },
   "2101": {
-   "terrain": "clear"
+   "terrain": "sea"
   },
   "2102": {
    "terrain": "sea"
@@ -2955,8 +2955,7 @@
   },
   "4515": {
    "sector8": true,
-   "terrain": "hill",
-   "town": "San Fele"
+   "terrain": "hill"
   },
   "4516": {
    "sector8": true,
@@ -3068,7 +3067,8 @@
   },
   "4615": {
    "sector8": true,
-   "terrain": "hill"
+   "terrain": "hill",
+   "town": "San Fele"
   },
   "4616": {
    "sector8": true,
@@ -3127,9 +3127,6 @@
   "1703-1704": {
    "mountain": true
   },
-  "1703-1803": {
-   "road": "minor"
-  },
   "1704-1804": {
    "mountain": true
   },
@@ -3153,7 +3150,7 @@
   "2005-2104": {
    "mountain": true
   },
-  "2101-2201": {
+  "2100-2201": {
    "road": "major"
   },
   "2103-2104": {
@@ -3658,11 +3655,11 @@
   "2721-2822": {
    "road": "minor"
   },
-  "2723-2824": {
-   "road": "minor"
-  },
   "2724-2825": {
    "road": "major"
+  },
+  "2725-2726": {
+   "road": "minor"
   },
   "2725-2825": {
    "road": "minor"
@@ -3782,6 +3779,9 @@
   },
   "2821-2920": {
    "river": true
+  },
+  "2822-2823": {
+   "road": "minor"
   },
   "2823-2824": {
    "road": "minor"
@@ -4246,6 +4246,7 @@
    "river": true
   },
   "3120-3221": {
+   "river": true,
    "road": "minor"
   },
   "3121-3122": {
@@ -4643,11 +4644,21 @@
   "3401-3402": {
    "mountain": true
   },
+  "3401-3500": {
+   "river": true
+  },
+  "3401-3501": {
+   "river": true
+  },
   "3402-3403": {
    "river": true
   },
   "3402-3501": {
+   "river": true,
    "road": "major"
+  },
+  "3402-3502": {
+   "river": true
   },
   "3403-3404": {
    "road": "major"
@@ -5289,9 +5300,6 @@
   "3817-3916": {
    "road": "minor"
   },
-  "3817-3917": {
-   "road": "minor"
-  },
   "3818-3819": {
    "road": "minor"
   },
@@ -5399,9 +5407,6 @@
   },
   "3914-4015": {
    "mountain": true
-  },
-  "3915-3916": {
-   "road": "minor"
   },
   "3915-4015": {
    "mountain": true
@@ -5563,7 +5568,8 @@
    "road": "major"
   },
   "4020-4021": {
-   "river": true
+   "river": true,
+   "road": "minor"
   },
   "4020-4119": {
    "road": "major"
@@ -5679,17 +5685,8 @@
   "4114-4115": {
    "mountain": true
   },
-  "4115-4116": {
-   "road": "minor"
-  },
   "4115-4215": {
    "mountain": true
-  },
-  "4116-4216": {
-   "road": "minor"
-  },
-  "4116-4217": {
-   "road": "minor"
   },
   "4117-4118": {
    "mountain": true,
@@ -5775,20 +5772,17 @@
   "4217-4317": {
    "river": true
   },
-  "4218-4219": {
-   "road": "minor"
-  },
   "4218-4317": {
    "river": true
-  },
-  "4218-4318": {
-   "road": "minor"
   },
   "4219-4220": {
    "road": "minor"
   },
   "4220-4320": {
    "road": "major"
+  },
+  "4222-4223": {
+   "road": "minor"
   },
   "4222-4322": {
    "road": "minor"
@@ -5985,8 +5979,7 @@
    "mountain": true
   },
   "4414-4513": {
-   "mountain": true,
-   "road": "minor"
+   "mountain": true
   },
   "4414-4514": {
    "mountain": true
@@ -6029,6 +6022,9 @@
   "4426-4525": {
    "road": "minor"
   },
+  "4426-4526": {
+   "road": "minor"
+  },
   "4500-4601": {
    "river": true,
    "road": "major"
@@ -6038,6 +6034,9 @@
   },
   "4506-4507": {
    "road": "major"
+  },
+  "4508-4608": {
+   "road": "minor"
   },
   "4510-4511": {
    "road": "minor"
@@ -6054,7 +6053,7 @@
   "4512-4613": {
    "road": "minor"
   },
-  "4514-4614": {
+  "4515-4616": {
    "road": "minor"
   },
   "4516-4517": {
@@ -6102,6 +6101,9 @@
   "4525-4625": {
    "mountain": true
   },
+  "4525-4626": {
+   "road": "minor"
+  },
   "4526-4527": {
    "road": "minor"
   },
@@ -6115,6 +6117,9 @@
    "river": true
   },
   "4613-4614": {
+   "road": "minor"
+  },
+  "4614-4615": {
    "road": "minor"
   },
   "4615-4616": {
