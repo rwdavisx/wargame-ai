@@ -690,3 +690,253 @@ describe('Desperate Defense, Delay and City Battles', () => {
     expect(t.cityBattle[C]).toBeUndefined();
   });
 });
+
+// ------------------------------------------------------------------ 12.0 retreats
+
+describe('retreats', () => {
+  /** GE-71 attacks `from` from `attackerHex` for a DR2 (or `result`) and the defender falls back. */
+  function pushBack(s: GameState, from: HexId, attackerHex: HexId, result = 'DR2') {
+    if (s.units['GE-71'].where.kind !== 'map') place(s, 'GE-71', attackerHex);
+    const plan: AttackPlan = { target: from, attackers: ['GE-71'] };
+    dice(s, rollFor(s, plan, result));
+    attack(s, plan);
+    if (s.pendingDefense) act(s, { type: 'defend', choice: 'retreat' });
+  }
+  /** Disrupted German blockers (ZOCs but no ZOC Bonds) on the given hexes. */
+  const BLOCKERS = ['GE-I71', 'GE-I15', 'GE-II15', 'GE-III15', 'GE-I67', 'GE-II67', 'GE-I9', 'GE-II9'];
+  function block(s: GameState, hexes: HexId[]) {
+    hexes.forEach((h, i) => place(s, BLOCKERS[i], h, { status: 'disrupted' }));
+  }
+  /** Of C's neighbours only SE stays open (N is the attacker). */
+  const onlySE = () => [go(C, NE), go(C, S), go(C, SW), go(C, NW)];
+
+  it('[12.1.1] the CRT sets the length; retreating into a friendly Entry Area fulfils it at once', () => {
+    const s = setup('Allied', {}, '3702');
+    place(s, 'GE-I71', '3701'); // next to 3700, a hex of the N2 Entry Area
+    for (const id of ['US-179', 'US-180', 'US-157']) place(s, id, '3702'); // 16 to 3 = 5-1
+    const plan: AttackPlan = { target: '3701', attackers: ['US-179', 'US-180', 'US-157'] };
+    // Reaching the Entry Area counts as the whole 4-hex retreat.
+    const into = retreatChoices(s, ['GE-I71'], 4, '3701').find((p) => p.intoArea === 'N2');
+    expect(into!.path.length).toBeLessThan(4);
+    s.options = { chooseRetreats: ['German'] };
+    dice(s, rollFor(s, plan, 'DR4'));
+    attack(s, plan);
+    expect(last(s).result).toBe('DR4 Adv 3');
+    expect(distance(hexOf(s, 'GE-I71')!, '3701')).toBe(4); // the default: the full four hexes
+    act(s, { type: 'retreatChoice', index: s.retreatQueue![0].options.findIndex((o) => o.intoArea === 'N2') });
+    expect(where(s, 'GE-I71')).toEqual({ kind: 'entry', area: 'N2' });
+  });
+
+  it('[12.1.2] a retreat may pass through friendly units, leaving them where they are', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    block(s, [go(C, NE), go(C, NW), go(C, SE), go(C, SW)]);
+    place(s, 'US-179', go(C, S)); // the only way out
+    pushBack(s, C, go(C, N));
+    expect(distance(hexOf(s, 'US-1-142')!, C)).toBe(2);
+    expect(s.trails?.['US-1-142']).toContain(go(C, S));
+    expect(s.units['US-179']).toMatchObject({ where: { kind: 'map', hex: go(C, S) }, status: 'good' });
+  });
+
+  it.fails('[12.1.2] the owner may split a retreating stack between different hexes', () => {
+    // A stack always retreats along one path (the queue offers whole-stack destinations only).
+    const s = setup('German');
+    s.options = { chooseRetreats: ['Allied'] };
+    place(s, 'US-1-142', C);
+    place(s, 'US-2-141', C);
+    pushBack(s, C, go(C, N));
+    expect(s.retreatQueue!.map((q) => q.units.length)).toEqual([1, 1]);
+  });
+
+  it('[12.1.3] guideline 1 first: a retreat that is not fatal beats one that moves away', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    place(s, 'GE-71', go(C, N));
+    // The hexes two away to the south are all in German ZOCs and their first hexes too: fatal.
+    block(s, [go(go(C, S, 2), SE), go(go(C, S, 2), SW), go(C, S, 3)]);
+    const plans = retreatChoices(s, ['US-1-142'], 2, C);
+    expect(plans[0].lost).toEqual([]);
+  });
+
+  it('[12.1.3] guideline 2: each hex of the retreat goes farther from the combat hex', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    place(s, 'GE-71', go(C, N));
+    const plans = retreatChoices(s, ['US-1-142'], 2, C);
+    expect(plans.length).toBeGreaterThan(0);
+    for (const p of plans) expect(p.path.map((h) => distance(h, C))).toEqual([1, 2]);
+  });
+
+  it('[12.1.3] guideline 3: after the first hex, a retreat avoids enemy ZOCs if it can', () => {
+    const s = setup('German');
+    place(s, 'US-142', C);
+    place(s, 'GE-71', go(C, N));
+    block(s, [go(C, S, 3)]); // its ZOC covers some second hexes of a 3-hex retreat south
+    const plans = retreatChoices(s, ['US-142'], 3, C);
+    expect(plans.length).toBeGreaterThan(0);
+    for (const p of plans) expect(p.laterZoc).toBe(false);
+    for (const p of plans) expect(p.path.slice(1).every((h) => distance(h, go(C, S, 3)) > 1)).toBe(true);
+  });
+
+  it('[12.1.3] guideline 4: a retreat ends in supply if it can', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    place(s, 'GE-71', go(C, N));
+    const without = retreatChoices(s, ['US-1-142'], 2, C).map((p) => p.path[p.path.length - 1]);
+    place(s, 'US-BH531R', go(C, S, 6)); // a beachhead: supply reaches 5 hexes overland
+    const withBh = retreatChoices(s, ['US-1-142'], 2, C).map((p) => p.path[p.path.length - 1]);
+    expect(withBh.length).toBeGreaterThan(0);
+    expect(withBh.length).toBeLessThan(without.length);
+    for (const h of withBh) expect(distance(h, go(C, S, 6))).toBeLessThanOrEqual(5);
+  });
+
+  it('[12.1.3] guideline 5: a retreat avoids mountain hexsides (without road or pass) if it can', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    place(s, 'GE-71', go(C, N));
+    for (const n of [go(C, SE), go(C, S)]) setSide(C, n, { mountain: true });
+    const plans = retreatChoices(s, ['US-1-142'], 2, C);
+    expect(plans.length).toBeGreaterThan(0);
+    for (const p of plans) expect([go(C, SE), go(C, S)]).not.toContain(p.path[0]);
+    setSide(C, go(C, S), { mountain: true, pass: true }); // with a pass it is no obstacle
+    expect(retreatChoices(s, ['US-1-142'], 2, C).some((p) => p.path[0] === go(C, S))).toBe(true);
+  });
+
+  it('[12.1.4] a retreat may end overstacked', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    for (const id of ['US-179', 'US-180']) place(s, id, go(C, S, 2)); // 6 stacking points already
+    block(s, [go(C, NE), go(C, NW), go(C, SE), go(C, SW)]);
+    // Every other 2-hex end is in a vacant EZOC: the battalion joins the full stack.
+    pushBack(s, C, go(C, N));
+    expect(hexOf(s, 'US-1-142')).toBe(go(C, S, 2));
+  });
+
+  it('[12.1.5] a retreat may stop early in a friendly city, or (Allies) with a Beachhead unit, and stays Disrupted', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    place(s, 'GE-71', go(C, N));
+    setHex(go(C, S), { terrain: 'clear', city: 'Testopoli' });
+    s.control[go(C, S)] = 'Allied';
+    expect(retreatChoices(s, ['US-1-142'], 2, C).some((p) => p.path.length === 1 && p.path[0] === go(C, S))).toBe(true);
+    s.control[go(C, S)] = 'German';
+    expect(retreatChoices(s, ['US-1-142'], 2, C).some((p) => p.path.length === 1)).toBe(false);
+    place(s, 'US-BH531R', go(C, SE));
+    expect(retreatChoices(s, ['US-1-142'], 2, C).some((p) => p.path.length === 1 && p.path[0] === go(C, SE))).toBe(true);
+    s.options = { chooseRetreats: ['Allied'] };
+    pushBack(s, C, go(C, N));
+    const i = s.retreatQueue![0].options.findIndex((o) => o.end === go(C, SE));
+    expect(i).toBeGreaterThanOrEqual(0);
+    act(s, { type: 'retreatChoice', index: i });
+    expect(s.units['US-1-142']).toMatchObject({ where: { kind: 'map', hex: go(C, SE) }, status: 'disrupted' });
+  });
+
+  it('[12.2] eliminated: with nowhere to go but enemy units, into an enemy ZOC Bond, or with an MA of 0', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    block(s, neighbors(C).slice(1));
+    pushBack(s, C, go(C, N));
+    expect(gone(s, 'US-1-142')).toBe(true);
+    // Good Order Germans at NE and S bond across SE, the only way out.
+    const b = setup('German');
+    place(b, 'US-1-142', C);
+    place(b, 'GE-71', go(C, N));
+    block(b, [go(C, SW), go(C, NW)]);
+    place(b, 'GE-I67', go(C, NE));
+    place(b, 'GE-II67', go(C, S));
+    expect(retreatChoices(b, ['US-1-142'], 2, C)[0].lost).toEqual(['US-1-142']);
+    b.units['GE-II67'].status = 'disrupted'; // no bond: SE is open
+    expect(retreatChoices(b, ['US-1-142'], 2, C)[0].lost).toEqual([]);
+    // A static garrison (MA 0) cannot retreat at all.
+    const g = setup('Allied');
+    place(g, 'GE-GarC', C);
+    expect(retreatChoices(g, ['GE-GarC'], 2, C)[0].lost).toEqual(['GE-GarC']);
+  });
+
+  /** Example 2's ground: C's only exit is S (in an EZOC), and every hex beyond S is in an EZOC too. */
+  function example2(s: GameState) {
+    place(s, 'GE-71', go(C, N));
+    block(s, [go(C, NE), go(C, NW), go(C, SW), go(C, SE), go(go(C, S, 2), SE), go(C, SW, 2)]);
+    place(s, 'US-1-142', C);
+  }
+
+  it('[12.2] rulebook example 2: A dies entering two vacant EZOC hexes in a row; B survives through friendly C plus one extra hex', () => {
+    const s = setup('German');
+    example2(s);
+    expect(retreatChoices(s, ['US-1-142'], 2, C)[0].lost).toEqual(['US-1-142']); // unit A
+    // Unit B: friendly unit C stands on S; then a vacant EZOC hex, so one hex more to get out of it.
+    place(s, 'US-179', go(C, S));
+    const p = retreatChoices(s, ['US-1-142'], 2, C)[0];
+    expect(p.lost).toEqual([]);
+    expect(p.path.length).toBe(3);
+    expect(p.path[0]).toBe(go(C, S));
+    pushBack(s, C, go(C, N));
+    expect(hexOf(s, 'US-1-142')).toBe(p.path[2]);
+    expect(hexOf(s, 'US-179')).toBe(go(C, S));
+  });
+
+  it('[12.2] a retreat may end in an EZOC only where a friendly unit that has not retreated this phase stands', () => {
+    const s = setup('German');
+    example2(s);
+    place(s, 'US-179', go(C, S));
+    place(s, 'US-180', go(C, S, 2));
+    const ends = (x: GameState) => retreatChoices(x, ['US-1-142'], 2, C).filter((p) => !p.lost.length).map((p) => p.path);
+    expect(ends(s)).toContainEqual([go(C, S), go(C, S, 2)]);
+    s.units['US-180'].retreatedThisPhase = true;
+    expect(ends(s)).not.toContainEqual([go(C, S), go(C, S, 2)]);
+  });
+
+  it('[12.3.1] a vehicle retreating across an unbridged river is eliminated; a bridge, or a foot unit, is fine', () => {
+    const run = (id: string, side: Parameters<typeof setSide>[2]) => {
+      const s = setup('German');
+      place(s, id, C);
+      block(s, onlySE());
+      setSide(C, go(C, SE), side);
+      pushBack(s, C, go(C, N));
+      return s.units[id].where.kind;
+    };
+    expect(run('US-191', { river: true })).toBe('eliminated');
+    expect(run('US-191', { river: true, road: 'minor' })).toBe('map');
+    expect(run('US-1-142', { river: true })).toBe('map');
+  });
+
+  it('[12.3.2] mountain hexsides: vehicles die crossing one without road or pass, others get 1/2 Eff, two crossings kill anyone', () => {
+    const run = (id: string, side: Parameters<typeof setSide>[2], second = false) => {
+      const s = setup('German');
+      place(s, id, C);
+      block(s, onlySE());
+      setSide(C, go(C, SE), side);
+      if (second) for (const n of neighbors(go(C, SE))) if (n !== C) setSide(go(C, SE), n, { mountain: true });
+      pushBack(s, C, go(C, N));
+      return s.units[id];
+    };
+    expect(run('US-191', { mountain: true }).where.kind).toBe('eliminated');
+    expect(run('US-191', { mountain: true, pass: true })).toMatchObject({ where: { kind: 'map' }, halfEff: false });
+    expect(run('US-1-142', { mountain: true })).toMatchObject({ where: { kind: 'map' }, halfEff: true });
+    expect(run('US-1-142', { mountain: true }, true).where.kind).toBe('eliminated');
+  });
+
+  it('[12.4] a defender eliminated by its retreat still gives the full advance', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    block(s, neighbors(C).slice(1));
+    pushBack(s, C, go(C, N));
+    expect(gone(s, 'US-1-142')).toBe(true);
+    expect(s.pendingAdvance).toMatchObject({ limited: false, maxByUnit: { 'GE-71': 2 } });
+  });
+
+  it('[12.5] units that retreated into a hex add no defense, cannot lead, and die if that hex must retreat again', () => {
+    const s = setup('German');
+    place(s, 'US-1-142', C);
+    place(s, 'US-100', C, { retreatedThisPhase: true }); // elite, but not eligible to lead
+    place(s, 'GE-71', go(C, N));
+    expect(computeOdds(s, { target: C, attackers: ['GE-71'] }).defense).toBe(2);
+    dice(s, rollFor(s, { target: C, attackers: ['GE-71'] }, 'DR2'), 3);
+    attack(s, { target: C, attackers: ['GE-71'] });
+    expect(refused(s, { type: 'defend', choice: 'dd', lead: 'US-100' })).toBe(true);
+    act(s, { type: 'defend', choice: 'dd' });
+    expect(last(s).dd!.drm).toBe(0); // 1/142 led: no Elite bonus
+    expect(gone(s, 'US-100')).toBe(true); // the stand failed and the stack retreated: the twice-retreated unit is lost
+    expect(distance(hexOf(s, 'US-1-142')!, C)).toBe(2);
+  });
+});
