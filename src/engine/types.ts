@@ -316,6 +316,8 @@ export interface GameState {
   combats: CombatReport[];
   log: LogEntry[];
   rng: number;
+  /** Test hook: die rolls to use before the seeded generator (never set in play). */
+  forcedRolls?: number[];
   winner: Side | 'draw' | null;
   victoryNote?: string;
   northVp: Record<string, boolean>;

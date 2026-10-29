@@ -10,8 +10,12 @@ export function nextRandom(seed: number): { value: number; seed: number } {
   return { value, seed: next };
 }
 
-/** Rolls one six-sided die, advancing the seed stored on `holder`. */
-export function rollD6(holder: { rng: number }): number {
+/**
+ * Rolls one six-sided die, advancing the seed stored on `holder`. Tests may queue the rolls they
+ * want in `holder.forcedRolls` (consumed first), so every rule can be checked against a known die.
+ */
+export function rollD6(holder: { rng: number; forcedRolls?: number[] }): number {
+  if (holder.forcedRolls?.length) return holder.forcedRolls.shift()!;
   const { value, seed } = nextRandom(holder.rng);
   holder.rng = seed;
   return 1 + Math.floor(value * 6);

@@ -1,0 +1,1202 @@
+[
+ {
+  "id": "1.0",
+  "title": "INTRODUCTION"
+ },
+ {
+  "id": "2.0",
+  "title": "CONTENTS"
+ },
+ {
+  "id": "2.1",
+  "title": "Inventory"
+ },
+ {
+  "id": "2.2",
+  "title": "The Map"
+ },
+ {
+  "id": "2.2.1",
+  "title": "Scale and Terrain"
+ },
+ {
+  "id": "2.2.2",
+  "title": "Mountains"
+ },
+ {
+  "id": "2.2.3",
+  "title": "Hex Terrain Classification"
+ },
+ {
+  "id": "2.3",
+  "title": "The Game Pieces"
+ },
+ {
+  "id": "2.3.1",
+  "title": "Types"
+ },
+ {
+  "id": "2.3.2",
+  "title": "How to Read the Units"
+ },
+ {
+  "id": "2.3.3",
+  "title": "Summary of Unit Types"
+ },
+ {
+  "id": "2.3.4",
+  "title": "Unit Colors"
+ },
+ {
+  "id": "2.3.5",
+  "title": "Steps"
+ },
+ {
+  "id": "3.0",
+  "title": "SEQUENCE OF PLAY OUTLINE"
+ },
+ {
+  "id": "4.0",
+  "title": "STACKING"
+ },
+ {
+  "id": "4.1",
+  "title": "Stacking Limits"
+ },
+ {
+  "id": "4.2",
+  "title": "Stacking Points"
+ },
+ {
+  "id": "4.3",
+  "title": "Silhouetted Tank Units"
+ },
+ {
+  "id": "4.4",
+  "title": "Stacking Restrictions"
+ },
+ {
+  "id": "5.0",
+  "title": "LAND MOVEMENT"
+ },
+ {
+  "id": "5.1",
+  "title": "The Basics"
+ },
+ {
+  "id": "5.2",
+  "title": "Road Movement"
+ },
+ {
+  "id": "5.3",
+  "title": "Extended Movement"
+ },
+ {
+  "id": "5.4",
+  "title": "Tactical Movement"
+ },
+ {
+  "id": "5.5",
+  "title": "Effects of Rivers on Movement"
+ },
+ {
+  "id": "5.6",
+  "title": "Mountain Hexsides"
+ },
+ {
+  "id": "5.7",
+  "title": "Half Effectiveness Markers"
+ },
+ {
+  "id": "5.8",
+  "title": "Truck Markers"
+ },
+ {
+  "id": "6.0",
+  "title": "ZONES OF CONTROL"
+ },
+ {
+  "id": "6.1",
+  "title": "General Rule"
+ },
+ {
+  "id": "6.2",
+  "title": "ZOCs and Movement"
+ },
+ {
+  "id": "6.3",
+  "title": "Other Effects of ZOCs"
+ },
+ {
+  "id": "7.0",
+  "title": "ZOC BONDS"
+ },
+ {
+  "id": "7.1",
+  "title": "How to form a ZOC Bond"
+ },
+ {
+  "id": "7.2",
+  "title": "Effects of ZOC Bonds"
+ },
+ {
+  "id": "7.3",
+  "title": "Breaking ZOC Bonds"
+ },
+ {
+  "id": "7.4",
+  "title": "Intersecting ZOC Bonds"
+ },
+ {
+  "id": "7.5",
+  "title": "ZOC Bonds with Entry Areas"
+ },
+ {
+  "id": "7.6",
+  "title": "ZOC Bonds and Terrain"
+ },
+ {
+  "id": "7.6.1",
+  "title": "Mountain Hexsides"
+ },
+ {
+  "id": "7.6.2",
+  "title": "The Coast"
+ },
+ {
+  "id": "7.6.3",
+  "title": "Rivers"
+ },
+ {
+  "id": "8.0",
+  "title": "COMBAT"
+ },
+ {
+  "id": "8.1",
+  "title": "The Basics"
+ },
+ {
+  "id": "8.2",
+  "title": "Multi-Hex Combat"
+ },
+ {
+  "id": "8.3",
+  "title": "Combat Procedure"
+ },
+ {
+  "id": "8.4",
+  "title": "Main Assault Force (MAF)"
+ },
+ {
+  "id": "8.4.1",
+  "title": "In General"
+ },
+ {
+  "id": "8.4.2",
+  "title": "Formation Definition"
+ },
+ {
+  "id": "8.4.3",
+  "title": "One Attachment"
+ },
+ {
+  "id": "8.4.4",
+  "title": "Independent Units"
+ },
+ {
+  "id": "8.4.5",
+  "title": "Combat Strength Limit"
+ },
+ {
+  "id": "8.4.6",
+  "title": "Parenthesized Units"
+ },
+ {
+  "id": "8.5",
+  "title": "Allied Coordination Restrictions"
+ },
+ {
+  "id": "8.5.1",
+  "title": "US and Commonwealth"
+ },
+ {
+  "id": "8.5.2",
+  "title": "5th and 8th Army"
+ },
+ {
+  "id": "8.6",
+  "title": "Minimum and Maximum Odds"
+ },
+ {
+  "id": "8.6.1",
+  "title": "In General"
+ },
+ {
+  "id": "8.6.2",
+  "title": "Column Shifts"
+ },
+ {
+  "id": "8.7",
+  "title": "Automatic DS"
+ },
+ {
+  "id": "8.7.1",
+  "title": "Procedure"
+ },
+ {
+  "id": "8.7.2",
+  "title": "Advance After Combat"
+ },
+ {
+  "id": "9.0",
+  "title": "COMBAT MODIFIERS"
+ },
+ {
+  "id": "9.1",
+  "title": "Halving and Doubling"
+ },
+ {
+  "id": "9.2",
+  "title": "Summary of CRT Shifts"
+ },
+ {
+  "id": "9.3",
+  "title": "Tank Shifts"
+ },
+ {
+  "id": "9.3.1",
+  "title": "The Attacker\u2019s Shift"
+ },
+ {
+  "id": "9.3.2",
+  "title": "The Defender\u2019s Shift"
+ },
+ {
+  "id": "9.3.3",
+  "title": "Tank Shifts and Terrain"
+ },
+ {
+  "id": "9.3.4",
+  "title": "Tank Destroyer Battalions"
+ },
+ {
+  "id": "9.4",
+  "title": "Air Support"
+ },
+ {
+  "id": "9.5",
+  "title": "Artillery Support"
+ },
+ {
+  "id": "9.5.1",
+  "title": "Division Support"
+ },
+ {
+  "id": "9.5.2",
+  "title": "Corps Support"
+ },
+ {
+  "id": "9.5.3",
+  "title": "x2 Artillery Shifts"
+ },
+ {
+  "id": "9.6",
+  "title": "Naval Support"
+ },
+ {
+  "id": "9.7",
+  "title": "Elite Shift"
+ },
+ {
+  "id": "9.8",
+  "title": "Terrain"
+ },
+ {
+  "id": "9.9",
+  "title": "Other Combat Modifiers"
+ },
+ {
+  "id": "10.0",
+  "title": "COMBAT RESULTS"
+ },
+ {
+  "id": "10.1",
+  "title": "Explanation of Combat Results"
+ },
+ {
+  "id": "10.2",
+  "title": "Selecting Step Losses"
+ },
+ {
+  "id": "10.2.1",
+  "title": "Who Picks"
+ },
+ {
+  "id": "10.2.2",
+  "title": "Step Loss Guidelines"
+ },
+ {
+  "id": "10.3",
+  "title": "Indicating Step Losses"
+ },
+ {
+  "id": "10.4",
+  "title": "Remnants and the Remnant Display"
+ },
+ {
+  "id": "10.4.1",
+  "title": "In General"
+ },
+ {
+  "id": "10.4.2",
+  "title": "Remnants are not Mandatory"
+ },
+ {
+  "id": "10.4.3",
+  "title": "Remnant Elimination"
+ },
+ {
+  "id": "11.0",
+  "title": "DETERMINED DEFENSE"
+ },
+ {
+  "id": "11.1",
+  "title": "In General"
+ },
+ {
+  "id": "11.2",
+  "title": "The Determined Defense Table"
+ },
+ {
+  "id": "11.2.1",
+  "title": "Procedure"
+ },
+ {
+  "id": "11.2.2",
+  "title": "CRT Background Colors"
+ },
+ {
+  "id": "11.2.3",
+  "title": "Lead Units"
+ },
+ {
+  "id": "11.2.4",
+  "title": "Die Roll Modifiers"
+ },
+ {
+  "id": "11.3",
+  "title": "Defensive Support"
+ },
+ {
+  "id": "11.4",
+  "title": "Explanation of Results"
+ },
+ {
+  "id": "11.4.1",
+  "title": "List of Results"
+ },
+ {
+  "id": "11.4.2",
+  "title": "Single Step Defenders"
+ },
+ {
+  "id": "11.4.3",
+  "title": "Hold or Delay"
+ },
+ {
+  "id": "11.4.4",
+  "title": "Failed Determined Defense"
+ },
+ {
+  "id": "11.5",
+  "title": "Desperate Defense"
+ },
+ {
+  "id": "11.5.1",
+  "title": "In General"
+ },
+ {
+  "id": "11.5.2",
+  "title": "Eligibility"
+ },
+ {
+  "id": "11.5.3",
+  "title": "Procedure"
+ },
+ {
+  "id": "11.5.4",
+  "title": "Vehicle Units with No Retreat"
+ },
+ {
+  "id": "11.6",
+  "title": "Delay and Partial Success"
+ },
+ {
+  "id": "11.6.1",
+  "title": "Delay"
+ },
+ {
+  "id": "11.6.2",
+  "title": "Partial Success/City Battle Marker"
+ },
+ {
+  "id": "11.6.3",
+  "title": "Removing City Battle markers"
+ },
+ {
+  "id": "12.0",
+  "title": "RETREATS"
+ },
+ {
+  "id": "12.1",
+  "title": "Retreat Procedure"
+ },
+ {
+  "id": "12.1.1",
+  "title": "Length of Retreat"
+ },
+ {
+  "id": "12.1.2",
+  "title": "Stacks"
+ },
+ {
+  "id": "12.1.3",
+  "title": "Retreat Direction Guidelines"
+ },
+ {
+  "id": "12.1.4",
+  "title": "Overstacking"
+ },
+ {
+  "id": "12.1.5",
+  "title": "Stopping a Retreat"
+ },
+ {
+  "id": "12.2",
+  "title": "Elimination Due to a Retreat"
+ },
+ {
+  "id": "12.3",
+  "title": "Retreat and Terrain"
+ },
+ {
+  "id": "12.3.1",
+  "title": "Rivers and Retreat"
+ },
+ {
+  "id": "12.3.2",
+  "title": "Mountain Hexsides and Retreat"
+ },
+ {
+  "id": "12.4",
+  "title": "Elimination Does Not Reduce the Advance"
+ },
+ {
+  "id": "12.5",
+  "title": "Combat Against Previously Retreated Units"
+ },
+ {
+  "id": "13.0",
+  "title": "DISRUPTION & RECOVERY"
+ },
+ {
+  "id": "13.1",
+  "title": "Disrupted, Full Retreat and Good Order"
+ },
+ {
+  "id": "13.1.1",
+  "title": "In General"
+ },
+ {
+  "id": "13.1.2",
+  "title": "How Units become Disrupted"
+ },
+ {
+  "id": "13.1.3",
+  "title": "How Units go into Full Retreat"
+ },
+ {
+  "id": "13.2",
+  "title": "Penalties of Disruption"
+ },
+ {
+  "id": "13.2.1",
+  "title": "A Disrupted unit"
+ },
+ {
+  "id": "13.2.2",
+  "title": "Abilities Retained"
+ },
+ {
+  "id": "13.2.3",
+  "title": "No Effect on Other Units"
+ },
+ {
+  "id": "13.3",
+  "title": "Effects of Full Retreat"
+ },
+ {
+  "id": "13.3.1",
+  "title": "Full Retreat Benefit"
+ },
+ {
+  "id": "13.3.2",
+  "title": "Full Retreat Penalties"
+ },
+ {
+  "id": "13.3.3",
+  "title": "Abilities Retained"
+ },
+ {
+  "id": "13.3.4",
+  "title": "Voluntary Full Retreat"
+ },
+ {
+  "id": "13.4",
+  "title": "The Recovery Phase"
+ },
+ {
+  "id": "13.5",
+  "title": "The Rally Table"
+ },
+ {
+  "id": "14.0",
+  "title": "ADVANCE AFTER COMBAT"
+ },
+ {
+  "id": "14.1",
+  "title": "The Basics"
+ },
+ {
+  "id": "14.2",
+  "title": "Length of Advance"
+ },
+ {
+  "id": "14.2.1",
+  "title": "In General"
+ },
+ {
+  "id": "14.2.2",
+  "title": "Limited Advance"
+ },
+ {
+  "id": "14.3",
+  "title": "Advance in Any Direction"
+ },
+ {
+  "id": "14.4",
+  "title": "Advance and Enemy ZOCs"
+ },
+ {
+  "id": "14.4.1",
+  "title": "EZOCs"
+ },
+ {
+  "id": "14.4.2",
+  "title": "Enemy ZOC Bonds"
+ },
+ {
+  "id": "14.5",
+  "title": "Terrain and Advance"
+ },
+ {
+  "id": "15.0",
+  "title": "BREAKTHROUGH COMBAT"
+ },
+ {
+  "id": "15.1",
+  "title": "In General"
+ },
+ {
+  "id": "15.2",
+  "title": "Procedure"
+ },
+ {
+  "id": "15.2.1",
+  "title": "Sequence"
+ },
+ {
+  "id": "15.2.2",
+  "title": "The Breakthrough Group"
+ },
+ {
+  "id": "15.2.3",
+  "title": "Forming a Breakthrough Group"
+ },
+ {
+  "id": "15.2.4",
+  "title": "Action Cost"
+ },
+ {
+  "id": "15.2.5",
+  "title": "No Additional Hexes"
+ },
+ {
+  "id": "15.2.6",
+  "title": "Eligible Targets"
+ },
+ {
+  "id": "15.2.7",
+  "title": "Resolving Breakthrough Combat"
+ },
+ {
+  "id": "15.2.8",
+  "title": "Failed Breakthrough Combat"
+ },
+ {
+  "id": "15.2.9",
+  "title": "Splitting the Breakthrough Group"
+ },
+ {
+  "id": "15.3",
+  "title": "Breakthrough Combat Against Previously"
+ },
+ {
+  "id": "15.4",
+  "title": "Breakthrough Combat and Auto DS"
+ },
+ {
+  "id": "16.0",
+  "title": "SUPPLY AND ISOLATION"
+ },
+ {
+  "id": "16.1",
+  "title": "The Supply Phase"
+ },
+ {
+  "id": "16.2",
+  "title": "Supply Sources"
+ },
+ {
+  "id": "16.2.1",
+  "title": "German Supply Sources"
+ },
+ {
+  "id": "16.2.2",
+  "title": "Allied Supply Sources"
+ },
+ {
+  "id": "16.3",
+  "title": "Line of Supply"
+ },
+ {
+  "id": "16.3.1",
+  "title": "In General"
+ },
+ {
+  "id": "16.3.2",
+  "title": "The Overland Portion of the Line of Supply may be"
+ },
+ {
+  "id": "16.3.3",
+  "title": "The Road Portion of the Line of Supply may be of any"
+ },
+ {
+  "id": "16.3.4",
+  "title": "Control Markers"
+ },
+ {
+  "id": "16.4",
+  "title": "Out of Supply Penalties"
+ },
+ {
+  "id": "16.5",
+  "title": "Isolation and Isolation Attrition"
+ },
+ {
+  "id": "16.5.1",
+  "title": "Isolation Defined"
+ },
+ {
+  "id": "16.5.2",
+  "title": "Isolation Attrition"
+ },
+ {
+  "id": "16.5.3",
+  "title": "The Isolation Attrition Table"
+ },
+ {
+  "id": "16.5.4",
+  "title": "Procedure"
+ },
+ {
+  "id": "16.5.5",
+  "title": "Die Roll Modifiers"
+ },
+ {
+  "id": "16.5.6",
+  "title": "Permanent Elimination by Isolation"
+ },
+ {
+  "id": "17.0",
+  "title": "ARTILLERY SUPPORT UNITS"
+ },
+ {
+  "id": "17.1",
+  "title": "ASUs in General"
+ },
+ {
+  "id": "17.2",
+  "title": "Properties"
+ },
+ {
+  "id": "17.3",
+  "title": "Moving ASUs"
+ },
+ {
+  "id": "17.4",
+  "title": "Range"
+ },
+ {
+  "id": "17.5",
+  "title": "Ready and Fired Sides"
+ },
+ {
+  "id": "17.6",
+  "title": "Artillery Support"
+ },
+ {
+  "id": "17.6.1",
+  "title": "Offensive Artillery Support"
+ },
+ {
+  "id": "17.6.2",
+  "title": "Defensive Artillery Support"
+ },
+ {
+  "id": "17.6.3",
+  "title": "Artillery Support Restrictions"
+ },
+ {
+  "id": "17.7",
+  "title": "Artillery in Ground Combat"
+ },
+ {
+  "id": "18.0",
+  "title": "BEACHHEADS, PORTS, AND"
+ },
+ {
+  "id": "18.1",
+  "title": "Beachheads"
+ },
+ {
+  "id": "18.1.1",
+  "title": "Beachhead Units"
+ },
+ {
+  "id": "18.1.2",
+  "title": "Supply Source"
+ },
+ {
+  "id": "18.1.3",
+  "title": "Beachheads and Combat"
+ },
+ {
+  "id": "18.1.4",
+  "title": "The Defense Strength of a BH hex is equal to 2 plus"
+ },
+ {
+  "id": "18.2",
+  "title": "Ports"
+ },
+ {
+  "id": "18.2.1",
+  "title": "In General"
+ },
+ {
+  "id": "18.2.2",
+  "title": "Sorrento and Torre Annunziata"
+ },
+ {
+  "id": "18.3",
+  "title": "The Floating Reserve Box"
+ },
+ {
+  "id": "18.4",
+  "title": "Naval Transport"
+ },
+ {
+  "id": "18.4.1",
+  "title": "In General"
+ },
+ {
+  "id": "18.4.2",
+  "title": "Naval Movement Procedure"
+ },
+ {
+  "id": "18.4.3",
+  "title": "Landing Points"
+ },
+ {
+  "id": "18.4.4",
+  "title": "Port and BH Capacity"
+ },
+ {
+  "id": "18.4.5",
+  "title": "Naval Movement from Land"
+ },
+ {
+  "id": "19.0",
+  "title": "SPECIAL UNITS"
+ },
+ {
+  "id": "19.1",
+  "title": "The 71st Nebelwerfer Regiment"
+ },
+ {
+  "id": "19.2",
+  "title": "The Torre Annunziata Garrison"
+ },
+ {
+  "id": "19.3",
+  "title": "Variable Strength Units"
+ },
+ {
+  "id": "19.4",
+  "title": "Battleships Valiant and Warspite"
+ },
+ {
+  "id": "20.0",
+  "title": "REPLACEMENTS"
+ },
+ {
+  "id": "20.1",
+  "title": "The Basics"
+ },
+ {
+  "id": "20.1.1",
+  "title": "In General"
+ },
+ {
+  "id": "20.1.2",
+  "title": "Types of Replacements"
+ },
+ {
+  "id": "20.2",
+  "title": "Replacement Restrictions"
+ },
+ {
+  "id": "20.3",
+  "title": "Units Returning from the Eliminated Box"
+ },
+ {
+  "id": "20.3.1",
+  "title": "Eligible Locations"
+ },
+ {
+  "id": "20.3.2",
+  "title": "Overstacking is allowed in the Initial Phase but it must"
+ },
+ {
+  "id": "20.3.3",
+  "title": "ASUs brought back start on their FIRED side"
+ },
+ {
+  "id": "20.3.4",
+  "title": "3-Step Units"
+ },
+ {
+  "id": "20.3.5",
+  "title": "Remnants"
+ },
+ {
+  "id": "20.4",
+  "title": "Replacement Markers"
+ },
+ {
+  "id": "21.0",
+  "title": "REINFORCEMENTS & ENTRY AREAS"
+ },
+ {
+  "id": "21.1",
+  "title": "Reinforcements"
+ },
+ {
+  "id": "21.1.1",
+  "title": "Arrival Locations"
+ },
+ {
+  "id": "21.1.2",
+  "title": "Reinforcements Arriving by Sea"
+ },
+ {
+  "id": "21.1.3",
+  "title": "Reinforcements from the Map Edge"
+ },
+ {
+  "id": "21.2",
+  "title": "Friendly vs Enemy Entry Areas"
+ },
+ {
+  "id": "21.2.1",
+  "title": "In General"
+ },
+ {
+  "id": "21.2.2",
+  "title": "East Entry Areas"
+ },
+ {
+  "id": "21.2.3",
+  "title": "North Entry Areas"
+ },
+ {
+  "id": "21.3",
+  "title": "Properties of Entry Areas"
+ },
+ {
+  "id": "21.3.1",
+  "title": "Stacking"
+ },
+ {
+  "id": "21.3.2",
+  "title": "Movement Into and Out Of"
+ },
+ {
+  "id": "21.3.3",
+  "title": "ZOCs"
+ },
+ {
+  "id": "21.3.4",
+  "title": "Combat and Entry Areas"
+ },
+ {
+  "id": "21.4",
+  "title": "Retreating Off the Map"
+ },
+ {
+  "id": "21.5",
+  "title": "Movement Between Entry Areas"
+ },
+ {
+  "id": "21.6",
+  "title": "Allied Airborne Reinforcements"
+ },
+ {
+  "id": "21.6.1",
+  "title": "In General"
+ },
+ {
+  "id": "21.6.2",
+  "title": "Airlanding Table Modifier"
+ },
+ {
+  "id": "21.6.3",
+  "title": "Airborne Supply"
+ },
+ {
+  "id": "21.6.4",
+  "title": "Airborne Landings and Weather"
+ },
+ {
+  "id": "22.0",
+  "title": "THE WEATHER PHASE"
+ },
+ {
+  "id": "22.1",
+  "title": "The Weather Track and Table"
+ },
+ {
+  "id": "22.2",
+  "title": "Adjust Air and Naval Support Markers"
+ },
+ {
+  "id": "22.2.1",
+  "title": "In General"
+ },
+ {
+  "id": "22.2.2",
+  "title": "The Luftwaffe"
+ },
+ {
+  "id": "22.2.3",
+  "title": "Montecorvino Airfield"
+ },
+ {
+  "id": "22.3",
+  "title": "Adjust Supply Point markers"
+ },
+ {
+  "id": "22.3.1",
+  "title": "In General"
+ },
+ {
+  "id": "22.3.2",
+  "title": "Salerno Port"
+ },
+ {
+  "id": "22.4",
+  "title": "Rain"
+ },
+ {
+  "id": "22.5",
+  "title": "Clear and Cloudy"
+ },
+ {
+  "id": "23.0",
+  "title": "VICTORY POINTS AND"
+ },
+ {
+  "id": "23.1",
+  "title": "Victory Points (VPs)"
+ },
+ {
+  "id": "23.1.1",
+  "title": "In General"
+ },
+ {
+  "id": "23.1.2",
+  "title": "VPs for Critical Units"
+ },
+ {
+  "id": "23.1.3",
+  "title": "Allied BH Units"
+ },
+ {
+  "id": "23.1.4",
+  "title": "North Map Edge VPs"
+ },
+ {
+  "id": "23.2",
+  "title": "Automatic Victory"
+ },
+ {
+  "id": "24.0",
+  "title": "TURN 1 SPECIAL RULES"
+ },
+ {
+  "id": "24.1",
+  "title": "Turn 1 Sequence of Play"
+ },
+ {
+  "id": "24.2",
+  "title": "Invasion Combat Phase"
+ },
+ {
+  "id": "24.2.1",
+  "title": "Procedure"
+ },
+ {
+  "id": "24.2.2",
+  "title": "CRT Results"
+ },
+ {
+  "id": "24.2.3",
+  "title": "Advance After Combat"
+ },
+ {
+  "id": "24.2.4",
+  "title": "Breakthrough Combat"
+ },
+ {
+  "id": "24.3",
+  "title": "Turn 1 German Movement Restriction"
+ },
+ {
+  "id": "24.4",
+  "title": "Turn 1 Allied Player-Turn"
+ },
+ {
+  "id": "24.4.1",
+  "title": "In General"
+ },
+ {
+  "id": "24.4.2",
+  "title": "The Follow-Up Wave"
+ },
+ {
+  "id": "24.4.3",
+  "title": "Sugar Beach"
+ },
+ {
+  "id": "25.0",
+  "title": "OPTIONAL RULES"
+ },
+ {
+  "id": "25.1",
+  "title": "Disengagement"
+ },
+ {
+  "id": "25.1.1",
+  "title": "Purpose"
+ },
+ {
+  "id": "25.1.2",
+  "title": "The Disengagement Table"
+ },
+ {
+  "id": "25.1.3",
+  "title": "Procedure"
+ },
+ {
+  "id": "25.1.4",
+  "title": "Explanation of Results"
+ },
+ {
+  "id": "25.2",
+  "title": "Reconnaissance Units"
+ },
+ {
+  "id": "25.3",
+  "title": "Limited Supply from Ports"
+ },
+ {
+  "id": "S1.1",
+  "title": "Set Up and Scenario Data"
+ },
+ {
+  "id": "S1.2",
+  "title": "Victory Conditions"
+ },
+ {
+  "id": "S1.3",
+  "title": "Special Rules"
+ },
+ {
+  "id": "S1.4",
+  "title": "Tournament Rules"
+ },
+ {
+  "id": "S2.1",
+  "title": "Set Up and Scenario Data"
+ },
+ {
+  "id": "S2.2",
+  "title": "16th Panzer Division Withdrawal"
+ },
+ {
+  "id": "S2.3",
+  "title": "8th Army Units"
+ },
+ {
+  "id": "S2.3.1",
+  "title": "Combat"
+ },
+ {
+  "id": "S2.3.2",
+  "title": "No Supply Points"
+ },
+ {
+  "id": "S2.3.3",
+  "title": "Army Boundary Line"
+ },
+ {
+  "id": "S2.3.4",
+  "title": "8th Army Sector Roads"
+ },
+ {
+  "id": "S2.3.5",
+  "title": "East Edge Entry Hexes"
+ },
+ {
+  "id": "S2.3.6",
+  "title": "No Remnants"
+ },
+ {
+  "id": "S2.3.7",
+  "title": "8th Army Removal"
+ },
+ {
+  "id": "S2.4",
+  "title": "Victory"
+ }
+]
