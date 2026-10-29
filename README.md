@@ -44,7 +44,7 @@ On a touch screen:
 
 ### Starting an operation
 
-1. **Title screen → New operation.** Pick the Avalanche Scenario (8 turns) or the Campaign Game (22 turns), then your role: the Allies, the Germans, both sides (hot-seat) or neither (watch the AIs fight). Choose the opponent (the built-in AI at Recruit, Regular, Veteran or Elite difficulty, or Claude with your API key) and the optional rules 25.2 (Reconnaissance units) and 25.3 (Limited supply from ports).
+1. **Title screen → New operation.** Pick the Avalanche Scenario (8 turns) or the Campaign Game (22 turns), then your role: the Allies, the Germans, both sides (hot-seat) or neither (watch the AIs fight). Choose the opponent (the built-in AI at Recruit, Regular, Veteran or Elite difficulty, or Claude with your API key) and the optional rules 25.1 (Disengagement, on by default), 25.2 (Reconnaissance units), 25.3 (Limited supply from ports) and S1.4 (tournament start, with the Allies already ashore).
 2. **Briefing.** A short dispatch with your side's situation and objectives. Click **Begin** to go to the map.
 
 ### The screen

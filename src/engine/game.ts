@@ -1106,6 +1106,7 @@ export function applyAction(s: GameState, a: Action): void {
       return;
     }
     case 'disengage': {
+      need(s.options?.disengagement !== false, 'Disengagement (optional rule 25.1) is not in use in this game.');
       need(s.phase === 'combat', 'Disengagement happens in the combat phase.');
       need(!s.pendingAdvance && !s.breakthrough, 'Resolve the pending advance first.');
       const notes: string[] = [];

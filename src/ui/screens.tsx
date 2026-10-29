@@ -73,7 +73,7 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
   const [opponent, setOpponent] = useState<Controller>(
     (role === 'Allied' ? settings.controllers.German : settings.controllers.Allied) === 'claude' ? 'claude' : 'heuristic',
   );
-  const [options, setOptions] = useState<GameOptions>({});
+  const [options, setOptions] = useState<GameOptions>({ disengagement: true });
   const start = () => {
     const ai: Controller = opponent;
     const controllers: Record<Side, Controller> =
@@ -146,6 +146,10 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
           </>
         )}
         <h3>Optional rules</h3>
+        <label className="check">
+          <input type="checkbox" checked={options.disengagement !== false} onChange={(e) => setOptions({ ...options, disengagement: e.target.checked })} />
+          25.1 Disengagement: units next to the enemy may roll to pull back one hex in the combat phase
+        </label>
         <label className="check">
           <input type="checkbox" checked={!!options.recon} onChange={(e) => setOptions({ ...options, recon: e.target.checked })} />
           25.2 Reconnaissance units shrug off the step loss of a D1 or DS when alone

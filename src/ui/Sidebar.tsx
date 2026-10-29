@@ -415,7 +415,7 @@ function CombatControls(p: Props) {
   const side = g.activeSide;
   const last = g.combats[g.combats.length - 1];
   const h = p.selectedHex;
-  const canDisengage = h && unitsAt(g, h).some((u) => sideOf(u) === side && !u.attacked && !u.repl && !def(u.id).asu && def(u.id).cat !== 'bh') &&
+  const canDisengage = h && g.options?.disengagement !== false && unitsAt(g, h).some((u) => sideOf(u) === side && !u.attacked && !u.repl && !def(u.id).asu && def(u.id).cat !== 'bh') &&
     neighbors(h).some((n) => unitsAt(g, n).some((x) => sideOf(x) !== side));
   return (
     <>

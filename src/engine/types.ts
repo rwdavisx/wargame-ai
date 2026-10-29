@@ -261,6 +261,8 @@ export interface CombatReport {
 export interface GameOptions {
   recon?: boolean;
   limitedPortSupply?: boolean;
+  /** 25.1 Disengagement (optional rule; on unless switched off, as in games saved before it was optional). */
+  disengagement?: boolean;
   /** Sides whose player picks retreat destinations (human players). */
   /** S1.4 tournament start: skip the invasion; the Allies start ashore and play begins with the German player turn. */
   optionalStart?: boolean;

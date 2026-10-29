@@ -408,6 +408,16 @@ describe('25 Optional rules', () => {
     expect(mech.where.kind === 'map' && mech.where.hex).not.toBe(O);
   });
 
+  it('[25.1] Disengagement is an optional rule: switched off, it is refused', () => {
+    const s = quiet({ side: 'German', phase: 'combat' });
+    place(s, 'GE-I15', O);
+    place(s, 'US-1-142', N);
+    s.options = { ...s.options, disengagement: false };
+    expect(refused(s, { type: 'disengage', hex: O })).toBe(true);
+    s.options = { ...s.options, disengagement: true };
+    expect(refused(s, { type: 'disengage', hex: O })).toBe(false);
+  });
+
   it('[25.1.3] a unit that disengages may not attack, and one that attacked may not disengage', () => {
     const s = engaged(['GE-I15'], 1); // fails, stays
     expect(refused(s, { type: 'attack', target: N, attackers: ['GE-I15'] })).toBe(true);
