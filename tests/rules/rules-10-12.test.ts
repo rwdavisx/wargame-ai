@@ -207,6 +207,19 @@ describe('step losses and remnants', () => {
     expect([drx.units['US-142'].stepsLost, gone(drx, 'US-1-142')]).toEqual([0, true]);
   });
 
+  it.fails('[10.2.1] the owning player may name which of his units takes a D1 loss', () => {
+    // Losses are picked by the engine (owner: cheapest step, opponent: dearest); no action lets a player choose.
+    const s = setup('German');
+    place(s, 'US-142', C);
+    place(s, 'US-1-142', C);
+    for (const id of ['GE-129', 'GE-III115', 'GE-215']) place(s, id, go(C, N));
+    for (const id of ['GE-I71', 'GE-I15', 'GE-II15', 'GE-III15']) place(s, id, go(C, NW));
+    act(s, { type: 'chooseLoss', unitId: 'US-1-142' } as never); // a hypothetical choice: ignored today
+    dice(s, 6); // 3-1 with the tank shift: D1
+    attack(s, { target: C, attackers: ['GE-129', 'GE-III115', 'GE-215', 'GE-I71', 'GE-I15', 'GE-II15', 'GE-III15'] });
+    expect(gone(s, 'US-1-142')).toBe(true);
+  });
+
   it('[10.2.2] attacker losses come from the MAF; the defender\'s first from units that added strength; the defender loses first', () => {
     const s = setup('German');
     place(s, 'US-142', C);
