@@ -290,7 +290,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       // Enemy hexes that can be attacked (or overrun with an Auto DS in the movement phase).
       for (const u of Object.values(g.units)) {
         if (sideOf(u) !== g.activeSide || u.attacked || !goodOrder(u) || def(u.id).asu) continue;
-        if (g.phase === 'invasion' && def(u.id).formation !== 'Commando Bde') continue;
+        // On the invasion turn only Commandos that still have an advance left may attack (Salerno).
+        if (g.phase === 'invasion' && (def(u.id).formation !== 'Commando Bde' || u.tacHexes !== 1 || u.stopped)) continue;
         // Units in an Entry Area that have not moved may attack the edge hexes of their area (21.3.4).
         const near = u.where.kind === 'map' ? neighbors(u.where.hex)
           : g.phase === 'combat' && u.where.kind === 'entry' && !u.stopped
@@ -351,7 +352,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     setAttackTarget(hex);
     if (!game.breakthrough) {
       let ids = eligibleAttackers(game, hex);
-      if (game.phase === 'invasion') ids = ids.filter((id) => def(id).formation === 'Commando Bde');
+      if (game.phase === 'invasion') ids = ids.filter((id) => def(id).formation === 'Commando Bde' && game.units[id].tacHexes === 1 && !game.units[id].stopped);
       setAttackers(new Set(ids));
       setSupport(NO_SUPPORT);
     }

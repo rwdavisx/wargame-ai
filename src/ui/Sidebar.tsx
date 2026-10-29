@@ -431,7 +431,7 @@ function AttackPlanner(p: Props & { kind: 'attack' | 'autoDs' | 'invasion' }) {
   const side = g.activeSide;
   const t = p.attackTarget!;
   let eligible = eligibleAttackers(g, t);
-  if (p.kind === 'invasion') eligible = eligible.filter((id) => def(id).formation === 'Commando Bde');
+  if (p.kind === 'invasion') eligible = eligible.filter((id) => def(id).formation === 'Commando Bde' && g.units[id].tacHexes === 1 && !g.units[id].stopped);
   const chosen = [...p.attackers];
   const nations = new Set(chosen.map((id) => supportNation(id)));
   const airKeys = [...nations].map((n) => `${n}-air`).filter((k) => g.support.ready.includes(k));
