@@ -176,5 +176,5 @@ export const SCENARIOS = o.scenarios as Record<string, { name: string; lastTurn:
 export const STARTING_SP = o.startingSupplyPoints as { German: number; Allied: number };
 export const WITHDRAWAL = o.withdrawal as { turn: number; side: 'German'; defense: number; prefer: string };
 /** S1.4 tournament start: Allied assault units already ashore, and German units gone before play begins. */
-export const OPTIONAL_START = o.optionalStart as { hexes: Record<string, string>; eliminated: string[] };
+export const OPTIONAL_START = o.optionalStart as { hexes: Record<string, string>; eliminated: string[]; alliedControl: string[] };
 export const BATTLESHIPS_TURN = o.support.battleshipsTurn as number;

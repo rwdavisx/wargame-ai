@@ -173,7 +173,9 @@
       "US-142": "2715", "US-1-142": "2616", "US-BH531R": "2616",
       "US-141": "2717", "US-2-141": "2617", "US-BH531B": "2617"
     },
-    "eliminated": ["GE-GarC"]
+    "eliminated": ["GE-GarC"],
+    "_controlNote": "Ports the assault units came ashore through: the Commandos landed at Vietri on their way into Salerno.",
+    "alliedControl": ["2607"]
   },
   "scenarios": {
     "campaign": { "name": "Campaign Game", "lastTurn": 22, "description": "The full campaign, 9 to 30 September 1943." },

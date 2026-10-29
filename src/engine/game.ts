@@ -104,7 +104,7 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
     // S1.4: the Allies are already ashore (Allied At Start card, back); play opens with the German player turn.
     for (const [id, hex] of Object.entries(OPTIONAL_START.hexes)) s.units[id].where = { kind: 'map', hex };
     for (const id of OPTIONAL_START.eliminated) s.units[id].where = { kind: 'eliminated' };
-    for (const [id, hex] of Object.entries(OPTIONAL_START.hexes)) if (sideOf(s.units[id]) === 'Allied') claimHex(s, hex, 'Allied');
+    for (const hex of [...Object.values(OPTIONAL_START.hexes), ...OPTIONAL_START.alliedControl]) claimHex(s, hex, 'Allied');
     s.log = [];
     log(s, `${sc.name} begins with the Allies already ashore (optional start).`);
     advancePhase(s);

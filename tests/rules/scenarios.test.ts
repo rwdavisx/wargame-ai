@@ -369,7 +369,7 @@ describe('S Scenarios', () => {
     // Garrison C cannot share Salerno with the Commandos; the rest of the German set-up is the normal one.
     expect(s.units['GE-GarC'].where.kind).toBe('eliminated');
     for (const [id, h] of Object.entries(AT_START_HEX)) if (id !== 'GE-GarC') expect(s.units[id].where).toEqual({ kind: 'map', hex: h });
-    for (const h of ['2407', '2707', '2811']) expect(s.control[h]).toBe('Allied');
+    for (const h of ['2407', '2607', '2707', '2811']) expect(s.control[h]).toBe('Allied'); // Maiori, Vietri (passed through), Salerno, Montecorvino
     for (const [corps, ids] of Object.entries(FOLLOW_UP)) for (const id of ids) expect(s.units[id].where).toEqual({ kind: 'followUp', corps });
     expect(s.support.ready.sort()).toEqual(['BR-air', 'BR-naval', 'US-air', 'US-naval']);
     expect(s.supplyPoints).toEqual({ Allied: 0, German: 3 });
