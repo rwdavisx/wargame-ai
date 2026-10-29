@@ -187,17 +187,28 @@ async function cachePut(key: string, value: { blob: Blob; thumb: string }): Prom
   }
 }
 
+/** A data: URL for the image. Some hosts (such as sandboxed pages) block blob: images, never data: ones. */
+function toDataUrl(blob: Blob): Promise<string> {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result as string);
+    r.onerror = () => rej(r.error);
+    r.readAsDataURL(blob);
+  });
+}
+
 /** The painted map, from the browser cache when the map has not changed. */
 export async function renderTerrain(onProgress?: (fraction: number, label: string) => void): Promise<TerrainImage> {
   const key = mapHash();
   const cached = await cacheGet(key);
   if (cached) {
     onProgress?.(1, 'Ready');
-    return { url: URL.createObjectURL(cached.blob), thumb: cached.thumb, bounds: mapBounds(90) };
+    return { url: await toDataUrl(cached.blob), thumb: cached.thumb, bounds: mapBounds(90) };
   }
   const result = await paintTerrain(onProgress);
   await cachePut(key, { blob: result.blob, thumb: result.thumb });
-  return { url: result.url, thumb: result.thumb, bounds: result.bounds };
+  URL.revokeObjectURL(result.url);
+  return { url: await toDataUrl(result.blob), thumb: result.thumb, bounds: result.bounds };
 }
 
 async function paintTerrain(onProgress?: (fraction: number, label: string) => void): Promise<TerrainImage & { blob: Blob }> {

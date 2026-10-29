@@ -39,7 +39,7 @@ export default function App() {
     renderTerrain((f, label) => setProgress({ f, label }))
       .then((t) => {
         setTerrain((old) => {
-          if (old) URL.revokeObjectURL(old.url);
+          if (old?.url.startsWith('blob:')) URL.revokeObjectURL(old.url);
           return t;
         });
         setScreen((s) => (s === 'loading' ? 'title' : s));
