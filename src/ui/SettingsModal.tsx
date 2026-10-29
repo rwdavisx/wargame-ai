@@ -86,6 +86,9 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, edito
             <label className="check">
               <input type="checkbox" checked={s.showLabels} onChange={(e) => set({ showLabels: e.target.checked })} /> Place names
             </label>
+            <label className="check">
+              <input type="checkbox" checked={s.showCues !== false} onChange={(e) => set({ showCues: e.target.checked })} /> Unit cues: ready to act, odds on targets, movement left
+            </label>
             <h3>Sound</h3>
             <label className="check">
               <input type="checkbox" checked={s.sound} onChange={(e) => { set({ sound: e.target.checked }); setSound(e.target.checked, s.volume); if (e.target.checked) sfx.select(); }} /> Sound effects

@@ -16,6 +16,10 @@ export interface Settings {
   animSpeed: number;
   showGrid: boolean;
   showLabels: boolean;
+  /** Ready-to-act cues, odds on targets and movement left on the map. */
+  showCues: boolean;
+  /** Map mode: normal, supply, control, zoc, support, terrain or stacking (see mapModes.ts). */
+  mapMode: string;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -34,6 +38,8 @@ export const DEFAULT_SETTINGS: Settings = {
   animSpeed: 1,
   showGrid: true,
   showLabels: true,
+  showCues: true,
+  mapMode: 'normal',
 };
 
 export function hasAutosave(): boolean {

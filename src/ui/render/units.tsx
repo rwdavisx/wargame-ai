@@ -4,6 +4,7 @@ import { memo } from 'react';
 import type { Nation, UnitState } from '../../engine/types';
 import { def, stepsRemaining, values } from '../../engine/units';
 import type { UnitDef } from '../../engine/types';
+import { CounterMarkers, MoveLeftTab, ReadyCue, unitMarkers, type Marker } from './markers';
 
 // ------------------------------------------------------------------ insignia
 
@@ -65,6 +66,11 @@ const DIVISION_FILL: Record<string, string> = {
   '46 Div': '#f3ecd3', '56 Div': '#8b8a62', '7 Armd Div': '#e2553f', 'Commando Bde': '#3c70c4', '5 Div': '#8193d6', '1 CN Div': '#efe2bf',
   '16 Pz': '#5b6064', '29 PG': '#5f9ddb', '26 Pz': '#e8c94a', '15 PG': '#6dab4a', '3 PG': '#dd5a50', '1 FJ': '#3f74b8',
 };
+
+/** The colour a formation's counters carry in their unit-type box (null for corps and independent units). */
+export function formationColour(formation: string): string | null {
+  return DIVISION_FILL[formation] ?? null;
+}
 
 function boxFill(d: UnitDef): string {
   if (d.cat === 'bh') return '#4b8ad6';
@@ -215,25 +221,6 @@ export function TokenDefs() {
 export const TOKEN_W = 36;
 export const TOKEN_H = 36;
 
-interface Badge {
-  text: string;
-  fill: string;
-  title: string;
-}
-
-function badgesFor(u: UnitState, frozen: boolean): Badge[] {
-  const out: Badge[] = [];
-  if (u.status === 'disrupted') out.push({ text: 'D', fill: '#d9822b', title: 'Disrupted' });
-  if (u.status === 'fullRetreat') out.push({ text: 'FR', fill: '#c0392b', title: 'Full Retreat' });
-  if (u.halfEff) out.push({ text: '½', fill: '#c9a227', title: '½ Effective' });
-  if (u.isolated) out.push({ text: 'ISO', fill: '#7d1f1a', title: 'Isolated' });
-  else if (u.outOfSupply) out.push({ text: 'OOS', fill: '#a8322a', title: 'Out of supply' });
-  if (u.repl) out.push({ text: 'R', fill: '#2f6aa3', title: 'Received a replacement' });
-  if (u.truck) out.push({ text: 'T', fill: '#5b6770', title: 'On trucks' });
-  if (frozen) out.push({ text: '❄', fill: '#2f6aa3', title: 'Frozen in place' });
-  return out;
-}
-
 export interface TokenProps {
   unit: UnitState;
   /** Units in the same hex (draws the stack behind and a count). */
@@ -243,6 +230,12 @@ export interface TokenProps {
   frozen?: boolean;
   /** Smaller variant without badges, for lists. */
   compact?: boolean;
+  /** Status markers for the whole stack (defaults to this unit's own). */
+  markers?: Marker[];
+  /** The stack can still move or attack this phase. */
+  cue?: 'move' | 'attack' | null;
+  /** Movement left this phase, e.g. "2 MP". */
+  moveLeft?: string | null;
 }
 
 /** The strength line along the bottom: attack (with tank rating), defense (red box when elite), movement. */
@@ -294,7 +287,7 @@ function StrengthLine({ d, u, y }: { d: UnitDef; u: UnitState; y: number }) {
 }
 
 /** A unit counter centred on (0, 0). */
-export const UnitToken = memo(function UnitToken({ unit, count = 1, selected, dim, frozen, compact }: TokenProps) {
+export const UnitToken = memo(function UnitToken({ unit, count = 1, selected, dim, frozen, compact, markers, cue, moveLeft }: TokenProps) {
   const d = def(unit.id);
   const w = TOKEN_W;
   const h = TOKEN_H;
@@ -304,7 +297,7 @@ export const UnitToken = memo(function UnitToken({ unit, count = 1, selected, di
   const fired = !!d.asu && unit.fired;
   const reduced = unit.stepsLost > 0 && d.steps.length > 1;
   const remnant = d.isRemnant;
-  const badges = compact ? [] : badgesFor(unit, !!frozen);
+  const badges = compact ? [] : markers ?? unitMarkers(unit, !!frozen);
   const size = sizeMark(d);
   const id = shortId(d);
   const ink = '#1c1c18';
@@ -346,7 +339,8 @@ export const UnitToken = memo(function UnitToken({ unit, count = 1, selected, di
         {d.asu && <text x={-0.8} y={by + bh / 2 + 4.6} textAnchor="middle" fontSize={3.9} fontWeight={700} fill={ink} className="token-num">{ASU_LABEL[d.id] ?? d.name.replace(/ ASU$/, '')}</text>}
         <StrengthLine d={d} u={unit} y={y0 + h - 3.2} />
         {fired && (
-          <g transform="rotate(-20)">
+          <g transform="rotate(-20)" pointerEvents="visiblePainted">
+            <title>Fired: this artillery has supported an attack and must be readied again</title>
             <rect x={-15} y={-4.5} width={30} height={7} fill="rgba(140,24,18,0.9)" />
             <text x={0} y={1} textAnchor="middle" fontSize={5.6} fontWeight={800} fill="#f4efe0" letterSpacing={1}>FIRED</text>
           </g>
@@ -358,13 +352,9 @@ export const UnitToken = memo(function UnitToken({ unit, count = 1, selected, di
           <text x={x0 - 1} y={y0 + 1.6} textAnchor="middle" fontSize={7} fontWeight={800} fill="#f4efe0">{count}</text>
         </g>
       )}
-      {badges.map((b, i) => (
-        <g key={b.text} transform={`translate(${x0 + w + 1} ${y0 + 2 + i * 9.5})`}>
-          <title>{b.title}</title>
-          <rect x={-5.5} y={-4.2} width={b.text.length > 1 ? 13 : 9} height={8.4} rx={4.2} fill={b.fill} stroke="#111" strokeWidth={0.6} />
-          <text x={b.text.length > 1 ? 1 : -1} y={2.2} textAnchor="middle" fontSize={6} fontWeight={800} fill="#fff">{b.text}</text>
-        </g>
-      ))}
+      {badges.length > 0 && <CounterMarkers markers={badges} x={x0 + w} y={y0} />}
+      {!compact && moveLeft && <MoveLeftTab text={moveLeft} y={y0 + h - 1} />}
+      {!compact && cue && <ReadyCue kind={cue} x={x0 + w + 0.5} y={y0 - 0.5} />}
     </g>
   );
 });

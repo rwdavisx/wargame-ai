@@ -9,6 +9,9 @@ import { center, chainSegments, corners, edge, pixelToHex, polyPoints, R, smooth
 import type { TerrainImage } from './render/terrain';
 import { Insignia, UnitToken } from './render/units';
 import { CanvasImage } from './render/CanvasImage';
+import { stackMarkerMap, type Marker } from './render/markers';
+import { CueDefs, CueOverlay, FormationRings, ModeTools, ModeUnderlay } from './MapCues';
+import type { QolMapProps } from './qol';
 import { sfx } from './sound';
 
 export { R };
@@ -59,7 +62,11 @@ export interface MapViewProps {
   /** Bring this hex into view whenever `n` changes. */
   focus?: { hex: HexId; n: number } | null;
   hoverText: string | null;
+  /** Ready cues, odds on targets and the map mode (see qol.ts). */
+  qol?: QolMapProps;
 }
+
+const NO_MARKERS: Marker[] = [];
 
 interface View {
   x: number;
@@ -319,7 +326,7 @@ function PathPreview({ preview }: { preview: { path: HexId[]; label?: string } }
         markerEnd="url(#arrowhead-fff6d5)" />
       {preview.label && (
         <g transform={`translate(${end[0]} ${end[1] - 22})`}>
-          <rect x={-16} y={-7} width={32} height={12} rx={6} fill="#fff6d5" stroke="#1a1a1a" strokeWidth={0.8} />
+          <rect x={-Math.max(16, preview.label.length * 2.2 + 4)} y={-7} width={Math.max(32, preview.label.length * 4.4 + 8)} height={12} rx={6} fill="#fff6d5" stroke="#1a1a1a" strokeWidth={0.8} />
           <text y={2} fontSize={7.4} fontWeight={800} textAnchor="middle" fill="#1a1a1a">{preview.label}</text>
         </g>
       )}
@@ -708,6 +715,8 @@ export function MapView(props: MapViewProps) {
     }
     return m;
   }, [state, animating]);
+  const stackMarks = useMemo(() => stackMarkerMap(state), [state]);
+  const qol = props.qol;
 
   // Attack arrows from the chosen attackers' hexes.
   const attackArrows = useMemo(() => {
@@ -864,8 +873,11 @@ export function MapView(props: MapViewProps) {
             <stop offset="0.6" stopColor="#000" stopOpacity={0} />
             <stop offset="1" stopColor="#000" stopOpacity={0.55} />
           </radialGradient>
+          <CueDefs />
         </defs>
+        {qol?.layer && <ModeUnderlay layer={qol.layer} part="fills" />}
         <StaticOverlay version={props.version} showGrid={settings.showGrid} showLabels={settings.showLabels} />
+        {qol?.layer && <ModeUnderlay layer={qol.layer} part="lines" />}
         <Markers state={state} />
         <Regions highlights={highlights} />
         {props.preview && <PathPreview preview={props.preview} />}
@@ -879,6 +891,9 @@ export function MapView(props: MapViewProps) {
             </g>
           )}
         </g>
+        {qol?.cues && qol.formation && qol.formationSide && (
+          <FormationRings state={state} formation={qol.formation} side={qol.formationSide} selectedId={selectedUnitId} />
+        )}
         <g pointerEvents="none">
           {[...stacks.entries()].map(([h, list]) => {
             const [x, y] = center(h);
@@ -894,11 +909,15 @@ export function MapView(props: MapViewProps) {
                   selected={top.id === selectedUnitId || list.some((u) => attackers.has(u.id))}
                   dim={spent}
                   frozen={list.some((u) => !!u.frozenUntil && state.turn < u.frozenUntil)}
+                  markers={stackMarks.get(h) ?? NO_MARKERS}
+                  cue={qol?.cues ? qol.ready.get(h) : null}
+                  moveLeft={qol?.cues ? list.map((u) => qol.moveLeft.get(u.id)).find(Boolean) : null}
                 />
               </g>
             );
           })}
         </g>
+        {qol && <CueOverlay qol={qol} attackTarget={attackTarget} />}
         <g pointerEvents="none">
           {effects.map((e) => <EffectView key={e.id} e={e} />)}
         </g>
@@ -910,6 +929,7 @@ export function MapView(props: MapViewProps) {
         <button title="Zoom out (−)" onClick={() => zoomBy(1.3)}>－</button>
         <button title="Whole map" onClick={() => flyTo({ x: b.x, y: b.y, w: b.w, h: (b.w * vb.h) / vb.w })}>⤢</button>
         <button title="Back to the beaches" onClick={() => { const [x, y] = center('2711'); centerOn(x + 120, y, 500); }}>⌖</button>
+        {qol && <ModeTools qol={qol} />}
       </div>
       {props.hoverText && hoverScreen && !dragging && (
         <div className="hex-tip" style={{ left: hoverScreen.left + 28, top: hoverScreen.top - 10 }}>
