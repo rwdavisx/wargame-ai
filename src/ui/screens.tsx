@@ -154,6 +154,10 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
           <input type="checkbox" checked={!!options.limitedPortSupply} onChange={(e) => setOptions({ ...options, limitedPortSupply: e.target.checked })} />
           25.3 Ports can only supply a limited number of units
         </label>
+        <label className="check">
+          <input type="checkbox" checked={!!options.optionalStart} onChange={(e) => setOptions({ ...options, optionalStart: e.target.checked })} />
+          S1.4 Tournament start: the Allies are already ashore and the Germans move first
+        </label>
         <div className="setup-buttons">
           <button onClick={onBack}>Back</button>
           <button className="primary big" onClick={start}>To the briefing ▶</button>
