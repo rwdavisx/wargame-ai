@@ -224,7 +224,8 @@ function riskDelta(s: GameState, ctx: Ctx, u: UnitState, from: HexId | null, to:
 
 /** Change in the victory points we stand to lose by leaving or holding towns the enemy can walk into. */
 function pointsDelta(s: GameState, ctx: Ctx, u: UnitState, from: HexId | null, to: HexId): number {
-  if (def(u.id).asu || !ctx.tm) return 0;
+  // The attacking Germans leave towns behind them; they garrison once they go over to the defensive.
+  if (def(u.id).asu || !ctx.tm || (ctx.side === 'German' && ctx.aggression >= 0.5)) return 0;
   let delta = 0;
   if (from && from !== to && !ownAt(s, from, ctx.side).some((id) => id !== u.id && !def(id).asu)) delta += openPoints(s, ctx, from);
   if (!ownAt(s, to, ctx.side).some((id) => id !== u.id && !def(id).asu)) delta -= openPoints(s, ctx, to);
@@ -577,7 +578,16 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
     for (const u of replCands) {
       considered.add('r' + u.id);
       const a: Action = { type: 'replace', unitId: u.id };
-      if (isLegal(s, a)) return a;
+      if (!isLegal(s, a)) continue;
+      // A step back may push its hex over the stacking limit: only if a unit there can still move out.
+      if (u.where.kind === 'map' && skill.reach) {
+        const c = structuredClone({ ...s, log: [] });
+        applyAction(c, a);
+        const h = u.where.hex;
+        const ids = unitsAt(c, h).filter((x) => sideOf(x) === side).map((x) => x.id);
+        if (stackPoints(ids, c) > RULES.stackingLimit && !ids.some((id) => !cannotMove(c, c.units[id]))) continue;
+      }
+      return a;
     }
     for (const u of own) {
       if (def(u.id).asu && u.fired && s.supplyPoints[side] > 0 && u.where.kind === 'map' && !considered.has('a' + u.id)) {
@@ -630,9 +640,41 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
     return null;
   }
 
+  /** Moves a unit out of any hex over the stacking limit (the excess would be lost when the phase ends). */
+  function fixStacking(s: GameState, ctx: Ctx): Action | null {
+    const side = ctx.side;
+    const hexes = new Set(Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === side).map((u) => (u.where as { hex: HexId }).hex));
+    for (const h of hexes) {
+      const here = ownAt(s, h, side);
+      if (stackPoints(here, s) <= RULES.stackingLimit) continue;
+      let best: { a: Action; score: number } | null = null;
+      for (const id of here) {
+        const u = s.units[id];
+        if (cannotMove(s, u)) continue;
+        for (const mode of allowedModes(s, u)) {
+          if (mode !== 'normal' && mode !== 'tactical') continue;
+          for (const to of legalDestinations(s, id, mode).keys()) {
+            if (forbidden(s, side, to)) continue;
+            const sc = scoreMove(s, ctx, u, h, to);
+            if (!best || sc > best.score) best = { a: { type: 'move', unitId: id, to, mode }, score: sc };
+          }
+        }
+      }
+      if (best) return best.a;
+    }
+    return null;
+  }
+
   function movementAction(s: GameState): Action | null {
     const side = s.activeSide;
     const ctx = makeCtx(s);
+    if (skill.reach) {
+      const fix = fixStacking(s, ctx);
+      if (fix) {
+        if (fix.type === 'move') considered.add(fix.unitId);
+        return fix;
+      }
+    }
     if (side === 'Allied') {
       const waiting = Object.values(s.units)
         .filter((u) => sideOf(u) === side && (u.where.kind === 'reserve' || u.where.kind === 'followUp' || u.where.kind === 'atSea') && !considered.has(u.id))
@@ -648,6 +690,8 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
           if (right.length) hexes = right;
         }
         const best = bestOf(s, ctx, u, hexes, true);
+        // Guns landed where they would be overrun are points thrown away: keep them offshore a turn.
+        if (best && skill.reach && def(u.id).asu && u.where.kind === 'reserve' && riskDelta(s, ctx, u, null, best) > 1.6) continue;
         if (best) return { type: 'land', unitId: u.id, to: best };
       }
     }
