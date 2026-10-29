@@ -11,6 +11,7 @@ One correction per line ('#' starts a comment; keep the evidence there):
   town HEX NAME / untown HEX              set or remove a town
   landmark HEX NAME                       a named landmark (no effect on play); removes any town
   vp HEX N                                set the VP value (0 removes it)
+  sector8+ HEX / sector8- HEX             put a hex in, or take it out of, the 8th Army sector
 Every operation is idempotent, so the files can be re-applied.
 """
 import sys, json, os
@@ -61,6 +62,11 @@ def main(files):
             elif op == 'landmark':
                 HX[f[1]].pop('town', None)
                 HX[f[1]]['landmark'] = ' '.join(f[2:])
+            elif op in ('sector8+', 'sector8-'):
+                if op[-1] == '+':
+                    HX[f[1]]['sector8'] = True
+                else:
+                    HX[f[1]].pop('sector8', None)
             elif op == 'vp':
                 v = int(f[2])
                 if v:

@@ -85,3 +85,10 @@ minor+ 3409-3508
 road- 3514-3614
 # --- 3620-3719 is the dark long-dash Army Boundary Line, not a road
 road- 3620-3719
+
+# --- 8th Army sector, north end: the Army Boundary Line leaves the column 40/41 seam at 4102,
+#     crosses the top of 4102 and runs up the east side of 4101 and 4100 to the map edge, so
+#     4100 and 4101 are on the 5th Army side (photo 3; the rulebook's S2.3.3 ends the line at
+#     the 4100/4201 hexside)
+sector8- 4100
+sector8- 4101
