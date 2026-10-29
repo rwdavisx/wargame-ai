@@ -6,7 +6,7 @@ import { SCENARIOS } from '../engine/data';
 import type { GameOptions, GameState, Side } from '../engine/types';
 import { Insignia } from './render/units';
 import { sfx } from './sound';
-import type { Controller, Settings } from './storage';
+import type { Controller, MouseControls, Settings } from './storage';
 
 export function LoadingScreen({ progress, label }: { progress: number; label: string }) {
   return (
@@ -194,8 +194,8 @@ export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: Terr
         <ul>{b.goals(game.scenarioId).map((g) => <li key={g}>{g}</li>)}</ul>
         <h3>FIELD NOTES</h3>
         <ul className="notes">
-          <li>Select a unit, then click a highlighted hex to move. Hover a hex to see the route and its cost.</li>
-          <li>Red hexes can be attacked: pick attackers and support in the orders panel, then roll.</li>
+          <li>Click a unit to select it, then right-click a highlighted hex to move (on a touch screen, tap it twice). Hover a hex to see the route and its cost.</li>
+          <li>Red hexes can be attacked: right-click one to see the odds, right-click it again to attack. Pick attackers and support in the orders panel.</li>
           <li>End each phase with the button at the bottom of the orders panel. Esc opens the menu.</li>
           <li>Drag or use the arrow keys to pan, the mouse wheel or +/− to zoom, and the minimap to jump.</li>
         </ul>
@@ -207,7 +207,8 @@ export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: Terr
   );
 }
 
-export function HowToPlay({ onClose }: { onClose: () => void }) {
+export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; onClose: () => void }) {
+  const rts = mouse !== 'classic';
   return (
     <div className="modal-back" onClick={onClose}>
       <div className="modal howto" onClick={(e) => e.stopPropagation()}>
@@ -220,19 +221,31 @@ export function HowToPlay({ onClose }: { onClose: () => void }) {
             <h3>The day</h3>
             <p>Each turn is one day: weather, then the German player turn, then the Allied player turn, then the victory check. A player turn runs through initial, movement, combat, recovery and supply phases; the program skips phases with nothing to decide.</p>
             <h3>Moving</h3>
-            <p>Select one of your units (or press Next unit). Blue hexes it can reach; amber ones are where it must stop. Select a hex to move there: with a mouse one click moves, on a touch screen the first tap shows the route and the second tap (or Move here) confirms. The bar at the bottom offers Normal, Extended, Tactical and Truck movement. Land brings in reserves at the beaches and ports.</p>
+            <p>Select one of your units (or press Next unit). Blue hexes it can reach; amber ones are where it must stop. Choose a hex to move there: with a mouse {rts ? 'right-click it' : 'one click moves'}, on a touch screen the first tap shows the route and the second tap (or Move here) confirms. The bar at the bottom offers Normal, Extended, Tactical and Truck movement. Land brings in reserves at the beaches and ports.</p>
           </section>
           <section>
             <h3>Fighting</h3>
-            <p>Select a red enemy hex to see the attack: the bar shows the odds, the column shifts and toggles for air, naval and artillery support. Select the hex again, or press Attack!, to attack. Next target steps through every enemy in reach; Units… opens the full list to choose who attacks. A defender told to retreat may make a Determined Defense instead.</p>
+            <p>{rts ? 'Right-click' : 'Click'} or tap a red enemy hex to see the attack: the bar shows the odds, the column shifts and toggles for air, naval and artillery support. {rts ? 'Right-click' : 'Click'} or tap the hex again, or press Attack!, to attack. Next target steps through every enemy in reach; Units… opens the full list to choose who attacks. A defender told to retreat may make a Determined Defense instead.</p>
             <h3>After combat</h3>
-            <p>Pick the units that advance in the bar, then select a violet hex; or form a Breakthrough Group under Details to keep going. End phase asks again if units have not moved or you have not attacked.</p>
+            <p>Pick the units that advance in the bar, then {rts ? 'right-click' : 'click'} or tap a violet hex; or form a Breakthrough Group under Details to keep going. End phase asks again if units have not moved or you have not attacked.</p>
           </section>
           <section>
             <h3>Controls</h3>
             <ul>
-              <li>Select / move / attack: click or tap (tap twice to confirm on touch)</li>
-              <li>Right-click or Esc: cancel; Esc again opens the menu</li>
+              {rts ? (
+                <>
+                  <li>Left-click: select a unit or inspect a hex (again to cycle a stack)</li>
+                  <li>Right-click: move to a highlighted hex, or plan an attack on a red hex (again to attack)</li>
+                  <li>Right-click where there is nothing to do, or Esc: cancel; Esc again opens the menu</li>
+                </>
+              ) : (
+                <>
+                  <li>Select / move / attack: click (a planned target again to attack)</li>
+                  <li>Right-click or Esc: cancel; Esc again opens the menu</li>
+                </>
+              )}
+              <li>Touch: tap to select, tap a hex twice to move or attack</li>
+              <li>Settings → Mouse controls: right-click to act, or left-click does everything</li>
               <li>N or Tab: next unit or target · Z: undo</li>
               <li>Space: end the phase · Enter: confirm or attack</li>
               <li>1–5: movement mode</li>

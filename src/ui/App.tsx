@@ -88,7 +88,7 @@ export default function App() {
         />
       )}
       {modal === 'settings' && <SettingsModal settings={settings} setSettings={setSettings} onClose={() => setModal('none')} />}
-      {modal === 'howto' && <HowToPlay onClose={() => setModal('none')} />}
+      {modal === 'howto' && <HowToPlay mouse={settings.mouseControls} onClose={() => setModal('none')} />}
     </>
   );
 }
