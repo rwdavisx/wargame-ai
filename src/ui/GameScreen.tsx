@@ -158,6 +158,11 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     [settings.controllers, settings.claudeApiKey, settings.claudeModel],
   );
 
+  // Until when the map is still playing the last change; the computer waits for it before its next action.
+  const busyUntil = useRef(0);
+  const onMapBusy = useCallback((ms: number) => {
+    busyUntil.current = Math.max(busyUntil.current, Date.now() + ms);
+  }, []);
   useEffect(() => {
     if (humanTurn || halted || game.phase === 'gameOver') return;
     let cancelled = false;
@@ -191,7 +196,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           setToast(`AI error: ${(e as Error).message}`);
         }
       }
-    }, settings.aiDelayMs);
+    }, settings.aiDelayMs + Math.max(0, busyUntil.current - Date.now()));
     return () => {
       cancelled = true;
       clearTimeout(timer);
@@ -818,6 +823,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         battle={battleMark.current}
         viewInset={battleInset}
         aiActive={!humanTurn}
+        onBusy={onMapBusy}
         humanSides={humanSides}
         onHexClick={(h, e) => onHexClick(h, e)}
         onCancel={() => !viewerOpen && cancelAll()}
@@ -904,7 +910,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           onFocusHex={(h) => { focusOn(h); if (phone) setPanelOpen(false); }}
         />
       </aside>
-      {cardUnit && !showDefense && !(small && mineSel && cardUnit.id === mineSel.id) && (
+      {cardUnit && !showDefense && !attackTarget && !game.pendingAdvance && !(small && mineSel && cardUnit.id === mineSel.id) && (
         <UnitCard game={game} unit={cardUnit} hex={selectedHex} onSelect={(id) => setSelectedUnit(id)} onClose={() => { setSelectedUnit(null); setSelectedHex(null); }} />
       )}
       {game.phase !== 'gameOver' && !viewerOpen && <CombatPopup game={game} humanSides={humanSides} speed={settings.animSpeed} />}

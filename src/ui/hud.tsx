@@ -277,7 +277,7 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
     <div className="unit-card">
       <button className="close" onClick={onClose}>✕</button>
       <div className="uc-main">
-        <TokenIcon unit={unit} size={84} />
+        <TokenIcon unit={unit} size={60} />
         <div className="uc-info">
           <div className="uc-name">{d.name}</div>
           <div className="uc-sub">{CAT_NAME[d.cat] ?? d.cat} · {d.formation} · {d.nation === 'GE' ? 'German' : d.nation === 'US' ? 'American' : d.nation === 'CN' ? 'Canadian' : 'British'}</div>
