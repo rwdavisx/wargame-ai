@@ -32,9 +32,11 @@ interface Props {
   /** How much of the map the panel covers, so the camera frames the beaches clear of it. */
   onFootprint: (inset: BattleInset) => void;
   onClose: () => void;
+  /** The computer commands the Allies: the panel rolls every beach by itself while the player watches. */
+  spectator?: boolean;
 }
 
-export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootprint, onClose }: Props) {
+export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootprint, onClose, spectator }: Props) {
   // Beaches in the order the card lists them, with the units waiting in each landing box (captured before any roll).
   const [beaches] = useState(() => landingsLeft(game).map((name) => ({
     name,
@@ -81,16 +83,26 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
     rollNext();
   };
 
+  // Watching the computer: it rolls every beach in turn, starting a moment after the panel opens.
+  useEffect(() => {
+    if (!spectator) return;
+    const t = window.setTimeout(() => {
+      queue.current = landingsLeft(game).slice(1);
+      latest.current(landingsLeft(game)[0]);
+    }, 700 * speed);
+    return () => window.clearTimeout(t);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Space rolls the next beach (or closes the panel once every beach is ashore); Enter as well.
-  const keys = useRef({ rollNext, done, onClose });
-  keys.current = { rollNext, done, onClose };
+  const keys = useRef({ rollNext, done, onClose, spectator });
+  keys.current = { rollNext, done, onClose, spectator };
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== ' ' && e.key !== 'Enter') return;
       e.preventDefault();
       e.stopPropagation();
       if (keys.current.done) keys.current.onClose();
-      else keys.current.rollNext();
+      else if (!keys.current.spectator) keys.current.rollNext();
     };
     window.addEventListener('keydown', onKey, true);
     return () => window.removeEventListener('keydown', onKey, true);
@@ -130,7 +142,7 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
       <div className="cbx" role="dialog" aria-modal="false" aria-label="The landings">
         <header className="cbx-head">
           <div className="cbx-kicker">D-Day · 9 September 1943 · Invasion table (24.2)</div>
-          <h2 className="cbx-title">The landings</h2>
+          <h2 className="cbx-title">{spectator ? 'The Allies land' : 'The landings'}</h2>
         </header>
         <div className="land-die">
           <Die3D value={cur ? rolls[cur.name] ?? null : null} throwKey={throwKey} size={64} speed={speed} onLanded={landed} />
@@ -152,7 +164,7 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
                     <button className="land-name" onClick={() => onFocus(b.hex)} title={`Show ${b.name} beach on the map`}>
                       <b>{b.name}</b><small>{b.hex} · {COLUMN_NAME[col]}</small>
                     </button>
-                    {pending ? (
+                    {pending && !spectator ? (
                       <button className="land-roll" disabled={rolling} onClick={() => rollBeach(b.name)}><Pips n={5} size={16} /> Roll</button>
                     ) : shown ? (
                       <span className={`land-result tone-${outcome(table[r - 1]).tone}`}>{r}: {short(table[r - 1])}</span>
@@ -176,9 +188,11 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
           <p className="land-note">Adv 1: the units stop on the beach. Adv 2: they may move one more hex inland. Only the Commandos may attack (Salerno) this phase.</p>
         </div>
         <footer className="cbx-actions">
-          {!done && left.length > 1 && <button className="cbx-secondary" disabled={rolling} onClick={rollAll}>Roll all</button>}
+          {!done && !spectator && left.length > 1 && <button className="cbx-secondary" disabled={rolling} onClick={rollAll}>Roll all</button>}
           {done ? (
-            <button className="primary cbx-primary" onClick={onClose}>To the beaches ▶<kbd>Enter</kbd></button>
+            <button className="primary cbx-primary" onClick={onClose}>{spectator ? 'Continue ▶' : 'To the beaches ▶'}<kbd>Enter</kbd></button>
+          ) : spectator ? (
+            <button className="primary cbx-primary" disabled>The Allies are landing…</button>
           ) : (
             <button className="primary cbx-primary roll" disabled={rolling} onClick={rollNext}>
               <Pips n={5} size={20} /> {rolling ? 'Rolling…' : `Roll ${left[0]}`}<kbd>Space</kbd>

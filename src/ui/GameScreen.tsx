@@ -133,11 +133,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const [landingClosed, setLandingClosed] = useState(false);
   const [landingSeen, setLandingSeen] = useState(false);
   const landingsWaiting = game.phase === 'invasion' ? landingsLeft(game).length : 0;
+  // When the computer commands the Allies, the human player watches its landings on the same panel.
+  const watchLanding = !humanTurn && humanSides.length > 0 && game.activeSide === 'Allied';
   useEffect(() => {
-    if (landingsWaiting && humanTurn) setLandingSeen(true);
-  }, [landingsWaiting, humanTurn]);
+    if (landingsWaiting && (humanTurn || watchLanding)) setLandingSeen(true);
+  }, [landingsWaiting, humanTurn, watchLanding]);
   // Open while beaches wait for their roll, and after the last one until the player closes it.
-  const showLanding = game.phase === 'invasion' && humanTurn && !landingClosed && (landingsWaiting > 0 || landingSeen);
+  const showLanding = game.phase === 'invasion' && (humanTurn || watchLanding) && !landingClosed && (landingsWaiting > 0 || landingSeen);
   // The battle panel docks beside the map: its battle is marked on the map and framed clear of the panel.
   const [battleInset, setBattleInset] = useState<BattleInset>(NO_INSET);
   const battleRep = viewerId !== null ? game.combats.find((c) => c.id === viewerId) ?? null : null;
@@ -155,7 +157,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     battleMark.current = { key: battleKey, target: battle ? battle.target : battleRep!.defenderHex, from: [...new Set(from)] };
   }
   // The computer never acts under the battle screen, except to answer the defense decision it is shown making.
-  const halted = paused || menu !== 'none' || (viewerOpen && (aiGate === null || aiGate !== game.pendingDefense?.combatId));
+  const halted = paused || menu !== 'none' || (viewerOpen && (aiGate === null || aiGate !== game.pendingDefense?.combatId)) ||
+    (showLanding && !humanTurn); // the computer's landings play out on the panel before it moves on
 
   // ---------------------------------------------------------------- AI players
   const aiRef = useRef<Record<string, AiPlayer>>({});
@@ -787,7 +790,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       return { title: `Breakthrough Group · ${b.left} hex${b.left === 1 ? '' : 'es'} left`, sub: `${verb} a violet hex to move or a red hex to attack.` };
     }
     switch (game.phase) {
-      case 'invasion': return { title: 'Invasion: the troops are ashore', sub: `Units with advance left may move (Next unit).${targets.length ? ` ${verb} the red hex at Salerno to send in the Commandos.` : ''}` };
+      case 'invasion': if (landingsLeft(game).length) return { title: 'Invasion: the assault waves are offshore', sub: 'Roll the Invasion table for each beach on the landing panel.' };
+        return { title: 'Invasion: the troops are ashore', sub: `Units with advance left may move (Next unit).${targets.length ? ` ${verb} the red hex at Salerno to send in the Commandos.` : ''}` };
       case 'initial': return { title: `${side} initial phase`, sub: drops.length ? `Airborne drops waiting: use Next drop.` : 'Replacements and artillery are under Details.' };
       case 'movement': return { title: `${side} movement`, sub: readyUnits.length ? `${readyUnits.length} unit${readyUnits.length === 1 ? '' : 's'} ready. ${selVerb} a unit, or use Next unit.` : 'All units have moved.' };
       case 'combat': return { title: `${side} combat`, sub: targets.length ? `${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} in reach. ${verb} a red hex to plan an attack.` : 'No enemy within reach.' };
@@ -964,7 +968,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           }} />
       )}
       {showLanding && (
-        <LandingPanel game={game} dispatch={dispatch} speed={settings.animSpeed} onHold={holdMap} onFocus={setLandingBeach} onFootprint={setBattleInset}
+        <LandingPanel game={game} dispatch={dispatch} speed={settings.animSpeed} spectator={!humanTurn} onHold={holdMap} onFocus={setLandingBeach} onFootprint={setBattleInset}
           onClose={() => { setHeldMap(null); setLandingClosed(true); setLandingBeach(null); }} />
       )}
       {toast && <div className="toast">{toast}</div>}

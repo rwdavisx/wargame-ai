@@ -752,7 +752,7 @@ export function MapView(props: MapViewProps) {
     if (!fx.length) return;
     // Follow the computer's actions when they happen off screen: the camera gets there first, then the action plays.
     let lead = 0;
-    if (props.aiActive && settings.followAi) {
+    if (props.aiActive && settings.followAi && !props.battle) { // a battle or landing panel frames the action itself
       const first = fx.find((f) => f.kind === 'boom' || f.kind === 'move' || f.kind === 'ring');
       if (first) {
         const from = first.kind === 'move' ? first.pts[0] : (first as { at: Pt }).at;
