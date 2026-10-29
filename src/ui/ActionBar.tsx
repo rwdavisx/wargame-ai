@@ -25,6 +25,8 @@ export interface ActionBarProps {
   humanTurn: boolean;
   acting: Side;
   touch: boolean;
+  /** Mouse with right-click controls: right-click moves and attacks. */
+  rightClick: boolean;
   aiStatus: string;
   paused: boolean;
   setPaused: (b: boolean) => void;
@@ -97,6 +99,9 @@ export function ActionBar(p: ActionBarProps) {
   }, []);
 
   const key = (k: string) => (p.touch ? null : <kbd>{k}</kbd>);
+  // Selecting is a tap or click; moving and attacking may be a right-click.
+  const pick = p.touch ? 'Tap' : 'Click';
+  const act = p.touch ? 'tap' : p.rightClick ? 'right-click' : 'click';
   const g = p.game;
 
   let body: React.ReactNode;
@@ -146,7 +151,7 @@ export function ActionBar(p: ActionBarProps) {
           </div>
           <div className="ab-sub">
             {o && !o.ok ? o.reason : a.kind === 'autoDs' && o && !o.autoDs ? 'An overrun needs 10-1 or better.'
-              : `${a.count} attacker${a.count === 1 ? '' : 's'} vs ${a.defenders} defender${a.defenders === 1 ? '' : 's'}${o?.shifts.length ? ` · ${o.shifts.map((s) => `${s.reason} ${s.shift > 0 ? '+' : ''}${s.shift}`).join(', ')}` : ''} · ${p.touch ? 'tap' : 'click'} the target again to attack`}
+              : `${a.count} attacker${a.count === 1 ? '' : 's'} vs ${a.defenders} defender${a.defenders === 1 ? '' : 's'}${o?.shifts.length ? ` · ${o.shifts.map((s) => `${s.reason} ${s.shift > 0 ? '+' : ''}${s.shift}`).join(', ')}` : ''} · ${act} the target again to attack`}
           </div>
           {a.kind === 'attack' && (a.air || a.naval || a.asuIds.length > 0) && (
             <div className="ab-chips">
@@ -182,9 +187,9 @@ export function ActionBar(p: ActionBarProps) {
           <div className="ab-title">Advance after combat{ad.limited ? ' (into the vacated hex)' : ''}</div>
           <div className="ab-sub">
             {!ad.ids.length ? 'No units left to advance.'
-              : !ad.sel.length ? 'Tap the units below to choose who advances.'
-                : ad.only ? `Highlighted units advance into ${ad.only}. Tap a unit to leave it behind.`
-                  : `${p.touch ? 'Tap' : 'Click'} a violet hex to advance the highlighted units there. Tap a unit to leave it behind.`}
+              : !ad.sel.length ? `${pick} the units below to choose who advances.`
+                : ad.only ? `Highlighted units advance into ${ad.only}. ${pick} a unit to leave it behind.`
+                  : `${act[0].toUpperCase()}${act.slice(1)} a violet hex to advance the highlighted units there. ${pick} a unit to leave it behind.`}
             {ad.breakthrough ? ' This attack also allows a Breakthrough Group (Breakthrough…).' : ''}
           </div>
           <div className="ab-chips">
@@ -233,7 +238,7 @@ export function ActionBar(p: ActionBarProps) {
           </div>
         )}
         <div className="ab-buttons">
-          {u && <button onClick={p.onDeselect} title="Deselect (Esc / right-click)">✕</button>}
+          {u && <button onClick={p.onDeselect} title={p.rightClick ? 'Deselect (Esc, or right-click elsewhere)' : 'Deselect (Esc / right-click)'}>✕</button>}
           {p.extra.map((x) => <button key={x.label} className={x.primary ? 'primary' : ''} onClick={x.onClick}>{x.label}</button>)}
           {p.reserves && p.reserves.count > 0 && <button onClick={p.reserves.onClick}>Land ({p.reserves.count})</button>}
           {p.next && p.next.count > 0 && <button onClick={p.next.onClick}>{p.next.label} ›{key('N')}</button>}

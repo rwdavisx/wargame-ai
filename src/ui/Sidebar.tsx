@@ -46,6 +46,12 @@ interface Props {
   bumpMap: () => void;
 }
 
+/** How a hex is chosen to move or attack: a tap, a right-click (the default mouse controls) or a click. */
+function actVerb(p: Props): string {
+  if (window.matchMedia?.('(pointer: coarse)').matches) return 'tap';
+  return p.settings.mouseControls === 'classic' ? 'click' : 'right-click';
+}
+const cap = (t: string) => t[0].toUpperCase() + t.slice(1);
 
 function isLegal(s: GameState, a: Action): boolean {
   try {
@@ -181,7 +187,7 @@ function InvasionControls(p: Props) {
       <h3>Invasion phase</h3>
       <p className="muted">
         The assault waves have landed (see the log for each beach's invasion roll). Units that may still advance can move up to their remaining
-        tactical hexes. The Commandos at Vietri may attack Salerno: click the red hex.
+        tactical hexes. The Commandos at Vietri may attack Salerno: {actVerb(p)} the red hex.
       </p>
       <SelectedUnitBox {...p} />
       {p.attackTarget && <AttackPlanner {...p} kind="invasion" />}
@@ -206,7 +212,7 @@ function InitialControls(p: Props) {
       {drops.length > 0 && (
         <>
           <h3>Airborne drops</h3>
-          <p className="muted">Select a unit, then click a blue hex to drop it. Units listed here must drop this turn if they can.</p>
+          <p className="muted">Select a unit, then {actVerb(p)} a blue hex to drop it. Units listed here must drop this turn if they can.</p>
           {drops.map((u) => (
             <UnitRow key={u.id} u={u} selected={u.id === p.selectedUnit} onClick={() => p.setSelectedUnit(u.id)}
               extra={<span className="muted">{landingHexes(g, u.id).length} hexes</span>} />
@@ -306,11 +312,11 @@ function SelectedUnitBox(p: Props) {
     if (why) status = `Cannot move: ${why}.`;
     else status = `${sel.mpSpent === null ? 'Has not moved.' : `${+sel.mpSpent.toFixed(1)} MP used.`} Modes: ${allowedModes(g, sel).join(', ')}.`;
   } else if (sel.where.kind === 'reserve' || sel.where.kind === 'followUp') {
-    status = `Waiting to land (${lpCost(sel.id)} LP): click a blue beach or port hex. A 2 or 3 LP unit can reach a capacity-1 port in two turns.`;
+    status = `Waiting to land (${lpCost(sel.id)} LP): ${actVerb(p)} a blue beach or port hex. A 2 or 3 LP unit can reach a capacity-1 port in two turns.`;
   } else if (sel.where.kind === 'atSea') {
-    status = `At sea on a 2-turn transfer to ${sel.where.port}: it can land ${sel.where.since >= g.turn ? 'next turn' : 'now (click the blue hex)'}.`;
+    status = `At sea on a 2-turn transfer to ${sel.where.port}: it can land ${sel.where.since >= g.turn ? 'next turn' : `now (${actVerb(p)} the blue hex)`}.`;
   } else if (sel.where.kind === 'entry') {
-    status = sel.where.area.startsWith('airdrop') ? 'Airborne: drops in the initial phase.' : `In entry area ${sel.where.area}: click a blue hex to enter.`;
+    status = sel.where.area.startsWith('airdrop') ? 'Airborne: drops in the initial phase.' : `In entry area ${sel.where.area}: ${actVerb(p)} a blue hex to enter.`;
   }
   const areaActions = g.phase === 'movement' && (sel.where.kind === 'map' || sel.where.kind === 'entry')
     ? Object.keys(MAP.entryAreas).map((area) => ({ type: 'changeArea', unitId: sel.id, area }) as Action).filter((a) => isLegal(g, a))
@@ -370,8 +376,8 @@ function MovementControls(p: Props) {
     <>
       <h3>{side} movement phase</h3>
       <p className="muted">
-        Click one of your units, then a highlighted hex: blue it can reach, amber where it must stop. Hover a hex to see the route and its
-        cost. Click a stack again to cycle through it, or a red enemy hex to plan an Auto DS overrun.
+        Select one of your units, then {actVerb(p)} a highlighted hex: blue it can reach, amber where it must stop. Hover a hex to see the route
+        and its cost. Select a stack again to cycle through it, or {actVerb(p)} a red enemy hex to plan an Auto DS overrun.
         {side === 'Allied' ? ` Landing points left: ${g.landingPoints}.` : ` Trucks used: ${g.trucksUsed}/2.`}
       </p>
       <div className="row">
@@ -409,7 +415,7 @@ function CombatControls(p: Props) {
     <>
       <h3>{side} combat phase</h3>
       {last && last.turn === g.turn && last.attackerSide === side && <CombatResult r={last} />}
-      {p.attackTarget ? <AttackPlanner {...p} kind="attack" /> : <p className="muted">Click a red enemy hex to plan an attack.</p>}
+      {p.attackTarget ? <AttackPlanner {...p} kind="attack" /> : <p className="muted">{cap(actVerb(p))} a red enemy hex to plan an attack.</p>}
       {canDisengage && (
         <div className="row">
           <button title="Roll to pull the units in this hex back one hex; they may not attack this phase."
@@ -561,7 +567,7 @@ function RetreatChoiceControls(p: Props) {
       <h3>{rq.side}: choose where your units retreat</h3>
       <p className="muted">
         {rq.units.map((id) => def(id).name).join(', ')} retreat {rq.distance} hex{rq.distance > 1 ? 'es' : ''} from {rq.from}. They are now at{' '}
-        {rq.options[rq.current].end}. Click another highlighted hex to retreat there instead (every option follows the retreat priorities and loses
+        {rq.options[rq.current].end}. {cap(actVerb(p))} another highlighted hex to retreat there instead (every option follows the retreat priorities and loses
         no more units), or keep the current one.
       </p>
       <div className="row">
@@ -644,7 +650,7 @@ function AdvanceControls(p: Props) {
     <>
       {last && <CombatResult r={last} />}
       <h3>Advance after combat{pa.limited ? ' (limited: vacated hex only)' : ''}</h3>
-      <p className="muted">Tick the units that advance together, then click a violet hex. Units may advance separately. Finish when done.</p>
+      <p className="muted">Tick the units that advance together, then {actVerb(p)} a violet hex. Units may advance separately. Finish when done.</p>
       {ids.map((id) => (
         <label key={id} className="unitrow">
           <input type="checkbox" checked={p.advanceSel.includes(id)}
@@ -688,7 +694,7 @@ function BreakthroughControls(p: Props) {
       {last && last.turn === g.turn && <CombatResult r={last} />}
       <h3>Breakthrough Group at {b.hex}: {b.left} hex{b.left === 1 ? '' : 'es'} left</h3>
       <p className="muted">
-        Click a violet hex to advance (the number is its cost) or a red hex to attack it.
+        {cap(actVerb(p))} a violet hex to advance (the number is its cost) or a red hex to attack it.
         {b.freeHex ? ` The group may enter ${b.freeHex} for free${b.mayContinue ? ' and keep going' : ' and must then stop'}.` : ''}
         {!b.committed ? ' Turning away from the vacated hex costs 1 extra hex.' : ''}
       </p>

@@ -1,6 +1,8 @@
 import type { GameState, Side } from '../engine/types';
 
 export type Controller = 'human' | 'heuristic' | 'claude';
+/** 'rts': left-click selects, right-click moves and attacks. 'classic': left-click does everything, right-click backs out. */
+export type MouseControls = 'rts' | 'classic';
 
 export interface Settings {
   controllers: Record<Side, Controller>;
@@ -16,6 +18,7 @@ export interface Settings {
   animSpeed: number;
   showGrid: boolean;
   showLabels: boolean;
+  mouseControls: MouseControls;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -34,6 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
   animSpeed: 1,
   showGrid: true,
   showLabels: true,
+  mouseControls: 'rts',
 };
 
 export function hasAutosave(): boolean {
