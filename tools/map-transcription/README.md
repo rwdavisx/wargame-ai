@@ -10,3 +10,5 @@ These scripts turned photos of the physical map into `data/map.json`. The photos
 6. `annot.py`, `zoomgrid.py`, `ruler.py` and `render.py` draw overlays for checking the result against the photos.
 
 They expect the photo paths and an `../out` working directory set up as in `mappers.py`. Edit `PHOTOS` there to re-run with new photos.
+7. A third check: `excerpts.py` fits the grid to the map excerpts printed in the living rules (pages 27 and 29), and `measure_excerpt.py`, `road_trace.py`, `towns_excerpt.py` and `photo_roads.py` compare them and the photos with the data. `apply_fixes.py` applies the corrections in `fixes_excerpts.txt` and `fixes_audit.txt`, each with its evidence. `spots.py` (photo beside data overlay around listed hexes or hexsides) and `hexsheet.py` (one outlined hex per tile, for town circles) draw the review sheets; `review.py` writes PNG with `REVIEW_EXT=png`.
+8. `tests/data/map.test.ts` holds the map invariants and `tests/data/rulebook-hexes.test.ts` every hex the rulebook names; both list the real oddities of the printed map by hand.
