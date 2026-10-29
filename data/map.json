@@ -1162,8 +1162,8 @@
    "terrain": "clear"
   },
   "2716": {
+   "landmark": "Paestum",
    "terrain": "clear",
-   "town": "Paestum",
    "vp": 1
   },
   "2717": {
@@ -1704,18 +1704,17 @@
    "terrain": "hill"
   },
   "3310": {
-   "terrain": "hill",
-   "town": "Acerno"
+   "terrain": "hill"
   },
   "3311": {
    "terrain": "hill"
   },
   "3312": {
-   "terrain": "hill"
+   "terrain": "hill",
+   "town": "Campagna"
   },
   "3313": {
-   "terrain": "clear",
-   "town": "Campagna"
+   "terrain": "clear"
   },
   "3314": {
    "terrain": "hill",
@@ -1798,7 +1797,8 @@
    "terrain": "hill"
   },
   "3410": {
-   "terrain": "hill"
+   "terrain": "hill",
+   "town": "Acerno"
   },
   "3411": {
    "terrain": "hill"
@@ -3542,29 +3542,16 @@
    "road": "minor"
   },
   "2621-2622": {
-   "river": true,
-   "road": "minor"
-  },
-  "2621-2720": {
-   "road": "minor"
+   "river": true
   },
   "2621-2721": {
-   "river": true,
-   "road": "minor"
+   "river": true
   },
   "2622-2623": {
-   "river": true,
-   "road": "minor"
-  },
-  "2622-2721": {
-   "road": "minor"
-  },
-  "2622-2722": {
-   "road": "minor"
+   "river": true
   },
   "2623-2722": {
-   "river": true,
-   "road": "minor"
+   "river": true
   },
   "2624-2625": {
    "river": true,
@@ -3622,7 +3609,10 @@
   "2707-2807": {
    "road": "major"
   },
-  "2708-2809": {
+  "2708-2709": {
+   "road": "major"
+  },
+  "2709-2810": {
    "road": "major"
   },
   "2710-2711": {
@@ -3666,9 +3656,6 @@
   },
   "2720-2821": {
    "river": true
-  },
-  "2721-2821": {
-   "road": "minor"
   },
   "2721-2822": {
    "road": "minor"
@@ -3733,9 +3720,6 @@
   "2808-2908": {
    "road": "minor"
   },
-  "2809-2810": {
-   "road": "major"
-  },
   "2810-2909": {
    "road": "minor"
   },
@@ -3769,9 +3753,6 @@
    "road": "minor"
   },
   "2817-2818": {
-   "road": "minor"
-  },
-  "2817-2916": {
    "road": "minor"
   },
   "2817-2917": {
@@ -3917,9 +3898,6 @@
    "river": true
   },
   "2915-3016": {
-   "road": "minor"
-  },
-  "2916-3017": {
    "road": "minor"
   },
   "2917-2918": {
@@ -4099,10 +4077,10 @@
   "3016-3115": {
    "road": "minor"
   },
-  "3017-3117": {
+  "3018-3019": {
    "road": "minor"
   },
-  "3018-3019": {
+  "3019-3118": {
    "road": "minor"
   },
   "3019-3119": {
@@ -4250,7 +4228,8 @@
    "river": true
   },
   "3118-3218": {
-   "river": true
+   "river": true,
+   "road": "minor"
   },
   "3118-3219": {
    "river": true
@@ -4266,8 +4245,7 @@
    "river": true
   },
   "3120-3220": {
-   "river": true,
-   "road": "minor"
+   "river": true
   },
   "3120-3221": {
    "road": "minor"
@@ -4404,8 +4382,7 @@
    "road": "minor"
   },
   "3216-3217": {
-   "river": true,
-   "road": "minor"
+   "river": true
   },
   "3216-3315": {
    "river": true,
@@ -4439,28 +4416,19 @@
    "road": "minor"
   },
   "3220-3221": {
-   "river": true,
-   "road": "minor"
+   "river": true
   },
   "3220-3319": {
    "road": "minor"
   },
-  "3220-3320": {
-   "road": "minor"
-  },
   "3221-3222": {
-   "river": true,
-   "road": "minor"
-  },
-  "3221-3320": {
-   "road": "minor"
+   "river": true
   },
   "3221-3321": {
    "road": "minor"
   },
   "3222-3321": {
-   "river": true,
-   "road": "minor"
+   "river": true
   },
   "3223-3224": {
    "road": "minor"
@@ -4626,9 +4594,6 @@
   "3319-3420": {
    "road": "minor"
   },
-  "3321-3322": {
-   "road": "minor"
-  },
   "3321-3422": {
    "road": "minor"
   },
@@ -4689,7 +4654,10 @@
   "3403-3404": {
    "road": "major"
   },
-  "3404-3504": {
+  "3404-3405": {
+   "road": "major"
+  },
+  "3405-3505": {
    "road": "major"
   },
   "3406-3407": {
@@ -4708,6 +4676,9 @@
    "mountain": true
   },
   "3409-3410": {
+   "road": "minor"
+  },
+  "3409-3508": {
    "road": "minor"
   },
   "3409-3509": {
@@ -4734,11 +4705,8 @@
   "3414-3415": {
    "river": true
   },
-  "3414-3514": {
+  "3414-3513": {
    "road": "major"
-  },
-  "3415-3416": {
-   "road": "minor"
   },
   "3415-3514": {
    "river": true
@@ -4751,9 +4719,6 @@
   },
   "3417-3418": {
    "mountain": true
-  },
-  "3417-3516": {
-   "road": "minor"
   },
   "3417-3517": {
    "mountain": true
@@ -4827,9 +4792,6 @@
   "3503-3603": {
    "road": "minor"
   },
-  "3504-3505": {
-   "road": "major"
-  },
   "3504-3604": {
    "mountain": true
   },
@@ -4846,6 +4808,9 @@
    "mountain": true
   },
   "3507-3508": {
+   "road": "minor"
+  },
+  "3507-3607": {
    "road": "minor"
   },
   "3508-3509": {
@@ -4881,14 +4846,14 @@
   "3512-3613": {
    "mountain": true
   },
+  "3513-3514": {
+   "road": "major"
+  },
   "3513-3614": {
    "road": "minor"
   },
   "3514-3515": {
    "river": true
-  },
-  "3514-3614": {
-   "road": "minor"
   },
   "3514-3615": {
    "river": true,
@@ -4901,12 +4866,12 @@
    "river": true
   },
   "3516-3517": {
-   "road": "minor"
+   "road": "major"
   },
   "3516-3616": {
    "river": true
   },
-  "3516-3617": {
+  "3517-3618": {
    "road": "major"
   },
   "3518-3519": {
@@ -4976,6 +4941,15 @@
   "3606-3706": {
    "road": "major"
   },
+  "3607-3608": {
+   "road": "minor"
+  },
+  "3607-3706": {
+   "road": "minor"
+  },
+  "3608-3609": {
+   "road": "minor"
+  },
   "3609-3610": {
    "mountain": true
   },
@@ -5007,24 +4981,22 @@
    "mountain": true
   },
   "3614-3615": {
-   "river": true,
-   "road": "major"
+   "river": true
   },
   "3614-3713": {
-   "road": "major"
+   "road": "minor"
   },
   "3614-3714": {
-   "river": true,
-   "road": "minor"
+   "river": true
+  },
+  "3615-3714": {
+   "road": "major"
   },
   "3615-3715": {
    "road": "minor"
   },
   "3616-3617": {
    "river": true
-  },
-  "3617-3618": {
-   "road": "major"
   },
   "3617-3716": {
    "river": true
@@ -5044,9 +5016,6 @@
   },
   "3620-3621": {
    "mountain": true
-  },
-  "3620-3719": {
-   "road": "minor"
   },
   "3620-3720": {
    "mountain": true
@@ -5155,16 +5124,14 @@
    "river": true
   },
   "3713-3714": {
-   "river": true
+   "river": true,
+   "road": "major"
   },
   "3713-3813": {
    "river": true
   },
   "3713-3814": {
    "river": true,
-   "road": "minor"
-  },
-  "3714-3815": {
    "road": "minor"
   },
   "3715-3716": {

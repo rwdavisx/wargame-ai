@@ -1,0 +1,87 @@
+# Corrections found by comparing data/map.json with the map excerpts printed in the living rules
+# (pages 27 and 29, see excerpts.py) and checked again on the owner's photos.
+# Apply with: python3 apply_fixes.py fixes_excerpts.txt
+# Review sheets: scratchpad map-review/*.jpg (review.py) and sidecrops.py.
+
+# --- towns and landmarks
+untown 3310                 # the Acerno town circle sits in 3410 (excerpt p27 and photo 2)
+town 3410 Acerno
+untown 3313                 # the Campagna town circle sits in 3312, at the end of the spur road from the 3313 junction
+town 3312 Campagna
+landmark 2716 Paestum       # Paestum is printed with the ruins landmark symbol (no effect on play), not a town circle
+
+# --- Albanella (3017) and the hill 2916 have no roads at all (excerpts p27, p29, photo 5)
+road- 2817-2916
+road- 2916-3017
+road- 3017-3117
+
+# --- the coast road south of Salerno hugs the shore through 2709, not inland through 2809
+road- 2708-2809
+road- 2809-2810
+major+ 2708-2709
+major+ 2709-2810
+
+# --- Castelcivita (3218) to Roccadaspide (3019) runs through 3118; nothing runs south from 3216 or 3218
+minor+ 3019-3118
+minor+ 3118-3218
+road- 3216-3217
+
+# --- Serre - Postiglione - Tanagro valley: the major road passes 3516, 3517, 3618; 3415 and the
+#     Postiglione-3516 link have no road
+road- 3516-3617
+road- 3617-3618
+major+ 3516-3517
+major+ 3517-3618
+road- 3415-3416
+road- 3417-3516
+
+# --- Ponte Sele - Contursi - Oliveto Citra: the major road bends through 3513, runs Contursi (3615) -
+#     3714 - Oliveto Citra (3713); the dashed road from the 3513 junction to Oliveto runs through 3614
+road- 3414-3514
+major+ 3414-3513
+major+ 3513-3514
+road- 3614-3615
+minor+ 3614-3713
+major+ 3615-3714
+major+ 3713-3714
+road- 3614-3714
+road- 3714-3815
+
+# --- Montella (3507): the dashed road east to 3607 forks north to the major road at 3706 and south
+#     to Bagnoli Irpino (3609)
+minor+ 3507-3607
+minor+ 3607-3706
+minor+ 3607-3608
+minor+ 3608-3609
+
+# --- Aquara (3220) has a single road, east to 3319; the hill hexes 3320 and 3222 have none
+road- 3120-3220
+road- 3220-3221
+road- 3220-3320
+road- 3221-3320
+road- 3221-3222
+road- 3222-3321
+road- 3321-3322
+
+# --- Orria (2721): one road, south-east via 2822 to Gioi (2823); the hills west and north-east have none
+road- 2621-2720
+road- 2621-2721
+road- 2621-2622
+road- 2622-2721
+road- 2622-2722
+road- 2622-2623
+road- 2623-2722
+road- 2721-2821
+
+# --- Atripalda - Volturara - Montemarano: the major road runs 3404 - 3405 - 3505 - 3605, west of 3504
+road- 3404-3504
+road- 3504-3505
+major+ 3404-3405
+major+ 3405-3505
+
+# --- the dashed road north from Acerno continues 3409 - 3508 (Lo Croci di Acerno) to the Montella road
+minor+ 3409-3508
+# --- no road between 3514 and 3614 (the dashed road leaves the major road in 3513)
+road- 3514-3614
+# --- 3620-3719 is the dark long-dash Army Boundary Line, not a road
+road- 3620-3719
