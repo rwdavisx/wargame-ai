@@ -59,6 +59,10 @@ export interface ActionBarProps {
     navalNote: string;
     ships: boolean;
     asuIds: string[];
+    /** Every unit that may join the attack, the ones in it, and a toggle. */
+    pool: string[];
+    chosen: Set<string>;
+    toggle: (id: string) => void;
   } | null;
   onAttack: () => void;
   onCancelAttack: () => void;
@@ -150,9 +154,26 @@ export function ActionBar(p: ActionBarProps) {
             {a.kind === 'autoDs' ? 'Overrun' : a.kind === 'breakthrough' ? 'Breakthrough attack' : 'Attack'} {a.targetName}
           </div>
           <div className="ab-sub">
-            {o && !o.ok ? o.reason : a.kind === 'autoDs' && o && !o.autoDs ? 'An overrun needs 10-1 or better.'
+            {!a.count && a.pool.length ? `No attackers: ${pick.toLowerCase()} a unit below or one of your stacks on the map to add it.`
+              : o && !o.ok ? o.reason : a.kind === 'autoDs' && o && !o.autoDs ? 'An overrun needs 10-1 or better.'
               : `${a.count} attacker${a.count === 1 ? '' : 's'} vs ${a.defenders} defender${a.defenders === 1 ? '' : 's'}${o?.shifts.length ? ` · ${o.shifts.map((s) => `${s.reason} ${s.shift > 0 ? '+' : ''}${s.shift}`).join(', ')}` : ''} · ${act} the target again to attack`}
           </div>
+          {a.pool.length > 0 && (
+            <div className="ab-chips ab-attackers" role="group" aria-label="Attackers">
+              {a.pool.map((id) => {
+                const on = a.chosen.has(id);
+                const u = p.game.units[id];
+                const where = u.where.kind === 'map' ? u.where.hex : 'entry area';
+                return (
+                  <button key={id} className={`token-btn${on ? ' on' : ' off'}`} aria-pressed={on}
+                    title={`${def(id).name} (${where}): ${on ? 'attacking; ' + pick.toLowerCase() + ' to leave it out' : 'left out; ' + pick.toLowerCase() + ' to add it'}`}
+                    onClick={() => a.toggle(id)}>
+                    <TokenIcon unit={u} size={34} />
+                  </button>
+                );
+              })}
+            </div>
+          )}
           {a.kind === 'attack' && (a.air || a.naval || a.asuIds.length > 0) && (
             <div className="ab-chips">
               {a.air && <button className={`chip-btn${sup.air ? ' on' : ''}`} onClick={() => set({ air: !sup.air })}>✈ Air +1 DD</button>}
@@ -173,7 +194,7 @@ export function ActionBar(p: ActionBarProps) {
         <div className="ab-buttons">
           <button onClick={p.onCancelAttack}>Cancel</button>
           {g.phase !== 'invasion' && <button onClick={p.onDetails}>Units…</button>}
-          <button className="primary big-action danger-action" disabled={!o?.ok || (a.kind === 'autoDs' && !o.autoDs)} onClick={p.onAttack}>
+          <button className="primary big-action danger-action" disabled={!a.count || !o?.ok || (a.kind === 'autoDs' && !o.autoDs)} onClick={p.onAttack}>
             {a.kind === 'autoDs' ? 'Overrun!' : 'Attack!'} {key('Enter')}
           </button>
         </div>

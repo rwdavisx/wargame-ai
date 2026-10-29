@@ -610,6 +610,9 @@ button.danger-action:hover:not(:disabled) { box-shadow: 0 0 18px rgba(239, 90, 6
 .chip-btn.on { background: linear-gradient(#e4c46c, #b18a35); color: #1d1608; border-color: #f2d78f; }
 .token-btn { padding: 2px; background: transparent; border: 2px solid transparent; border-radius: 6px; line-height: 0; }
 .token-btn.on { border-color: var(--gold); background: rgba(216, 180, 90, 0.15); }
+.token-btn.off { opacity: 0.4; filter: grayscale(0.7); }
+.token-btn.off:hover { opacity: 0.75; }
+.ab-attackers { margin-top: 6px; }
 kbd {
   display: inline-block; margin-left: 6px; padding: 1px 5px; border-radius: 3px; border: 1px solid rgba(255, 255, 255, 0.25); font: 600 10px var(--hud);
   letter-spacing: 0.5px; color: inherit; opacity: 0.75; vertical-align: 1px;

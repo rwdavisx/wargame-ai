@@ -225,7 +225,7 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
           </section>
           <section>
             <h3>Fighting</h3>
-            <p>{rts ? 'Right-click' : 'Click'} or tap a red enemy hex to see the attack: the bar shows the odds, the column shifts and toggles for air, naval and artillery support. {rts ? 'Right-click' : 'Click'} or tap the hex again, or press Attack!, to attack. Next target steps through every enemy in reach; Units… opens the full list to choose who attacks. A defender told to retreat may make a Determined Defense instead.</p>
+            <p>{rts ? 'Right-click' : 'Click'} or tap a red enemy hex to see the attack: the bar shows the odds, the column shifts and toggles for air, naval and artillery support. {rts ? 'Right-click' : 'Click'} or tap the hex again, or press Attack!, to attack. Every unit in reach joins by default: tap its counter in the bar (or its stack on the map) to leave it out or add it back, or select a unit first to start with just its stack. Next target steps through every enemy in reach; Units… opens the full list. A defender told to retreat may make a Determined Defense instead.</p>
             <h3>After combat</h3>
             <p>Pick the units that advance in the bar, then {rts ? 'right-click' : 'click'} or tap a violet hex; or form a Breakthrough Group under Details to keep going. End phase asks again if units have not moved or you have not attacked.</p>
           </section>

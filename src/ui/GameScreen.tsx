@@ -400,12 +400,19 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     }
     return next;
   };
+  // Every unit that may join an attack on `hex` (on turn 1, only the Commandos that got ashore cleanly).
+  const attackPool = (hex: HexId) => {
+    const ids = eligibleAttackers(game, hex);
+    return game.phase === 'invasion' ? ids.filter((id) => def(id).formation === 'Commando Bde' && game.units[id].tacHexes === 1 && !game.units[id].stopped) : ids;
+  };
   const planAttack = (hex: HexId) => {
     setAttackTarget(hex);
     if (!game.breakthrough) {
-      let ids = eligibleAttackers(game, hex);
-      if (game.phase === 'invasion') ids = ids.filter((id) => def(id).formation === 'Commando Bde' && game.units[id].tacHexes === 1 && !game.units[id].stopped);
-      setAttackers(new Set(ids));
+      const ids = attackPool(hex);
+      // With one of the attackers selected first, the attack starts with just its stack; otherwise everyone joins.
+      const sel = selectedUnit && ids.includes(selectedUnit) && game.phase === 'combat' ? game.units[selectedUnit] : null;
+      const selHex = sel?.where.kind === 'map' ? sel.where.hex : null;
+      setAttackers(new Set(selHex ? ids.filter((id) => hexOf(game.units[id]) === selHex) : ids));
       setSupport(NO_SUPPORT);
     }
     setSelectedUnit(null);
@@ -466,6 +473,21 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       if (attackTarget === hex) executeAttack();
       else planAttack(hex);
       return;
+    }
+    // With an attack lined up, a stack that can join it goes in or out of the attack.
+    if (humanTurn && attackTarget && !game.breakthrough) {
+      const pool = attackPool(attackTarget);
+      const joinable = here.filter((u) => pool.includes(u.id)).map((u) => u.id);
+      if (joinable.length) {
+        const allIn = joinable.every((id) => attackers.has(id));
+        setAttackers((cur) => {
+          const next = new Set(cur);
+          for (const id of joinable) if (allIn) next.delete(id); else next.add(id);
+          return next;
+        });
+        sfx.click();
+        return;
+      }
     }
     const own = here.filter((u) => sideOf(u) === game.activeSide);
     if (own.length) {
@@ -672,6 +694,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       navalNote: 'Naval gunfire from the task force off the coast',
       ships: naval && game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0,
       asuIds: attackKind === 'attack' && chosen.length ? readyAsusFor(game, side, attackTarget, chosen).map((u) => u.id) : [],
+      pool: attackKind === 'breakthrough' ? [] : attackPool(attackTarget),
+      chosen: attackers,
+      toggle: (id: string) => setAttackers((cur) => {
+        const next = new Set(cur);
+        if (next.has(id)) next.delete(id); else next.add(id);
+        return next;
+      }),
     };
   }
 
@@ -777,7 +806,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         cursor={hoverCursor}
         focus={focus}
         onHover={setHover}
-        hoverText={hoverText}
+        hoverText={touch && attackTarget ? null : hoverText}
         qol={qol.map}
       />
       <TopBar game={game} settings={settings} setSettings={setSettings} humanTurn={humanTurn} acting={acting}
