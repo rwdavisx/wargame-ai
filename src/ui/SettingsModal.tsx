@@ -1,6 +1,7 @@
 // Settings dialog: players, computer opponents, pacing, display and sound.
 import type { Side } from '../engine/types';
 import { useRef, useState, useSyncExternalStore } from 'react';
+import { DIFFICULTIES } from '../ai/heuristic';
 import { addMusicFiles, musicState, next as nextTrack, removeMusicTrack, subscribeMusic } from './music';
 import { setSound, sfx } from './sound';
 import type { Controller, MouseControls, Settings } from './storage';
@@ -37,6 +38,13 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, edito
                 </select>
               </label>
             ))}
+            <label className="field">
+              <span>Computer difficulty</span>
+              <select value={s.aiLevel} onChange={(e) => set({ aiLevel: e.target.value as Settings['aiLevel'] })}>
+                {DIFFICULTIES.map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
+              </select>
+            </label>
+            <p className="hint">{DIFFICULTIES.find((d) => d.key === s.aiLevel)?.note}</p>
             <label className="field">
               <span>Claude API key</span>
               <input type="password" placeholder="sk-ant-..." value={s.claudeApiKey} onChange={(e) => set({ claudeApiKey: e.target.value.trim() })} />

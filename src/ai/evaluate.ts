@@ -36,7 +36,8 @@ export interface AttackOption {
 }
 
 /** Best attack (attacker group and support) against `target`, or null. */
-export function bestAttackOn(s: GameState, target: HexId, aggression: number, opts: { noSupport?: boolean; vpWeight?: number } = {}): AttackOption | null {
+export function bestAttackOn(s: GameState, target: HexId, aggression: number,
+  opts: { noSupport?: boolean; vpWeight?: number; killValue?: number; trim?: boolean } = {}): AttackOption | null {
   const side = s.activeSide;
   const eligible = Object.values(s.units)
     .filter((u) => (u.where.kind === 'map' || u.where.kind === 'entry') && sideOf(u) === side && adjacentForCombat(s, u, target))
@@ -54,6 +55,16 @@ export function bestAttackOn(s: GameState, target: HexId, aggression: number, op
     groups.set(k, [...(groups.get(k) ?? []), u]);
   }
   const vpHere = MAP.hexes[target].vp ?? 0;
+  // Artillery and beach groups are worth a victory point each: a stack that holds them is worth breaking.
+  const vpUnits = defenders.filter((u) => def(u.id).asu || def(u.id).cat === 'bh').length;
+  const killWeight = (opts.killValue ?? 0) * vpUnits;
+  const pKill = (o: OddsInfo, retreat: number) => {
+    if (!killWeight) return 0;
+    if (o.autoDs) return 1;
+    let ds = 0;
+    for (let roll = 1; roll <= 6; roll++) if (RULES.combat.crt[String(Math.min(6, roll + o.drm))][o.finalIndex].startsWith('DS')) ds++;
+    return ds / 6 + retreat * 0.35;
+  };
   let best: AttackOption | null = null;
   for (const members of groups.values()) {
     const ids = members.map((u) => u.id);
@@ -82,8 +93,21 @@ export function bestAttackOn(s: GameState, target: HexId, aggression: number, op
       const e = odds.autoDs ? { defLoss: 1, attLoss: 0, retreat: 1.3, disrupt: 0 } : expectedOutcome(odds.finalIndex, odds.drm, defSteps);
       const supportCost = (plan.air ? 0.3 : 0) + (plan.naval ? 0.3 : 0) + (plan.asus?.length ?? 0) * 0.25 + (plan.battleships ? 0.4 : 0);
       const score = e.defLoss * 1.1 + e.retreat * (0.45 + vpHere * (opts.vpWeight ?? 0.35)) + e.disrupt * 0.3 -
-        e.attLoss * (1.2 - aggression * 0.45) - supportCost;
+        e.attLoss * (1.2 - aggression * 0.45) - supportCost + killWeight * pKill(odds, e.retreat);
       if (!best || score > best.score) best = { plan, odds, score };
+    }
+  }
+  // Leave out attackers the odds do not need, so they stay free for another attack this phase.
+  if (best && opts.trim && best.plan.attackers.length > 1 && !best.odds.autoDs) {
+    let ids = [...best.plan.attackers].sort((a, b) => values(s.units[a]).attack - values(s.units[b]).attack);
+    for (const id of [...ids]) {
+      if (ids.length <= 1) break;
+      const trial: AttackPlan = { ...best.plan, attackers: ids.filter((x) => x !== id) };
+      const o = computeOdds(s, trial);
+      if (o.ok && o.finalIndex >= best.odds.finalIndex && o.drm >= best.odds.drm) {
+        ids = trial.attackers;
+        best = { ...best, plan: trial, odds: o };
+      }
     }
   }
   return best;

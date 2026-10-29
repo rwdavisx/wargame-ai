@@ -14,6 +14,22 @@ describe('heuristic AI', () => {
     }
   }, 60000);
 
+  it('plays at every difficulty without illegal actions', () => {
+    for (const level of ['recruit', 'regular', 'veteran', 'elite'] as const) {
+      const { state, illegal } = playOut('short', 7, 30000, {}, { Allied: level, German: level });
+      expect(illegal).toEqual([]);
+      expect(state.phase).toBe('gameOver');
+    }
+  }, 90000);
+
+  it('plays better at Elite than as a Recruit', () => {
+    // The same seeds (the games replay identically): an Elite German beats a Recruit Allied commander every time.
+    for (const seed of [21, 22, 23]) {
+      const { state } = playOut('short', seed, 30000, {}, { Allied: 'recruit', German: 'elite' });
+      expect(state.winner).toBe('German');
+    }
+  }, 90000);
+
   it('plays the campaign to a result', () => {
     const { state, illegal } = playOut('campaign', 11);
     expect(illegal).toEqual([]);

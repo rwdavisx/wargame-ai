@@ -1,4 +1,5 @@
 import type { GameState, Side } from '../engine/types';
+import type { Difficulty } from '../ai/heuristic';
 
 export type Controller = 'human' | 'heuristic' | 'claude';
 /** 'rts': left-click selects, right-click moves and attacks. 'classic': left-click does everything, right-click backs out. */
@@ -32,6 +33,8 @@ export interface Settings {
   /** Background music on or off, and its volume (0..1), separate from the sound effects. */
   music: boolean;
   musicVolume: number;
+  /** How well the built-in computer opponent plays. */
+  aiLevel: Difficulty;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -59,6 +62,7 @@ export const DEFAULT_SETTINGS: Settings = {
   showHexIds: false,
   music: true,
   musicVolume: 0.35,
+  aiLevel: 'veteran',
 };
 
 export function hasAutosave(): boolean {

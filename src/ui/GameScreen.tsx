@@ -148,16 +148,16 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const aiFor = useCallback(
     (side: Side): AiPlayer => {
       const kind = settings.controllers[side];
-      const key = `${side}:${kind}:${settings.claudeModel}`;
+      const key = `${side}:${kind}:${settings.claudeModel}:${settings.aiLevel}`;
       if (!aiRef.current[key]) {
         aiRef.current[key] =
           kind === 'claude'
             ? createClaudeAi({ apiKey: settings.claudeApiKey, model: settings.claudeModel, onStatus: setAiStatus })
-            : createHeuristicAi();
+            : createHeuristicAi(settings.aiLevel);
       }
       return aiRef.current[key];
     },
-    [settings.controllers, settings.claudeApiKey, settings.claudeModel],
+    [settings.controllers, settings.claudeApiKey, settings.claudeModel, settings.aiLevel],
   );
 
   // The computer's attack on the player's units, as a battle for the panel (when combats are stepped through).

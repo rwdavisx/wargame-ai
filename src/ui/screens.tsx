@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { CanvasImage } from './render/CanvasImage';
 import type { TerrainImage } from './render/terrain';
 import { SCENARIOS } from '../engine/data';
+import { DIFFICULTIES } from '../ai/heuristic';
 import type { GameOptions, GameState, Side } from '../engine/types';
 import { Insignia } from './render/units';
 import { sfx } from './sound';
@@ -123,6 +124,19 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
               <button className={opponent === 'heuristic' ? 'on' : ''} onClick={() => setOpponent('heuristic')}>Built-in AI</button>
               <button className={opponent === 'claude' ? 'on' : ''} onClick={() => setOpponent('claude')}>Claude</button>
             </div>
+            {opponent === 'heuristic' && (
+              <>
+                <h3>Difficulty</h3>
+                <div className="cards four difficulty">
+                  {DIFFICULTIES.map((d, i) => (
+                    <button key={d.key} className={`card${settings.aiLevel === d.key ? ' on' : ''}`} onClick={() => setSettings({ ...settings, aiLevel: d.key })}>
+                      <div className="card-title"><span className="pips" aria-hidden>{[0, 1, 2, 3].map((k) => <i key={k} className={k <= i ? 'on' : ''}>★</i>)}</span> {d.label}</div>
+                      <div className="card-text">{d.note}</div>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
             {opponent === 'claude' && (
               <div className="row">
                 <input type="password" placeholder="Anthropic API key (sk-ant-…)" value={settings.claudeApiKey} style={{ flex: 1 }}

@@ -1,11 +1,12 @@
 import { actingSide, applyAction, newGame } from '../engine/game';
 import type { Action, GameOptions, GameState } from '../engine/types';
-import { createHeuristicAi } from './heuristic';
+import { createHeuristicAi, type Difficulty } from './heuristic';
 
 /** Plays a whole game with the heuristic AI on both sides. */
-export function playOut(scenario: string, seed: number, maxActions = 30000, options: GameOptions = {}): { state: GameState; illegal: string[] } {
+export function playOut(scenario: string, seed: number, maxActions = 30000, options: GameOptions = {},
+  levels: { Allied?: Difficulty; German?: Difficulty } = {}): { state: GameState; illegal: string[] } {
   const s = newGame(scenario, seed, options);
-  const ai = { Allied: createHeuristicAi(), German: createHeuristicAi() };
+  const ai = { Allied: createHeuristicAi(levels.Allied), German: createHeuristicAi(levels.German) };
   const illegal: string[] = [];
   let n = 0;
   while (s.phase !== 'gameOver' && n++ < maxActions) {
