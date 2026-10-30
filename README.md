@@ -44,7 +44,7 @@ On a touch screen:
 
 ### Starting an operation
 
-1. **Title screen → New operation.** Pick the Avalanche Scenario (8 turns) or the Campaign Game (22 turns), then your role: the Allies, the Germans, both sides (hot-seat) or neither (watch the AIs fight). Choose the opponent (the built-in AI at Recruit, Regular, Veteran or Elite difficulty, or Claude with your API key) and the optional rules 25.1 (Disengagement, on by default), 25.2 (Reconnaissance units), 25.3 (Limited supply from ports) and S1.4 (tournament start, with the Allies already ashore).
+1. **Title screen → New operation.** Pick the Avalanche Scenario (8 turns) or the Campaign Game (22 turns), then your role: the Allies, the Germans, both sides (hot-seat) or neither (watch the AIs fight). Choose the opponent (the built-in AI at Recruit, Regular, Veteran or Elite difficulty, or Claude with your API key) the start (**D-Day landings**, the standard start where the Allies roll for each beach, or **Allies already ashore**, the S1.4 tournament start where the Germans move first) and the optional rules 25.1 (Disengagement, on by default), 25.2 (Reconnaissance units) and 25.3 (Limited supply from ports).
 2. **Briefing.** A short dispatch with your side's situation and objectives. Click **Begin** to go to the map.
 
 ### The screen
@@ -120,7 +120,6 @@ The tables in `data/rules.json` are what the engine uses; the **Rules** tab show
 
 - **Steps:** reduced strengths and stacking points come from the backs of the owner's counters. Units with a blank back have one step. The 3-stacking-point regiments and brigades become their Remnant after their second loss; 131/7A Bde has no Remnant and is eliminated instead.
 - **Automatic choices:** which unit takes a step loss is picked by the program (the owner loses its least valuable step; a step the opponent chooses is the most valuable one). Supply points left over in the Supply Phase are spent on fired ASUs automatically. Defensive air support follows each side's standing order from Settings instead of being asked attack by attack.
-- **Not included:** the Tournament set-up (S1.4), which needs the back of the Allied At Start card.
 - Old saves from the earlier provisional version are ignored.
 
 ### Correcting the data

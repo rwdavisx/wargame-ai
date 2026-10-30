@@ -146,6 +146,17 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
             )}
           </>
         )}
+        <h3>Start</h3>
+        <div className="cards">
+          <button className={`card${!options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: false })}>
+            <div className="card-title">D-Day landings</div>
+            <div className="card-text">The standard start: the Allies roll the Invasion table for each beach, then the Germans react.</div>
+          </button>
+          <button className={`card${options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: true })}>
+            <div className="card-title">Allies already ashore</div>
+            <div className="card-text">Tournament start (S1.4): no landing rolls; the assault units start inland and the Germans move first.</div>
+          </button>
+        </div>
         <h3>Optional rules</h3>
         <label className="check">
           <input type="checkbox" checked={options.disengagement !== false} onChange={(e) => setOptions({ ...options, disengagement: e.target.checked })} />
@@ -158,10 +169,6 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
         <label className="check">
           <input type="checkbox" checked={!!options.limitedPortSupply} onChange={(e) => setOptions({ ...options, limitedPortSupply: e.target.checked })} />
           25.3 Ports can only supply a limited number of units
-        </label>
-        <label className="check">
-          <input type="checkbox" checked={!!options.optionalStart} onChange={(e) => setOptions({ ...options, optionalStart: e.target.checked })} />
-          S1.4 Tournament start: the Allies are already ashore and the Germans move first
         </label>
         <div className="setup-buttons">
           <button onClick={onBack}>Back</button>
