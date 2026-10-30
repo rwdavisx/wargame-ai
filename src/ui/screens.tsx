@@ -33,8 +33,8 @@ function Backdrop({ terrain }: { terrain: TerrainImage }) {
   );
 }
 
-export function TitleScreen({ terrain, canContinue, onContinue, onNew, onSettings, onHowTo }: {
-  terrain: TerrainImage; canContinue: boolean; onContinue: () => void; onNew: () => void; onSettings: () => void; onHowTo: () => void;
+export function TitleScreen({ terrain, canContinue, onContinue, onNew, onOnline, onSettings, onHowTo }: {
+  terrain: TerrainImage; canContinue: boolean; onContinue: () => void; onNew: () => void; onOnline: () => void; onSettings: () => void; onHowTo: () => void;
 }) {
   const click = (f: () => void) => () => {
     sfx.click();
@@ -52,6 +52,7 @@ export function TitleScreen({ terrain, canContinue, onContinue, onNew, onSetting
         <nav className="main-menu">
           {canContinue && <button className="primary" onClick={click(onContinue)}>Continue</button>}
           <button className={canContinue ? '' : 'primary'} onClick={click(onNew)}>New operation</button>
+          <button onClick={click(onOnline)}>Play with friends</button>
           <button onClick={click(onHowTo)}>How to play</button>
           <button onClick={click(onSettings)}>Settings</button>
         </nav>
@@ -94,16 +95,7 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
       <Backdrop terrain={terrain} />
       <div className="setup-panel">
         <h1>New operation</h1>
-        <h3>Scenario</h3>
-        <div className="cards">
-          {Object.entries(SCENARIOS).map(([k, sc]) => (
-            <button key={k} className={`card${scenario === k ? ' on' : ''}`} onClick={() => setScenario(k)}>
-              <div className="card-title">{sc.name}</div>
-              <div className="card-meta">{sc.lastTurn} days · Allies need {k === 'short' ? 8 : 20} VP</div>
-              <div className="card-text">{sc.description}</div>
-            </button>
-          ))}
-        </div>
+        <ScenarioCards scenario={scenario} setScenario={setScenario} />
         <h3>Your role</h3>
         <div className="cards four">
           {roles.map((r) => (
@@ -146,36 +138,62 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
             )}
           </>
         )}
-        <h3>Start</h3>
-        <div className="cards">
-          <button className={`card${!options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: false })}>
-            <div className="card-title">D-Day landings</div>
-            <div className="card-text">The standard start: the Allies roll the Invasion table for each beach, then the Germans react.</div>
-          </button>
-          <button className={`card${options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: true })}>
-            <div className="card-title">Allies already ashore</div>
-            <div className="card-text">Tournament start (S1.4): no landing rolls; the assault units start inland and the Germans move first.</div>
-          </button>
-        </div>
-        <h3>Optional rules</h3>
-        <label className="check">
-          <input type="checkbox" checked={options.disengagement !== false} onChange={(e) => setOptions({ ...options, disengagement: e.target.checked })} />
-          25.1 Disengagement: units next to the enemy may roll to pull back one hex in the combat phase
-        </label>
-        <label className="check">
-          <input type="checkbox" checked={!!options.recon} onChange={(e) => setOptions({ ...options, recon: e.target.checked })} />
-          25.2 Reconnaissance units shrug off the step loss of a D1 or DS when alone
-        </label>
-        <label className="check">
-          <input type="checkbox" checked={!!options.limitedPortSupply} onChange={(e) => setOptions({ ...options, limitedPortSupply: e.target.checked })} />
-          25.3 Ports can only supply a limited number of units
-        </label>
+        <StartAndRules options={options} setOptions={setOptions} />
         <div className="setup-buttons">
           <button onClick={onBack}>Back</button>
           <button className="primary big" onClick={start}>To the briefing ▶</button>
         </div>
       </div>
     </div>
+  );
+}
+
+export function ScenarioCards({ scenario, setScenario }: { scenario: string; setScenario: (s: string) => void }) {
+  return (
+    <>
+      <h3>Scenario</h3>
+      <div className="cards">
+        {Object.entries(SCENARIOS).map(([k, sc]) => (
+          <button key={k} className={`card${scenario === k ? ' on' : ''}`} onClick={() => setScenario(k)}>
+            <div className="card-title">{sc.name}</div>
+            <div className="card-meta">{sc.lastTurn} days · Allies need {k === 'short' ? 8 : 20} VP</div>
+            <div className="card-text">{sc.description}</div>
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+
+/** The opening (D-Day or the tournament start) and the optional rules. */
+export function StartAndRules({ options, setOptions }: { options: GameOptions; setOptions: (o: GameOptions) => void }) {
+  return (
+    <>
+      <h3>Start</h3>
+      <div className="cards">
+        <button className={`card${!options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: false })}>
+          <div className="card-title">D-Day landings</div>
+          <div className="card-text">The standard start: the Allies roll the Invasion table for each beach, then the Germans react.</div>
+        </button>
+        <button className={`card${options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: true })}>
+          <div className="card-title">Allies already ashore</div>
+          <div className="card-text">Tournament start (S1.4): no landing rolls; the assault units start inland and the Germans move first.</div>
+        </button>
+      </div>
+      <h3>Optional rules</h3>
+      <label className="check">
+        <input type="checkbox" checked={options.disengagement !== false} onChange={(e) => setOptions({ ...options, disengagement: e.target.checked })} />
+        25.1 Disengagement: units next to the enemy may roll to pull back one hex in the combat phase
+      </label>
+      <label className="check">
+        <input type="checkbox" checked={!!options.recon} onChange={(e) => setOptions({ ...options, recon: e.target.checked })} />
+        25.2 Reconnaissance units shrug off the step loss of a D1 or DS when alone
+      </label>
+      <label className="check">
+        <input type="checkbox" checked={!!options.limitedPortSupply} onChange={(e) => setOptions({ ...options, limitedPortSupply: e.target.checked })} />
+        25.3 Ports can only supply a limited number of units
+      </label>
+    </>
   );
 }
 

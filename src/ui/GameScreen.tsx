@@ -25,7 +25,25 @@ import type { Settings } from './storage';
 import { effectiveMode, eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
 import { moveLeft, stackText, unitFlags, useQol } from './qol';
 import { Recap } from './Recap';
+import type { NetLink } from '../net/session';
 import { movementAllowance } from '../engine/movement';
+
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
+/** Online: the other players, whether they are here, and whether this device's moves have reached the shared game. */
+function NetBadge({ net }: { net: NetLink }) {
+  const sync = net.status === 'offline' ? 'Reconnecting…' : net.status === 'saving' ? 'Sending…' : 'In step';
+  return (
+    <div className={`net-badge ${net.status}`} aria-live="polite">
+      {net.others.length ? net.others.map((o, i) => (
+        <span key={i} className={`net-peer${o.here ? ' here' : ''}`} title={o.here ? `${o.name} is here` : `${o.name} is away`}>
+          <i aria-hidden />{o.name} · {o.side === 'Allied' ? 'Allies' : 'Germans'}
+        </span>
+      )) : <span className="net-peer">Waiting for a friend to join</span>}
+      <span className="net-sync">{sync}</span>
+    </div>
+  );
+}
 
 export const dateOf = (turn: number) => `${8 + turn} September 1943`;
 
@@ -33,6 +51,19 @@ export const dateOf = (turn: number) => `${8 + turn} September 1943`;
 const NO_HIGHLIGHTS = new Map<HexId, Highlight>();
 const NO_IDS = new Set<string>();
 const UNDOABLE = new Set(['move', 'enter', 'land', 'naval', 'changeArea', 'fullRetreat', 'replace', 'readyAsu', 'btMove', 'btDrop']);
+
+/** What the computer does instead of an action the rules refuse. */
+function fallbackAction(g: GameState): Action {
+  return g.retreatQueue?.length
+    ? { type: 'retreatChoice', index: 0 }
+    : g.pendingDefense
+      ? { type: 'defend', choice: 'retreat' }
+      : g.breakthrough
+        ? { type: 'btEnd' }
+        : g.pendingAdvance
+          ? { type: 'advance', unitIds: [] }
+          : { type: 'endPhase' };
+}
 
 interface Props {
   game: GameState;
@@ -44,9 +75,11 @@ interface Props {
   bumpMap: () => void;
   onQuit: () => void;
   onLoad: (g: GameState) => void;
+  /** An online game: actions go to the shared game, and the other players' arrive here. */
+  net?: NetLink;
 }
 
-export function GameScreen({ game, setGame, settings, setSettings, terrain, mapVersion, bumpMap, onQuit, onLoad }: Props) {
+export function GameScreen({ game, setGame, settings, setSettings, terrain, mapVersion, bumpMap, onQuit, onLoad, net }: Props) {
   const [history, setHistory] = useState<GameState[]>([]);
   const [selectedHex, setSelectedHex] = useState<HexId | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
@@ -85,13 +118,17 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
 
   // Human players choose their own retreat destinations; each side's defensive air policy comes from Settings.
   useEffect(() => {
+    if (net) return; // fixed for everyone when the online game was opened
     const air = settings.defensiveAir;
     setGame((g) => {
       const o = g.options ?? {};
       if (JSON.stringify(o.chooseRetreats ?? []) === JSON.stringify(humanSides) && JSON.stringify(o.defensiveAir ?? {}) === JSON.stringify(air)) return g;
       return { ...g, options: { ...o, chooseRetreats: [...humanSides], defensiveAir: { ...air } } };
     });
-  }, [humanSides, settings.defensiveAir, game.options, setGame]);
+  }, [humanSides, settings.defensiveAir, game.options, setGame, net]);
+  useEffect(() => {
+    if (net?.notice) setToast(net.notice.text);
+  }, [net?.notice?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(null), 3500);
@@ -102,12 +139,16 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const acting = actingSide(game);
   const controller = settings.controllers[acting];
   const humanTurn = controller === 'human' && game.phase !== 'gameOver';
+  // Online: the side another player commands, on their own device.
+  const remoteTurn = controller === 'remote' && game.phase !== 'gameOver';
+  const incoming = net?.incoming ?? [];
   // The player's own advance after combat (not the enemy's, while the player picks a retreat for its own units).
   const myAdvance = !!game.pendingAdvance && humanTurn && acting === game.activeSide && !game.retreatQueue?.length && !game.pendingDefense;
 
   // ---------------------------------------------------------------- the battle screen
   // The player's own attack until it is rolled and read; then every enemy attack on the player's units, one at a time.
-  const [battle, setBattle] = useState<PlannedAttack | null>(null);
+  // `remote`: another player's attack, already taken on their device, shown here before it lands on the map.
+  const [battle, setBattle] = useState<(PlannedAttack & { remote?: boolean }) | null>(null);
   const [combatSeen, setCombatSeen] = useState(game.combats.length);
   const [viewing, setViewing] = useState<number | null>(null);
   const [aiGate, setAiGate] = useState<number | null>(null);
@@ -117,13 +158,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   }, [game]);
   const beforeCombat = useRef(new Map<number, Record<string, UnitState>>());
   const stepCombats = settings.combatDice !== 'quick';
-  const incoming = stepCombats
+  const incomingCombat = stepCombats
     ? game.combats.slice(Math.min(combatSeen, game.combats.length)).find((c) => humanSides.includes(other(c.attackerSide)) && !humanSides.includes(c.attackerSide)) ?? null
     : null;
   // Remember the units as they stood before an enemy attack, to show what it cost.
-  if (incoming && !beforeCombat.current.has(incoming.id) && prevGame.current.combats.length < incoming.id) beforeCombat.current.set(incoming.id, prevGame.current.units);
+  if (incomingCombat && !beforeCombat.current.has(incomingCombat.id) && prevGame.current.combats.length < incomingCombat.id) beforeCombat.current.set(incomingCombat.id, prevGame.current.units);
   const pdHuman = !!game.pendingDefense && settings.controllers[game.pendingDefense.defenderSide] === 'human' && game.phase !== 'gameOver';
-  const candidate = incoming?.id ?? (pdHuman ? game.pendingDefense!.combatId : null);
+  const candidate = incomingCombat?.id ?? (pdHuman ? game.pendingDefense!.combatId : null);
   const viewerId = battle ? null : viewing ?? candidate;
   const viewerOpen = !!battle || viewerId !== null;
   useEffect(() => {
@@ -157,8 +198,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     battleMark.current = { key: battleKey, target: battle ? battle.target : battleRep!.defenderHex, from: [...new Set(from)] };
   }
   // The computer never acts under the battle screen, except to answer the defense decision it is shown making.
-  const halted = paused || menu !== 'none' || (viewerOpen && (aiGate === null || aiGate !== game.pendingDefense?.combatId)) ||
-    (showLanding && !humanTurn); // the computer's landings play out on the panel before it moves on
+  const battleHold = paused || menu !== 'none' || (viewerOpen && (aiGate === null || aiGate !== game.pendingDefense?.combatId));
+  const halted = battleHold || (showLanding && !humanTurn); // the computer's landings play out on the panel before it moves on
 
   // ---------------------------------------------------------------- AI players
   const aiRef = useRef<Record<string, AiPlayer>>({});
@@ -197,7 +238,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     busyUntil.current = Math.max(busyUntil.current, Date.now() + ms);
   }, []);
   useEffect(() => {
-    if (humanTurn || halted || game.phase === 'gameOver') return;
+    if (humanTurn || remoteTurn || halted || game.phase === 'gameOver' || incoming.length) return;
     let cancelled = false;
     const seq = game.seq;
     const timer = setTimeout(async () => {
@@ -212,22 +253,28 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           setBattle(enemy);
           return;
         }
+        if (net) {
+          // The computer's moves in an online game are shared like a player's.
+          if (game.seq !== seq) return;
+          let act = a;
+          let next: GameState;
+          try {
+            next = withAction(game, a);
+          } catch (e) {
+            setAiStatus(`AI proposed an illegal action (${(e as Error).message}); skipping it.`);
+            act = fallbackAction(game);
+            next = withAction(game, act);
+          }
+          net.push(act, game, next);
+          return;
+        }
         setGame((g) => {
           if (g.seq !== seq) return g;
           try {
             return withAction(g, a);
           } catch (e) {
             setAiStatus(`AI proposed an illegal action (${(e as Error).message}); skipping it.`);
-            const fallback: Action = g.retreatQueue?.length
-              ? { type: 'retreatChoice', index: 0 }
-              : g.pendingDefense
-                ? { type: 'defend', choice: 'retreat' }
-                : g.breakthrough
-                  ? { type: 'btEnd' }
-                  : g.pendingAdvance
-                    ? { type: 'advance', unitIds: [] }
-                    : { type: 'endPhase' };
-            return withAction(g, fallback);
+            return withAction(g, fallbackAction(g));
           }
         });
       } catch (e) {
@@ -241,7 +288,25 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [game, acting, humanTurn, halted, settings.aiDelayMs, aiFor, setGame]);
+  }, [game, acting, humanTurn, remoteTurn, halted, settings.aiDelayMs, aiFor, setGame, net, incoming.length]);
+
+  // Online: play out the other players' actions as they arrive, at the computer's pace (at once when a co-op
+  // partner moves during this player's own turn). An attack on this player's units waits on the battle panel.
+  useEffect(() => {
+    if (!net || !incoming.length || battleHold) return;
+    const a = incoming[0];
+    if (a.type === 'landBeach' && showLanding) return; // the landing panel rolls it
+    const partner = controller === 'human';
+    const timer = setTimeout(() => {
+      const enemy = partner ? null : enemyAttack.current(a);
+      if (enemy) {
+        setBattle({ ...enemy, remote: true });
+        return;
+      }
+      takeRemote(a);
+    }, partner ? 0 : settings.aiDelayMs + Math.max(0, busyUntil.current - Date.now()));
+    return () => clearTimeout(timer);
+  }, [game, net, incoming, battleHold, showLanding, controller, settings.aiDelayMs]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Clear transient selection when the phase or side changes.
   const phaseKey = `${game.turn}|${game.activeSide}|${game.phase}`;
@@ -276,13 +341,34 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   }, [advanceKey, myAdvance]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------------------------------------------------------- human actions
+  /** Online: show another player's action (or the computer's, run on a partner's device). */
+  const takeRemote = (a: Action): GameState | null => {
+    if (!net || !incoming.length) return null;
+    try {
+      const next = withAction(game, incoming[0] ?? a);
+      if (!net.consumed(game, next)) return null; // the screen moved on meanwhile; the replay picks it up again
+      setHistory([]);
+      return next;
+    } catch (e) {
+      setToast(`Out of step with the shared game (${(e as Error).message}).`);
+      return null;
+    }
+  };
   const dispatch = useCallback(
     (a: Action) => {
+      if (net && net.incoming.length) {
+        setToast('Catching up with the other player…');
+        return null;
+      }
       try {
         const next = withAction(game, a);
+        if (net && !net.push(a, game, next)) {
+          setToast('Catching up with the other player…');
+          return null;
+        }
         if (UNDOABLE.has(a.type)) setHistory((h) => [...h.slice(-30), game]);
         else setHistory([]);
-        setGame(next);
+        if (!net) setGame(next);
         if (a.type === 'endPhase') sfx.click();
         return next;
       } catch (e) {
@@ -291,14 +377,17 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         return null;
       }
     },
-    [game, setGame],
+    [game, setGame, net],
   );
 
   const undo = () => {
     const prev = history[history.length - 1];
     if (!prev) return;
+    if (net) {
+      if (!net.canUndo) return;
+      net.undo(prev);
+    } else setGame(prev);
     setHistory((h) => h.slice(0, -1));
-    setGame(prev);
     setSelectedUnit(null);
   };
 
@@ -451,7 +540,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   };
   const rollAttack = () => {
     if (!battle) return null;
-    const next = dispatch(battle.action);
+    const next = battle.remote ? takeRemote(battle.action) : dispatch(battle.action);
     if (next) {
       clearAttack();
       setSelectedUnit(null);
@@ -882,6 +971,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     return () => window.removeEventListener('keydown', onKey);
   }, [menu]);
 
+  // Online: who the game is waiting on.
+  const remoteNote = net && remoteTurn ? (incoming.length ? `${cap(net.who(acting))} is moving…` : `Waiting for ${net.who(acting)}…`) : '';
   const cardUnit = selUnit ?? (selectedHex ? unitsAt(game, selectedHex)[0] ?? null : null);
   const showDefense = viewerOpen;
 
@@ -913,7 +1004,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         qol={qol.map}
       />
       <TopBar game={game} settings={settings} setSettings={setSettings} humanTurn={humanTurn} acting={acting}
-        onMenu={() => setMenu('pause')} onSettings={() => setMenu('settings')} aiStatus={humanTurn ? '' : aiStatus} />
+        onMenu={() => setMenu('pause')} onSettings={() => setMenu('settings')} aiStatus={humanTurn ? '' : remoteNote || aiStatus} />
+      {net && <NetBadge net={net} />}
       {game.phase !== 'gameOver' && <PhaseBanner game={game} humanSides={humanSides} />}
       <EventFeed game={game} onFocus={focusOn} humanSides={humanSides} />
       <Recap game={game} humanSides={humanSides} onJump={(h) => { focusOn(h); qol.pulse(h); }} />
@@ -923,7 +1015,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         acting={acting}
         touch={touch}
         rightClick={rightClick}
-        aiStatus={aiStatus}
+        aiStatus={remoteNote || aiStatus}
         paused={paused}
         setPaused={setPaused}
         confirm={confirm}
@@ -948,7 +1040,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         extra={extra}
         onDetails={toggleDetails}
         detailsOpen={panelOpen && tab === (humanTurn ? 'play' : 'log')}
-        canUndo={history.length > 0}
+        canUndo={history.length > 0 && (!net || net.canUndo)}
         onUndo={undo}
         end={showEnd ? { label: endLabel, armed: endArmed, warn: endWarn, onClick: endPhase } : null}
       />
@@ -966,7 +1058,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           humanTurn={humanTurn}
           dispatch={dispatch}
           undo={undo}
-          canUndo={history.length > 0}
+          canUndo={history.length > 0 && (!net || net.canUndo)}
           selectedHex={selectedHex}
           selectedUnit={selectedUnit}
           setSelectedUnit={setSelectedUnit}
@@ -983,7 +1075,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           odds={odds}
           paused={paused}
           setPaused={setPaused}
-          aiStatus={aiStatus}
+          aiStatus={remoteNote || aiStatus}
           editorOn={editorOn}
           setEditorOn={setEditorOn}
           bumpMap={bumpMap}
@@ -1008,7 +1100,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           }} />
       )}
       {showLanding && (
-        <LandingPanel game={game} dispatch={dispatch} speed={settings.animSpeed} spectator={!humanTurn} onHold={holdMap} onFocus={setLandingBeach} onFootprint={setBattleInset}
+        <LandingPanel game={game} dispatch={(a) => (net && incoming[0]?.type === 'landBeach' && a.type === 'landBeach' ? takeRemote(a) : dispatch(a))}
+          speed={settings.animSpeed} spectator={!humanTurn} onHold={holdMap}
+          feed={net && incoming[0]?.type === 'landBeach' ? incoming[0].beach : net && remoteTurn ? null : undefined} onFocus={setLandingBeach} onFootprint={setBattleInset}
           onClose={() => { setHeldMap(null); setLandingClosed(true); setLandingBeach(null); }} />
       )}
       {toast && <div className="toast">{toast}</div>}
@@ -1016,11 +1110,16 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         <GameOverScreen game={game} humanSides={humanSides} onReview={() => setOverDismissed(true)} onMenu={onQuit} />
       )}
       {menu === 'pause' && (
-        <PauseMenu game={game} onResume={() => setMenu('none')} onSettings={() => setMenu('settings')} onQuit={onQuit} onLoad={(g) => { setMenu('none'); setCombatSeen(g.combats.length); onLoad(g); }}
+        <PauseMenu game={game} onResume={() => setMenu('none')} onSettings={() => setMenu('settings')} onQuit={onQuit} onLoad={(g) => {
+            setMenu('none');
+            if (net) return setToast('An online game cannot load a saved game.');
+            setCombatSeen(g.combats.length);
+            onLoad(g);
+          }}
           onRules={() => { setMenu('none'); setTab('crt'); setPanelOpen(true); }} />
       )}
       {menu === 'settings' && (
-        <SettingsModal settings={settings} setSettings={setSettings} onClose={() => setMenu('none')} inGame
+        <SettingsModal settings={settings} setSettings={setSettings} onClose={() => setMenu('none')} inGame online={!!net}
           editorOn={editorOn} setEditorOn={(b) => { setEditorOn(b); if (b) { setTab('editor'); setPanelOpen(true); } }} />
       )}
     </div>

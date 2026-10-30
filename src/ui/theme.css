@@ -682,3 +682,42 @@ kbd {
 /* ---------------------------------------------------------------- unit orders: hold and sleep */
 .ab-buttons .order-btn { background: rgba(70, 90, 130, 0.22); border-color: rgba(150, 175, 220, 0.4); color: #dfe7ff; }
 .ab-buttons .order-btn:hover { background: rgba(90, 115, 165, 0.35); }
+
+/* ------------------------------------------------------------------ online play */
+.net-lobby { max-width: 860px; }
+.net-how { color: #d6d0bd; line-height: 1.5; margin: 6px 0 4px; }
+.net-error { color: #f0b49a; background: rgba(150, 60, 40, 0.18); border: 1px solid rgba(220, 120, 90, 0.4); border-radius: 5px; padding: 8px 12px; }
+.net-callsign { max-width: 320px; }
+.net-head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.net-head-row h3 { margin-bottom: 10px; }
+.net-games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.net-game {
+  display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  background: rgba(30, 34, 30, 0.85); border: 1px solid var(--line-soft); border-radius: 6px; padding: 12px 14px;
+}
+.net-game.mine { border-color: var(--line); }
+.net-game-main { min-width: 0; flex: 1 1 320px; }
+.net-game-title { font: 700 17px var(--hud); letter-spacing: 1px; color: #f0e7cc; }
+.net-game-meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.net-seats { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; font: 600 13px var(--hud); color: var(--text); }
+.net-seat { display: inline-flex; align-items: center; gap: 5px; }
+.net-seat i { color: var(--gold-2); }
+.net-seat.ai { color: var(--muted); }
+.net-game-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.net-delete { color: #f0b49a; }
+.net-badge {
+  position: absolute; top: 64px; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; gap: 10px; align-items: center;
+  background: rgba(12, 14, 13, 0.9); border: 1px solid var(--line); border-radius: 14px; padding: 3px 12px;
+  font: 600 12px var(--hud); letter-spacing: 0.5px; color: var(--text); pointer-events: none; white-space: nowrap; max-width: calc(100vw - 32px);
+}
+.net-peer { display: inline-flex; align-items: center; gap: 6px; overflow: hidden; text-overflow: ellipsis; }
+.net-peer i { width: 8px; height: 8px; border-radius: 50%; background: #6b6a60; flex: none; }
+.net-peer.here i { background: var(--allied); box-shadow: 0 0 6px var(--allied); }
+.net-sync { color: var(--muted); }
+.net-badge.offline .net-sync { color: #f0b49a; }
+.game.battle-open .net-badge { display: none; }
+@media (max-width: 820px), (max-height: 520px) {
+  .net-badge { top: calc(55px + env(safe-area-inset-top)); font-size: 11px; padding: 2px 10px; }
+  .net-game-actions { width: 100%; }
+  .net-game-actions button { flex: 1; }
+}

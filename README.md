@@ -40,6 +40,18 @@ On a touch screen:
 - **Tap an enemy hex** to see the attack and its odds, then **tap it again** (or **Attack!**) to attack.
 - The action bar along the bottom holds everything for the current step. **Details** opens the full orders sheet (replacements, artillery, choosing attackers); **▾ Close** lowers it again.
 
+### With friends, online
+
+The shared claude.ai page of the game can host online games, so friends can play from their own phones.
+
+1. **Share the page.** In the page's **Share** menu on claude.ai, invite each friend by email as an **Editor** (and leave public link sharing off: only Editors and the owner can write to the shared game). Each friend needs a claude.ai account.
+2. **Host.** Title screen → **Play with friends** → **Host a new game**. Choose **Versus** (you against a friend, one side each) or **Co-op** (you and a friend command the same side together against the computer, at the difficulty you pick), your side, the scenario, the start and the optional rules.
+3. **Join.** The friend opens the same page, taps **Play with friends**, and taps **Join as …** on your game. Anyone else with access can **Watch**.
+
+Every order goes to the shared game at once and plays out on the other screens at the computer's pace: the other player's attacks on your units open the battle panel so you watch their roll, their landing rolls appear on the landing panel, and you answer your own defence decisions and retreats. A badge under the top bar shows who else is here and whether your moves have reached the shared game. Leave whenever you like; **Play with friends → Resume** picks the game up again on any device. In co-op either partner may move any unit; if both act at the same moment, plain moves and orders are both kept when they still hold after the partner's; anything else (an attack, a phase end) is taken back with a message so it can be given again. The host's device runs the computer side, or the partner's while the host is away. Undo works for your own last move until someone acts after it.
+
+The game is stored as its setup and the list of every action taken; the dice come from the game's seed, so each device replays the list to the same position (`src/net/`). Running the development server with `?fakenet=ann` in one tab and `?fakenet=bob` in another plays an online game between two tabs of one browser.
+
 ## Playing
 
 ### Starting an operation
@@ -144,8 +156,10 @@ The map was checked twice against the photos. The second pass drew the data over
 data/          map.json (transcribed map), rules.json, oob.json
 src/engine/    rules engine: hex grid, movement, ZOC bonds, combat, breakthroughs, retreats, supply, phases, victory
 src/ai/        built-in heuristic AI, Claude AI, self-play
+src/net/       online play: the shared game (setup + action list in chunks), seats, sync and replay; a local stand-in store for tests and two-tab development
 src/ui/        React UI
-  App.tsx          screen flow: loading, title, new operation, briefing, game
+  App.tsx          screen flow: loading, title, new operation, online lobby, briefing, game
+  NetLobby.tsx     Play with friends: the games on the page, hosting, joining
   screens.tsx      title, new operation, briefing and how-to-play screens
   GameScreen.tsx   in-game controller: AI loop, selection, highlights, dialogs
   MapView.tsx      map camera, overlays, unit stacks, animations, minimap

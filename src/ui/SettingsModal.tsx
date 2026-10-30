@@ -11,11 +11,13 @@ interface Props {
   setSettings: (s: Settings) => void;
   onClose: () => void;
   inGame?: boolean;
+  /** An online game: the seats decide the commanders. */
+  online?: boolean;
   editorOn?: boolean;
   setEditorOn?: (b: boolean) => void;
 }
 
-export function SettingsModal({ settings: s, setSettings, onClose, inGame, editorOn, setEditorOn }: Props) {
+export function SettingsModal({ settings: s, setSettings, onClose, inGame, online, editorOn, setEditorOn }: Props) {
   const set = (patch: Partial<Settings>) => setSettings({ ...s, ...patch });
   const setCtl = (side: Side, c: Controller) => set({ controllers: { ...s.controllers, [side]: c } });
   return (
@@ -26,39 +28,46 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, edito
           <button className="close" onClick={onClose}>✕</button>
         </header>
         <div className="settings-grid">
-          <section>
-            <h3>Commanders</h3>
-            {(['Allied', 'German'] as const).map((side) => (
-              <label key={side} className="field">
-                <span>{side}</span>
-                <select value={s.controllers[side]} onChange={(e) => setCtl(side, e.target.value as Controller)}>
-                  <option value="human">Human player</option>
-                  <option value="heuristic">Computer</option>
-                  <option value="claude">Claude (API key)</option>
+          {online ? (
+            <section>
+              <h3>Commanders</h3>
+              <p className="hint">An online game: the seats taken in the lobby decide who commands each side, and the host chose the computer's skill.</p>
+            </section>
+          ) : (
+            <section>
+              <h3>Commanders</h3>
+              {(['Allied', 'German'] as const).map((side) => (
+                <label key={side} className="field">
+                  <span>{side}</span>
+                  <select value={s.controllers[side]} onChange={(e) => setCtl(side, e.target.value as Controller)}>
+                    <option value="human">Human player</option>
+                    <option value="heuristic">Computer</option>
+                    <option value="claude">Claude (API key)</option>
+                  </select>
+                </label>
+              ))}
+              <label className="field">
+                <span>Computer difficulty</span>
+                <select value={s.aiLevel} onChange={(e) => set({ aiLevel: e.target.value as Settings['aiLevel'] })}>
+                  {DIFFICULTIES.map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
                 </select>
               </label>
-            ))}
-            <label className="field">
-              <span>Computer difficulty</span>
-              <select value={s.aiLevel} onChange={(e) => set({ aiLevel: e.target.value as Settings['aiLevel'] })}>
-                {DIFFICULTIES.map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
-              </select>
-            </label>
-            <p className="hint">{DIFFICULTIES.find((d) => d.key === s.aiLevel)?.note}</p>
-            <label className="field">
-              <span>Claude API key</span>
-              <input type="password" placeholder="sk-ant-..." value={s.claudeApiKey} onChange={(e) => set({ claudeApiKey: e.target.value.trim() })} />
-            </label>
-            <label className="field">
-              <span>Claude model</span>
-              <select value={s.claudeModel} onChange={(e) => set({ claudeModel: e.target.value })}>
-                <option value="claude-opus-5-5">Claude Opus 5.5</option>
-                <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
-                <option value="claude-haiku-5-5">Claude Haiku 5.5</option>
-              </select>
-            </label>
-            <p className="hint">The key stays in this browser and is sent only to api.anthropic.com.</p>
-          </section>
+              <p className="hint">{DIFFICULTIES.find((d) => d.key === s.aiLevel)?.note}</p>
+              <label className="field">
+                <span>Claude API key</span>
+                <input type="password" placeholder="sk-ant-..." value={s.claudeApiKey} onChange={(e) => set({ claudeApiKey: e.target.value.trim() })} />
+              </label>
+              <label className="field">
+                <span>Claude model</span>
+                <select value={s.claudeModel} onChange={(e) => set({ claudeModel: e.target.value })}>
+                  <option value="claude-opus-5-5">Claude Opus 5.5</option>
+                  <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
+                  <option value="claude-haiku-5-5">Claude Haiku 5.5</option>
+                </select>
+              </label>
+              <p className="hint">The key stays in this browser and is sent only to api.anthropic.com.</p>
+            </section>
+          )}
           <section>
             <h3>Pace</h3>
             <label className="field">

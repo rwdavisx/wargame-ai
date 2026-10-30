@@ -1,7 +1,8 @@
 import type { GameState, Side } from '../engine/types';
 import type { Difficulty } from '../ai/heuristic';
 
-export type Controller = 'human' | 'heuristic' | 'claude';
+/** 'remote': another player, on another device, in an online game. */
+export type Controller = 'human' | 'heuristic' | 'claude' | 'remote';
 /** 'rts': left-click selects, right-click moves and attacks. 'classic': left-click does everything, right-click backs out. */
 export type MouseControls = 'rts' | 'classic';
 

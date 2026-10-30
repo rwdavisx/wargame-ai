@@ -134,14 +134,16 @@ function PlayPanel(p: Props) {
     );
   }
   if (!p.humanTurn) {
+    // Online, another player may command this side on their own device.
+    const remote = p.settings.controllers[p.acting] === 'remote';
     return (
       <>
         <h3>
-          {p.acting} AI is {g.pendingDefense ? 'choosing its defense' : `playing the ${g.phase} phase`}
+          {p.acting} {remote ? 'player' : 'AI'} is {g.pendingDefense ? `choosing ${remote ? 'a' : 'its'} defense` : `playing the ${g.phase} phase`}
         </h3>
         <p className="muted">{p.aiStatus || 'Watch the map; each move is logged.'}</p>
         <div className="row">
-          <button onClick={() => p.setPaused(!p.paused)}>{p.paused ? 'Resume AI' : 'Pause AI'}</button>
+          <button onClick={() => p.setPaused(!p.paused)}>{p.paused ? (remote ? 'Resume replay' : 'Resume AI') : remote ? 'Pause replay' : 'Pause AI'}</button>
         </div>
         <RecentLog game={g} n={8} onFocus={p.onFocusHex} onMore={() => p.setTab('log')} />
         <SelectedHexInfo {...p} />

@@ -34,9 +34,11 @@ interface Props {
   onClose: () => void;
   /** The computer commands the Allies: the panel rolls every beach by itself while the player watches. */
   spectator?: boolean;
+  /** Online, another player commands the Allies: the beach they rolled next (null until they roll), shown as they did. */
+  feed?: string | null;
 }
 
-export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootprint, onClose, spectator }: Props) {
+export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootprint, onClose, spectator, feed }: Props) {
   // Beaches in the order the card lists them, with the units waiting in each landing box (captured before any roll).
   const [beaches] = useState(() => landingsLeft(game).map((name) => ({
     name,
@@ -85,13 +87,20 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
 
   // Watching the computer: it rolls every beach in turn, starting a moment after the panel opens.
   useEffect(() => {
-    if (!spectator) return;
+    if (!spectator || feed !== undefined) return;
     const t = window.setTimeout(() => {
       queue.current = landingsLeft(game).slice(1);
       latest.current(landingsLeft(game)[0]);
     }, 700 * speed);
     return () => window.clearTimeout(t);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Another player's rolls, one at a time as they arrive.
+  useEffect(() => {
+    if (!feed || rolling) return;
+    const t = window.setTimeout(() => latest.current(feed), 400 * speed);
+    return () => window.clearTimeout(t);
+  }, [feed, rolling]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Space rolls the next beach (or closes the panel once every beach is ashore); Enter as well.
   const keys = useRef({ rollNext, done, onClose, spectator });
@@ -192,7 +201,7 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
           {done ? (
             <button className="primary cbx-primary" onClick={onClose}>{spectator ? 'Continue ▶' : 'To the beaches ▶'}<kbd>Enter</kbd></button>
           ) : spectator ? (
-            <button className="primary cbx-primary" disabled>The Allies are landing…</button>
+            <button className="primary cbx-primary" disabled>{feed !== undefined && !rolling ? 'Waiting for the Allied player to roll…' : 'The Allies are landing…'}</button>
           ) : (
             <button className="primary cbx-primary roll" disabled={rolling} onClick={rollNext}>
               <Pips n={5} size={20} /> {rolling ? 'Rolling…' : `Roll ${left[0]}`}<kbd>Space</kbd>

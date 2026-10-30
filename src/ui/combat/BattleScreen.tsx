@@ -197,6 +197,8 @@ export function BattleScreen(p: Props) {
   const toDefense = () => {
     if (defHuman) setStep('decide');
     else {
+      // The other side's answer (and a Determined Defense roll) reaches the map only once its die has landed.
+      p.onHold?.(true);
       setDecidedAt(Date.now());
       p.onAiGate(id);
       setStep('deciding');
@@ -215,8 +217,9 @@ export function BattleScreen(p: Props) {
   useEffect(() => () => p.onAiGate(null), []); // eslint-disable-line react-hooks/exhaustive-deps
   // The die has landed (or there was none): let the map show what happened.
   useEffect(() => {
-    if (step !== 'rolling' && step !== 'ddRolling') p.onHold?.(false);
-  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
+    const waiting = step === 'rolling' || step === 'ddRolling' || step === 'deciding' || (step === 'aiChoice' && !!rep?.dd);
+    if (!waiting) p.onHold?.(false);
+  }, [step, !!rep?.dd]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => p.onHold?.(false), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const retreat = () => {
