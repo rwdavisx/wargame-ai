@@ -155,7 +155,7 @@ The map was checked twice against the photos. The second pass drew the data over
 
 ## Interface
 
-The menus, dialogs, forms, tabs and buttons are built with [Astryx](https://astryx.atmeta.com/), Meta's open-source React design system (React 19), styled by a custom "wartime" theme (`src/ui/astryx/wartimeTheme.ts`): olive surfaces, brass accents and the game's condensed type. The map, the counters, the battle and landing panels and the map bar remain the game's own drawing. The game's older element defaults sit in a CSS layer below Astryx's (`src/ui/astryx/astryx.css`), so Astryx components keep their own styling.
+The interface is built with [Astryx](https://astryx.atmeta.com/), Meta's open-source React design system (React 19), styled by a custom "wartime" theme (`src/ui/astryx/wartimeTheme.ts`): olive surfaces, brass accents and the game's condensed type. That covers the menus and dialogs, forms, tabs, buttons and toggles everywhere (the action bar, the command panel, the map tools and map bar, the battle and landing panels), the battle's step tracker, odds and loss badges, the unit card, the enemy-turn recap and the end-of-phase checklist, the toasts and the confirmation dialogs. What stays the game's own drawing is what Astryx has no counterpart for: the map, the counters, the dice and the combat and Determined Defense result tables. The game's older element defaults sit in a CSS layer below Astryx's (`src/ui/astryx/astryx.css`), so Astryx components keep their own styling.
 
 ## Project layout
 

@@ -11,7 +11,8 @@ import { setSound, sfx } from './sound';
 import { downloadText, type Settings } from './storage';
 import { EventCard, feedWorthy, readMs, sideOfEntry, type FeedItem, type FocusFn } from './logView';
 import { moveLeft } from './qol';
-import { Button, Dialog, DialogHeader, HStack, Icon, IconButton, VStack } from '@astryxdesign/core';
+import { useConfirm } from './astryx/kit';
+import { Badge, Button, Card, Dialog, DialogHeader, HStack, Icon, IconButton, VStack } from '@astryxdesign/core';
 
 const DATE = (turn: number) => `${8 + turn} SEPT 1943`;
 
@@ -252,6 +253,10 @@ function whereText(u: UnitState): string {
   }
 }
 
+const CHIP_BADGE: Record<string, 'warning' | 'neutral' | 'orange' | 'error' | 'yellow' | 'info' | 'success'> = {
+  gold: 'warning', grey: 'neutral', orange: 'orange', red: 'error', yellow: 'yellow', blue: 'info', green: 'success',
+};
+
 export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameState; unit: UnitState; hex: string | null; onSelect: (id: string) => void; onClose: () => void }) {
   const d = def(unit.id);
   const v = values(unit);
@@ -274,7 +279,7 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
   if (unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([`Frozen until day ${unit.frozenUntil}`, 'blue']);
   if (d.army8) chips.push(['8th Army', 'gold']);
   return (
-    <div className="unit-card">
+    <Card padding={3} elevation="high" className="unit-card">
       <IconButton label="Close" icon={<Icon icon="close" />} variant="ghost" size="sm" className="close" onClick={onClose} />
       <div className="uc-main">
         <TokenIcon unit={unit} size={60} />
@@ -294,9 +299,9 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
             {d.tankRating ? <span><b>{d.tankRating}</b><i>TANK</i></span> : null}
             <span><b>{stepsRemaining(unit)}/{d.steps.length}</b><i>STEPS</i></span>
           </div>
-          <div className="uc-chips">
-            {chips.map(([t, c]) => <span key={t} className={`chip ${c}`}>{t}</span>)}
-          </div>
+          <HStack gap={1} wrap="wrap" className="uc-chips">
+            {chips.map(([t, c]) => <Badge key={t} variant={CHIP_BADGE[c] ?? 'neutral'} label={t} />)}
+          </HStack>
           <div className="uc-where">
             {whereText(unit)}
             {own && unit.where.kind === 'map' && game.phase === 'movement' && (
@@ -314,7 +319,7 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
           ))}
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 
@@ -456,7 +461,10 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
   game: GameState; onResume: () => void; onSettings: () => void; onQuit: () => void; onLoad: (g: GameState) => void; onRules: () => void;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
+  const confirm = useConfirm();
   return (
+    <>
+    {confirm.dialog}
     <Dialog isOpen onOpenChange={(o) => !o && onResume()} width={380} className="pause">
       <DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · day ${game.turn} · the game saves itself after every action`} onOpenChange={(o) => !o && onResume()} />
         <VStack gap={2} paddingBlock={2}>
@@ -474,9 +482,10 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
             try {
               onLoad(JSON.parse(await f.text()) as GameState);
             } catch {
-              alert('That file is not a saved game.');
+              void confirm.ask({ title: 'Not a saved game', description: 'That file is not a saved game of Salerno \'43.', actionLabel: 'OK', cancelLabel: null });
             }
           }} />
     </Dialog>
+    </>
   );
 }

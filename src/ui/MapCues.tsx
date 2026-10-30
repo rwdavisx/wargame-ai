@@ -1,6 +1,7 @@
 // Map layers the printed game never had: the map modes' shading (supply, control, ZOC...), rings around
 // the selected unit's formation, odds on every target, and the map mode selector with its legend.
 import { memo, useMemo, useState } from 'react';
+import { Button, Icon, IconButton, ToggleButton } from '@astryxdesign/core';
 import type { HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
 import { def, sideOf } from '../engine/units';
@@ -154,19 +155,16 @@ export function ModeTools({ qol, barOpen, setBarOpen }: { qol: QolMapProps; barO
   const cur = MAP_MODES.find((m) => m.key === qol.mode) ?? MAP_MODES[0];
   return (
     <div className="mode-tools">
-      <button title={`Map modes and layers (${cur.label})`} className={`mode-btn${barOpen ? ' on' : ''}${qol.mode !== 'normal' ? ' active' : ''}`}
-        aria-expanded={barOpen} aria-controls="map-bar" onClick={() => setBarOpen(!barOpen)}>
-        <ModeIcon mode={qol.mode} />
-      </button>
+      <ToggleButton label={`Map modes and layers (${cur.label})`} tooltip={`Map modes and layers (${cur.label})`} isIconOnly icon={<ModeIcon mode={qol.mode} />}
+        className={`mode-btn${qol.mode !== 'normal' ? ' active' : ''}`} aria-expanded={barOpen} aria-controls="map-bar" isPressed={barOpen} onPressedChange={() => setBarOpen(!barOpen)} />
       {qol.layer && (
         <div className="mode-legend" role="note" aria-label={`${cur.label} legend`}>
           <div className="mode-legend-head">
-            <button className="mode-legend-title" onClick={() => setFolded((f) => !f)} aria-expanded={!folded} title={folded ? 'Show the legend' : 'Fold the legend'}>
-              <ModeIcon mode={qol.mode} />
-              <b>{cur.label}</b>
-              <span aria-hidden>{folded ? '▸' : '▾'}</span>
-            </button>
-            <button className="mode-legend-close" title="Back to the normal map" onClick={() => qol.setMode('normal')}>✕</button>
+            <Button label={cur.label} variant="ghost" size="sm" className="mode-legend-title" aria-expanded={!folded} tooltip={folded ? 'Show the legend' : 'Fold the legend'}
+              icon={<ModeIcon mode={qol.mode} />} onClick={() => setFolded((f) => !f)}>
+              <b>{cur.label}</b> <span aria-hidden>{folded ? '▸' : '▾'}</span>
+            </Button>
+            <IconButton label="Back to the normal map" tooltip="Back to the normal map" icon={<Icon icon="close" />} variant="ghost" size="sm" className="mode-legend-close" onClick={() => qol.setMode('normal')} />
           </div>
           {!folded && (
             <>
@@ -210,26 +208,24 @@ export function MapBar({ qol, onClose, minimapH }: { qol: QolMapProps; onClose: 
     <div className="map-bar" id="map-bar" role="toolbar" aria-label="Map modes and layers" style={{ '--mm-h': `${Math.round(minimapH)}px` } as React.CSSProperties}>
       <div className="mb-head">
         <span className="mb-now"><span className="mb-kicker">Map mode</span> <b>{shown.label}</b></span>
-        <button className="mb-close" onClick={onClose} title="Hide the map bar">✕</button>
+        <IconButton label="Hide the map bar" tooltip="Hide the map bar" icon={<Icon icon="close" />} variant="ghost" size="sm" className="mb-close" onClick={onClose} />
       </div>
       <div className="mb-note">{shown.note}</div>
-      <div className="mb-modes" role="radiogroup" aria-label="Map mode" onPointerLeave={() => setHot(null)}>
+      <div className="mb-modes" role="group" aria-label="Map mode" onPointerLeave={() => setHot(null)}>
         {MAP_MODES.map((m) => (
-          <button key={m.key} role="radio" aria-checked={qol.mode === m.key} aria-label={m.label} title={`${m.label}: ${m.note}`}
-            className={qol.mode === m.key ? 'on' : ''} onPointerEnter={() => setHot(m.key)} onFocus={() => setHot(m.key)} onBlur={() => setHot(null)}
-            onClick={() => qol.setMode(m.key)}>
-            <ModeIcon mode={m.key} />
-            <span>{m.label === 'Zones of control' ? 'ZOC' : m.label === 'Support range' ? 'Support' : m.label}</span>
-          </button>
+          <ToggleButton key={m.key} label={m.label} icon={<ModeIcon mode={m.key} />} isPressed={qol.mode === m.key} className={qol.mode === m.key ? 'on' : ''}
+            onPointerEnter={() => setHot(m.key)} onFocus={() => setHot(m.key)} onBlur={() => setHot(null)} onPressedChange={() => qol.setMode(m.key)}>
+            <span className="mb-label">{m.label === 'Zones of control' ? 'ZOC' : m.label === 'Support range' ? 'Support' : m.label}</span>
+          </ToggleButton>
         ))}
       </div>
       <div className="mb-sep">Show</div>
       <div className="mb-layers">
         {qol.layers.map((l) => (
-          <button key={l.key} aria-pressed={l.on} className={l.on ? 'on' : ''} title={`${l.label}: ${l.note} (${l.on ? 'shown' : 'hidden'})`} onClick={() => qol.toggleLayer(l.key)}>
-            <LayerIcon k={l.key} />
-            <span>{l.label}</span>
-          </button>
+          <ToggleButton key={l.key} label={l.label} icon={<LayerIcon k={l.key} />} isPressed={l.on} className={l.on ? 'on' : ''}
+            tooltip={`${l.label}: ${l.note} (${l.on ? 'shown' : 'hidden'})`} onPressedChange={() => qol.toggleLayer(l.key)}>
+            <span className="mb-label">{l.label}</span>
+          </ToggleButton>
         ))}
       </div>
     </div>

@@ -1,6 +1,7 @@
 // "Since your last turn": what the computer did on its turn, worked out by comparing the game state
 // when its turn began with the state when yours begins. Every entry jumps the camera to its hex.
 import { useEffect, useRef, useState } from 'react';
+import { Button, Card, Icon, IconButton, List, ListItem } from '@astryxdesign/core';
 import { MAP } from '../engine/data';
 import type { HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
@@ -167,46 +168,40 @@ export function Recap({ game, humanSides, onJump }: { game: GameState; humanSide
   ].filter(Boolean);
   if (!open) {
     return (
-      <button className="recap-pill" onClick={() => setOpen(true)} title="What the enemy did on its turn (R)">
+      <Button label={`${who} turn`} className="recap-pill" tooltip="What the enemy did on its turn (R)" onClick={() => setOpen(true)}>
         <b>{who} turn</b> {recap.attacks ? plural(recap.attacks, 'attack') : plural(recap.moved, 'move')} <span aria-hidden>›</span>
-      </button>
+      </Button>
     );
   }
   const row = (e: Entry, i: number) => (
-    <li key={i}>
-      <button className={`recap-item ${e.kind}`} disabled={!e.hex} onClick={() => {
-        if (!e.hex) return;
-        onJump(e.hex);
+    <ListItem key={i} className={`recap-item ${e.kind}`} isDisabled={!e.hex} align="first-line"
+      startContent={<i aria-label={KIND_LABEL[e.kind]} />} label={<span>{e.text}</span>} endContent={e.hex ? <em>{e.hex}</em> : undefined}
+      onClick={e.hex ? () => {
+        onJump(e.hex!);
         // On a phone the card would hide the hex: fold it back into its pill.
         if (window.matchMedia('(max-width: 820px), (max-height: 520px)').matches) setOpen(false);
-      }} title={e.hex ? `Show ${e.hex} on the map` : undefined}>
-        <i aria-label={KIND_LABEL[e.kind]} />
-        <span>{e.text}</span>
-        {e.hex && <em>{e.hex}</em>}
-      </button>
-    </li>
+      } : undefined} />
   );
   return (
-    <section className="recap" aria-label="Enemy turn recap">
+    <Card padding={0} elevation="high" className="recap" aria-label="Enemy turn recap">
       <header>
         <div>
           <div className="recap-kicker">Since your last turn</div>
           <div className="recap-title">{who} turn · day {recap.turn}</div>
         </div>
-        <button className="recap-close" onClick={() => setOpen(false)} title="Hide (R)">✕</button>
+        <IconButton label="Hide (R)" tooltip="Hide (R)" icon={<Icon icon="close" />} variant="ghost" size="sm" className="recap-close" onClick={() => setOpen(false)} />
       </header>
       <div className="recap-sum">{summary.join(' · ')}</div>
       <div className="recap-body">
-        {recap.entries.length > 0 ? <ul>{recap.entries.map(row)}</ul> : <p className="recap-quiet">No attacks, losses or captures.</p>}
+        {recap.entries.length > 0 ? <List density="compact">{recap.entries.map(row)}</List> : <p className="recap-quiet">No attacks, losses or captures.</p>}
         {recap.moves.length > 0 && (
           <>
-            <button className="recap-more" onClick={() => setShowMoves((m) => !m)} aria-expanded={showMoves}>
-              {showMoves ? 'Hide' : 'Show'} {plural(recap.moves.length, 'enemy move')}
-            </button>
-            {showMoves && <ul>{recap.moves.map(row)}</ul>}
+            <Button label={`${showMoves ? 'Hide' : 'Show'} ${plural(recap.moves.length, 'enemy move')}`} variant="ghost" size="sm" className="recap-more"
+              aria-expanded={showMoves} onClick={() => setShowMoves((m) => !m)} />
+            {showMoves && <List density="compact">{recap.moves.map(row)}</List>}
           </>
         )}
       </div>
-    </section>
+    </Card>
   );
 }

@@ -41,7 +41,7 @@
   background: transparent; border-color: transparent; color: var(--gold-2);
 }
 .mode-legend-title b { flex: 1; font: 700 14px var(--hud); letter-spacing: 1.5px; text-transform: uppercase; }
-.mode-legend-title span { font-size: 12px; color: var(--muted); }
+.mode-legend-title b + span { font-size: 12px; color: var(--muted); }
 .maptools .mode-legend .mode-legend-close { width: 26px; height: 26px; padding: 0; font-size: 13px; background: transparent; border-color: transparent; color: var(--text); }
 .mode-legend ul { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
 .mode-legend li { display: flex; align-items: center; gap: 7px; font: 12.5px/1.25 var(--body); color: #ddd7c3; }
@@ -61,17 +61,12 @@
 .recap header > div { flex: 1; min-width: 0; }
 .recap-kicker { font: 600 11px var(--hud); letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
 .recap-title { font: 700 17px/1.1 var(--hud); letter-spacing: 1px; text-transform: uppercase; color: var(--gold-2); }
-.recap .recap-close { width: 30px; height: 30px; padding: 0; flex: none; background: transparent; border-color: transparent; color: var(--text); }
+.recap .recap-close { flex: none; }
 .recap-sum { padding: 0 12px 8px; font: 600 13px var(--hud); letter-spacing: 0.3px; color: #d8d2bd; border-bottom: 1px solid var(--line-soft); }
 .recap-body { overflow-y: auto; padding: 4px 6px 8px; min-height: 0; }
 .recap-body ul { list-style: none; margin: 0; padding: 0; }
 .recap-quiet { margin: 6px 8px; color: var(--muted); font-size: 13px; }
-.recap .recap-item {
-  width: 100%; display: flex; align-items: baseline; gap: 8px; padding: 6px 6px; text-align: left; border-radius: 5px;
-  font: 13px/1.3 var(--body); letter-spacing: 0; color: #e4dece; background: transparent; border: 1px solid transparent;
-}
-.recap .recap-item:hover:not(:disabled) { background: rgba(255, 255, 255, 0.05); border-color: var(--line); box-shadow: none; }
-.recap .recap-item:disabled { opacity: 1; }
+.recap .recap-item { font: 13px/1.3 var(--body); color: #e4dece; }
 .recap-item i { flex: none; width: 8px; height: 8px; border-radius: 2px; background: var(--muted); transform: translateY(-1px); }
 .recap-item.attack i { background: #ef8a4a; }
 .recap-item.capture i { background: var(--gold); transform: translateY(-1px) rotate(45deg); }
@@ -79,11 +74,8 @@
 .recap-item.enemyLoss i { background: var(--ok); }
 .recap-item.arrive i { background: #7fb2ff; border-radius: 50%; }
 .recap-item.move i { background: #8d8a78; border-radius: 50%; width: 6px; height: 6px; }
-.recap-item span { flex: 1; min-width: 0; }
 .recap-item em { flex: none; font: 600 11.5px var(--hud); font-style: normal; color: var(--muted); letter-spacing: 0.5px; }
-.recap .recap-more {
-  margin: 6px 6px 2px; padding: 5px 10px; font: 600 13px var(--hud); background: transparent; color: var(--gold-2); border-color: var(--line);
-}
+.recap .recap-more { margin: 6px 6px 2px; }
 .recap-pill {
   position: absolute; right: 420px; bottom: calc(var(--bar-h, 70px) + 24px); z-index: 4; display: flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 12px;
   font: 600 14px var(--hud); color: var(--text); background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--danger);
@@ -150,7 +142,7 @@
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 0; height: 30px; padding: 0;
   background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line-soft); border-radius: 4px; color: #bdb8a4;
 }
-.map-bar .mb-modes button span, .map-bar .mb-layers button span { display: none; font: 600 10.5px var(--hud); letter-spacing: 0.3px; white-space: nowrap; }
+.map-bar .mb-label { display: none; font: 600 10.5px var(--hud); letter-spacing: 0.3px; white-space: nowrap; }
 .map-bar .mb-modes button:hover, .map-bar .mb-layers button:hover { color: var(--text); border-color: var(--line); background: rgba(255, 255, 255, 0.07); }
 .map-bar .mb-modes button.on { color: #1d1608; background: linear-gradient(#e4c46c, #b18a35); border-color: #f2d78f; }
 .map-bar .mb-layers button { color: #77736a; }
@@ -169,7 +161,7 @@
   .mb-layers { grid-template-columns: repeat(3, 1fr); gap: 5px; }
   .map-bar .mb-modes button, .map-bar .mb-layers button { height: 46px; }
   .map-bar .mb-layers button { flex-direction: row; height: 38px; gap: 6px; }
-  .map-bar .mb-modes button span, .map-bar .mb-layers button span { display: block; }
+  .map-bar .mb-label { display: block; }
   .map-bar .mb-close { width: 32px; height: 32px; font-size: 16px; }
   .game.panel-open .map-bar, .game.battle-open .map-bar { display: none; }
   .maptools:has(~ .map-bar) .mode-legend, .map-bar ~ .maptools .mode-legend { display: none; }
@@ -179,5 +171,9 @@
   .mb-modes { grid-template-columns: repeat(7, 1fr); }
   .mb-layers { grid-template-columns: repeat(6, 1fr); }
   .map-bar .mb-modes button, .map-bar .mb-layers button { height: 40px; flex-direction: column; gap: 1px; }
-  .map-bar .mb-modes button span, .map-bar .mb-layers button span { font-size: 9px; }
+  .map-bar .mb-label { font-size: 9px; }
 }
+
+/* Astryx buttons on the map: full-size glyphs and icons. */
+.maptools .astryx-button > span [aria-hidden], .maptools .astryx-button > span > span { font-size: 18px; line-height: 1; }
+.map-bar .astryx-toggle-button svg, .maptools .mode-btn svg { width: 20px !important; height: 20px !important; }

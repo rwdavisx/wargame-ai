@@ -10,6 +10,7 @@ import { TokenIcon } from '../render/units';
 import { sfx } from '../sound';
 import { NO_INSET, type BattleInset } from './BattleScreen';
 import { Die3D, Pips } from './Die';
+import { Badge, Button, Card, Kbd } from '@astryxdesign/core';
 
 const COLUMN_NAME = { Rangers: 'Rangers and Commandos', Uncle: 'Uncle Beach', Other: 'All other beaches' } as const;
 
@@ -20,6 +21,7 @@ function outcome(res: string): { title: string; tone: 'good' | 'mid' | 'bad' } {
   if (lose) return { title: 'Heavy casualties: a step lost, pinned on the beach', tone: 'bad' };
   return adv >= 2 ? { title: 'Ashore cleanly: may push one hex inland', tone: 'good' } : { title: 'Pinned on the beach', tone: 'mid' };
 }
+const BADGE = { good: 'success', mid: 'warning', bad: 'error' } as const;
 const short = (res: string) => (res.startsWith('-1') ? '−1 step, Adv 1' : `Adv ${res}`);
 
 interface Props {
@@ -168,15 +170,16 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
               const shown = r && !(rolling && current === b.name);
               const pending = left.includes(b.name);
               return (
-                <li key={b.name} className={`land-row${current === b.name ? ' on' : ''}${shown ? ' rolled' : ''}`}>
+                <li key={b.name}>
+                <Card padding={2} className={`land-row${current === b.name ? ' on' : ''}${shown ? ' rolled' : ''}`}>
                   <div className="land-head">
-                    <button className="land-name" onClick={() => onFocus(b.hex)} title={`Show ${b.name} beach on the map`}>
+                    <Button label={`Show ${b.name} beach on the map`} variant="ghost" className="land-name" tooltip={`Show ${b.name} beach on the map`} onClick={() => onFocus(b.hex)}>
                       <b>{b.name}</b><small>{b.hex} · {COLUMN_NAME[col]}</small>
-                    </button>
+                    </Button>
                     {pending && !spectator ? (
-                      <button className="land-roll" disabled={rolling} onClick={() => rollBeach(b.name)}><Pips n={5} size={16} /> Roll</button>
+                      <Button label={`Roll ${b.name}`} size="sm" isDisabled={rolling} onClick={() => rollBeach(b.name)}><Pips n={5} size={16} /> Roll</Button>
                     ) : shown ? (
-                      <span className={`land-result tone-${outcome(table[r - 1]).tone}`}>{r}: {short(table[r - 1])}</span>
+                      <Badge variant={BADGE[outcome(table[r - 1]).tone]} label={`${r}: ${short(table[r - 1])}`} />
                     ) : null}
                   </div>
                   <div className="land-units">
@@ -190,6 +193,7 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
                       </span>
                     ))}
                   </div>
+                </Card>
                 </li>
               );
             })}
@@ -197,15 +201,17 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
           <p className="land-note">Adv 1: the units stop on the beach. Adv 2: they may move one more hex inland. Only the Commandos may attack (Salerno) this phase.</p>
         </div>
         <footer className="cbx-actions">
-          {!done && !spectator && left.length > 1 && <button className="cbx-secondary" disabled={rolling} onClick={rollAll}>Roll all</button>}
+          {!done && !spectator && left.length > 1 && <Button label="Roll all" size="lg" className="cbx-secondary" isDisabled={rolling} onClick={rollAll} />}
           {done ? (
-            <button className="primary cbx-primary" onClick={onClose}>{spectator ? 'Continue ▶' : 'To the beaches ▶'}<kbd>Enter</kbd></button>
+            <Button label={spectator ? 'Continue ▶' : 'To the beaches ▶'} variant="primary" size="lg" className="cbx-primary" onClick={onClose}>
+              {spectator ? 'Continue ▶' : 'To the beaches ▶'}<Kbd keys="Enter" className="cbx-kbd" />
+            </Button>
           ) : spectator ? (
-            <button className="primary cbx-primary" disabled>{feed !== undefined && !rolling ? 'Waiting for the Allied player to roll…' : 'The Allies are landing…'}</button>
+            <Button label={feed !== undefined && !rolling ? 'Waiting for the Allied player to roll…' : 'The Allies are landing…'} variant="primary" size="lg" className="cbx-primary" isDisabled />
           ) : (
-            <button className="primary cbx-primary roll" disabled={rolling} onClick={rollNext}>
-              <Pips n={5} size={20} /> {rolling ? 'Rolling…' : `Roll ${left[0]}`}<kbd>Space</kbd>
-            </button>
+            <Button label={rolling ? 'Rolling…' : `Roll ${left[0]}`} variant="primary" size="lg" className="cbx-primary roll" isDisabled={rolling} onClick={rollNext}>
+              <Pips n={5} size={20} /> {rolling ? 'Rolling…' : `Roll ${left[0]}`}<Kbd keys="Space" className="cbx-kbd" />
+            </Button>
           )}
         </footer>
       </div>

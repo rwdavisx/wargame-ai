@@ -63,6 +63,9 @@ export const wartimeTheme = defineTheme({
     button: {
       base: { textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-family-heading)', fontWeight: '600' },
     },
+    toast: {
+      base: { backgroundColor: olive2, color: paper, borderColor: 'rgba(216, 180, 90, 0.45)', borderWidth: '1px', borderStyle: 'solid', borderLeftWidth: '3px', borderLeftColor: brass },
+    },
     'toggle-button': {
       base: { textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'var(--font-family-heading)', fontWeight: '600' },
       isPressed: { backgroundColor: brass, color: '#1d1608', borderColor: brassLight },

@@ -27,6 +27,7 @@ import { endChecklist, moveLeft, stackText, unitFlags, useQol, type CheckItem } 
 import { Recap } from './Recap';
 import { yourMoveAlert } from './alerts';
 import type { NetLink } from '../net/session';
+import { Button, StatusDot, useToast } from '@astryxdesign/core';
 import { movementAllowance } from '../engine/movement';
 
 const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
@@ -38,7 +39,7 @@ function NetBadge({ net }: { net: NetLink }) {
     <div className={`net-badge ${net.status}`} aria-live="polite">
       {net.others.length ? net.others.map((o, i) => (
         <span key={i} className={`net-peer${o.here ? ' here' : ''}`} title={o.here ? `${o.name} is here` : `${o.name} is away`}>
-          <i aria-hidden />{o.name} · {o.side === 'Allied' ? 'Allies' : 'Germans'}
+          <StatusDot variant={o.here ? 'success' : 'neutral'} label={o.here ? 'here' : 'away'} />{o.name} · {o.side === 'Allied' ? 'Allies' : 'Germans'}
         </span>
       )) : <span className="net-peer">Waiting for a friend to join</span>}
       <span className="net-sync">{sync}</span>
@@ -132,6 +133,11 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   useEffect(() => {
     if (net?.notice) setToast(net.notice.text);
   }, [net?.notice?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Messages for the player show as Astryx toasts; the state only carries each new one there.
+  const showToast = useToast();
+  useEffect(() => {
+    if (toast) showToast({ body: toast, uniqueID: 'game-message', collisionBehavior: 'overwrite', autoHideDuration: 3500 });
+  }, [toast]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(null), 3500);
@@ -1069,9 +1075,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         } : null}
       />
       <aside className={`command${panelOpen ? '' : ' closed'}`}>
-        <button className="command-toggle" onClick={() => setPanelOpen((o) => !o)} title={panelOpen ? 'Hide orders' : 'Show orders'}>
-          {phone ? '▾ Close' : panelOpen ? '›' : '‹'}
-        </button>
+        <Button label={phone ? '▾ Close' : panelOpen ? '›' : '‹'} size="sm" className="command-toggle" tooltip={panelOpen ? 'Hide orders' : 'Show orders'}
+          onClick={() => setPanelOpen((o) => !o)} />
         <Sidebar
           game={game}
           acting={acting}
@@ -1129,7 +1134,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           feed={net && incoming[0]?.type === 'landBeach' ? incoming[0].beach : net && remoteTurn ? null : undefined} onFocus={setLandingBeach} onFootprint={setBattleInset}
           onClose={() => { setHeldMap(null); setLandingClosed(true); setLandingBeach(null); }} />
       )}
-      {toast && <div className="toast">{toast}</div>}
+
       {game.phase === 'gameOver' && !overDismissed && (
         <GameOverScreen game={game} humanSides={humanSides} onReview={() => setOverDismissed(true)} onMenu={onQuit} />
       )}

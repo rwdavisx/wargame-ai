@@ -10,7 +10,7 @@ import type { TerrainImage } from './render/terrain';
 import { Insignia } from './render/units';
 import { DifficultyCards, ScenarioCards, SideBadge, StartAndRules } from './screens';
 import { Badge, Banner, Button, Card, Heading, HStack, Text, TextInput, VStack } from '@astryxdesign/core';
-import { ChoiceCard, SectionLabel } from './astryx/kit';
+import { ChoiceCard, SectionLabel, useConfirm } from './astryx/kit';
 import { sfx } from './sound';
 import { yourMoveAlert } from './alerts';
 
@@ -70,6 +70,7 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
   const [hosting, setHosting] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const confirm = useConfirm();
 
   useEffect(() => {
     let live = true;
@@ -151,7 +152,7 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
     }
   };
   const remove = async (r: Row) => {
-    if (!caps?.db || !window.confirm(`Delete "${r.head.title}" for everyone?`)) return;
+    if (!caps?.db || !(await confirm.ask({ title: `Delete "${r.head.title}"?`, description: 'The game is deleted for everyone who plays or watches it. This cannot be undone.', actionLabel: 'Delete', destructive: true }))) return;
     setBusy(r.id);
     try {
       await deleteGame(caps.db, r.id);
@@ -172,6 +173,7 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
         <VStack gap={3}>
           {body}
           {error && <Banner status="error" title={error} collapsible={false} />}
+          {confirm.dialog}
         </VStack>
       </div>
     </div>

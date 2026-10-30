@@ -1,7 +1,7 @@
 // Settings dialog: players, computer opponents, pacing, display and sound.
 import type { Side } from '../engine/types';
 import { useRef, useState, useSyncExternalStore } from 'react';
-import { Button, Dialog, DialogHeader, Icon, IconButton, Selector, Slider, Switch, Text, TextInput, VStack } from '@astryxdesign/core';
+import { Button, Collapsible, Dialog, DialogHeader, Icon, IconButton, Selector, Slider, Switch, Text, TextInput, VStack } from '@astryxdesign/core';
 import { DIFFICULTIES } from '../ai/heuristic';
 import { addMusicFiles, musicState, next as nextTrack, removeMusicTrack, subscribeMusic } from './music';
 import { setSound, sfx } from './sound';
@@ -138,10 +138,9 @@ function MusicSettings({ settings: s, set }: { settings: Settings; set: (p: Part
         </ul>
       )}
       {bundled.some((t) => t.credit) && (
-        <details className="music-credits">
-          <summary>Music credits</summary>
+        <Collapsible className="music-credits" trigger={<Text type="label" color="secondary">Music credits</Text>}>
           <ul>{bundled.map((t) => <li key={t.id}><b>{t.title}</b>{t.credit ? ` · ${t.credit}` : ''}</li>)}</ul>
-        </details>
+        </Collapsible>
       )}
       <Text color="secondary" display="block">Your own tracks stay in this browser.</Text>
     </>

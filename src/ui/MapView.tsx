@@ -1,6 +1,7 @@
 // The battle map: painted terrain, crisp line work, movement and attack
 // overlays, unit tokens with move/combat animations, a minimap and camera.
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Button } from '@astryxdesign/core';
 import { MAP } from '../engine/data';
 import { neighbors, type HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
@@ -1048,10 +1049,10 @@ export function MapView(props: MapViewProps) {
       <Minimap terrain={terrain} state={state} view={vb} onJump={(x, y) => centerOn(x, y, 350)} />
       {qol && barOpen && <MapBar qol={qol} onClose={() => setBarOpen(false)} minimapH={(200 * b.h) / b.w} />}
       <div className="maptools">
-        <button title="Zoom in (+)" onClick={() => zoomBy(1 / 1.3)}>＋</button>
-        <button title="Zoom out (−)" onClick={() => zoomBy(1.3)}>－</button>
-        <button title="Whole map" onClick={() => flyTo({ x: b.x, y: b.y, w: b.w, h: (b.w * vb.h) / vb.w })}>⤢</button>
-        <button title="Back to the beaches" onClick={() => { const [x, y] = center('2711'); centerOn(x + 120, y, 500); }}>⌖</button>
+        <Button label="Zoom in (+)" tooltip="Zoom in (+)" isIconOnly icon={<span aria-hidden>＋</span>} onClick={() => zoomBy(1 / 1.3)} />
+        <Button label="Zoom out (−)" tooltip="Zoom out (−)" isIconOnly icon={<span aria-hidden>－</span>} onClick={() => zoomBy(1.3)} />
+        <Button label="Whole map" tooltip="Whole map" isIconOnly icon={<span aria-hidden>⤢</span>} onClick={() => flyTo({ x: b.x, y: b.y, w: b.w, h: (b.w * vb.h) / vb.w })} />
+        <Button label="Back to the beaches" tooltip="Back to the beaches" isIconOnly icon={<span aria-hidden>⌖</span>} onClick={() => { const [x, y] = center('2711'); centerOn(x + 120, y, 500); }} />
         {qol && <ModeTools qol={qol} barOpen={barOpen} setBarOpen={setBarOpen} />}
       </div>
       {props.hoverText && hoverScreen && !dragging && (

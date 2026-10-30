@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button, Tab, TabList } from '@astryxdesign/core';
+import { useConfirm } from './astryx/kit';
+import { Button, CheckboxInput, HStack, NumberInput, Selector, Tab, TabList, TextInput, VStack } from '@astryxdesign/core';
 import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
 import { columnLabel, inNavalRange, mafOptions, parseCell, readyAsusFor, type OddsInfo } from '../engine/combat';
 import { applyAction, landingHexes, lpCost, navalDestinations, replPool } from '../engine/game';
@@ -210,8 +211,10 @@ function InitialControls(p: Props) {
       (u.where.kind === 'eliminated' && !u.where.permanent && def(u.id).cat !== 'bh' && !def(u.id).isRemnant)));
   const fired = own.filter((u) => def(u.id).asu && def(u.id).cat !== 'nebelwerfer' && u.fired && u.where.kind === 'map');
   const drops = own.filter((u) => u.where.kind === 'entry' && u.where.area.startsWith('airdrop'));
+  const confirm = useConfirm();
   return (
     <>
+      {confirm.dialog}
       <h3>{side} initial phase</h3>
       <p className="muted">Reinforcements have arrived (see Off-map). Use replacements and ready artillery, then end the phase. Unused replacements are lost.</p>
       {drops.length > 0 && (
@@ -248,7 +251,7 @@ function InitialControls(p: Props) {
           {g.abandon8thDeclared ? (
             <p className="muted">Declared: the sector is abandoned in this turn's German Supply Phase.</p>
           ) : (
-            <Button label="Abandon the 8th Army sector" size="sm" variant="destructive" onClick={() => confirm('Abandon the 8th Army sector in the Supply Phase? German units there and in the east Entry Areas are lost, and Germans may never enter the sector again.') &&
+            <Button label="Abandon the 8th Army sector" size="sm" variant="destructive" onClick={async () => (await confirm.ask({ title: 'Abandon the 8th Army sector?', description: 'In the Supply Phase, German units in the sector and in the east Entry Areas are lost, and Germans may never enter the sector again.', actionLabel: 'Abandon the sector', destructive: true })) &&
                 p.dispatch({ type: 'abandon8th' })} />
           )}
         </>
@@ -283,11 +286,8 @@ function ReplaceRow(p: Props & { u: UnitState }) {
     <UnitRow u={u}
       extra={
         <span className="row">
-          <select value={to} onChange={(e) => setTo(e.target.value)}>
-            <option value="">{offmap}</option>
-            {areas.map((a) => <option key={a} value={a}>Entry Area {a}</option>)}
-            {asuHexes.map((h) => <option key={h} value={h}>{h} (ASU hex)</option>)}
-          </select>
+          <Selector label="Return to" isLabelHidden size="sm" value={to} onChange={(v) => setTo(v)}
+            options={[{ value: '', label: offmap }, ...areas.map((a) => ({ value: a, label: `Entry Area ${a}` })), ...asuHexes.map((h) => ({ value: h, label: `${h} (ASU hex)` }))]} />
           <Button label={`Return (${d.repl})`} size="sm" isDisabled={!have} onClick={() => p.dispatch({ type: 'replace', unitId: u.id, to: to || undefined })} />
         </span>
       } />
@@ -349,11 +349,8 @@ function NavalPicker(p: Props & { unitId: string; options: { to: HexId | 'reserv
   return (
     <span className="row" title="Naval movement from a beachhead or port (one of the unit's two tactical hexes; at most 3 LP a turn between ports and beachheads).">
       By sea:
-      <select value={pick.to} onChange={(e) => setTo(e.target.value)}>
-        {p.options.map((o) => (
-          <option key={o.to} value={o.to}>{o.to === 'reserve' ? 'Floating Reserve' : `${o.to}${o.twoTurn ? ' (2 turns)' : ''}`}</option>
-        ))}
-      </select>
+      <Selector label="Sail to" isLabelHidden size="sm" value={pick.to} onChange={(v) => setTo(v)}
+        options={p.options.map((o) => ({ value: o.to, label: o.to === 'reserve' ? 'Floating Reserve' : `${o.to}${o.twoTurn ? ' (2 turns)' : ''}` }))} />
       <Button label="Embark" size="sm" onClick={() => p.dispatch({ type: 'naval', unitId: p.unitId, to: pick.to })} />
     </span>
   );
@@ -441,55 +438,37 @@ function AttackPlanner(p: Props & { kind: 'attack' | 'autoDs' | 'invasion' }) {
       </p>
       <div>
         {eligible.map((id) => (
-          <label key={id} className="unitrow">
-            <input type="checkbox" checked={p.attackers.has(id)}
-              onChange={(e) => {
+          <div key={id} className="unitrow">
+            <CheckboxInput label={`${def(id).name} (${def(id).division ?? 'independent'})`} value={p.attackers.has(id)}
+              onChange={(on) => {
                 const s = new Set(p.attackers);
-                if (e.target.checked) s.add(id);
+                if (on) s.add(id);
                 else s.delete(id);
                 p.setAttackers(s);
               }} />
-            <span className="name">{def(id).name} <span className="muted">({def(id).division ?? 'independent'})</span></span>
             <span className="vals">{values(g.units[id]).attack}{g.units[id].halfEff || g.units[id].outOfSupply ? '½' : ''}</span>
-          </label>
+          </div>
         ))}
       </div>
       {p.kind === 'attack' && (
         <>
           {mafs.length > 1 && (
-            <div className="row">
-              Main Assault Force
-              <select value={p.support.maf ?? ''} onChange={(e) => set({ maf: e.target.value || undefined })}>
-                <option value="">best</option>
-                {mafs.map((m) => <option key={m} value={m}>{g.units[m] ? def(m).name : m}</option>)}
-              </select>
-            </div>
+            <Selector label="Main Assault Force" size="sm" width="100%" value={p.support.maf ?? ''} onChange={(v) => set({ maf: v || undefined })}
+              options={[{ value: '', label: 'best' }, ...mafs.map((m) => ({ value: m, label: g.units[m] ? def(m).name : m }))]} />
           )}
           <div className="row">
-            <label>
-              <input type="checkbox" disabled={!airKeys.length} checked={!!p.support.air} onChange={(e) => set({ air: e.target.checked })} /> Air
-              ({airKeys.join(', ') || 'none ready'})
-            </label>
+            <CheckboxInput label={`Air (${airKeys.join(', ') || 'none ready'})`} isDisabled={!airKeys.length} value={!!p.support.air} onChange={(on) => set({ air: on })} />
             {side === 'Allied' && (
-              <label>
-                <input type="checkbox" disabled={!navalKeys.length || !inNavalRange(t)} checked={!!p.support.naval}
-                  onChange={(e) => set({ naval: e.target.checked, battleships: e.target.checked && p.support.battleships })} /> Naval
-                {!inNavalRange(t) ? ' (out of range)' : navalKeys.length ? '' : ' (none ready)'}
-              </label>
+              <CheckboxInput label={`Naval${!inNavalRange(t) ? ' (out of range)' : navalKeys.length ? '' : ' (none ready)'}`} isDisabled={!navalKeys.length || !inNavalRange(t)}
+                value={!!p.support.naval} onChange={(on) => set({ naval: on, battleships: on && p.support.battleships })} />
             )}
             {side === 'Allied' && g.turn >= BATTLESHIPS_TURN && g.support.battleships > 0 && (
-              <label>
-                <input type="checkbox" disabled={!p.support.naval} checked={!!p.support.battleships} onChange={(e) => set({ battleships: e.target.checked })} />{' '}
-                Valiant/Warspite (+1 DRM)
-              </label>
+              <CheckboxInput label="Valiant/Warspite (+1 DRM)" isDisabled={!p.support.naval} value={!!p.support.battleships} onChange={(on) => set({ battleships: on })} />
             )}
           </div>
           {asus.map((u) => (
-            <label key={u.id} className="row">
-              <input type="checkbox" checked={!!p.support.asus?.includes(u.id)}
-                onChange={(e) => set({ asus: e.target.checked ? [...(p.support.asus ?? []), u.id] : (p.support.asus ?? []).filter((x) => x !== u.id) })} />{' '}
-              {def(u.id).name} ({def(u.id).asu} artillery)
-            </label>
+            <CheckboxInput key={u.id} label={`${def(u.id).name} (${def(u.id).asu} artillery)`} value={!!p.support.asus?.includes(u.id)}
+              onChange={(on) => set({ asus: on ? [...(p.support.asus ?? []), u.id] : (p.support.asus ?? []).filter((x) => x !== u.id) })} />
           ))}
         </>
       )}
@@ -575,12 +554,11 @@ function AdvanceControls(p: Props) {
       <h3>Advance after combat{pa.limited ? ' (limited: vacated hex only)' : ''}</h3>
       <p className="muted">Tick the units that advance together, then {actVerb(p)} a violet hex. Units may advance separately. Finish when done.</p>
       {ids.map((id) => (
-        <label key={id} className="unitrow">
-          <input type="checkbox" checked={p.advanceSel.includes(id)}
-            onChange={(e) => p.setAdvanceSel(e.target.checked ? [...p.advanceSel, id] : p.advanceSel.filter((x) => x !== id))} />
-          <span className="name">{def(id).name}</span>
+        <div key={id} className="unitrow">
+          <CheckboxInput label={def(id).name} value={p.advanceSel.includes(id)}
+            onChange={(on) => p.setAdvanceSel(on ? [...p.advanceSel, id] : p.advanceSel.filter((x) => x !== id))} />
           <span className="vals">up to {pa.maxByUnit[id]} hex{pa.maxByUnit[id] > 1 ? 'es' : ''}</span>
-        </label>
+        </div>
       ))}
       {!ids.length && <p className="muted">No units left to advance.</p>}
       {pa.btAllowed && !pa.started && ids.length > 0 && (
@@ -865,15 +843,17 @@ function TablesPanel() {
 function EditorPanel(p: Props) {
   const h = p.selectedHex;
   const [, force] = useState(0);
+  const confirm = useConfirm();
   const tools = (
     <>
+      {confirm.dialog}
       <p className="muted">
         Correct the transcribed map against your copy: click a hex to edit its terrain, features and hexsides. {overrideCount()} edits stored.
         The painted map is redrawn after each edit.
       </p>
       <div className="row">
         <Button label="Export map.json" size="sm" onClick={() => downloadText('map.json', exportMapJson())} />
-        <Button label="Reset edits" size="sm" onClick={() => { if (confirm('Discard all map edits and reload?')) { clearOverrides(); location.reload(); } }} />
+        <Button label="Reset edits" size="sm" onClick={async () => { if (await confirm.ask({ title: 'Discard all map edits?', description: 'Every edit stored in this browser is removed and the page reloads.', actionLabel: 'Discard and reload', destructive: true })) { clearOverrides(); location.reload(); } }} />
         <Button label="Close editor" size="sm" onClick={() => { p.setEditorOn(false); p.setTab('play'); }} />
       </div>
     </>
@@ -894,24 +874,18 @@ function EditorPanel(p: Props) {
     <>
       {tools}
       <h3>Hex {h}</h3>
-      <div className="row">
-        Terrain
-        <select value={d.terrain} onChange={(e) => save({ ...d, terrain: e.target.value as Terrain })}>
-          {['clear', 'hill', 'marsh', 'sea'].map((t) => <option key={t}>{t}</option>)}
-        </select>
-      </div>
-      <div className="row">
-        City <input type="text" value={d.city ?? ''} onChange={(e) => save({ ...d, city: e.target.value || undefined })} />
-      </div>
-      <div className="row">
-        Town <input type="text" value={d.town ?? ''} onChange={(e) => save({ ...d, town: e.target.value || undefined })} />
-      </div>
-      <div className="row">
-        VP <input type="number" min={0} max={9} value={d.vp ?? 0} onChange={(e) => save({ ...d, vp: Number(e.target.value) || undefined })} />
-        Port <input type="number" min={0} max={9} value={d.port?.capacity ?? 0}
-          onChange={(e) => save({ ...d, port: Number(e.target.value) ? { ...(d.port ?? {}), capacity: Number(e.target.value) } : undefined })} />
-        <label><input type="checkbox" checked={!!d.sector8} onChange={(e) => save({ ...d, sector8: e.target.checked || undefined })} /> 8th Army sector</label>
-      </div>
+      <VStack gap={2}>
+        <Selector label="Terrain" size="sm" width="100%" value={d.terrain} onChange={(v) => save({ ...d, terrain: v as Terrain })}
+          options={['clear', 'hill', 'marsh', 'sea'].map((t) => ({ value: t, label: t }))} />
+        <TextInput label="City" size="sm" width="100%" value={d.city ?? ''} onChange={(v) => save({ ...d, city: v || undefined })} />
+        <TextInput label="Town" size="sm" width="100%" value={d.town ?? ''} onChange={(v) => save({ ...d, town: v || undefined })} />
+        <HStack gap={2}>
+          <NumberInput label="VP" size="sm" min={0} max={9} value={d.vp ?? 0} onChange={(v) => save({ ...d, vp: v || undefined })} />
+          <NumberInput label="Port" size="sm" min={0} max={9} value={d.port?.capacity ?? 0}
+            onChange={(v) => save({ ...d, port: v ? { ...(d.port ?? {}), capacity: v } : undefined })} />
+        </HStack>
+        <CheckboxInput label="8th Army sector" value={!!d.sector8} onChange={(on) => save({ ...d, sector8: on || undefined })} />
+      </VStack>
       <h3>Hexsides</h3>
       {neighbors(h).filter((n) => MAP.hexes[n]).map((n) => {
         const k = sideKey(h, n);
@@ -919,14 +893,11 @@ function EditorPanel(p: Props) {
         return (
           <div key={n} className="row">
             <span style={{ width: 44 }}>→{n}</span>
-            <label><input type="checkbox" checked={!!s.river} onChange={(e) => saveSide(k, { ...s, river: e.target.checked })} />river</label>
-            <label><input type="checkbox" checked={!!s.mountain} onChange={(e) => saveSide(k, { ...s, mountain: e.target.checked })} />mtn</label>
-            <label><input type="checkbox" checked={!!s.pass} onChange={(e) => saveSide(k, { ...s, pass: e.target.checked })} />pass</label>
-            <select value={s.road ?? ''} onChange={(e) => saveSide(k, { ...s, road: (e.target.value || undefined) as HexsideData['road'] })}>
-              <option value="">no road</option>
-              <option value="minor">minor road</option>
-              <option value="major">major road</option>
-            </select>
+            <CheckboxInput label="river" size="sm" value={!!s.river} onChange={(on) => saveSide(k, { ...s, river: on })} />
+            <CheckboxInput label="mtn" size="sm" value={!!s.mountain} onChange={(on) => saveSide(k, { ...s, mountain: on })} />
+            <CheckboxInput label="pass" size="sm" value={!!s.pass} onChange={(on) => saveSide(k, { ...s, pass: on })} />
+            <Selector label="Road" isLabelHidden size="sm" value={s.road ?? ''} onChange={(v) => saveSide(k, { ...s, road: (v || undefined) as HexsideData['road'] })}
+              options={[{ value: '', label: 'no road' }, { value: 'minor', label: 'minor road' }, { value: 'major', label: 'major road' }]} />
           </div>
         );
       })}

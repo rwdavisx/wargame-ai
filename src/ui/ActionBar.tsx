@@ -6,7 +6,7 @@ import type { GameState, MoveMode, Side, UnitState } from '../engine/types';
 import { def, values } from '../engine/units';
 import { TokenIcon } from './render/units';
 import type { SupportPick } from './play';
-import { Button, ToggleButton } from '@astryxdesign/core';
+import { Button, Icon, Kbd, List, ListItem, ToggleButton } from '@astryxdesign/core';
 
 export type AttackKind = 'attack' | 'autoDs' | 'invasion' | 'breakthrough';
 
@@ -106,7 +106,7 @@ export function ActionBar(p: ActionBarProps) {
     return () => ro.disconnect();
   }, []);
 
-  const key = (k: string) => (p.touch ? null : <kbd>{k}</kbd>);
+  const key = (k: string) => (p.touch ? null : <Kbd keys={k} className="ab-kbd" />);
   // Selecting is a tap or click; moving and attacking may be a right-click.
   const pick = p.touch ? 'Tap' : 'Click';
   const act = p.touch ? 'tap' : p.rightClick ? 'right-click' : 'click';
@@ -288,11 +288,11 @@ export function ActionBar(p: ActionBarProps) {
         <div className="ab-warn">
           {p.end.warn}
           {!!p.end.checks?.length && (
-            <ul className="ab-checks">
+            <List density="compact" className="ab-checks">
               {p.end.checks.map((c, i) => (
-                <li key={i}><button onClick={() => p.end?.onCheck?.(c.hex)} title="Show it on the map">{c.text}</button></li>
+                <ListItem key={i} label={c.text} startContent={<Icon icon="warning" color="warning" />} onClick={() => p.end?.onCheck?.(c.hex)} />
               ))}
-            </ul>
+            </List>
           )}
           {!!p.end.checks?.length && <div className="ab-checks-foot">Press End again to end the phase anyway.</div>}
         </div>

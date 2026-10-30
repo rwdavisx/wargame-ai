@@ -157,9 +157,9 @@
 .cbx-primary { display: inline-flex; flex: 1; justify-content: center; align-items: center; gap: 8px; min-height: 48px; padding: 10px 18px; font: 400 18px var(--display) !important; letter-spacing: 1.5px; text-transform: uppercase; }
 .cbx-primary.roll { animation: cbx-glow 1.8s ease-in-out infinite; }
 @keyframes cbx-glow { 0%, 100% { box-shadow: 0 0 0 rgba(242, 215, 143, 0); } 50% { box-shadow: 0 0 26px rgba(242, 215, 143, 0.55); } }
-.cbx-primary kbd { font: 600 11px var(--hud); letter-spacing: 1px; padding: 2px 5px; border-radius: 3px; background: rgba(0, 0, 0, 0.18); color: #2b210c; }
+.cbx-primary .cbx-kbd { font: 600 11px var(--hud); letter-spacing: 1px; padding: 2px 5px; border-radius: 3px; background: rgba(0, 0, 0, 0.18); color: #2b210c; }
 .cbx-secondary { min-height: 48px; padding: 8px 16px; font-size: 15px; letter-spacing: 1px; text-transform: uppercase; }
-@media (pointer: coarse) { .cbx-primary kbd { display: none; } }
+@media (pointer: coarse) { .cbx-primary .cbx-kbd { display: none; } }
 
 /* ---------------------------------------------------------------- Determined Defense */
 
@@ -262,7 +262,7 @@
 .collapsed .cbx .die3 { --die: 34px !important; }
 .collapsed .cbx-actions { grid-column: 3; grid-row: 1; border-top: 0; background: none; padding: 8px 10px 8px 4px; }
 .collapsed .cbx-primary { flex: none; min-height: 44px; padding: 8px 14px; font-size: 16px !important; }
-.collapsed .cbx-primary kbd { display: none; }
+.collapsed .cbx-primary .cbx-kbd { display: none; }
 @media (max-width: 520px), (max-height: 520px) { .collapsed .cbx-fold span { display: none; } }
 
 /* ---------------------------------------------------------------- while the panel is open */
@@ -337,13 +337,10 @@
 .land-die-cap { display: flex; flex-direction: column; gap: 3px; font: 600 15px var(--hud); letter-spacing: 0.4px; color: #e6dfc7; }
 .land-die-cap b { font: 400 20px var(--display); letter-spacing: 1px; color: #f3e7c4; }
 .land-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.land-row { padding: 7px 9px; border: 1px solid var(--line-soft); border-radius: 6px; background: rgba(255, 255, 255, 0.025); }
-.land-row.on { border-color: var(--gold); background: rgba(216, 180, 90, 0.08); }
+.land-row.on { border-color: var(--gold) !important; }
 .land-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.landing-dock .land-name { display: flex; flex-direction: column; align-items: flex-start; padding: 0; background: none; border: 0; color: var(--text); text-align: left; min-width: 0; }
 .land-name b { font: 700 16px var(--hud); letter-spacing: 0.6px; text-transform: uppercase; color: #f0e7cc; }
 .land-name small { font: 500 12px var(--hud); color: var(--muted); }
-.landing-dock .land-roll { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; font: 700 13px var(--hud); letter-spacing: 1px; text-transform: uppercase; }
 .land-result { font: 700 14px var(--hud); letter-spacing: 0.5px; white-space: nowrap; }
 .land-units { display: flex; flex-wrap: wrap; gap: 3px; margin: 6px 0; }
 .land-faces { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
@@ -359,3 +356,16 @@
 .tone-bad { color: #ff9a84; }
 .land-face.tone-good, .land-face.tone-mid, .land-face.tone-bad { color: inherit; }
 .land-note { margin: 8px 2px 4px; font: 12.5px/1.35 var(--body); color: #bdb8a4; }
+
+/* Astryx pieces in the battle panels */
+.cbx-steps { grid-column: 1 / -1; margin-top: 4px; }
+.cbx-kbd { margin-left: 8px; }
+.dfx-card { display: flex; flex-direction: column; gap: 8px; }
+.dfx-card h3 { margin: 0; font: 400 19px/1.1 var(--display); letter-spacing: 1.5px; text-transform: uppercase; color: #f0e4c0; }
+.cbx-fate-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
+.land-list > li { list-style: none; }
+.land-name { height: auto !important; padding: 2px 4px !important; }
+.land-name > * { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+/* Dice pips inside button labels. */
+.astryx-button svg.pips { vertical-align: -3px; margin-right: 6px; }
+.land-name b, .land-name small { display: block; text-align: left; }

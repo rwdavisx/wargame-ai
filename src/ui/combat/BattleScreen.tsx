@@ -19,6 +19,7 @@ import {
   placeLong, placeName, RESULT_TITLE, resultAdvance, resultTitle, resultKey, resultTone, shipsAllowed, sideAdj, sideNoun, signed, supportLabel, type DdFace,
 } from './model';
 import './combat.css';
+import { Badge, Button, Card, Collapsible, Heading, HStack, Kbd, NumberInput, SegmentedControl, SegmentedControlItem, Step, Stepper, Text, ToggleButton } from '@astryxdesign/core';
 
 /** An attack the player has ordered but not yet rolled for. */
 export interface PlannedAttack {
@@ -388,13 +389,12 @@ export function BattleScreen(p: Props) {
           {collapsed ? (
             <div className="cbx-strip-step">{pills[pillAt]}<span> · {stripStep}</span></div>
           ) : (
-            <ol className="cbx-pills">
-              {pills.map((label, i) => <li key={label} className={i === pillAt ? 'on' : i < pillAt ? 'done' : ''}>{label}</li>)}
-            </ol>
+            <Stepper activeStep={pillAt} density="compact" label="Battle steps" className="cbx-steps">
+              {pills.map((label, i) => <Step key={label} step={i} label={label} />)}
+            </Stepper>
           )}
-          <button className="cbx-fold" onClick={toggle} aria-expanded={!collapsed} title={collapsed ? 'Show the battle (V)' : 'Fold the panel to see the map (V)'}>
-            {collapsed ? <>▴<span> Battle</span></> : <>▾<span> Map</span></>}
-          </button>
+          <Button label={collapsed ? '▴ Battle' : '▾ Map'} size="sm" className="cbx-fold" aria-expanded={!collapsed} onClick={toggle}
+            tooltip={collapsed ? 'Show the battle (V)' : 'Fold the panel to see the map (V)'} />
         </header>
 
         {/* Folded, the body stays mounted (a throw in progress must land) and only the die shows, in the strip. */}
@@ -556,13 +556,13 @@ export function BattleScreen(p: Props) {
 
         {(stripPrimary || secondary) && (
           <footer className="cbx-actions">
-            {secondary && !collapsed && <button className="cbx-secondary" onClick={() => secondary!.run()}>{secondary.label}</button>}
+            {secondary && !collapsed && <Button label={secondary.label} size="lg" className="cbx-secondary" onClick={() => secondary!.run()} />}
             {stripPrimary && (
-              <button ref={primaryRef} className={`primary cbx-primary${step === 'ready' ? ' roll' : ''}`} disabled={stripPrimary.disabled}
-                onClick={() => (stripPrimary === primary ? press(primary) : stripPrimary.run())}>
+              <Button ref={primaryRef} label={stripPrimary.label} variant="primary" size="lg" className={`cbx-primary${step === 'ready' ? ' roll' : ''}`}
+                isDisabled={stripPrimary.disabled} onClick={() => (stripPrimary === primary ? press(primary) : stripPrimary.run())}>
                 {(step === 'ready' && !noDie) || step === 'ddReady' ? <><Pips n={5} size={20} /> {stripPrimary.label}</> : stripPrimary.label}
-                {stripPrimary === primary && <kbd>{step === 'ready' || step === 'ddReady' ? 'Space' : 'Enter'}</kbd>}
-              </button>
+                {stripPrimary === primary && <Kbd keys={step === 'ready' || step === 'ddReady' ? 'Space' : 'Enter'} className="cbx-kbd" />}
+              </Button>
             )}
           </footer>
         )}
@@ -610,16 +610,16 @@ function OddsLine({ attack, defense, note, baseCol, finalCol, shifts, drm, noDie
   attack: number; defense: number; note?: string; baseCol: string; finalCol: string; shifts: { reason: string; shift: number }[]; drm: number; noDie: boolean;
 }) {
   return (
-    <div className="cbx-oddsline">
-      <span className="cbx-chip plain">{attack} against {defense}{note ? ` (${note})` : ''} = {baseCol}</span>
+    <HStack gap={1.5} wrap="wrap" className="cbx-oddsline">
+      <Badge variant="neutral" label={`${attack} against ${defense}${note ? ` (${note})` : ''} = ${baseCol}`} />
       {shifts.map((s, i) => (
-        <span key={i} className={`cbx-chip ${s.shift > 0 ? 'up' : 'down'}`} title={s.shift > 0 ? 'Shifts the odds one column in the attacker\'s favour' : 'Shifts the odds one column in the defender\'s favour'}>
-          {s.reason} {s.shift > 0 ? '▶' : '◀'}
+        <span key={i} title={s.shift > 0 ? 'Shifts the odds one column in the attacker\'s favour' : 'Shifts the odds one column in the defender\'s favour'}>
+          <Badge variant={s.shift > 0 ? 'success' : 'error'} label={`${s.reason} ${s.shift > 0 ? '▶' : '◀'}`} />
         </span>
       ))}
-      {!noDie && shifts.length > 0 && <span className="cbx-chip plain">→ {finalCol}</span>}
-      {drm !== 0 && <span className="cbx-chip up" title="Added to the die roll">Battleships: die {signed(drm)}</span>}
-    </div>
+      {!noDie && shifts.length > 0 && <Badge variant="neutral" label={`→ ${finalCol}`} />}
+      {drm !== 0 && <span title="Added to the die roll"><Badge variant="success" label={`Battleships: die ${signed(drm)}`} /></span>}
+    </HStack>
   );
 }
 
@@ -706,11 +706,11 @@ function groups(faces: DdFace[]) {
 
 function Mods({ mods, drm, lead }: { mods: { label: string; value: number }[]; drm: number; lead: string | null }) {
   return (
-    <div className="dd-mods">
-      {lead && <span className="cbx-chip plain">Lead unit: {def(lead).name}</span>}
-      {mods.map((m) => <span key={m.label} className={`cbx-chip ${m.value > 0 ? 'up' : 'down'}`}>{m.label} {signed(m.value)}</span>)}
-      <span className="cbx-chip plain"><b>Die {drm ? signed(drm) : '±0'}</b></span>
-    </div>
+    <HStack gap={1.5} wrap="wrap" className="dd-mods">
+      {lead && <Badge variant="neutral" label={`Lead unit: ${def(lead).name}`} />}
+      {mods.map((m) => <Badge key={m.label} variant={m.value > 0 ? 'success' : 'error'} label={`${m.label} ${signed(m.value)}`} />)}
+      <Badge variant="info" label={`Die ${drm ? signed(drm) : '±0'}`} />
+    </HStack>
   );
 }
 
@@ -734,8 +734,8 @@ function Decision(p: {
     }}>
       <p className="cbx-say accent">Your units in {placeLong(pd.hex)} are being forced back. Retreat, or stand and fight?</p>
       <div className="dfx-cards">
-        <div className={`dfx-card retreat${trapped.length ? ' warn' : ''}`}>
-          <div className="dfx-card-head"><span className="dfx-icon" aria-hidden>⇦</span><h3>Retreat {pd.retreat} hexes</h3></div>
+        <Card padding={3} className={`dfx-card retreat${trapped.length ? ' warn' : ''}`}>
+          <div className="dfx-card-head"><span className="dfx-icon" aria-hidden>⇦</span><Heading level={3}>Retreat {pd.retreat} hexes</Heading></div>
           <ul>
             <li>Your units fall back {pd.retreat} hexes and become disrupted.</li>
             <li>No step losses beyond the combat result.</li>
@@ -749,12 +749,11 @@ function Decision(p: {
               {' '}A stand here is a Desperate Defense.
             </p>
           )}
-          <button className={`dfx-go${p.confirmRetreat ? ' danger' : ''}`} onClick={p.onRetreat}>
-            {p.confirmRetreat ? `Retreat anyway (lose ${trapped.length} unit${trapped.length > 1 ? 's' : ''})` : `Retreat ${pd.retreat} hexes`}
-          </button>
-        </div>
-        <div className="dfx-card stand">
-          <div className="dfx-card-head"><span className="dfx-icon" aria-hidden>⛨</span><h3>{pd.desperate ? 'Desperate Defense' : 'Determined Defense'}</h3></div>
+          <Button label={p.confirmRetreat ? `Retreat anyway (lose ${trapped.length} unit${trapped.length > 1 ? 's' : ''})` : `Retreat ${pd.retreat} hexes`}
+            variant={p.confirmRetreat ? 'destructive' : 'secondary'} size="lg" width="100%" className="dfx-go" onClick={p.onRetreat} />
+        </Card>
+        <Card padding={3} className="dfx-card stand">
+          <div className="dfx-card-head"><span className="dfx-icon" aria-hidden>⛨</span><Heading level={3}>{pd.desperate ? 'Desperate Defense' : 'Determined Defense'}</Heading></div>
           <p className="dfx-note">
             Stand in the hex and roll a die on the <b>{f.column}</b> column.
             {pd.desperate ? ' Each failure costs the lead unit a step and you roll again.' : ''}
@@ -765,43 +764,38 @@ function Decision(p: {
               <span className="dfx-label">Support (+1, one only)</span>
               <div className="dfx-chips">
                 {pd.supportOptions.map((s) => (
-                  <button key={s} className={`dfx-chip${p.support === s ? ' on' : ''}`} aria-pressed={p.support === s} onClick={() => p.setSupport(p.support === s ? null : s)}>
-                    {supportLabel(s)}
-                  </button>
+                  <ToggleButton key={s} label={supportLabel(s)} isPressed={p.support === s} onPressedChange={() => p.setSupport(p.support === s ? null : s)} />
                 ))}
-                {p.canShips && (
-                  <button className={`dfx-chip${p.ships ? ' on' : ''}`} aria-pressed={p.ships} onClick={() => p.setShips(!p.ships)}>Valiant & Warspite +1</button>
-                )}
+                {p.canShips && <ToggleButton label="Valiant & Warspite +1" isPressed={p.ships} onPressedChange={() => p.setShips(!p.ships)} />}
               </div>
             </div>
           )}
           {anyChoice && (
             <div className="dfx-row">
               <span className="dfx-label">If the roll offers a choice</span>
-              <div className="dfx-seg" role="radiogroup">
-                <button role="radio" aria-checked={p.prefer === 'hold'} className={p.prefer === 'hold' ? 'on' : ''} onClick={() => p.setPrefer('hold')}>Hold</button>
-                <button role="radio" aria-checked={p.prefer === 'delay'} className={p.prefer === 'delay' ? 'on' : ''} onClick={() => p.setPrefer('delay')}>Delay</button>
-              </div>
+              <SegmentedControl label="If the roll offers a choice" value={p.prefer} onChange={(v) => p.setPrefer(v as 'hold' | 'delay')}>
+                <SegmentedControlItem value="hold" label="Hold" />
+                <SegmentedControlItem value="delay" label="Delay" />
+              </SegmentedControl>
               <span className="dfx-hint">{p.prefer === 'hold' ? 'Keep the hex and lose a step.' : 'Fall back a little, disrupted, with no step lost.'}</span>
             </div>
           )}
           {(anyDelay || anyChoice) && (
             <div className="dfx-row">
               <span className="dfx-label">On a Delay, fall back</span>
-              <div className="dfx-stepper">
-                <button aria-label="Fewer hexes" disabled={p.delay <= 1} onClick={() => p.setDelay(p.delay - 1)}>−</button>
-                <b>{p.delay} hex{p.delay > 1 ? 'es' : ''}</b>
-                <button aria-label="More hexes" disabled={p.delay >= 3} onClick={() => p.setDelay(p.delay + 1)}>+</button>
-              </div>
+              <NumberInput label="Hexes to fall back on a Delay" isLabelHidden value={p.delay} min={1} max={3} step={1} width={120}
+                onChange={(v) => p.setDelay(Math.max(1, Math.min(3, Math.round(v))))} />
             </div>
           )}
           <Mods mods={f.mods} drm={f.drm} lead={f.lead} />
-          <button className="primary dfx-go" onClick={p.onStand}>Make a stand ▶</button>
-        </div>
+          <Button label="Make a stand ▶" variant="primary" size="lg" width="100%" className="dfx-go" onClick={p.onStand} />
+        </Card>
       </div>
     </div>
   );
 }
+
+const FATE_BADGE: Record<string, 'error' | 'warning' | 'success' | 'neutral'> = { red: 'error', amber: 'warning', green: 'success', plain: 'neutral' };
 
 /** What the combat cost each side, unit by unit. */
 function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameState; rep: CombatReport; defenders: string[]; before: Record<string, UnitState>; humanSides: Side[] }) {
@@ -839,7 +833,7 @@ function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameSta
             <li key={id} className={att ? 'att' : 'def'}>
               <TokenIcon unit={u} size={28} />
               <span className="cbx-fate-name">{def(id).name}</span>
-              <span className="cbx-fate-tags">{fate(id, att).map((t) => <i key={t.text} className={t.tone}>{t.text}</i>)}</span>
+              <span className="cbx-fate-tags">{fate(id, att).map((t) => <Badge key={t.text} variant={FATE_BADGE[t.tone] ?? 'neutral'} label={t.text} />)}</span>
             </li>
           );
         })}
@@ -847,10 +841,9 @@ function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameSta
       {youRetreat ? <p className="cbx-say small">After you continue, pick where your units retreat to on the map (or keep the suggested hex).</p> : null}
       {youAdvance ? <p className="cbx-say small">After you continue, you may advance into {placeLong(rep.defenderHex)}: pick the units and a violet hex.</p> : null}
       {rep.notes.length > 0 && (
-        <details className="cbx-notes">
-          <summary>Combat record</summary>
+        <Collapsible className="cbx-notes" trigger={<Text type="label" color="secondary">Combat record</Text>}>
           <ul>{rep.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
-        </details>
+        </Collapsible>
       )}
     </div>
   );
