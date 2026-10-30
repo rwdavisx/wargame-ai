@@ -117,6 +117,18 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
   return s;
 }
 
+/** Sleeping units with an enemy next to them wake at the start of their side's movement phase. */
+function wakeNearEnemy(s: GameState): void {
+  const woke: string[] = [];
+  for (const u of Object.values(s.units)) {
+    if (!u.sleeping || sideOf(u) !== s.activeSide || u.where.kind !== 'map') continue;
+    if (!neighbors(u.where.hex).some((n) => unitsAt(s, n).some((x) => sideOf(x) !== s.activeSide))) continue;
+    u.sleeping = false;
+    woke.push(u.id);
+  }
+  if (woke.length) log(s, `${nameList(woke)} ${verb(woke, 'wakes', 'wake')}: the enemy is close.`, 'info', { actor: s.activeSide });
+}
+
 function claimHex(s: GameState, hex: HexId, side: Side): void {
   if (hex in s.control && s.control[hex] !== side) {
     s.control[hex] = side;
@@ -234,7 +246,9 @@ function enterPhase(s: GameState): void {
         u.stopped = false;
         u.crossedMountain = false;
         u.hexesMoved = 0;
+        u.holding = false;
       }
+      wakeNearEnemy(s);
       s.landingPoints = RULES.landingPoints.perTurn;
       s.portUse = {};
       s.portMode = {};
@@ -258,7 +272,10 @@ function enterPhase(s: GameState): void {
       eliminateExposedFullRetreat(s, notes);
       if (notes.length) log(s, say(notes), 'loss', { important: true });
       for (const u of Object.values(s.units)) {
-        if (sideOf(u) === s.activeSide) u.attacked = false;
+        if (sideOf(u) === s.activeSide) {
+          u.attacked = false;
+          u.holding = false;
+        }
         u.reconSaved = false;
       }
       return;
@@ -823,7 +840,30 @@ export function applyAction(s: GameState, a: Action): void {
   dropCityBattles(s);
   if (s.retreatQueue?.length && a.type !== 'retreatChoice') throw new IllegalAction(`The ${s.retreatQueue[0].side} player must first confirm where the retreating units go.`);
   if (s.pendingDefense && a.type !== 'defend') throw new IllegalAction('The defender must first choose: retreat or Determined Defense.');
+  // A unit given an order is awake again.
+  for (const id of a.type === 'move' || a.type === 'enter' || a.type === 'naval' ? [a.unitId] : a.type === 'attack' || a.type === 'autoDs' ? a.attackers : []) {
+    const u = s.units[id];
+    if (u) {
+      u.sleeping = false;
+      u.holding = false;
+    }
+  }
   switch (a.type) {
+    case 'hold':
+    case 'sleep':
+    case 'wake': {
+      const u = s.units[a.unitId];
+      need(u && sideOf(u) === s.activeSide && u.where.kind === 'map', 'Only your own units on the map take that order.');
+      if (a.type === 'hold') u.holding = true;
+      else if (a.type === 'sleep') {
+        u.sleeping = true;
+        u.holding = true;
+      } else {
+        u.sleeping = false;
+        u.holding = false;
+      }
+      return;
+    }
     case 'landBeach': {
       need(s.phase === 'invasion', 'Beaches are assaulted only in the Invasion phase.');
       need(landingsLeft(s).includes(a.beach), `No assault units are waiting off ${a.beach} beach.`);

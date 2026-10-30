@@ -43,6 +43,8 @@ export interface ActionBarProps {
   moveMode: MoveMode;
   setMoveMode: (m: MoveMode) => void;
   onDeselect: () => void;
+  /** Orders for the selected unit: stand still this phase, or sleep until woken. */
+  orders: { holding: boolean; sleeping: boolean; onHold: () => void; onSleep: () => void; onWake: () => void } | null;
 
   /** The planned attack. */
   attack: {
@@ -260,6 +262,14 @@ export function ActionBar(p: ActionBarProps) {
         )}
         <div className="ab-buttons">
           {u && <button onClick={p.onDeselect} title={p.rightClick ? 'Deselect (Esc, or right-click elsewhere)' : 'Deselect (Esc / right-click)'}>✕</button>}
+          {p.orders && (p.orders.sleeping ? (
+            <button className="order-btn" onClick={p.orders.onWake} title="Wake this unit: it will need orders again">⏰ Wake</button>
+          ) : (
+            <>
+              {!p.orders.holding && <button className="order-btn" onClick={p.orders.onHold} title="Stand still for the rest of this phase (H)">Hold {key('H')}</button>}
+              <button className="order-btn" onClick={p.orders.onSleep} title="Hold position on later turns too, until woken or the enemy comes next to it (F)">Sleep Zz {key('F')}</button>
+            </>
+          ))}
           {p.extra.map((x) => <button key={x.label} className={x.primary ? 'primary' : ''} onClick={x.onClick}>{x.label}</button>)}
           {p.reserves && p.reserves.count > 0 && <button onClick={p.reserves.onClick}>Land ({p.reserves.count})</button>}
           {p.next && p.next.count > 0 && <button onClick={p.next.onClick}>{p.next.label} ›{key('N')}</button>}

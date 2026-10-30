@@ -150,6 +150,10 @@ export interface UnitState {
   landedTurn?: number;
   /** Optional recon rule used this combat phase: no Determined Defense. */
   reconSaved?: boolean;
+  /** Ordered to stand still for the rest of this phase (no rules effect; the player's bookkeeping). */
+  holding?: boolean;
+  /** Asleep: stays put turn after turn until woken, given an order, or an enemy comes next to it. */
+  sleeping?: boolean;
   /** Turn an airborne unit dropped (it is in supply that turn). */
   droppedTurn?: number;
 }
@@ -354,6 +358,9 @@ export type Action =
   | { type: 'retreatChoice'; index: number }
   | { type: 'disengage'; hex: HexId }
   | { type: 'landBeach'; beach: string }
+  | { type: 'hold'; unitId: string }
+  | { type: 'sleep'; unitId: string }
+  | { type: 'wake'; unitId: string }
   | { type: 'replace'; unitId: string; to?: HexId }
   | { type: 'readyAsu'; unitId: string }
   | { type: 'abandon8th' }

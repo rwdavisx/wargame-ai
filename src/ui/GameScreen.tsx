@@ -610,7 +610,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const readyUnits = useMemo(() => {
     if (!(game.phase === 'movement' || game.phase === 'invasion') || !humanTurn || game.pendingAdvance || game.breakthrough) return [];
     return Object.values(game.units)
-      .filter((u) => sideOf(u) === game.activeSide && u.where.kind === 'map' && !cannotMove(game, u) && u.mpSpent === null && !u.stopped)
+      .filter((u) => sideOf(u) === game.activeSide && u.where.kind === 'map' && !cannotMove(game, u) && u.mpSpent === null && !u.stopped && !u.holding && !u.sleeping)
       .filter((u) => {
         const mode = effectiveMode(game, u.id, 'normal');
         return !!mode && [...legalDestinations(game, u.id, mode).keys()].some((h) => h !== hexOf(u));
@@ -629,6 +629,17 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const targets = humanTurn && !game.pendingAdvance && !game.pendingDefense && !game.retreatQueue?.length
     ? [...highlights.entries()].filter(([, h]) => h.kind === 'attack').map(([h]) => h).sort()
     : [];
+
+  // Units that could still attack this combat phase and have not been told to hold.
+  const readyAttackers = useMemo(() => {
+    if (game.phase !== 'combat' || !humanTurn || game.pendingAdvance || game.breakthrough || game.pendingDefense || game.retreatQueue?.length) return [];
+    const ids = new Set<string>();
+    for (const t of targets) for (const id of eligibleAttackers(game, t)) ids.add(id);
+    return [...ids].map((id) => game.units[id]).filter((u) => u.where.kind === 'map' && !u.attacked && !u.holding && !u.sleeping)
+      .sort((a, b) => (hexOf(a) ?? '').localeCompare(hexOf(b) ?? ''));
+  }, [game, humanTurn, targets.join()]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Every unit that can still act must act, hold or sleep before the phase can end.
+  const waitingOrders = game.phase === 'combat' ? readyAttackers : readyUnits;
 
   const qol = useQol({ game, humanTurn, humanSides, settings, setSettings, readyUnits, targets, selected: selUnit });
 
@@ -669,13 +680,18 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     Object.keys(game.pendingAdvance.maxByUnit).some((id) => game.units[id]?.where.kind === 'map');
   const endWarn = game.pendingAdvance
     ? noneAdvanced ? 'No unit has advanced yet. Press again to stay put, or pick units and a violet hex.' : ''
-    : readyUnits.length
-    ? `${readyUnits.length} unit${readyUnits.length === 1 ? ' has' : 's have'} not moved yet.`
-    : game.phase === 'combat' && targets.length && !game.combats.some((c) => c.turn === game.turn && c.attackerSide === side)
-      ? 'You have not attacked this phase.'
-      : drops.length ? 'Airborne units are still waiting to drop.' : '';
-  const endLabel = game.breakthrough ? 'Stop the group' : game.pendingAdvance ? (noneAdvanced ? 'Stay put' : 'Finish advance') : `End ${game.phase === 'invasion' ? 'invasion' : game.phase}`;
+    : drops.length ? 'Airborne units are still waiting to drop.' : '';
+  const ordersLeft = !game.pendingAdvance && !game.breakthrough ? waitingOrders.length : 0;
+  const endLabel = game.breakthrough ? 'Stop the group' : game.pendingAdvance ? (noneAdvanced ? 'Stay put' : 'Finish advance')
+    : ordersLeft ? `${ordersLeft} awaiting orders` : `End ${game.phase === 'invasion' ? 'invasion' : game.phase}`;
   const endPhase = () => {
+    if (ordersLeft) {
+      // The phase ends only once every unit that can act has acted or been told to hold or sleep.
+      selectNext(waitingOrders);
+      const one = ordersLeft === 1;
+      setToast(`${ordersLeft} unit${one ? '' : 's'} still ${one ? 'needs' : 'need'} orders: ${game.phase === 'combat' ? (one ? 'attack with it' : 'attack with them') : (one ? 'move it' : 'move them')}, or give ${one ? 'it' : 'each'} Hold (H) or Sleep (F).`);
+      return;
+    }
     if (endWarn && !endArmed && !game.breakthrough) {
       setEndArmed(true);
       sfx.click();
@@ -688,6 +704,19 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   };
   useEffect(() => setEndArmed(false), [phaseKey, game.seq]);
 
+  // Hold (this phase) or Sleep (until woken) for the selected unit, then on to the next one waiting.
+  const giveOrder = (type: 'hold' | 'sleep' | 'wake') => {
+    if (!mineSel) return;
+    const list = waitingOrders;
+    if (!dispatch({ type, unitId: mineSel.id })) return;
+    sfx.click();
+    if (type === 'wake') return;
+    if (list.filter((u) => u.id !== mineSel.id).length) selectNext(list);
+    else {
+      setSelectedUnit(null);
+      setSelectedHex(null);
+    }
+  };
   // The selected own unit: movement modes and a one-line status.
   const mineSel = selUnit && sideOf(selUnit) === side && humanTurn ? selUnit : null;
   // How the player selects (selVerb) and how they move or attack (verb) with this pointer.
@@ -813,8 +842,10 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const showEnd = humanTurn && !game.pendingDefense && !game.retreatQueue?.length && game.phase !== 'gameOver';
 
   // ---------------------------------------------------------------- keyboard
-  const keys = useRef({ cancelAll, executeAttack, endPhase, undo, next, modes, setMoveMode, confirm: () => confirmHex && onHexClick(confirmHex), hasConfirm: !!confirm, hasAttack: !!attackInfo, showEnd });
-  keys.current = { cancelAll, executeAttack, endPhase, undo, next, modes, setMoveMode, confirm: () => confirmHex && onHexClick(confirmHex), hasConfirm: !!confirm, hasAttack: !!attackInfo, showEnd };
+  const unitOrders = mineSel && mineSel.where.kind === 'map' && ['movement', 'combat', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.breakthrough && !mineSel.sleeping
+    ? giveOrder : null;
+  const keys = useRef({ cancelAll, executeAttack, endPhase, undo, next, modes, setMoveMode, confirm: () => confirmHex && onHexClick(confirmHex), hasConfirm: !!confirm, hasAttack: !!attackInfo, showEnd, orders: unitOrders });
+  keys.current = { cancelAll, executeAttack, endPhase, undo, next, modes, setMoveMode, confirm: () => confirmHex && onHexClick(confirmHex), hasConfirm: !!confirm, hasAttack: !!attackInfo, showEnd, orders: unitOrders };
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
@@ -834,6 +865,12 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       } else if (e.key === 'n' || e.key === 'N' || e.key === 'Tab') {
         e.preventDefault();
         if (k.next.count) k.next.onClick();
+      } else if ((e.key === 'h' || e.key === 'H') && k.orders) {
+        e.preventDefault();
+        k.orders('hold');
+      } else if ((e.key === 'f' || e.key === 'F') && k.orders) {
+        e.preventDefault();
+        k.orders('sleep');
       } else if ((e.key === 'z' || e.key === 'Z') && !e.altKey) {
         e.preventDefault();
         k.undo();
@@ -898,6 +935,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         moveMode={shownMode}
         setMoveMode={setMoveMode}
         onDeselect={() => { setSelectedUnit(null); setSelectedHex(null); }}
+        orders={mineSel && mineSel.where.kind === 'map' && ['movement', 'combat', 'invasion'].includes(game.phase) && !game.pendingAdvance && !game.breakthrough && !attackTarget
+          ? { holding: !!mineSel.holding, sleeping: !!mineSel.sleeping, onHold: () => giveOrder('hold'), onSleep: () => giveOrder('sleep'), onWake: () => giveOrder('wake') }
+          : null}
         attack={attackInfo}
         onAttack={executeAttack}
         onCancelAttack={clearAttack}

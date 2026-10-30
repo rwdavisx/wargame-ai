@@ -678,3 +678,7 @@ kbd {
 .cards.difficulty .pips i { font-style: normal; color: rgba(255, 255, 255, 0.16); }
 .cards.difficulty .pips i.on { color: var(--gold-2); }
 .title-foot .build { display: block; margin-top: 6px; opacity: 0.7; letter-spacing: 1px; }
+
+/* ---------------------------------------------------------------- unit orders: hold and sleep */
+.ab-buttons .order-btn { background: rgba(70, 90, 130, 0.22); border-color: rgba(150, 175, 220, 0.4); color: #dfe7ff; }
+.ab-buttons .order-btn:hover { background: rgba(90, 115, 165, 0.35); }

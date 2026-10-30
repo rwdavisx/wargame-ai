@@ -277,6 +277,7 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
               <li>Touch: tap to select, tap a hex twice to move or attack</li>
               <li>Settings → Mouse controls: right-click to act, or left-click does everything</li>
               <li>N or Tab: next unit or target · Z: undo</li>
+              <li>H: Hold (the unit stands still this phase) · F: Sleep (it stays put turn after turn until woken or the enemy comes next to it). A phase ends only when every unit that can move (or attack, in combat) has done so or holds or sleeps.</li>
               <li>Space: end the phase · Enter: confirm or attack</li>
               <li>1–5: movement mode</li>
               <li>Drag, arrows or WASD: pan · wheel, pinch or + / −: zoom</li>

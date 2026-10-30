@@ -34,6 +34,8 @@ const KINDS: Record<string, Kind> = {
   repl: { text: 'RPL', fill: '#2c64a0', ink: LIGHT, name: 'Replacement', note: 'received a replacement: no combat from this hex' },
   truck: { text: 'TRK', fill: '#56626b', ink: LIGHT, name: 'On trucks', note: 'attack 0 this turn' },
   frozen: { text: 'FRZ', fill: '#a9daf2', ink: DARK, name: 'Frozen', note: 'may not move yet' },
+  sleeping: { text: 'Zz', fill: '#2f3a52', ink: '#dfe7ff', name: 'Asleep', note: 'holds position until woken or the enemy comes close' },
+  holding: { text: 'HLD', fill: '#3d4a33', ink: '#e4f0cf', name: 'Holding', note: 'stands still for the rest of this phase' },
 };
 const ORDER = Object.keys(KINDS);
 
@@ -49,6 +51,8 @@ function flagsOf(u: UnitState, s: GameState | null, frozen: boolean): string[] {
   if (u.repl) out.push('repl');
   if (u.truck) out.push('truck');
   if (frozen || (s && u.frozenUntil && s.turn < u.frozenUntil)) out.push('frozen');
+  if (u.sleeping) out.push('sleeping');
+  else if (u.holding && s && sideOf(u) === s.activeSide) out.push('holding');
   return out;
 }
 
