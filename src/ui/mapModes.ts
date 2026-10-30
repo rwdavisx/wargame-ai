@@ -7,14 +7,18 @@ import { supplyChecker, supplySources } from '../engine/supply';
 import type { GameState, Side } from '../engine/types';
 import { def, other, sideOf, stackPoints } from '../engine/units';
 import { bondsOf, zocOf } from '../engine/zoc';
+import { reachable } from '../engine/movement';
+import type { UnitState } from '../engine/types';
+import { fresh, stackDefense, threatMap } from '../ai/reach';
 import { center, corners, edge } from './render/geom';
 
-export type MapMode = 'normal' | 'supply' | 'control' | 'zoc' | 'support' | 'terrain' | 'stacking';
+export type MapMode = 'normal' | 'supply' | 'control' | 'threat' | 'zoc' | 'support' | 'terrain' | 'stacking';
 
 export const MAP_MODES: { key: MapMode; label: string; note: string }[] = [
   { key: 'normal', label: 'Normal', note: 'The painted map' },
   { key: 'supply', label: 'Supply', note: 'Where your units are in or out of supply' },
   { key: 'control', label: 'Control', note: 'Ground held, the front line and VP hexes' },
+  { key: 'threat', label: 'Enemy threat', note: 'Where the enemy can strike next turn, and how hard' },
   { key: 'zoc', label: 'Zones of control', note: 'Enemy ZOC and ZOC Bonds' },
   { key: 'support', label: 'Support range', note: 'Naval gunfire and artillery reach' },
   { key: 'terrain', label: 'Terrain', note: 'Movement costs and hexsides' },
@@ -195,6 +199,77 @@ function controlLayer(s: GameState): ModeLayer {
   return L;
 }
 
+// ------------------------------------------------------------------ enemy threat
+
+/** Threat bands: enemy attack strength that could reach a hex next turn. */
+const THREAT = [
+  { min: 1, fill: 'rgba(242,181,68,0.16)', label: 'Light (1–5)' },
+  { min: 6, fill: 'rgba(240,130,60,0.26)', label: 'Heavy (6–11)' },
+  { min: 12, fill: 'rgba(214,50,43,0.34)', label: 'Severe (12+)' },
+];
+
+function threatLayer(s: GameState, side: Side): ModeLayer {
+  const t = threatMap(s, side);
+  const bands: HexId[][] = THREAT.map(() => []);
+  for (const [h, v] of t.strength) {
+    if (MAP.hexes[h]?.terrain === 'sea') continue;
+    let b = -1;
+    THREAT.forEach((x, i) => v >= x.min && (b = i));
+    if (b >= 0) bands[b].push(h);
+  }
+  const L = empty();
+  THREAT.forEach((x, i) => L.fills.push({ d: hexPath(bands[i]), fill: x.fill }));
+  L.lines.push({ d: outline(t.reach), stroke: '#ff8a6a', width: 2, dash: '5 4' });
+  // On each of your stacks: what can come at it against what it can hold.
+  const by = new Map<HexId, string[]>();
+  for (const u of Object.values(s.units)) if (u.where.kind === 'map' && sideOf(u) === side) by.set(u.where.hex, [...(by.get(u.where.hex) ?? []), u.id]);
+  for (const [h, ids] of by) {
+    const v = Math.round(t.strength.get(h) ?? 0);
+    if (!v) continue;
+    const d = Math.max(1, Math.round(stackDefense(s, h, ids)));
+    const r = v / d;
+    const [x, y] = center(h);
+    const colour = r >= 3 ? { fill: '#d6322b', ink: '#fff4ee' } : r >= 1.5 ? { fill: '#f2b544', ink: '#2a1d06' } : { fill: '#7be0a0', ink: '#0d2617' };
+    L.labels.push({ x, y: y + 23.5, text: `${v} vs ${d}`, ...colour });
+  }
+  L.legend = [
+    ...THREAT.map((x) => ({ swatch: { kind: 'hex' as const, fill: x.fill.replace(/0\.\d+\)$/, '0.6)') }, label: x.label })),
+    { swatch: { kind: 'line', stroke: '#ff8a6a', dash: '3 2' }, label: 'How far enemy units can move' },
+    { swatch: { kind: 'hex', fill: '#d6322b' }, label: 'On your stacks: enemy strength vs your defense' },
+  ];
+  L.note = 'The next enemy turn as things stand, reinforcements at the map edges included. Red chips: 3 to 1 or worse.';
+  return L;
+}
+
+/** Where one unit could move on its next turn (dashed), and the hexes it could then attack. */
+export function unitReachLayer(s: GameState, u: UnitState): ModeLayer | null {
+  if (u.where.kind !== 'map') return null;
+  const f = fresh(u);
+  const hexes = new Set<HexId>();
+  try {
+    for (const m of ['normal', 'tactical'] as const) for (const h of reachable(s, f, u.where.hex, m).keys()) hexes.add(h);
+  } catch {
+    return null;
+  }
+  const hit = new Set<HexId>();
+  for (const h of hexes) for (const n of neighbors(h)) if (!hexes.has(n) && MAP.hexes[n]?.terrain !== 'sea') hit.add(n);
+  const L = empty();
+  L.fills.push({ d: hexPath(hexes), fill: 'rgba(255,138,106,0.2)' });
+  L.fills.push({ d: hexPath(hit), fill: 'url(#mode-hatch-red)' });
+  L.lines.push({ d: outline(hexes), stroke: '#ff8a6a', width: 2.4, dash: '5 4' });
+  L.legend = [
+    { swatch: { kind: 'hex', fill: 'rgba(255,138,106,0.45)', stroke: '#ff8a6a', dash: '3 2' }, label: `${def(u.id).name}: where it can move next turn` },
+    { swatch: { kind: 'hex', fill: 'url(#mode-hatch-red)' }, label: 'and the hexes it could then attack' },
+  ];
+  return L;
+}
+
+/** Two layers drawn together (the map mode, then a selected enemy unit's reach). */
+export function mergeLayers(a: ModeLayer | null, b: ModeLayer | null): ModeLayer | null {
+  if (!a || !b) return a ?? b;
+  return { fills: [...a.fills, ...b.fills], lines: [...a.lines, ...b.lines], rings: [...a.rings, ...b.rings], labels: [...a.labels, ...b.labels], legend: [...b.legend, ...a.legend], note: a.note };
+}
+
 // ------------------------------------------------------------------ zones of control
 
 function zocLayer(s: GameState, side: Side): ModeLayer {
@@ -326,6 +401,7 @@ export function modeLayer(s: GameState, mode: MapMode, side: Side): ModeLayer | 
   switch (mode) {
     case 'supply': return supplyLayer(s, side);
     case 'control': return controlLayer(s);
+    case 'threat': return threatLayer(s, side);
     case 'zoc': return zocLayer(s, side);
     case 'support': return supportLayer(s, side);
     case 'terrain': return terrainLayer();

@@ -128,6 +128,7 @@ function ModeIcon({ mode }: { mode: MapMode }) {
       {mode === 'normal' && <path d="M10 2.5 L16.5 6.2 V13.8 L10 17.5 L3.5 13.8 V6.2 Z" {...p} />}
       {mode === 'supply' && <><path d="M3.5 7 L10 3.5 L16.5 7 V13.5 L10 17 L3.5 13.5 Z" {...p} /><path d="M3.5 7 L10 10.5 L16.5 7 M10 10.5 V17" {...p} /></>}
       {mode === 'control' && <><path d="M5 17.5 V3" {...p} /><path d="M5 3.5 H15 L12.5 7 L15 10.5 H5" {...p} fill="currentColor" fillOpacity={0.35} /></>}
+      {mode === 'threat' && <><path d="M10 2.5 L18 16.5 H2 Z" {...p} /><path d="M10 8 V11.5" {...p} /><circle cx={10} cy={14} r={0.9} fill="currentColor" /></>}
       {mode === 'zoc' && <><path d="M10 2.5 L16.5 6.2 V13.8 L10 17.5 L3.5 13.8 V6.2 Z" {...p} /><path d="M6 13 L13 6 M8.5 15 L15 8.5 M5 10 L10 5" {...p} strokeWidth={1.2} /></>}
       {mode === 'support' && <><circle cx={10} cy={10} r={6.5} {...p} /><path d="M10 1.5 V5.5 M10 14.5 V18.5 M1.5 10 H5.5 M14.5 10 H18.5" {...p} /><circle cx={10} cy={10} r={1.2} fill="currentColor" /></>}
       {mode === 'terrain' && <path d="M1.5 16.5 L7.5 6.5 L11 12 L13 9 L18.5 16.5 Z" {...p} />}

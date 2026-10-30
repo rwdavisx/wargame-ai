@@ -115,6 +115,12 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
             <label className="check">
               <input type="checkbox" checked={s.showCues !== false} onChange={(e) => set({ showCues: e.target.checked })} /> Unit cues: ready to act, odds on targets, movement left
             </label>
+            <label className="check">
+              <input type="checkbox" checked={s.endChecks !== false} onChange={(e) => set({ endChecks: e.target.checked })} /> Check before ending a phase: overstacks, units out of supply, open objectives, good attacks not taken
+            </label>
+            <label className="check">
+              <input type="checkbox" checked={s.turnAlerts !== false} onChange={(e) => set({ turnAlerts: e.target.checked })} /> Online games: buzz and chime when it is your move
+            </label>
             <h3>Controls</h3>
             <label className="field">
               <span>Mouse controls</span>

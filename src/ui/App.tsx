@@ -131,7 +131,7 @@ export default function App() {
           onSettings={() => setModal('settings')} onHowTo={() => setModal('howto')} />
       )}
       {screen === 'new' && <NewGameScreen terrain={terrain} settings={settings} setSettings={setSettings} onStart={startNew} onBack={() => setScreen('title')} />}
-      {screen === 'lobby' && <NetLobby terrain={terrain} aiLevel={settings.aiLevel} onEnter={enterNet} onBack={() => setScreen('title')} />}
+      {screen === 'lobby' && <NetLobby terrain={terrain} aiLevel={settings.aiLevel} alerts={settings.turnAlerts !== false} onEnter={enterNet} onBack={() => setScreen('title')} />}
       {screen === 'briefing' && <BriefingScreen terrain={terrain} game={net?.game ?? game} side={humanSide} onBegin={() => setScreen('game')} />}
       {screen === 'game' && (
         <GameScreen

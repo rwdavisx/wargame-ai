@@ -82,7 +82,8 @@ export interface ActionBarProps {
   detailsOpen: boolean;
   canUndo: boolean;
   onUndo: () => void;
-  end: { label: string; armed: boolean; warn: string; onClick: () => void } | null;
+  /** `checks`: things to look at before the phase ends, shown (and each jumped to) while End is armed. */
+  end: { label: string; armed: boolean; warn: string; onClick: () => void; checks?: { text: string; hex: HexId }[]; onCheck?: (hex: HexId) => void } | null;
 }
 
 function oddsText(o: OddsInfo): string {
@@ -286,7 +287,19 @@ export function ActionBar(p: ActionBarProps) {
   }
   return (
     <div ref={ref} className={`action-bar${p.humanTurn ? '' : ' waiting'}`}>
-      {p.end?.armed && <div className="ab-warn">{p.end.warn}</div>}
+      {p.end?.armed && (
+        <div className="ab-warn">
+          {p.end.warn}
+          {!!p.end.checks?.length && (
+            <ul className="ab-checks">
+              {p.end.checks.map((c, i) => (
+                <li key={i}><button onClick={() => p.end?.onCheck?.(c.hex)} title="Show it on the map">{c.text}</button></li>
+              ))}
+            </ul>
+          )}
+          {!!p.end.checks?.length && <div className="ab-checks-foot">Press End again to end the phase anyway.</div>}
+        </div>
+      )}
       <div className="ab-row">{body}</div>
     </div>
   );

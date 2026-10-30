@@ -17,7 +17,7 @@ export interface ThreatMap {
 }
 
 /** The unit as it will be at the start of its next turn: fresh movement, not stopped. */
-function fresh(u: UnitState): UnitState {
+export function fresh(u: UnitState): UnitState {
   return { ...u, mpSpent: null, moveMode: null, tacHexes: 0, hexesMoved: 0, crossedMountain: false, stopped: false, autoDs: false };
 }
 

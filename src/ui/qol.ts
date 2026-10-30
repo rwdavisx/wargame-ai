@@ -1,14 +1,17 @@
 // Quality-of-life helpers for the play screen: odds on every target, units still able to act,
 // movement left, stacking readouts and the map modes (see mapModes.ts).
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { RULES } from '../engine/data';
+import { MAP, RULES } from '../engine/data';
+import { supplyChecker } from '../engine/supply';
+import { hexName, nearName } from '../engine/words';
+import { threatMap } from '../ai/reach';
 import { columnLabel, computeOdds, validateAttackers } from '../engine/combat';
 import type { HexId } from '../engine/hex';
 import { cannotMove, movementAllowance } from '../engine/movement';
 import type { GameState, Side, UnitState } from '../engine/types';
-import { def, nationGroup, sideOf, stackPoints, unitsAt } from '../engine/units';
+import { def, nationGroup, sideOf, stackPoints, unitsAt, values } from '../engine/units';
 import { eligibleAttackers } from './play';
-import { MAP_MODES, modeLayer, type MapMode, type ModeLayer } from './mapModes';
+import { MAP_MODES, mergeLayers, modeLayer, unitReachLayer, type MapMode, type ModeLayer } from './mapModes';
 import type { Settings } from './storage';
 
 // ------------------------------------------------------------------ odds on targets
@@ -210,7 +213,11 @@ export function useQol({ game, humanTurn, humanSides, settings, setSettings, rea
   }, [game, humanTurn, cues]);
 
   // Recomputed only when the game or the mode changes, never while panning.
-  const layer = useMemo(() => modeLayer(game, mode, viewer), [game, mode, viewer]);
+  const modeShapes = useMemo(() => modeLayer(game, mode, viewer), [game, mode, viewer]);
+  // An enemy unit picked on the map shows how far it can strike on its next turn.
+  const enemyPick = selected && selected.where.kind === 'map' && sideOf(selected) !== viewer ? selected.id : null;
+  const reachShapes = useMemo(() => (enemyPick ? unitReachLayer(game, game.units[enemyPick]) : null), [game, enemyPick]);
+  const layer = useMemo(() => mergeLayers(modeShapes, reachShapes), [modeShapes, reachShapes]);
 
   const settingsRef = useRef({ settings, setSettings });
   settingsRef.current = { settings, setSettings };
@@ -259,4 +266,61 @@ export function useQol({ game, humanTurn, humanSides, settings, setSettings, rea
     mode, setMode, layer, toggleCues, layers, toggleLayer, viewer, pulse,
   }), [cues, ready, attack.odds, left, formation, selected, mode, setMode, layer, toggleCues, layers, toggleLayer, viewer, pulse]);
   return { map, pulse: doPulse };
+}
+
+// ------------------------------------------------------------------ before the phase ends
+
+export interface CheckItem {
+  text: string;
+  hex: HexId;
+}
+
+const where = (h: HexId) => {
+  const n = hexName(h) ?? nearName(h);
+  return n ? `${n} (${h})` : h;
+};
+
+/**
+ * What a player might regret when `side` ends this phase: stacks over the limit, units cut off from supply,
+ * objectives left empty within the enemy's reach, and good attacks not taken.
+ */
+export function endChecklist(s: GameState, side: Side): CheckItem[] {
+  const out: CheckItem[] = [];
+  if (s.phase === 'movement' || s.phase === 'invasion') {
+    const by = new Map<HexId, string[]>();
+    for (const u of Object.values(s.units)) if (u.where.kind === 'map' && sideOf(u) === side) by.set(u.where.hex, [...(by.get(u.where.hex) ?? []), u.id]);
+    for (const [h, ids] of by) {
+      const sp = stackPoints(ids, s);
+      if (sp > RULES.stackingLimit) out.push({ text: `Overstacked at ${where(h)}: ${sp} of ${RULES.stackingLimit} stacking points.`, hex: h });
+    }
+    if (s.phase === 'movement') {
+      const sup = supplyChecker(s, side);
+      // Only stacks the player can still do something about: garrisons and other units that cannot move are left out.
+      const canMove = (id: string) => !def(id).variable && values(s.units[id]).move > 0;
+      const cut = [...by.keys()].filter((h) => by.get(h)!.some(canMove) && !sup.inSupply(h));
+      for (const h of cut.slice(0, 4)) {
+        const n = by.get(h)!.length;
+        out.push({ text: `${n === 1 ? def(by.get(h)![0]).name + ' is' : `${n} units are`} out of supply at ${where(h)}.`, hex: h });
+      }
+      if (cut.length > 4) out.push({ text: `…and ${cut.length - 4} more stacks out of supply.`, hex: cut[4] });
+    }
+    // Objectives this side holds with nobody in them that the enemy can walk into next turn.
+    const t = threatMap(s, side);
+    const open = Object.entries(MAP.hexes).filter(([h, d]) => d.vp && !by.has(h) && (s.control[h] ?? 'German') === side && t.reach.has(h))
+      .sort(([, a], [, b]) => (b.vp ?? 0) - (a.vp ?? 0));
+    for (const [h, d] of open.slice(0, 4)) out.push({ text: `${where(h)} (${d.vp} VP) is empty and the enemy can reach it.`, hex: h });
+    if (open.length > 4) out.push({ text: `…and ${open.length - 4} more empty objectives within the enemy's reach.`, hex: open[4][0] });
+  }
+  if (s.phase === 'combat') {
+    const seen = new Set<HexId>();
+    for (const u of Object.values(s.units)) {
+      if (u.where.kind !== 'map' || sideOf(u) === side) continue;
+      const h = u.where.hex;
+      if (seen.has(h)) continue;
+      seen.add(h);
+      const { cue } = bestOdds(s, h);
+      if (cue && (cue.tone === 'good' || cue.tone === 'auto')) out.push({ text: `An attack at ${cue.label} on ${where(h)} is not taken.`, hex: h });
+    }
+  }
+  return out;
 }

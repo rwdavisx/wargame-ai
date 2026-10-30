@@ -385,8 +385,9 @@ export class NetSession {
   /** Lobby summary, written at phase ends (and when the game ends). */
   private async summarize(phaseEnd: boolean) {
     const n = this.server.a.length;
-    if (!phaseEnd && n % 25) return;
-    const s = this.stateAt(Math.min(n, this.local.length));
+    const s = n === this.local.length && this.shown === n && this.game ? this.game : this.stateAt(Math.min(n, this.local.length));
+    // Also whenever the game now waits on the other side (a defence decision, a retreat), so the lobby can say whose move it is.
+    if (!phaseEnd && n % 25 && actingSide(s) === this.head?.active && s.phase !== 'gameOver') return;
     await this.headRef.update({ n, turn: s.turn, phase: s.phase, active: actingSide(s), over: s.phase === 'gameOver', updated: Date.now() });
   }
 

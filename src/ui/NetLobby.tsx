@@ -1,5 +1,5 @@
 // Play with friends: the games open on this shared page, hosting a new one and taking a seat in one.
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { DIFFICULTIES, type Difficulty } from '../ai/heuristic';
 import { SCENARIOS } from '../engine/data';
 import type { GameOptions, Side } from '../engine/types';
@@ -10,6 +10,7 @@ import type { TerrainImage } from './render/terrain';
 import { Insignia } from './render/units';
 import { ScenarioCards, StartAndRules } from './screens';
 import { sfx } from './sound';
+import { yourMoveAlert } from './alerts';
 
 const SIDE_NAME: Record<Side, string> = { Allied: 'Allies', German: 'Germans' };
 const PHASE: Record<string, string> = { invasion: 'landings', initial: 'initial phase', movement: 'movement', combat: 'combat', recovery: 'recovery', supply: 'supply', gameOver: 'over' };
@@ -50,11 +51,13 @@ interface Row {
 interface Props {
   terrain: TerrainImage;
   aiLevel: Difficulty;
+  /** Buzz and chime when one of the player's games comes back to them. */
+  alerts: boolean;
   onEnter: (session: NetSession) => void;
   onBack: () => void;
 }
 
-export function NetLobby({ terrain, aiLevel, onEnter, onBack }: Props) {
+export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
   const [caps, setCaps] = useState<Caps | null | undefined>(undefined);
   const [me, setMe] = useState<string | null>(null);
   const [platformName, setPlatformName] = useState('');
@@ -101,6 +104,17 @@ export function NetLobby({ terrain, aiLevel, onEnter, onBack }: Props) {
     if (!user || !ids) return;
     user.profiles(ids.split(',')).then((p) => setNames(Object.fromEntries(Object.entries(p).map(([k, v]) => [k, v.name])))).catch(() => {});
   }, [caps, ids]);
+  // The games waiting on this player, first in the list; a game coming back to them while they look at the lobby buzzes.
+  const myMove = (h: NetHead) => !!me && !h.over && h.seats[me] === h.active;
+  const waiting = useMemo(() => new Set((games ?? []).filter((r) => myMove(r.head)).map((r) => r.id)), [games, me]); // eslint-disable-line react-hooks/exhaustive-deps
+  const seenWaiting = useRef<Set<string> | null>(null);
+  useEffect(() => {
+    if (games === null || !me) return;
+    const before = seenWaiting.current;
+    if (before && alerts && [...waiting].some((id) => !before.has(id))) yourMoveAlert();
+    seenWaiting.current = waiting;
+  }, [waiting]); // eslint-disable-line react-hooks/exhaustive-deps
+  const shown = useMemo(() => (games ? [...games].sort((a, b) => Number(waiting.has(b.id)) - Number(waiting.has(a.id))) : null), [games, waiting]);
   const nameOf = (h: NetHead, id: string) => (id === me ? 'You' : names[id] || h.names?.[id] || 'A friend');
 
   const myName = platformName || callsign.trim();
@@ -205,9 +219,9 @@ export function NetLobby({ terrain, aiLevel, onEnter, onBack }: Props) {
         <h3>Games on this page</h3>
         {writable && <button className="primary" onClick={() => setHosting(true)}>Host a new game</button>}
       </div>
-      {games === null ? <p className="muted">Loading…</p> : !games.length ? <p className="muted">No games yet. Host one and invite a friend.</p> : (
+      {shown === null ? <p className="muted">Loading…</p> : !shown.length ? <p className="muted">No games yet. Host one and invite a friend.</p> : (
         <ul className="net-games">
-          {games.map((r) => {
+          {shown.map((r) => {
             const h = r.head;
             const mine = me ? h.seats[me] : undefined;
             const open = freeSides(h);
@@ -215,7 +229,7 @@ export function NetLobby({ terrain, aiLevel, onEnter, onBack }: Props) {
             return (
               <li key={r.id} className={`net-game${mine ? ' mine' : ''}`}>
                 <div className="net-game-main">
-                  <div className="net-game-title">{h.title}</div>
+                  <div className="net-game-title">{h.title}{waiting.has(r.id) && <span className="net-yourmove">Your move</span>}</div>
                   <div className="net-game-meta">
                     {h.mode === 'versus' ? 'Versus' : `Co-op against the computer (${DIFFICULTIES.find((d) => d.key === h.aiLevel)?.label ?? h.aiLevel})`} · {sc} · {h.over ? 'finished' : `day ${h.turn}, ${SIDE_NAME[h.active]} ${PHASE[h.phase] ?? h.phase}`}
                   </div>

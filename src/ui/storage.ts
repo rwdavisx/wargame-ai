@@ -36,6 +36,10 @@ export interface Settings {
   musicVolume: number;
   /** How well the built-in computer opponent plays. */
   aiLevel: Difficulty;
+  /** Before a phase ends, list overstacks, units cut off, open objectives and good attacks not taken. */
+  endChecks: boolean;
+  /** Online: buzz and chime when the other player hands the game back. */
+  turnAlerts: boolean;
 }
 
 const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
@@ -64,6 +68,8 @@ export const DEFAULT_SETTINGS: Settings = {
   music: true,
   musicVolume: 0.35,
   aiLevel: 'veteran',
+  endChecks: true,
+  turnAlerts: true,
 };
 
 export function hasAutosave(): boolean {

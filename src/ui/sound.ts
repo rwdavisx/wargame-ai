@@ -66,6 +66,13 @@ function tone(a: AudioContext, at: number, dur: number, freq: number, gain: numb
 }
 
 export const sfx = {
+  /** Online: the other player has handed the game back (a bright three-note bugle call). */
+  yourMove() {
+    const a = audio();
+    if (!a) return;
+    const t = a.currentTime + 0.02;
+    [523.25, 659.25, 783.99].forEach((f, i) => tone(a, t + i * 0.13, i === 2 ? 0.42 : 0.16, f, 0.22, 'triangle'));
+  },
   click() {
     const a = audio();
     if (!a) return;

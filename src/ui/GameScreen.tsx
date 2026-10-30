@@ -23,8 +23,9 @@ import type { TerrainImage } from './render/terrain';
 import { sfx } from './sound';
 import type { Settings } from './storage';
 import { effectiveMode, eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
-import { moveLeft, stackText, unitFlags, useQol } from './qol';
+import { endChecklist, moveLeft, stackText, unitFlags, useQol, type CheckItem } from './qol';
 import { Recap } from './Recap';
+import { yourMoveAlert } from './alerts';
 import type { NetLink } from '../net/session';
 import { movementAllowance } from '../engine/movement';
 
@@ -105,11 +106,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const [focus, setFocus] = useState<{ hex: HexId; n: number } | null>(null);
   const focusOn = (hex: HexId) => setFocus((f) => ({ hex, n: (f?.n ?? 0) + 1 }));
   const [endArmed, setEndArmed] = useState(false);
+  // What the player may want to look at before the phase ends (shown while End is armed).
+  const [endChecks, setEndChecks] = useState<CheckItem[]>([]);
   useEffect(() => {
     if (!endArmed) return;
-    const t = setTimeout(() => setEndArmed(false), 4000);
+    const t = setTimeout(() => setEndArmed(false), endChecks.length ? 20000 : 4000);
     return () => clearTimeout(t);
-  }, [endArmed]);
+  }, [endArmed, endChecks.length]);
   // On a touch screen the first tap on a destination previews it; a second tap carries it out.
   const [confirmHex, setConfirmHex] = useState<HexId | null>(null);
   useEffect(() => setConfirmHex(null), [selectedUnit, moveMode, advanceSel, game.phase, game.activeSide]);
@@ -144,6 +147,16 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const incoming = net?.incoming ?? [];
   // The player's own advance after combat (not the enemy's, while the player picks a retreat for its own units).
   const myAdvance = !!game.pendingAdvance && humanTurn && acting === game.activeSide && !game.retreatQueue?.length && !game.pendingDefense;
+
+  // Online: the other player (or the computer on a partner's device) has handed the game back.
+  const wasMine = useRef(humanTurn);
+  useEffect(() => {
+    if (net && humanTurn && !wasMine.current && !incoming.length && settings.turnAlerts !== false) {
+      yourMoveAlert();
+      setToast(acting !== game.activeSide ? 'Your decision.' : 'Your move.');
+    }
+    if (!incoming.length) wasMine.current = humanTurn;
+  }, [humanTurn, incoming.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------------------------------------------------------- the battle screen
   // The player's own attack until it is rolled and read; then every enemy attack on the player's units, one at a time.
@@ -781,7 +794,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       setToast(`${ordersLeft} unit${one ? '' : 's'} still ${one ? 'needs' : 'need'} orders: ${game.phase === 'combat' ? (one ? 'attack with it' : 'attack with them') : (one ? 'move it' : 'move them')}, or give ${one ? 'it' : 'each'} Hold (H) or Sleep (F).`);
       return;
     }
-    if (endWarn && !endArmed && !game.breakthrough) {
+    const checks = !endArmed && !game.breakthrough && !game.pendingAdvance && settings.endChecks !== false ? endChecklist(game, acting) : [];
+    if ((endWarn || checks.length) && !endArmed && !game.breakthrough) {
+      setEndChecks(checks);
       setEndArmed(true);
       sfx.click();
       return;
@@ -1042,7 +1057,12 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         detailsOpen={panelOpen && tab === (humanTurn ? 'play' : 'log')}
         canUndo={history.length > 0 && (!net || net.canUndo)}
         onUndo={undo}
-        end={showEnd ? { label: endLabel, armed: endArmed, warn: endWarn, onClick: endPhase } : null}
+        end={showEnd ? {
+          label: endLabel, armed: endArmed, onClick: endPhase,
+          warn: endWarn || (endChecks.length ? 'Before this phase ends:' : ''),
+          checks: endArmed ? endChecks : [],
+          onCheck: (h) => { focusOn(h); qol.pulse(h); },
+        } : null}
       />
       <aside className={`command${panelOpen ? '' : ' closed'}`}>
         <button className="command-toggle" onClick={() => setPanelOpen((o) => !o)} title={panelOpen ? 'Hide orders' : 'Show orders'}>
