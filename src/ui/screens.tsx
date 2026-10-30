@@ -9,6 +9,19 @@ import { Insignia } from './render/units';
 import { sfx } from './sound';
 import { BUILD } from './version';
 import type { Controller, MouseControls, Settings } from './storage';
+import { Button, CheckboxInput, Dialog, DialogHeader, Heading, HStack, SegmentedControl, SegmentedControlItem, TextInput, VStack } from '@astryxdesign/core';
+import { ChoiceCard, SectionLabel } from './astryx/kit';
+
+/** A side's emblem for a choice card. */
+export const SideBadge = ({ side }: { side: Side }) => (
+  <svg viewBox="-6 -6 12 12" width={30} height={30} aria-hidden>
+    <Insignia nation={side === 'Allied' ? 'US' : 'GE'} x={0} y={0} r={5.4} />
+  </svg>
+);
+/** Difficulty as one to four stars. */
+export const Pips = ({ n }: { n: number }) => (
+  <span className="pips" aria-hidden>{[0, 1, 2, 3].map((k) => <i key={k} className={k <= n ? 'on' : ''}>★</i>)}</span>
+);
 
 export function LoadingScreen({ progress, label }: { progress: number; label: string }) {
   return (
@@ -49,13 +62,13 @@ export function TitleScreen({ terrain, canContinue, onContinue, onNew, onOnline,
           <div className="logo-title">SALERNO '43</div>
           <div className="logo-date">9 – 30 SEPTEMBER 1943</div>
         </div>
-        <nav className="main-menu">
-          {canContinue && <button className="primary" onClick={click(onContinue)}>Continue</button>}
-          <button className={canContinue ? '' : 'primary'} onClick={click(onNew)}>New operation</button>
-          <button onClick={click(onOnline)}>Play with friends</button>
-          <button onClick={click(onHowTo)}>How to play</button>
-          <button onClick={click(onSettings)}>Settings</button>
-        </nav>
+        <VStack gap={2} className="main-menu" width={260}>
+          {canContinue && <Button label="Continue" variant="primary" size="lg" width="100%" onClick={click(onContinue)} />}
+          <Button label="New operation" variant={canContinue ? 'secondary' : 'primary'} size="lg" width="100%" onClick={click(onNew)} />
+          <Button label="Play with friends" size="lg" width="100%" onClick={click(onOnline)} />
+          <Button label="How to play" size="lg" width="100%" onClick={click(onHowTo)} />
+          <Button label="Settings" size="lg" width="100%" onClick={click(onSettings)} />
+        </VStack>
         <div className="title-foot">A digital companion to GMT Games' Salerno '43 · keep your copy of the game at hand for the full rules<span className="build">Build {BUILD}</span></div>
       </div>
     </div>
@@ -94,55 +107,34 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
     <div className="screen setup">
       <Backdrop terrain={terrain} />
       <div className="setup-panel">
-        <h1>New operation</h1>
+        <Heading level={1} className="screen-title">New operation</Heading>
         <ScenarioCards scenario={scenario} setScenario={setScenario} />
-        <h3>Your role</h3>
+        <SectionLabel>Your role</SectionLabel>
         <div className="cards four">
           {roles.map((r) => (
-            <button key={r.id} className={`card${role === r.id ? ' on' : ''}`} onClick={() => setRole(r.id)}>
-              {r.emblem && (
-                <svg viewBox="-6 -6 12 12" width={30} height={30}>
-                  <Insignia nation={r.emblem === 'Allied' ? 'US' : 'GE'} x={0} y={0} r={5.4} />
-                </svg>
-              )}
-              <div className="card-title">{r.title}</div>
-              <div className="card-text">{r.text}</div>
-            </button>
+            <ChoiceCard key={r.id} selected={role === r.id} onSelect={() => setRole(r.id)} title={r.title} text={r.text}
+              icon={r.emblem && <SideBadge side={r.emblem} />} />
           ))}
         </div>
         {role !== 'hotseat' && (
           <>
-            <h3>Computer opponent</h3>
-            <div className="segmented">
-              <button className={opponent === 'heuristic' ? 'on' : ''} onClick={() => setOpponent('heuristic')}>Built-in AI</button>
-              <button className={opponent === 'claude' ? 'on' : ''} onClick={() => setOpponent('claude')}>Claude</button>
-            </div>
-            {opponent === 'heuristic' && (
-              <>
-                <h3>Difficulty</h3>
-                <div className="cards four difficulty">
-                  {DIFFICULTIES.map((d, i) => (
-                    <button key={d.key} className={`card${settings.aiLevel === d.key ? ' on' : ''}`} onClick={() => setSettings({ ...settings, aiLevel: d.key })}>
-                      <div className="card-title"><span className="pips" aria-hidden>{[0, 1, 2, 3].map((k) => <i key={k} className={k <= i ? 'on' : ''}>★</i>)}</span> {d.label}</div>
-                      <div className="card-text">{d.note}</div>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+            <SectionLabel>Computer opponent</SectionLabel>
+            <SegmentedControl label="Computer opponent" value={opponent} onChange={(v) => setOpponent(v as Controller)}>
+              <SegmentedControlItem value="heuristic" label="Built-in AI" />
+              <SegmentedControlItem value="claude" label="Claude" />
+            </SegmentedControl>
+            {opponent === 'heuristic' && <DifficultyCards value={settings.aiLevel} onChange={(k) => setSettings({ ...settings, aiLevel: k })} />}
             {opponent === 'claude' && (
-              <div className="row">
-                <input type="password" placeholder="Anthropic API key (sk-ant-…)" value={settings.claudeApiKey} style={{ flex: 1 }}
-                  onChange={(e) => setSettings({ ...settings, claudeApiKey: e.target.value.trim() })} />
-              </div>
+              <TextInput type="password" label="Anthropic API key" isLabelHidden placeholder="Anthropic API key (sk-ant-…)" value={settings.claudeApiKey}
+                width="100%" containerClassName="row" onChange={(v) => setSettings({ ...settings, claudeApiKey: v.trim() })} />
             )}
           </>
         )}
         <StartAndRules options={options} setOptions={setOptions} />
-        <div className="setup-buttons">
-          <button onClick={onBack}>Back</button>
-          <button className="primary big" onClick={start}>To the briefing ▶</button>
-        </div>
+        <HStack className="setup-buttons" hAlign="between">
+          <Button label="Back" onClick={onBack} />
+          <Button label="To the briefing ▶" variant="primary" size="lg" onClick={start} />
+        </HStack>
       </div>
     </div>
   );
@@ -151,14 +143,25 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
 export function ScenarioCards({ scenario, setScenario }: { scenario: string; setScenario: (s: string) => void }) {
   return (
     <>
-      <h3>Scenario</h3>
+      <SectionLabel>Scenario</SectionLabel>
       <div className="cards">
         {Object.entries(SCENARIOS).map(([k, sc]) => (
-          <button key={k} className={`card${scenario === k ? ' on' : ''}`} onClick={() => setScenario(k)}>
-            <div className="card-title">{sc.name}</div>
-            <div className="card-meta">{sc.lastTurn} days · Allies need {k === 'short' ? 8 : 20} VP</div>
-            <div className="card-text">{sc.description}</div>
-          </button>
+          <ChoiceCard key={k} selected={scenario === k} onSelect={() => setScenario(k)} title={sc.name}
+            meta={`${sc.lastTurn} days · Allies need ${k === 'short' ? 8 : 20} VP`} text={sc.description} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+/** The computer's skill, as four cards. */
+export function DifficultyCards({ value, onChange }: { value: string; onChange: (k: (typeof DIFFICULTIES)[number]['key']) => void }) {
+  return (
+    <>
+      <SectionLabel>Difficulty</SectionLabel>
+      <div className="cards four difficulty">
+        {DIFFICULTIES.map((d, i) => (
+          <ChoiceCard key={d.key} selected={value === d.key} onSelect={() => onChange(d.key)} label={d.label} title={<><Pips n={i} /> {d.label}</>} text={d.note} />
         ))}
       </div>
     </>
@@ -169,30 +172,22 @@ export function ScenarioCards({ scenario, setScenario }: { scenario: string; set
 export function StartAndRules({ options, setOptions }: { options: GameOptions; setOptions: (o: GameOptions) => void }) {
   return (
     <>
-      <h3>Start</h3>
+      <SectionLabel>Start</SectionLabel>
       <div className="cards">
-        <button className={`card${!options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: false })}>
-          <div className="card-title">D-Day landings</div>
-          <div className="card-text">The standard start: the Allies roll the Invasion table for each beach, then the Germans react.</div>
-        </button>
-        <button className={`card${options.optionalStart ? ' on' : ''}`} onClick={() => setOptions({ ...options, optionalStart: true })}>
-          <div className="card-title">Allies already ashore</div>
-          <div className="card-text">Tournament start (S1.4): no landing rolls; the assault units start inland and the Germans move first.</div>
-        </button>
+        <ChoiceCard selected={!options.optionalStart} onSelect={() => setOptions({ ...options, optionalStart: false })} title="D-Day landings"
+          text="The standard start: the Allies roll the Invasion table for each beach, then the Germans react." />
+        <ChoiceCard selected={!!options.optionalStart} onSelect={() => setOptions({ ...options, optionalStart: true })} title="Allies already ashore"
+          text="Tournament start (S1.4): no landing rolls; the assault units start inland and the Germans move first." />
       </div>
-      <h3>Optional rules</h3>
-      <label className="check">
-        <input type="checkbox" checked={options.disengagement !== false} onChange={(e) => setOptions({ ...options, disengagement: e.target.checked })} />
-        25.1 Disengagement: units next to the enemy may roll to pull back one hex in the combat phase
-      </label>
-      <label className="check">
-        <input type="checkbox" checked={!!options.recon} onChange={(e) => setOptions({ ...options, recon: e.target.checked })} />
-        25.2 Reconnaissance units shrug off the step loss of a D1 or DS when alone
-      </label>
-      <label className="check">
-        <input type="checkbox" checked={!!options.limitedPortSupply} onChange={(e) => setOptions({ ...options, limitedPortSupply: e.target.checked })} />
-        25.3 Ports can only supply a limited number of units
-      </label>
+      <SectionLabel>Optional rules</SectionLabel>
+      <VStack gap={2}>
+        <CheckboxInput label="25.1 Disengagement" description="Units next to the enemy may roll to pull back one hex in the combat phase."
+          value={options.disengagement !== false} onChange={(v) => setOptions({ ...options, disengagement: v })} />
+        <CheckboxInput label="25.2 Reconnaissance" description="Reconnaissance units shrug off the step loss of a D1 or DS when alone."
+          value={!!options.recon} onChange={(v) => setOptions({ ...options, recon: v })} />
+        <CheckboxInput label="25.3 Limited port supply" description="Ports can only supply a limited number of units."
+          value={!!options.limitedPortSupply} onChange={(v) => setOptions({ ...options, limitedPortSupply: v })} />
+      </VStack>
     </>
   );
 }
@@ -248,7 +243,7 @@ export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: Terr
           <li>Drag or use the arrow keys to pan, the mouse wheel or +/− to zoom, and the minimap to jump.</li>
         </ul>
         <div className="dispatch-foot">
-          <button className="primary big" onClick={() => { sfx.select(); onBegin(); }}>Begin ▶</button>
+          <Button label="Begin ▶" variant="primary" size="lg" onClick={() => { sfx.select(); onBegin(); }} />
         </div>
       </div>
     </div>
@@ -258,27 +253,23 @@ export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: Terr
 export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; onClose: () => void }) {
   const rts = mouse !== 'classic';
   return (
-    <div className="modal-back" onClick={onClose}>
-      <div className="modal howto" onClick={(e) => e.stopPropagation()}>
-        <header>
-          <h2>How to play</h2>
-          <button className="close" onClick={onClose}>✕</button>
-        </header>
+    <Dialog isOpen onOpenChange={(o) => !o && onClose()} width={1040} maxHeight="88dvh" className="howto">
+      <DialogHeader title="How to play" onOpenChange={(o) => !o && onClose()} />
         <div className="howto-grid">
           <section>
-            <h3>The day</h3>
+            <SectionLabel>The day</SectionLabel>
             <p>Each turn is one day: weather, then the German player turn, then the Allied player turn, then the victory check. A player turn runs through initial, movement, combat, recovery and supply phases; the program skips phases with nothing to decide.</p>
-            <h3>Moving</h3>
+            <SectionLabel>Moving</SectionLabel>
             <p>Select one of your units (or press Next unit). Blue hexes it can reach; amber ones are where it must stop. Choose a hex to move there: with a mouse {rts ? 'right-click it' : 'one click moves'}, on a touch screen the first tap shows the route and the second tap (or Move here) confirms. The bar at the bottom offers Normal, Extended, Tactical and Truck movement. Land brings in reserves at the beaches and ports.</p>
           </section>
           <section>
-            <h3>Fighting</h3>
+            <SectionLabel>Fighting</SectionLabel>
             <p>{rts ? 'Right-click' : 'Click'} or tap a red enemy hex to see the attack: the bar shows the odds, the column shifts and toggles for air, naval and artillery support. {rts ? 'Right-click' : 'Click'} or tap the hex again, or press Attack!, to attack. Every unit in reach joins by default: tap its counter in the bar (or its stack on the map) to leave it out or add it back, or select a unit first to start with just its stack. Next target steps through every enemy in reach; Units… opens the full list. A defender told to retreat may make a Determined Defense instead.</p>
-            <h3>After combat</h3>
+            <SectionLabel>After combat</SectionLabel>
             <p>Pick the units that advance in the bar, then {rts ? 'right-click' : 'click'} or tap a violet hex; or form a Breakthrough Group under Details to keep going. End phase asks again if units have not moved or you have not attacked.</p>
           </section>
           <section>
-            <h3>Controls</h3>
+            <SectionLabel>Controls</SectionLabel>
             <ul>
               {rts ? (
                 <>
@@ -302,11 +293,10 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
               <li>Map bar (on the minimap, or the layers button): map modes and what the map shows · M / Shift+M: next / previous map mode</li>
               <li>Enemy threat map mode: where the enemy can strike next turn · select an enemy unit to see its reach · the first press of End lists anything to check before the phase ends</li>
             </ul>
-            <h3>Winning</h3>
+            <SectionLabel>Winning</SectionLabel>
             <p>The Allies score VP for objective hexes they hold in supply and must keep up with a rising daily benchmark. The top bar shows Allied VP against the benchmark.</p>
           </section>
         </div>
-      </div>
-    </div>
+    </Dialog>
   );
 }

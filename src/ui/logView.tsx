@@ -1,6 +1,7 @@
 // Presentation of the game log: category icons, colour-coded rows, day and phase
 // headers, and the floating event cards over the map.
 import { Fragment, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { ToggleButton } from '@astryxdesign/core';
 import type { HexId } from '../engine/hex';
 import type { LogEntry, LogKind, Side } from '../engine/types';
 import { PHASE_LABEL, placeShort } from '../engine/words';
@@ -238,7 +239,7 @@ export function FullLog({ entries, onFocus }: { entries: LogEntry[]; onFocus?: (
     <div ref={ref} className="full-log">
       <div className="log-filters" role="group" aria-label="Show">
         {FILTERS.map(([k, label]) => (
-          <button key={k} className={filter === k ? 'on' : ''} onClick={() => { setFilter(k); pinned.current = true; }}>{label}</button>
+          <ToggleButton key={k} label={label} size="sm" isPressed={filter === k} onPressedChange={() => { setFilter(k); pinned.current = true; }} />
         ))}
       </div>
       <p className="log-hint">Tap an entry with a hex number to see it on the map.</p>

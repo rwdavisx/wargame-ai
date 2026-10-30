@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button, Tab, TabList } from '@astryxdesign/core';
 import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
 import { columnLabel, inNavalRange, mafOptions, parseCell, readyAsusFor, type OddsInfo } from '../engine/combat';
 import { applyAction, landingHexes, lpCost, navalDestinations, replPool } from '../engine/game';
@@ -102,13 +103,9 @@ export function Sidebar(p: Props) {
   if (p.editorOn) tabs.push(['editor', 'Map editor']);
   return (
     <div className="sidebar">
-      <div className="tabs">
-        {tabs.map(([k, label]) => (
-          <button key={k} className={p.tab === k ? 'active' : ''} onClick={() => p.setTab(k)}>
-            {label}
-          </button>
-        ))}
-      </div>
+      <TabList value={p.tab} onChange={p.setTab} hasDivider layout="fill" className="side-tabs">
+        {tabs.map(([k, label]) => <Tab key={k} value={k} label={label} />)}
+      </TabList>
       <div className="panel">
         {p.tab === 'play' && <PlayPanel {...p} />}
         {p.tab === 'units' && <OffMapPanel {...p} />}
@@ -143,7 +140,7 @@ function PlayPanel(p: Props) {
         </h3>
         <p className="muted">{p.aiStatus || 'Watch the map; each move is logged.'}</p>
         <div className="row">
-          <button onClick={() => p.setPaused(!p.paused)}>{p.paused ? (remote ? 'Resume replay' : 'Resume AI') : remote ? 'Pause replay' : 'Pause AI'}</button>
+          <Button label={p.paused ? (remote ? 'Resume replay' : 'Resume AI') : remote ? 'Pause replay' : 'Pause AI'} size="sm" onClick={() => p.setPaused(!p.paused)} />
         </div>
         <RecentLog game={g} n={8} onFocus={p.onFocusHex} onMore={() => p.setTab('log')} />
         <SelectedHexInfo {...p} />
@@ -240,7 +237,7 @@ function InitialControls(p: Props) {
       {fired.length ? (
         fired.map((u) => (
           <UnitRow key={u.id} u={u}
-            extra={<button disabled={g.supplyPoints[side] < 1} onClick={() => p.dispatch({ type: 'readyAsu', unitId: u.id })}>Ready (1 SP)</button>} />
+            extra={<Button label="Ready (1 SP)" size="sm" isDisabled={g.supplyPoints[side] < 1} onClick={() => p.dispatch({ type: 'readyAsu', unitId: u.id })} />} />
         ))
       ) : (
         <p className="muted">No fired artillery to ready.</p>
@@ -251,11 +248,8 @@ function InitialControls(p: Props) {
           {g.abandon8thDeclared ? (
             <p className="muted">Declared: the sector is abandoned in this turn's German Supply Phase.</p>
           ) : (
-            <button className="danger"
-              onClick={() => confirm('Abandon the 8th Army sector in the Supply Phase? German units there and in the east Entry Areas are lost, and Germans may never enter the sector again.') &&
-                p.dispatch({ type: 'abandon8th' })}>
-              Abandon the 8th Army sector
-            </button>
+            <Button label="Abandon the 8th Army sector" size="sm" variant="destructive" onClick={() => confirm('Abandon the 8th Army sector in the Supply Phase? German units there and in the east Entry Areas are lost, and Germans may never enter the sector again.') &&
+                p.dispatch({ type: 'abandon8th' })} />
           )}
         </>
       )}
@@ -271,7 +265,7 @@ function ReplaceRow(p: Props & { u: UnitState }) {
   const have = pool[d.repl!] + (d.repl === 'inf' ? pool.special : 0);
   const [to, setTo] = useState('');
   if (u.where.kind === 'map') {
-    return <UnitRow u={u} extra={<button disabled={!have} onClick={() => p.dispatch({ type: 'replace', unitId: u.id })}>Add step ({d.repl})</button>} />;
+    return <UnitRow u={u} extra={<Button label={`Add step (${d.repl})`} size="sm" isDisabled={!have} onClick={() => p.dispatch({ type: 'replace', unitId: u.id })} />} />;
   }
   // Eliminated units return off-map, or to a supplied hex with a suitable friendly ASU.
   const side = sideOf(u);
@@ -294,7 +288,7 @@ function ReplaceRow(p: Props & { u: UnitState }) {
             {areas.map((a) => <option key={a} value={a}>Entry Area {a}</option>)}
             {asuHexes.map((h) => <option key={h} value={h}>{h} (ASU hex)</option>)}
           </select>
-          <button disabled={!have} onClick={() => p.dispatch({ type: 'replace', unitId: u.id, to: to || undefined })}>Return ({d.repl})</button>
+          <Button label={`Return (${d.repl})`} size="sm" isDisabled={!have} onClick={() => p.dispatch({ type: 'replace', unitId: u.id, to: to || undefined })} />
         </span>
       } />
   );
@@ -338,17 +332,11 @@ function SelectedUnitBox(p: Props) {
       <div className="muted">{d.formation} · {d.cat}{d.elite ? ' · elite' : ''}{d.tankRating ? ` · tank ${d.tankRating}` : ''}. {status}</div>
       <div className="row">
         {areaActions.map((a) => (
-          <button key={(a as { area: string }).area} onClick={() => p.dispatch(a)}>
-            Move into entry area {(a as { area: string }).area}
-            {MAP.entryAreas[(a as { area: string }).area].vp ? ` (${MAP.entryAreas[(a as { area: string }).area].vp} VP)` : ''}
-          </button>
+          <Button key={(a as { area: string }).area} label={`Move into entry area ${(a as { area: string }).area}${MAP.entryAreas[(a as { area: string }).area].vp ? ` (${MAP.entryAreas[(a as { area: string }).area].vp} VP)` : ''}`} size="sm" onClick={() => p.dispatch(a)} />
         ))}
         {naval.length > 0 && <NavalPicker {...p} unitId={sel.id} options={naval} />}
         {canFullRetreat && (
-          <button title="The unit falls back automatically when enemy units move next to it; it may not attack."
-            onClick={() => p.dispatch({ type: 'fullRetreat', unitId: sel.id })}>
-            Full Retreat
-          </button>
+          <Button label="Full Retreat" size="sm" tooltip="The unit falls back automatically when enemy units move next to it; it may not attack." onClick={() => p.dispatch({ type: 'fullRetreat', unitId: sel.id })} />
         )}
       </div>
     </div>
@@ -366,7 +354,7 @@ function NavalPicker(p: Props & { unitId: string; options: { to: HexId | 'reserv
           <option key={o.to} value={o.to}>{o.to === 'reserve' ? 'Floating Reserve' : `${o.to}${o.twoTurn ? ' (2 turns)' : ''}`}</option>
         ))}
       </select>
-      <button onClick={() => p.dispatch({ type: 'naval', unitId: p.unitId, to: pick.to })}>Embark</button>
+      <Button label="Embark" size="sm" onClick={() => p.dispatch({ type: 'naval', unitId: p.unitId, to: pick.to })} />
     </span>
   );
 }
@@ -391,9 +379,7 @@ function MovementControls(p: Props) {
       <div className="row">
         Mode:
         {modes.map((m) => (
-          <button key={m} className={p.moveMode === m ? 'primary' : ''} title={MODE_HELP[m]} onClick={() => p.setMoveMode(m)}>
-            {label(m)}
-          </button>
+          <Button key={m} label={label(m)} size="sm" variant={p.moveMode === m ? 'primary' : 'secondary'} tooltip={MODE_HELP[m]} onClick={() => p.setMoveMode(m)} />
         ))}
       </div>
       <SelectedUnitBox {...p} />
@@ -426,10 +412,7 @@ function CombatControls(p: Props) {
       {p.attackTarget ? <AttackPlanner {...p} kind="attack" /> : <p className="muted">{cap(actVerb(p))} a red enemy hex to plan an attack.</p>}
       {canDisengage && (
         <div className="row">
-          <button title="Roll to pull the units in this hex back one hex; they may not attack this phase."
-            onClick={() => p.dispatch({ type: 'disengage', hex: h })}>
-            Disengage from {h}
-          </button>
+          <Button label={`Disengage from ${h}`} size="sm" tooltip="Roll to pull the units in this hex back one hex; they may not attack this phase." onClick={() => p.dispatch({ type: 'disengage', hex: h })} />
         </div>
       )}
     </>
@@ -512,8 +495,7 @@ function AttackPlanner(p: Props & { kind: 'attack' | 'autoDs' | 'invasion' }) {
       )}
       {o && <OddsView o={o} game={g} autoDsNote={p.kind === 'autoDs'} />}
       <div className="row">
-        <button className="primary" disabled={!o?.ok || (p.kind === 'autoDs' && !o.autoDs)}
-          onClick={() => {
+        <Button label={p.kind === 'autoDs' ? 'Overrun!' : 'Attack!'} size="sm" variant="primary" isDisabled={!o?.ok || (p.kind === 'autoDs' && !o.autoDs)} onClick={() => {
             if (p.onAttack) return p.onAttack();
             const a: Action = p.kind === 'autoDs'
               ? { type: 'autoDs', target: t, attackers: chosen }
@@ -523,10 +505,8 @@ function AttackPlanner(p: Props & { kind: 'attack' | 'autoDs' | 'invasion' }) {
               p.setAttackers(new Set());
               p.setSupport(NO_SUPPORT);
             }
-          }}>
-          {p.kind === 'autoDs' ? 'Overrun!' : 'Attack!'}
-        </button>
-        <button onClick={() => p.setAttackTarget(null)}>Cancel</button>
+          }} />
+        <Button label="Cancel" size="sm" onClick={() => p.setAttackTarget(null)} />
       </div>
     </>
   );
@@ -577,9 +557,7 @@ function RetreatChoiceControls(p: Props) {
       </p>
       <div className="row">
         {rq.options.map((o, i) => (
-          <button key={i} className={i === rq.current ? 'primary' : ''} onClick={() => p.dispatch({ type: 'retreatChoice', index: i })}>
-            {o.intoArea ? `Entry Area ${o.intoArea}` : o.end}{i === rq.current ? ' (keep)' : ''}
-          </button>
+          <Button key={i} label={`${o.intoArea ? `Entry Area ${o.intoArea}` : o.end}${i === rq.current ? ' (keep)' : ''}`} size="sm" variant={i === rq.current ? 'primary' : 'secondary'} onClick={() => p.dispatch({ type: 'retreatChoice', index: i })} />
         ))}
       </div>
     </>
@@ -614,13 +592,8 @@ function AdvanceControls(p: Props) {
             costs 1. Tick the units, then form the group.
           </p>
           <div className="row">
-            <button disabled={!p.advanceSel.length} onClick={() => p.dispatch({ type: 'btStart', unitIds: p.advanceSel, form: 'vacated' }) && p.setAdvanceSel([])}>
-              Form group in {pa.vacated} (1 hex)
-            </button>
-            <button disabled={!p.advanceSel.length || new Set(p.advanceSel.map((id) => (g.units[id].where as { hex: HexId }).hex)).size !== 1}
-              onClick={() => p.dispatch({ type: 'btStart', unitIds: p.advanceSel, form: 'stack' }) && p.setAdvanceSel([])}>
-              Ticked stack is the group
-            </button>
+            <Button label={`Form group in ${pa.vacated} (1 hex)`} size="sm" isDisabled={!p.advanceSel.length} onClick={() => p.dispatch({ type: 'btStart', unitIds: p.advanceSel, form: 'vacated' }) && p.setAdvanceSel([])} />
+            <Button label="Ticked stack is the group" size="sm" isDisabled={!p.advanceSel.length || new Set(p.advanceSel.map((id) => (g.units[id].where as { hex: HexId }).hex)).size !== 1} onClick={() => p.dispatch({ type: 'btStart', unitIds: p.advanceSel, form: 'stack' }) && p.setAdvanceSel([])} />
           </div>
         </>
       )}
@@ -645,7 +618,7 @@ function BreakthroughControls(p: Props) {
       </p>
       {ids.map((id) => (
         <UnitRow key={id} u={g.units[id]}
-          extra={ids.length > 1 ? <button title="Leave the group and stop here" onClick={() => p.dispatch({ type: 'btDrop', unitIds: [id] })}>Drop off</button> : undefined} />
+          extra={ids.length > 1 ? <Button label="Drop off" size="sm" tooltip="Leave the group and stop here" onClick={() => p.dispatch({ type: 'btDrop', unitIds: [id] })} /> : undefined} />
       ))}
       {t && (
         <>
@@ -654,11 +627,8 @@ function BreakthroughControls(p: Props) {
           </p>
           {p.odds && <OddsView o={p.odds} game={g} />}
           <div className="row">
-            <button className="primary" disabled={!p.odds?.ok}
-              onClick={() => (p.onAttack ? p.onAttack() : p.dispatch({ type: 'btAttack', target: t }) && p.setAttackTarget(null))}>
-              Breakthrough attack!
-            </button>
-            <button onClick={() => p.setAttackTarget(null)}>Cancel</button>
+            <Button label="Breakthrough attack!" size="sm" variant="primary" isDisabled={!p.odds?.ok} onClick={() => (p.onAttack ? p.onAttack() : p.dispatch({ type: 'btAttack', target: t }) && p.setAttackTarget(null))} />
+            <Button label="Cancel" size="sm" onClick={() => p.setAttackTarget(null)} />
           </div>
         </>
       )}
@@ -737,7 +707,7 @@ function RecentLog({ game, n, onFocus, onMore }: { game: GameState; n: number; o
     <>
       <h3 className="recent-head">
         Recent events
-        <button className="link" onClick={onMore}>Full log ›</button>
+        <Button label="Full log ›" size="sm" variant="ghost" onClick={onMore} />
       </h3>
       <LogList entries={recent} onFocus={onFocus} compact />
     </>
@@ -902,9 +872,9 @@ function EditorPanel(p: Props) {
         The painted map is redrawn after each edit.
       </p>
       <div className="row">
-        <button onClick={() => downloadText('map.json', exportMapJson())}>Export map.json</button>
-        <button onClick={() => { if (confirm('Discard all map edits and reload?')) { clearOverrides(); location.reload(); } }}>Reset edits</button>
-        <button onClick={() => { p.setEditorOn(false); p.setTab('play'); }}>Close editor</button>
+        <Button label="Export map.json" size="sm" onClick={() => downloadText('map.json', exportMapJson())} />
+        <Button label="Reset edits" size="sm" onClick={() => { if (confirm('Discard all map edits and reload?')) { clearOverrides(); location.reload(); } }} />
+        <Button label="Close editor" size="sm" onClick={() => { p.setEditorOn(false); p.setTab('play'); }} />
       </div>
     </>
   );

@@ -1,0 +1,5 @@
+/* Astryx sits between the reset and the game's own styles: the game's element defaults (buttons, inputs) live
+   in app-base, below Astryx's component styles, so Astryx components keep their own look. */
+@layer reset, app-base, astryx-base, astryx-theme;
+@import '@astryxdesign/core/reset.css';
+@import '@astryxdesign/core/astryx.css';

@@ -2,6 +2,8 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { applyMapOverrides } from './ui/mapEditor';
 import App from './ui/App';
+import { Theme } from '@astryxdesign/core/theme';
+import { wartimeTheme } from './ui/astryx/wartimeTheme';
 import '@fontsource/black-ops-one/400.css';
 import '@fontsource/barlow-condensed/500.css';
 import '@fontsource/barlow-condensed/600.css';
@@ -10,6 +12,7 @@ import '@fontsource/barlow/400.css';
 import '@fontsource/barlow/500.css';
 import '@fontsource/barlow/600.css';
 import '@fontsource/special-elite/400.css';
+import './ui/astryx/astryx.css';
 import './ui/theme.css';
 import './ui/log.css';
 import './ui/qol.css';
@@ -25,7 +28,9 @@ if (import.meta.env.DEV && location.hash === '#gallery') {
 } else {
   root.render(
     <StrictMode>
-      <App />
+      <Theme theme={wartimeTheme} mode="dark">
+        <App />
+      </Theme>
     </StrictMode>,
   );
 }

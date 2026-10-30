@@ -11,6 +11,7 @@ import { setSound, sfx } from './sound';
 import { downloadText, type Settings } from './storage';
 import { EventCard, feedWorthy, readMs, sideOfEntry, type FeedItem, type FocusFn } from './logView';
 import { moveLeft } from './qol';
+import { Button, Dialog, DialogHeader, HStack, Icon, IconButton, VStack } from '@astryxdesign/core';
 
 const DATE = (turn: number) => `${8 + turn} SEPT 1943`;
 
@@ -143,11 +144,10 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
         {game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0 && <span className="bb" title="Valiant & Warspite uses left">BB×{game.support.battleships}</span>}
       </div>
       <div className="top-buttons">
-        <button title={settings.sound ? 'Mute' : 'Sound on'} onClick={() => { setSettings({ ...settings, sound: !settings.sound }); setSound(!settings.sound, settings.volume); }}>
-          {settings.sound ? '🔊' : '🔈'}
-        </button>
-        <button title="Settings" onClick={onSettings}>⚙</button>
-        <button title="Menu (Esc)" onClick={onMenu}>☰</button>
+        <Button label={settings.sound ? 'Mute' : 'Sound on'} tooltip={settings.sound ? 'Mute' : 'Sound on'} isIconOnly icon={<span aria-hidden>{settings.sound ? '🔊' : '🔈'}</span>}
+          onClick={() => { setSettings({ ...settings, sound: !settings.sound }); setSound(!settings.sound, settings.volume); }} />
+        <IconButton label="Settings" icon={<Icon icon="wrench" />} tooltip="Settings" onClick={onSettings} />
+        <IconButton label="Menu (Esc)" icon={<Icon icon="menu" />} tooltip="Menu (Esc)" onClick={onMenu} />
       </div>
     </header>
   );
@@ -275,7 +275,7 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
   if (d.army8) chips.push(['8th Army', 'gold']);
   return (
     <div className="unit-card">
-      <button className="close" onClick={onClose}>✕</button>
+      <IconButton label="Close" icon={<Icon icon="close" />} variant="ghost" size="sm" className="close" onClick={onClose} />
       <div className="uc-main">
         <TokenIcon unit={unit} size={60} />
         <div className="uc-info">
@@ -382,7 +382,7 @@ export function CombatPopup({ game, humanSides, speed = 1 }: { game: GameState; 
   const yours = humanSides.includes(r.attackerSide);
   return (
     <div className={`combat-pop ${r.attackerSide === 'Allied' ? 'allied' : 'german'}`}>
-      <button className="cp-close" title="Close" onClick={() => setShown(null)}>✕</button>
+      <IconButton label="Close" icon={<Icon icon="close" />} variant="ghost" size="sm" className="cp-close" onClick={() => setShown(null)} />
       <div className="cp-head">
         <span>{r.breakthrough ? 'BREAKTHROUGH' : r.phase === 'movement' ? 'OVERRUN' : 'ASSAULT'}</span>
         <b>{place.toUpperCase()}</b>
@@ -443,10 +443,10 @@ export function GameOverScreen({ game, humanSides, onReview, onMenu }: { game: G
           <div><b>{lost('German')}</b><span>German units lost</span></div>
         </div>
         {breakdown.parts.length > 0 && <div className="go-parts">{breakdown.parts.join(' · ')}</div>}
-        <div className="go-buttons">
-          <button onClick={onReview}>Review the battlefield</button>
-          <button className="primary" onClick={onMenu}>Main menu</button>
-        </div>
+        <HStack className="go-buttons" gap={3} hAlign="center">
+          <Button label="Review the battlefield" size="lg" onClick={onReview} />
+          <Button label="Main menu" variant="primary" size="lg" onClick={onMenu} />
+        </HStack>
       </div>
     </div>
   );
@@ -457,18 +457,16 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="modal-back" onClick={onResume}>
-      <div className="modal pause" onClick={(e) => e.stopPropagation()}>
-        <h2>Paused</h2>
-        <div className="sub">{SCENARIOS[game.scenarioId]?.name} · day {game.turn} · the game saves itself after every action</div>
-        <div className="menu-buttons">
-          <button className="primary" onClick={onResume}>Resume</button>
-          <button onClick={onSettings}>Settings</button>
-          <button onClick={onRules}>Rules reference</button>
-          <button onClick={() => downloadText(`salerno43-day${game.turn}.json`, JSON.stringify(game))}>Save to file</button>
-          <button onClick={() => fileRef.current?.click()}>Load from file</button>
-          <button className="danger" onClick={onQuit}>Main menu</button>
-        </div>
+    <Dialog isOpen onOpenChange={(o) => !o && onResume()} width={380} className="pause">
+      <DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · day ${game.turn} · the game saves itself after every action`} onOpenChange={(o) => !o && onResume()} />
+        <VStack gap={2} paddingBlock={2}>
+          <Button label="Resume" variant="primary" width="100%" onClick={onResume} />
+          <Button label="Settings" width="100%" onClick={onSettings} />
+          <Button label="Rules reference" width="100%" onClick={onRules} />
+          <Button label="Save to file" width="100%" onClick={() => downloadText(`salerno43-day${game.turn}.json`, JSON.stringify(game))} />
+          <Button label="Load from file" width="100%" onClick={() => fileRef.current?.click()} />
+          <Button label="Main menu" variant="destructive" width="100%" onClick={onQuit} />
+        </VStack>
         <input ref={fileRef} type="file" accept="application/json" style={{ display: 'none' }}
           onChange={async (e) => {
             const f = e.target.files?.[0];
@@ -479,7 +477,6 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
               alert('That file is not a saved game.');
             }
           }} />
-      </div>
-    </div>
+    </Dialog>
   );
 }

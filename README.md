@@ -153,6 +153,10 @@ The map was checked twice against the photos. The second pass drew the data over
 - Coastal hexes are land when their centre is land or they hold a town (Castellabate). The beach hexes 2709–2712 and 2614–2618, whose centres fall in the sea, are treated as clear land.
 - The exact hexes of the north, east and south entry areas, and the 8th Army sector boundary line, are approximate.
 
+## Interface
+
+The menus, dialogs, forms, tabs and buttons are built with [Astryx](https://astryx.atmeta.com/), Meta's open-source React design system (React 19), styled by a custom "wartime" theme (`src/ui/astryx/wartimeTheme.ts`): olive surfaces, brass accents and the game's condensed type. The map, the counters, the battle and landing panels and the map bar remain the game's own drawing. The game's older element defaults sit in a CSS layer below Astryx's (`src/ui/astryx/astryx.css`), so Astryx components keep their own styling.
+
 ## Project layout
 
 ```
@@ -161,6 +165,7 @@ src/engine/    rules engine: hex grid, movement, ZOC bonds, combat, breakthrough
 src/ai/        built-in heuristic AI, Claude AI, self-play
 src/net/       online play: the shared game (setup + action list in chunks), seats, sync and replay; a local stand-in store for tests and two-tab development
 src/ui/        React UI
+  astryx/          the Astryx theme, CSS layer order and shared compositions (choice cards, section labels)
   App.tsx          screen flow: loading, title, new operation, online lobby, briefing, game
   NetLobby.tsx     Play with friends: the games on the page, hosting, joining
   screens.tsx      title, new operation, briefing and how-to-play screens

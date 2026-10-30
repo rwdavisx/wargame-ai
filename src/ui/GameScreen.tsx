@@ -956,7 +956,11 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA')) return;
       const k = keys.current;
       if (e.key === 'Escape') {
-        if (!k.cancelAll()) setMenu((m) => (m === 'none' ? 'pause' : 'none'));
+        // An Esc a dialog has already used (to close itself) is not ours. The pause menu opens after the key press: a
+        // dialog shown during it would take the same Esc as its own close request.
+        if (e.defaultPrevented) return;
+        if (menu !== 'none') setMenu('none');
+        else if (!k.cancelAll()) setTimeout(() => setMenu('pause'), 0);
         return;
       }
       if (menu !== 'none') return;

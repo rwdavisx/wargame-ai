@@ -1,10 +1,12 @@
 // Settings dialog: players, computer opponents, pacing, display and sound.
 import type { Side } from '../engine/types';
 import { useRef, useState, useSyncExternalStore } from 'react';
+import { Button, Dialog, DialogHeader, Icon, IconButton, Selector, Slider, Switch, Text, TextInput, VStack } from '@astryxdesign/core';
 import { DIFFICULTIES } from '../ai/heuristic';
 import { addMusicFiles, musicState, next as nextTrack, removeMusicTrack, subscribeMusic } from './music';
 import { setSound, sfx } from './sound';
 import type { Controller, MouseControls, Settings } from './storage';
+import { SectionLabel } from './astryx/kit';
 
 interface Props {
   settings: Settings;
@@ -17,139 +19,78 @@ interface Props {
   setEditorOn?: (b: boolean) => void;
 }
 
+const opts = (pairs: [string, string][]) => pairs.map(([value, label]) => ({ value, label }));
+const AIR = opts([['auto', 'When threatened'], ['always', 'Whenever attacked'], ['never', 'Never']]);
+
 export function SettingsModal({ settings: s, setSettings, onClose, inGame, online, editorOn, setEditorOn }: Props) {
   const set = (patch: Partial<Settings>) => setSettings({ ...s, ...patch });
   const setCtl = (side: Side, c: Controller) => set({ controllers: { ...s.controllers, [side]: c } });
+  const close = (open: boolean) => !open && onClose();
   return (
-    <div className="modal-back" onClick={onClose}>
-      <div className="modal settings" onClick={(e) => e.stopPropagation()}>
-        <header>
-          <h2>Settings</h2>
-          <button className="close" onClick={onClose}>✕</button>
-        </header>
-        <div className="settings-grid">
-          {online ? (
-            <section>
-              <h3>Commanders</h3>
-              <p className="hint">An online game: the seats taken in the lobby decide who commands each side, and the host chose the computer's skill.</p>
-            </section>
-          ) : (
-            <section>
-              <h3>Commanders</h3>
-              {(['Allied', 'German'] as const).map((side) => (
-                <label key={side} className="field">
-                  <span>{side}</span>
-                  <select value={s.controllers[side]} onChange={(e) => setCtl(side, e.target.value as Controller)}>
-                    <option value="human">Human player</option>
-                    <option value="heuristic">Computer</option>
-                    <option value="claude">Claude (API key)</option>
-                  </select>
-                </label>
-              ))}
-              <label className="field">
-                <span>Computer difficulty</span>
-                <select value={s.aiLevel} onChange={(e) => set({ aiLevel: e.target.value as Settings['aiLevel'] })}>
-                  {DIFFICULTIES.map((d) => <option key={d.key} value={d.key}>{d.label}</option>)}
-                </select>
-              </label>
-              <p className="hint">{DIFFICULTIES.find((d) => d.key === s.aiLevel)?.note}</p>
-              <label className="field">
-                <span>Claude API key</span>
-                <input type="password" placeholder="sk-ant-..." value={s.claudeApiKey} onChange={(e) => set({ claudeApiKey: e.target.value.trim() })} />
-              </label>
-              <label className="field">
-                <span>Claude model</span>
-                <select value={s.claudeModel} onChange={(e) => set({ claudeModel: e.target.value })}>
-                  <option value="claude-opus-5-5">Claude Opus 5.5</option>
-                  <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
-                  <option value="claude-haiku-5-5">Claude Haiku 5.5</option>
-                </select>
-              </label>
-              <p className="hint">The key stays in this browser and is sent only to api.anthropic.com.</p>
-            </section>
-          )}
+    <Dialog isOpen onOpenChange={close} width={980} maxHeight="88dvh" className="settings">
+      <DialogHeader title="Settings" onOpenChange={close} />
+      <div className="settings-grid">
+        {online ? (
           <section>
-            <h3>Pace</h3>
-            <label className="field">
-              <span>Computer speed</span>
-              <input type="range" min={0} max={1500} step={50} value={1500 - s.aiDelayMs} onChange={(e) => set({ aiDelayMs: 1500 - Number(e.target.value) })} />
-            </label>
-            <label className="field">
-              <span>Animations</span>
-              <select value={s.animSpeed} onChange={(e) => set({ animSpeed: Number(e.target.value) })}>
-                <option value={0.5}>Fast</option>
-                <option value={1}>Normal</option>
-                <option value={1.5}>Slow</option>
-              </select>
-            </label>
-            <label className="field">
-              <span>Combat</span>
-              <select value={s.combatDice} onChange={(e) => set({ combatDice: e.target.value as Settings['combatDice'] })}>
-                <option value="watch">Step through it and roll the dice</option>
-                <option value="quick">Quick result only</option>
-              </select>
-            </label>
-            <label className="check">
-              <input type="checkbox" checked={s.followAi} onChange={(e) => set({ followAi: e.target.checked })} /> Camera follows the computer's moves
-            </label>
-            <h3>Defensive air support</h3>
+            <SectionLabel>Commanders</SectionLabel>
+            <Text color="secondary" display="block">An online game: the seats taken in the lobby decide who commands each side, and the host chose the computer's skill.</Text>
+          </section>
+        ) : (
+          <VStack gap={3} as="section">
+            <SectionLabel>Commanders</SectionLabel>
             {(['Allied', 'German'] as const).map((side) => (
-              <label key={side} className="field">
-                <span>{side}</span>
-                <select value={s.defensiveAir[side]} onChange={(e) => set({ defensiveAir: { ...s.defensiveAir, [side]: e.target.value as 'auto' | 'always' | 'never' } })}>
-                  <option value="auto">When threatened</option>
-                  <option value="always">Whenever attacked</option>
-                  <option value="never">Never</option>
-                </select>
-              </label>
+              <Selector key={side} label={side} width="100%" value={s.controllers[side]} onChange={(v) => setCtl(side, v as Controller)}
+                options={opts([['human', 'Human player'], ['heuristic', 'Computer'], ['claude', 'Claude (API key)']])} />
             ))}
-          </section>
-          <section>
-            <h3>Display</h3>
-            <label className="check">
-              <input type="checkbox" checked={s.showGrid} onChange={(e) => set({ showGrid: e.target.checked })} /> Hex grid
-            </label>
-            <label className="check">
-              <input type="checkbox" checked={s.showLabels} onChange={(e) => set({ showLabels: e.target.checked })} /> Place names
-            </label>
-            <label className="check">
-              <input type="checkbox" checked={s.showCues !== false} onChange={(e) => set({ showCues: e.target.checked })} /> Unit cues: ready to act, odds on targets, movement left
-            </label>
-            <label className="check">
-              <input type="checkbox" checked={s.endChecks !== false} onChange={(e) => set({ endChecks: e.target.checked })} /> Check before ending a phase: overstacks, units out of supply, open objectives, good attacks not taken
-            </label>
-            <label className="check">
-              <input type="checkbox" checked={s.turnAlerts !== false} onChange={(e) => set({ turnAlerts: e.target.checked })} /> Online games: buzz and chime when it is your move
-            </label>
-            <h3>Controls</h3>
-            <label className="field">
-              <span>Mouse controls</span>
-              <select value={s.mouseControls} onChange={(e) => set({ mouseControls: e.target.value as MouseControls })}>
-                <option value="rts">Right-click to move and attack</option>
-                <option value="classic">Left-click does everything</option>
-              </select>
-            </label>
-            <h3>Sound</h3>
-            <label className="check">
-              <input type="checkbox" checked={s.sound} onChange={(e) => { set({ sound: e.target.checked }); setSound(e.target.checked, s.volume); if (e.target.checked) sfx.select(); }} /> Sound effects
-            </label>
-            <label className="field">
-              <span>Volume</span>
-              <input type="range" min={0} max={1} step={0.05} value={s.volume} onChange={(e) => { set({ volume: Number(e.target.value) }); setSound(s.sound, Number(e.target.value)); }}
-                onPointerUp={() => sfx.select()} />
-            </label>
-            <MusicSettings settings={s} set={set} />
-            {inGame && setEditorOn && (
-              <>
-                <h3>Map</h3>
-                <p className="hint">Fix the transcribed map against your copy (terrain, hexsides, towns).</p>
-                <button onClick={() => { setEditorOn(!editorOn); onClose(); }}>{editorOn ? 'Close the map editor' : 'Open the map editor'}</button>
-              </>
-            )}
-          </section>
-        </div>
+            <Selector label="Computer difficulty" width="100%" value={s.aiLevel} onChange={(v) => set({ aiLevel: v as Settings['aiLevel'] })}
+              description={DIFFICULTIES.find((d) => d.key === s.aiLevel)?.note} options={DIFFICULTIES.map((d) => ({ value: d.key, label: d.label }))} />
+            <TextInput type="password" label="Claude API key" placeholder="sk-ant-..." width="100%" value={s.claudeApiKey}
+              description="The key stays in this browser and is sent only to api.anthropic.com." onChange={(v) => set({ claudeApiKey: v.trim() })} />
+            <Selector label="Claude model" width="100%" value={s.claudeModel} onChange={(v) => set({ claudeModel: v })}
+              options={opts([['claude-opus-5-5', 'Claude Opus 5.5'], ['claude-sonnet-5-5', 'Claude Sonnet 5.5'], ['claude-haiku-5-5', 'Claude Haiku 5.5']])} />
+          </VStack>
+        )}
+        <VStack gap={3} as="section">
+          <SectionLabel>Pace</SectionLabel>
+          <Slider label="Computer speed" min={0} max={1500} step={50} value={1500 - s.aiDelayMs} onChange={(v: number) => set({ aiDelayMs: 1500 - v })}
+            formatValue={(v) => (v < 500 ? 'Slow' : v < 1100 ? 'Normal' : 'Fast')} width="100%" />
+          <Selector label="Animations" width="100%" value={String(s.animSpeed)} onChange={(v) => set({ animSpeed: Number(v) })}
+            options={opts([['0.5', 'Fast'], ['1', 'Normal'], ['1.5', 'Slow']])} />
+          <Selector label="Combat" width="100%" value={s.combatDice} onChange={(v) => set({ combatDice: v as Settings['combatDice'] })}
+            options={opts([['watch', 'Step through it and roll the dice'], ['quick', 'Quick result only']])} />
+          <Switch label="Camera follows the computer's moves" value={s.followAi} onChange={(v) => set({ followAi: v })} />
+          <SectionLabel>Defensive air support</SectionLabel>
+          {(['Allied', 'German'] as const).map((side) => (
+            <Selector key={side} label={side} width="100%" value={s.defensiveAir[side]} options={AIR}
+              onChange={(v) => set({ defensiveAir: { ...s.defensiveAir, [side]: v as 'auto' | 'always' | 'never' } })} />
+          ))}
+        </VStack>
+        <VStack gap={3} as="section">
+          <SectionLabel>Display</SectionLabel>
+          <Switch label="Hex grid" value={s.showGrid} onChange={(v) => set({ showGrid: v })} />
+          <Switch label="Place names" value={s.showLabels} onChange={(v) => set({ showLabels: v })} />
+          <Switch label="Unit cues" description="Ready to act, odds on targets, movement left." value={s.showCues !== false} onChange={(v) => set({ showCues: v })} />
+          <Switch label="Check before ending a phase" description="Overstacks, units out of supply, open objectives, good attacks not taken."
+            value={s.endChecks !== false} onChange={(v) => set({ endChecks: v })} />
+          <Switch label="Turn alerts in online games" description="Buzz and chime when it is your move." value={s.turnAlerts !== false} onChange={(v) => set({ turnAlerts: v })} />
+          <SectionLabel>Controls</SectionLabel>
+          <Selector label="Mouse controls" width="100%" value={s.mouseControls} onChange={(v) => set({ mouseControls: v as MouseControls })}
+            options={opts([['rts', 'Right-click to move and attack'], ['classic', 'Left-click does everything']])} />
+          <SectionLabel>Sound</SectionLabel>
+          <Switch label="Sound effects" value={s.sound} onChange={(v) => { set({ sound: v }); setSound(v, s.volume); if (v) sfx.select(); }} />
+          <Slider label="Volume" min={0} max={1} step={0.05} value={s.volume} width="100%" formatValue={(v) => `${Math.round(v * 100)}%`}
+            onChange={(v: number) => { set({ volume: v }); setSound(s.sound, v); }} onChangeEnd={() => sfx.select()} />
+          <MusicSettings settings={s} set={set} />
+          {inGame && setEditorOn && (
+            <>
+              <SectionLabel>Map</SectionLabel>
+              <Text color="secondary" display="block">Fix the transcribed map against your copy (terrain, hexsides, towns).</Text>
+              <Button label={editorOn ? 'Close the map editor' : 'Open the map editor'} onClick={() => { setEditorOn(!editorOn); onClose(); }} />
+            </>
+          )}
+        </VStack>
       </div>
-    </div>
+    </Dialog>
   );
 }
 
@@ -162,24 +103,20 @@ function MusicSettings({ settings: s, set }: { settings: Settings; set: (p: Part
   const bundled = m.tracks.filter((t) => !t.mine);
   return (
     <>
-      <h3>Music</h3>
-      <label className="check">
-        <input type="checkbox" checked={s.music} onChange={(e) => set({ music: e.target.checked })} /> Background music
-      </label>
-      <label className="field">
-        <span>Music volume</span>
-        <input type="range" min={0} max={1} step={0.05} value={s.musicVolume} disabled={!s.music} onChange={(e) => set({ musicVolume: Number(e.target.value) })} />
-      </label>
+      <SectionLabel>Music</SectionLabel>
+      <Switch label="Background music" value={s.music} onChange={(v) => set({ music: v })} />
+      <Slider label="Music volume" min={0} max={1} step={0.05} value={s.musicVolume} isDisabled={!s.music} width="100%"
+        formatValue={(v) => `${Math.round(v * 100)}%`} onChange={(v: number) => set({ musicVolume: v })} />
       {m.tracks.length ? (
         <div className="music-now">
-          <span>{m.loading ? 'Loading…' : m.current ? <>Now playing: <b>{m.current.title}</b></> : s.music ? 'Starts with your next click' : 'Music is off'}</span>
-          <button disabled={!s.music || m.tracks.length < 2} onClick={() => void nextTrack()} title="Next track">Next ▶▶</button>
+          <Text color="secondary">{m.loading ? 'Loading…' : m.current ? <>Now playing: <b>{m.current.title}</b></> : s.music ? 'Starts with your next click' : 'Music is off'}</Text>
+          <Button label="Next ▶▶" size="sm" isDisabled={!s.music || m.tracks.length < 2} onClick={() => void nextTrack()} tooltip="Next track" />
         </div>
       ) : (
-        <p className="hint">No music yet. Add some of your own below.</p>
+        <Text color="secondary" display="block">No music yet. Add some of your own below.</Text>
       )}
       <div className="music-add">
-        <button onClick={() => file.current?.click()}>Add music files…</button>
+        <Button label="Add music files…" size="sm" onClick={() => file.current?.click()} />
         <input ref={file} type="file" accept="audio/*,.ogg,.mp3,.m4a,.opus,.wav,.flac" multiple hidden
           onChange={(e) => {
             const f = e.target.files;
@@ -188,14 +125,14 @@ function MusicSettings({ settings: s, set }: { settings: Settings; set: (p: Part
             void addMusicFiles(f).then((n) => setNote(n ? `Added ${n} track${n > 1 ? 's' : ''}.` : 'Those files are not music the browser can play.'));
             e.target.value = '';
           }} />
-        {note && <span className="hint">{note}</span>}
+        {note && <Text color="secondary">{note}</Text>}
       </div>
       {mine.length > 0 && (
         <ul className="music-list">
           {mine.map((t) => (
             <li key={t.id} className={m.current?.id === t.id ? 'on' : ''}>
               <span>{t.title}</span>
-              <button className="close" title="Remove" onClick={() => void removeMusicTrack(t.id)}>✕</button>
+              <IconButton label={`Remove ${t.title}`} icon={<Icon icon="close" />} size="sm" variant="ghost" onClick={() => void removeMusicTrack(t.id)} />
             </li>
           ))}
         </ul>
@@ -206,7 +143,7 @@ function MusicSettings({ settings: s, set }: { settings: Settings; set: (p: Part
           <ul>{bundled.map((t) => <li key={t.id}><b>{t.title}</b>{t.credit ? ` · ${t.credit}` : ''}</li>)}</ul>
         </details>
       )}
-      <p className="hint">Your own tracks stay in this browser.</p>
+      <Text color="secondary" display="block">Your own tracks stay in this browser.</Text>
     </>
   );
 }

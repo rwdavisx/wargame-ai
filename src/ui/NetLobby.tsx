@@ -8,7 +8,9 @@ import { claimSeat, createGame, deleteGame, freeSides, humanSides, NetSession, s
 import { CanvasImage } from './render/CanvasImage';
 import type { TerrainImage } from './render/terrain';
 import { Insignia } from './render/units';
-import { ScenarioCards, StartAndRules } from './screens';
+import { DifficultyCards, ScenarioCards, SideBadge, StartAndRules } from './screens';
+import { Badge, Banner, Button, Card, Heading, HStack, Text, TextInput, VStack } from '@astryxdesign/core';
+import { ChoiceCard, SectionLabel } from './astryx/kit';
 import { sfx } from './sound';
 import { yourMoveAlert } from './alerts';
 
@@ -166,27 +168,33 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
         <div className="backdrop-shade" />
       </div>
       <div className="setup-panel net-lobby">
-        <h1>Play with friends</h1>
-        {body}
-        {error && <p className="net-error" role="alert">{error}</p>}
+        <Heading level={1} className="screen-title">Play with friends</Heading>
+        <VStack gap={3}>
+          {body}
+          {error && <Banner status="error" title={error} collapsible={false} />}
+        </VStack>
       </div>
     </div>
   );
+  const callsignField = (
+    <TextInput label="Your call sign" placeholder="How your friends see you" value={callsign} width={320}
+      onChange={(v) => setCallsign(v.slice(0, 24))} />
+  );
 
-  if (caps === undefined) return shell(<p className="muted">Connecting…</p>);
+  if (caps === undefined) return shell(<Text color="secondary">Connecting…</Text>);
   if (!caps || !caps.db) {
     return shell(
       <>
-        <p>
+        <Text display="block">
           {caps ? 'Sign in to claude.ai to play online.' : 'Online play works on the shared claude.ai page of this game.'} Open the game from its claude.ai link, on a phone or a computer, to host a game or join a friend's.
-        </p>
-        <div className="setup-buttons"><button onClick={onBack}>Back</button></div>
+        </Text>
+        <HStack className="setup-buttons"><Button label="Back" onClick={onBack} /></HStack>
       </>,
     );
   }
   if (hosting && me) {
     return shell(
-      <HostForm aiLevel={aiLevel} needName={!platformName} callsign={callsign} setCallsign={setCallsign} onBack={() => setHosting(false)}
+      <HostForm aiLevel={aiLevel} callsignField={!platformName ? callsignField : null} ready={!!platformName || !!callsign.trim()} onBack={() => setHosting(false)}
         onCreate={async (setup) => {
           setBusy('new');
           setError(null);
@@ -205,34 +213,33 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
 
   return shell(
     <>
-      <p className="net-how">
+      <Text display="block" className="net-how">
         Host a game here, then share this page with your friends: in its <b>Share</b> menu on claude.ai invite each of them by email as an <b>Editor</b> (with no public link). They open the same page on their phone, tap <b>Play with friends</b> and take the free seat. Moves reach the other phone within a moment, and everyone can leave and come back later.
-      </p>
-      {!writable && <p className="net-error">You can watch games on this page, but to play you need Editor access: ask the page's owner to invite you as an Editor.</p>}
-      {!platformName && (
-        <label className="field net-callsign">
-          <span>Your call sign</span>
-          <input value={callsign} maxLength={24} placeholder="How your friends see you" onChange={(e) => setCallsign(e.target.value)} />
-        </label>
-      )}
-      <div className="net-head-row">
-        <h3>Games on this page</h3>
-        {writable && <button className="primary" onClick={() => setHosting(true)}>Host a new game</button>}
-      </div>
-      {shown === null ? <p className="muted">Loading…</p> : !shown.length ? <p className="muted">No games yet. Host one and invite a friend.</p> : (
-        <ul className="net-games">
+      </Text>
+      {!writable && <Banner status="warning" title="You can watch games on this page" description="To play you need Editor access: ask the page's owner to invite you as an Editor." collapsible={false} />}
+      {!platformName && callsignField}
+      <HStack hAlign="between" vAlign="center" className="net-head-row">
+        <SectionLabel>Games on this page</SectionLabel>
+        {writable && <Button label="Host a new game" variant="primary" onClick={() => setHosting(true)} />}
+      </HStack>
+      {shown === null ? <Text color="secondary">Loading…</Text> : !shown.length ? <Text color="secondary">No games yet. Host one and invite a friend.</Text> : (
+        <VStack gap={2} className="net-games">
           {shown.map((r) => {
             const h = r.head;
             const mine = me ? h.seats[me] : undefined;
             const open = freeSides(h);
             const sc = SCENARIOS[h.scenario]?.name ?? h.scenario;
+            const needName = !platformName && !callsign.trim();
             return (
-              <li key={r.id} className={`net-game${mine ? ' mine' : ''}`}>
+              <Card key={r.id} padding={3} className={`net-game${mine ? ' mine' : ''}`}>
                 <div className="net-game-main">
-                  <div className="net-game-title">{h.title}{waiting.has(r.id) && <span className="net-yourmove">Your move</span>}</div>
-                  <div className="net-game-meta">
+                  <HStack gap={2} vAlign="center">
+                    <Heading level={4} className="choice-title">{h.title}</Heading>
+                    {waiting.has(r.id) && <Badge variant="warning" label="Your move" />}
+                  </HStack>
+                  <Text color="secondary" display="block">
                     {h.mode === 'versus' ? 'Versus' : `Co-op against the computer (${DIFFICULTIES.find((d) => d.key === h.aiLevel)?.label ?? h.aiLevel})`} · {sc} · {h.over ? 'finished' : `day ${h.turn}, ${SIDE_NAME[h.active]} ${PHASE[h.phase] ?? h.phase}`}
-                  </div>
+                  </Text>
                   <div className="net-seats">
                     {humanSides(h).map((side) => (
                       <span key={side} className={`net-seat ${side === 'Allied' ? 'allied' : 'german'}`}>
@@ -243,34 +250,32 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
                     {h.aiSide && <span className="net-seat ai">{SIDE_NAME[h.aiSide]}: computer</span>}
                   </div>
                 </div>
-                <div className="net-game-actions">
+                <HStack gap={2} className="net-game-actions" wrap="wrap">
                   {mine ? (
-                    <button className="primary" disabled={!!busy} onClick={() => enter(r.id)}>{busy === r.id ? 'Opening…' : h.over ? 'Review' : 'Resume'}</button>
+                    <Button label={h.over ? 'Review' : 'Resume'} variant="primary" isLoading={busy === r.id} isDisabled={!!busy && busy !== r.id} onClick={() => enter(r.id)} />
                   ) : (
                     <>
                       {writable && !h.over && open.map((side) => (
-                        <button key={side} className="primary" disabled={!!busy || (!platformName && !callsign.trim())} onClick={() => join(r.id, side)}
-                          title={!platformName && !callsign.trim() ? 'Type a call sign first' : undefined}>
-                          {busy === r.id ? 'Joining…' : `Join as ${SIDE_NAME[side]}`}
-                        </button>
+                        <Button key={side} label={`Join as ${SIDE_NAME[side]}`} variant="primary" isLoading={busy === r.id} isDisabled={(!!busy && busy !== r.id) || needName}
+                          tooltip={needName ? 'Type a call sign first' : undefined} onClick={() => join(r.id, side)} />
                       ))}
-                      <button disabled={!!busy} onClick={() => enter(r.id)}>Watch</button>
+                      <Button label="Watch" isDisabled={!!busy} onClick={() => enter(r.id)} />
                     </>
                   )}
-                  {me === h.host && <button className="net-delete" disabled={!!busy} onClick={() => remove(r)} title="Delete this game for everyone">Delete</button>}
-                </div>
-              </li>
+                  {me === h.host && <Button label="Delete" variant="destructive" isDisabled={!!busy} tooltip="Delete this game for everyone" onClick={() => remove(r)} />}
+                </HStack>
+              </Card>
             );
           })}
-        </ul>
+        </VStack>
       )}
-      <div className="setup-buttons"><button onClick={onBack}>Back</button></div>
+      <HStack className="setup-buttons"><Button label="Back" onClick={onBack} /></HStack>
     </>,
   );
 }
 
-function HostForm({ aiLevel, needName, callsign, setCallsign, onBack, onCreate, busy }: {
-  aiLevel: Difficulty; needName: boolean; callsign: string; setCallsign: (s: string) => void; onBack: () => void; busy: boolean;
+function HostForm({ aiLevel, callsignField, ready, onBack, onCreate, busy }: {
+  aiLevel: Difficulty; callsignField: React.ReactNode; ready: boolean; onBack: () => void; busy: boolean;
   onCreate: (s: { mode: NetMode; side: Side; scenario: string; options: GameOptions; aiLevel: Difficulty }) => void;
 }) {
   const [mode, setMode] = useState<NetMode>('versus');
@@ -279,55 +284,29 @@ function HostForm({ aiLevel, needName, callsign, setCallsign, onBack, onCreate, 
   const [options, setOptions] = useState<GameOptions>({ disengagement: true, rollLandings: true });
   const [level, setLevel] = useState<Difficulty>(aiLevel);
   return (
-    <>
-      <h3>Game</h3>
+    <div>
+      <SectionLabel>Game</SectionLabel>
       <div className="cards">
-        <button className={`card${mode === 'versus' ? ' on' : ''}`} onClick={() => setMode('versus')}>
-          <div className="card-title">Versus</div>
-          <div className="card-text">You against a friend: one of you commands the Allies, the other the Germans.</div>
-        </button>
-        <button className={`card${mode === 'coop' ? ' on' : ''}`} onClick={() => setMode('coop')}>
-          <div className="card-title">Co-op</div>
-          <div className="card-text">You and a friend command the same side together against the computer. Either of you can move any unit.</div>
-        </button>
+        <ChoiceCard selected={mode === 'versus'} onSelect={() => setMode('versus')} title="Versus"
+          text="You against a friend: one of you commands the Allies, the other the Germans." />
+        <ChoiceCard selected={mode === 'coop'} onSelect={() => setMode('coop')} title="Co-op"
+          text="You and a friend command the same side together against the computer. Either of you can move any unit." />
       </div>
-      <h3>{mode === 'versus' ? 'Your side' : 'Your side (and your friend\'s)'}</h3>
+      <SectionLabel>{mode === 'versus' ? 'Your side' : 'Your side (and your friend\'s)'}</SectionLabel>
       <div className="cards">
         {(['Allied', 'German'] as const).map((sd) => (
-          <button key={sd} className={`card${side === sd ? ' on' : ''}`} onClick={() => setSide(sd)}>
-            <svg viewBox="-6 -6 12 12" width={30} height={30}><Insignia nation={sd === 'Allied' ? 'US' : 'GE'} x={0} y={0} r={5.4} /></svg>
-            <div className="card-title">{sd === 'Allied' ? 'The Allies' : 'The Germans'}</div>
-            <div className="card-text">{sd === 'Allied' ? 'Fifth Army: land, take Salerno and the plain, break out for Naples.' : 'Tenth Army: counterattack the beachhead, then hold the hills and the roads north.'}</div>
-          </button>
+          <ChoiceCard key={sd} selected={side === sd} onSelect={() => setSide(sd)} icon={<SideBadge side={sd} />} title={sd === 'Allied' ? 'The Allies' : 'The Germans'}
+            text={sd === 'Allied' ? 'Fifth Army: land, take Salerno and the plain, break out for Naples.' : 'Tenth Army: counterattack the beachhead, then hold the hills and the roads north.'} />
         ))}
       </div>
-      {mode === 'coop' && (
-        <>
-          <h3>Computer opponent</h3>
-          <div className="cards four difficulty">
-            {DIFFICULTIES.map((d, i) => (
-              <button key={d.key} className={`card${level === d.key ? ' on' : ''}`} onClick={() => setLevel(d.key)}>
-                <div className="card-title"><span className="pips" aria-hidden>{[0, 1, 2, 3].map((k) => <i key={k} className={k <= i ? 'on' : ''}>★</i>)}</span> {d.label}</div>
-                <div className="card-text">{d.note}</div>
-              </button>
-            ))}
-          </div>
-        </>
-      )}
+      {mode === 'coop' && <DifficultyCards value={level} onChange={setLevel} />}
       <ScenarioCards scenario={scenario} setScenario={setScenario} />
       <StartAndRules options={options} setOptions={setOptions} />
-      {needName && (
-        <label className="field net-callsign">
-          <span>Your call sign</span>
-          <input value={callsign} maxLength={24} placeholder="How your friends see you" onChange={(e) => setCallsign(e.target.value)} />
-        </label>
-      )}
-      <div className="setup-buttons">
-        <button onClick={onBack}>Back</button>
-        <button className="primary big" disabled={busy || (needName && !callsign.trim())} onClick={() => onCreate({ mode, side, scenario, options, aiLevel: level })}>
-          {busy ? 'Opening…' : 'Open the game ▶'}
-        </button>
-      </div>
-    </>
+      {callsignField && <div className="net-callsign">{callsignField}</div>}
+      <HStack className="setup-buttons" hAlign="between">
+        <Button label="Back" onClick={onBack} />
+        <Button label="Open the game ▶" variant="primary" size="lg" isLoading={busy} isDisabled={!ready} onClick={() => onCreate({ mode, side, scenario, options, aiLevel: level })} />
+      </HStack>
+    </div>
   );
 }

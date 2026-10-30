@@ -6,6 +6,7 @@ import type { GameState, MoveMode, Side, UnitState } from '../engine/types';
 import { def, values } from '../engine/units';
 import { TokenIcon } from './render/units';
 import type { SupportPick } from './play';
+import { Button, ToggleButton } from '@astryxdesign/core';
 
 export type AttackKind = 'attack' | 'autoDs' | 'invasion' | 'breakthrough';
 
@@ -121,8 +122,8 @@ export function ActionBar(p: ActionBarProps) {
         </div>
         {g.phase !== 'gameOver' && (
           <div className="ab-buttons">
-            <button onClick={() => p.setPaused(!p.paused)}>{p.paused ? '▶ Resume' : '❚❚ Pause'}</button>
-            <button onClick={p.onDetails}>{p.detailsOpen ? 'Hide log' : 'Log'}</button>
+            <Button label={p.paused ? '▶ Resume' : '❚❚ Pause'} onClick={() => p.setPaused(!p.paused)} />
+            <Button label={p.detailsOpen ? 'Hide log' : 'Log'} onClick={p.onDetails} />
           </div>
         )}
       </>
@@ -135,8 +136,8 @@ export function ActionBar(p: ActionBarProps) {
           <div className="ab-sub">Tap the hex again or press the button. Tap anywhere else to change your mind.</div>
         </div>
         <div className="ab-buttons">
-          <button onClick={p.onCancelConfirm}>Cancel</button>
-          <button className="primary big-action" onClick={p.onConfirm}>{p.confirm.button}</button>
+          <Button label="Cancel" onClick={p.onCancelConfirm} />
+          <Button label={p.confirm.button} variant="primary" size="lg" className="big-action" onClick={p.onConfirm} />
         </div>
       </>
     );
@@ -179,27 +180,24 @@ export function ActionBar(p: ActionBarProps) {
           )}
           {a.kind === 'attack' && (a.air || a.naval || a.asuIds.length > 0) && (
             <div className="ab-chips">
-              {a.air && <button className={`chip-btn${sup.air ? ' on' : ''}`} onClick={() => set({ air: !sup.air })}>✈ Air +1 DD</button>}
+              {a.air && <ToggleButton label="✈ Air +1 DD" size="sm" isPressed={sup.air} onPressedChange={() => set({ air: !sup.air })} />}
               {a.naval && (
-                <button className={`chip-btn${sup.naval ? ' on' : ''}`} title={a.navalNote} onClick={() => set({ naval: !sup.naval, battleships: !sup.naval && sup.battleships })}>
-                  ⚓ Naval +1 DD
-                </button>
+                <ToggleButton label="⚓ Naval +1 DD" size="sm" tooltip={a.navalNote} isPressed={sup.naval} onPressedChange={() => set({ naval: !sup.naval, battleships: !sup.naval && sup.battleships })} />
               )}
-              {a.ships && sup.naval && <button className={`chip-btn${sup.battleships ? ' on' : ''}`} onClick={() => set({ battleships: !sup.battleships })}>Valiant/Warspite +1</button>}
+              {a.ships && sup.naval && <ToggleButton label="Valiant/Warspite +1" size="sm" isPressed={sup.battleships} onPressedChange={() => set({ battleships: !sup.battleships })} />}
               {a.asuIds.length > 0 && (
-                <button className={`chip-btn${allAsus ? ' on' : ''}`} onClick={() => set({ asus: allAsus ? [] : [...a.asuIds] })}>
-                  Artillery ×{a.asuIds.length}
-                </button>
+                <ToggleButton label={`Artillery ×${a.asuIds.length}`} size="sm" isPressed={allAsus} onPressedChange={() => set({ asus: allAsus ? [] : [...a.asuIds] })} />
               )}
             </div>
           )}
         </div>
         <div className="ab-buttons">
-          <button onClick={p.onCancelAttack}>Cancel</button>
-          {g.phase !== 'invasion' && <button onClick={p.onDetails}>Units…</button>}
-          <button className="primary big-action danger-action" disabled={!a.count || !o?.ok || (a.kind === 'autoDs' && !o.autoDs)} onClick={p.onAttack}>
+          <Button label="Cancel" onClick={p.onCancelAttack} />
+          {g.phase !== 'invasion' && <Button label="Units…" onClick={p.onDetails} />}
+          <Button label={a.kind === 'autoDs' ? 'Overrun!' : 'Attack!'} variant="destructive" size="lg" className="big-action danger-action"
+            isDisabled={!a.count || !o?.ok || (a.kind === 'autoDs' && !o.autoDs)} onClick={p.onAttack}>
             {a.kind === 'autoDs' ? 'Overrun!' : 'Attack!'} {key('Enter')}
-          </button>
+          </Button>
         </div>
       </>
     );
@@ -225,13 +223,11 @@ export function ActionBar(p: ActionBarProps) {
           </div>
         </div>
         <div className="ab-buttons">
-          {ad.breakthrough && <button onClick={p.onDetails}>Breakthrough…</button>}
+          {ad.breakthrough && <Button label="Breakthrough…" onClick={p.onDetails} />}
           {p.end && (
-            <button className={ad.only ? `end-btn${p.end.armed ? ' armed' : ''}` : `primary end-btn${p.end.armed ? ' armed' : ''}`} onClick={p.end.onClick}>
-              {p.end.armed ? 'Stay put?' : p.end.label}
-            </button>
+            <Button label={p.end.armed ? 'Stay put?' : p.end.label} variant={ad.only ? 'secondary' : 'primary'} className={`end-btn${p.end.armed ? ' armed' : ''}`} onClick={p.end.onClick} />
           )}
-          {ad.only && <button className="primary big-action" onClick={() => ad.onAdvance(ad.only!)}>Advance into {ad.only}</button>}
+          {ad.only && <Button label={`Advance into ${ad.only}`} variant="primary" size="lg" className="big-action" onClick={() => ad.onAdvance(ad.only!)} />}
         </div>
       </>
     );
@@ -248,9 +244,9 @@ export function ActionBar(p: ActionBarProps) {
             {p.modes.length > 1 && (
               <div className="ab-chips">
                 {p.modes.map((m, i) => (
-                  <button key={m} className={`chip-btn${p.moveMode === m ? ' on' : ''}`} title={MODE_HINT[m]} onClick={() => p.setMoveMode(m)}>
+                  <ToggleButton key={m} label={MODE_LABEL[m]} size="sm" tooltip={MODE_HINT[m]} isPressed={p.moveMode === m} onPressedChange={() => p.setMoveMode(m)}>
                     {MODE_LABEL[m]} {key(String(i + 1))}
-                  </button>
+                  </ToggleButton>
                 ))}
               </div>
             )}
@@ -262,24 +258,25 @@ export function ActionBar(p: ActionBarProps) {
           </div>
         )}
         <div className="ab-buttons">
-          {u && <button onClick={p.onDeselect} title={p.rightClick ? 'Deselect (Esc, or right-click elsewhere)' : 'Deselect (Esc / right-click)'}>✕</button>}
+          {u && <Button label="✕" onClick={p.onDeselect} tooltip={p.rightClick ? 'Deselect (Esc, or right-click elsewhere)' : 'Deselect (Esc / right-click)'} />}
           {p.orders && (p.orders.sleeping ? (
-            <button className="order-btn" onClick={p.orders.onWake} title="Wake this unit: it will need orders again">⏰ Wake</button>
+            <Button label="⏰ Wake" className="order-btn" onClick={p.orders.onWake} tooltip="Wake this unit: it will need orders again" />
           ) : (
             <>
-              {!p.orders.holding && <button className="order-btn" onClick={p.orders.onHold} title="Stand still for the rest of this phase (H)">Hold {key('H')}</button>}
-              <button className="order-btn" onClick={p.orders.onSleep} title="Hold position on later turns too, until woken or the enemy comes next to it (F)">Sleep Zz {key('F')}</button>
+              {!p.orders.holding && <Button label="Hold" className="order-btn" onClick={p.orders.onHold} tooltip="Stand still for the rest of this phase (H)">Hold {key('H')}</Button>}
+              <Button label="Sleep Zz" className="order-btn" onClick={p.orders.onSleep} tooltip="Hold position on later turns too, until woken or the enemy comes next to it (F)">Sleep Zz {key('F')}</Button>
             </>
           ))}
-          {p.extra.map((x) => <button key={x.label} className={x.primary ? 'primary' : ''} onClick={x.onClick}>{x.label}</button>)}
-          {p.reserves && p.reserves.count > 0 && <button onClick={p.reserves.onClick}>Land ({p.reserves.count})</button>}
-          {p.next && p.next.count > 0 && <button onClick={p.next.onClick}>{p.next.label} ›{key('N')}</button>}
-          <button onClick={p.onDetails} className={p.detailsOpen ? 'on' : ''}>Details</button>
-          <button onClick={p.onUndo} disabled={!p.canUndo} title="Undo (Z)">↶ Undo</button>
+          {p.extra.map((x) => <Button key={x.label} label={x.label} variant={x.primary ? 'primary' : 'secondary'} onClick={x.onClick} />)}
+          {p.reserves && p.reserves.count > 0 && <Button label={`Land (${p.reserves.count})`} onClick={p.reserves.onClick} />}
+          {p.next && p.next.count > 0 && <Button label={`${p.next.label} ›`} onClick={p.next.onClick}>{p.next.label} ›{key('N')}</Button>}
+          <Button label="Details" className={p.detailsOpen ? 'on' : ''} onClick={p.onDetails} />
+          <Button label="↶ Undo" isDisabled={!p.canUndo} tooltip="Undo (Z)" onClick={p.onUndo} />
           {p.end && (
-            <button className={`primary end-btn${p.end.armed ? ' armed' : ''}`} onClick={p.end.onClick} title={p.end.warn}>
+            <Button label={p.end.armed ? 'End anyway?' : p.end.label} variant="primary" className={`end-btn${p.end.armed ? ' armed' : ''}`} onClick={p.end.onClick}
+              tooltip={p.end.warn || undefined}>
               {p.end.armed ? 'End anyway?' : p.end.label} {key('Space')}
-            </button>
+            </Button>
           )}
         </div>
       </>
