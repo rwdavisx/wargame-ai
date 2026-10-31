@@ -8,6 +8,7 @@ import { cannotMove, stepCost, zoneClosed } from '../../src/engine/movement';
 import { weatherBox } from '../../src/engine/movement';
 import type { GameState } from '../../src/engine/types';
 import { playOut } from '../../src/ai/selfplay';
+import { ddForecast } from '../../src/ui/combat/model';
 import { ITALY_DATA } from '../../src/games/italy43/data';
 import { SALERNO_DATA } from '../../src/games/salerno43/data';
 
@@ -97,6 +98,25 @@ describe("Italy '43 movement", () => {
     c.units['US-6-1A'].where = { kind: 'map', hex: '1505' };
     c.seq += 1;
     expect(stepCost(c, u, '1502', '1503', 'normal')?.cost).toBe(1);
+  });
+});
+
+describe("Italy '43's Determined Defense", () => {
+  it('rolls two dice, uses the City or Fort column in a fort, and forces the defenders out after one Partial too many', () => {
+    const b = newGame('bernhard', 1);
+    // 2108 Castelforte: a completed Level 1 fort on the Bernhard card, held by 274/94.
+    const pd = { combatId: 0, hex: '2108', defenderSide: 'German' as const, attackerHexes: [], attackers: [], retreat: 2, advance: 2, yellow: false, desperate: false, supportOptions: [] };
+    const f = ddForecast(b, pd, { support: null, ships: false, prefer: 'hold', delay: 1 });
+    expect(f.column).toBe('City');
+    expect(f.faces.map((x) => x.face)).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    expect(f.faces.reduce((a, x) => a + x.weight, 0)).toBe(36);
+    expect(f.outOf).toBe(36);
+    expect(f.faces.some((x) => x.kind === 'partial')).toBe(true);
+    // A Level 1 fort holds one Battle marker: with it placed, a Partial result forces the defenders out.
+    b.cityBattle['2108'] = 1;
+    const g = ddForecast(b, pd, { support: null, ships: false, prefer: 'hold', delay: 1 });
+    expect(g.faces.some((x) => x.kind === 'partial')).toBe(false);
+    expect(g.faces.find((x) => x.title === 'Forced out')).toBeTruthy();
   });
 });
 

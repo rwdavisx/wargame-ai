@@ -1,6 +1,8 @@
 # Salerno '43 Digital
 
-A browser version of GMT Games' **Salerno '43** for owners of the physical game, with a computer opponent. You can play either side against the built-in AI, let Claude command the other side, play hot-seat, or watch two AIs play each other.
+A browser version of GMT Games' **Salerno '43** and **Italy '43** for owners of the physical games, with a computer opponent. Pick the game on the home screen. You can play either side against the built-in AI, let Claude command the other side, play hot-seat or online, or watch two AIs play each other.
+
+Italy '43 (October to December 1943: across the Volturno to the Bernhard and Gustav Lines) runs on the same engine: its map, counters, set-up cards and tables are transcribed into `data/italy43`, and its own rules (two-dice Determined Defense, fortifications, the 8th Army zone, scheduled withdrawals, Operational Movement, rivers by class) switch on from its data. Not yet in: the optional rules other than Disengagement (Major Assault, Half Effectiveness, Pontoon Bridges) and the heavy howitzer's re-roll.
 
 This is a personal play aid. It contains no GMT artwork or rulebook text. The map is an original rendering of hex data transcribed from photos of the owner's map, the tables and set-up come from the owner's player aids, and the rules are implemented in the program's own code. You need your own copy of the game for the rulebook and counters.
 
