@@ -6,6 +6,7 @@ import type { GameOptions, Side } from '../engine/types';
 import { loadCaps, type Caps } from '../net/caps';
 import { claimSeat, createGame, deleteGame, freeSides, humanSides, NetSession, seatedOn, type NetHead, type NetMode } from '../net/session';
 import { CanvasImage } from './render/CanvasImage';
+import { gameInfo, playable, selectGame } from '../games';
 import type { TerrainImage } from './render/terrain';
 import { Insignia } from './render/units';
 import { DifficultyCards, ScenarioCards, SideBadge, StartAndRules } from './screens';
@@ -128,6 +129,11 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
     setBusy(gid);
     setError(null);
     try {
+      // The game's own map and counters must be loaded before its actions are replayed.
+      const head = games?.find((r) => r.id === gid)?.head;
+      const want = head?.game ?? 'salerno43';
+      if (!playable(want)) throw new Error(`${gameInfo(want).title} cannot be played here yet.`);
+      selectGame(want);
       const s = new NetSession(caps.db, gid, me, caps.room);
       s.user = caps.user;
       await s.start();
@@ -240,7 +246,7 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
                     {waiting.has(r.id) && <Badge variant="warning" label="Your move" />}
                   </HStack>
                   <Text color="secondary" display="block">
-                    {h.mode === 'versus' ? 'Versus' : `Co-op against the computer (${DIFFICULTIES.find((d) => d.key === h.aiLevel)?.label ?? h.aiLevel})`} · {sc} · {h.over ? 'finished' : `day ${h.turn}, ${SIDE_NAME[h.active]} ${PHASE[h.phase] ?? h.phase}`}
+                    {gameInfo(h.game ?? 'salerno43').name} · {h.mode === 'versus' ? 'Versus' : `Co-op against the computer (${DIFFICULTIES.find((d) => d.key === h.aiLevel)?.label ?? h.aiLevel})`} · {sc} · {h.over ? 'finished' : `day ${h.turn}, ${SIDE_NAME[h.active]} ${PHASE[h.phase] ?? h.phase}`}
                   </Text>
                   <div className="net-seats">
                     {humanSides(h).map((side) => (

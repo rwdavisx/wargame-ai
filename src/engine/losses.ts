@@ -1,5 +1,5 @@
 // Step losses, remnants and elimination.
-import { UNIT_DEFS } from './data';
+import { onGameData, UNIT_DEFS } from './data';
 import type { GameState, UnitState } from './types';
 import { def, stepsRemaining, values } from './units';
 import { unitName } from './words';
@@ -99,4 +99,5 @@ export function liveIdFor(s: GameState, id: string): string | null {
   return null;
 }
 
-export const ALL_UNIT_IDS = Object.keys(UNIT_DEFS);
+export let ALL_UNIT_IDS = Object.keys(UNIT_DEFS);
+onGameData(() => (ALL_UNIT_IDS = Object.keys(UNIT_DEFS)));

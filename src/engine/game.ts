@@ -1,4 +1,4 @@
-import { MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START } from './data';
+import { GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import {
   applyAdvance, computeOdds, resolveAttack, resolveDefense, resolveDisengage, advanceDestinations,
@@ -90,7 +90,7 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
   for (const [h, d] of Object.entries(MAP.hexes)) if (d.vp || d.port || d.city) control[h] = 'German';
   for (const [a, ea] of Object.entries(MAP.entryAreas)) if (ea.side !== 'north') control[a] = 'German';
   const s: GameState = {
-    scenarioId, turn: 1, lastTurn: sc.lastTurn, phase: 'invasion', activeSide: 'Allied', weather: 0,
+    gameId: GAME_ID, scenarioId, turn: 1, lastTurn: sc.lastTurn, phase: 'invasion', activeSide: 'Allied', weather: 0,
     supplyPoints: { Allied: STARTING_SP.Allied, German: STARTING_SP.German },
     support: { ready: ['US-air', 'US-naval', 'BR-air', 'BR-naval'], battleships: 0 },
     units, control, cityBattle: {},

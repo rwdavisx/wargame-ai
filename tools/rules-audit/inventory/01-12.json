@@ -32,7 +32,7 @@
   "status": "implemented",
   "code": [
    "src/engine/movement.ts:stepCost",
-   "data/rules.json:movement.terrain"
+   "data/salerno43/rules.json:movement.terrain"
   ],
   "tests": [
    "2.2.1"
@@ -57,7 +57,7 @@
   "status": "n/a",
   "code": [],
   "tests": [],
-  "notes": "Classification by hex centre is decided when the map is encoded (one terrain per hex in data/map.json); belongs to the map-data audit."
+  "notes": "Classification by hex centre is decided when the map is encoded (one terrain per hex in data/salerno43/map.json); belongs to the map-data audit."
  },
  {
   "id": "2.3",
@@ -88,7 +88,7 @@
   "tests": [
    "2.3.2"
   ],
-  "notes": "MA = most MPs spent and still attack. fixed: a unit that used Extended Movement beyond its MA could still attack (now refused; the move records mpSpent). Elite/Low Quality read from data; note no counter is flagged lowQuality in data/oob.json (check against the counters in the data audit)."
+  "notes": "MA = most MPs spent and still attack. fixed: a unit that used Extended Movement beyond its MA could still attack (now refused; the move records mpSpent). Elite/Low Quality read from data; note no counter is flagged lowQuality in data/salerno43/oob.json (check against the counters in the data audit)."
  },
  {
   "id": "2.3.3",
@@ -1067,7 +1067,7 @@
   "status": "implemented",
   "code": [
    "src/engine/combat.ts:resolveDefense",
-   "data/rules.json:determinedDefense"
+   "data/salerno43/rules.json:determinedDefense"
   ],
   "tests": [
    "11.4.1"

@@ -1,10 +1,10 @@
-// Invariants of data/map.json: things that must hold on the physical map whatever the details,
+// Invariants of data/salerno43/map.json: things that must hold on the physical map whatever the details,
 // so a transcription slip (a road into the sea, a river that stops in mid-air, a hexside between
 // two hexes that are not neighbours, a town nobody can reach) fails loudly. Where the real map
 // does have an oddity, it is listed here by hand with what the photo shows, so a new one fails.
 // The review sheets that back the lists are drawn by tools/map-transcription/spots.py.
 import { describe, expect, it } from 'vitest';
-import mapJson from '../../data/map.json';
+import mapJson from '../../data/salerno43/map.json';
 import { distance, neighbors, parseHex, sideKey } from '../../src/engine/hex';
 import type { HexData, HexsideData, MapData } from '../../src/engine/types';
 

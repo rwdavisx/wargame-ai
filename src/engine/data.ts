@@ -1,9 +1,9 @@
-import mapJson from '../../data/map.json';
-import rulesJson from '../../data/rules.json';
-import oobJson from '../../data/oob.json';
+// The game the engine is playing: its map, tables and counters. The engine is one system for several games of
+// the series; `loadGameData` swaps in another game's data (the game registry, src/games, does this), and every
+// module reads these bindings at the time it needs them.
+import type { GameData } from '../games/types';
+import { SALERNO_DATA } from '../games/salerno43/data';
 import type { Category, MapData, StepValues, UnitDef } from './types';
-
-export const MAP = mapJson as unknown as MapData;
 
 type Valued<T> = T | { value: T };
 const val = <T,>(v: Valued<T>): T =>
@@ -21,9 +21,9 @@ export interface WeatherBox {
   rain?: boolean;
 }
 
-const r = rulesJson as any;
-
-export const RULES = {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function buildRules(r: any) {
+  return {
   turnOrder: r.turnOrder as ['German', 'Allied'],
   stackingLimit: val<number>(r.stacking.limit ?? r.stacking),
   movement: {
@@ -74,13 +74,12 @@ export const RULES = {
     Partial<Record<'German' | 'BR' | 'US', Partial<Record<'inf' | 'armor' | 'special', number>>>>
   >,
   turnNotes: Object.fromEntries(Object.entries(r.turnNotes).map(([k, v]) => [Number(k), v as string])) as Record<number, string>,
-};
+  };
+}
+export type Rules = ReturnType<typeof buildRules>;
 
 // ------------------------------------------------------------------ units
 
-const o = oobJson as any;
-const INDEPENDENT = new Set(['VI Corps', 'X Corps', '23 Armd Bde', 'Coastal', 'LXXVI Pz', 'XIV Pz', 'Remnant', '1 CN Armd Bde']);
-const TANK_DESTROYERS = new Set(['US-601', 'US-636', 'US-645']);
 // Units that double on defense in hills, marsh and cities and may cross mountain hexsides.
 const INFANTRY_TYPES = new Set(['infantry', 'airborne', 'glider', 'engineer', 'ranger', 'pg', 'motorized']);
 
@@ -104,13 +103,16 @@ function parseBack(back: unknown, backSp: unknown): StepValues | 'none' | null {
 }
 
 /** Values of the Remnant that stands in for a 3-step unit's last step. */
-function remnantValues(remnant: string, fallback: StepValues): StepValues {
+function remnantValues(o: any, remnant: string, fallback: StepValues): StepValues {
   const pool: Record<string, string> = { US: 'US-REM-A', CW: 'BR-REM-A' };
   const r = (o.units as { id: string; a: number; d: number; m: number }[]).find((x) => x.id === (pool[remnant] ?? remnant));
   return r ? { attack: r.a, defense: r.d, move: r.m, sp: 1 } : fallback;
 }
 
-function buildUnits() {
+function buildUnits(o: any, notes: GameData['units']) {
+  const INDEPENDENT = new Set(notes.independentFormations);
+  const TANK_DESTROYERS = new Set(notes.tankDestroyers);
+  const NO_DIVISION = new Set(notes.noDivision ?? []);
   const defs: Record<string, UnitDef> = {};
   const setup: Record<string, UnitSetup> = {};
   for (const u of o.units) {
@@ -127,7 +129,7 @@ function buildUnits() {
       // The reduced side of the counter, then the Remnant for 3-step units (the 3 stacking-point
       // regiments and brigades; a "(-)" unit's back is its last step).
       steps.push(back);
-      if (u.remnant && u.sp >= 3 && !army8) steps.push(remnantValues(u.remnant, back));
+      if (u.remnant && u.sp >= 3 && !army8) steps.push(remnantValues(o, u.remnant, back));
     } else {
       // Counter back not entered yet: a reduced step is the full unit less one battalion (-2/-2).
       const nSteps = isAsu || u.cat === 'bh' || u.cat === 'garrison' || silhouette || u.start?.remnant ? 1 : Math.max(1, Math.min(3, u.sp));
@@ -143,7 +145,7 @@ function buildUnits() {
       nation: u.nation,
       cat: u.cat as Category,
       formation: u.formation,
-      division: INDEPENDENT.has(u.formation) || u.id === 'US-2-509' || u.cat === 'bh' ? null : u.formation,
+      division: INDEPENDENT.has(u.formation) || NO_DIVISION.has(u.id) || u.cat === 'bh' ? null : u.formation,
       steps,
       sp: u.sp,
       tankRating: u.tr,
@@ -169,12 +171,40 @@ function buildUnits() {
   return { defs, setup };
 }
 
-const built = buildUnits();
-export const UNIT_DEFS = built.defs;
-export const UNIT_SETUP = built.setup;
-export const SCENARIOS = o.scenarios as Record<string, { name: string; lastTurn: number; description: string }>;
-export const STARTING_SP = o.startingSupplyPoints as { German: number; Allied: number };
-export const WITHDRAWAL = o.withdrawal as { turn: number; side: 'German'; defense: number; prefer: string };
+export let GAME_ID = '';
+export let MAP: MapData;
+export let RULES: Rules;
+export let UNIT_DEFS: Record<string, UnitDef>;
+export let UNIT_SETUP: Record<string, UnitSetup>;
+export let SCENARIOS: Record<string, { name: string; lastTurn: number; description: string }>;
+export let STARTING_SP: { German: number; Allied: number };
+export let WITHDRAWAL: { turn: number; side: 'German'; defense: number; prefer: string };
 /** S1.4 tournament start: Allied assault units already ashore, and German units gone before play begins. */
-export const OPTIONAL_START = o.optionalStart as { hexes: Record<string, string>; eliminated: string[]; alliedControl: string[] };
-export const BATTLESHIPS_TURN = o.support.battleshipsTurn as number;
+export let OPTIONAL_START: { hexes: Record<string, string>; eliminated: string[]; alliedControl: string[] };
+export let BATTLESHIPS_TURN: number;
+
+const listeners = new Set<() => void>();
+/** Run `fn` whenever another game's data is loaded (to drop caches built from the old map or counters). */
+export function onGameData(fn: () => void): () => void {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+
+/** Make `id`'s map, tables and counters the ones the engine plays. */
+export function loadGameData(id: string, d: GameData): void {
+  const o = d.oob as any;
+  const built = buildUnits(o, d.units);
+  GAME_ID = id;
+  MAP = d.map as MapData;
+  RULES = buildRules(d.rules);
+  UNIT_DEFS = built.defs;
+  UNIT_SETUP = built.setup;
+  SCENARIOS = o.scenarios;
+  STARTING_SP = o.startingSupplyPoints;
+  WITHDRAWAL = o.withdrawal;
+  OPTIONAL_START = o.optionalStart;
+  BATTLESHIPS_TURN = o.support?.battleshipsTurn ?? Infinity;
+  for (const f of [...listeners]) f();
+}
+
+loadGameData('salerno43', SALERNO_DATA);

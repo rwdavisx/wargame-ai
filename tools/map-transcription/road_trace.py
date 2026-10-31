@@ -1,4 +1,4 @@
-"""Trace roads on a rulebook map excerpt hex by hex and compare with data/map.json.
+"""Trace roads on a rulebook map excerpt hex by hex and compare with data/salerno43/map.json.
 
 Usage: python3 road_trace.py NAME OUT.json [MASK.png]
 Road pixels: grey (major roads, opened to drop the thin hex grid lines) and tan (minor roads).

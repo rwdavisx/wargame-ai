@@ -1,4 +1,4 @@
-"""Draw data/map.json over each photo so the transcription can be checked by eye.
+"""Draw data/salerno43/map.json over each photo so the transcription can be checked by eye.
 
 Usage: python3 audit.py OUTDIR [tile]   -> OUTDIR/<photo>_full.jpg and 3x2 tiles per photo.
 Letters at hex centres: C clear, H hill, M marsh, S sea. Hexsides: cyan river, magenta
@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
-m = json.load(open('../../data/map.json'))
+m = json.load(open('../../data/salerno43/map.json'))
 HX, SD = m['hexes'], m['hexsides']
 F = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 20)
 f = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 11)

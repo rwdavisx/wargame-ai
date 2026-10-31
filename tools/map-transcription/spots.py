@@ -1,5 +1,5 @@
 """Contact sheets of map spots for review by eye: for each spot, the photo (left, with a faint grid
-and hex ids) beside the same crop with data/map.json drawn over it (right; legend in review.py).
+and hex ids) beside the same crop with data/salerno43/map.json drawn over it (right; legend in review.py).
 
 Usage: python3 spots.py SPOTS_TXT OUTDIR [PREFIX]
 SPOTS_TXT has one spot per line:  label | target [| photo]

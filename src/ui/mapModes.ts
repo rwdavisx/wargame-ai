@@ -1,6 +1,6 @@
 // Map modes, as in grand-strategy games: one at a time, each shading the hexes to answer one question
 // (where is supply, who holds what, where are the zones of control...). Pure: state in, shapes out.
-import { MAP, RULES } from '../engine/data';
+import { MAP, onGameData, RULES } from '../engine/data';
 import { inNavalRange } from '../engine/combat';
 import { distance, neighbors, type HexId } from '../engine/hex';
 import { supplyChecker, supplySources } from '../engine/supply';
@@ -48,6 +48,10 @@ export interface ModeLayer {
 
 const land = () => Object.keys(MAP.hexes).filter((h) => MAP.hexes[h].terrain !== 'sea');
 let landCache: HexId[] | null = null;
+onGameData(() => {
+  landCache = null;
+  terrainCache = null;
+});
 const landHexes = () => (landCache ??= land());
 
 function hexPath(hexes: Iterable<HexId>, inset = 0.6): string {

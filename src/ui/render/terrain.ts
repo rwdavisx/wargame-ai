@@ -3,7 +3,7 @@
 // that deepens away from the coast, woods and village rooftops. Everything is
 // derived from map.json, so edits made in the map editor show up after a
 // re-render. Crisp line work (rivers, roads, labels) is drawn on top in SVG.
-import { MAP } from '../../engine/data';
+import { GAME_ID, MAP } from '../../engine/data';
 import { distance, hexId, neighbors, parseHex, sideKey } from '../../engine/hex';
 import type { HexData } from '../../engine/types';
 import { center, chainSegments, corners, edge, mapBounds, rng, smoothPath, wiggle, type Bounds, type Pt } from './geom';
@@ -149,7 +149,7 @@ function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
-  return (h >>> 0).toString(36);
+  return `${GAME_ID}:${(h >>> 0).toString(36)}`;
 }
 
 function idb(): Promise<IDBDatabase | null> {
@@ -183,9 +183,15 @@ async function cachePut(key: string, value: { blob: Blob }): Promise<void> {
   const db = await idb();
   if (!db) return;
   try {
+    // One painted map per game: replace this game's older pictures, keep the other games'.
     const tx = db.transaction('img', 'readwrite');
-    tx.objectStore('img').clear();
-    tx.objectStore('img').put(value, key);
+    const store = tx.objectStore('img');
+    const game = key.split(':')[0];
+    const keys = store.getAllKeys();
+    keys.onsuccess = () => {
+      for (const k of keys.result) if (String(k).split(':')[0] === game || !String(k).includes(':')) store.delete(k);
+      store.put(value, key);
+    };
   } catch {
     /* storage unavailable */
   }

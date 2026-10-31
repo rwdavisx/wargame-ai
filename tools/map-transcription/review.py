@@ -1,4 +1,4 @@
-"""Draw data/map.json over the map photos and the rulebook excerpts for review by eye.
+"""Draw data/salerno43/map.json over the map photos and the rulebook excerpts for review by eye.
 
 Usage: python3 review.py OUTDIR [name ...]
   names: photo keys from mappers.PHOTOS ('1','2','3','5','6') and excerpt names from
@@ -17,7 +17,7 @@ from grid import grid_xy
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-m = json.load(open(os.path.join(HERE, '../../data/map.json')))
+m = json.load(open(os.path.join(HERE, '../../data/salerno43/map.json')))
 HX, SD = m['hexes'], m['hexsides']
 FB = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 FR = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'

@@ -9,7 +9,8 @@ import { Insignia } from './render/units';
 import { sfx } from './sound';
 import { BUILD } from './version';
 import type { Controller, MouseControls, Settings } from './storage';
-import { Button, CheckboxInput, Dialog, DialogHeader, Heading, HStack, SegmentedControl, SegmentedControlItem, TextInput, VStack } from '@astryxdesign/core';
+import { Badge, Button, Card, CheckboxInput, Dialog, DialogHeader, Heading, HStack, SegmentedControl, SegmentedControlItem, Text, TextInput, ToggleButton, VStack } from '@astryxdesign/core';
+import { GAMES, gameInfo } from '../games';
 import { ChoiceCard, SectionLabel } from './astryx/kit';
 
 /** A side's emblem for a choice card. */
@@ -46,22 +47,51 @@ function Backdrop({ terrain }: { terrain: TerrainImage }) {
   );
 }
 
-export function TitleScreen({ terrain, canContinue, onContinue, onNew, onOnline, onSettings, onHowTo }: {
-  terrain: TerrainImage; canContinue: boolean; onContinue: () => void; onNew: () => void; onOnline: () => void; onSettings: () => void; onHowTo: () => void;
+export function TitleScreen({ terrain, gameId, onChooseGame, canContinue, onContinue, onNew, onOnline, onSettings, onHowTo }: {
+  terrain: TerrainImage; gameId: string; onChooseGame: (id: string) => void; canContinue: boolean; onContinue: () => void; onNew: () => void;
+  onOnline: () => void; onSettings: () => void; onHowTo: () => void;
 }) {
   const click = (f: () => void) => () => {
     sfx.click();
     f();
   };
+  // The game shown: the loaded one, or a game still in preparation the player is looking at.
+  const [shownId, setShownId] = useState(gameId);
+  const shown = gameInfo(shownId);
+  const preparing = shown.status !== 'ready';
   return (
     <div className="screen title">
       <Backdrop terrain={terrain} />
       <div className="title-col">
+        <HStack gap={2} className="game-picker" wrap="wrap" role="group" aria-label="Game">
+          {GAMES.map((g) => (
+            <ToggleButton key={g.id} label={g.title} isPressed={g.id === shownId} className="game-pick"
+              onPressedChange={() => {
+                sfx.click();
+                setShownId(g.id);
+                if (g.status === 'ready') onChooseGame(g.id);
+              }}>
+              {g.title}{g.status !== 'ready' && <Badge variant="warning" label="In preparation" />}
+            </ToggleButton>
+          ))}
+        </HStack>
         <div className="logo">
-          <div className="logo-kicker">OPERATION AVALANCHE</div>
-          <div className="logo-title">SALERNO '43</div>
-          <div className="logo-date">9 – 30 SEPTEMBER 1943</div>
+          <div className="logo-kicker">{shown.kicker}</div>
+          <div className="logo-title">{shown.title}</div>
+          <div className="logo-date">{shown.dates}</div>
         </div>
+        {preparing ? (
+          <Card padding={4} className="game-preparing" maxWidth={560}>
+            <VStack gap={2}>
+              <Heading level={3} className="choice-title">{shown.name} is being prepared</Heading>
+              <Text color="secondary" display="block">{shown.blurb} It uses the same system as the other games, and will be playable here once its map and counters are entered.</Text>
+              <SectionLabel>Done</SectionLabel>
+              <ul className="prep-list done">{shown.progress?.done.map((t) => <li key={t}>{t}</li>)}</ul>
+              <SectionLabel>Still to do</SectionLabel>
+              <ul className="prep-list">{shown.progress?.todo.map((t) => <li key={t}>{t}</li>)}</ul>
+            </VStack>
+          </Card>
+        ) : (
         <VStack gap={2} className="main-menu" width={260}>
           {canContinue && <Button label="Continue" variant="primary" size="lg" width="100%" onClick={click(onContinue)} />}
           <Button label="New operation" variant={canContinue ? 'secondary' : 'primary'} size="lg" width="100%" onClick={click(onNew)} />
@@ -69,7 +99,8 @@ export function TitleScreen({ terrain, canContinue, onContinue, onNew, onOnline,
           <Button label="How to play" size="lg" width="100%" onClick={click(onHowTo)} />
           <Button label="Settings" size="lg" width="100%" onClick={click(onSettings)} />
         </VStack>
-        <div className="title-foot">A digital companion to GMT Games' Salerno '43 · keep your copy of the game at hand for the full rules<span className="build">Build {BUILD}</span></div>
+        )}
+        <div className="title-foot">A digital companion to GMT Games’ {shown.name} · keep your copy of the game at hand for the full rules<span className="build">Build {BUILD}</span></div>
       </div>
     </div>
   );

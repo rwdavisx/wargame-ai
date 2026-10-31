@@ -1,4 +1,4 @@
-"""Apply a list of map corrections to data/map.json.
+"""Apply a list of map corrections to data/salerno43/map.json.
 
 Usage: python3 apply_fixes.py FIXES_TXT [FIXES_TXT ...]
 
@@ -17,7 +17,7 @@ Every operation is idempotent, so the files can be re-applied.
 import sys, json, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-P = os.path.join(HERE, '../../data/map.json')
+P = os.path.join(HERE, '../../data/salerno43/map.json')
 
 
 def neighbors(h):

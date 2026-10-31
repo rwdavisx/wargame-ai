@@ -1,7 +1,7 @@
 // Set-up, Turn 1 (section 24) and the scenario rules (S1, S2). The set-up tables below are what the engine uses;
 // they match the owner's photos of the Campaign Game / Avalanche Scenario Axis and Allied At Start cards (with
 // their reinforcement schedules), the back of the Allied card (S1.4 optional start) and the counters (set-up hex or
-// arrival code printed on each). A correction to data/oob.json shows up here as a diff.
+// arrival code printed on each). A correction to data/salerno43/oob.json shows up here as a diff.
 import { describe, expect, it } from 'vitest';
 import { MAP, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP } from '../../src/engine/data';
 import { neighbors } from '../../src/engine/hex';

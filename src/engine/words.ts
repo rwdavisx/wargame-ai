@@ -1,11 +1,12 @@
 // Plain-English wording for the log: place names, unit lists and combat results.
 // Text only; nothing here touches the rules.
-import { MAP } from './data';
+import { MAP, onGameData } from './data';
 import { distance, type HexId } from './hex';
 import type { CombatReport, Phase, Side } from './types';
 import { def } from './units';
 
 let named: [HexId, string][] | null = null;
+onGameData(() => (named = null));
 /** Hexes with a city or town name (built lazily, after any map overrides are applied). */
 function namedHexes(): [HexId, string][] {
   return (named ??= Object.entries(MAP.hexes).filter(([, d]) => d.city || d.town).map(([h, d]) => [h, (d.city ?? d.town)!]));

@@ -1,5 +1,5 @@
 // Combat: odds, column shifts, CRT, Determined Defense, advance after combat.
-import { BATTLESHIPS_TURN, MAP, RULES } from './data';
+import { BATTLESHIPS_TURN, MAP, onGameData, RULES } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import { eliminate, loseStep, takeSteps } from './losses';
 import { isExtended, movementAllowance, weatherBox } from './movement';
@@ -59,6 +59,7 @@ function gunfireSea(hex: HexId): boolean {
 }
 
 let navalCache: Map<HexId, boolean> | null = null;
+onGameData(() => (navalCache = null));
 /** Target within 2 hexes of the sea south of Campanella Point. */
 export function inNavalRange(hex: HexId): boolean {
   if (!navalCache) {

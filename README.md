@@ -125,11 +125,11 @@ Open from the title screen or the top bar: who commands each side, the computer'
 | Area | Source |
 |---|---|
 | Map: 851 hexes of terrain, rivers, mountain hexsides, passes, roads, cities, towns, ports, VP hexes, beaches, entry areas, 8th Army sector | Your six map photos, calibrated to the hex grid and classified per hex, with roads traced by hand |
-| Combat results table, Determined Defense table, column shifts, terrain effects, invasion, airdrop, disengagement, isolation, rally, variable strength and landing-point tables | Your player-aid cards (`data/rules.json`) |
-| Order of battle, set-up hexes, reinforcement schedule, replacements | Your two set-up cards (`data/oob.json`) |
+| Combat results table, Determined Defense table, column shifts, terrain effects, invasion, airdrop, disengagement, isolation, rally, variable strength and landing-point tables | Your player-aid cards (`data/salerno43/rules.json`) |
+| Order of battle, set-up hexes, reinforcement schedule, replacements | Your two set-up cards (`data/salerno43/oob.json`) |
 | Sequence of play, movement modes, zones of control and bonds, Main Assault Force, retreats, Full Retreat, advance after combat, supply and isolation, landings, entry areas, 8th Army, victory | The living rules (August 2022), implemented in the program's own code |
 
-The tables in `data/rules.json` are what the engine uses; the **Rules** tab shows them. Descriptions there are the program's own summaries, not rulebook text.
+The tables in `data/salerno43/rules.json` are what the engine uses; the **Rules** tab shows them. Descriptions there are the program's own summaries, not rulebook text.
 
 ### Simplifications and assumptions
 
@@ -139,10 +139,10 @@ The tables in `data/rules.json` are what the engine uses; the **Rules** tab show
 
 ### Correcting the data
 
-1. **Rules tables:** edit `data/rules.json`.
-2. **Counters and set-up:** edit `data/oob.json`. Each unit has `a`, `d`, `m` (full strength), `sp`, a category (`cat`), a `start` (`hex`, `beach` or `followUp`) or an `arrive` (`turn` and `at`: `reserve`, `airdrop`, `hex:XXXX`, an edge `N`/`S`/`E` or an entry area such as `S2`).
+1. **Rules tables:** edit `data/salerno43/rules.json`.
+2. **Counters and set-up:** edit `data/salerno43/oob.json`. Each unit has `a`, `d`, `m` (full strength), `sp`, a category (`cat`), a `start` (`hex`, `beach` or `followUp`) or an `arrive` (`turn` and `at`: `reserve`, `airdrop`, `hex:XXXX`, an edge `N`/`S`/`E` or an entry area such as `S2`).
 3. **Counter backs:** `"back": "a-d-m"` is the reverse of a counter and `"backSp"` its stacking points when they differ from the front; `"back": "none"` marks a one-step counter. A unit without `back` falls back to an estimate (each step -2 attack and -2 defense).
-4. **Map fixes:** open **Settings → Open the map editor** during a game and click any hex to change its terrain, city, VP, port and its six hexsides (river, mountain, pass, road). Edits apply immediately and persist in the browser. **Export map.json** to save them into `data/map.json` for good.
+4. **Map fixes:** open **Settings → Open the map editor** during a game and click any hex to change its terrain, city, VP, port and its six hexsides (river, mountain, pass, road). Edits apply immediately and persist in the browser. **Export map.json** to save them into `data/salerno43/map.json` for good.
 
 ### Known map uncertainties
 
@@ -160,8 +160,9 @@ The interface is built with [Astryx](https://astryx.atmeta.com/), Meta's open-so
 ## Project layout
 
 ```
-data/          map.json (transcribed map), rules.json, oob.json
+data/<game>/   each game's map.json (transcribed map), rules.json (tables), oob.json (counters): salerno43, italy43 (in preparation)
 src/engine/    rules engine: hex grid, movement, ZOC bonds, combat, breakthroughs, retreats, supply, phases, victory
+src/games/     the game registry: the games the system plays, picked on the home screen; each game's data module
 src/ai/        built-in heuristic AI, Claude AI, self-play
 src/net/       online play: the shared game (setup + action list in chunks), seats, sync and replay; a local stand-in store for tests and two-tab development
 src/ui/        React UI

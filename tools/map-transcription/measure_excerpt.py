@@ -1,5 +1,5 @@
 """Measure terrain, rivers, roads and mountain cover from a rulebook map excerpt and list
-where data/map.json disagrees.
+where data/salerno43/map.json disagrees.
 
 Usage: python3 measure_excerpt.py NAME OUT.json
 The excerpts are clean digital art, so plain colour classes work:

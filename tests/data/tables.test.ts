@@ -1,4 +1,4 @@
-// Every table in data/rules.json (and the unit-type table in data/oob.json) checked cell by cell
+// Every table in data/salerno43/rules.json (and the unit-type table in data/salerno43/oob.json) checked cell by cell
 // against the physical game's player aids. The expected values below were typed in again, by hand,
 // from photos of the owner's copies:
 //   CRT card ............ Combat Results Table, Determined Defense Table, Isolation Attrition,
@@ -12,8 +12,8 @@
 //   Rulebook ............ numbers given only in the text (stacking, supply, landing points, ...)
 // A failure names the table, the row and the column, the value in the data and the printed value.
 import { describe, expect, it } from 'vitest';
-import rules from '../../data/rules.json';
-import oob from '../../data/oob.json';
+import rules from '../../data/salerno43/rules.json';
+import oob from '../../data/salerno43/oob.json';
 import { RULES } from '../../src/engine/data';
 
 const R = rules as any;

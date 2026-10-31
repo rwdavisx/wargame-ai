@@ -1,5 +1,5 @@
 """Find town circles (light disc with a black ring) and red VP discs on a rulebook excerpt and
-compare their hexes with data/map.json.
+compare their hexes with data/salerno43/map.json.
 
 Usage: python3 towns_excerpt.py NAME
 """

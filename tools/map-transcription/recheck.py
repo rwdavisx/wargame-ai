@@ -1,4 +1,4 @@
-"""Re-measure terrain from the photos using the rulebook definitions and compare with data/map.json.
+"""Re-measure terrain from the photos using the rulebook definitions and compare with data/salerno43/map.json.
 
 - Hex terrain (clear or hill) is the terrain at the hex centre: six 7x7 patches 0.2 hex from the
   centre (clear of the town symbol) vote.
@@ -13,7 +13,7 @@ from hexsides import neighbors
 from PIL import Image
 
 OUT = sys.argv[1]
-m = json.load(open('../../data/map.json'))
+m = json.load(open('../../data/salerno43/map.json'))
 HX, SD = m['hexes'], m['hexsides']
 cache = {}
 def photo(o):

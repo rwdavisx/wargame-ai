@@ -4,6 +4,8 @@ import { newGame } from '../engine/game';
 import type { GameOptions, GameState, Side } from '../engine/types';
 import { humanSides as netSides, seatedOn, type NetLink, type NetSession } from '../net/session';
 import { NetLobby } from './NetLobby';
+import { GAME_ID, SCENARIOS } from '../engine/data';
+import { selectGame } from '../games';
 import { GameScreen } from './GameScreen';
 import { renderTerrain, type TerrainImage } from './render/terrain';
 import { TokenDefs } from './render/units';
@@ -19,13 +21,17 @@ const noSub = () => () => {};
 // In an online game the session holds the position; the battle screen moves it through the session only.
 const ignoreNetSet = () => {};
 const zero = () => 0;
+/** A fresh game of the loaded game's first scenario (what the title screen shows behind its menu). */
+const freshGame = () => newGame(Object.keys(SCENARIOS).includes('short') ? 'short' : Object.keys(SCENARIOS)[0]);
 
 export default function App() {
   const [settings, setSettingsState] = useState<Settings>(loadSettings);
+  // The game of the series the engine has loaded (chosen on the home screen, or by an online game).
+  const [gameId, setGameId] = useState(() => selectGame(loadSettings().game));
   const [screen, setScreen] = useState<Screen>('loading');
   const [terrain, setTerrain] = useState<TerrainImage | null>(null);
   const [progress, setProgress] = useState<{ f: number; label: string }>({ f: 0, label: 'Unfolding the map' });
-  const [game, setGame] = useState<GameState>(() => loadAutosave() ?? newGame('short'));
+  const [game, setGame] = useState<GameState>(() => loadAutosave() ?? freshGame());
   const [mapVersion, setMapVersion] = useState(0);
   const [modal, setModal] = useState<'none' | 'settings' | 'howto'>('none');
   const [canContinue, setCanContinue] = useState(hasAutosave);
@@ -77,6 +83,11 @@ export default function App() {
     if (import.meta.env.DEV) (window as unknown as { __net?: NetSession | null }).__net = net;
   }, [net]);
   const enterNet = (s: NetSession) => {
+    // An online game of another game of the series (the lobby has loaded its data): paint its map.
+    if (GAME_ID !== gameId) {
+      setGameId(GAME_ID);
+      setTerrain(null);
+    }
     setNet(s);
     setScreen(s.shown > 0 ? 'game' : 'briefing');
   };
@@ -84,7 +95,7 @@ export default function App() {
     net?.stop();
     setNet(null);
     setNames({});
-    setGame(loadAutosave() ?? newGame('short'));
+    setGame(loadAutosave() ?? freshGame());
     setCanContinue(hasAutosave());
   };
 
@@ -96,8 +107,14 @@ export default function App() {
   useEffect(() => {
     if (rendering.current) return;
     rendering.current = true;
+    const forGame = GAME_ID;
     renderTerrain((f, label) => setProgress({ f, label }))
       .then((t) => {
+        // The game changed while this map was being painted: paint the new one.
+        if (forGame !== GAME_ID) {
+          setMapVersion((v) => v + 1);
+          return;
+        }
         setTerrain(t);
         setScreen((s) => (s === 'loading' ? 'title' : s));
       })
@@ -105,7 +122,19 @@ export default function App() {
       .finally(() => {
         rendering.current = false;
       });
-  }, [mapVersion]);
+  }, [mapVersion, gameId]);
+
+  /** Load another game of the series: its map is painted and its own autosave becomes Continue. */
+  const chooseGame = (id: string) => {
+    const loaded = selectGame(id);
+    if (loaded === gameId) return;
+    setGameId(loaded);
+    setSettings({ ...settings, game: loaded });
+    setGame(loadAutosave() ?? freshGame());
+    setCanContinue(hasAutosave());
+    setTerrain(null);
+    setScreen('loading');
+  };
 
   const startNew = (scenario: string, options: GameOptions) => {
     setGame(newGame(scenario, undefined, options));
@@ -127,7 +156,7 @@ export default function App() {
     <>
       <TokenDefs />
       {screen === 'title' && (
-        <TitleScreen terrain={terrain} canContinue={canContinue} onContinue={() => setScreen('game')} onNew={() => setScreen('new')} onOnline={() => setScreen('lobby')}
+        <TitleScreen terrain={terrain} gameId={gameId} onChooseGame={chooseGame} canContinue={canContinue} onContinue={() => setScreen('game')} onNew={() => setScreen('new')} onOnline={() => setScreen('lobby')}
           onSettings={() => setModal('settings')} onHowTo={() => setModal('howto')} />
       )}
       {screen === 'new' && <NewGameScreen terrain={terrain} settings={settings} setSettings={setSettings} onStart={startNew} onBack={() => setScreen('title')} />}

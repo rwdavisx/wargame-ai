@@ -1,4 +1,4 @@
-"""Look for road crossings on every hexside in the map photos and list where data/map.json differs.
+"""Look for road crossings on every hexside in the map photos and list where data/salerno43/map.json differs.
 
 Usage: python3 photo_roads.py OUT.json
 A minor road is drawn as a light core between two black dashed lines, so a crossing needs light

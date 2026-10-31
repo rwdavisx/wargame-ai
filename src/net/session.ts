@@ -2,6 +2,7 @@
 // from the seed, so every device that replays the list reaches the same position. The list lives in the shared
 // store in chunks; each device appends its own player's actions under a short lease and watches for the others'.
 import type { Difficulty } from '../ai/heuristic';
+import { GAME_ID } from '../engine/data';
 import { actingSide, newGame, withAction } from '../engine/game';
 import type { Action, GameOptions, GameState, Side } from '../engine/types';
 import type { Controller } from '../ui/storage';
@@ -16,6 +17,8 @@ export type NetMode = 'versus' | 'coop';
 /** The game's header document: who sits where, and a summary for the lobby. */
 export interface NetHead {
   v: 1;
+  /** The game of the series (absent for games opened before there was more than one: Salerno '43). */
+  game?: string;
   title: string;
   mode: NetMode;
   scenario: string;
@@ -437,7 +440,7 @@ export async function createGame(db: Db, me: string, setup: {
   const g = newGame(setup.scenario, seed, options);
   const now = Date.now();
   const head: NetHead = {
-    v: 1, title: setup.title, mode: setup.mode, scenario: setup.scenario, seed, options, host: me, seats: { [me]: setup.side },
+    v: 1, game: GAME_ID, title: setup.title, mode: setup.mode, scenario: setup.scenario, seed, options, host: me, seats: { [me]: setup.side },
     ...(setup.name ? { names: { [me]: setup.name } } : {}),
     aiSide, aiLevel: setup.aiLevel, created: now, updated: now, turn: g.turn, phase: g.phase, active: actingSide(g), n: 0,
   };

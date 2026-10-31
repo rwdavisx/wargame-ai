@@ -197,7 +197,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:doRecovery",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "13.5"
@@ -665,7 +665,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:doSupply",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "16.5.3"
@@ -1008,7 +1008,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:lpCost",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "18.4.3"
@@ -1044,7 +1044,7 @@
   "status": "implemented",
   "code": [
    "src/engine/data.ts",
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "19.1",
@@ -1072,7 +1072,7 @@
   "code": [
    "src/engine/game.ts:afterMoveChecks",
    "src/engine/game.ts:doInitial",
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "19.2"
@@ -1139,7 +1139,7 @@
   "code": [
    "src/engine/game.ts:applyReplacement",
    "src/engine/game.ts:doInitial",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "20.1.1"
@@ -1151,7 +1151,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:replPool",
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "20.1.2"
@@ -1287,7 +1287,7 @@
   "code": [
    "src/engine/game.ts:doInitial",
    "src/engine/game.ts:areaOfEdge",
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "21.1.1"
@@ -1477,8 +1477,8 @@
    "src/engine/game.ts:landingHexes",
    "src/engine/game.ts:applyAction case 'land'",
    "src/engine/game.ts:endPhase",
-   "data/oob.json",
-   "data/rules.json"
+   "data/salerno43/oob.json",
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "21.6.1"
@@ -1539,7 +1539,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:doWeather",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "22.1"
@@ -1564,7 +1564,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:readySupport",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "22.2.1"
@@ -1610,7 +1610,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:doWeather",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "22.3.1"
@@ -1729,7 +1729,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:doVictoryCheck",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "23.2"
@@ -1782,8 +1782,8 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:runInvasion",
-   "data/oob.json",
-   "data/rules.json"
+   "data/salerno43/oob.json",
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "24.2.1"
@@ -1929,7 +1929,7 @@
   "status": "implemented",
   "code": [
    "src/engine/combat.ts:resolveDisengage",
-   "data/rules.json"
+   "data/salerno43/rules.json"
   ],
   "tests": [
    "25.1.2"
@@ -1987,13 +1987,13 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:newGame",
-   "data/oob.json",
+   "data/salerno43/oob.json",
    "src/engine/data.ts"
   ],
   "tests": [
    "S1.1"
   ],
-  "notes": "8 turns; Campaign At Start cards (data/oob.json matches the photographed Axis and Allied cards and counters); all four Allied support markers ready, Luftwaffe on the weather track; SP Allied 0 / German 3; weather A, turn 1."
+  "notes": "8 turns; Campaign At Start cards (data/salerno43/oob.json matches the photographed Axis and Allied cards and counters); all four Allied support markers ready, Luftwaffe on the weather track; SP Allied 0 / German 3; weather A, turn 1."
  },
  {
   "id": "S1.2",
@@ -2024,7 +2024,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:newGame",
-   "data/oob.json",
+   "data/salerno43/oob.json",
    "src/engine/types.ts:GameOptions.optionalStart",
    "src/ui/screens.tsx"
   ],
@@ -2038,7 +2038,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:newGame",
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "S2.1"
@@ -2050,7 +2050,7 @@
   "status": "implemented",
   "code": [
    "src/engine/game.ts:withdraw16Pz",
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "S2.2"
@@ -2062,7 +2062,7 @@
   "status": "implemented",
   "code": [
    "src/engine/data.ts:army8",
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "S2.3",
@@ -2086,7 +2086,7 @@
   "id": "S2.3.2",
   "status": "implemented",
   "code": [
-   "data/oob.json"
+   "data/salerno43/oob.json"
   ],
   "tests": [
    "S2.3.2"
@@ -2130,7 +2130,7 @@
   "id": "S2.3.6",
   "status": "implemented",
   "code": [
-   "data/oob.json",
+   "data/salerno43/oob.json",
    "src/engine/losses.ts:loseStep"
   ],
   "tests": [

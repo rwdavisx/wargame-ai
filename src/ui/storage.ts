@@ -1,3 +1,4 @@
+import { GAME_ID } from '../engine/data';
 import type { GameState, Side } from '../engine/types';
 import type { Difficulty } from '../ai/heuristic';
 
@@ -36,13 +37,16 @@ export interface Settings {
   musicVolume: number;
   /** How well the built-in computer opponent plays. */
   aiLevel: Difficulty;
+  /** The game of the series chosen on the home screen. */
+  game: string;
   /** Before a phase ends, list overstacks, units cut off, open objectives and good attacks not taken. */
   endChecks: boolean;
   /** Online: buzz and chime when the other player hands the game back. */
   turnAlerts: boolean;
 }
 
-const GAME_KEY = 's43.autosave.v2'; // v1 saves predate the real rules and are ignored
+// One autosave per game (Salerno's keeps its original key; its v1 saves predate the real rules and are ignored).
+const gameKey = (id: string) => (id === 'salerno43' ? 's43.autosave.v2' : `${id}.autosave.v1`);
 const SETTINGS_KEY = 's43.settings.v1';
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -68,6 +72,7 @@ export const DEFAULT_SETTINGS: Settings = {
   music: true,
   musicVolume: 0.35,
   aiLevel: 'veteran',
+  game: 'salerno43',
   endChecks: true,
   turnAlerts: true,
 };
@@ -107,18 +112,20 @@ export function saveSettings(s: Settings): void {
   set(SETTINGS_KEY, JSON.stringify(s));
 }
 
-export function loadAutosave(): GameState | null {
-  const raw = get(GAME_KEY);
+/** The autosave of the game loaded in the engine (or of `id`). */
+export function loadAutosave(id: string = GAME_ID): GameState | null {
+  const raw = get(gameKey(id));
   if (!raw) return null;
   try {
-    return JSON.parse(raw) as GameState;
+    const g = JSON.parse(raw) as GameState;
+    return (g.gameId ?? 'salerno43') === id ? g : null;
   } catch {
     return null;
   }
 }
 
 export function autosave(g: GameState): void {
-  set(GAME_KEY, JSON.stringify(g));
+  set(gameKey(g.gameId ?? 'salerno43'), JSON.stringify(g));
 }
 
 export function downloadText(filename: string, text: string): void {

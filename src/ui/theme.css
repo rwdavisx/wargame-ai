@@ -741,3 +741,13 @@ kbd {
 @media (max-width: 820px), (max-height: 520px) {
   .top-buttons > * { width: 38px !important; height: 38px !important; }
 }
+
+/* ------------------------------------------------------------------ the game picker */
+.game-picker { margin-bottom: -18px; }
+.game-pick { gap: 8px; }
+.game-preparing ul.prep-list { margin: 0; padding-left: 20px; color: #d9d3c0; line-height: 1.55; font-size: 14px; }
+.game-preparing ul.prep-list.done li::marker { content: '✓  '; color: var(--allied); }
+/* The title screen scrolls when its content is taller than the display (centred otherwise). */
+.screen.title { overflow-y: auto; align-items: flex-start; }
+.screen.title .title-col { margin-block: auto; padding-block: max(20px, env(safe-area-inset-top)) 24px; }
+.game-pick .astryx-badge, .game-pick [class*='badge'] { margin-left: 8px; }

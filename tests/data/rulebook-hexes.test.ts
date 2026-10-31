@@ -1,11 +1,11 @@
 // Every hex the living rules name, by number or by place, with what the rulebook says about it
-// (in this program's own words), checked against data/map.json and data/oob.json.
+// (in this program's own words), checked against data/salerno43/map.json and data/salerno43/oob.json.
 // Four-digit numbers in the rulebook text: 2202, 2811, 2425/2426, 4100/4201, 3113 (the others are
 // years, page furniture and GMT's P.O. box). The example of play on pages 27-31 names places
 // instead of hexes; its map excerpts also print the set-up hexes on the German counters.
 import { describe, expect, it } from 'vitest';
-import mapJson from '../../data/map.json';
-import oobJson from '../../data/oob.json';
+import mapJson from '../../data/salerno43/map.json';
+import oobJson from '../../data/salerno43/oob.json';
 import { distance, neighbors, parseHex, sideKey } from '../../src/engine/hex';
 import type { HexData, MapData } from '../../src/engine/types';
 

@@ -1,10 +1,10 @@
 // Lets the owner correct the transcribed map against their physical copy.
 // Edits are kept in localStorage and applied on start-up; the full map can be
-// exported as JSON to replace data/map.json.
-import { MAP } from '../engine/data';
+// exported as JSON to replace the game's map.json (data/<game>/map.json). Each game keeps its own edits.
+import { GAME_ID, MAP, onGameData } from '../engine/data';
 import type { HexData, HexsideData } from '../engine/types';
 
-const KEY = 's43.mapOverrides.v1';
+const key = () => (GAME_ID === 'salerno43' ? 's43.mapOverrides.v1' : `${GAME_ID}.mapOverrides.v1`);
 
 interface Overrides {
   hexes: Record<string, HexData>;
@@ -13,7 +13,7 @@ interface Overrides {
 
 function read(): Overrides {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStorage.getItem(key());
     if (raw) return JSON.parse(raw) as Overrides;
   } catch {
     /* storage unavailable */
@@ -23,11 +23,14 @@ function read(): Overrides {
 
 function write(o: Overrides): void {
   try {
-    localStorage.setItem(KEY, JSON.stringify(o));
+    localStorage.setItem(key(), JSON.stringify(o));
   } catch {
     /* storage unavailable */
   }
 }
+
+// Another game's map: apply that game's own edits to it.
+onGameData(() => applyMapOverrides());
 
 export function applyMapOverrides(): void {
   const o = read();
@@ -65,7 +68,7 @@ export function overrideCount(): number {
 
 export function clearOverrides(): void {
   try {
-    localStorage.removeItem(KEY);
+    localStorage.removeItem(key());
   } catch {
     /* storage unavailable */
   }

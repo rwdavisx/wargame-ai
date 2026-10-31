@@ -1,4 +1,4 @@
-"""Apply the second check of the map photos (recheck.py) to data/map.json.
+"""Apply the second check of the map photos (recheck.py) to data/salerno43/map.json.
 
 Usage: python3 apply_recheck.py RECHECK_JSON FIXES_TXT
 
@@ -19,7 +19,7 @@ sys.path.insert(0, '.')
 from hexsides import neighbors
 
 R = json.load(open(sys.argv[1]))
-P = '../../data/map.json'
+P = '../../data/salerno43/map.json'
 m = json.load(open(P))
 HX, SD = m['hexes'], m['hexsides']
 def key(a, b): return f'{a}-{b}' if a < b else f'{b}-{a}'

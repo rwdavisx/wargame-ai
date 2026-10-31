@@ -290,6 +290,8 @@ export interface RetreatChoice {
 }
 
 export interface GameState {
+  /** The game of the series this position belongs to (absent in saves made before there was more than one). */
+  gameId?: string;
   scenarioId: string;
   options?: GameOptions;
   turn: number;
