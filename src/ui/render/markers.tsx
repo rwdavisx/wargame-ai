@@ -3,6 +3,7 @@
 import type { GameState, UnitState } from '../../engine/types';
 import { def, sideOf } from '../../engine/units';
 import { turnLabel } from '../../engine/words';
+import { hand, INK, inkCircle, roughRect } from './handdrawn';
 
 export interface Marker {
   key: string;
@@ -101,15 +102,16 @@ export function CounterMarkers({ markers, x, y }: { markers: Marker[]; x: number
       {shown.map((m, i) => (
         <g key={m.key} transform={`translate(${x - 3.5} ${y + 5 + i * (MH + 0.8)})`} pointerEvents="visiblePainted">
           <title>{m.title}</title>
-          <rect width={MW} height={MH} rx={1.2} fill={m.fill} stroke="#0d0d0b" strokeWidth={0.6} />
-          <rect x={0.9} y={0.9} width={MW - 1.8} height={MH - 1.8} rx={0.6} fill="none" stroke={m.ink} strokeWidth={0.35} opacity={0.45} />
+          {/* A painted paper chit with a pen outline. */}
+          <path d={roughRect(hand(`chit:${m.key}`), 0, 0, MW, MH, 0.3)} fill={m.fill} stroke={INK} strokeWidth={0.6} strokeLinejoin="round" />
+          <path d={roughRect(hand(`chit2:${m.key}`), 0.9, 0.9, MW - 1.8, MH - 1.8, 0.2)} fill="none" stroke={m.ink} strokeWidth={0.3} opacity={0.4} />
           <text x={MW / 2} y={MH / 2 + 2.15} textAnchor="middle" fontSize={m.text.length > 2 ? 5.6 : 6.4} fill={m.ink} className="marker-text">{m.text}</text>
         </g>
       ))}
       {extra > 0 && (
         <g transform={`translate(${x - 3.5} ${y + 5 + shown.length * (MH + 0.8)})`} pointerEvents="visiblePainted">
           <title>{markers.slice(shown.length).map((m) => m.title).join('\n')}</title>
-          <rect width={MW} height={MH} rx={1.2} fill="#24261f" stroke="#0d0d0b" strokeWidth={0.6} />
+          <path d={roughRect(hand('chit:more'), 0, 0, MW, MH, 0.3)} fill="#2b2620" stroke={INK} strokeWidth={0.6} />
           <text x={MW / 2} y={MH / 2 + 2.15} textAnchor="middle" fontSize={5.6} fill="#efe9d6" className="marker-text">+{extra}</text>
         </g>
       )}
@@ -122,7 +124,7 @@ export function ReadyCue({ kind, x, y }: { kind: 'move' | 'attack'; x: number; y
   return (
     <g transform={`translate(${x} ${y})`} className={`ready-cue ${kind}`} pointerEvents="visiblePainted">
       <title>{kind === 'move' ? 'Ready to move' : 'Can still attack'}</title>
-      <circle r={5.6} fill={kind === 'move' ? '#7be0a0' : '#ff8a6a'} stroke="#101410" strokeWidth={0.9} />
+      <path d={inkCircle(hand(`cue:${kind}`), 0, 0, 5.6)} fill={kind === 'move' ? '#7be0a0' : '#ff8a6a'} stroke={INK} strokeWidth={0.9} />
       {kind === 'move' ? (
         <path d="M-2.6,-2.4 L0,0 L-2.6,2.4 M0.4,-2.4 L3,0 L0.4,2.4" fill="none" stroke="#0f2a1a" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
       ) : (
@@ -138,7 +140,7 @@ export function MoveLeftTab({ text, y }: { text: string; y: number }) {
   return (
     <g transform={`translate(0 ${y})`} pointerEvents="visiblePainted">
       <title>{`${text} of movement left this phase`}</title>
-      <rect x={-w / 2} y={0} width={w} height={8} rx={2} fill="#59c3e8" stroke="#0d1a20" strokeWidth={0.7} />
+      <path d={roughRect(hand(`tab:${text}`), -w / 2, 0, w, 8, 0.3)} fill="#59c3e8" stroke={INK} strokeWidth={0.7} strokeLinejoin="round" />
       <text y={6} textAnchor="middle" fontSize={6} fill="#08202b" className="marker-text">{text}</text>
     </g>
   );

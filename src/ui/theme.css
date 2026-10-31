@@ -411,6 +411,8 @@ textarea { width: 100%; font: 12px monospace; background: #0f1310; color: var(--
 .sea-label { font: italic 400 30px 'IM Fell English', Georgia, serif; fill: rgba(30, 62, 96, 0.55); letter-spacing: 9px; }
 .outlined { stroke: #10202e; stroke-width: 2px; paint-order: stroke; font-family: var(--hud); }
 .token-num { font-family: var(--hud); letter-spacing: 0.6px; }
+/* Lettering on the counters that is drawn rather than typeset: unit IDs, size marks, formation names. */
+.token-letter { font-family: 'IM Fell English', Georgia, serif; }
 .token-select { animation: pulse 1.2s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { stroke-opacity: 1; } 50% { stroke-opacity: 0.35; } }
 .sel-hex { stroke-dasharray: 6 4; animation: march 1s linear infinite; }
