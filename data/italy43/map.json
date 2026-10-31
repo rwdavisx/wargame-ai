@@ -309,6 +309,7 @@
   },
   "1000": {
    "city": "Terracina",
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fffe7ffff3fff03ffc01ffc00f9800f000040000000000000",
    "harbour": true,
    "terrain": "hill",
    "vp": 4
@@ -356,6 +357,7 @@
    "terrain": "hill"
   },
   "1101": {
+   "coast": "03fe007ff007ff00ffe00ffc01ff803ff003fe007fc003fc003f8001f0000f0000e000040000000000000",
    "terrain": "marsh"
   },
   "1102": {
@@ -401,9 +403,11 @@
    "terrain": "hill"
   },
   "1201": {
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fffe7ffff3fffe3fffe1fffc0fff00ffe007fc007fc003f80",
    "terrain": "marsh"
   },
   "1202": {
+   "coast": "03f0007f0007f000fe000fc001f8003f0003e0007e0003e0003e0001c0000c00008000000000000000000",
    "terrain": "clear"
   },
   "1203": {
@@ -453,11 +457,13 @@
    "terrain": "hill"
   },
   "1304": {
+   "coast": "03fe007ff007fe00ffe00ffe01ffe03ffe03ffc07ffc03ff803ff801ff800ff800ff8007f8007fc003fc0",
    "harbour": true,
    "label": "Sperlonga",
    "terrain": "hill"
   },
   "1305": {
+   "coast": "03e0007e0007c000f8000f0001f0003f0003e0007e0003c0003c0001c0000c0000c000040000000000000",
    "terrain": "hill"
   },
   "1306": {
@@ -503,9 +509,11 @@
    "terrain": "hill"
   },
   "1405": {
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fffe7ffff3fff83ffe01ffe00ffc00ffc007fc007fe003fe0",
    "terrain": "hill"
   },
   "1406": {
+   "coast": "03fe007fe007fc00ffc00ffc01ff803ff803ff007f0003f0003f0001f0000e0000e000040000000000000",
    "terrain": "hill"
   },
   "1407": {
@@ -554,6 +562,7 @@
    "terrain": "hill"
   },
   "1507": {
+   "coast": "000200003000070000f8000f8001fc001fe001f8000f00000000000000000000000000000000000000000",
    "harbour": true,
    "label": "Gaeta",
    "terrain": "clear"
@@ -608,6 +617,7 @@
    "terrain": "hill"
   },
   "1606": {
+   "coast": "03fe007ff007ff00ffe00ffc0040000000000000000000000000000000000000000000000000000000000",
    "terrain": "clear"
   },
   "1607": {
@@ -663,6 +673,7 @@
    "vp": 1
   },
   "1707": {
+   "coast": "03fc007f8007f000fe000fe001fc003fc003fc007fc003fc003f8001f8000f8000f000060000700002000",
    "terrain": "clear"
   },
   "1708": {
@@ -708,6 +719,7 @@
    "terrain": "hill"
   },
   "1723": {
+   "coast": "03fc007fc007f800ff800ffc01ffc03ffc03ffc07ff803ff003fe001fc000f8000f000060000400000000",
    "harbour": true,
    "label": "Pozzuoli",
    "terrain": "hill"
@@ -752,14 +764,17 @@
    "town": "Castellonorato"
   },
   "1807": {
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fff07ff003fe003fe001fc000fc000f800078000700003000",
    "harbour": true,
    "label": "Scauri",
    "terrain": "clear"
   },
   "1808": {
+   "coast": "0300007000070000e0000e0001e0003e0003e0007e0003e0003e0001c0000c00008000000000000000000",
    "terrain": "sea"
   },
   "1809": {
+   "coast": "0000000000000000000000000100003000030000700003000020000000000000000000000000000000000",
    "terrain": "sea"
   },
   "1810": {
@@ -775,16 +790,20 @@
    "terrain": "sea"
   },
   "1814": {
+   "coast": "0000000000040000e0000e0001e0003f0003f0007f0003f8003f8001fc000fc000fc0007c0007e0003e00",
    "terrain": "clear"
   },
   "1815": {
+   "coast": "03e0007e0007f000ff000ff801ff803ffc03ffe07fff03fff83fffe1fffc0fff80fff807c000100000000",
    "terrain": "marsh",
    "town": "Castel Volturno"
   },
   "1816": {
+   "coast": "03fe007ff007ff00fff80fff01ffe03ffe03ffe07ffe03ffe03ffe01ffe00ffe00ffe007fe007ff003fe0",
    "terrain": "clear"
   },
   "1817": {
+   "coast": "03fe007ff007fe00ffe00ffe01ffe03ffe03ffe07fff03fff03fff01fff00fff80fff807ff007ff003fe0",
    "terrain": "clear"
   },
   "1818": {
@@ -804,10 +823,12 @@
    "terrain": "hill"
   },
   "1823": {
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fffe7ffff3fff83fff01fff00fff00ffe007fe007ff003fe0",
    "terrain": "hill",
    "town": "Bagnoli"
   },
   "1824": {
+   "coast": "03fe007ff007ff00fff80fff81fff83fff03fff01ffe00ffe000000000000000000000000000000000000",
    "terrain": "hill"
   },
   "1825": {
@@ -850,9 +871,11 @@
    "terrain": "marsh"
   },
   "1910": {
+   "coast": "03fe007ff007ff00fff80fff81fff83fff83fff07fff03fff03fff01fff00ffe00ffe007ff007ff003fe0",
    "terrain": "clear"
   },
   "1911": {
+   "coast": "03fe007ff007ff00ffe00ffe01fff03fff03fff07fff03fff03fff01fff00fff80fff807ff007ff003fe0",
    "terrain": "clear"
   },
   "1912": {
@@ -894,6 +917,7 @@
    "terrain": "hill"
   },
   "1924": {
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fffe7ffff3fffe3fffe1fffc0fff80fff8061f00403000000",
    "harbour": true,
    "label": "Chiaia",
    "terrain": "hill"
@@ -992,6 +1016,7 @@
   },
   "2024": {
    "city": "Naples",
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fffe7ffff3fffe3f7fe1e03c0e01808000000000000000000",
    "harbour": true,
    "majorCity": true,
    "terrain": "clear"
@@ -1091,15 +1116,18 @@
   },
   "2125": {
    "city": "Naples",
+   "coast": "03fe007ff007ff00fff80fff81fffc3fffe3fffe7ffe03ffe03ffe01ffc00ffc00ff8007f8007fc003fe0",
    "harbour": true,
    "majorCity": true,
    "terrain": "clear"
   },
   "2126": {
    "city": "Resina",
+   "coast": "03fe007ff007fd00ff800ff801ff003ff003ff007ff003ff003ff001ff000ff000ff0007e0007f0003f00",
    "terrain": "clear"
   },
   "2127": {
+   "coast": "03f0007f0007e000fe000ff001ff003ff003ff007ff003ff003fe001fe000fe000fc0007c0007e0003f00",
    "terrain": "hill"
   },
   "2200": {
@@ -2972,6 +3000,9 @@
   },
   "1506-1606": {
    "road": "major"
+  },
+  "1507-1606": {
+   "allSea": true
   },
   "1523-1622": {
    "road": "minor"

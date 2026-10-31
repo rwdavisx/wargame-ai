@@ -5,7 +5,7 @@ import { distance, neighbors, sideKey, type HexId } from './hex';
 import { eliminate } from './losses';
 import { areaFriendly, supplyChecker } from './supply';
 import type { GameState, Side, Status, UnitState } from './types';
-import { def, isLand, occupancy, other, recordTrail, sideOf, unitsAt, values } from './units';
+import { def, isLand, occupancy, other, recordTrail, seaBetween, sideOf, unitsAt, values } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 import { areaName, hexes, nameList, place, verb } from './words';
 
@@ -130,7 +130,7 @@ function allRetreats(s: GameState, ids: string[], dist: number, origin: HexId, e
       // One extra hex may save the stack from ending in an EZOC.
       if (vacantZoc(cur)) {
         for (const n of neighbors(cur)) {
-          if (!isLand(n) || visited.has(n) || occ.get(n) === other(side)) continue;
+          if (!isLand(n) || seaBetween(cur, n) || visited.has(n) || occ.get(n) === other(side)) continue;
           consider({ ...evaluate([...path, n]), score: evaluate([...path, n]).score - 1, extra: true });
         }
       }
@@ -140,7 +140,7 @@ function allRetreats(s: GameState, ids: string[], dist: number, origin: HexId, e
     const area = Object.entries(MAP.entryAreas).find(([n, ea]) => ea.hexes.includes(cur) && areaFriendly(s, n, side))?.[0];
     if (area && path.length > 0) consider(evaluate(path, area));
     for (const n of neighbors(cur)) {
-      if (!isLand(n) || visited.has(n) || occ.get(n) === other(side)) continue;
+      if (!isLand(n) || seaBetween(cur, n) || visited.has(n) || occ.get(n) === other(side)) continue;
       if (n === origin) continue;
       visited.add(n);
       dfs([...path, n], n, visited);

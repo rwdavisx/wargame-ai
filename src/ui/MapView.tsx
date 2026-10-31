@@ -7,6 +7,7 @@ import { neighbors, type HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
 import { def, sideOf } from '../engine/units';
 import { center, chainSegments, corners, edge, organic, pixelToHex, polyPoints, R, smoothPath, type Pt } from './render/geom';
+import { landSpot } from './render/coast';
 import { warp } from './render/noise';
 import type { TerrainImage } from './render/terrain';
 import { Insignia, UnitToken } from './render/units';
@@ -127,7 +128,9 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
         const e = edge(a, b);
         if (e) (s.lake ? lakeSegs : s.majorRiver ? bigRiverSegs : riverSegs).push(e);
       }
-      if (s.road) (s.road === 'major' ? majorSegs : minorSegs).push([center(a), center(b)]);
+      // A road serves the land of a coastal hex: where the printed coast leaves its middle in the water, the road
+      // runs to the nearest dry ground instead.
+      if (s.road) (s.road === 'major' ? majorSegs : minorSegs).push([landSpot(a), landSpot(b)]);
       if (s.pass) {
         const e = edge(a, b);
         if (e) passes.push(warp((e[0][0] + e[1][0]) / 2, (e[0][1] + e[1][1]) / 2));

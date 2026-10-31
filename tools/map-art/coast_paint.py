@@ -1,5 +1,6 @@
 """How much of each coastal hex does the painted map show as the other element (land hex painted as sea, sea hex
-painted as land)? Uses only our own render, whose sea colour is unambiguous.
+painted as land)? Uses only our own render, whose sea colour is unambiguous. A hex with a traced coastline (`coast`,
+from coast_masks.py) is measured against its trace instead: how much of it the paint gets wrong either way.
 Usage: python3 tools/map-art/coast_paint.py <game> <folder with terrain-dump output>"""
 import json
 import os
@@ -38,10 +39,25 @@ for h, v in H.items():
     wrong = sum(1 for dx, dy in offs if sea_at(cx + dx, cy + dy) == land)
     wcore = sum(1 for dx, dy in core if sea_at(cx + dx, cy + dy) == land)
     rows.append((h, v['terrain'], wrong / len(offs), wcore / len(core), v.get('town') or v.get('city') or ''))
-# Shore hexes are playable land drawn as water with a strip of coast: report them on their own.
-shore = {h for h, v in H.items() if v.get('shore')}
-print('shore hexes (land for the rules, mostly water on the map):', [(r[0], f'{1 - r[2]:.0%} land') for r in rows if r[0] in shore])
-land_rows = [r for r in rows if r[1] != 'sea' and r[0] not in shore]
+# Traced hexes: the paint against the printed coastline's trace.
+CELL = 30 * 3 ** 0.5 / 16
+def mask_land(code, dx, dy):
+    i, j = round(dy / CELL) + 8, round(dx / CELL) + 9
+    return 0 <= i < 17 and 0 <= j < 19 and (int(code[i * 5:i * 5 + 5], 16) >> j) & 1 == 1
+traced = []
+for h, v in H.items():
+    if not v.get('coast'):
+        continue
+    cx, cy = centre(h)
+    pts = [(dx, dy) for dx, dy in offs]
+    off = sum(1 for dx, dy in pts if sea_at(cx + dx, cy + dy) == mask_land(v['coast'], dx, dy))
+    traced.append((h, off / len(pts)))
+if traced:
+    print(f'{GAME}: {len(traced)} traced coastal hexes; mean share painted against the trace {np.mean([t[1] for t in traced]):.0%}; '
+          f'worst: {[(h, f"{w:.0%}") for h, w in sorted(traced, key=lambda t: -t[1])[:8]]}')
+skip = {h for h, v in H.items() if v.get('coast') or v.get('shore')}
+rows = [r for r in rows if r[0] not in skip]
+land_rows = [r for r in rows if r[1] != 'sea']
 print(f'{GAME}: {len(land_rows)} coastal land hexes; mean share painted as sea {np.mean([r[2] for r in land_rows]):.0%}; '
       f'hexes whose middle is painted sea: {[r[0] for r in land_rows if r[3] > 0.3]}')
 print('land hexes most painted as sea:', [(r[0], r[4], f'{r[2]:.0%}', f'core {r[3]:.0%}') for r in sorted(land_rows, key=lambda r: -r[2])[:14]])

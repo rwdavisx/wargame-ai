@@ -7,6 +7,7 @@
 import { GAME_ID, MAP } from '../../engine/data';
 import { distance, hexId, neighbors, parseHex, sideKey } from '../../engine/hex';
 import type { HexData } from '../../engine/types';
+import { COAST_COLS, COAST_ROWS, COAST_STEP, decodeCoast, landAt, landSpot } from './coast';
 import { center, corners, edge, mapBounds, rng, type Bounds } from './geom';
 import { fbm, hash, vnoise, warp } from './noise';
 
@@ -55,6 +56,22 @@ function hexPath(ctx: CanvasRenderingContext2D, h: string, grow = 0.6) {
   ctx.beginPath();
   pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
   ctx.closePath();
+}
+
+/** A traced coastal hex's land, cell by cell, clipped to its outline (coast.ts). */
+function maskPath(ctx: CanvasRenderingContext2D, h: string, code: string) {
+  const m = decodeCoast(code);
+  const [cx, cy] = center(h);
+  const k = COAST_STEP;
+  ctx.save();
+  hexPath(ctx, h, 1);
+  ctx.clip();
+  for (let i = 0; i < COAST_ROWS; i++) {
+    for (let j = 0; j < COAST_COLS; j++) {
+      if (m[i * COAST_COLS + j]) ctx.fillRect(cx + (j - 9) * k - k / 2 - 0.4, cy + (i - 8) * k - k / 2 - 0.4, k + 0.8, k + 0.8);
+    }
+  }
+  ctx.restore();
 }
 
 /** Three box blurs approximate a Gaussian. */
@@ -108,7 +125,7 @@ const FIELDS: Rgb[] = [
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 7;
+const RENDER_VERSION = 8;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -234,14 +251,25 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
 
   // Land is laid down a little fuller than its hexes, so the wandering coastline spends its wander in the sea
   // hexes rather than eating into the land ones (a narrow strip like the Sorrento peninsula keeps its coast).
+  // A coastal hex traced from the printed map is drawn from its mask instead: its slivers of beach, headland and
+  // bay are where the printed map has them, whatever its terrain says for the rules.
+  const traced = hexes.filter(([, d]) => d.coast);
   const land0 = rasterize(b, (ctx) => {
-    // A shore hex is playable land that the printed map shows as water along a strip of coast: it stays sea here
-    // and gets its strip from its land neighbours.
-    for (const [h, d] of extended) if (d.terrain !== 'sea' && !d.shore) (hexPath(ctx, h, 6), ctx.fill());
+    // An untraced shore hex is playable land that the printed map shows as water along a strip of coast: it stays
+    // sea here and gets its strip from its land neighbours.
+    for (const [h, d] of extended) if (d.terrain !== 'sea' && !d.shore && !d.coast) (hexPath(ctx, h, 6), ctx.fill());
+    ctx.globalCompositeOperation = 'destination-out';
+    for (const [h] of traced) (hexPath(ctx, h, 0.5), ctx.fill());
+    ctx.globalCompositeOperation = 'source-over';
+    for (const [h, d] of traced) maskPath(ctx, h, d.coast!);
   });
-  // The middle of every land hex, which is never painted as sea.
+  // The middle of every untraced land hex, which is never painted as sea.
   const landCore0 = rasterize(b, (ctx) => {
-    for (const [h, d] of hexes) if (d.terrain !== 'sea' && !d.shore) (hexPath(ctx, h, -8), ctx.fill());
+    for (const [h, d] of hexes) if (d.terrain !== 'sea' && !d.shore && !d.coast) (hexPath(ctx, h, -8), ctx.fill());
+  });
+  // Where the coast is traced, it wanders less: the trace is already the printed map's own line.
+  const traced0 = rasterize(b, (ctx) => {
+    for (const [h] of traced) (hexPath(ctx, h, 1), ctx.fill());
   });
   const inside0 = rasterize(b, (ctx) => {
     for (const [h] of hexes) (hexPath(ctx, h, 1), ctx.fill());
@@ -255,7 +283,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const town0 = rasterize(b, (ctx) => {
     for (const [h, d] of hexes) {
       if (!d.city && !d.town) continue;
-      const [x, y] = center(h);
+      const [x, y] = landSpot(h);
       ctx.beginPath();
       ctx.arc(x, y, d.city ? 15 : 7, 0, Math.PI * 2);
       ctx.fill();
@@ -296,7 +324,9 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   await report(0.15, 'Measuring the heights');
 
   const landB = blur(land0, W, H, 11);
+  const landFine = blur(land0, W, H, 3);
   const landCore = blur(landCore0, W, H, 4);
+  const tracedW = blur(traced0, W, H, 8);
   const landNear = blur(land0, W, H, 10);
   const landWide = blur(land0, W, H, 60);
   const inside = blur(inside0, W, H, 18);
@@ -363,9 +393,14 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       const sy = y - ddy;
       const n = fbm(wx / 60, wy / 60, 1, 4);
       const n2 = fbm(wx / 22, wy / 22, 7, 2);
-      // The coast takes a gentler share of the warp than the inland edges, and never reaches a land hex's middle.
-      const [cdx, cdy] = shift(x, y, 0.7);
-      const cv = Math.max(sample(landB, x - cdx, y - cdy) + (n - 0.5) * 0.42, landCore[i] * 0.85);
+      // The coast takes a gentler share of the warp than the inland edges, and never reaches a land hex's middle;
+      // a traced coast keeps close to its trace, softened only enough to lose the cells' corners.
+      const tw = tracedW[i];
+      const free = 1 - 0.8 * tw;
+      const [cdx, cdy] = shift(x, y, 0.7 * free);
+      let lb = sample(landB, x - cdx, y - cdy);
+      if (tw > 0.001) lb += (sample(landFine, x - cdx, y - cdy) - lb) * tw;
+      const cv = Math.max(lb + (n - 0.5) * 0.42 * free, landCore[i] * 0.85);
       coast[i] = cv;
       const l = smooth(0.4, 0.6, cv);
       landF[i] = l;
@@ -561,7 +596,7 @@ function drawTowns(ctx: CanvasRenderingContext2D, b: Bounds) {
   const s = SCALE;
   for (const [h, d] of Object.entries(MAP.hexes)) {
     if (d.airfield) {
-      const [x, y] = center(h);
+      const [x, y] = landSpot(h);
       ctx.save();
       ctx.translate((x - b.x) * s, (y - b.y) * s);
       ctx.rotate(-0.35);
@@ -579,7 +614,7 @@ function drawTowns(ctx: CanvasRenderingContext2D, b: Bounds) {
       ctx.restore();
     }
     if (!d.city && !d.town) continue;
-    const [cx, cy] = center(h);
+    const [cx, cy] = landSpot(h);
     const r = rng(h);
     const n = d.city ? 34 : 10;
     const radius = d.city ? 15 : 7;
@@ -591,6 +626,7 @@ function drawTowns(ctx: CanvasRenderingContext2D, b: Bounds) {
       const y = cy + Math.sin(a) * dist * 0.9;
       const w = (2.2 + r() * 3) * s;
       const hgt = (1.8 + r() * 2.2) * s;
+      if (d.coast && !landAt(h, x, y)) continue; // no roofs on the water of a coastal hex
       ctx.save();
       ctx.translate((x - b.x) * s, (y - b.y) * s);
       ctx.rotate(angle + (r() < 0.5 ? 0 : Math.PI / 2) + (r() - 0.5) * 0.2);

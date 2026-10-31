@@ -715,3 +715,68 @@ describe('ZOC bonds', () => {
     expect(bondsOf(s, 'German').hexes.has(C)).toBe(true);
   });
 });
+
+describe('all-sea hexsides', () => {
+  // Two land hexes whose shared side is water all along it on the printed map (Agropoli and the next beach hex
+  // north, Gaeta and Formia): nothing goes across, and nothing reaches across.
+  const Y = go(C, N);
+  const sea = () => setSide(C, Y, { allSea: true });
+
+  it('[5.1, 8.2] no unit moves or attacks across one', () => {
+    const s = setup();
+    sea();
+    place(s, 'GE-I64', C);
+    const r = reach(s, 'GE-I64', 'tactical');
+    expect(stepCost(s, s.units['GE-I64'], C, Y, 'normal')).toBeNull();
+    expect(r.get(Y)?.prev).not.toBe(C); // only the long way round
+    const t = setup({ phase: 'combat' });
+    sea();
+    place(t, 'GE-I64', C);
+    place(t, 'US-179', Y);
+    expect(refused(t, { type: 'attack', target: Y, attackers: ['GE-I64'] })).toBe(true);
+  });
+
+  it('[6.1, 7.6.2] no ZOC and no ZOC bond leg reaches across one', () => {
+    const s = setup();
+    place(s, 'GE-I64', C);
+    expect(zocOf(s, 'German').has(Y)).toBe(true);
+    sea();
+    expect(zocOf(s, 'German').has(Y)).toBe(false);
+    expect(neighbors(C).filter((n) => n !== Y).every((n) => zocOf(s, 'German').has(n))).toBe(true);
+    // Anchors two hexes apart in a line, the bond hex between them: one leg across the water breaks it.
+    restoreMap();
+    const b = setup();
+    place(b, 'GE-I64', C);
+    place(b, 'GE-I79', go(C, N, 2));
+    expect(bondsOf(b, 'German').hexes.has(Y)).toBe(true);
+    sea();
+    expect(bondsOf(b, 'German').hexes.has(Y)).toBe(false);
+  });
+
+  it('[16.3.2] no Line of Supply is traced overland across one', () => {
+    const s = setup();
+    const Z = '3503'; // three hexes from the N2 Entry Area: in supply
+    sandbox(Z, 3);
+    place(s, 'GE-III1FJ', Z);
+    expect(supplyChecker(s, 'German').inSupply(Z)).toBe(true);
+    for (const n of neighbors(Z)) setSide(Z, n, { allSea: true });
+    expect(supplyChecker(s, 'German').inSupply(Z)).toBe(false);
+  });
+
+  it('[12.1, 14.4] no retreat and no advance after combat across one', () => {
+    const s = setup({ phase: 'combat' });
+    place(s, 'US-157', C);
+    expect(retreatChoices(s, ['US-157'], 1, go(C, S)).some((p) => p.path[0] === Y)).toBe(true);
+    sea();
+    expect(retreatChoices(s, ['US-157'], 1, go(C, S)).some((p) => p.path[0] === Y)).toBe(false);
+    place(s, 'GE-I64', go(C, S));
+    const pa = { combatId: 0, vacated: C, from: { 'GE-I64': go(C, S) }, maxByUnit: { 'GE-I64': 2 }, limited: false };
+    s.units['US-157'].where = { kind: 'removed', reason: 'test' };
+    const dest = advanceDestinations(s, pa, 'GE-I64');
+    expect(dest.has(C)).toBe(true);
+    expect(dest.has(Y)).toBe(false); // two hexes straight on, across the water
+    restoreMap();
+    sandbox(C, 8);
+    expect(advanceDestinations(s, pa, 'GE-I64').has(Y)).toBe(true);
+  });
+});

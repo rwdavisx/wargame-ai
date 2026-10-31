@@ -231,6 +231,7 @@ export function validateAttackers(s: GameState, target: HexId, attackers: string
     }
     if (!adjacentForCombat(s, u, target)) return `${d.name} is not adjacent to the target.`;
     const hs = hexsideToward(u, target);
+    if (hs.allSea || hs.lake) return `${d.name} cannot attack across an all-sea hexside.`;
     if (breakthrough && (hs.mountain || hs.river) && !hs.road) return 'Breakthrough Combat may cross mountain and river hexsides only along roads.';
     if (hs.mountain && !hs.road && !hs.pass && d.vehicle) return `${d.name} cannot attack across a mountain hexside without a road or pass.`;
     if ((hs.mountain || hs.pass) && u.halfEff) return `${d.name} is ½ Eff and cannot attack across a mountain hexside.`;
@@ -918,6 +919,7 @@ export function advanceDestinations(s: GameState, pa: PendingAdvance, unitId: st
     const no = { ok: false, stop: true, halfEff: false };
     if (!isLand(to) || occ.get(to) === other(side)) return no;
     const hs = MAP.hexsides[sideKey(from, to)] ?? {};
+    if (hs.allSea || hs.lake) return no;
     if (blockedByBond(bonds, from, to) && to !== pa.vacated) return no;
     let halfEff = false;
     if (hs.mountain && !hs.road && !hs.pass) {

@@ -55,6 +55,7 @@ function stepCheck(s: GameState, b: Breakthrough, to: HexId): StepCheck {
   if (!neighbors(b.hex).includes(to) || !isLand(to)) return no('Not an adjacent land hex.');
   if (occupancy(s).get(to) === other(side)) return no('The hex is occupied by the enemy.');
   const hs = MAP.hexsides[sideKey(b.hex, to)] ?? {};
+  if (hs.allSea || hs.lake) return no('Not across an all-sea hexside.');
   const intoAttacked = !b.committed && to === b.vacated;
   if (blockedByBond(bondsOf(s, other(side)), b.hex, to) && to !== b.vacated) return no('An enemy ZOC bond blocks the way.');
   const mountain = !!hs.mountain && !hs.road && !hs.pass;
@@ -202,6 +203,7 @@ export function breakthroughTargets(s: GameState): HexId[] {
 
 function targetCheck(b: Breakthrough, target: HexId): string | null {
   const hs = MAP.hexsides[sideKey(b.hex, target)] ?? {};
+  if (hs.allSea || hs.lake) return 'Not across an all-sea hexside.';
   if ((hs.mountain || hs.river) && !hs.road) return 'Breakthrough Combat may cross mountain and river hexsides only along roads.';
   const d = MAP.hexes[target];
   if (!d || d.terrain === 'sea') return 'Not a land hex.';

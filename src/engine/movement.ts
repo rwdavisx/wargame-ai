@@ -115,6 +115,7 @@ export function stepCost(s: GameState, u: UnitState, from: HexId, to: HexId, mod
   const key = mech ? 'mech' : 'inf';
   const hs = MAP.hexsides[sideKey(from, to)] ?? {};
   const m = RULES.movement;
+  if (hs.allSea || hs.lake) return null; // an all-sea hexside (a lake hexside is one too)
   if (hs.road) {
     let cost = (hs.road === 'major' ? m.majorRoad : m.minorRoad)[key];
     if (mech && sideOf(u) === 'Allied' && dest.sector8) cost = m.alliedMechRoadIn8thSector;
@@ -122,7 +123,6 @@ export function stepCost(s: GameState, u: UnitState, from: HexId, to: HexId, mod
     if (mech && m.operationalRadius && nearEnemy(s, sideOf(u), m.operationalRadius).has(to)) cost = Math.max(cost, 1);
     return { cost, firstHexOnly: false, mountainCrossing: false };
   }
-  if (hs.lake) return null; // a lake hexside is an all-sea hexside
   const terrain = dest.city ? 'city' : dest.terrain;
   let cost = m.terrain[terrain]?.[key] ?? 1;
   let firstHexOnly = false;

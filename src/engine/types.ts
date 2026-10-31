@@ -39,6 +39,9 @@ export interface HexData {
   /** A playable coastal hex that is nearly all water on the printed map: land for the rules, painted as sea
    * with the strip of coast its land neighbours bring. */
   shore?: boolean;
+  /** The printed coastline through a coastal hex, traced from the map (tools/map-art/coast_masks.py): 17 rows of
+   * 19 cells a sixteenth of the hex's height apart, land set, five hex digits a row. Only the painted map reads it. */
+  coast?: string;
 }
 
 export interface HexsideData {
@@ -50,6 +53,9 @@ export interface HexsideData {
   majorRiver?: boolean;
   lake?: boolean;
   riverName?: string;
+  /** A hexside between two land hexes with water all along it on the printed map: nothing moves, projects a ZOC
+   * or traces supply across it (6.1, 7.6.2). */
+  allSea?: boolean;
 }
 
 export interface EntryArea {

@@ -2,7 +2,7 @@
 import { MAP } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import type { GameState, Side } from './types';
-import { def, goodOrder, isLand, occupancy, sideOf, unitsAt } from './units';
+import { def, goodOrder, isLand, occupancy, seaBetween, sideOf, unitsAt } from './units';
 
 function crossesMountainWithoutRoad(a: HexId, b: HexId): boolean {
   const hs = MAP.hexsides[sideKey(a, b)];
@@ -21,7 +21,7 @@ export function zocOf(s: GameState, side: Side): Set<HexId> {
     if (u.where.kind !== 'map' || sideOf(u) !== side || u.status === 'fullRetreat') continue;
     const vehicle = def(u.id).vehicle;
     for (const n of neighbors(u.where.hex)) {
-      if (!isLand(n)) continue;
+      if (!isLand(n) || seaBetween(u.where.hex, n)) continue; // no ZOC across an all-sea hexside (6.1)
       if (vehicle && crossesMountainWithoutRoad(u.where.hex, n)) continue;
       z.add(n);
     }
@@ -48,7 +48,7 @@ export function bondsOf(s: GameState, side: Side): Bonds {
   }
   const enemy = (h: HexId) => occ.get(h) !== undefined && occ.get(h) !== side;
   const legOk = (anchor: HexId, mid: HexId) =>
-    !(anchors.get(anchor)!.vehicleOnly && mountainWithoutRoad(anchor, mid));
+    !seaBetween(anchor, mid) && !(anchors.get(anchor)!.vehicleOnly && mountainWithoutRoad(anchor, mid));
   const routeOk = (a: HexId, c: HexId, b: HexId) =>
     isLand(c) && !enemy(c) && legOk(a, c) && legOk(b, c) &&
     // Two non-road mountain hexsides block a bond; a road-less pass does not help (7.6.1).

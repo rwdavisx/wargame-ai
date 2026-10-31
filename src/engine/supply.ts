@@ -115,6 +115,7 @@ function overland(ctx: TraceCtx, from: HexId, limit: number, firstMountainOk: bo
       if (ctx.enemyControlled(n) && !ctx.sources.has(n)) continue;
       if (blockedByBond(ctx.bonds, st.h, n)) continue;
       const hs = MAP.hexsides[sideKey(st.h, n)] ?? {};
+      if (hs.allSea || hs.lake) continue; // never across an all-sea hexside (16.3.2)
       if (hs.mountain && !hs.road && !hs.pass && !(firstMountainOk && st.h === from)) continue;
       const z = zocAt(n);
       if (z && st.prevZoc) continue;

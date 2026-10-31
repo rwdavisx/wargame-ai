@@ -100,7 +100,7 @@ describe('hex grid', () => {
   });
 
   it('gives every hex a known terrain and only known fields', () => {
-    const fields = new Set(['terrain', 'city', 'town', 'landmark', 'vp', 'port', 'airfield', 'dropZone', 'sector8', 'shore']);
+    const fields = new Set(['terrain', 'city', 'town', 'landmark', 'vp', 'port', 'airfield', 'dropZone', 'sector8', 'shore', 'coast']);
     const bad = ids.flatMap((h) => [
       ...(['clear', 'hill', 'marsh', 'sea'].includes(H[h].terrain) ? [] : [`${h}: terrain ${H[h].terrain}`]),
       ...Object.keys(H[h]).filter((k) => !fields.has(k)).map((k) => `${h}: unknown field ${k}`),
@@ -108,8 +108,9 @@ describe('hex grid', () => {
     expect(bad).toEqual([]);
   });
 
-  it('puts nothing but terrain on all-sea hexes', () => {
-    expect(ids.filter((h) => isSea(h) && Object.keys(H[h]).length > 1).map((h) => `${h}: ${JSON.stringify(H[h])}`)).toEqual([]);
+  it('puts nothing but terrain (and a traced coastline) on all-sea hexes', () => {
+    const extra = (h: string) => Object.keys(H[h]).filter((k) => k !== 'terrain' && k !== 'coast');
+    expect(ids.filter((h) => isSea(h) && extra(h).length).map((h) => `${h}: ${JSON.stringify(H[h])}`)).toEqual([]);
   });
 
   it('has one connected land area', () => {
@@ -144,7 +145,7 @@ describe('hexsides', () => {
       const s = S[k] as Record<string, unknown>;
       if (Object.keys(s).length === 0) bad.push(`${k}: empty`);
       for (const [f, v] of Object.entries(s)) {
-        if (f === 'road' ? v !== 'major' && v !== 'minor' : !['river', 'mountain', 'pass'].includes(f) || v !== true) bad.push(`${k}: ${f}=${v}`);
+        if (f === 'road' ? v !== 'major' && v !== 'minor' : !['river', 'mountain', 'pass', 'allSea'].includes(f) || v !== true) bad.push(`${k}: ${f}=${v}`);
       }
     }
     expect(bad).toEqual([]);

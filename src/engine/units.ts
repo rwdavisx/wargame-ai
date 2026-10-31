@@ -1,5 +1,5 @@
 import { MAP, RULES, UNIT_DEFS } from './data';
-import { type HexId } from './hex';
+import { sideKey, type HexId } from './hex';
 import type { GameState, Side, StepValues, UnitDef, UnitState } from './types';
 
 export const other = (s: Side): Side => (s === 'Allied' ? 'German' : 'Allied');
@@ -108,6 +108,13 @@ export function adjacentEnemy(s: GameState, hex: HexId, side: Side, neighborsOf:
 export function isLand(hex: HexId): boolean {
   const h = MAP.hexes[hex];
   return !!h && h.terrain !== 'sea';
+}
+
+/** Is the side between two adjacent hexes all sea (water all along it on the printed map, or a lake)? No unit
+ * moves, attacks, retreats or advances across it, no ZOC reaches across it and no supply is traced across it. */
+export function seaBetween(a: HexId, b: HexId): boolean {
+  const hs = MAP.hexsides[sideKey(a, b)];
+  return !!hs && (!!hs.allSea || !!hs.lake);
 }
 
 export function nationGroup(id: string): 'US' | 'CW' | 'GE' {
