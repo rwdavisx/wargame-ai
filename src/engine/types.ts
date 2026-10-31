@@ -36,6 +36,9 @@ export interface HexData {
   majorCity?: boolean;
   /** Italy '43: a Hill hex with six mountain hexsides (2.2.2). */
   fullMountain?: boolean;
+  /** A playable coastal hex that is nearly all water on the printed map: land for the rules, painted as sea
+   * with the strip of coast its land neighbours bring. */
+  shore?: boolean;
 }
 
 export interface HexsideData {

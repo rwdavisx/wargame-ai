@@ -54,6 +54,8 @@ def main(files):
                     s.pop(kind, None)
             elif op == 'terrain':
                 HX[f[1]]['terrain'] = f[2]
+            elif op == 'shore':
+                HX[f[1]]['shore'] = True
             elif op == 'town':
                 HX[f[1]]['town'] = ' '.join(f[2:])
                 HX[f[1]].pop('landmark', None)

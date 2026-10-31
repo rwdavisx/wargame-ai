@@ -478,7 +478,8 @@
    "terrain": "sea"
   },
   "2003": {
-   "terrain": "sea"
+   "shore": true,
+   "terrain": "hill"
   },
   "2004": {
    "terrain": "hill"
@@ -488,7 +489,8 @@
    "town": "Positano"
   },
   "2006": {
-   "terrain": "sea"
+   "shore": true,
+   "terrain": "hill"
   },
   "2007": {
    "terrain": "sea"
@@ -572,7 +574,8 @@
    "terrain": "hill"
   },
   "2106": {
-   "terrain": "sea"
+   "shore": true,
+   "terrain": "hill"
   },
   "2107": {
    "terrain": "sea"
@@ -664,7 +667,8 @@
    "terrain": "hill"
   },
   "2207": {
-   "terrain": "sea"
+   "shore": true,
+   "terrain": "hill"
   },
   "2208": {
    "terrain": "sea"
@@ -847,7 +851,8 @@
    "vp": 1
   },
   "2408": {
-   "terrain": "sea"
+   "shore": true,
+   "terrain": "hill"
   },
   "2409": {
    "terrain": "sea"
@@ -975,7 +980,8 @@
    "terrain": "sea"
   },
   "2517": {
-   "terrain": "sea"
+   "shore": true,
+   "terrain": "clear"
   },
   "2518": {
    "terrain": "hill"
@@ -1030,7 +1036,7 @@
   },
   "2606": {
    "terrain": "hill",
-   "town": "Cava de’ Tirreni"
+   "town": "Cava de\u2019 Tirreni"
   },
   "2607": {
    "port": {
@@ -2360,7 +2366,7 @@
   },
   "4007": {
    "terrain": "hill",
-   "town": "Sant’Angelo dei Lombardi"
+   "town": "Sant\u2019Angelo dei Lombardi"
   },
   "4008": {
    "terrain": "hill"
@@ -2599,7 +2605,7 @@
   "4212": {
    "sector8": true,
    "terrain": "clear",
-   "town": "Sant’Andrea di Conza"
+   "town": "Sant\u2019Andrea di Conza"
   },
   "4213": {
    "sector8": true,
@@ -3176,6 +3182,9 @@
   "2105-2206": {
    "mountain": true
   },
+  "2106-2206": {
+   "mountain": true
+  },
   "2201-2202": {
    "road": "major"
   },
@@ -3207,6 +3216,9 @@
    "mountain": true
   },
   "2205-2305": {
+   "mountain": true
+  },
+  "2206-2207": {
    "mountain": true
   },
   "2206-2305": {
@@ -3346,6 +3358,9 @@
   "2407-2507": {
    "mountain": true
   },
+  "2408-2507": {
+   "mountain": true
+  },
   "2418-2419": {
    "road": "minor"
   },
@@ -3384,6 +3399,12 @@
    "road": "minor"
   },
   "2425-2524": {
+   "road": "minor"
+  },
+  "2426-2427": {
+   "road": "minor"
+  },
+  "2427-2527": {
    "road": "minor"
   },
   "2500-2501": {
@@ -6140,18 +6161,11 @@
   },
   "4626-4627": {
    "road": "minor"
-  },
-  "2426-2427": {
-   "road": "minor"
-  },
-  "2427-2527": {
-   "road": "minor"
   }
  },
  "meta": {
   "grid": "flat-top hexes in vertical columns; odd columns are offset half a hex down; id = CCRR",
-  "source": "Transcribed from photos of the owner’s physical map; verify against your copy.",
-  "title": "Salerno ’43 map data",
+  "home": "2711",
   "seaLabels": [
    [
     "1913",
@@ -6169,7 +6183,8 @@
     18
    ]
   ],
-  "home": "2711"
+  "source": "Transcribed from photos of the owner\u2019s physical map; verify against your copy.",
+  "title": "Salerno \u201943 map data"
  },
  "navalLine": {
   "maxRowExclusive": 4,

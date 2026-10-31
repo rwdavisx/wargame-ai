@@ -108,7 +108,7 @@ const FIELDS: Rgb[] = [
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 6;
+const RENDER_VERSION = 7;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -235,11 +235,13 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   // Land is laid down a little fuller than its hexes, so the wandering coastline spends its wander in the sea
   // hexes rather than eating into the land ones (a narrow strip like the Sorrento peninsula keeps its coast).
   const land0 = rasterize(b, (ctx) => {
-    for (const [h, d] of extended) if (d.terrain !== 'sea') (hexPath(ctx, h, 6), ctx.fill());
+    // A shore hex is playable land that the printed map shows as water along a strip of coast: it stays sea here
+    // and gets its strip from its land neighbours.
+    for (const [h, d] of extended) if (d.terrain !== 'sea' && !d.shore) (hexPath(ctx, h, 6), ctx.fill());
   });
   // The middle of every land hex, which is never painted as sea.
   const landCore0 = rasterize(b, (ctx) => {
-    for (const [h, d] of hexes) if (d.terrain !== 'sea') (hexPath(ctx, h, -8), ctx.fill());
+    for (const [h, d] of hexes) if (d.terrain !== 'sea' && !d.shore) (hexPath(ctx, h, -8), ctx.fill());
   });
   const inside0 = rasterize(b, (ctx) => {
     for (const [h] of hexes) (hexPath(ctx, h, 1), ctx.fill());

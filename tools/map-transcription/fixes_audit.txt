@@ -88,3 +88,27 @@ major+ 3302-3303
 #    minor road 2426-2427 and 2427-2527 (the coast road runs on south off the map edge from 2527).
 # 2. 2724-2825 west of Vallo della Lucania is a road (kept as a major road).
 # 3. The Ariano-Savignano road runs 4401-4500 (kept).
+
+# --- coastal hexes printed on the map but entered as sea (reported by the owner on the Amalfi coast)
+# Each has a printed outline and hex number, so it is a playable hex, with the coast along one edge and
+# little land inside; checked on photos 1, 2 and 5, with every sea hex near land tested for a complete
+# printed outline (2101 and the other open-sea positions have none). They take the terrain of their land.
+terrain 2003 hill
+terrain 2006 hill
+terrain 2106 hill
+terrain 2207 hill
+terrain 2408 hill
+terrain 2517 clear
+# They are nearly all water on the map: painted as sea, with the coast along their landward edge.
+shore 2003
+shore 2006
+shore 2106
+shore 2207
+shore 2408
+shore 2517
+# The Amalfi cliffs: where the land part of a coastal hexside is all mountain shading it is a mountain
+# hexside (2.2.2), so the new coast hexes do not open a way round the cliffs already entered between
+# 2105-2206, 2206-2306 and 2407-2507.
+mountain+ 2106-2206
+mountain+ 2206-2207
+mountain+ 2408-2507

@@ -100,7 +100,7 @@ describe('hex grid', () => {
   });
 
   it('gives every hex a known terrain and only known fields', () => {
-    const fields = new Set(['terrain', 'city', 'town', 'landmark', 'vp', 'port', 'airfield', 'dropZone', 'sector8']);
+    const fields = new Set(['terrain', 'city', 'town', 'landmark', 'vp', 'port', 'airfield', 'dropZone', 'sector8', 'shore']);
     const bad = ids.flatMap((h) => [
       ...(['clear', 'hill', 'marsh', 'sea'].includes(H[h].terrain) ? [] : [`${h}: terrain ${H[h].terrain}`]),
       ...Object.keys(H[h]).filter((k) => !fields.has(k)).map((k) => `${h}: unknown field ${k}`),
@@ -405,6 +405,15 @@ describe('8th Army sector', () => {
   it('holds the whole south and east map edges beyond the line', () => {
     for (const id of ['S1', 'S2', 'S3', 'E1', 'E2', 'E3', 'E4', 'E5']) expect(MAP.entryAreas[id].hexes.every(in8), id).toBe(true);
     for (const id of ['N1', 'N2']) expect(MAP.entryAreas[id].hexes.some(in8), id).toBe(false);
+  });
+});
+
+describe('printed coastal hexes', () => {
+  it('keeps every hex the map prints with an outline and number as land, however little land it holds', () => {
+    // Found from the owner's report on the Amalfi coast: printed hexes entered as sea (photos 1, 2 and 5).
+    for (const h of ['2003', '2006', '2106', '2207', '2408', '2517']) expect(isLand(h), h).toBe(true);
+    // Their cliffs: no way round the mountain hexsides of the Amalfi coast along the shore.
+    for (const k of ['2106-2206', '2206-2207', '2408-2507']) expect(MAP.hexsides[k]?.mountain, k).toBe(true);
   });
 });
 

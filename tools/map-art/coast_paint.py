@@ -38,7 +38,10 @@ for h, v in H.items():
     wrong = sum(1 for dx, dy in offs if sea_at(cx + dx, cy + dy) == land)
     wcore = sum(1 for dx, dy in core if sea_at(cx + dx, cy + dy) == land)
     rows.append((h, v['terrain'], wrong / len(offs), wcore / len(core), v.get('town') or v.get('city') or ''))
-land_rows = [r for r in rows if r[1] != 'sea']
+# Shore hexes are playable land drawn as water with a strip of coast: report them on their own.
+shore = {h for h, v in H.items() if v.get('shore')}
+print('shore hexes (land for the rules, mostly water on the map):', [(r[0], f'{1 - r[2]:.0%} land') for r in rows if r[0] in shore])
+land_rows = [r for r in rows if r[1] != 'sea' and r[0] not in shore]
 print(f'{GAME}: {len(land_rows)} coastal land hexes; mean share painted as sea {np.mean([r[2] for r in land_rows]):.0%}; '
       f'hexes whose middle is painted sea: {[r[0] for r in land_rows if r[3] > 0.3]}')
 print('land hexes most painted as sea:', [(r[0], r[4], f'{r[2]:.0%}', f'core {r[3]:.0%}') for r in sorted(land_rows, key=lambda r: -r[2])[:14]])

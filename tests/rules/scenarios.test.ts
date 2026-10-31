@@ -504,8 +504,9 @@ describe('S Scenarios', () => {
 
   it('[S2.4] campaign: 20 VPs at the end; isolated German VP hexes count, lost beachheads do not', () => {
     const s = quiet({ side: 'Allied', scenario: 'campaign' });
-    for (const [id, h] of [['US-179', '2419'], ['US-180', '2318'], ['US-157', '2518']] as const) place(s, id, h);
-    expect(neighbors('2418').filter((n) => MAP.hexes[n]?.terrain !== 'sea').sort()).toEqual(['2318', '2419', '2518']);
+    // 2517 is the printed coastal hex below Blue Beach: a land neighbour of Agropoli like the others.
+    for (const [id, h] of [['US-179', '2419'], ['US-180', '2318'], ['US-157', '2518'], ['US-133', '2517']] as const) place(s, id, h);
+    expect(neighbors('2418').filter((n) => MAP.hexes[n]?.terrain !== 'sea').sort()).toEqual(['2318', '2419', '2517', '2518']);
     s.units['BR-BH21'].where = { kind: 'eliminated' };
     expect(vpBreakdown(s, true).total).toBe(1); // Agropoli, cut off: +1; the beachhead: 0
     expect(vpBreakdown(s, false).total).toBe(-1);
