@@ -58,19 +58,27 @@ function hexPath(ctx: CanvasRenderingContext2D, h: string, grow = 0.6) {
   ctx.closePath();
 }
 
-/** A traced coastal hex's land, cell by cell, clipped to its outline (coast.ts). */
+/** A traced coastal hex's land, clipped to its outline (coast.ts). The trace's cells are a tiny image scaled up
+ * smoothly, so the shore runs between the cells' middles as a smooth line rather than stepping round them. */
 function maskPath(ctx: CanvasRenderingContext2D, h: string, code: string) {
   const m = decodeCoast(code);
+  const cells = makeCanvas(COAST_COLS, COAST_ROWS);
+  const cctx = cells.getContext('2d')!;
+  const px = cctx.createImageData(COAST_COLS, COAST_ROWS);
+  for (let i = 0; i < m.length; i++) {
+    px.data[i * 4] = px.data[i * 4 + 1] = px.data[i * 4 + 2] = 255;
+    px.data[i * 4 + 3] = m[i] ? 255 : 0;
+  }
+  cctx.putImageData(px, 0, 0);
   const [cx, cy] = center(h);
   const k = COAST_STEP;
   ctx.save();
   hexPath(ctx, h, 1);
   ctx.clip();
-  for (let i = 0; i < COAST_ROWS; i++) {
-    for (let j = 0; j < COAST_COLS; j++) {
-      if (m[i * COAST_COLS + j]) ctx.fillRect(cx + (j - 9) * k - k / 2 - 0.4, cy + (i - 8) * k - k / 2 - 0.4, k + 0.8, k + 0.8);
-    }
-  }
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  // Cell (i, j) is centred at (j - 9, i - 8) steps from the hex's middle.
+  ctx.drawImage(cells, cx - 9.5 * k, cy - 8.5 * k, COAST_COLS * k, COAST_ROWS * k);
   ctx.restore();
 }
 
@@ -125,7 +133,7 @@ const FIELDS: Rgb[] = [
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 8;
+const RENDER_VERSION = 9;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -324,7 +332,9 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   await report(0.15, 'Measuring the heights');
 
   const landB = blur(land0, W, H, 11);
-  const landFine = blur(land0, W, H, 3);
+  const landFine = blur(land0, W, H, 4);
+  // A softer copy for the surf along a traced coast, so the surf is a band rather than a hairline.
+  const landSoft = blur(land0, W, H, 8);
   const landCore = blur(landCore0, W, H, 4);
   const tracedW = blur(traced0, W, H, 8);
   const landNear = blur(land0, W, H, 10);
@@ -377,6 +387,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const height = new Float32Array(W * H);
   const landF = new Float32Array(W * H);
   const coast = new Float32Array(W * H);
+  const surf = new Float32Array(W * H);
   const hillW = new Float32Array(W * H);
   const hillRim = new Float32Array(W * H);
   const mtnW = new Float32Array(W * H);
@@ -399,9 +410,12 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       const free = 1 - 0.8 * tw;
       const [cdx, cdy] = shift(x, y, 0.7 * free);
       let lb = sample(landB, x - cdx, y - cdy);
-      if (tw > 0.001) lb += (sample(landFine, x - cdx, y - cdy) - lb) * tw;
+      const fine = tw > 0.001 ? sample(landFine, x - cdx, y - cdy) : 0;
+      if (tw > 0.001) lb += (fine - lb) * tw;
       const cv = Math.max(lb + (n - 0.5) * 0.42 * free, landCore[i] * 0.85);
       coast[i] = cv;
+      // The surf keys off the drawn shore itself, with the soft field's longer fall-off out to sea.
+      surf[i] = tw > 0.001 ? cv + (sample(landSoft, x - cdx, y - cdy) - fine) * tw : cv;
       const l = smooth(0.4, 0.6, cv);
       landF[i] = l;
       nearW[i] = sample(landNear, sx, sy);
@@ -440,7 +454,8 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
         c = mix([136, 184, 208], [58, 108, 156], depth);
         const wave = vnoise(wx / 9, wy / 26, 5) * 0.6 + vnoise(wx / 40, wy / 90, 6) * 0.4;
         c = mix(c, [c[0] * 1.1, c[1] * 1.08, c[2] * 1.05], wave * 0.6);
-        const foam = smooth(0.32, 0.4, coast[i]) * (1 - smooth(0.4, 0.45, coast[i])) * (0.5 + 0.5 * wave);
+        // Rising with the surf field out at sea, cut off by the shore itself so no sea shows between them.
+        const foam = smooth(0.3, 0.4, surf[i]) * (1 - smooth(0.4, 0.45, coast[i])) * (0.5 + 0.5 * wave);
         c = mix(c, [236, 242, 238], foam * 0.75);
       }
       if (l > 0.001) {
@@ -492,8 +507,8 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
         col = mix(col, hillCol, wHill);
         col = mix(col, marshCol, wMarsh);
         col = mix(col, mtnCol, wMtn);
-        // The pale rim where hill country meets the plain.
-        col = mix(col, [226, 224, 204], hillRim[i] * (1 - wMtn) * 0.6);
+        // The pale rim where hill country meets the plain (not where it meets the sea).
+        col = mix(col, [226, 224, 204], hillRim[i] * (1 - wMtn) * 0.6 * smooth(0.55, 0.8, nearW[i]));
         // Beaches on the low coast, wider in some bays than others.
         const sand = 0.12 + 0.2 * vnoise(wx / 55, wy / 55, 79);
         const beach = smooth(sand, 0.52, 1 - nearW[i]) * (1 - hillW[i]) * (1 - wMtn);
