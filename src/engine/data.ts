@@ -3,6 +3,7 @@
 // module reads these bindings at the time it needs them.
 import type { GameData } from '../games/types';
 import { SALERNO_DATA } from '../games/salerno43/data';
+import { setShiftedColumns } from './hex';
 import type { Category, MapData, StepValues, UnitDef } from './types';
 
 type Valued<T> = T | { value: T };
@@ -264,6 +265,8 @@ export function loadGameData(id: string, d: GameData): void {
   const built = buildUnits(o, d.units);
   GAME_ID = id;
   MAP = d.map as MapData;
+  // Which columns sit half a hex lower: the odd ones unless the map says the even ones do (Italy '43).
+  setShiftedColumns(!(d.map as { meta?: { evenColumnsDown?: boolean } }).meta?.evenColumnsDown);
   RULES = buildRules(d.rules);
   UNIT_DEFS = built.defs;
   SETUPS = built.setups;

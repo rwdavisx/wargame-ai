@@ -1,8 +1,21 @@
-// Hex grid helpers. The map uses flat-topped hexes in vertical columns.
-// Odd columns are shifted half a hex down ("odd-q" offset layout).
+// Hex grid helpers. The map uses flat-topped hexes in vertical columns, every other column shifted half a hex
+// down: the odd columns on Salerno '43's map ("odd-q" offset layout), the even ones on Italy '43's ("even-q").
 // Hex ids are four digits: CCRR (column, row), e.g. "2707" = Salerno.
 
 export type HexId = string;
+
+/** 1 when the odd columns sit half a hex lower, 0 when the even ones do. Set from the map (`setShiftedColumns`). */
+let DOWN = 1;
+
+export function setShiftedColumns(odd: boolean): void {
+  DOWN = odd ? 1 : 0;
+}
+
+/** Whether column `c` sits half a hex lower than its neighbours. */
+export const shiftedDown = (c: number): boolean => (c & 1) === DOWN;
+
+/** The row offset that turns an offset (column, row) into axial coordinates for column `c`. */
+export const axialShift = (c: number): number => (DOWN ? c - (c & 1) : c + (c & 1)) / 2;
 
 export function parseHex(id: HexId): { c: number; r: number } {
   return { c: parseInt(id.slice(0, 2), 10), r: parseInt(id.slice(2, 4), 10) };
@@ -18,7 +31,7 @@ const EVEN_DIRS: [number, number][] = [[0, -1], [1, -1], [1, 0], [0, 1], [-1, 0]
 /** The six neighbouring hex ids, clockwise from north. Ids may be off-map. */
 export function neighbors(id: HexId): HexId[] {
   const { c, r } = parseHex(id);
-  const dirs = c % 2 === 1 ? ODD_DIRS : EVEN_DIRS;
+  const dirs = shiftedDown(c) ? ODD_DIRS : EVEN_DIRS;
   const out: HexId[] = [];
   for (const [dc, dr] of dirs) {
     const nc = c + dc;
@@ -36,7 +49,7 @@ export function isAdjacent(a: HexId, b: HexId): boolean {
 function toCube(id: HexId): [number, number, number] {
   const { c, r } = parseHex(id);
   const x = c;
-  const z = r - (c - (c & 1)) / 2;
+  const z = r - axialShift(c);
   return [x, -x - z, z];
 }
 
@@ -56,7 +69,7 @@ export function hexToPixel(id: HexId, size: number): { x: number; y: number } {
   const { c, r } = parseHex(id);
   return {
     x: size * 1.5 * c,
-    y: size * Math.sqrt(3) * (r + (c % 2 === 1 ? 0.5 : 0)),
+    y: size * Math.sqrt(3) * (r + (shiftedDown(c) ? 0.5 : 0)),
   };
 }
 

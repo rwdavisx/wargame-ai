@@ -1,6 +1,6 @@
 // Map geometry shared by the terrain renderer and the map view.
 import { MAP } from '../../engine/data';
-import { hexCorners, hexId, hexToPixel, sharedEdge, type HexId } from '../../engine/hex';
+import { axialShift, hexCorners, hexId, hexToPixel, sharedEdge, type HexId } from '../../engine/hex';
 
 /** Hex circumradius in map units. */
 export const R = 30;
@@ -38,7 +38,7 @@ export function pixelToHex(x: number, y: number): HexId {
   if (dx > dy && dx > dz) cx = -cy - cz;
   else if (dy <= dz) cz = -cx - cy;
   const col = cx;
-  const row = cz + (cx - (cx & 1)) / 2;
+  const row = cz + axialShift(cx);
   if (col < 0 || row < 0) return '0000';
   return hexId(col, row);
 }
