@@ -1,6 +1,7 @@
 // Map geometry shared by the terrain renderer and the map view.
 import { MAP } from '../../engine/data';
 import { axialShift, hexCorners, hexId, hexToPixel, sharedEdge, type HexId } from '../../engine/hex';
+import { vnoise, warp } from './noise';
 
 /** Hex circumradius in map units. */
 export const R = 30;
@@ -138,19 +139,39 @@ export function rng(seed: string | number): () => number {
   };
 }
 
-/** Adds gentle wiggles to a polyline so rivers and roads look hand-drawn rather than ruled. */
-export function wiggle(pts: Pt[], amount: number, seed: string): Pt[] {
+/** Redraws a polyline the way a map artist would: subdivided, moved by the organic warp (so it stays with the
+ * painted terrain), with a meander that swells and fades along its length. The meander vanishes at the original
+ * vertices, so lines that meet at a hex corner still meet. `keep` pins the original vertices in place: roads still
+ * pass through the towns at the middle of their hexes. */
+export function organic(pts: Pt[], seed: string, o: { amount?: number; meander?: number; steps?: number; keep?: boolean } = {}): Pt[] {
+  const { amount = 1, meander = 2.5, steps = 4, keep = false } = o;
+  if (pts.length < 2) return pts;
   const r = rng(seed);
-  const out: Pt[] = [pts[0]];
-  for (let i = 1; i < pts.length; i++) {
-    const [ax, ay] = pts[i - 1];
-    const [bx, by] = pts[i];
+  const phase = r() * Math.PI * 2;
+  const wave = 9 + r() * 6;
+  const sn = Math.floor(r() * 1000);
+  const out: Pt[] = [];
+  let dist = 0;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [ax, ay] = pts[i];
+    const [bx, by] = pts[i + 1];
     const len = Math.hypot(bx - ax, by - ay) || 1;
     const nx = -(by - ay) / len;
     const ny = (bx - ax) / len;
-    const o = (r() - 0.5) * 2 * amount;
-    out.push([(ax + bx) / 2 + nx * o, (ay + by) / 2 + ny * o]);
-    out.push(pts[i]);
+    for (let k = 0; k < steps; k++) {
+      const t = k / steps;
+      const x = ax + (bx - ax) * t;
+      const y = ay + (by - ay) * t;
+      const fade = Math.sin(Math.PI * t);
+      const [wx, wy] = warp(x, y, amount);
+      const pull = keep ? fade : 1;
+      const m = Math.sin(phase + (dist + len * t) / wave) * meander * vnoise((dist + len * t) / 80, sn, 211) * fade;
+      out.push([x + (wx - x) * pull + nx * m, y + (wy - y) * pull + ny * m]);
+    }
+    dist += len;
   }
+  const [lx, ly] = pts[pts.length - 1];
+  out.push(keep ? [lx, ly] : warp(lx, ly, amount));
   return out;
 }
+

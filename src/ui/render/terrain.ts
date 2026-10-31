@@ -1,12 +1,14 @@
-// Paints the map as a picture: relief shading from hills and mountain ridges,
-// a farmland patchwork on the plains, marsh, rocky heights, beaches, a sea
-// that deepens away from the coast, woods and village rooftops. Everything is
-// derived from map.json, so edits made in the map editor show up after a
-// re-render. Crisp line work (rivers, roads, labels) is drawn on top in SVG.
+// Paints the map as a picture in the manner of the printed maps: pale lowland with a muted field patchwork,
+// khaki hill country with a pale rim where it meets the plain, airbrushed umber mountain masses, sage marsh with
+// reeds, beaches, a sea that deepens away from the coast, woods and village rooftops. Everything is derived from
+// map.json, so edits made in the map editor show up after a re-render. Every field is read through the organic
+// warp (noise.ts), so edges wander across the hex lines as a map artist would draw them, while each hex keeps its
+// own terrain at its middle. Crisp line work (rivers, roads, labels) is drawn on top in SVG, bent by the same warp.
 import { GAME_ID, MAP } from '../../engine/data';
 import { distance, hexId, neighbors, parseHex, sideKey } from '../../engine/hex';
 import type { HexData } from '../../engine/types';
-import { center, chainSegments, corners, edge, mapBounds, rng, smoothPath, wiggle, type Bounds, type Pt } from './geom';
+import { center, corners, edge, mapBounds, rng, type Bounds } from './geom';
+import { fbm, hash, vnoise, warp } from './noise';
 
 /** The painted map, kept as pixels in memory rather than as a URL: sandboxed hosts and app web views
  * may block blob: or data: images, but drawing one canvas onto another always works. */
@@ -92,43 +94,6 @@ function boxV(src: Float32Array, dst: Float32Array, w: number, h: number, r: num
   }
 }
 
-// ------------------------------------------------------------------ noise
-
-function hash(ix: number, iy: number, seed: number): number {
-  let h = Math.imul(ix, 374761393) + Math.imul(iy, 668265263) + Math.imul(seed, 1442695041);
-  h = Math.imul(h ^ (h >>> 13), 1274126177);
-  h ^= h >>> 16;
-  return (h >>> 0) / 4294967295;
-}
-
-function vnoise(x: number, y: number, seed: number): number {
-  const ix = Math.floor(x);
-  const iy = Math.floor(y);
-  const fx = x - ix;
-  const fy = y - iy;
-  const u = fx * fx * (3 - 2 * fx);
-  const v = fy * fy * (3 - 2 * fy);
-  const a = hash(ix, iy, seed);
-  const b = hash(ix + 1, iy, seed);
-  const c = hash(ix, iy + 1, seed);
-  const d = hash(ix + 1, iy + 1, seed);
-  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
-}
-
-function fbm(x: number, y: number, seed: number, octaves: number): number {
-  let sum = 0;
-  let amp = 0.5;
-  let norm = 0;
-  for (let o = 0; o < octaves; o++) {
-    sum += vnoise(x, y, seed + o * 17) * amp;
-    norm += amp;
-    x *= 2.03;
-    y *= 2.03;
-    amp *= 0.5;
-  }
-  return sum / norm;
-}
-
 const clamp = (v: number, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
 const smooth = (e0: number, e1: number, v: number) => {
   const t = clamp((v - e0) / (e1 - e0));
@@ -136,14 +101,14 @@ const smooth = (e0: number, e1: number, v: number) => {
 };
 const mix = (a: Rgb, b: Rgb, t: number): Rgb => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 
-// Farmland patchwork of the Sele plain: wheat, stubble, pasture, tobacco and orchards.
+// Farmland on the plains, muted toward the printed map's pale lowland: wheat, stubble, pasture, orchards.
 const FIELDS: Rgb[] = [
-  [158, 164, 98], [176, 170, 104], [142, 156, 86], [186, 172, 112], [128, 146, 80], [166, 152, 96], [150, 166, 96], [192, 180, 124],
+  [204, 204, 176], [212, 208, 180], [196, 200, 168], [208, 204, 172], [190, 198, 164], [200, 200, 174], [196, 204, 174], [216, 212, 188],
 ];
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 4;
+const RENDER_VERSION = 5;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -277,7 +242,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
     for (const [h, d] of extended) if (d.terrain === 'hill') (hexPath(ctx, h, 1), ctx.fill());
   });
   const marsh0 = rasterize(b, (ctx) => {
-    for (const [h, d] of hexes) if (d.terrain === 'marsh') (hexPath(ctx, h, -6), ctx.fill());
+    for (const [h, d] of hexes) if (d.terrain === 'marsh') (hexPath(ctx, h, -4), ctx.fill());
   });
   const town0 = rasterize(b, (ctx) => {
     for (const [h, d] of hexes) {
@@ -291,21 +256,33 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const ridge0 = rasterize(b, (ctx) => {
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    // Mountain hexsides joined into smooth ridge lines.
-    const segs: [Pt, Pt][] = [];
+    // Each mountain hexside lays down a mass of its own: a stroke of varying weight along it and a blob or two
+    // beside it, so the ranges come out as irregular masses rather than ruled lines.
+    const r = rng('massif');
     for (const [k, s] of Object.entries(MAP.hexsides)) {
       if (!s.mountain) continue;
       const [a, c] = k.split('-');
       const e = edge(a, c);
-      if (e) segs.push(e);
+      if (!e) continue;
+      ctx.lineWidth = 9 + r() * 15;
+      ctx.beginPath();
+      ctx.moveTo(e[0][0], e[0][1]);
+      ctx.lineTo(e[1][0], e[1][1]);
+      ctx.stroke();
+      for (let k2 = r() < 0.55 ? 2 : 1; k2 > 0; k2--) {
+        const t = 0.15 + r() * 0.7;
+        const mx = e[0][0] + (e[1][0] - e[0][0]) * t + (r() - 0.5) * 14;
+        const my = e[0][1] + (e[1][1] - e[0][1]) * t + (r() - 0.5) * 14;
+        ctx.beginPath();
+        ctx.arc(mx, my, 6 + r() * 12, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
-    ctx.lineWidth = 12;
-    for (const line of chainSegments(segs)) ctx.stroke(new Path2D(smoothPath(wiggle(line, 3, `r${line[0]}`), 0.9)));
-    // Full mountain hexes: every land side is a mountain hexside.
+    // Full mountain hexes: every land side is a mountain hexside (2.2.2).
     for (const [h, d] of hexes) {
       if (d.terrain === 'sea') continue;
       const ns = neighbors(h).filter((n) => MAP.hexes[n] && MAP.hexes[n].terrain !== 'sea');
-      if (ns.length && ns.every((n) => MAP.hexsides[sideKey(h, n)]?.mountain)) (hexPath(ctx, h, -6), ctx.fill());
+      if (d.fullMountain || (ns.length && ns.every((n) => MAP.hexsides[sideKey(h, n)]?.mountain))) (hexPath(ctx, h, -3), ctx.fill());
     }
   });
   await report(0.15, 'Measuring the heights');
@@ -314,30 +291,90 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const landNear = blur(land0, W, H, 10);
   const landWide = blur(land0, W, H, 60);
   const inside = blur(inside0, W, H, 18);
-  const hill = blur(hill0, W, H, 14);
-  const marsh = blur(marsh0, W, H, 6);
-  const ridge = blur(ridge0, W, H, 9);
+  const hill = blur(hill0, W, H, 13);
+  const marsh = blur(marsh0, W, H, 10);
+  const ridge = blur(ridge0, W, H, 10);
   const town = blur(town0, W, H, 3);
   await report(0.3, 'Raising the mountains');
 
+  // Every field is read through the organic warp: the pixel at p shows what belongs at about p - (warp(p) - p),
+  // which bends the edges of hills, mountains, marsh and coast across the hex lines the same way the rivers and
+  // roads are bent.
+  const sample = (f: Float32Array, x: number, y: number): number => {
+    const fx = clamp(x, 0, W - 1.001);
+    const fy = clamp(y, 0, H - 1.001);
+    const ix = Math.floor(fx);
+    const iy = Math.floor(fy);
+    const tx = fx - ix;
+    const ty = fy - iy;
+    const i = iy * W + ix;
+    return (f[i] * (1 - tx) + f[i + 1] * tx) * (1 - ty) + (f[i + W] * (1 - tx) + f[i + W + 1] * tx) * ty;
+  };
+  // The warp is smooth, so it is computed on a coarse grid and interpolated.
+  const G = 4;
+  const gw = Math.ceil(W / G) + 2;
+  const gh = Math.ceil(H / G) + 2;
+  const wdx = new Float32Array(gw * gh);
+  const wdy = new Float32Array(gw * gh);
+  for (let gy = 0; gy < gh; gy++) {
+    for (let gx = 0; gx < gw; gx++) {
+      const [qx, qy] = warp(b.x + gx * G, b.y + gy * G);
+      wdx[gy * gw + gx] = qx - (b.x + gx * G);
+      wdy[gy * gw + gx] = qy - (b.y + gy * G);
+    }
+  }
+  /** The warp's displacement at pixel (x, y), times `amount`. */
+  const shift = (x: number, y: number, amount: number): [number, number] => {
+    const fx = x / G;
+    const fy = y / G;
+    const ix = Math.floor(fx);
+    const iy = Math.floor(fy);
+    const tx = fx - ix;
+    const ty = fy - iy;
+    const i = iy * gw + ix;
+    const lerp = (f: Float32Array) => (f[i] * (1 - tx) + f[i + 1] * tx) * (1 - ty) + (f[i + gw] * (1 - tx) + f[i + gw + 1] * tx) * ty;
+    return [lerp(wdx) * amount, lerp(wdy) * amount];
+  };
   const height = new Float32Array(W * H);
   const landF = new Float32Array(W * H);
   const coast = new Float32Array(W * H);
+  const hillW = new Float32Array(W * H);
+  const hillRim = new Float32Array(W * H);
+  const mtnW = new Float32Array(W * H);
+  const mtnCore = new Float32Array(W * H);
+  const marshW = new Float32Array(W * H);
+  const nearW = new Float32Array(W * H);
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
       const i = y * W + x;
       const wx = x + b.x;
       const wy = y + b.y;
+      const [ddx, ddy] = shift(x, y, 1.25);
+      const sx = x - ddx;
+      const sy = y - ddy;
       const n = fbm(wx / 60, wy / 60, 1, 4);
       const n2 = fbm(wx / 22, wy / 22, 7, 2);
-      const cv = landB[i] + (n - 0.5) * 0.45;
+      const cv = sample(landB, sx, sy) + (n - 0.5) * 0.5;
       coast[i] = cv;
       const l = smooth(0.4, 0.6, cv);
       landF[i] = l;
-      // Rolling hills come from noise inside the hill country, not from the hex shapes.
-      const roll = fbm(wx / 34, wy / 34, 13, 3);
-      const crag = ridge[i] > 0.05 ? fbm(wx / 8, wy / 8, 17, 3) : 0.5;
-      height[i] = l * (0.06 + hill[i] * (0.12 + 0.36 * roll) + ridge[i] * (0.3 + 0.45 * n + 0.35 * crag) + (n2 - 0.5) * 0.04 - marsh[i] * 0.04);
+      nearW[i] = sample(landNear, sx, sy);
+      // Hill country: an edge that wanders, and a pale rim on the plain side where it meets the lowland.
+      // (The noise is only worked out where it can change the outcome: near an edge, or inside the feature.)
+      const hraw = sample(hill, sx, sy);
+      const hv = hraw < 0.18 || hraw > 0.8 ? hraw : hraw + (fbm(wx / 42, wy / 42, 63, 3) - 0.5) * 0.36;
+      hillW[i] = smooth(0.42, 0.56, hv);
+      hillRim[i] = smooth(0.35, 0.43, hv) * (1 - smooth(0.43, 0.48, hv));
+      // Mountains: irregular airbrushed masses with a darker core that comes and goes.
+      const mraw = sample(ridge, sx, sy);
+      const mv = mraw < 0.02 ? mraw : mraw + (fbm(wx / 26, wy / 26, 61, 3) - 0.5) * 0.44;
+      mtnW[i] = smooth(0.25, 0.38, mv);
+      mtnCore[i] = mtnW[i] > 0 ? smooth(0.42, 0.95, mv + (fbm(wx / 13, wy / 13, 67, 2) - 0.5) * 0.3) : 0;
+      const kraw = sample(marsh, sx, sy);
+      marshW[i] = kraw < 0.02 ? 0 : smooth(0.3, 0.62, kraw + (fbm(wx / 30, wy / 30, 69, 3) - 0.5) * 0.55);
+      const roll = hillW[i] > 0 ? fbm(wx / 34, wy / 34, 13, 3) : 0.5;
+      const crag = mv > 0.02 ? fbm(wx / 8, wy / 8, 17, 3) : 0.5;
+      height[i] = l * (0.05 + hillW[i] * (0.08 + 0.14 * roll) + clamp(mv) * (0.34 + 0.4 * n + 0.2 * crag * mtnW[i]) + (n2 - 0.5) * 0.03 - marshW[i] * 0.04);
     }
     if (y % 200 === 0) await report(0.3 + (0.25 * y) / H, 'Raising the mountains');
   }
@@ -352,58 +389,71 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       const l = landF[i];
       let c: Rgb = [0, 0, 0];
       if (l < 0.999) {
-        // Sea: shallow turquoise to deep blue, with a broken surf line.
-        const depth = smooth(0.0, 0.8, 1 - landWide[i]);
-        c = mix([96, 168, 178], [30, 78, 116], depth);
+        // Sea: the printed map's light blue near the shore, deepening offshore, with a broken surf line.
+        const depth = smooth(0.0, 0.85, 1 - landWide[i]);
+        c = mix([136, 184, 208], [58, 108, 156], depth);
         const wave = vnoise(wx / 9, wy / 26, 5) * 0.6 + vnoise(wx / 40, wy / 90, 6) * 0.4;
-        c = mix(c, [c[0] * 1.13, c[1] * 1.1, c[2] * 1.07], wave * 0.7);
-        const foam = smooth(0.3, 0.4, coast[i]) * (1 - smooth(0.4, 0.46, coast[i])) * (0.55 + 0.45 * wave);
-        c = mix(c, [228, 238, 232], foam * 0.8);
+        c = mix(c, [c[0] * 1.1, c[1] * 1.08, c[2] * 1.05], wave * 0.6);
+        const foam = smooth(0.32, 0.4, coast[i]) * (1 - smooth(0.4, 0.45, coast[i])) * (0.5 + 0.5 * wave);
+        c = mix(c, [236, 242, 238], foam * 0.75);
       }
       if (l > 0.001) {
         const n = vnoise(wx / 28, wy / 28, 3) * 0.6 + vnoise(wx / 7, wy / 7, 4) * 0.4;
         const gx = height[Math.min(i + 1, W * H - 1)] - height[Math.max(i - 1, 0)];
         const gy = height[Math.min(i + W, W * H - 1)] - height[Math.max(i - W, 0)];
-        const shade = clamp(1 + (gx + gy) * 10, 0.6, 1.3);
-        const wRidge = smooth(0.12, 0.6, ridge[i]);
-        const wHill = clamp(hill[i] * 1.35) * (1 - wRidge);
-        const wMarsh = clamp(marsh[i] * 1.3);
-        const wFarm = (1 - wHill) * (1 - wRidge) * (1 - wMarsh);
-        let col: Rgb = [128, 136, 82];
+        const shade = clamp(1 + (gx + gy) * 9, 0.64, 1.16);
+        const wMtn = mtnW[i];
+        const wHill = hillW[i] * (1 - wMtn);
+        const wMarsh = marshW[i] * (1 - wMtn);
+        const wFarm = (1 - wHill) * (1 - wMtn) * (1 - wMarsh);
+        let col: Rgb = [204, 204, 176];
         if (wFarm > 0.02) {
-          // Strip fields in brick courses; each estate (a block of land) has its own orientation.
-          const ex = Math.floor(wx / 170);
-          const ey = Math.floor(wy / 170);
+          // A muted patchwork of strip fields; each estate (a block of land) has its own orientation and the
+          // blocks are warped too, so the field pattern does not line up with the hexes either.
+          const [fdx, fdy] = shift(x, y, 2.2);
+          const qx = wx + fdx;
+          const qy = wy + fdy;
+          const ex = Math.floor(qx / 170);
+          const ey = Math.floor(qy / 170);
           const ang = (hash(ex, ey, 21) - 0.5) * 1.6;
           const ca = Math.cos(ang);
           const sa = Math.sin(ang);
-          const ox = wx - ex * 170;
-          const oy = wy - ey * 170;
+          const ox = qx - ex * 170;
+          const oy = qy - ey * 170;
           const u = ox * ca + oy * sa + ex * 37;
           const v = -ox * sa + oy * ca + ey * 53;
-          const row = Math.floor(v / 9);
+          const row = Math.floor(v / 10);
           const uu = u + hash(row, 0, 31) * 40;
-          const colIdx = Math.floor(uu / (16 + hash(row, 1, 32) * 14));
-          const fu = uu / (16 + hash(row, 1, 32) * 14) - colIdx;
-          const fv = v / 9 - row;
+          const width = 18 + hash(row, 1, 32) * 16;
+          const colIdx = Math.floor(uu / width);
+          const fu = uu / width - colIdx;
+          const fv = v / 10 - row;
           let farm = FIELDS[Math.floor(hash(colIdx, row, 13) * FIELDS.length)];
-          farm = mix(farm, [farm[0] * 0.9, farm[1] * 0.94, farm[2] * 0.86], n);
-          const edgeD = Math.min(fu, 1 - fu) * 18 + 0 * fv;
-          const hedge = Math.max(1 - smooth(0.0, 1.2, edgeD), 1 - smooth(0.0, 0.14, Math.min(fv, 1 - fv)));
-          farm = mix(farm, [104, 118, 70], hedge * 0.45);
+          farm = mix(farm, [farm[0] * 0.93, farm[1] * 0.95, farm[2] * 0.9], n);
+          const hedge = Math.max(1 - smooth(0.0, 0.07, Math.min(fu, 1 - fu)), 1 - smooth(0.0, 0.12, Math.min(fv, 1 - fv)));
+          farm = mix(farm, [160, 164, 128], hedge * 0.3);
           col = farm;
         }
-        const hillCol = mix([134, 132, 84], [108, 116, 70], n);
-        const rockCol = mix([128, 118, 98], [170, 158, 132], smooth(0.3, 0.85, height[i]));
-        const marshCol: Rgb = n > 0.62 ? [110, 140, 132] : mix([88, 110, 74], [106, 122, 82], n);
+        // Hills in the printed map's khaki; mountains in umber, darker in their cores and craggy at close range.
+        const hillCol = mix([156, 144, 104], [138, 126, 90], n);
+        const crag = vnoise(wx / 5, wy / 5, 19);
+        let mtnCol = mix([124, 110, 82], [86, 74, 54], mtnCore[i]);
+        mtnCol = mix(mtnCol, [mtnCol[0] * 0.88, mtnCol[1] * 0.88, mtnCol[2] * 0.88], crag * 0.35);
+        // Marsh: sage with clumps of reeds and short dark dashes, as printed.
+        let marshCol: Rgb = mix([158, 172, 150], [140, 158, 138], n);
+        if (vnoise(wx / 3.4, wy / 3.4, 71) > 0.8) marshCol = [92, 132, 120];
+        else if (((wy / 5) % 1) < 0.16 && vnoise(wx / 6, wy / 2, 73) > 0.62) marshCol = [112, 122, 100];
         col = mix(col, hillCol, wHill);
         col = mix(col, marshCol, wMarsh);
-        col = mix(col, rockCol, wRidge * 0.85);
-        // Beaches on the low coast.
-        const beach = smooth(0.15, 0.5, 1 - landNear[i]) * (1 - hill[i]) * (1 - wRidge);
-        col = mix(col, [220, 204, 158], beach);
+        col = mix(col, mtnCol, wMtn);
+        // The pale rim where hill country meets the plain.
+        col = mix(col, [226, 224, 204], hillRim[i] * (1 - wMtn) * 0.6);
+        // Beaches on the low coast, wider in some bays than others.
+        const sand = 0.12 + 0.2 * vnoise(wx / 55, wy / 55, 79);
+        const beach = smooth(sand, 0.52, 1 - nearW[i]) * (1 - hillW[i]) * (1 - wMtn);
+        col = mix(col, [226, 212, 172], beach);
         // Built-up ground around towns.
-        col = mix(col, [184, 170, 144], town[i] * 0.7);
+        col = mix(col, [188, 176, 152], town[i] * 0.7);
         col = [col[0] * shade, col[1] * shade, col[2] * shade];
         c = mix(c, col, l);
       }
@@ -449,7 +499,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   ctx.fillRect(0, 0, out.width, out.height);
   ctx.restore();
 
-  drawTrees(ctx, b, W, landF, hill, ridge, marsh, town, height, inside);
+  drawTrees(ctx, b, W, landF, hillW, mtnW, marshW, town, height, inside);
   await report(0.9, 'Building the villages');
   drawTowns(ctx, b);
   await report(0.95, 'Printing the map');
@@ -470,7 +520,8 @@ function drawTrees(ctx: CanvasRenderingContext2D, b: Bounds, W: number, land: Fl
       if (i < 0 || i >= land.length || land[i] < 0.8 || town[i] > 0.15 || marsh[i] > 0.3 || inside[i] < 0.6) continue;
       const high = smooth(0.5, 0.9, height[i]);
       const woods = smooth(0.42, 0.68, vnoise(tx / 45, ty / 45, 41) * 0.7 + vnoise(tx / 12, ty / 12, 42) * 0.3);
-      const density = (hill[i] * 0.42 + ridge[i] * 0.25 * (1 - high)) * woods + 0.012;
+      // Woods in the hill country and on the lower slopes of the mountains; only the odd tree on the plain.
+      const density = (hill[i] * 0.3 + ridge[i] * 0.14 * (1 - high)) * woods + 0.004;
       if (r() > density) continue;
       const s = SCALE;
       const rad = (1.5 + r() * 1.3) * s;
@@ -480,8 +531,8 @@ function drawTrees(ctx: CanvasRenderingContext2D, b: Bounds, W: number, land: Fl
       ctx.beginPath();
       ctx.ellipse(px + 1.3 * s, py + 1.1 * s, rad * 1.05, rad * 0.8, 0, 0, Math.PI * 2);
       ctx.fill();
-      const g = 64 + Math.floor(r() * 26);
-      ctx.fillStyle = `rgb(${g - 14},${g + 6},${g - 30})`;
+      const g = 70 + Math.floor(r() * 24);
+      ctx.fillStyle = `rgb(${g - 6},${g + 6},${g - 26})`;
       ctx.beginPath();
       ctx.arc(px, py, rad, 0, Math.PI * 2);
       ctx.fill();

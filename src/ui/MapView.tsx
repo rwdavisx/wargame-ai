@@ -6,7 +6,8 @@ import { MAP } from '../engine/data';
 import { neighbors, type HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
 import { def, sideOf } from '../engine/units';
-import { center, chainSegments, corners, edge, pixelToHex, polyPoints, R, smoothPath, wiggle, type Pt } from './render/geom';
+import { center, chainSegments, corners, edge, organic, pixelToHex, polyPoints, R, smoothPath, type Pt } from './render/geom';
+import { warp } from './render/noise';
 import type { TerrainImage } from './render/terrain';
 import { Insignia, UnitToken } from './render/units';
 import { CanvasImage } from './render/CanvasImage';
@@ -129,12 +130,14 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
       if (s.road) (s.road === 'major' ? majorSegs : minorSegs).push([center(a), center(b)]);
       if (s.pass) {
         const e = edge(a, b);
-        if (e) passes.push([(e[0][0] + e[1][0]) / 2, (e[0][1] + e[1][1]) / 2]);
+        if (e) passes.push(warp((e[0][0] + e[1][0]) / 2, (e[0][1] + e[1][1]) / 2));
       }
     }
-    const rivers = chainSegments(riverSegs).map((l, i) => smoothPath(wiggle(l, 3.2, `riv${i}`), 0.8));
-    const bigRivers = chainSegments(bigRiverSegs).map((l, i) => smoothPath(wiggle(l, 2.4, `big${i}`), 0.8));
-    const lakes = chainSegments(lakeSegs).map((l) => smoothPath(l, 0.6));
+    // Rivers wander around their hexsides as a map artist would draw them (organic), moved by the same warp as
+    // the painted terrain; roads still pass through the middle of every hex they serve.
+    const rivers = chainSegments(riverSegs).map((l, i) => smoothPath(organic(l, `riv${i}`, { meander: 3.2 }), 0.9));
+    const bigRivers = chainSegments(bigRiverSegs).map((l, i) => smoothPath(organic(l, `big${i}`, { meander: 4 }), 0.9));
+    const lakes = chainSegments(lakeSegs).map((l, i) => smoothPath(organic(l, `lake${i}`, { meander: 1.5 }), 0.8));
     // Italy '43: the Gustav Line (red dashes) and Bernhard Line (black dots) along the front faces of their hexes,
     // the 8th Army zone's boundary and the borders between its sections.
     const lineEdges = (flag: 'gustav' | 'bernhard') => {
@@ -174,8 +177,8 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
     const zonePaths = chainSegments(zoneEdge).map((l) => smoothPath(l, 0.2));
     const sectionPaths = chainSegments(sectionEdge).map((l) => smoothPath(l, 0.2));
     const sections = [...sectionHexes].map(([name, pts]) => ({ name, x: pts.reduce((a, p) => a + p[0], 0) / pts.length, y: pts.reduce((a, p) => a + p[1], 0) / pts.length }));
-    const majors = chainSegments(majorSegs).map((l) => smoothPath(l, 0.55));
-    const minors = chainSegments(minorSegs).map((l) => smoothPath(l, 0.55));
+    const majors = chainSegments(majorSegs).map((l, i) => smoothPath(organic(l, `rd${i}`, { keep: true, amount: 0.9, meander: 1.2, steps: 3 }), 0.7));
+    const minors = chainSegments(minorSegs).map((l, i) => smoothPath(organic(l, `rm${i}`, { keep: true, amount: 0.9, meander: 1.8, steps: 3 }), 0.7));
     const boundary: [Pt, Pt][] = [];
     for (const [h, d] of hexes) {
       if (d.terrain === 'sea') continue;
@@ -559,7 +562,9 @@ export function MapView(props: MapViewProps) {
   // The map bar starts open where there is room for it (beside the minimap), closed on phones.
   const [barOpen, setBarOpen] = useState(() => typeof window === 'undefined' || !window.matchMedia('(max-width: 820px), (max-height: 520px)').matches);
   const [vb, setVb] = useState<View>(() => {
-    const [cx, cy] = center(homeHex(state));
+    // `?focus=2504` in the page address starts the view on that hex (handy for checking the map art).
+    const focus = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('focus') : null;
+    const [cx, cy] = center(focus && MAP.hexes[focus] ? focus : homeHex(state));
     // Phones start closer in so the counters are big enough to tap.
     const w = typeof window !== 'undefined' && window.innerWidth < 820 ? 440 : 1040;
     return { x: cx - w / 2, y: cy - (w * 0.63) / 2, w, h: w * 0.63 };
