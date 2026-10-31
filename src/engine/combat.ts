@@ -451,6 +451,8 @@ interface Cell {
   result: string;
   adv: number;
   color: '' | 'y' | 'r';
+  /** "2+" (Italy '43, 14.2.2): a mechanized unit may advance one hex more into clear terrain or along a road. */
+  bonus?: true;
 }
 
 export function parseCell(raw: string): Cell {
@@ -460,8 +462,9 @@ export function parseCell(raw: string): Cell {
     color = s.slice(-1) as Cell['color'];
     s = s.slice(0, -1);
   }
-  const m = /^(.*)\/(\d)$/.exec(s);
-  return m ? { result: m[1], adv: Number(m[2]), color } : { result: s, adv: 0, color };
+  const m = /^(.*)\/(\d)(\+?)$/.exec(s);
+  if (!m) return { result: s, adv: 0, color };
+  return m[3] ? { result: m[1], adv: Number(m[2]), color, bonus: true } : { result: m[1], adv: Number(m[2]), color };
 }
 
 function advanceAllowance(s: GameState, id: string, adv: number): number {
@@ -637,7 +640,7 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
     finishRetreat(4, 'fullRetreat', cell.adv || 4);
   } else {
     // DR2, A1/DR2, DRX, A1/D1, D1: losses, then retreat or Determined Defense.
-    const dist = r === 'D1' ? 3 : 2;
+    const dist = r === 'D1' ? RULES.combat.d1Retreat : 2;
     if (r === 'A1/DR2' || r === 'A1/D1') takeSteps(s, mafAlive(), 1, 'owner', notes, plan.attackers);
     const reconSave = r === 'D1' && reconAlone();
     if (reconSave) notes.push('The recon unit slips away without losing a step, but cannot make a Determined Defense.');

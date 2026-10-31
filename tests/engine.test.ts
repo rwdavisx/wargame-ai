@@ -120,6 +120,8 @@ describe('zones of control', () => {
 describe('combat', () => {
   it('parses CRT cells', () => {
     expect(parseCell('A1/D1/2y')).toEqual({ result: 'A1/D1', adv: 2, color: 'y' });
+    // Italy '43 prints a bonus advance for mechanized units as "2+".
+    expect(parseCell('DR4/2+r')).toEqual({ result: 'DR4', adv: 2, color: 'r', bonus: true });
     expect(parseCell('DS/4r')).toEqual({ result: 'DS', adv: 4, color: 'r' });
     expect(parseCell('EX')).toEqual({ result: 'EX', adv: 0, color: '' });
   });

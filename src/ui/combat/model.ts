@@ -62,7 +62,7 @@ export function explainResult(key: string, att: string, dfn: string): string {
     case 'A1/DR2': return `${cap(att)} lose a step, and ${dfn} must retreat 2 hexes or stand and make a Determined Defense.`;
     case 'DRX': return `Both sides lose a step, and ${dfn} must retreat 2 hexes or stand and make a Determined Defense.`;
     case 'A1/D1': return `Both sides lose a step, and ${dfn} must retreat 2 hexes or stand and make a Determined Defense.`;
-    case 'D1': return `${cap(dfn)} lose a step and must retreat 3 hexes, or stand and make a Determined Defense.`;
+    case 'D1': return `${cap(dfn)} lose a step and must retreat ${RULES.combat.d1Retreat} hexes, or stand and make a Determined Defense.`;
     case 'DR4': return `${cap(dfn)} are routed: they flee 4 hexes in Full Retreat. No stand is allowed.`;
     case 'DS': return `${cap(dfn)} are shattered: they lose a step and flee 4 hexes in Full Retreat. No stand is allowed.`;
     default: return RULES.combat.results[key] ?? '';

@@ -39,7 +39,7 @@ function truckOk(s: GameState, u: UnitState): boolean {
 
 /** Modes for a unit entering from an Entry Area. */
 export function entryModes(s: GameState, u: UnitState): MoveMode[] {
-  if (s.turn === 1 && sideOf(u) === 'Allied') return ['tactical'];
+  if (s.turn === 1 && RULES.movement.turn1AlliedTacticalOnly && sideOf(u) === 'Allied') return ['tactical'];
   if (u.repl) return ['tactical']; // one hex at most (20.4)
   const modes: MoveMode[] = ['normal', 'extended', 'tactical'];
   if (truckOk(s, u)) modes.push('truck', 'truckExtended');
@@ -51,7 +51,7 @@ export function allowedModes(s: GameState, u: UnitState): MoveMode[] {
   const d = def(u.id);
   if (u.moveMode === 'tactical') return ['tactical']; // continuing a landing
   if (u.repl) return ['tactical'];
-  if (s.turn === 1 && sideOf(u) === 'Allied') return ['tactical'];
+  if (s.turn === 1 && RULES.movement.turn1AlliedTacticalOnly && sideOf(u) === 'Allied') return ['tactical'];
   if (u.status === 'disrupted') return ['tactical'];
   if (u.outOfSupply && d.mech) return ['tactical'];
   const modes: MoveMode[] = ['normal', 'extended', 'tactical'];
@@ -61,7 +61,7 @@ export function allowedModes(s: GameState, u: UnitState): MoveMode[] {
 
 export function movementAllowance(s: GameState, u: UnitState, mode: MoveMode): number {
   let ma = isTruck(mode) ? 5 : values(u).move;
-  if (s.turn === 1 && sideOf(u) === 'German') ma = Math.ceil(ma / 2);
+  if (s.turn === 1 && RULES.movement.turn1GermanHalfMa && sideOf(u) === 'German') ma = Math.ceil(ma / 2);
   if (isExtended(mode)) ma += def(u.id).mech ? RULES.movement.extendedBonus.mech : RULES.movement.extendedBonus.nonMech;
   return ma;
 }

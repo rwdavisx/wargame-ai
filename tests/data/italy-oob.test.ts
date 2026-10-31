@@ -118,5 +118,8 @@ describe("the engine reading Italy '43's counters", () => {
     expect(RULES.combat.crt['3']).toHaveLength(RULES.combat.columns.length);
     expect([RULES.automaticMargin, RULES.automaticAlliedVp]).toEqual([5, 20]);
     expect(RULES.landingPoints.perTurn).toBe(0);
+    expect(RULES.combat.d1Retreat).toBe(2);
+    // No landing-day restrictions: Italy '43 opens with the German player turn.
+    expect([RULES.movement.turn1GermanHalfMa, RULES.movement.turn1AlliedTacticalOnly]).toEqual([false, false]);
   });
 });

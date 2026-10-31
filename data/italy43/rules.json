@@ -207,7 +207,7 @@
    6,
    7
   ],
-  "_key": "result/advance; 2+ = bonus advance (14.2.2); y = orange (-1 on the Determined Defense table); r = red (full retreat, no Determined Defense). 8-1 and 9-1 use the 7-1 column.",
+  "_key": "result/advance; 2+ = bonus advance for mechanized units (14.2.2); y = orange (-1 on the Determined Defense table); r = red (no Determined Defense allowed; the full retreat comes from the DR4 and DS results themselves). 8-1 and 9-1 use the 7-1 column.",
   "crt": {
    "1": [
     "A1",
@@ -338,7 +338,8 @@
   "majorAssault": {
    "maxExtraDice": 2,
    "spEach": 1
-  }
+  },
+  "d1Retreat": 2
  },
  "determinedDefense": {
   "_key": "2d6. att/def step losses; 1* = the defender picks the attacker's loss; F = the stand fails; P = partial success (a City Battle marker); H = the defender holds. rolls[i] is the lowest total of row i (2-3 share a row; 12 or more is the last).",

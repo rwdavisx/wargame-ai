@@ -40,6 +40,9 @@ function buildRules(r: any) {
     /** Extra MPs for Extended Movement (Italy '43 gives non-mechanized units fewer). */
     extendedBonus: (typeof extended === 'number' ? { mech: extended, nonMech: extended } : extended) as { mech: number; nonMech: number },
     tacticalHexes: (r.movement.tacticalHexes ?? 2) as number,
+    /** Salerno '43's landing day: German MAs halved (rounded up) and Allied units limited to Tactical Movement. */
+    turn1GermanHalfMa: !!r.movement.turn1GermanHalfMaRoundUp,
+    turn1AlliedTacticalOnly: !!r.movement.turn1AlliedTacticalOnly,
   },
   combat: {
     columns: r.combat.columns as string[],
@@ -52,6 +55,8 @@ function buildRules(r: any) {
     oosAdvanceCap: r.combat.oosAdvanceCap as number,
     halfEffAdvanceCap: r.combat.halfEffAdvanceCap as number,
     navalRange: (r.combat.navalRange ?? 2) as number,
+    /** Hexes a D1 result retreats (Salerno '43: 3, Italy '43: 2). */
+    d1Retreat: (r.combat.d1Retreat ?? 3) as number,
   },
   dd: {
     table: { Clear: r.determinedDefense.Clear, Other: r.determinedDefense.Other, City: r.determinedDefense.City } as Record<string, string[]>,
