@@ -136,13 +136,14 @@ export interface UnitSetup {
 
 /** `back` in oob.json: the counter's reduced side as "a-d-m", or "none" for a one-step unit.
  * `backSp` gives the stacking points printed on the back when they differ from the front. */
-function parseBack(back: unknown, backSp: unknown): StepValues | 'none' | null {
+function parseBack(back: unknown, backSp: unknown, backQuality?: unknown): StepValues | 'none' | null {
   if (back === 'none') return 'none';
   if (typeof back !== 'string') return null;
   const m = /^(\d+)-(\d+)-(\d+)$/.exec(back.trim());
   if (!m) throw new Error(`Bad counter back "${back}" in oob.json (use "a-d-m" or "none").`);
   const v: StepValues = { attack: Number(m[1]), defense: Number(m[2]), move: Number(m[3]) };
   if (typeof backSp === 'number') v.sp = backSp;
+  if (backQuality === 'elite' || backQuality === 'low' || backQuality === 'normal') v.quality = backQuality;
   return v;
 }
 
@@ -171,7 +172,7 @@ function buildUnits(o: any, notes: GameData['units']) {
     const isAsu = !!cat.asu;
     const steps: StepValues[] = [{ attack: u.a, defense: u.d, move: u.m }];
     const army8 = typeof u.arrive?.at === 'string' && /^S[123]$/.test(u.arrive.at) && u.side === 'Allied';
-    const back = parseBack(u.back, u.backSp);
+    const back = parseBack(u.back, u.backSp, u.backQuality);
     if (back === 'none') {
       // A one-step counter.
     } else if (back) {

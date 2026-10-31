@@ -12,7 +12,7 @@ import { alliedVp, applyAction, benchmark, currentWeather, entryReach, landingHe
 import { distance, neighbors, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove, entryModes, legalDestinations } from '../engine/movement';
 import type { Action, GameState, MoveMode, Side } from '../engine/types';
-import { def, goodOrder, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
+import { def, goodOrder, isElite, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
 import { columnLabel } from '../engine/combat';
 import { bestAttackOn, expectedOutcome } from './evaluate';
 import { aggressionFor, createHeuristicAi, type AiPlayer } from './heuristic';
@@ -66,7 +66,7 @@ function sitrep(s: GameState, side: Side): string {
       u.outOfSupply ? 'unsupplied' : '',
       u.isolated ? 'isolated' : '',
       d.asu ? `${d.asu} artillery${u.fired ? ' (fired)' : ''}` : '',
-      d.elite ? 'elite' : '',
+      isElite(u) ? 'elite' : '',
     ].filter(Boolean).join(', ');
     return `  ${id} "${d.name}" ${d.cat} ${v.attack}-${v.defense}-${v.move} at ${whereText(s, id)}${flags ? ` [${flags}]` : ''}`;
   };

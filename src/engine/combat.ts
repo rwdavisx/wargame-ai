@@ -8,7 +8,8 @@ import { rollD6 } from './rng';
 import { areaFriendly, supplyChecker } from './supply';
 import type { CombatReport, GameState, PendingAdvance, Side, UnitState } from './types';
 import {
-  canStack, def, goodOrder, isLand, nationGroup, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values,
+  canStack, def, goodOrder, isElite, isLand, isLowQuality, nationGroup, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining,
+  supportNation, unitsAt, values,
 } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 import { nameList, place, supportName, unitName, verb } from './words';
@@ -351,7 +352,7 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     let best = -1;
     for (const o of options) {
       const e = evalMaf(o);
-      const bonus = e.members.some((id) => def(id).elite) ? 1.5 : 0;
+      const bonus = e.members.some((id) => isElite(s.units[id])) ? 1.5 : 0;
       const tank = e.members.some((id) => def(id).tankRating) ? 1.2 : 0;
       const score = e.attack + bonus + tank;
       if (score > best) {
@@ -383,7 +384,7 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     if (attBest > 0 && defBest < attBest) shifts.push({ reason: 'Tank shift', shift: 1 });
     else if (defBest > 0 && attAny < defBest) shifts.push({ reason: 'Defender tank shift', shift: -1 });
   }
-  if (members.some((id) => def(id).elite) && !defenders.some((u) => def(u.id).elite)) shifts.push({ reason: 'Elite', shift: 1 });
+  if (members.some((id) => isElite(s.units[id])) && !defenders.some(isElite)) shifts.push({ reason: 'Elite', shift: 1 });
   if (weatherBox(s).rain) shifts.push({ reason: 'Rain', shift: -1 });
   let drm = 0;
   const attackerAsus: string[] = [];
@@ -690,7 +691,7 @@ function pickLead(s: GameState, hex: HexId, side: Side, breakthrough = false, pr
   if (!cands.length) return null;
   const chosen = prefer ? cands.find((u) => u.id === prefer) : undefined;
   if (chosen) return chosen;
-  cands.sort((a, b) => Number(!!def(b.id).elite) - Number(!!def(a.id).elite) || Number(!!def(a.id).lowQuality) - Number(!!def(b.id).lowQuality) ||
+  cands.sort((a, b) => Number(isElite(b)) - Number(isElite(a)) || Number(isLowQuality(a)) - Number(isLowQuality(b)) ||
     stepsRemaining(b) - stepsRemaining(a));
   return cands[0];
 }
@@ -771,8 +772,7 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
   for (let attempt = 0; attempt < 12; attempt++) {
     const lead = pickLead(s, pd.hex, side, bt, c.lead, supportNat);
     if (!lead) break;
-    const ld = def(lead.id);
-    let drm = supportDrm + shipDrm + (ld.elite ? 1 : 0) - (ld.lowQuality ? 1 : 0) - (pd.yellow ? 1 : 0);
+    let drm = supportDrm + shipDrm + (isElite(lead) ? 1 : 0) - (isLowQuality(lead) ? 1 : 0) - (pd.yellow ? 1 : 0);
     drm = Math.min(drm, shipDrm ? 3 : 2);
     const roll = rollD6(s);
     const eff = Math.max(1, Math.min(7, roll + drm));

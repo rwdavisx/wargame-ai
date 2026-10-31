@@ -1,9 +1,10 @@
-"""Builds data/italy43/oob.json from the set-up card transcriptions in source/.
+"""Builds data/italy43/oob.json from the set-up card and counter transcriptions in source/.
 
 source/oob-german.json and source/oob-allied.json hold what the two Italy '43 set-up cards of each side show
-(Campaign Game and Bernhard Line), counter by counter. This script turns them into the engine's order of battle:
-one entry per counter with its values, and a set-up per card under `setup`. Rerun it after correcting a
-transcription:
+(Campaign Game and Bernhard Line), counter by counter. source/counters-fronts.json and counters-backs.json hold
+what the photos of the counters themselves show, front and back; where they say more than the cards, they win.
+This script turns them into the engine's order of battle: one entry per counter with its values, and a set-up
+per card under `setup`. Rerun it after correcting a transcription:
 
     python3 tools/italy-oob/build.py
 """
@@ -30,11 +31,25 @@ ENTRY = {'N1-3': 'N1/N2/N3', 'S1 or S2': 'S1/S2', '1706 (Formia)': 'hex:1706'}
 # infantry remnants and the US glider regiment the airborne one.
 POOLS = {
     'GE-INF': ['GE-REM-A', 'GE-REM-B', 'GE-REM-C', 'GE-REM-D'],
-    'GE-MOT': ['GE-REM-E'],
+    'GE-MOT': ['GE-REM-E', 'GE-REM-A-M', 'GE-REM-B-M', 'GE-REM-C-M', 'GE-REM-D-M'],
     'US': ['US-REM-A', 'US-REM-B', 'US-REM-C'],
     'BR': ['BR-REM-A', 'BR-REM-B', 'BR-REM-C'],
+    'BR-MOT': ['BR-REM-A-M', 'BR-REM-B-M', 'BR-REM-C-M'],
     'FR': ['FR-REM-A', 'FR-REM-B'],
 }
+
+# The other side of a two-sided remnant counter (counters-backs.json): German remnants A-D are infantry on one
+# side and motorized on the other; the British ones have a 7th Armoured motorized side.
+TWIN_SIDES = [
+    *[{'id': f'GE-REM-{x}-M', 'twin': f'GE-REM-{x}', 'name': f'REM {x} (motorized)', 'side': 'German', 'nation': 'GE',
+       'formation': 'Independent', 'cat': 'motorized', 'a': 1, 'd': 3, 'm': 5, 'sp': 2} for x in 'ABCD'],
+    *[{'id': f'BR-REM-{x}-M', 'twin': f'BR-REM-{x}', 'name': f'REM (British) {x}, 7th Armoured', 'side': 'Allied',
+       'nation': 'BR', 'formation': '7 Arm Div', 'cat': 'motorized', 'a': 1, 'd': 3, 'm': 5, 'sp': 2,
+       'lowQuality': True} for x in 'ABC'],
+    # Printed on the back of one of the US remnants; which one is not known yet.
+    {'id': 'US-REM-6-1A', 'name': '6/1A REM', 'side': 'Allied', 'nation': 'US', 'formation': '1 Arm Div', 'cat': 'pg',
+     'kind': 'mechanized', 'a': 1, 'd': 3, 'm': 5, 'sp': 2, 'lowQuality': True},
+]
 
 
 def pool_for(u, cat, nation):
@@ -42,6 +57,10 @@ def pool_for(u, cat, nation):
         return 'BR-REM-22-7A'
     if nation == 'US' and u['formation'].startswith('82'):
         return 'US-REM-82'
+    if u['id'] == 'US-6-1A':
+        return 'US-REM-6-1A'
+    if nation == 'BR' and cat in ('motorized', 'pg'):
+        return 'BR-MOT'
     if nation == 'GE':
         return 'GE-MOT' if cat in ('motorized', 'pg') else 'GE-INF'
     # A nation with no remnants of its own (the Italians) goes straight to the Eliminated Box (10.4.2).
@@ -134,6 +153,8 @@ def convert(u, side):
         'id': u['id'], 'name': u['name'], 'side': side, 'nation': nation, 'formation': u['formation'] or 'Independent',
         'cat': cat, 'a': a, 'd': d, 'm': m, 'sp': sp,
     }
+    if '-REM' in u['id'] and u['type'] == 'mountain':
+        kind = 'mountain'  # the French remnants carry the mountain symbol, but not the abilities (10.4.1)
     if kind != cat:
         entry['kind'] = kind
     if u.get('size') and u['size'] != 'REM':
@@ -147,7 +168,7 @@ def convert(u, side):
     if u.get('quality') == 'low':
         entry['lowQuality'] = True
     # Seven mountain units, the 1st Special Service Force among them (19.3).
-    if kind == 'mountain' or kind == 'ssf':
+    if (kind == 'mountain' and cat == 'mountain') or kind == 'ssf':
         entry['mountain'] = True
     if u.get('triangle'):
         entry['entersReduced'] = True
@@ -191,12 +212,87 @@ def remnant_copies(u, side):
     return out
 
 
+def strength(v):
+    return f"{v['a']}-{v['d']}-{v['m']}"
+
+
+def quality_of(q):
+    """'elite' / 'low' / None from a photo reading ('normal (defense not boxed)' and the like count as normal)."""
+    q = (q or '').lower()
+    return 'elite' if q.startswith('elite') else 'low' if q.startswith('low') else None
+
+
+ASU_CATS = ('divAsu', 'corpsAsu', 'nebelwerfer', 'heavyHowitzer')
+
+
+def apply_photos(units, fronts, backs):
+    """What the counters themselves show: full-strength values, ranges and quality from the fronts; the reduced
+    side, or none, from the backs."""
+    by_id = {u['id']: u for u in units}
+    for uid, f in fronts['fronts'].items():
+        u = by_id[uid]
+        if u['cat'] not in ASU_CATS:
+            u['a'], u['d'], u['m'] = f['a'], f['d'], f['m']
+            if f.get('sp') is not None:
+                u['sp'] = f['sp']
+        if f.get('tr') is not None:
+            u['tr'] = f['tr']
+        if f.get('range') is not None:
+            u['range'] = f['range']
+        q = quality_of(f.get('quality'))
+        u.pop('elite', None)
+        u.pop('lowQuality', None)
+        if q == 'elite':
+            u['elite'] = True
+        elif q == 'low':
+            u['lowQuality'] = True
+        if u.get('estimated') == ['front']:
+            del u['estimated']
+    for uid, b in backs['backs'].items():
+        u = by_id[uid]
+        if u['cat'] in ASU_CATS:
+            u['back'] = 'none'  # the back is the Fired side
+            continue
+        u['back'] = strength(b)
+        if b.get('sp') is not None and b['sp'] != u['sp']:
+            u['backSp'] = b['sp']
+        else:
+            u.pop('backSp', None)
+        front_q = 'elite' if u.get('elite') else 'low' if u.get('lowQuality') else 'normal'
+        back_q = quality_of(b.get('quality')) or 'normal'
+        if back_q != front_q:
+            u['backQuality'] = back_q
+    for m in backs['missingBacks']:
+        u = by_id.get(m['id'])
+        if u and '-REM' not in u['id'] and 'one-step' in m['likely']:
+            u['back'] = 'none'
+    # 142/36 was photographed face up; its sister regiments' backs are 4-4-3.
+    if 'back' not in by_id['US-142-36']:
+        by_id['US-142-36']['back'] = '4-4-3'
+        by_id['US-142-36']['estimated'] = ['back']
+    for u in units:
+        # A regiment whose back stacks at 2 has two steps and no remnant: the 94th and 305th Divisions'.
+        if u.get('remnant') and u.get('backSp') is not None and u['backSp'] < 3:
+            del u['remnant']
+    for t in TWIN_SIDES:
+        twin = dict(t)
+        twin['setup'] = {'campaign': {'start': {'remnant': True}}, 'bernhard': {'start': {'remnant': True}}}
+        units.append(twin)
+        if 'twin' in t:
+            by_id[t['twin']]['twin'] = t['id']
+    for u in units:
+        if '-REM' in u['id']:
+            u['back'] = 'none'
+
+
 def main():
     ger = json.loads((HERE / 'source' / 'oob-german.json').read_text())
     all_ = json.loads((HERE / 'source' / 'oob-allied.json').read_text())
     units = [convert(u, 'German') for u in ger['units']]
     for u in all_['units']:
         units.extend(remnant_copies(u, 'Allied') if '-REM' in u['id'] else [convert(u, 'Allied')])
+    apply_photos(units, json.loads((HERE / 'source' / 'counters-fronts.json').read_text()),
+                 json.loads((HERE / 'source' / 'counters-backs.json').read_text()))
     ids = [u['id'] for u in units]
     assert len(ids) == len(set(ids)), 'duplicate ids'
     for pool in POOLS.values():
@@ -213,10 +309,11 @@ def main():
     oob = {
         '_note': (
             "Italy '43 counters, built by tools/italy-oob/build.py from the set-up card transcriptions. "
-            'a-d-m are the full-strength side; back is the reduced side where a card shows it. '
+            'a-d-m are the full-strength side; back is the reduced side ("none" for a one-step counter). '
             "Each counter's place in each scenario is under setup.campaign (Campaign Game and Across the Volturno) "
-            'and setup.bernhard (The Bernhard Line). `estimated: ["front"]` marks counters seen only on their '
-            'reduced side, whose full-strength values are a placeholder until the counters are photographed.'
+            'and setup.bernhard (The Bernhard Line). Values and backs are checked against photos of the counters; '
+            'backQuality is the troop quality on the reduced side when it differs, and twin links the two sides of a '
+            'two-sided remnant counter. `estimated` marks a value not seen on a counter.'
         ),
         'categories': {
             'infantry': {'mech': False, 'maxAdv': 2, 'repl': 'inf'},

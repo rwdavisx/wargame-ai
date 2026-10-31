@@ -66,6 +66,8 @@ export interface StepValues {
   move: number;
   /** Stacking points printed on this side of the counter, when it differs from the front. */
   sp?: number;
+  /** Troop quality on this side, when it differs from the front (Italy '43: some battalions lose their elite box). */
+  quality?: 'elite' | 'low' | 'normal';
 }
 
 export interface UnitDef {

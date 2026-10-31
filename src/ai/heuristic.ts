@@ -12,7 +12,7 @@ import { allowedModes, cannotMove, entryModes, legalDestinations, type Reach } f
 import { nextRandom } from '../engine/rng';
 import { supplyChecker, beachheadHexes } from '../engine/supply';
 import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
-import { canStack, def, goodOrder, nationGroup, sideOf, stackPoints, stepsRemaining, unitsAt, values } from '../engine/units';
+import { canStack, def, goodOrder, isElite, nationGroup, sideOf, stackPoints, stepsRemaining, unitsAt, values } from '../engine/units';
 import { zocOf } from '../engine/zoc';
 import { bestAttackOn, defenseAt, distanceField, enemyAdjacentHexes, expectedOutcome, nearestEnemyDistance, threatAt } from './evaluate';
 import { ownAt, stackRisk, threatMap, type ThreatMap } from './reach';
@@ -358,7 +358,7 @@ export function planAssaults(s: GameState, aggression: number, skill: Skill = SK
         A += o.att * (chosen.length > 2 ? 0.75 : 1); // units outside the Main Assault Force attack at half
         let shift = 0;
         if (!doubles && !defTank && chosen.some((x) => def(x.c.u.id).tankRating)) shift += 1;
-        if (chosen.some((x) => def(x.c.u.id).elite) && !defenders.some((u) => def(u.id).elite)) shift += 1;
+        if (chosen.some((x) => isElite(x.c.u)) && !defenders.some(isElite)) shift += 1;
         est = ratioIndex(Math.min(20, A) / Math.min(20, D)) + shift;
         if (est >= minIndex + 1) break;
       }
@@ -383,9 +383,9 @@ export function chooseDefense(s: GameState): Action {
   const d = MAP.hexes[hex];
   const column = d.city ? 'City' : d.terrain === 'clear' && !d.town ? 'Clear' : 'Other';
   const defenders = unitsAt(s, hex).filter((u) => sideOf(u) === pd.defenderSide);
-  const lead = defenders.find((u) => goodOrder(u) && !def(u.id).asu && def(u.id).elite) ?? defenders.find((u) => goodOrder(u) && !def(u.id).asu);
+  const lead = defenders.find((u) => goodOrder(u) && !def(u.id).asu && isElite(u)) ?? defenders.find((u) => goodOrder(u) && !def(u.id).asu);
   const support = pd.supportOptions[0] ?? null;
-  const drm = Math.min(2, (support ? 1 : 0) + (lead && def(lead.id).elite ? 1 : 0)) - (pd.yellow ? 1 : 0);
+  const drm = Math.min(2, (support ? 1 : 0) + (lead && isElite(lead) ? 1 : 0)) - (pd.yellow ? 1 : 0);
   const steps = defenders.reduce((a, u) => a + stepsRemaining(u), 0);
   // Artillery and beach groups caught in the hex are points lost if the stand fails; holding saves them.
   const vpUnits = defenders.filter((u) => def(u.id).asu || def(u.id).cat === 'bh').length;

@@ -13,7 +13,7 @@ import { rollD6 } from './rng';
 import { areaFriendly, beachheadHexes, losTo, salernoPortOpen, supplyChecker, usablePorts, SOUTH_EDGE_ALLIED_TURN } from './supply';
 import type { Action, CombatReport, GameOptions, GameState, LogEntry, LogKind, MoveMode, Phase, ReplPool, ReplType, Side, UnitState } from './types';
 import {
-  canStack, def, goodOrder, isLand, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, unitsAt, values,
+  canStack, def, goodOrder, isElite, isLand, isLowQuality, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, unitsAt, values,
 } from './units';
 import { bondsOf, zocOf } from './zoc';
 import {
@@ -425,10 +425,9 @@ function doRecovery(s: GameState): void {
     const inZoc = u.where.kind === 'map' && ezoc.has(u.where.hex);
     let recover = !inZoc;
     if (inZoc) {
-      const d = def(u.id);
       const hex = (u.where as { hex: HexId }).hex;
       const drm = (MAP.hexes[hex].city || unitsAt(s, hex).some((x) => def(x.id).cat === 'bh') ? RULES.rally.cityDrm : 0) +
-        (d.elite ? RULES.rally.eliteDrm : 0) + (d.lowQuality ? RULES.rally.lowQualityDrm : 0);
+        (isElite(u) ? RULES.rally.eliteDrm : 0) + (isLowQuality(u) ? RULES.rally.lowQualityDrm : 0);
       const r = rollD6(s);
       recover = RULES.rally.success.includes(Math.max(1, Math.min(6, r + drm)));
       const how = !recover ? (u.status === 'fullRetreat' ? 'still in Full Retreat' : 'still disrupted')

@@ -5,7 +5,7 @@ import { columnLabel, parseCell } from '../../engine/combat';
 import type { HexId } from '../../engine/hex';
 import { planRetreat } from '../../engine/retreat';
 import type { CombatReport, GameState, PendingDefense, Side, UnitState } from '../../engine/types';
-import { def, goodOrder, sideOf, stepsRemaining, unitsAt } from '../../engine/units';
+import { def, goodOrder, isElite, isLowQuality, sideOf, stepsRemaining, unitsAt } from '../../engine/units';
 import { nameList, oddsText, place, placeShort, resultAdvance, resultHeadline, SIDE_PEOPLE, supportName, unitName } from '../../engine/words';
 
 export const sideNoun = (s: Side) => SIDE_PEOPLE[s];
@@ -172,7 +172,7 @@ export function ddForecast(g: GameState, pd: PendingDefense, c: { support: strin
     const stuck = cands.filter((u) => trapped.includes(u.id));
     if (stuck.length) cands = stuck;
   }
-  cands.sort((a, b) => Number(!!def(b.id).elite) - Number(!!def(a.id).elite) || Number(!!def(a.id).lowQuality) - Number(!!def(b.id).lowQuality) ||
+  cands.sort((a, b) => Number(isElite(b)) - Number(isElite(a)) || Number(isLowQuality(a)) - Number(isLowQuality(b)) ||
     stepsRemaining(b) - stepsRemaining(a));
   const lead = cands[0]?.id ?? null;
   const mods: { label: string; value: number }[] = [];
@@ -180,8 +180,8 @@ export function ddForecast(g: GameState, pd: PendingDefense, c: { support: strin
   if (support) mods.push({ label: supportLabel(support), value: RULES.dd.drms.defensiveSupport ?? 1 });
   const ships = c.ships && shipsAllowed(g, pd, support);
   if (ships) mods.push({ label: 'Valiant & Warspite', value: 1 });
-  if (lead && def(lead).elite) mods.push({ label: `Elite lead unit (${def(lead).name})`, value: 1 });
-  if (lead && def(lead).lowQuality) mods.push({ label: `Low-quality lead unit (${def(lead).name})`, value: -1 });
+  if (lead && isElite(g.units[lead])) mods.push({ label: `Elite lead unit (${def(lead).name})`, value: 1 });
+  if (lead && isLowQuality(g.units[lead])) mods.push({ label: `Low-quality lead unit (${def(lead).name})`, value: -1 });
   if (pd.yellow) mods.push({ label: 'Yellow result on the combat table', value: -1 });
   const drm = Math.min(mods.reduce((a, m) => a + m.value, 0), ships ? 3 : 2);
   const column = ddColumn(pd.hex);

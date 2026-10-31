@@ -2,7 +2,9 @@
 // tools/italy-oob/build.py), and the engine's reading of them.
 import { afterAll, describe, expect, it } from 'vitest';
 import { REMNANT_POOLS, RULES, UNIT_DEFS, loadGameData, scenarioSetup } from '../../src/engine/data';
-import { nationGroup } from '../../src/engine/units';
+import { remnantFor } from '../../src/engine/losses';
+import type { GameState, UnitState } from '../../src/engine/types';
+import { isElite, nationGroup } from '../../src/engine/units';
 import { SALERNO_DATA } from '../../src/games/salerno43/data';
 import oob from '../../data/italy43/oob.json';
 import rules from '../../data/italy43/rules.json';
@@ -35,16 +37,17 @@ function placed(card: string) {
 describe("Italy '43 set-up cards", () => {
   it('places every counter the Campaign Game cards show', () => {
     expect(placed('campaign')).toEqual({
-      'German map': 29, 'German arrive': 30, 'German remnant': 5,
-      'Allied map': 19, 'Allied arrive': 47, 'Allied remnant': 10,
+      // Remnants count each side of a two-sided counter.
+      'German map': 29, 'German arrive': 30, 'German remnant': 9,
+      'Allied map': 19, 'Allied arrive': 47, 'Allied remnant': 14,
     });
   });
 
   it('places every counter the Bernhard Line cards show', () => {
     expect(placed('bernhard')).toEqual({
       // 20 reinforcements, and five withdrawn units that come back on Turns 14 and 19.
-      'German map': 30, 'German arrive': 25, 'German remnant': 5, 'German eliminated': 1, 'German permanentlyRemoved': 3,
-      'Allied map': 42, 'Allied arrive': 23, 'Allied remnant': 10, 'Allied permanentlyRemoved': 1,
+      'German map': 30, 'German arrive': 25, 'German remnant': 9, 'German eliminated': 1, 'German permanentlyRemoved': 3,
+      'Allied map': 42, 'Allied arrive': 23, 'Allied remnant': 14, 'Allied permanentlyRemoved': 1,
     });
   });
 
@@ -85,9 +88,16 @@ describe("the engine reading Italy '43's counters", () => {
   it('builds units with a set-up for each scenario', () => {
     // Salerno's map stands in until Italy's is transcribed.
     loadGameData('italy-test', { ...SALERNO_DATA, rules, oob, units: { independentFormations: ['Independent'], tankDestroyers: ['US-601', 'US-636', 'US-645', 'US-776'] } });
-    expect(Object.keys(UNIT_DEFS)).toHaveLength(140);
+    expect(Object.keys(UNIT_DEFS)).toHaveLength(148);
+    const steps = (id: string) => UNIT_DEFS[id].steps.map((v) => `${v.attack}-${v.defense}-${v.move}`);
     // A 3-step regiment's last step is a remnant of its own type: 15 PG's 104th becomes the motorized remnant.
-    expect(UNIT_DEFS['GE-104'].steps.map((v) => `${v.attack}-${v.defense}-${v.move}`)).toEqual(['6-9-5', '4-7-5', '1-3-5']);
+    expect(steps('GE-104')).toEqual(['6-9-5', '4-6-5', '1-3-5']);
+    // The 94th Division's regiments have two steps: their back is already worn down to 1-3-3.
+    expect(steps('GE-274')).toEqual(['3-5-3', '1-3-3']);
+    expect(UNIT_DEFS['GE-274'].remnant).toBeUndefined();
+    // Tanks and Rangers have one step.
+    expect(steps('US-751')).toEqual(['3-2-5']);
+    expect(steps('US-1Rgr')).toEqual(['2-2-3']);
     expect(UNIT_DEFS['GE-104'].steps[2].sp).toBe(2);
     expect(REMNANT_POOLS['GE-INF']).toEqual(['GE-REM-A', 'GE-REM-B', 'GE-REM-C', 'GE-REM-D']);
     expect(UNIT_DEFS['US-601'].tankDestroyer).toBe(true);
@@ -99,6 +109,9 @@ describe("the engine reading Italy '43's counters", () => {
     expect([nationGroup('FR-4-2M'), nationGroup('IT-1Mtr'), nationGroup('BR-22-7A')]).toEqual(['US', 'US', 'CW']);
     // The Italians have no remnants: their 3-step unit has two steps and is then eliminated (10.4.2).
     expect(UNIT_DEFS['IT-1Mtr'].remnant).toBeUndefined();
+    expect(steps('IT-1Mtr')).toEqual(['4-5-5', '2-3-5']);
+    // The 6/1A armoured infantry has a remnant of its own.
+    expect(UNIT_DEFS['US-6-1A'].remnant).toBe('US-REM-6-1A');
 
     // The 504th garrisons Naples in the campaign, and is in the line at the Bernhard start.
     expect(scenarioSetup('campaign')['US-504-82'].start?.hex).toBe('2125');
@@ -106,6 +119,23 @@ describe("the engine reading Italy '43's counters", () => {
     expect(scenarioSetup('bernhard')['US-504-82'].start?.hex).toBe('3210');
     // 26 Pz Div's battalions are away at the Bernhard start and return on Turn 14.
     expect(scenarioSetup('bernhard')['GE-I-9'].arrive).toEqual({ turn: 14, at: 'N3', reduced: true });
+  });
+
+  it('loses the elite box on the reduced side, and shares a remnant counter between its two sides', () => {
+    loadGameData('italy-test', { ...SALERNO_DATA, rules, oob, units: { independentFormations: ['Independent'], tankDestroyers: [] } });
+    // Just the units, every one in the remnant display: enough for these questions.
+    const g = { units: Object.fromEntries(Object.keys(UNIT_DEFS).map((id) => [id, { id, stepsLost: 0, where: { kind: 'remnantPool' } } as UnitState])) } as GameState;
+    const i9 = g.units['GE-I-9'];
+    i9.stepsLost = 0;
+    expect(isElite(i9)).toBe(true);
+    i9.stepsLost = 1;
+    expect(isElite(i9)).toBe(false);
+    // REM A is infantry on one side and motorized on the other: with its infantry side on the map, the motorized
+    // pool skips it.
+    g.units['GE-REM-A'].where = { kind: 'map', hex: '2709' };
+    expect(remnantFor(g, 'GE-104')?.id).toBe('GE-REM-E');
+    g.units['GE-REM-E'].where = { kind: 'map', hex: '2710' };
+    expect(remnantFor(g, 'GE-104')?.id).toBe('GE-REM-B-M');
   });
 
   it("reads Italy '43's own tables", () => {

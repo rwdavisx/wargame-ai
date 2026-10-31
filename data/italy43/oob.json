@@ -1,5 +1,5 @@
 {
- "_note": "Italy '43 counters, built by tools/italy-oob/build.py from the set-up card transcriptions. a-d-m are the full-strength side; back is the reduced side where a card shows it. Each counter's place in each scenario is under setup.campaign (Campaign Game and Across the Volturno) and setup.bernhard (The Bernhard Line). `estimated: [\"front\"]` marks counters seen only on their reduced side, whose full-strength values are a placeholder until the counters are photographed.",
+ "_note": "Italy '43 counters, built by tools/italy-oob/build.py from the set-up card transcriptions. a-d-m are the full-strength side; back is the reduced side (\"none\" for a one-step counter). Each counter's place in each scenario is under setup.campaign (Campaign Game and Across the Volturno) and setup.bernhard (The Bernhard Line). Values and backs are checked against photos of the counters; backQuality is the troop quality on the reduced side when it differs, and twin links the two sides of a two-sided remnant counter. `estimated` marks a value not seen on a counter.",
  "categories": {
   "infantry": {
    "mech": false,
@@ -79,7 +79,11 @@
    "GE-REM-D"
   ],
   "GE-MOT": [
-   "GE-REM-E"
+   "GE-REM-E",
+   "GE-REM-A-M",
+   "GE-REM-B-M",
+   "GE-REM-C-M",
+   "GE-REM-D-M"
   ],
   "US": [
    "US-REM-A",
@@ -90,6 +94,11 @@
    "BR-REM-A",
    "BR-REM-B",
    "BR-REM-C"
+  ],
+  "BR-MOT": [
+   "BR-REM-A-M",
+   "BR-REM-B-M",
+   "BR-REM-C-M"
   ],
   "FR": [
    "FR-REM-A",
@@ -109,9 +118,7 @@
    "m": 5,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "back": "1-2-5",
-   "backSp": 1,
    "setup": {
     "campaign": {
      "start": {
@@ -124,7 +131,9 @@
      },
      "reduced": true
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-III-115",
@@ -139,9 +148,6 @@
    "sp": 1,
    "size": "II",
    "back": "1-2-5",
-   "estimated": [
-    "front"
-   ],
    "setup": {
     "campaign": {
      "start": {
@@ -155,7 +161,9 @@
      },
      "reduced": true
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-I-129",
@@ -169,7 +177,6 @@
    "m": 5,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -182,7 +189,10 @@
       "hex": "2112"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-5",
+   "backQuality": "normal"
   },
   {
    "id": "GE-II-129",
@@ -196,7 +206,6 @@
    "m": 5,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -209,7 +218,10 @@
       "hex": "2211"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-5",
+   "backQuality": "normal"
   },
   {
    "id": "GE-III-129",
@@ -224,9 +236,6 @@
    "sp": 1,
    "size": "II",
    "back": "1-2-5",
-   "estimated": [
-    "front"
-   ],
    "setup": {
     "campaign": {
      "start": {
@@ -241,7 +250,9 @@
      },
      "reduced": true
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-104",
@@ -255,7 +266,6 @@
    "m": 5,
    "sp": 3,
    "size": "III",
-   "elite": true,
    "remnant": "GE-MOT",
    "setup": {
     "campaign": {
@@ -269,7 +279,9 @@
       "hex": "1912"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "4-6-5"
   },
   {
    "id": "GE-33",
@@ -283,7 +295,6 @@
    "m": 6,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -311,7 +322,10 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-6",
+   "backQuality": "normal"
   },
   {
    "id": "GE-215",
@@ -326,10 +340,8 @@
    "sp": 1,
    "size": "II",
    "tr": 3,
-   "elite": true,
    "silhouette": true,
    "back": "2-2-5",
-   "backSp": 1,
    "setup": {
     "campaign": {
      "start": {
@@ -343,7 +355,9 @@
       "hex": "2211"
      }
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-15PG-ASU",
@@ -370,7 +384,8 @@
       "hex": "2110"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-Reggio",
@@ -395,7 +410,8 @@
       "hex": "2609"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-242",
@@ -424,7 +440,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-103Pz",
@@ -468,7 +485,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-103",
@@ -505,7 +523,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "1-2-6"
   },
   {
    "id": "GE-I-29",
@@ -520,7 +539,6 @@
    "sp": 1,
    "size": "II",
    "back": "1-2-5",
-   "backSp": 1,
    "setup": {
     "campaign": {
      "start": {
@@ -565,7 +583,6 @@
    "sp": 2,
    "size": "III(-)",
    "back": "2-3-5",
-   "backSp": 2,
    "setup": {
     "campaign": {
      "arrive": {
@@ -629,7 +646,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "1-2-5"
   },
   {
    "id": "GE-II-8",
@@ -667,7 +685,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "1-2-5"
   },
   {
    "id": "GE-III-8",
@@ -705,7 +724,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "1-2-5"
   },
   {
    "id": "GE-3PG-ASU",
@@ -744,7 +764,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-26",
@@ -758,7 +779,6 @@
    "m": 6,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -776,7 +796,10 @@
       "box": "permanentlyRemoved"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-6",
+   "backQuality": "normal"
   },
   {
    "id": "GE-I-67",
@@ -790,7 +813,6 @@
    "m": 5,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -824,7 +846,10 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-5",
+   "backQuality": "normal"
   },
   {
    "id": "GE-II-67",
@@ -838,7 +863,6 @@
    "m": 5,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -864,7 +888,10 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-5",
+   "backQuality": "normal"
   },
   {
    "id": "GE-I-9",
@@ -873,15 +900,12 @@
    "nation": "GE",
    "formation": "26 Pz",
    "cat": "pg",
-   "a": 2,
+   "a": 3,
    "d": 3,
    "m": 5,
    "sp": 1,
    "size": "II",
    "back": "1-2-5",
-   "estimated": [
-    "front"
-   ],
    "setup": {
     "campaign": {
      "start": {
@@ -919,7 +943,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-II-9",
@@ -933,7 +959,6 @@
    "m": 5,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -967,7 +992,10 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-5",
+   "backQuality": "normal"
   },
   {
    "id": "GE-26Pz-ASU",
@@ -1018,7 +1046,9 @@
      ]
     }
    },
-   "confidence": "medium"
+   "confidence": "medium",
+   "range": 4,
+   "back": "none"
   },
   {
    "id": "GE-HG",
@@ -1027,15 +1057,12 @@
    "nation": "GE",
    "formation": "HG",
    "cat": "recon",
-   "a": 2,
+   "a": 3,
    "d": 3,
    "m": 6,
    "sp": 1,
    "size": "II",
    "back": "1-2-6",
-   "estimated": [
-    "front"
-   ],
    "setup": {
     "campaign": {
      "start": {
@@ -1061,7 +1088,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-I-2HG",
@@ -1075,7 +1104,6 @@
    "m": 5,
    "sp": 2,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -1087,7 +1115,11 @@
       "hex": "2609"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "2-2-5",
+   "backSp": 1,
+   "backQuality": "normal"
   },
   {
    "id": "GE-II-1HG",
@@ -1096,15 +1128,12 @@
    "nation": "GE",
    "formation": "HG",
    "cat": "motorized",
-   "a": 2,
+   "a": 3,
    "d": 3,
    "m": 5,
    "sp": 1,
    "size": "II",
    "back": "1-2-5",
-   "estimated": [
-    "front"
-   ],
    "setup": {
     "campaign": {
      "start": {
@@ -1118,7 +1147,9 @@
      },
      "reduced": true
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-HG-I-II",
@@ -1127,17 +1158,14 @@
    "nation": "GE",
    "formation": "HG",
    "cat": "tank",
-   "a": 4,
-   "d": 3,
+   "a": 5,
+   "d": 4,
    "m": 5,
    "sp": 1,
    "size": "II",
    "tr": 3,
    "silhouette": true,
    "back": "3-2-5",
-   "estimated": [
-    "front"
-   ],
    "setup": {
     "campaign": {
      "start": {
@@ -1151,7 +1179,9 @@
      },
      "reduced": true
     }
-   }
+   },
+   "elite": true,
+   "backQuality": "normal"
   },
   {
    "id": "GE-HG-III",
@@ -1166,7 +1196,6 @@
    "sp": 1,
    "size": "II",
    "tr": 3,
-   "elite": true,
    "silhouette": true,
    "setup": {
     "campaign": {
@@ -1179,7 +1208,9 @@
       "box": "eliminated"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "GE-HG-ASU",
@@ -1206,7 +1237,8 @@
       "hex": "2707"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-III-1FJ",
@@ -1220,7 +1252,6 @@
    "m": 3,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -1238,7 +1269,9 @@
       "box": "permanentlyRemoved"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "GE-III-6FJ",
@@ -1252,7 +1285,6 @@
    "m": 3,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -1278,7 +1310,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "GE-II-64",
@@ -1292,7 +1326,6 @@
    "m": 5,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -1310,7 +1343,10 @@
       "box": "permanentlyRemoved"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-5",
+   "backQuality": "normal"
   },
   {
    "id": "GE-129",
@@ -1324,7 +1360,6 @@
    "m": 6,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "start": {
@@ -1358,7 +1393,10 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "1-2-6",
+   "backQuality": "normal"
   },
   {
    "id": "GE-129Pz",
@@ -1373,7 +1411,6 @@
    "sp": 1,
    "size": "II",
    "tr": 3,
-   "elite": true,
    "silhouette": true,
    "setup": {
     "campaign": {
@@ -1388,7 +1425,9 @@
       "at": "N2"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "GE-71",
@@ -1402,11 +1441,7 @@
    "m": 5,
    "sp": 3,
    "size": "III",
-   "elite": true,
    "back": "4-6-5",
-   "estimated": [
-    "front"
-   ],
    "remnant": "GE-MOT",
    "setup": {
     "campaign": {
@@ -1424,7 +1459,8 @@
      }
     }
    },
-   "confidence": "medium"
+   "confidence": "medium",
+   "elite": true
   },
   {
    "id": "GE-15",
@@ -1438,7 +1474,6 @@
    "m": 5,
    "sp": 3,
    "size": "III",
-   "elite": true,
    "remnant": "GE-MOT",
    "setup": {
     "campaign": {
@@ -1453,7 +1488,9 @@
       "at": "N2"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "4-6-5"
   },
   {
    "id": "GE-29PG-ASU",
@@ -1481,7 +1518,8 @@
       "at": "N2"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-577",
@@ -1495,7 +1533,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "remnant": "GE-INF",
    "setup": {
     "campaign": {
      "arrive": {
@@ -1520,7 +1557,9 @@
       }
      ]
     }
-   }
+   },
+   "back": "1-3-3",
+   "backSp": 2
   },
   {
    "id": "GE-578",
@@ -1534,7 +1573,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "remnant": "GE-INF",
    "setup": {
     "campaign": {
      "arrive": {
@@ -1560,7 +1598,9 @@
       }
      ]
     }
-   }
+   },
+   "back": "1-3-3",
+   "backSp": 2
   },
   {
    "id": "GE-305F",
@@ -1598,7 +1638,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-305-ASU",
@@ -1637,7 +1678,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-267",
@@ -1651,8 +1693,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "lowQuality": true,
-   "remnant": "GE-INF",
    "setup": {
     "campaign": {
      "arrive": {
@@ -1669,7 +1709,10 @@
      "frozen": true,
      "garrison": true
     }
-   }
+   },
+   "lowQuality": true,
+   "back": "1-3-3",
+   "backSp": 2
   },
   {
    "id": "GE-274",
@@ -1683,8 +1726,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "lowQuality": true,
-   "remnant": "GE-INF",
    "setup": {
     "campaign": {
      "arrive": {
@@ -1697,7 +1738,10 @@
       "hex": "2108"
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "back": "1-3-3",
+   "backSp": 2
   },
   {
    "id": "GE-276",
@@ -1711,8 +1755,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "lowQuality": true,
-   "remnant": "GE-INF",
    "setup": {
     "campaign": {
      "arrive": {
@@ -1726,7 +1768,10 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "back": "1-3-3",
+   "backSp": 2
   },
   {
    "id": "GE-94Fus",
@@ -1753,7 +1798,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-94-ASU",
@@ -1781,7 +1827,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-131",
@@ -1809,7 +1856,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "2-5-3"
   },
   {
    "id": "GE-132",
@@ -1837,7 +1885,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "2-5-3"
   },
   {
    "id": "GE-134",
@@ -1865,7 +1914,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "2-5-3"
   },
   {
    "id": "GE-44Fus",
@@ -1892,7 +1942,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-44-ASU",
@@ -1920,7 +1971,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-100",
@@ -1949,7 +2001,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "3-5-3"
   },
   {
    "id": "GE-85",
@@ -1978,7 +2031,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "3-5-3"
   },
   {
    "id": "GE-5Geb-ASU",
@@ -2006,7 +2060,8 @@
       "at": "N1/N2/N3"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-14Pz",
@@ -2033,7 +2088,8 @@
       "hex": "2707"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-71NW",
@@ -2059,7 +2115,8 @@
       "hex": "2707"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-56NW",
@@ -2099,7 +2156,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "GE-REM-A",
@@ -2112,7 +2170,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -2124,7 +2181,10 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "twin": "GE-REM-A-M",
+   "back": "none"
   },
   {
    "id": "GE-REM-B",
@@ -2137,7 +2197,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -2149,7 +2208,10 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "twin": "GE-REM-B-M",
+   "back": "none"
   },
   {
    "id": "GE-REM-C",
@@ -2162,7 +2224,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -2174,7 +2235,10 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "twin": "GE-REM-C-M",
+   "back": "none"
   },
   {
    "id": "GE-REM-D",
@@ -2187,7 +2251,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -2199,7 +2262,10 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "twin": "GE-REM-D-M",
+   "back": "none"
   },
   {
    "id": "GE-REM-E",
@@ -2223,7 +2289,8 @@
       "remnant": true
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-504-82",
@@ -2237,7 +2304,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "elite": true,
    "remnant": "US-REM-82",
    "setup": {
     "campaign": {
@@ -2257,7 +2323,9 @@
       "hex": "3210"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "3-4-3"
   },
   {
    "id": "US-505-82",
@@ -2271,7 +2339,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "elite": true,
    "remnant": "US-REM-82",
    "setup": {
     "campaign": {
@@ -2299,7 +2366,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "3-4-3"
   },
   {
    "id": "US-325G-82",
@@ -2313,7 +2382,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "elite": true,
    "remnant": "US-REM-82",
    "setup": {
     "campaign": {
@@ -2341,7 +2409,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "3-4-3"
   },
   {
    "id": "BR-40RTR",
@@ -2368,7 +2438,8 @@
       "hex": "2312"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-RSG",
@@ -2395,7 +2466,8 @@
       "hex": "2511"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-11K-23A",
@@ -2422,7 +2494,8 @@
       "at": "S1/S2"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-1KDG",
@@ -2447,7 +2520,8 @@
       "hex": "2312"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-131-7A",
@@ -2461,7 +2535,7 @@
    "m": 5,
    "sp": 3,
    "size": "X",
-   "remnant": "BR",
+   "remnant": "BR-MOT",
    "setup": {
     "campaign": {
      "start": {
@@ -2485,7 +2559,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "3-5-5"
   },
   {
    "id": "BR-11H-7A",
@@ -2516,7 +2591,8 @@
       "box": "permanentlyRemoved"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-22-7A",
@@ -2556,7 +2632,9 @@
       }
      ]
     }
-   }
+   },
+   "back": "8-6-5",
+   "backSp": 3
   },
   {
    "id": "BR-7ADivASU",
@@ -2596,7 +2674,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-128-46",
@@ -2612,7 +2691,6 @@
    "size": "X",
    "entersReduced": true,
    "back": "3-5-3",
-   "backSp": 3,
    "remnant": "BR",
    "setup": {
     "campaign": {
@@ -2642,7 +2720,6 @@
    "sp": 3,
    "size": "X",
    "back": "3-5-3",
-   "backSp": 3,
    "remnant": "BR",
    "setup": {
     "campaign": {
@@ -2673,7 +2750,6 @@
    "size": "X",
    "entersReduced": true,
    "back": "3-5-3",
-   "backSp": 3,
    "remnant": "BR",
    "setup": {
     "campaign": {
@@ -2716,7 +2792,8 @@
       "hex": "2314"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-167-56",
@@ -2732,7 +2809,6 @@
    "size": "X",
    "entersReduced": true,
    "back": "3-5-3",
-   "backSp": 3,
    "remnant": "BR",
    "setup": {
     "campaign": {
@@ -2774,7 +2850,8 @@
       "hex": "2511"
      }
     }
-   }
+   },
+   "back": "3-5-3"
   },
   {
    "id": "BR-169-56",
@@ -2789,7 +2866,6 @@
    "sp": 3,
    "size": "X",
    "back": "3-5-3",
-   "backSp": 3,
    "remnant": "BR",
    "setup": {
     "campaign": {
@@ -2829,7 +2905,8 @@
       "hex": "2512"
      }
     }
-   }
+   },
+   "back": "3-5-3"
   },
   {
    "id": "BR-56DivASU",
@@ -2857,7 +2934,8 @@
       "hex": "2513"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-10CorpsASU",
@@ -2885,7 +2963,8 @@
       "hex": "2314"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "BR-9Cmdo",
@@ -2900,7 +2979,6 @@
    "sp": 1,
    "kind": "commando",
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -2914,7 +2992,9 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "US-15-3",
@@ -2952,7 +3032,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "4-5-3"
   },
   {
    "id": "US-30-3",
@@ -2990,7 +3071,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "4-5-3"
   },
   {
    "id": "US-7-3",
@@ -3005,7 +3087,6 @@
    "sp": 3,
    "size": "III",
    "back": "4-5-3",
-   "backSp": 3,
    "remnant": "US",
    "setup": {
     "campaign": {
@@ -3070,7 +3151,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-601",
@@ -3110,7 +3192,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-3DivASU",
@@ -3150,7 +3233,8 @@
       }
      ]
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-133-34",
@@ -3165,7 +3249,6 @@
    "sp": 2,
    "size": "III(-)",
    "back": "1-3-3",
-   "backSp": 2,
    "setup": {
     "campaign": {
      "start": {
@@ -3205,7 +3288,8 @@
       "hex": "3110"
      }
     }
-   }
+   },
+   "back": "4-4-3"
   },
   {
    "id": "US-168-34",
@@ -3232,7 +3316,8 @@
       "hex": "3110"
      }
     }
-   }
+   },
+   "back": "4-4-3"
   },
   {
    "id": "US-100-34",
@@ -3246,7 +3331,6 @@
    "m": 3,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -3259,7 +3343,9 @@
       "hex": "3010"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "US-34DivASU",
@@ -3286,7 +3372,8 @@
       "hex": "3012"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-776",
@@ -3315,7 +3402,8 @@
       "hex": "3010"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-760",
@@ -3343,7 +3431,8 @@
       "hex": "2124"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-141-36",
@@ -3371,7 +3460,8 @@
       "at": "S1/S2"
      }
     }
-   }
+   },
+   "back": "4-4-3"
   },
   {
    "id": "US-142-36",
@@ -3399,7 +3489,11 @@
       "at": "S1/S2"
      }
     }
-   }
+   },
+   "back": "4-4-3",
+   "estimated": [
+    "back"
+   ]
   },
   {
    "id": "US-143-36",
@@ -3427,7 +3521,8 @@
       "at": "S1/S2"
      }
     }
-   }
+   },
+   "back": "4-4-3"
   },
   {
    "id": "US-753",
@@ -3456,7 +3551,8 @@
       "at": "S1/S2"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-636",
@@ -3486,7 +3582,8 @@
       "at": "S1/S2"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-36DivASU",
@@ -3514,7 +3611,8 @@
       "at": "S1/S2"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-157-45",
@@ -3529,7 +3627,6 @@
    "sp": 3,
    "size": "III",
    "back": "4-4-3",
-   "backSp": 3,
    "remnant": "US",
    "setup": {
     "campaign": {
@@ -3559,7 +3656,6 @@
    "size": "III",
    "entersReduced": true,
    "back": "4-4-3",
-   "backSp": 3,
    "remnant": "US",
    "setup": {
     "campaign": {
@@ -3601,7 +3697,8 @@
       "hex": "2911"
      }
     }
-   }
+   },
+   "back": "4-4-3"
   },
   {
    "id": "US-645",
@@ -3630,7 +3727,8 @@
       "hex": "3011"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-755",
@@ -3659,7 +3757,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-45DivASU",
@@ -3687,7 +3786,8 @@
       "hex": "3012"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-6-1A",
@@ -3702,7 +3802,7 @@
    "sp": 3,
    "kind": "mechanized",
    "size": "III",
-   "remnant": "US",
+   "remnant": "US-REM-6-1A",
    "setup": {
     "campaign": {
      "arrive": {
@@ -3716,7 +3816,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "4-5-5"
   },
   {
    "id": "US-1ADivASU",
@@ -3744,7 +3845,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-191",
@@ -3771,7 +3873,8 @@
       "hex": "3110"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-756",
@@ -3799,7 +3902,8 @@
       "hex": "3011"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-91",
@@ -3825,7 +3929,8 @@
       "hex": "2610"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-VICorpsASU",
@@ -3853,7 +3958,8 @@
       "hex": "2712"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-IICorpsASU",
@@ -3881,7 +3987,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-M1",
@@ -3909,7 +4016,8 @@
      }
     }
    },
-   "confidence": "medium"
+   "confidence": "medium",
+   "back": "none"
   },
   {
    "id": "US-1Rgr",
@@ -3923,7 +4031,6 @@
    "m": 3,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -3949,7 +4056,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "US-3Rgr",
@@ -3963,7 +4072,6 @@
    "m": 3,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -3989,7 +4097,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "US-4Rgr",
@@ -4003,7 +4113,6 @@
    "m": 3,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -4028,7 +4137,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "US-2-509",
@@ -4042,7 +4153,6 @@
    "m": 3,
    "sp": 1,
    "size": "II",
-   "elite": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -4068,7 +4178,9 @@
       }
      ]
     }
-   }
+   },
+   "elite": true,
+   "back": "none"
   },
   {
    "id": "US-1SSF",
@@ -4083,7 +4195,6 @@
    "sp": 2,
    "kind": "ssf",
    "size": "X",
-   "elite": true,
    "mountain": true,
    "setup": {
     "campaign": {
@@ -4098,7 +4209,9 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "2-3-3"
   },
   {
    "id": "FR-4-2M",
@@ -4127,7 +4240,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "3-4-3"
   },
   {
    "id": "FR-5-2M",
@@ -4156,7 +4270,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "3-4-3"
   },
   {
    "id": "FR-8-2M",
@@ -4185,7 +4300,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "3-4-3"
   },
   {
    "id": "FR-4MG-2M",
@@ -4199,7 +4315,6 @@
    "m": 3,
    "sp": 3,
    "size": "III",
-   "elite": true,
    "mountain": true,
    "remnant": "FR",
    "setup": {
@@ -4215,7 +4330,9 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "elite": true,
+   "back": "3-4-3"
   },
   {
    "id": "FR-2MDivASU",
@@ -4243,7 +4360,8 @@
       "at": "Naples"
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "IT-1Mtr",
@@ -4257,7 +4375,6 @@
    "m": 5,
    "sp": 3,
    "size": "X",
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "arrive": {
@@ -4271,7 +4388,9 @@
       "at": "S1"
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "back": "2-3-5"
   },
   {
    "id": "BR-REM-A",
@@ -4284,7 +4403,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -4296,7 +4414,10 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "twin": "BR-REM-A-M",
+   "back": "none"
   },
   {
    "id": "BR-REM-B",
@@ -4309,7 +4430,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -4321,7 +4441,10 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "twin": "BR-REM-B-M",
+   "back": "none"
   },
   {
    "id": "BR-REM-C",
@@ -4334,7 +4457,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -4346,7 +4468,10 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "twin": "BR-REM-C-M",
+   "back": "none"
   },
   {
    "id": "BR-REM-22-7A",
@@ -4356,7 +4481,7 @@
    "formation": "7 Arm Div",
    "cat": "tank",
    "a": 5,
-   "d": 4,
+   "d": 3,
    "m": 5,
    "sp": 2,
    "kind": "armor",
@@ -4372,7 +4497,8 @@
       "remnant": true
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "US-REM-A",
@@ -4385,7 +4511,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -4397,7 +4522,9 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "back": "none"
   },
   {
    "id": "US-REM-B",
@@ -4410,7 +4537,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -4422,7 +4548,9 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "back": "none"
   },
   {
    "id": "US-REM-C",
@@ -4435,7 +4563,6 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
    "setup": {
     "campaign": {
      "start": {
@@ -4447,7 +4574,9 @@
       "remnant": true
      }
     }
-   }
+   },
+   "lowQuality": true,
+   "back": "none"
   },
   {
    "id": "US-REM-82",
@@ -4471,7 +4600,8 @@
       "remnant": true
      }
     }
-   }
+   },
+   "back": "none"
   },
   {
    "id": "FR-REM-A",
@@ -4484,7 +4614,7 @@
    "d": 3,
    "m": 3,
    "sp": 2,
-   "lowQuality": true,
+   "kind": "mountain",
    "setup": {
     "campaign": {
      "start": {
@@ -4497,7 +4627,9 @@
      }
     }
    },
-   "confidence": "medium"
+   "confidence": "medium",
+   "lowQuality": true,
+   "back": "none"
   },
   {
    "id": "FR-REM-B",
@@ -4509,6 +4641,139 @@
    "a": 1,
    "d": 3,
    "m": 3,
+   "sp": 2,
+   "kind": "mountain",
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "confidence": "medium",
+   "lowQuality": true,
+   "back": "none"
+  },
+  {
+   "id": "GE-REM-A-M",
+   "twin": "GE-REM-A",
+   "name": "REM A (motorized)",
+   "side": "German",
+   "nation": "GE",
+   "formation": "Independent",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "back": "none"
+  },
+  {
+   "id": "GE-REM-B-M",
+   "twin": "GE-REM-B",
+   "name": "REM B (motorized)",
+   "side": "German",
+   "nation": "GE",
+   "formation": "Independent",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "back": "none"
+  },
+  {
+   "id": "GE-REM-C-M",
+   "twin": "GE-REM-C",
+   "name": "REM C (motorized)",
+   "side": "German",
+   "nation": "GE",
+   "formation": "Independent",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "back": "none"
+  },
+  {
+   "id": "GE-REM-D-M",
+   "twin": "GE-REM-D",
+   "name": "REM D (motorized)",
+   "side": "German",
+   "nation": "GE",
+   "formation": "Independent",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "back": "none"
+  },
+  {
+   "id": "BR-REM-A-M",
+   "twin": "BR-REM-A",
+   "name": "REM (British) A, 7th Armoured",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
    "sp": 2,
    "lowQuality": true,
    "setup": {
@@ -4523,7 +4788,88 @@
      }
     }
    },
-   "confidence": "medium"
+   "back": "none"
+  },
+  {
+   "id": "BR-REM-B-M",
+   "twin": "BR-REM-B",
+   "name": "REM (British) B, 7th Armoured",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "back": "none"
+  },
+  {
+   "id": "BR-REM-C-M",
+   "twin": "BR-REM-C",
+   "name": "REM (British) C, 7th Armoured",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "back": "none"
+  },
+  {
+   "id": "US-REM-6-1A",
+   "name": "6/1A REM",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "1 Arm Div",
+   "cat": "pg",
+   "kind": "mechanized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "back": "none"
   }
  ],
  "scenarios": {

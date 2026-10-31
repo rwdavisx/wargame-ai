@@ -2,7 +2,7 @@
 // in the division's colour, the size marker, unit ID, stacking points and the strength line.
 import { memo } from 'react';
 import type { Nation, UnitState } from '../../engine/types';
-import { def, stepsRemaining, values } from '../../engine/units';
+import { def, isElite, stepsRemaining, values } from '../../engine/units';
 import type { UnitDef } from '../../engine/types';
 import { CounterMarkers, MoveLeftTab, ReadyCue, unitMarkers, type Marker } from './markers';
 
@@ -137,6 +137,7 @@ type Symbol = 'infantry' | 'motorized' | 'mechanized' | 'armor' | 'antitank' | '
 
 function symbolFor(d: UnitDef): Symbol {
   if (MECHANIZED.has(d.id) || d.kind === 'mechanized') return 'mechanized';
+  if (d.kind === 'mountain') return 'mountain'; // the French remnants print the mountain symbol
   switch (d.cat) {
     case 'tank': return d.tankDestroyer ? 'antitank' : 'armor';
     case 'recon': return 'armorRecon';
@@ -282,8 +283,8 @@ function StrengthLine({ d, u, y }: { d: UnitDef; u: UnitState; y: number }) {
         </g>
       ) : null}
       <text x={xd1} y={y} fontSize={fs}>-</text>
-      {d.elite && <rect x={xd - 0.6} y={y - fs * 0.78} width={def_.length * cw + 1.2} height={fs * 0.86} rx={0.6} fill="#d6322b" />}
-      <text x={xd} y={y} fontSize={fs} fill={d.elite ? '#ffffff' : ink}>{def_}</text>
+      {isElite(u) && <rect x={xd - 0.6} y={y - fs * 0.78} width={def_.length * cw + 1.2} height={fs * 0.86} rx={0.6} fill="#d6322b" />}
+      <text x={xd} y={y} fontSize={fs} fill={isElite(u) ? '#ffffff' : ink}>{def_}</text>
       <text x={xd2} y={y} fontSize={fs}>-</text>
       <text x={xm} y={y} fontSize={fs}>{m}</text>
     </g>

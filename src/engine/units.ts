@@ -25,6 +25,18 @@ export function values(u: UnitState): StepValues {
   return d.steps[Math.min(u.stepsLost, d.steps.length - 1)];
 }
 
+/** Elite on the side the unit shows now: an Italy '43 counter can lose its elite box when reduced. */
+export function isElite(u: UnitState): boolean {
+  const q = values(u).quality;
+  return q ? q === 'elite' : !!def(u.id).elite;
+}
+
+/** Low quality on the side the unit shows now. */
+export function isLowQuality(u: UnitState): boolean {
+  const q = values(u).quality;
+  return q ? q === 'low' : !!def(u.id).lowQuality;
+}
+
 export function hexOf(u: UnitState): HexId | null {
   return u.where.kind === 'map' ? u.where.hex : null;
 }

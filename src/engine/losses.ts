@@ -1,7 +1,7 @@
 // Step losses, remnants and elimination.
 import { onGameData, REMNANT_POOLS, UNIT_DEFS } from './data';
 import type { GameState, UnitState } from './types';
-import { def, stepsRemaining, values } from './units';
+import { def, isElite, stepsRemaining, values } from './units';
 import { unitName } from './words';
 
 export function remnantFor(s: GameState, unitId: string): UnitState | null {
@@ -21,7 +21,7 @@ export function remnantFor(s: GameState, unitId: string): UnitState | null {
 export function stepValue(u: UnitState): number {
   const d = def(u.id);
   const v = values(u);
-  if (stepsRemaining(u) <= 1 && !d.remnant) return v.attack + v.defense + (d.elite ? 2 : 0) + (d.tankRating ? 1 : 0) + 1;
+  if (stepsRemaining(u) <= 1 && !d.remnant) return v.attack + v.defense + (isElite(u) ? 2 : 0) + (d.tankRating ? 1 : 0) + 1;
   const next = d.steps[Math.min(u.stepsLost + 1, d.steps.length - 1)];
   return v.attack - next.attack + (v.defense - next.defense) + 0.5;
 }

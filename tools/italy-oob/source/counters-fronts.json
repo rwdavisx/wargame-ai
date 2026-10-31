@@ -1,0 +1,3601 @@
+{
+ "_note": "Front (full-strength / Ready) side of every Italy '43 counter, read at 2.4x-12x zoom from counters-fronts.jpg (crops and scripts in fz/). photoPos = row/column in the photo (r0 = the partial top row of 6, r1-r15 = full rows of 10, left to right). printed = strength line as printed: superscript tank rating as '4³-3-5', yellow-box TD rating as '2[3]-2-5', ASU as 'S (1) 5'. For ASUs a=0, d=1 (the parenthesised defence). quality: elite = defence in a red box, low = defence in a white box, null = unboxed. sp = boxed stacking value, null where none is printed. corner = lower-right number (start hex or arrival turn); 'triangle' = a pale triangle is printed there instead (unit begins reduced); null = nothing printed. cornerBox = colour of the box behind the corner number (blue/black) or null. differences compare with data/italy43/oob.json; notes hold other observations.",
+ "fronts": {
+  "BR-46DivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": null,
+   "cornerBox": null,
+   "size": "[X]",
+   "symbols": [
+    "ASU: division box with dot (beige)",
+    "white rounded outline",
+    "division insignia top-right"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r0c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number on the Ready side (unit starts Fired in the Campaign Game)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "BR-128-46": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "infantry box (pale khaki)",
+    "triangle lower-right (begins reduced)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r0c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "US-133-34": {
+   "printed": "4-4-3",
+   "a": 4,
+   "d": 4,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": null,
+   "range": null,
+   "corner": "3626",
+   "cornerBox": null,
+   "size": "III(-)",
+   "symbols": [
+    "infantry box (orange/yellow, 34 Div)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r0c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-157-45": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "3726",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (blue-grey, 45 Div)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r0c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-VICorpsASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 5,
+   "corner": null,
+   "cornerBox": null,
+   "size": "XXX",
+   "symbols": [
+    "ASU: corps box with dot (white)",
+    "white rounded outline"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r0c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "BR-56DivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": null,
+   "cornerBox": null,
+   "size": "[X]",
+   "symbols": [
+    "ASU: division box with dot (grey-brown)",
+    "white rounded outline",
+    "insignia (black cat on red)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r0c6",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "GE-129": {
+   "printed": "3-3-6",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "3725",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "armoured recon box (blue, 29 PG)",
+    "green recon circle on movement 6"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r1c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-7-3": {
+   "printed": "6-7-3",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "3026",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (white/grey, 3 Div)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r1c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-191": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "3726",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "white stripe (independent)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r1c3",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "US-601": {
+   "printed": "2[3]-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "3026",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "TD silhouette",
+    "white rounded outline",
+    "tank rating in yellow box",
+    "grey stripe, formation \"3\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r1c4",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "GE-II-9": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "3525",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized infantry box (wheels), yellow (26 Pz)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r1c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-169-56": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "2727",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "infantry box (khaki, 56 Div)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r1c6",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-139-46": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "infantry box (pale, 46 Div)",
+    "triangle (begins reduced)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r1c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "BR-7ADivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": null,
+   "cornerBox": null,
+   "size": "[X]",
+   "symbols": [
+    "ASU: division box with dot (red)",
+    "white rounded outline",
+    "jerboa insignia"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r1c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "BR-167-56": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "infantry box (khaki)",
+    "triangle (begins reduced)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r1c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "GE-26": {
+   "printed": "3-3-6",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "3124",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "armoured recon box (yellow, 26 Pz)",
+    "green recon circle"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r1c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-201G-56": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "2727",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "infantry box (khaki)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r2c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-15-3": {
+   "printed": "6-7-3",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "2926",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (white/grey)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r2c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-I-67": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "3325",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (yellow)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r2c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-138-46": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "1",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "infantry box (pale)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r2c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-751": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "2926",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "dark grey stripe, formation \"3\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r2c5",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "GE-I-9": {
+   "printed": "3-3-5",
+   "a": 3,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "panzergrenadier box (X + track oval), yellow",
+    "triangle (begins reduced)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r2c6",
+   "confidence": "high",
+   "differences": [
+    "a: printed 3, oob.json 2",
+    "quality: printed elite, oob.json normal",
+    "oob.json front was estimated; now read from the counter"
+   ],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "GE-26Pz-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": null,
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (yellow)",
+    "white rounded outline",
+    "gold insignia"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r2c7",
+   "confidence": "high",
+   "differences": [
+    "range: printed 4, oob.json None"
+   ],
+   "notes": [
+    "no corner number (starts Fired)",
+    "range 4 now read from the Ready side (oob.json had no range)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "US-30-3": {
+   "printed": "6-7-3",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "2926",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (white/grey)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r2c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-22-7A": {
+   "printed": "11³-8-5",
+   "a": 11,
+   "d": 8,
+   "m": 5,
+   "tr": 3,
+   "sp": 4,
+   "quality": null,
+   "range": null,
+   "corner": "2527",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "armour box (red, 7 Arm Div)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r2c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-131-7A": {
+   "printed": "5-7-5",
+   "a": 5,
+   "d": 7,
+   "m": 5,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "2526",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "motorized (lorried) infantry box, red"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r2c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-168-56": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "5",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "infantry box (khaki)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r3c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-10CorpsASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 5,
+   "corner": null,
+   "cornerBox": null,
+   "size": "XXX",
+   "symbols": [
+    "ASU: corps box with dot (white)",
+    "white rounded outline"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r3c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "US-168-34": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "4",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (orange/yellow)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r3c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-II-1HG": {
+   "printed": "3-3-5",
+   "a": 3,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (pale blue)",
+    "triangle (begins reduced)"
+   ],
+   "colour": "Luftwaffe blue (HG)",
+   "photoPos": "r3c4",
+   "confidence": "high",
+   "differences": [
+    "a: printed 3, oob.json 2",
+    "quality: printed elite, oob.json normal",
+    "oob.json front was estimated; now read from the counter"
+   ],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "GE-I-2HG": {
+   "printed": "4-4-5",
+   "a": 4,
+   "d": 4,
+   "m": 5,
+   "tr": null,
+   "sp": 2,
+   "quality": "elite",
+   "range": null,
+   "corner": "2525",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "panzergrenadier box (X + track oval), pale blue"
+   ],
+   "colour": "Luftwaffe blue (HG)",
+   "photoPos": "r3c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-180-45": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "2",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (blue-grey)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r3c6",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-I-115": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "1822",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (green, 15 PG)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r3c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-III-115": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (green)",
+    "triangle (begins reduced)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r3c8",
+   "confidence": "high",
+   "differences": [
+    "quality: printed elite, oob.json normal",
+    "oob.json front was estimated; now read from the counter"
+   ],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "GE-III-129": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (green)",
+    "triangle (begins reduced)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r3c9",
+   "confidence": "high",
+   "differences": [
+    "quality: printed elite, oob.json normal",
+    "oob.json front was estimated; now read from the counter"
+   ],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "GE-Reggio": {
+   "printed": "1-2-5",
+   "a": 1,
+   "d": 2,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "2018",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (white = independent)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r3c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-34DivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "4",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (orange)",
+    "white rounded outline"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r4c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-II-64": {
+   "printed": "3-3-5",
+   "a": 3,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "2925",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "panzergrenadier box (X + track oval), dark grey"
+   ],
+   "colour": "grey, two-tone (16 Pz)",
+   "photoPos": "r4c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-91": {
+   "printed": "2-2-6",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "9",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "recon box (white)",
+    "green recon circle"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r4c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-RSG": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "2224",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "orange stripe \"23 Arm\""
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r4c4",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "US-505-82": {
+   "printed": "5-6-3",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": "elite",
+   "range": null,
+   "corner": "2024",
+   "cornerBox": "black",
+   "size": "III",
+   "symbols": [
+    "airborne box (red)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r4c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-15PG-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "2311",
+   "cornerBox": "blue",
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (green)",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r4c6",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-4Rgr": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "12",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "ranger box (blue, white saltire with notch)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r4c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-141-36": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "18",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (cream, 36 Div)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r4c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-1Rgr": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "14",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "ranger box (blue)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r4c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-142-36": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (cream)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r4c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-645": {
+   "printed": "2[3]-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "2",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "TD silhouette",
+    "white rounded outline",
+    "tank rating in yellow box",
+    "pale blue stripe, formation \"45\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r5c1",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "GE-HG-III": {
+   "printed": "2³-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": "elite",
+   "range": null,
+   "corner": "2725",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "pale blue stripe \"HG III\""
+   ],
+   "colour": "Luftwaffe blue (HG)",
+   "photoPos": "r5c2",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "BR-40RTR": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "2224",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "orange stripe \"23 Arm\""
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r5c3",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "US-45DivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": null,
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (blue-grey)",
+    "white rounded outline"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r5c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "GE-103": {
+   "printed": "3-3-6",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "2123",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "armoured recon box (red, 3 PG)",
+    "green recon circle"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r5c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-3DivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": null,
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (dark green)",
+    "white rounded outline"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r5c6",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "US-760": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "12",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "orange stripe, formation \"34\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r5c7",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "US-36DivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "18",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (cream)",
+    "white rounded outline"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r5c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-2-509": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "15",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "airborne box (black)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r5c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-143-36": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (cream)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r5c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-135-34": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "4",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (orange/yellow)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r6c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-11H-7A": {
+   "printed": "2-2-6",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "2526",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "armoured recon box (red)",
+    "green recon circle"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r6c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-100-34": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "2",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "infantry box (orange/yellow)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r6c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-HG-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": null,
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (pale blue)",
+    "white rounded outline"
+   ],
+   "colour": "Luftwaffe blue (HG)",
+   "photoPos": "r6c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "US-6-1A": {
+   "printed": "6-7-5",
+   "a": 6,
+   "d": 7,
+   "m": 5,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "13",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "mechanized infantry box (X + track oval), white"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r6c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-M1": {
+   "printed": "0 (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "18",
+   "cornerBox": null,
+   "size": "II(+)",
+   "symbols": [
+    "heavy gun silhouette",
+    "white rounded outline",
+    "white \"DD\" printed above the corner number",
+    "name \"M1\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r6c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no circled range number printed",
+    "no stacking box printed",
+    "confirms oob.json: range null and no stacking value printed (oob sp 0 is rule-derived)"
+   ]
+  },
+  "IT-1Mtr": {
+   "printed": "4-5-5",
+   "a": 4,
+   "d": 5,
+   "m": 5,
+   "tr": null,
+   "sp": 3,
+   "quality": "low",
+   "range": null,
+   "corner": "24",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "motorized box (white)",
+    "Italian tricolour flag"
+   ],
+   "colour": "pale grey-green (Italian)",
+   "photoPos": "r6c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-753": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "cream stripe, formation \"36\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r6c10",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "US-179-45": {
+   "printed": "6-6-3",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (blue-grey)",
+    "triangle (begins reduced)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r7c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "GE-HG": {
+   "printed": "3-3-6",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "armoured recon box (pale blue)",
+    "green recon circle",
+    "triangle (begins reduced)"
+   ],
+   "colour": "Luftwaffe blue (HG)",
+   "photoPos": "r7c2",
+   "confidence": "high",
+   "differences": [
+    "a: printed 3, oob.json 2",
+    "quality: printed elite, oob.json normal",
+    "oob.json front was estimated; now read from the counter"
+   ],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "US-325G-82": {
+   "printed": "5-6-3",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": "elite",
+   "range": null,
+   "corner": "2124",
+   "cornerBox": "black",
+   "size": "III",
+   "symbols": [
+    "glider box (red)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r7c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-215": {
+   "printed": "4³-3-5",
+   "a": 4,
+   "d": 3,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "green stripe \"15 PG\"",
+    "triangle (begins reduced)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r7c5",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": [
+    "source transcription gave corner 2212 (frozen) from the card art of its reduced side; the front itself carries a triangle, no hex",
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "US-1ADivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "13",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (cream)",
+    "white rounded outline",
+    "armored triangle insignia"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r7c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-1SSF": {
+   "printed": "5-5-3",
+   "a": 5,
+   "d": 5,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "elite",
+   "range": null,
+   "corner": "19",
+   "cornerBox": null,
+   "size": "X",
+   "symbols": [
+    "special-forces box: maroon with white saltire and notch (ranger-style)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r7c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no separate mountain triangle seen in the unit box",
+    "oob.json mountain:true is not visible as a mountain triangle on this counter; may come from the rules instead"
+   ]
+  },
+  "BR-9Cmdo": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "31",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "commando box (blue, white saltire)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r7c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-636": {
+   "printed": "2[3]-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "TD silhouette",
+    "white rounded outline",
+    "tank rating in yellow box",
+    "cream stripe, formation \"36\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r7c10",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "BR-1KDG": {
+   "printed": "2-2-6",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "2224",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "armoured recon box (white)",
+    "green recon circle"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r8c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-776": {
+   "printed": "2[3]-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "4",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "TD silhouette",
+    "white rounded outline",
+    "tank rating in yellow box",
+    "orange stripe, formation \"34\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r8c2",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "US-756": {
+   "printed": "2²-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": 2,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "2",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "white stripe (no formation)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r8c3",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "GE-71NW": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 3,
+   "corner": "2622",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "rocket launcher in white box",
+    "white rounded outline",
+    "name \"71\""
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r8c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-14Pz": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 5,
+   "corner": null,
+   "cornerBox": null,
+   "size": "XXX",
+   "symbols": [
+    "ASU: corps box \"14Pz\"",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r8c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "no corner number (starts Fired)",
+    "every ASU that starts Fired in the Campaign Game has no corner number on its Ready side; the corner the source cards show (e.g. 7 Arm '2', 14Pz '2620') must be on the Fired side"
+   ]
+  },
+  "US-755": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "13",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "pale blue stripe, formation \"45\""
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r8c7",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "US-IICorpsASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 5,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "XXX",
+   "symbols": [
+    "ASU: corps box with dot (white)",
+    "white rounded outline"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r8c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "BR-11K-23A": {
+   "printed": "2-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (orange, 23 Arm Bde)"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r8c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-56NW": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 3,
+   "corner": "13",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "rocket launcher in white box",
+    "white rounded outline",
+    "name \"56\""
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r9c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-305-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "9",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (blue)",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r9c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-III-8": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "11",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (red, 3 PG)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r9c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-85": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "30",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "mountain infantry box (white, dark triangles)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r9c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-94-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "13",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (brown)",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r9c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-II-8": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "7",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (red)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r9c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-276": {
+   "printed": "3-5-3",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": "low",
+   "range": null,
+   "corner": "13",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (brown, 94 Div)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r10c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-267": {
+   "printed": "3-5-3",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": "low",
+   "range": null,
+   "corner": "12",
+   "cornerBox": "black",
+   "size": "III",
+   "symbols": [
+    "infantry box (brown)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r10c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-3PG-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "7",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (red)",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r10c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-578": {
+   "printed": "3-5-3",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "14",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (blue, 305 Div)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r10c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-274": {
+   "printed": "3-5-3",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": "low",
+   "range": null,
+   "corner": "11",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (brown)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r10c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-29": {
+   "printed": "4-6-5",
+   "a": 4,
+   "d": 6,
+   "m": 5,
+   "tr": null,
+   "sp": 2,
+   "quality": null,
+   "range": null,
+   "corner": "3",
+   "cornerBox": null,
+   "size": "III(-)",
+   "symbols": [
+    "motorized box (red)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r10c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-33": {
+   "printed": "3-3-6",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "1706",
+   "cornerBox": "black",
+   "size": "II",
+   "symbols": [
+    "armoured recon box (green, 15 PG)",
+    "green recon circle"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r11c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": [
+    "size mark read as II; a faint speck above it could be a \"+\" (unclear)"
+   ]
+  },
+  "GE-305F": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "12",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "infantry box (blue)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r11c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-577": {
+   "printed": "3-5-3",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "9",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (blue)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r11c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-II-67": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "14",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (yellow)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r11c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-III-6FJ": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "13",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "airborne box (red, 2 FJ)"
+   ],
+   "colour": "Luftwaffe blue (FJ)",
+   "photoPos": "r11c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-I-8": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "5",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "motorized box (red)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r11c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-I-29": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "2706",
+   "cornerBox": "blue",
+   "size": "II",
+   "symbols": [
+    "motorized box (red)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r12c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-103Pz": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "2706",
+   "cornerBox": "blue",
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "red stripe \"3 PG\""
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r12c5",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "GE-132": {
+   "printed": "4-7-3",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "27",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (brown-red, 44 Div)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r12c6",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-129Pz": {
+   "printed": "3³-2-5",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": "elite",
+   "range": null,
+   "corner": "18",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "blue stripe \"29 PG\""
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r12c7",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "GE-29PG-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "18",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (blue)",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r12c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-134": {
+   "printed": "4-7-3",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "22",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (brown-red)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-44-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "25",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (brown-red)",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-71": {
+   "printed": "6-9-5",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "tr": null,
+   "sp": 3,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "motorized box (blue, 29 PG)",
+    "triangle (begins reduced)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c3",
+   "confidence": "high",
+   "differences": [
+    "oob.json front was estimated; now read from the counter"
+   ],
+   "notes": [
+    "front 6-9-5, red-box defence, sp 3, III confirms the oob.json estimate",
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "FR-8-2M": {
+   "printed": "5-6-3",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "23",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "mountain infantry box (white, dark triangles)"
+   ],
+   "colour": "blue (French)",
+   "photoPos": "r14c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "FR-4MG-2M": {
+   "printed": "5-6-3",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": "elite",
+   "range": null,
+   "corner": "23",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "mountain infantry box"
+   ],
+   "colour": "blue (French)",
+   "photoPos": "r14c2",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "FR-2MDivASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "23",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (dark brown)",
+    "white rounded outline"
+   ],
+   "colour": "blue (French)",
+   "photoPos": "r14c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-44Fus": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "28",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "infantry box (brown-red)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r14c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-94Fus": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": null,
+   "range": null,
+   "corner": "16",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "infantry box (brown)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r14c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-242": {
+   "printed": "2³-2-5",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": null,
+   "range": null,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "assault gun silhouette",
+    "white rounded outline",
+    "white stripe (independent)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r14c6",
+   "confidence": "high",
+   "differences": [
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules"
+   ],
+   "notes": []
+  },
+  "GE-100": {
+   "printed": "5-7-3",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "29",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "mountain infantry box"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r14c7",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-131": {
+   "printed": "4-7-3",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "19",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "infantry box (brown-red)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r14c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-15": {
+   "printed": "6-9-5",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "tr": null,
+   "sp": 3,
+   "quality": "elite",
+   "range": null,
+   "corner": "17",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "motorized box (blue)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r14c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-5Geb-ASU": {
+   "printed": "S (1) 5",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "tr": null,
+   "sp": 0,
+   "quality": null,
+   "range": 4,
+   "corner": "29",
+   "cornerBox": null,
+   "size": "[III]",
+   "symbols": [
+    "ASU: division box with dot (dark)",
+    "white rounded outline"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r14c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-III-1FJ": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "2324",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "airborne box (dark blue, 1 FJ)"
+   ],
+   "colour": "Luftwaffe blue (FJ)",
+   "photoPos": "r15c1",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-HG-I-II": {
+   "printed": "5³-4-5",
+   "a": 5,
+   "d": 4,
+   "m": 5,
+   "tr": 3,
+   "sp": null,
+   "quality": "elite",
+   "range": null,
+   "corner": "triangle",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "tank silhouette",
+    "white rounded outline",
+    "pale blue/white stripe \"HG I+II\"",
+    "triangle (begins reduced)"
+   ],
+   "colour": "Luftwaffe blue (HG)",
+   "photoPos": "r15c2",
+   "confidence": "high",
+   "differences": [
+    "a: printed 5, oob.json 4",
+    "d: printed 4, oob.json 3",
+    "quality: printed elite, oob.json normal",
+    "sp: no stacking box printed (silhouetted tank); oob.json has sp 1 from the rules",
+    "oob.json front was estimated; now read from the counter"
+   ],
+   "notes": [
+    "triangle instead of a corner number; matches oob.json (this unit starts/enters reduced in the Campaign Game)"
+   ]
+  },
+  "US-504-82": {
+   "printed": "5-6-3",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": "elite",
+   "range": null,
+   "corner": "2125",
+   "cornerBox": "blue",
+   "size": "III",
+   "symbols": [
+    "airborne box (red)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r15c3",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-I-129": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "1815",
+   "cornerBox": "blue",
+   "size": "II",
+   "symbols": [
+    "motorized box (green)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r15c4",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-II-129": {
+   "printed": "2-3-5",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "2015",
+   "cornerBox": "blue",
+   "size": "II",
+   "symbols": [
+    "motorized box (green)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r15c5",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-104": {
+   "printed": "6-9-5",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "tr": null,
+   "sp": 3,
+   "quality": "elite",
+   "range": null,
+   "corner": "2210",
+   "cornerBox": "blue",
+   "size": "III",
+   "symbols": [
+    "motorized box (green)"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r15c6",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "US-3Rgr": {
+   "printed": "2-2-3",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "tr": null,
+   "sp": 1,
+   "quality": "elite",
+   "range": null,
+   "corner": "20",
+   "cornerBox": null,
+   "size": "II",
+   "symbols": [
+    "ranger box (blue)"
+   ],
+   "colour": "olive (US)",
+   "photoPos": "r15c8",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "FR-4-2M": {
+   "printed": "5-6-3",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "23",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "mountain infantry box"
+   ],
+   "colour": "blue (French)",
+   "photoPos": "r15c9",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "FR-5-2M": {
+   "printed": "5-6-3",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "tr": null,
+   "sp": 3,
+   "quality": null,
+   "range": null,
+   "corner": "23",
+   "cornerBox": null,
+   "size": "III",
+   "symbols": [
+    "mountain infantry box"
+   ],
+   "colour": "blue (French)",
+   "photoPos": "r15c10",
+   "confidence": "high",
+   "differences": [],
+   "notes": []
+  },
+  "GE-REM-A": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"A\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c9",
+   "confidence": "high",
+   "letter": "A",
+   "differences": [],
+   "notes": []
+  },
+  "GE-REM-B": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"B\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c8",
+   "confidence": "high",
+   "letter": "B",
+   "differences": [],
+   "notes": []
+  },
+  "GE-REM-C": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"C\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c6",
+   "confidence": "high",
+   "letter": "C",
+   "differences": [],
+   "notes": []
+  },
+  "GE-REM-D": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"D\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c4",
+   "confidence": "high",
+   "letter": "D",
+   "differences": [],
+   "notes": []
+  },
+  "GE-REM-E": {
+   "printed": "1-3-5",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 2,
+   "quality": null,
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "motorized box (white, wheels)",
+    "white vertical band with \"E\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "grey (German)",
+   "photoPos": "r13c5",
+   "confidence": "high",
+   "letter": "E",
+   "differences": [],
+   "notes": []
+  },
+  "US-REM-A": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"A\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "green/olive (US)",
+   "photoPos": "r13c7",
+   "confidence": "high",
+   "letter": "A",
+   "differences": [],
+   "notes": []
+  },
+  "US-REM-B": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"B\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "green/olive (US)",
+   "photoPos": "r10c6",
+   "confidence": "high",
+   "letter": "B",
+   "differences": [],
+   "notes": []
+  },
+  "US-REM-C": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"C\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "green/olive (US)",
+   "photoPos": "r11c6",
+   "confidence": "high",
+   "letter": "C",
+   "differences": [],
+   "notes": []
+  },
+  "US-REM-82": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": null,
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "airborne box (red)",
+    "white vertical band with \"82\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "green/olive (US)",
+   "photoPos": "r9c6",
+   "confidence": "high",
+   "letter": "82",
+   "differences": [],
+   "notes": []
+  },
+  "BR-REM-A": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"A\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r13c10",
+   "confidence": "high",
+   "letter": "A",
+   "differences": [],
+   "notes": []
+  },
+  "BR-REM-B": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"B\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r12c3",
+   "confidence": "high",
+   "letter": "B",
+   "differences": [],
+   "notes": []
+  },
+  "BR-REM-C": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "infantry box (white)",
+    "white vertical band with \"C\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r12c2",
+   "confidence": "high",
+   "letter": "C",
+   "differences": [],
+   "notes": []
+  },
+  "BR-REM-22-7A": {
+   "printed": "5³-3-5",
+   "a": 5,
+   "d": 3,
+   "m": 5,
+   "tr": 3,
+   "sp": 2,
+   "quality": null,
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "armour box (red)",
+    "white vertical band with \"22/7A\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "tan (British)",
+   "photoPos": "r12c1",
+   "confidence": "high",
+   "letter": "22/7A",
+   "differences": [
+    "d: printed 3, oob.json 4"
+   ],
+   "notes": []
+  },
+  "FR-REM-A": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "mountain infantry box (dark brown, white X and wedge)",
+    "white vertical band with \"A\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "blue (French)",
+   "photoPos": "r9c5",
+   "confidence": "high",
+   "letter": "A",
+   "differences": [
+    "category: unit box is the mountain symbol; oob.json cat is 'infantry' (the source transcription says mountain)"
+   ],
+   "notes": []
+  },
+  "FR-REM-B": {
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "range": null,
+   "corner": null,
+   "cornerBox": null,
+   "size": "REM",
+   "symbols": [
+    "mountain infantry box (dark brown)",
+    "white vertical band with \"B\" at top",
+    "\"REM\" printed on the right"
+   ],
+   "colour": "blue (French)",
+   "photoPos": "r10c5",
+   "confidence": "high",
+   "letter": "B",
+   "differences": [
+    "category: unit box is the mountain symbol; oob.json cat is 'infantry'"
+   ],
+   "notes": []
+  }
+ },
+ "remnants": [
+  {
+   "id": "GE-REM-A",
+   "colour": "grey (German)",
+   "letter": "A",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r13c9",
+   "differences": []
+  },
+  {
+   "id": "GE-REM-B",
+   "colour": "grey (German)",
+   "letter": "B",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r13c8",
+   "differences": []
+  },
+  {
+   "id": "GE-REM-C",
+   "colour": "grey (German)",
+   "letter": "C",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r13c6",
+   "differences": []
+  },
+  {
+   "id": "GE-REM-D",
+   "colour": "grey (German)",
+   "letter": "D",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r13c4",
+   "differences": []
+  },
+  {
+   "id": "GE-REM-E",
+   "colour": "grey (German)",
+   "letter": "E",
+   "printed": "1-3-5",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "tr": null,
+   "sp": 2,
+   "quality": null,
+   "symbol": "motorized box (white, wheels)",
+   "photoPos": "r13c5",
+   "differences": []
+  },
+  {
+   "id": "US-REM-A",
+   "colour": "green/olive (US)",
+   "letter": "A",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r13c7",
+   "differences": []
+  },
+  {
+   "id": "US-REM-B",
+   "colour": "green/olive (US)",
+   "letter": "B",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r10c6",
+   "differences": []
+  },
+  {
+   "id": "US-REM-C",
+   "colour": "green/olive (US)",
+   "letter": "C",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r11c6",
+   "differences": []
+  },
+  {
+   "id": "US-REM-82",
+   "colour": "green/olive (US)",
+   "letter": "82",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": null,
+   "symbol": "airborne box (red)",
+   "photoPos": "r9c6",
+   "differences": []
+  },
+  {
+   "id": "BR-REM-A",
+   "colour": "tan (British)",
+   "letter": "A",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r13c10",
+   "differences": []
+  },
+  {
+   "id": "BR-REM-B",
+   "colour": "tan (British)",
+   "letter": "B",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r12c3",
+   "differences": []
+  },
+  {
+   "id": "BR-REM-C",
+   "colour": "tan (British)",
+   "letter": "C",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "infantry box (white)",
+   "photoPos": "r12c2",
+   "differences": []
+  },
+  {
+   "id": "BR-REM-22-7A",
+   "colour": "tan (British)",
+   "letter": "22/7A",
+   "printed": "5³-3-5",
+   "a": 5,
+   "d": 3,
+   "m": 5,
+   "tr": 3,
+   "sp": 2,
+   "quality": null,
+   "symbol": "armour box (red)",
+   "photoPos": "r12c1",
+   "differences": [
+    "d: printed 3, oob.json 4"
+   ]
+  },
+  {
+   "id": "FR-REM-A",
+   "colour": "blue (French)",
+   "letter": "A",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "mountain infantry box (dark brown, white X and wedge)",
+   "photoPos": "r9c5",
+   "differences": [
+    "category: unit box is the mountain symbol; oob.json cat is 'infantry' (the source transcription says mountain)"
+   ]
+  },
+  {
+   "id": "FR-REM-B",
+   "colour": "blue (French)",
+   "letter": "B",
+   "printed": "1-3-3",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "tr": null,
+   "sp": 2,
+   "quality": "low",
+   "symbol": "mountain infantry box (dark brown)",
+   "photoPos": "r10c5",
+   "differences": [
+    "category: unit box is the mountain symbol; oob.json cat is 'infantry'"
+   ]
+  }
+ ],
+ "notInOob": [],
+ "notFound": [],
+ "markers": [
+  {
+   "marker": "Truck \"5 MPs\"",
+   "colour": "dark blue",
+   "count": 2,
+   "photoPos": [
+    "r7c6",
+    "r15c7"
+   ],
+   "note": "white truck silhouette"
+  },
+  {
+   "marker": "Truck \"5 MPs\"",
+   "colour": "red",
+   "count": 1,
+   "photoPos": [
+    "r9c9"
+   ],
+   "note": "white truck silhouette; the cards list x2 available per side, so one truck (red?) is not in this photo or is on a shared counter"
+  },
+  {
+   "marker": "Turn",
+   "colour": "red",
+   "count": 1,
+   "photoPos": [
+    "r12c9"
+   ],
+   "note": "black-and-white Balkenkreuz"
+  },
+  {
+   "marker": "Phase",
+   "colour": "red",
+   "count": 1,
+   "photoPos": [
+    "r12c10"
+   ],
+   "note": "Balkenkreuz"
+  },
+  {
+   "marker": "Weather",
+   "colour": "blue",
+   "count": 1,
+   "photoPos": [
+    "r8c9"
+   ]
+  },
+  {
+   "marker": "Battle 1",
+   "colour": "black",
+   "count": 1,
+   "photoPos": [
+    "r11c9"
+   ],
+   "note": "explosion graphic"
+  },
+  {
+   "marker": "Battle 2",
+   "colour": "black",
+   "count": 1,
+   "photoPos": [
+    "r11c8"
+   ],
+   "note": "explosion graphic"
+  },
+  {
+   "marker": "Fortification 1L",
+   "colour": "grey",
+   "count": 1,
+   "photoPos": [
+    "r9c10"
+   ],
+   "note": "hexagon with \"1L\""
+  },
+  {
+   "marker": "Fortification 2L",
+   "colour": "grey",
+   "count": 1,
+   "photoPos": [
+    "r11c10"
+   ],
+   "note": "hexagon with \"2L\""
+  },
+  {
+   "marker": "Fortification / No Combat",
+   "colour": "grey",
+   "count": 1,
+   "photoPos": [
+    "r10c10"
+   ],
+   "note": "pick and shovel"
+  },
+  {
+   "marker": "Air support XII ASC",
+   "colour": "green (US)",
+   "count": 1,
+   "photoPos": [
+    "r6c4"
+   ],
+   "printed": "±S / +1 DD",
+   "note": "P-38 silhouette"
+  },
+  {
+   "marker": "Air support TBF",
+   "colour": "tan (British)",
+   "count": 1,
+   "photoPos": [
+    "r7c3"
+   ],
+   "printed": "±S / +1 DD",
+   "note": "Spitfire silhouette"
+  },
+  {
+   "marker": "Naval support",
+   "colour": "dark blue",
+   "count": 1,
+   "photoPos": [
+    "r8c6"
+   ],
+   "printed": "Range: 2, ±S / +1 DD",
+   "note": "warship silhouette, no nation name"
+  },
+  {
+   "marker": "5th Army (supply)",
+   "colour": "olive (US)",
+   "count": 1,
+   "photoPos": [
+    "r6c6"
+   ],
+   "note": "5th Army shoulder patch"
+  },
+  {
+   "marker": "10th Army (supply)",
+   "colour": "grey (German)",
+   "count": 1,
+   "photoPos": [
+    "r10c9"
+   ],
+   "note": "white V in a black circle"
+  }
+ ],
+ "uncertain": [
+  "GE-33 (33/15PG): the size mark reads II, but a faint mark above it might be a '+'.",
+  "US-1SSF: the unit box shows a maroon ranger-style saltire; no mountain triangle is visible, so oob.json mountain:true is not confirmed by the counter art.",
+  "Only three '5 MPs' truck counters are in the photo (2 dark blue, 1 red); the cards give each side x2. The fourth may be missing from the layout.",
+  "US-M1 prints a white 'DD' above its corner number 18; its meaning (likely a die-roll/defence modifier tied to rule 19.4) is not on the counter.",
+  "Remnant counters show no corner number or triangle; the 22/7A remnant has no letter (labelled 22/7A)."
+ ]
+}

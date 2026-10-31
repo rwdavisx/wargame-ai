@@ -9,7 +9,7 @@ import { allowedModes, cannotMove } from '../engine/movement';
 import { breakthroughTargets, groupUnits } from '../engine/breakthrough';
 import { areaFriendly, supplyChecker } from '../engine/supply';
 import type { Action, CombatReport, GameState, HexData, HexsideData, MoveMode, ReplPool, Side, Terrain, UnitState } from '../engine/types';
-import { def, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values } from '../engine/units';
+import { def, isElite, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values } from '../engine/units';
 import { clearOverrides, editHex, editHexside, exportMapJson, overrideCount } from './mapEditor';
 import { downloadText, type Settings } from './storage';
 import { TokenIcon } from './render/units';
@@ -329,7 +329,7 @@ function SelectedUnitBox(p: Props) {
   return (
     <div className="result-box">
       <UnitRow u={sel} />
-      <div className="muted">{d.formation} · {d.cat}{d.elite ? ' · elite' : ''}{d.tankRating ? ` · tank ${d.tankRating}` : ''}. {status}</div>
+      <div className="muted">{d.formation} · {d.cat}{isElite(sel) ? ' · elite' : ''}{d.tankRating ? ` · tank ${d.tankRating}` : ''}. {status}</div>
       <div className="row">
         {areaActions.map((a) => (
           <Button key={(a as { area: string }).area} label={`Move into entry area ${(a as { area: string }).area}${MAP.entryAreas[(a as { area: string }).area].vp ? ` (${MAP.entryAreas[(a as { area: string }).area].vp} VP)` : ''}`} size="sm" onClick={() => p.dispatch(a)} />
