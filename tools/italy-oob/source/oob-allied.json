@@ -1,0 +1,3669 @@
+{
+ "_note": "Italy '43 Allied OOB transcribed from the Campaign Game and Bernhard Line Allied Setup & Reinforcement cards (photos). a-d-m = attack-defense-movement of the FULL-STRENGTH / READY side. sp = boxed stacking value (null = none printed, e.g. silhouetted tanks, 4.3). tr = Tank Rating (superscript); type 'td' = TR printed in a yellow box (9.3.4). printed = front side as printed: '3³-2-5' superscript TR, '2[3]-2-5' yellow-box TR, 'S (1) 5' ASU (S = column shift, parenthesized defense). firedSide = ASU fired side. back/backSp = reduced side where a card shows it. quality: elite = defense in red box, low = defense in white box (2.3.2). noZocBond = white rounded outline on the counter (silhouetted tanks/TDs, ASUs, heavy howitzer; 7.1). triangle = printed triangle (2.3.2: begins/enters the game reduced). independent = white bar/white unit-type box or unique-colour independent (8.4.4). Per scenario (campaign / bernhard): start = setup hex; garrison = 'Naples' for white-framed Naples Garrison units; arrive = reinforcement turn + entry ('S1','S2','S1 or S2','Naples' = place in a Naples city hex, 21.1.2); events = remove (red frame, 22.2) / release (dashed frame); reduced/fired = side shown on that card; corner = number printed in the counter's corner in that card's art; hexBox = colour of the box behind the corner hex (2.3.2 sample: black = Garrison, blue = starts frozen); removedAtStart/remnantDisplay/count/mayNotMove as noted. bernhard = null if the unit is not on the Bernhard card. Bernhard scenario starts on Turn 13 with the German player turn (S2.1/S2.3).",
+ "units": [
+  {
+   "id": "US-504-82",
+   "name": "504/82",
+   "nation": "US",
+   "formation": "82 Abn",
+   "type": "airborne",
+   "size": "III",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2125",
+    "garrison": "Naples",
+    "arrive": null,
+    "events": [
+     {
+      "turn": 11,
+      "kind": "release",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2125",
+    "hexBox": "blue",
+    "note": "White frame = Naples Garrison (S3.3). Turn 11 dashed frame RELEASE. Corner hex printed in a BLUE box (rules 2.3.2 sample: blue box = starts frozen)."
+   },
+   "bernhard": {
+    "start": "3210",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2125",
+    "hexBox": "blue",
+    "note": "Not in garrison in this scenario (outside the white frame)."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-505-82",
+   "name": "505/82",
+   "nation": "US",
+   "formation": "82 Abn",
+   "type": "airborne",
+   "size": "III",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2024",
+    "garrison": "Naples",
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2024",
+    "hexBox": "black",
+    "note": "White frame = Naples Garrison (S3.3). Corner hex printed in a BLACK box (2.3.2 sample: black box = Garrison)."
+   },
+   "bernhard": {
+    "start": "2024",
+    "garrison": "Naples",
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2024",
+    "hexBox": "black",
+    "mayNotMove": true,
+    "note": "Card prints no hex under it, only 'Naples Garrison (S2.3)' (legend: 'May not move'); start hex taken from the counter's printed corner hex 2024."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-325G-82",
+   "name": "325G/82",
+   "nation": "US",
+   "formation": "82 Abn",
+   "type": "glider",
+   "size": "III",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2124",
+    "garrison": "Naples",
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2124",
+    "hexBox": "black",
+    "note": "White frame = Naples Garrison (S3.3)."
+   },
+   "bernhard": {
+    "start": "2124",
+    "garrison": "Naples",
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2124",
+    "hexBox": "black",
+    "mayNotMove": true,
+    "note": "Card prints no hex under it, only 'Naples Garrison (S2.3)'; start hex taken from the counter's printed corner hex 2124."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-40RTR",
+   "name": "40RTR",
+   "nation": "BR",
+   "formation": "23 Arm Bde",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "3³-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2224",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2224"
+   },
+   "bernhard": {
+    "start": "2312",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2224"
+   },
+   "confidence": "high",
+   "note": "Header '23 Arm' with orange formation bar. Silhouetted tank: no printed stacking value (4.3)."
+  },
+  {
+   "id": "BR-RSG",
+   "name": "RSG",
+   "nation": "BR",
+   "formation": "23 Arm Bde",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "3³-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2224",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2224"
+   },
+   "bernhard": {
+    "start": "2511",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2224"
+   },
+   "confidence": "high",
+   "note": "Royal Scots Greys; header '23 Arm', orange formation bar."
+  },
+  {
+   "id": "BR-11K-23A",
+   "name": "11K/23A",
+   "nation": "BR",
+   "formation": "23 Arm Bde",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "2-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "confidence": "high",
+   "note": "Motorized infantry symbol (wheels), orange formation box."
+  },
+  {
+   "id": "BR-1KDG",
+   "name": "1 KDG",
+   "nation": "BR",
+   "formation": "Independent",
+   "type": "recon",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": true,
+   "printed": "2-2-6",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2224",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2224"
+   },
+   "bernhard": {
+    "start": "2312",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2224"
+   },
+   "confidence": "high",
+   "note": "White unit-type box = Independent (8.4.4). Bernhard card shows the green recon circle on the 6; the campaign card art does not."
+  },
+  {
+   "id": "BR-131-7A",
+   "name": "131/7A",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "type": "motorized",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 5,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2526",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 17,
+      "kind": "remove",
+      "via": null,
+      "note": "to Britain to prepare for Normandy"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2526"
+   },
+   "bernhard": {
+    "start": "1913",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 17,
+      "kind": "remove",
+      "via": null,
+      "note": "to Britain to prepare for Normandy"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2526"
+   },
+   "confidence": "high",
+   "note": "Lorried infantry (motorized symbol with wheels), red formation box."
+  },
+  {
+   "id": "BR-11H-7A",
+   "name": "11H/7A",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "type": "recon",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "2-2-6",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2526",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 13,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2526"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2526",
+    "removedAtStart": true,
+    "note": "Shown under 'Removed' (red text) in the setup area."
+   },
+   "confidence": "high",
+   "note": "Bernhard card shows green recon circle; campaign card art does not."
+  },
+  {
+   "id": "BR-22-7A",
+   "name": "22/7A",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "type": "armor",
+   "size": "X",
+   "a": 11,
+   "d": 8,
+   "m": 5,
+   "sp": 4,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "11³-8-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2527",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 17,
+      "kind": "remove",
+      "via": null,
+      "note": "to Britain to prepare for Normandy"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2527"
+   },
+   "bernhard": {
+    "start": "1914",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 17,
+      "kind": "remove",
+      "via": null,
+      "note": "to Britain to prepare for Normandy"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2527"
+   },
+   "confidence": "high",
+   "note": "Armoured brigade: armour (oval) unit-type symbol, NOT a silhouetted tank; has Tank Rating 3. Remnant counter 22/7A REM exists."
+  },
+  {
+   "id": "BR-7ADivASU",
+   "name": "7 Arm Div",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "type": "divAsu",
+   "size": "[X]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S1"
+    },
+    "events": [
+     {
+      "turn": 17,
+      "kind": "remove",
+      "via": null,
+      "note": "to Britain to prepare for Normandy"
+     }
+    ],
+    "reduced": false,
+    "fired": true,
+    "corner": "2",
+    "note": "Arrives on Fired side. The Turn 17 REMOVE art prints corner '2527' instead of '2'."
+   },
+   "bernhard": {
+    "start": "2014",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 17,
+      "kind": "remove",
+      "via": null,
+      "note": "to Britain to prepare for Normandy"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2",
+    "note": "Ready side. Turn 17 REMOVE art prints '2527'."
+   },
+   "confidence": "high",
+   "note": "Desert-rat insignia."
+  },
+  {
+   "id": "BR-128-46",
+   "name": "128/46",
+   "nation": "BR",
+   "formation": "46 Div",
+   "type": "infantry",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": true,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-3",
+   "back": "3-5-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 1,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": "1",
+    "note": "Shown on reduced side 3-5-3 (thin stripe), sp 3; arrival turn 1 printed on the reduced side."
+   },
+   "bernhard": {
+    "start": "2212",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "note": "Front side 5-7-3 shown with the printed triangle in the corner (no number)."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-138-46",
+   "name": "138/46",
+   "nation": "BR",
+   "formation": "46 Div",
+   "type": "infantry",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-3",
+   "back": "3-5-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 1,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "1"
+   },
+   "bernhard": {
+    "start": "2313",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": null,
+    "note": "Shown on reduced side 3-5-3 (thin stripe), sp 3."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-139-46",
+   "name": "139/46",
+   "nation": "BR",
+   "formation": "46 Div",
+   "type": "infantry",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": true,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-3",
+   "back": "3-5-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 1,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": "1",
+    "note": "Shown on reduced side 3-5-3 (thin stripe), sp 3."
+   },
+   "bernhard": {
+    "start": "2312",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "note": "Front side 5-7-3 with printed triangle."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-46DivASU",
+   "name": "46 Div",
+   "nation": "BR",
+   "formation": "46 Div",
+   "type": "divAsu",
+   "size": "[X]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": true,
+    "corner": "2"
+   },
+   "bernhard": {
+    "start": "2314",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null
+   },
+   "confidence": "high",
+   "note": "Oak-tree insignia."
+  },
+  {
+   "id": "BR-167-56",
+   "name": "167/56",
+   "nation": "BR",
+   "formation": "56 Div",
+   "type": "infantry",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": true,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-3",
+   "back": "3-5-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 1,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": "1",
+    "note": "Shown on reduced side 3-5-3 (thin stripe), sp 3."
+   },
+   "bernhard": {
+    "start": "2411",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "note": "Front side 5-7-3 with printed triangle."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-168-56",
+   "name": "168/56",
+   "nation": "BR",
+   "formation": "56 Div",
+   "type": "infantry",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 5,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "5"
+   },
+   "bernhard": {
+    "start": "2511",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "5"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-169-56",
+   "name": "169/56",
+   "nation": "BR",
+   "formation": "56 Div",
+   "type": "infantry",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-3",
+   "back": "3-5-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": "2727",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2727"
+   },
+   "bernhard": {
+    "start": "2512",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": null,
+    "note": "Shown on reduced side 3-5-3 (thin stripe), sp 3."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-201G-56",
+   "name": "201G/56",
+   "nation": "BR",
+   "formation": "56 Div",
+   "type": "infantry",
+   "size": "X",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-7-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2727",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2727"
+   },
+   "bernhard": {
+    "start": "2512",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2727"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-56DivASU",
+   "name": "56 Div",
+   "nation": "BR",
+   "formation": "56 Div",
+   "type": "divAsu",
+   "size": "[X]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": true,
+    "corner": "2"
+   },
+   "bernhard": {
+    "start": "2513",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null
+   },
+   "confidence": "high",
+   "note": "Black-cat insignia."
+  },
+  {
+   "id": "BR-10CorpsASU",
+   "name": "10 Corps",
+   "nation": "BR",
+   "formation": "10 Corps",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 5,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 3,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": true,
+    "corner": "3"
+   },
+   "bernhard": {
+    "start": "2314",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "BR-9Cmdo",
+   "name": "9 Cmdo",
+   "nation": "BR",
+   "formation": "Independent",
+   "type": "commando",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": true,
+   "printed": "2-2-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 31,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "31"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 31,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "31"
+   },
+   "confidence": "high",
+   "note": "Unique-colour independent (8.4.4). Blue unit-type box with white saltire (same art as the Rangers)."
+  },
+  {
+   "id": "US-15-3",
+   "name": "15/3",
+   "nation": "US",
+   "formation": "3 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-7-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2926",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2926"
+   },
+   "bernhard": {
+    "start": "2710",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2926"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-30-3",
+   "name": "30/3",
+   "nation": "US",
+   "formation": "3 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-7-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2926",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2926"
+   },
+   "bernhard": {
+    "start": "2810",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2926"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-7-3",
+   "name": "7/3",
+   "nation": "US",
+   "formation": "3 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-7-3",
+   "back": "4-5-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": "3026",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "3026"
+   },
+   "bernhard": {
+    "start": "2610",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": true,
+    "fired": false,
+    "corner": null,
+    "note": "Shown on reduced side 4-5-3 (thin stripe), sp 3. (Turn 19 REMOVE art shows the full side.)"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-751",
+   "name": "751",
+   "nation": "US",
+   "formation": "3 Div",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "3³-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "2926",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2926"
+   },
+   "bernhard": {
+    "start": "2710",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "2926"
+   },
+   "confidence": "high",
+   "note": "Bold formation number '3' printed under the ID and 3 Div colour bar."
+  },
+  {
+   "id": "US-601",
+   "name": "601",
+   "nation": "US",
+   "formation": "3 Div",
+   "type": "td",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "2[3]-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "3026",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "3026"
+   },
+   "bernhard": {
+    "start": "2810",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "3026"
+   },
+   "confidence": "high",
+   "note": "Tank Destroyer: Tank Rating 3 in a yellow box (9.3.4: -1 TR when attacking). Formation number '3'."
+  },
+  {
+   "id": "US-3DivASU",
+   "name": "3 Div",
+   "nation": "US",
+   "formation": "3 Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S2"
+    },
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": true,
+    "corner": "2",
+    "note": "Arrives Fired. The Turn 19 REMOVE art prints corner '2927'."
+   },
+   "bernhard": {
+    "start": "2712",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "remove",
+      "via": null,
+      "note": "to prepare for Anzio landings"
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "note": "Ready side, no corner number; Turn 19 REMOVE art prints '2927'."
+   },
+   "confidence": "high",
+   "note": "Blue/white diagonal-stripe insignia."
+  },
+  {
+   "id": "US-133-34",
+   "name": "133/34",
+   "nation": "US",
+   "formation": "34 Div",
+   "type": "infantry",
+   "size": "III(-)",
+   "a": 4,
+   "d": 4,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "4-4-3",
+   "back": "1-3-3",
+   "backSp": 2,
+   "firedSide": null,
+   "campaign": {
+    "start": "3626",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "3626"
+   },
+   "bernhard": {
+    "start": "3010",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": null,
+    "note": "Shown on reduced side 1-3-3 with the WIDE stripe (last step), sp 2."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-135-34",
+   "name": "135/34",
+   "nation": "US",
+   "formation": "34 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 4,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4"
+   },
+   "bernhard": {
+    "start": "3110",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-168-34",
+   "name": "168/34",
+   "nation": "US",
+   "formation": "34 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 4,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4"
+   },
+   "bernhard": {
+    "start": "3110",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-100-34",
+   "name": "100/34",
+   "nation": "US",
+   "formation": "34 Div",
+   "type": "infantry",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "2-2-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "bernhard": {
+    "start": "3010",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "confidence": "high",
+   "note": "Nisei battalion; uses Special Replacements (20.1.2)."
+  },
+  {
+   "id": "US-34DivASU",
+   "name": "34 Div",
+   "nation": "US",
+   "formation": "34 Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 4,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4",
+    "note": "Arrives on Ready side."
+   },
+   "bernhard": {
+    "start": "3012",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4"
+   },
+   "confidence": "high",
+   "note": "Red-bull insignia."
+  },
+  {
+   "id": "US-776",
+   "name": "776",
+   "nation": "US",
+   "formation": "34 Div",
+   "type": "td",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "2[3]-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 4,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4"
+   },
+   "bernhard": {
+    "start": "3010",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "4"
+   },
+   "confidence": "high",
+   "note": "TD (yellow TR box). Formation number '34', orange 34 Div bar."
+  },
+  {
+   "id": "US-760",
+   "name": "760",
+   "nation": "US",
+   "formation": "34 Div",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "3³-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 12,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "12"
+   },
+   "bernhard": {
+    "start": "2124",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "12",
+    "note": "Card prints '2124' with italic 'Naples' beneath; it is NOT inside the white Naples-Garrison frame and S2.3 names only 505/82 and 325G/82 as garrison."
+   },
+   "confidence": "high",
+   "note": "Formation number '34'."
+  },
+  {
+   "id": "US-141-36",
+   "name": "141/36",
+   "nation": "US",
+   "formation": "36 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 18,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "18"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 18,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "18"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-142-36",
+   "name": "142/36",
+   "nation": "US",
+   "formation": "36 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-143-36",
+   "name": "143/36",
+   "nation": "US",
+   "formation": "36 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-753",
+   "name": "753",
+   "nation": "US",
+   "formation": "36 Div",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "3³-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "confidence": "high",
+   "note": "Formation number '36'."
+  },
+  {
+   "id": "US-636",
+   "name": "636",
+   "nation": "US",
+   "formation": "36 Div",
+   "type": "td",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "2[3]-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "confidence": "high",
+   "note": "TD (yellow TR box). Formation number '36'."
+  },
+  {
+   "id": "US-36DivASU",
+   "name": "36 Div",
+   "nation": "US",
+   "formation": "36 Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 18,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "18",
+    "note": "Arrives on Ready side."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 18,
+     "via": "S1 or S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "18"
+   },
+   "confidence": "high",
+   "note": "T-patch insignia."
+  },
+  {
+   "id": "US-157-45",
+   "name": "157/45",
+   "nation": "US",
+   "formation": "45 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": "4-4-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": "3726",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "3726"
+   },
+   "bernhard": {
+    "start": "3011",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": null,
+    "note": "Shown on reduced side 4-4-3 (thin stripe), sp 3."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-179-45",
+   "name": "179/45",
+   "nation": "US",
+   "formation": "45 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": true,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": "4-4-3",
+   "backSp": 3,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": true,
+    "fired": false,
+    "corner": "2",
+    "note": "Shown on reduced side 4-4-3 (thin stripe), sp 3."
+   },
+   "bernhard": {
+    "start": "2911",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "note": "Front side 6-6-3 with printed triangle."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-180-45",
+   "name": "180/45",
+   "nation": "US",
+   "formation": "45 Div",
+   "type": "infantry",
+   "size": "III",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "bernhard": {
+    "start": "2911",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-645",
+   "name": "645",
+   "nation": "US",
+   "formation": "45 Div",
+   "type": "td",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "2[3]-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "bernhard": {
+    "start": "3011",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "confidence": "high",
+   "note": "TD (yellow TR box). Formation number '45', blue-grey 45 Div bar."
+  },
+  {
+   "id": "US-755",
+   "name": "755",
+   "nation": "US",
+   "formation": "45 Div",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": false,
+   "printed": "3³-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 13,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "13"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 13,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "13"
+   },
+   "confidence": "high",
+   "note": "Formation number '45'."
+  },
+  {
+   "id": "US-45DivASU",
+   "name": "45 Div",
+   "nation": "US",
+   "formation": "45 Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": true,
+    "corner": "2"
+   },
+   "bernhard": {
+    "start": "3012",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null
+   },
+   "confidence": "high",
+   "note": "Thunderbird insignia."
+  },
+  {
+   "id": "US-6-1A",
+   "name": "6/1A",
+   "nation": "US",
+   "formation": "1 Arm Div",
+   "type": "mechanized",
+   "size": "III",
+   "a": 6,
+   "d": 7,
+   "m": 5,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "6-7-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 13,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "13"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 13,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "13"
+   },
+   "confidence": "high",
+   "note": "Armoured-infantry symbol (saltire + oval)."
+  },
+  {
+   "id": "US-1ADivASU",
+   "name": "1 Arm Div",
+   "nation": "US",
+   "formation": "1 Arm Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 13,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "13",
+    "note": "Arrives on Ready side."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 13,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "13"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-191",
+   "name": "191",
+   "nation": "US",
+   "formation": "Independent",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": true,
+   "printed": "3³-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": "3726",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "3726"
+   },
+   "bernhard": {
+    "start": "3110",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "3726"
+   },
+   "confidence": "high",
+   "note": "White bar = Independent."
+  },
+  {
+   "id": "US-756",
+   "name": "756",
+   "nation": "US",
+   "formation": "Independent",
+   "type": "tank",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": null,
+   "tr": 2,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": true,
+   "independent": true,
+   "printed": "2²-2-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 2,
+     "via": "S2"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "bernhard": {
+    "start": "3011",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "2"
+   },
+   "confidence": "high",
+   "note": "White bar = Independent. Tank Rating 2 (superscript, not a yellow TD box) - Stuart-equipped per designer notes."
+  },
+  {
+   "id": "US-91",
+   "name": "91",
+   "nation": "US",
+   "formation": "Independent",
+   "type": "recon",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": true,
+   "printed": "2-2-6",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 9,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "9"
+   },
+   "bernhard": {
+    "start": "2610",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "9"
+   },
+   "confidence": "high",
+   "note": "White unit-type box = Independent. Bernhard card shows green recon circle; campaign card art does not."
+  },
+  {
+   "id": "US-VICorpsASU",
+   "name": "VI Corps",
+   "nation": "US",
+   "formation": "VI Corps",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 5,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 3,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": true,
+    "corner": "3"
+   },
+   "bernhard": {
+    "start": "2712",
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-IICorpsASU",
+   "name": "II Corps",
+   "nation": "US",
+   "formation": "II Corps",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 5,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17",
+    "note": "Arrives on Ready side."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 17,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "17"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-M1",
+   "name": "M1",
+   "nation": "US",
+   "formation": null,
+   "type": "heavyHowitzer",
+   "size": "II(+)",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "0 (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 18,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "18"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 18,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "18"
+   },
+   "confidence": "medium",
+   "note": "Heavy howitzer (19.4). Printed '0 (1) 5' with a white 'DD' (it only affects the enemy's Determined Defense). No range and no stacking box printed; sp 0 per 19.4; flips back free on weather 2-4. No formation marking on the counter."
+  },
+  {
+   "id": "US-1Rgr",
+   "name": "1 Rgr",
+   "nation": "US",
+   "formation": "Darby's Rangers",
+   "type": "ranger",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "2-2-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 14,
+     "via": "Naples"
+    },
+    "events": [
+     {
+      "turn": 20,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "14"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 14,
+     "via": "Naples"
+    },
+    "events": [
+     {
+      "turn": 20,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "14"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-3Rgr",
+   "name": "3 Rgr",
+   "nation": "US",
+   "formation": "Darby's Rangers",
+   "type": "ranger",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "2-2-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 20,
+     "via": "Naples"
+    },
+    "events": [
+     {
+      "turn": 27,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "20"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 20,
+     "via": "Naples"
+    },
+    "events": [
+     {
+      "turn": 27,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "20"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "US-4Rgr",
+   "name": "4 Rgr",
+   "nation": "US",
+   "formation": "Darby's Rangers",
+   "type": "ranger",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "2-2-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 12,
+     "via": "Naples"
+    },
+    "events": [
+     {
+      "turn": 22,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "12",
+    "note": "Turn 12 arrival art prints corner '12'; the Turn 22 REMOVE art prints '11'."
+   },
+   "bernhard": {
+    "start": "3011",
+    "garrison": null,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 22,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "12",
+    "note": "Turn 22 REMOVE art prints '11'."
+   },
+   "confidence": "high",
+   "note": "Rangers formation per 8.4.2 (blue unit-type box with white saltire)."
+  },
+  {
+   "id": "US-2-509",
+   "name": "2/509",
+   "nation": "US",
+   "formation": "Independent",
+   "type": "airborne",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": true,
+   "printed": "2-2-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 15,
+     "via": "Naples"
+    },
+    "events": [
+     {
+      "turn": 28,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "15"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 15,
+     "via": "Naples"
+    },
+    "events": [
+     {
+      "turn": 28,
+      "kind": "remove",
+      "via": null,
+      "note": null
+     }
+    ],
+    "reduced": false,
+    "fired": false,
+    "corner": "15"
+   },
+   "confidence": "high",
+   "note": "Unique-colour independent (8.4.4): black unit-type box with parachute symbol."
+  },
+  {
+   "id": "US-1SSF",
+   "name": "1 SSF",
+   "nation": "US",
+   "formation": "Independent",
+   "type": "ssf",
+   "size": "X",
+   "a": 5,
+   "d": 5,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": true,
+   "printed": "5-5-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 19,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "19"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 19,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "19"
+   },
+   "confidence": "high",
+   "note": "1st Special Service Force: unique-colour independent (maroon box, spearhead symbol). Counts as a mountain unit (19.3); Special Replacements (20.1.2)."
+  },
+  {
+   "id": "FR-4-2M",
+   "name": "4/2M",
+   "nation": "FR",
+   "formation": "2M Div",
+   "type": "mountain",
+   "size": "III",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "confidence": "high",
+   "note": "Mountain-infantry symbol (saltire with mountain peak), dark-brown 2M formation box."
+  },
+  {
+   "id": "FR-5-2M",
+   "name": "5/2M",
+   "nation": "FR",
+   "formation": "2M Div",
+   "type": "mountain",
+   "size": "III",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "confidence": "high",
+   "note": "Mountain-infantry symbol (saltire with mountain peak), dark-brown 2M formation box."
+  },
+  {
+   "id": "FR-8-2M",
+   "name": "8/2M",
+   "nation": "FR",
+   "formation": "2M Div",
+   "type": "mountain",
+   "size": "III",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "confidence": "high",
+   "note": "Mountain-infantry symbol (saltire with mountain peak), dark-brown 2M formation box."
+  },
+  {
+   "id": "FR-4MG-2M",
+   "name": "4MG/2M",
+   "nation": "FR",
+   "formation": "2M Div",
+   "type": "mountain",
+   "size": "III",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5-6-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "confidence": "high",
+   "note": "4th Group of Moroccan Tabors (Goumiers), printed as attached to 2M. Mountain symbol. Elite (red defence box)."
+  },
+  {
+   "id": "FR-2MDivASU",
+   "name": "2M Div",
+   "nation": "FR",
+   "formation": "2M Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "S (1) 5",
+   "back": null,
+   "backSp": null,
+   "firedSide": "0 (1) 5",
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23",
+    "note": "Arrives on Ready side."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 23,
+     "via": "Naples"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "23"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "IT-1Mtr",
+   "name": "I Mtr",
+   "nation": "IT",
+   "formation": "I Mtr",
+   "type": "motorized",
+   "size": "X",
+   "a": 4,
+   "d": 5,
+   "m": 5,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "4-5-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 24,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "24"
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": {
+     "turn": 24,
+     "via": "S1"
+    },
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "24"
+   },
+   "confidence": "high",
+   "note": "Printed 'I Mtr' (1st Italian Motorized Group), Italian flag, motorized symbol. Defence 5 in a WHITE box = Low Quality. Part of US Army for coordination (8.6.2). Formation: no '/' suffix, own formation assumed."
+  },
+  {
+   "id": "BR-REM",
+   "name": "REM (British)",
+   "nation": "BR",
+   "formation": "Independent",
+   "type": "infantry",
+   "size": "REM",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": true,
+   "printed": "1-3-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "remnantDisplay": true,
+    "note": "Not shown on the campaign card; S3.1 says Remnants are available from the start. Count assumed equal to the counter mix."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "A",
+    "remnantDisplay": true,
+    "count": 3,
+    "note": "Card shows the counter lettered 'A' with 'x3'."
+   },
+   "confidence": "high",
+   "note": "Remnant (10.4): white unit-type box = Independent (8.4.4); wide stripe; defence 3 in white box = Low Quality."
+  },
+  {
+   "id": "BR-REM-22-7A",
+   "name": "22/7A REM",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "type": "armor",
+   "size": "REM",
+   "a": 5,
+   "d": 4,
+   "m": 5,
+   "sp": 2,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "5³-4-5",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "remnantDisplay": true,
+    "note": "Not on the campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "remnantDisplay": true,
+    "count": 1
+   },
+   "confidence": "high",
+   "note": "Remnant for 22/7A (red formation box, armour symbol); normal quality."
+  },
+  {
+   "id": "US-REM",
+   "name": "REM (US)",
+   "nation": "US",
+   "formation": "Independent",
+   "type": "infantry",
+   "size": "REM",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": true,
+   "printed": "1-3-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "remnantDisplay": true,
+    "note": "Not on the campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "A",
+    "remnantDisplay": true,
+    "count": 3,
+    "note": "Card shows the counter lettered 'A' with 'x3'."
+   },
+   "confidence": "high",
+   "note": "White-box remnant = Independent; defence 3 in white box = Low Quality."
+  },
+  {
+   "id": "US-REM-82",
+   "name": "82 REM",
+   "nation": "US",
+   "formation": "82 Abn",
+   "type": "airborne",
+   "size": "REM",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "1-3-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "remnantDisplay": true,
+    "note": "Not on the campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "remnantDisplay": true,
+    "count": 1
+   },
+   "confidence": "high",
+   "note": "Remnant labelled '82', red airborne box. Defence 3 is NOT boxed: normal quality (not elite). Usable by the glider regiment too (10.4.1)."
+  },
+  {
+   "id": "FR-REM",
+   "name": "REM (French)",
+   "nation": "FR",
+   "formation": "2M Div",
+   "type": "mountain",
+   "size": "REM",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "triangle": false,
+   "silhouette": false,
+   "independent": false,
+   "printed": "1-3-3",
+   "back": null,
+   "backSp": null,
+   "firedSide": null,
+   "campaign": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": null,
+    "remnantDisplay": true,
+    "note": "Not on the campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "garrison": null,
+    "arrive": null,
+    "events": [],
+    "reduced": false,
+    "fired": false,
+    "corner": "A",
+    "remnantDisplay": true,
+    "count": 2,
+    "note": "Card shows the counter lettered 'A' with 'x2'."
+   },
+   "confidence": "medium",
+   "note": "Blue French remnant with the mountain-infantry symbol in a dark (2M-coloured) box, so it is treated as part of 2M Div (8.4.4: coloured-box remnants stay in their formation). Defence 3 in white box = Low Quality. Note 10.4.1: mountain units using infantry remnants lose their special abilities; whether this one keeps them is unclear."
+  }
+ ],
+ "markers": {
+  "campaign": [
+   {
+    "marker": "Air Support",
+    "name": "XII ASC",
+    "nation": "US",
+    "place": "Holding Box",
+    "side": "used",
+    "printed": "±S / +1 DD"
+   },
+   {
+    "marker": "Air Support",
+    "name": "TBF",
+    "nation": "BR",
+    "place": "Holding Box",
+    "side": "used",
+    "printed": "±S / +1 DD"
+   },
+   {
+    "marker": "Naval Support",
+    "name": "Naval",
+    "range": 2,
+    "place": "Holding Box",
+    "side": "used",
+    "printed": "Range: 2, ±S / +1 DD"
+   },
+   {
+    "marker": "Supply Points",
+    "name": "5th Army",
+    "value": 0
+   },
+   {
+    "marker": "Truck",
+    "name": "5 MPs",
+    "count": 2,
+    "note": "x2 Available"
+   },
+   {
+    "marker": "Weather",
+    "note": "Not on the card. Rules S3.1: Weather marker in space E.",
+    "source": "rules S3.1"
+   },
+   {
+    "marker": "VPs",
+    "note": "No VP marker on the campaign card."
+   }
+  ],
+  "bernhard": [
+   {
+    "marker": "Air Support",
+    "name": "XII ASC",
+    "nation": "US",
+    "place": "Holding Box",
+    "side": null,
+    "printed": "±S / +1 DD",
+    "note": "Card says only 'Place in Holding Box' (no side given, unlike the campaign card's 'on their Used side')."
+   },
+   {
+    "marker": "Air Support",
+    "name": "TBF",
+    "nation": "BR",
+    "place": "Holding Box",
+    "side": null,
+    "printed": "±S / +1 DD"
+   },
+   {
+    "marker": "Naval Support",
+    "name": "Naval",
+    "range": 2,
+    "place": "Holding Box",
+    "side": null,
+    "printed": "Range: 2, ±S / +1 DD"
+   },
+   {
+    "marker": "Weather",
+    "place": "B space"
+   },
+   {
+    "marker": "Supply Points",
+    "name": "5th Army",
+    "value": 3
+   },
+   {
+    "marker": "VPs",
+    "value": 10
+   },
+   {
+    "marker": "Truck",
+    "name": "5 MPs",
+    "count": 2,
+    "note": "x2 Available"
+   },
+   {
+    "marker": "Removed",
+    "unit": "BR-11H-7A",
+    "note": "11H/7A shown with red 'Removed' label"
+   }
+  ]
+ },
+ "uncertain": [
+  "Campaign card, recon counters 1 KDG (row 1), 11H/7A (row 1 and Turn 13 REMOVE) and 91 (Turn 9): the art has NO green recon circle on the movement factor 6, while the Bernhard card art for the same three counters has it. All three are recorded as recon, going by the unit-type symbol.",
+  "Bernhard card, 505/82 and 325G/82: the card gives no hex, only 'Naples Garrison (S2.3)' (legend: 'May not move'). Start hexes 2024/2124 are taken from the corner hexes printed on the counters.",
+  "Corner-number mismatches between appearances of the same counter in the card art: 4 Rgr reads '12' on arrival (Turn 12, and Bernhard 3011) but '11' on the Turn 22 REMOVE art (both cards); 7 Arm Div ASU reads '2' on arrival and on Bernhard 2014 but '2527' on the Turn 17 REMOVE art; 3 Div ASU reads '2' on Turn 2 arrival but '2927' on the Turn 19 REMOVE art. The scheduled turns/hexes are not affected.",
+  "Reduced (striped) sides print stacking value 3, not 2: 128/46, 138/46, 139/46, 167/56, 169/56 (3-5-3), 7/3 (4-5-3), 157/45 and 179/45 (4-4-3). 133/34's last step 1-3-3 prints 2. Salerno counters used backSp 2, so check the physical counters.",
+  "Heavy howitzer M1 (Turn 18 Naples): no range and no stacking box printed. Range is recorded as null and sp as 0 (from rule 19.4). The counter has no formation marking.",
+  "Silhouetted tank/TD counters print no stacking value; sp is recorded as null (4.3: the first is free, each other one counts 1).",
+  "Remnants: only the Bernhard card lists them (BR 'A' x3, 22/7A x1, US 'A' x3, 82 x1, FR 'A' x2). The campaign card does not show them; S3.1 says 'Remnants ... are all available from the start'. Each type is one entry with a count, and the lettering of the other copies (B/C?) is unknown.",
+  "French remnant (Bernhard remnant display): it has the mountain symbol and a dark 2M-coloured box. It is recorded as type mountain, formation 2M Div, at medium confidence.",
+  "Bernhard card air/naval markers: the card says only 'Place in Holding Box' and gives no side. The campaign card says 'on their Used side'.",
+  "Bernhard 760 at '2124 / Naples' (italic): recorded as a normal start in Naples hex 2124, not as garrison. It is outside the white garrison frame and S2.3 does not name it.",
+  "Most counters appear on their front side only, so their backs (reduced values) are unknown. back/backSp are filled only where a card shows the reduced side.",
+  "I Mtr formation: the counter has no '/formation' suffix, so it is recorded as its own formation 'I Mtr'."
+ ]
+}

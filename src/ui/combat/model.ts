@@ -26,7 +26,7 @@ export const resultTitle = (result: string) => cap(resultHeadline(result));
 const NOUN: Record<string, string> = {
   infantry: 'infantry', garrison: 'coastal garrison', motorized: 'motorized infantry', pg: 'panzergrenadiers', engineer: 'engineers',
   bh: 'beachhead', airborne: 'paratroops', glider: 'glider infantry', ranger: 'rangers', recon: 'reconnaissance', divAsu: 'artillery',
-  corpsAsu: 'corps artillery', nebelwerfer: 'rocket artillery', tank: 'armour',
+  corpsAsu: 'corps artillery', nebelwerfer: 'rocket artillery', tank: 'armour', mountain: 'mountain troops', heavyHowitzer: 'heavy artillery',
 };
 
 /** "II/1 HG (panzergrenadiers)", "2/6 Queen's and 128 Bde (-)", "5 units". */

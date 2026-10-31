@@ -152,7 +152,7 @@ export function losTo(s: GameState, side: Side, hex: HexId, targets: HexId[]): b
 export function salernoPortOpen(s: GameState): boolean {
   if (s.control['2707'] !== 'Allied') return false;
   for (const u of Object.values(s.units)) {
-    if (u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2707') <= RULES.supply.salernoPortOpenRadius) return false;
+    if (u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2707') <= (RULES.supply.salernoPortOpenRadius ?? 0)) return false;
   }
   return true;
 }

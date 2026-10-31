@@ -1,0 +1,4648 @@
+{
+ "_note": "Italy '43 counters, built by tools/italy-oob/build.py from the set-up card transcriptions. a-d-m are the full-strength side; back is the reduced side where a card shows it. Each counter's place in each scenario is under setup.campaign (Campaign Game and Across the Volturno) and setup.bernhard (The Bernhard Line). `estimated: [\"front\"]` marks counters seen only on their reduced side, whose full-strength values are a placeholder until the counters are photographed.",
+ "categories": {
+  "infantry": {
+   "mech": false,
+   "maxAdv": 2,
+   "repl": "inf"
+  },
+  "mountain": {
+   "mech": false,
+   "maxAdv": 2,
+   "repl": "inf"
+  },
+  "motorized": {
+   "mech": true,
+   "maxAdv": 4,
+   "repl": "inf"
+  },
+  "pg": {
+   "mech": true,
+   "maxAdv": 4,
+   "repl": "inf"
+  },
+  "airborne": {
+   "mech": false,
+   "maxAdv": 2,
+   "repl": "special"
+  },
+  "glider": {
+   "mech": false,
+   "maxAdv": 2,
+   "repl": "special"
+  },
+  "ranger": {
+   "mech": false,
+   "maxAdv": 2,
+   "repl": "special"
+  },
+  "recon": {
+   "mech": true,
+   "maxAdv": 4,
+   "repl": "special"
+  },
+  "tank": {
+   "mech": true,
+   "maxAdv": 4,
+   "repl": "armor"
+  },
+  "divAsu": {
+   "mech": true,
+   "maxAdv": 0,
+   "repl": "special",
+   "asu": "division"
+  },
+  "corpsAsu": {
+   "mech": true,
+   "maxAdv": 0,
+   "repl": "special",
+   "asu": "corps"
+  },
+  "nebelwerfer": {
+   "mech": true,
+   "maxAdv": 0,
+   "repl": "special",
+   "asu": "corps"
+  },
+  "heavyHowitzer": {
+   "mech": true,
+   "maxAdv": 0,
+   "repl": null,
+   "asu": "corps"
+  }
+ },
+ "remnantPools": {
+  "GE-INF": [
+   "GE-REM-A",
+   "GE-REM-B",
+   "GE-REM-C",
+   "GE-REM-D"
+  ],
+  "GE-MOT": [
+   "GE-REM-E"
+  ],
+  "US": [
+   "US-REM-A",
+   "US-REM-B",
+   "US-REM-C"
+  ],
+  "BR": [
+   "BR-REM-A",
+   "BR-REM-B",
+   "BR-REM-C"
+  ],
+  "FR": [
+   "FR-REM-A",
+   "FR-REM-B"
+  ]
+ },
+ "units": [
+  {
+   "id": "GE-I-115",
+   "name": "I/115/15PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "back": "1-2-5",
+   "backSp": 1,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "1822"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2709"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "GE-III-115",
+   "name": "III/115/15PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "back": "1-2-5",
+   "estimated": [
+    "front"
+   ],
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2725"
+     },
+     "reduced": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2410"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "GE-I-129",
+   "name": "I/129/15PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "1815"
+     },
+     "frozen": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2112"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-II-129",
+   "name": "II/129/15PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2015"
+     },
+     "frozen": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2211"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-III-129",
+   "name": "III/129/15PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "back": "1-2-5",
+   "estimated": [
+    "front"
+   ],
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2116"
+     },
+     "reduced": true,
+     "frozen": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2211"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "GE-104",
+   "name": "104/15PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "motorized",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "sp": 3,
+   "size": "III",
+   "elite": true,
+   "remnant": "GE-MOT",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2210"
+     },
+     "frozen": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "1912"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-33",
+   "name": "33/15PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "recon",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "1706"
+     },
+     "frozen": true,
+     "garrison": true,
+     "events": [
+      {
+       "turn": 14,
+       "kind": "release"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "1706"
+     },
+     "frozen": true,
+     "garrison": true,
+     "events": [
+      {
+       "turn": 14,
+       "kind": "release"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-215",
+   "name": "15 PG 215",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "tank",
+   "a": 4,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "elite": true,
+   "silhouette": true,
+   "back": "2-2-5",
+   "backSp": 1,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2212"
+     },
+     "reduced": true,
+     "frozen": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2211"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-15PG-ASU",
+   "name": "15 PG Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "15 PG",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2311"
+     },
+     "frozen": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2110"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-Reggio",
+   "name": "Reggio",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "motorized",
+   "a": 1,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2018"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2609"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-242",
+   "name": "242",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "tank",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-103Pz",
+   "name": "3 PG 103",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2706"
+     },
+     "frozen": true,
+     "events": [
+      {
+       "turn": 2,
+       "kind": "release"
+      },
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3009"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-103",
+   "name": "103/3PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "recon",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2123"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3309"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-I-29",
+   "name": "I/29/3PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "back": "1-2-5",
+   "backSp": 1,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2706"
+     },
+     "frozen": true,
+     "events": [
+      {
+       "turn": 2,
+       "kind": "release"
+      },
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3009"
+     },
+     "reduced": true,
+     "events": [
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-29",
+   "name": "29/3PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "motorized",
+   "a": 4,
+   "d": 6,
+   "m": 5,
+   "sp": 2,
+   "size": "III(-)",
+   "back": "2-3-5",
+   "backSp": 2,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 3,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2809"
+     },
+     "reduced": true,
+     "events": [
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-I-8",
+   "name": "I/8/3PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 5,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3109"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-II-8",
+   "name": "II/8/3PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 7,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3109"
+     },
+     "events": [
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-III-8",
+   "name": "III/8/3PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 11,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2707"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-3PG-ASU",
+   "name": "3 PG Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "3 PG",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 7,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2907"
+     },
+     "events": [
+      {
+       "turn": 21,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-26",
+   "name": "26/26Pz",
+   "side": "German",
+   "nation": "GE",
+   "formation": "26 Pz",
+   "cat": "recon",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3124"
+     },
+     "events": [
+      {
+       "turn": 7,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "box": "permanentlyRemoved"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-I-67",
+   "name": "I/67/26Pz",
+   "side": "German",
+   "nation": "GE",
+   "formation": "26 Pz",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3325"
+     },
+     "events": [
+      {
+       "turn": 7,
+       "kind": "withdraw"
+      },
+      {
+       "turn": 14,
+       "kind": "return",
+       "at": "N3"
+      },
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 14,
+      "at": "N3"
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-II-67",
+   "name": "II/67/26Pz",
+   "side": "German",
+   "nation": "GE",
+   "formation": "26 Pz",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 14,
+      "at": "N4"
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 14,
+      "at": "N4"
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-I-9",
+   "name": "I/9/26Pz",
+   "side": "German",
+   "nation": "GE",
+   "formation": "26 Pz",
+   "cat": "pg",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "back": "1-2-5",
+   "estimated": [
+    "front"
+   ],
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3525"
+     },
+     "reduced": true,
+     "events": [
+      {
+       "turn": 7,
+       "kind": "withdraw"
+      },
+      {
+       "turn": 14,
+       "kind": "return",
+       "at": "N3",
+       "reduced": true
+      },
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "reduced": true,
+     "arrive": {
+      "turn": 14,
+      "at": "N3",
+      "reduced": true
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-II-9",
+   "name": "II/9/26Pz",
+   "side": "German",
+   "nation": "GE",
+   "formation": "26 Pz",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3525"
+     },
+     "events": [
+      {
+       "turn": 7,
+       "kind": "withdraw"
+      },
+      {
+       "turn": 14,
+       "kind": "return",
+       "at": "N3"
+      },
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 14,
+      "at": "N3"
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-26Pz-ASU",
+   "name": "26 Pz Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "26 Pz",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3325"
+     },
+     "fired": true,
+     "events": [
+      {
+       "turn": 7,
+       "kind": "withdraw"
+      },
+      {
+       "turn": 14,
+       "kind": "return",
+       "at": "N3",
+       "fired": true
+      },
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "fired": true,
+     "arrive": {
+      "turn": 14,
+      "at": "N3"
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    }
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "GE-HG",
+   "name": "HG/HG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "HG",
+   "cat": "recon",
+   "a": 2,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "back": "1-2-6",
+   "estimated": [
+    "front"
+   ],
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2324"
+     },
+     "reduced": true,
+     "events": [
+      {
+       "turn": 28,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2410"
+     },
+     "reduced": true,
+     "events": [
+      {
+       "turn": 28,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-I-2HG",
+   "name": "I/2/HG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "HG",
+   "cat": "pg",
+   "a": 4,
+   "d": 4,
+   "m": 5,
+   "sp": 2,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2525"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2609"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-II-1HG",
+   "name": "II/1/HG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "HG",
+   "cat": "motorized",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "back": "1-2-5",
+   "estimated": [
+    "front"
+   ],
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2725"
+     },
+     "reduced": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2709"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "GE-HG-I-II",
+   "name": "HG I+II",
+   "side": "German",
+   "nation": "GE",
+   "formation": "HG",
+   "cat": "tank",
+   "a": 4,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "back": "3-2-5",
+   "estimated": [
+    "front"
+   ],
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2525"
+     },
+     "reduced": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2609"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "GE-HG-III",
+   "name": "HG III",
+   "side": "German",
+   "nation": "GE",
+   "formation": "HG",
+   "cat": "tank",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "elite": true,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2725"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "box": "eliminated"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-HG-ASU",
+   "name": "HG Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "HG",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2622"
+     },
+     "fired": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2707"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-III-1FJ",
+   "name": "III/1/1FJ",
+   "side": "German",
+   "nation": "GE",
+   "formation": "1 FJ",
+   "cat": "airborne",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2324"
+     },
+     "events": [
+      {
+       "turn": 3,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "box": "permanentlyRemoved"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-III-6FJ",
+   "name": "III/6/2FJ",
+   "side": "German",
+   "nation": "GE",
+   "formation": "2 FJ",
+   "cat": "airborne",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 18,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-II-64",
+   "name": "II/64/16Pz",
+   "side": "German",
+   "nation": "GE",
+   "formation": "16 Pz",
+   "cat": "pg",
+   "a": 3,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2925"
+     },
+     "events": [
+      {
+       "turn": 3,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "box": "permanentlyRemoved"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-129",
+   "name": "129/29PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "29 PG",
+   "cat": "recon",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3725"
+     },
+     "events": [
+      {
+       "turn": 4,
+       "kind": "withdraw"
+      },
+      {
+       "turn": 19,
+       "kind": "return",
+       "at": "N2"
+      },
+      {
+       "turn": 29,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 19,
+      "at": "N2"
+     },
+     "events": [
+      {
+       "turn": 29,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-129Pz",
+   "name": "29 PG 129",
+   "side": "German",
+   "nation": "GE",
+   "formation": "29 PG",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "elite": true,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 18,
+      "at": "N2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 18,
+      "at": "N2"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-71",
+   "name": "71/29PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "29 PG",
+   "cat": "motorized",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "sp": 3,
+   "size": "III",
+   "elite": true,
+   "back": "4-6-5",
+   "estimated": [
+    "front"
+   ],
+   "remnant": "GE-MOT",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "N2",
+      "reduced": true
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "N2",
+      "reduced": true
+     }
+    }
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "GE-15",
+   "name": "15/29PG",
+   "side": "German",
+   "nation": "GE",
+   "formation": "29 PG",
+   "cat": "motorized",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "sp": 3,
+   "size": "III",
+   "elite": true,
+   "remnant": "GE-MOT",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "N2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "N2"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-29PG-ASU",
+   "name": "29 PG Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "29 PG",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 18,
+      "at": "N2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 18,
+      "at": "N2"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-577",
+   "name": "577/305",
+   "side": "German",
+   "nation": "GE",
+   "formation": "305",
+   "cat": "infantry",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 9,
+      "at": "N3"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3306"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-578",
+   "name": "578/305",
+   "side": "German",
+   "nation": "GE",
+   "formation": "305",
+   "cat": "infantry",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 14,
+      "at": "N3"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 14,
+      "at": "N3"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-305F",
+   "name": "305F/305",
+   "side": "German",
+   "nation": "GE",
+   "formation": "305",
+   "cat": "infantry",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 12,
+      "at": "N4"
+     },
+     "events": [
+      {
+       "turn": 29,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3306"
+     },
+     "events": [
+      {
+       "turn": 29,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-305-ASU",
+   "name": "305 Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "305",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 9,
+      "at": "N3"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3103"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-267",
+   "name": "267/94",
+   "side": "German",
+   "nation": "GE",
+   "formation": "94",
+   "cat": "infantry",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "lowQuality": true,
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 12,
+      "at": "hex:1706"
+     },
+     "frozen": true,
+     "garrison": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "1706"
+     },
+     "frozen": true,
+     "garrison": true
+    }
+   }
+  },
+  {
+   "id": "GE-274",
+   "name": "274/94",
+   "side": "German",
+   "nation": "GE",
+   "formation": "94",
+   "cat": "infantry",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "lowQuality": true,
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 11,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2108"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-276",
+   "name": "276/94",
+   "side": "German",
+   "nation": "GE",
+   "formation": "94",
+   "cat": "infantry",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "lowQuality": true,
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-94Fus",
+   "name": "94Fus/94",
+   "side": "German",
+   "nation": "GE",
+   "formation": "94",
+   "cat": "infantry",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 16,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 16,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-94-ASU",
+   "name": "94 Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "94",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-131",
+   "name": "131/44",
+   "side": "German",
+   "nation": "GE",
+   "formation": "44",
+   "cat": "infantry",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 19,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 19,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-132",
+   "name": "132/44",
+   "side": "German",
+   "nation": "GE",
+   "formation": "44",
+   "cat": "infantry",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 27,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 27,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-134",
+   "name": "134/44",
+   "side": "German",
+   "nation": "GE",
+   "formation": "44",
+   "cat": "infantry",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 22,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 22,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-44Fus",
+   "name": "44Fus/44",
+   "side": "German",
+   "nation": "GE",
+   "formation": "44",
+   "cat": "infantry",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 28,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 28,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-44-ASU",
+   "name": "44 Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "44",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 25,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 25,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-100",
+   "name": "100/5Geb",
+   "side": "German",
+   "nation": "GE",
+   "formation": "5 Geb",
+   "cat": "mountain",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "mountain": true,
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 29,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 29,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-85",
+   "name": "85/5Geb",
+   "side": "German",
+   "nation": "GE",
+   "formation": "5 Geb",
+   "cat": "mountain",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "mountain": true,
+   "remnant": "GE-INF",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 30,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 30,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-5Geb-ASU",
+   "name": "5 Geb Div",
+   "side": "German",
+   "nation": "GE",
+   "formation": "5 Geb",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 29,
+      "at": "N1/N2/N3"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 29,
+      "at": "N1/N2/N3"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-14Pz",
+   "name": "14 Pz Corps",
+   "side": "German",
+   "nation": "GE",
+   "formation": "XIV Pz Corps",
+   "cat": "corpsAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "XXX",
+   "range": 5,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2620"
+     },
+     "fired": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2707"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-71NW",
+   "name": "71",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "nebelwerfer",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "III",
+   "range": 3,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2622"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2707"
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-56NW",
+   "name": "56",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "nebelwerfer",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "III",
+   "range": 3,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 13,
+      "at": "N1/N2/N3"
+     },
+     "events": [
+      {
+       "turn": 30,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GE-REM-A",
+   "name": "REM A",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-REM-B",
+   "name": "REM B",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-REM-C",
+   "name": "REM C",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-REM-D",
+   "name": "REM D",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "GE-REM-E",
+   "name": "REM E",
+   "side": "German",
+   "nation": "GE",
+   "formation": "independent",
+   "cat": "motorized",
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "US-504-82",
+   "name": "504/82",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "82 Abn",
+   "cat": "airborne",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "elite": true,
+   "remnant": "US-REM-82",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2125"
+     },
+     "garrison": "Naples",
+     "events": [
+      {
+       "turn": 11,
+       "kind": "release"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3210"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-505-82",
+   "name": "505/82",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "82 Abn",
+   "cat": "airborne",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "elite": true,
+   "remnant": "US-REM-82",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2024"
+     },
+     "garrison": "Naples",
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2024"
+     },
+     "garrison": "Naples",
+     "frozen": true,
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-325G-82",
+   "name": "325G/82",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "82 Abn",
+   "cat": "glider",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "elite": true,
+   "remnant": "US-REM-82",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2124"
+     },
+     "garrison": "Naples",
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2124"
+     },
+     "garrison": "Naples",
+     "frozen": true,
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "BR-40RTR",
+   "name": "40RTR",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "23 Arm Bde",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2224"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2312"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-RSG",
+   "name": "RSG",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "23 Arm Bde",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2224"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2511"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-11K-23A",
+   "name": "11K/23A",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "23 Arm Bde",
+   "cat": "motorized",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-1KDG",
+   "name": "1 KDG",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "Independent",
+   "cat": "recon",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2224"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2312"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-131-7A",
+   "name": "131/7A",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "motorized",
+   "a": 5,
+   "d": 7,
+   "m": 5,
+   "sp": 3,
+   "size": "X",
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2526"
+     },
+     "events": [
+      {
+       "turn": 17,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "1913"
+     },
+     "events": [
+      {
+       "turn": 17,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "BR-11H-7A",
+   "name": "11H/7A",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "recon",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2526"
+     },
+     "events": [
+      {
+       "turn": 13,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "box": "permanentlyRemoved"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-22-7A",
+   "name": "22/7A",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "tank",
+   "a": 11,
+   "d": 8,
+   "m": 5,
+   "sp": 4,
+   "kind": "armor",
+   "size": "X",
+   "tr": 3,
+   "remnant": "BR-REM-22-7A",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2527"
+     },
+     "events": [
+      {
+       "turn": 17,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "1914"
+     },
+     "events": [
+      {
+       "turn": 17,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "BR-7ADivASU",
+   "name": "7 Arm Div",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[X]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S1"
+     },
+     "fired": true,
+     "events": [
+      {
+       "turn": 17,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2014"
+     },
+     "events": [
+      {
+       "turn": 17,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "BR-128-46",
+   "name": "128/46",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "46 Div",
+   "cat": "infantry",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "X",
+   "entersReduced": true,
+   "back": "3-5-3",
+   "backSp": 3,
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 1,
+      "at": "S1",
+      "reduced": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2212"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-138-46",
+   "name": "138/46",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "46 Div",
+   "cat": "infantry",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "X",
+   "back": "3-5-3",
+   "backSp": 3,
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 1,
+      "at": "S1"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2313"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "BR-139-46",
+   "name": "139/46",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "46 Div",
+   "cat": "infantry",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "X",
+   "entersReduced": true,
+   "back": "3-5-3",
+   "backSp": 3,
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 1,
+      "at": "S1",
+      "reduced": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2312"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-46DivASU",
+   "name": "46 Div",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "46 Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[X]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S1"
+     },
+     "fired": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2314"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-167-56",
+   "name": "167/56",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "56 Div",
+   "cat": "infantry",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "X",
+   "entersReduced": true,
+   "back": "3-5-3",
+   "backSp": 3,
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 1,
+      "at": "S1",
+      "reduced": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2411"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-168-56",
+   "name": "168/56",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "56 Div",
+   "cat": "infantry",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "X",
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 5,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2511"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-169-56",
+   "name": "169/56",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "56 Div",
+   "cat": "infantry",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "X",
+   "back": "3-5-3",
+   "backSp": 3,
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2727"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2512"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "BR-201G-56",
+   "name": "201G/56",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "56 Div",
+   "cat": "infantry",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "X",
+   "remnant": "BR",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2727"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2512"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-56DivASU",
+   "name": "56 Div",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "56 Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[X]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S1"
+     },
+     "fired": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2513"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-10CorpsASU",
+   "name": "10 Corps",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "10 Corps",
+   "cat": "corpsAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "XXX",
+   "range": 5,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 3,
+      "at": "S1"
+     },
+     "fired": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2314"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-9Cmdo",
+   "name": "9 Cmdo",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "Independent",
+   "cat": "ranger",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "kind": "commando",
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 31,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 31,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-15-3",
+   "name": "15/3",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "3 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2926"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2710"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-30-3",
+   "name": "30/3",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "3 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2926"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2810"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-7-3",
+   "name": "7/3",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "3 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "back": "4-5-3",
+   "backSp": 3,
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3026"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2610"
+     },
+     "reduced": true,
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-751",
+   "name": "751",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "3 Div",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "2926"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2710"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-601",
+   "name": "601",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "3 Div",
+   "cat": "tank",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "kind": "td",
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3026"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2810"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-3DivASU",
+   "name": "3 Div",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "3 Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S2"
+     },
+     "fired": true,
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2712"
+     },
+     "events": [
+      {
+       "turn": 19,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-133-34",
+   "name": "133/34",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "34 Div",
+   "cat": "infantry",
+   "a": 4,
+   "d": 4,
+   "m": 3,
+   "sp": 2,
+   "size": "III(-)",
+   "back": "1-3-3",
+   "backSp": 2,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3626"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3010"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "US-135-34",
+   "name": "135/34",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "34 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 4,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3110"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-168-34",
+   "name": "168/34",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "34 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 4,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3110"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-100-34",
+   "name": "100/34",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "34 Div",
+   "cat": "infantry",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3010"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-34DivASU",
+   "name": "34 Div",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "34 Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 4,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3012"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-776",
+   "name": "776",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "34 Div",
+   "cat": "tank",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "kind": "td",
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 4,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3010"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-760",
+   "name": "760",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "34 Div",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 12,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2124"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-141-36",
+   "name": "141/36",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "36 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 18,
+      "at": "S1/S2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 18,
+      "at": "S1/S2"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-142-36",
+   "name": "142/36",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "36 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-143-36",
+   "name": "143/36",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "36 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-753",
+   "name": "753",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "36 Div",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-636",
+   "name": "636",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "36 Div",
+   "cat": "tank",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "kind": "td",
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "S1/S2"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-36DivASU",
+   "name": "36 Div",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "36 Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 18,
+      "at": "S1/S2"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 18,
+      "at": "S1/S2"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-157-45",
+   "name": "157/45",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "45 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "back": "4-4-3",
+   "backSp": 3,
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3726"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3011"
+     },
+     "reduced": true
+    }
+   }
+  },
+  {
+   "id": "US-179-45",
+   "name": "179/45",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "45 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "entersReduced": true,
+   "back": "4-4-3",
+   "backSp": 3,
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S2",
+      "reduced": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2911"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-180-45",
+   "name": "180/45",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "45 Div",
+   "cat": "infantry",
+   "a": 6,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2911"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-645",
+   "name": "645",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "45 Div",
+   "cat": "tank",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "kind": "td",
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3011"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-755",
+   "name": "755",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "45 Div",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 13,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 13,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-45DivASU",
+   "name": "45 Div",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "45 Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S2"
+     },
+     "fired": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3012"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-6-1A",
+   "name": "6/1A",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "1 Arm Div",
+   "cat": "pg",
+   "a": 6,
+   "d": 7,
+   "m": 5,
+   "sp": 3,
+   "kind": "mechanized",
+   "size": "III",
+   "remnant": "US",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 13,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 13,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-1ADivASU",
+   "name": "1 Arm Div",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "1 Arm Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 13,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 13,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-191",
+   "name": "191",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "tank",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 3,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "hex": "3726"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3110"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-756",
+   "name": "756",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "tank",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "size": "II",
+   "tr": 2,
+   "silhouette": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 2,
+      "at": "S2"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3011"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-91",
+   "name": "91",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "recon",
+   "a": 2,
+   "d": 2,
+   "m": 6,
+   "sp": 1,
+   "size": "II",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 9,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2610"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-VICorpsASU",
+   "name": "VI Corps",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "VI Corps",
+   "cat": "corpsAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "XXX",
+   "range": 5,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 3,
+      "at": "S1"
+     },
+     "fired": true
+    },
+    "bernhard": {
+     "start": {
+      "hex": "2712"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-IICorpsASU",
+   "name": "II Corps",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "II Corps",
+   "cat": "corpsAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "XXX",
+   "range": 5,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 17,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 17,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "US-M1",
+   "name": "M1",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "heavyHowitzer",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "II(+)",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 18,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 18,
+      "at": "Naples"
+     }
+    }
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "US-1Rgr",
+   "name": "1 Rgr",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Darby's Rangers",
+   "cat": "ranger",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 14,
+      "at": "Naples"
+     },
+     "events": [
+      {
+       "turn": 20,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 14,
+      "at": "Naples"
+     },
+     "events": [
+      {
+       "turn": 20,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-3Rgr",
+   "name": "3 Rgr",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Darby's Rangers",
+   "cat": "ranger",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 20,
+      "at": "Naples"
+     },
+     "events": [
+      {
+       "turn": 27,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 20,
+      "at": "Naples"
+     },
+     "events": [
+      {
+       "turn": 27,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-4Rgr",
+   "name": "4 Rgr",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Darby's Rangers",
+   "cat": "ranger",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 12,
+      "at": "Naples"
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "start": {
+      "hex": "3011"
+     },
+     "events": [
+      {
+       "turn": 22,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-2-509",
+   "name": "2/509",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "airborne",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "size": "II",
+   "elite": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 15,
+      "at": "Naples"
+     },
+     "events": [
+      {
+       "turn": 28,
+       "kind": "remove"
+      }
+     ]
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 15,
+      "at": "Naples"
+     },
+     "events": [
+      {
+       "turn": 28,
+       "kind": "remove"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "US-1SSF",
+   "name": "1 SSF",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "ranger",
+   "a": 5,
+   "d": 5,
+   "m": 3,
+   "sp": 2,
+   "kind": "ssf",
+   "size": "X",
+   "elite": true,
+   "mountain": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 19,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 19,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "FR-4-2M",
+   "name": "4/2M",
+   "side": "Allied",
+   "nation": "FR",
+   "formation": "2M Div",
+   "cat": "mountain",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "mountain": true,
+   "remnant": "FR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "FR-5-2M",
+   "name": "5/2M",
+   "side": "Allied",
+   "nation": "FR",
+   "formation": "2M Div",
+   "cat": "mountain",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "mountain": true,
+   "remnant": "FR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "FR-8-2M",
+   "name": "8/2M",
+   "side": "Allied",
+   "nation": "FR",
+   "formation": "2M Div",
+   "cat": "mountain",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "mountain": true,
+   "remnant": "FR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "FR-4MG-2M",
+   "name": "4MG/2M",
+   "side": "Allied",
+   "nation": "FR",
+   "formation": "2M Div",
+   "cat": "mountain",
+   "a": 5,
+   "d": 6,
+   "m": 3,
+   "sp": 3,
+   "size": "III",
+   "elite": true,
+   "mountain": true,
+   "remnant": "FR",
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "FR-2MDivASU",
+   "name": "2M Div",
+   "side": "Allied",
+   "nation": "FR",
+   "formation": "2M Div",
+   "cat": "divAsu",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "size": "[III]",
+   "range": 4,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 23,
+      "at": "Naples"
+     }
+    }
+   }
+  },
+  {
+   "id": "IT-1Mtr",
+   "name": "I Mtr",
+   "side": "Allied",
+   "nation": "IT",
+   "formation": "I Mtr",
+   "cat": "motorized",
+   "a": 4,
+   "d": 5,
+   "m": 5,
+   "sp": 3,
+   "size": "X",
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "arrive": {
+      "turn": 24,
+      "at": "S1"
+     }
+    },
+    "bernhard": {
+     "arrive": {
+      "turn": 24,
+      "at": "S1"
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-REM-A",
+   "name": "REM (British) A",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "Independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-REM-B",
+   "name": "REM (British) B",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "Independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-REM-C",
+   "name": "REM (British) C",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "Independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "BR-REM-22-7A",
+   "name": "22/7A REM",
+   "side": "Allied",
+   "nation": "BR",
+   "formation": "7 Arm Div",
+   "cat": "tank",
+   "a": 5,
+   "d": 4,
+   "m": 5,
+   "sp": 2,
+   "kind": "armor",
+   "tr": 3,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "US-REM-A",
+   "name": "REM (US) A",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "US-REM-B",
+   "name": "REM (US) B",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "US-REM-C",
+   "name": "REM (US) C",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "Independent",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "US-REM-82",
+   "name": "82 REM",
+   "side": "Allied",
+   "nation": "US",
+   "formation": "82 Abn",
+   "cat": "airborne",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   }
+  },
+  {
+   "id": "FR-REM-A",
+   "name": "REM (French) A",
+   "side": "Allied",
+   "nation": "FR",
+   "formation": "2M Div",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "FR-REM-B",
+   "name": "REM (French) B",
+   "side": "Allied",
+   "nation": "FR",
+   "formation": "2M Div",
+   "cat": "infantry",
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "lowQuality": true,
+   "setup": {
+    "campaign": {
+     "start": {
+      "remnant": true
+     }
+    },
+    "bernhard": {
+     "start": {
+      "remnant": true
+     }
+    }
+   },
+   "confidence": "medium"
+  }
+ ],
+ "scenarios": {
+  "volturno": {
+   "name": "Across the Volturno",
+   "firstTurn": 1,
+   "lastTurn": 7,
+   "setup": "campaign",
+   "description": "The Fifth Army forces the Volturno, 1 to 16 October 1943."
+  },
+  "bernhard": {
+   "name": "The Bernhard Line",
+   "firstTurn": 13,
+   "lastTurn": 32,
+   "setup": "bernhard",
+   "description": "The winter battles for the Bernhard Line, 1 November to 31 December 1943."
+  },
+  "campaign": {
+   "name": "Campaign Game",
+   "firstTurn": 1,
+   "lastTurn": 32,
+   "setup": "campaign",
+   "description": "From the Volturno to the Gustav Line, 1 October to 31 December 1943."
+  }
+ },
+ "setups": {
+  "campaign": {
+   "supplyPoints": {
+    "German": 1,
+    "Allied": 0
+   },
+   "weather": "E",
+   "trucks": 2,
+   "support": {
+    "place": "holding",
+    "used": true
+   }
+  },
+  "bernhard": {
+   "supplyPoints": {
+    "German": 1,
+    "Allied": 3
+   },
+   "weather": "B",
+   "vp": 10,
+   "trucks": 2,
+   "support": {
+    "place": "holding"
+   },
+   "fortifications": [
+    {
+     "hex": "1908",
+     "level": 1
+    },
+    {
+     "hex": "2108",
+     "level": 1
+    },
+    {
+     "hex": "2308",
+     "level": 1
+    },
+    {
+     "hex": "2707",
+     "level": 1
+    },
+    {
+     "hex": "2405",
+     "level": 1,
+     "building": true
+    },
+    {
+     "hex": "2406",
+     "level": 1,
+     "building": true
+    },
+    {
+     "hex": "2508",
+     "level": 1,
+     "building": true
+    },
+    {
+     "hex": "2504",
+     "level": 1,
+     "building": true
+    }
+   ],
+   "fortificationPool": {
+    "2": 4
+   }
+  }
+ },
+ "uncertain": {
+  "German": [
+   "26 Pz Div ASU (GE-26Pz-ASU): only its FIRED side appears (Campaign at start 3325, T7 withdraw, T14 return; Bernhard T14 return) - its Ready side and RANGE are unreadable/not shown; range left null (every other division ASU on these cards is range 4).",
+   "Full-strength fronts not shown on either card (only the white-striped reduced side appears): III/129/15PG (1-2-5), III/115/15PG (1-2-5), II/1/HG (1-2-5), HG/HG (1-2-6), I/9/26Pz (1-2-5), HG I+II tank (3³-2-5), 71/29PG (4-6-5, thin stripe = 2nd step of a 3-step unit). a-d-m recorded are the reduced values with reduced=true.",
+   "Backs not shown for most full-strength units (only I/115, I/29/3PG, 29/3PG III(-) and 215 appear on both sides across the two cards). Backs of e.g. I/129, II/129, 104/15PG, I/2/HG, II/64, the 2-3-5 battalions, the 3-5-3/4-7-3/5-7-3 regiments are unknown.",
+   "TQ changes by side: I/115/15PG front 2-3-5 has red (elite) defense but its back 1-2-5 is unboxed; 215 front 4³-3-5 elite, back 2³-2-5 unboxed. Recorded as printed (backQuality null).",
+   "Bernhard 'Fortification / No Combat' markers at 2405, 2406, 2508, 2504 (Cassino): read as the reverse 'Under Construction' side of Level 1 forts (18.1.1) - 4 of these + 4 completed 1L = the 8 L1 forts of 18.1.3. Interpretation, not stated on the card.",
+   "Tank stacking value: silhouetted tanks print no stacking box; sp=1 recorded per rule 4.3 / Salerno convention.",
+   "Bernhard: 26 Pz ASU, I/67, I/9, II/9 and 129/29PG have no at-start position - the card only lists their RETURN (T14 via N3, T19 via N2). Recorded with startBox='withdrawn'.",
+   "Bernhard: HG III tank starts in the Eliminated Box (can return only via a Replacement, 20.1).",
+   "Campaign: 15PG frozen units' release is conditional (S3.3.3) and has no card turn - not encoded as events.",
+   "Place name printed 'Villa Laterno' at 2018 (historically Villa Literno) - recorded as printed.",
+   "Division insignia (top-left icons on ASUs) not transcribed."
+  ],
+  "Allied": [
+   "Campaign card, recon counters 1 KDG (row 1), 11H/7A (row 1 and Turn 13 REMOVE) and 91 (Turn 9): the art has NO green recon circle on the movement factor 6, while the Bernhard card art for the same three counters has it. All three are recorded as recon, going by the unit-type symbol.",
+   "Bernhard card, 505/82 and 325G/82: the card gives no hex, only 'Naples Garrison (S2.3)' (legend: 'May not move'). Start hexes 2024/2124 are taken from the corner hexes printed on the counters.",
+   "Corner-number mismatches between appearances of the same counter in the card art: 4 Rgr reads '12' on arrival (Turn 12, and Bernhard 3011) but '11' on the Turn 22 REMOVE art (both cards); 7 Arm Div ASU reads '2' on arrival and on Bernhard 2014 but '2527' on the Turn 17 REMOVE art; 3 Div ASU reads '2' on Turn 2 arrival but '2927' on the Turn 19 REMOVE art. The scheduled turns/hexes are not affected.",
+   "Reduced (striped) sides print stacking value 3, not 2: 128/46, 138/46, 139/46, 167/56, 169/56 (3-5-3), 7/3 (4-5-3), 157/45 and 179/45 (4-4-3). 133/34's last step 1-3-3 prints 2. Salerno counters used backSp 2, so check the physical counters.",
+   "Heavy howitzer M1 (Turn 18 Naples): no range and no stacking box printed. Range is recorded as null and sp as 0 (from rule 19.4). The counter has no formation marking.",
+   "Silhouetted tank/TD counters print no stacking value; sp is recorded as null (4.3: the first is free, each other one counts 1).",
+   "Remnants: only the Bernhard card lists them (BR 'A' x3, 22/7A x1, US 'A' x3, 82 x1, FR 'A' x2). The campaign card does not show them; S3.1 says 'Remnants ... are all available from the start'. Each type is one entry with a count, and the lettering of the other copies (B/C?) is unknown.",
+   "French remnant (Bernhard remnant display): it has the mountain symbol and a dark 2M-coloured box. It is recorded as type mountain, formation 2M Div, at medium confidence.",
+   "Bernhard card air/naval markers: the card says only 'Place in Holding Box' and gives no side. The campaign card says 'on their Used side'.",
+   "Bernhard 760 at '2124 / Naples' (italic): recorded as a normal start in Naples hex 2124, not as garrison. It is outside the white garrison frame and S2.3 does not name it.",
+   "Most counters appear on their front side only, so their backs (reduced values) are unknown. back/backSp are filled only where a card shows the reduced side.",
+   "I Mtr formation: the counter has no '/formation' suffix, so it is recorded as its own formation 'I Mtr'."
+  ]
+ }
+}

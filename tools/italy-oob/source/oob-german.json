@@ -1,0 +1,3461 @@
+{
+ "_note": "German order of battle transcribed from photos of the Italy '43 'Campaign Game German Setup and Reinforcements' and 'Bernhard Line German Setup and Reinforcements' cards. a-d-m = attack-defense-movement as printed; sp = boxed stacking value; tr = tank rating (superscript after attack); range = circled ASU range. 'printed' is the exact strength line. Unit-level a/d/m/quality describe the counter's FULL/READY side when either card shows it; otherwise the side shown, with unit-level reduced=true (reduced side only) or fired=true (Fired side only). 'back' = the reduced side when seen. Per-scenario objects: start = hex at start (null if not on map); startBox = eliminated | permanentlyRemoved | remnantDisplay | withdrawn when off map; frozen/garrison from the card frame and corner box; reduced/fired = the side the unit is placed on; arrive = reinforcement turn and entry area; events = release/withdraw/return/remove in card order. corner = number printed top-right on the counter (campaign start hex or arrival turn); cornerBox frozen = blue box, garrison = black box. ASUs are recorded a=0, d=1 (printed 'S (1) 5': S = CRT column shift, parenthesized defense).",
+ "units": [
+  {
+   "id": "GE-I-115",
+   "name": "I/115/15PG",
+   "formation": "15 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "back": "1-2-5",
+   "backSp": 1,
+   "backQuality": null,
+   "corner": "1822",
+   "cornerBox": null,
+   "campaign": {
+    "start": "1822",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": "2709",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Front (campaign) 2-3-5 with defense in red box; back (Bernhard) 1-2-5 with white reduced stripe, no TQ box, no corner number."
+  },
+  {
+   "id": "GE-III-115",
+   "name": "III/115/15PG",
+   "formation": "15 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 1,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": true,
+   "printed": "1-2-5",
+   "corner": "2725",
+   "cornerBox": null,
+   "campaign": {
+    "start": "2725",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": "2410",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Only its reduced side (white stripe across the counter) appears on either card, so a-d-m here are the REDUCED values; the full-strength front is not shown anywhere."
+  },
+  {
+   "id": "GE-I-129",
+   "name": "I/129/15PG",
+   "formation": "15 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "1815",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "1815",
+    "frozen": true,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Castel Volturno. Frozen on coastal duty (S3.3.3): released individually when an Allied unit comes within 3 hexes; all except the Formia recon released if an Allied unit crosses the Volturno. No card event."
+   },
+   "bernhard": {
+    "start": "2112",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-II-129",
+   "name": "II/129/15PG",
+   "formation": "15 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "2015",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "2015",
+    "frozen": true,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Frozen on coastal duty (S3.3.3): released individually when an Allied unit comes within 3 hexes; all except the Formia recon released if an Allied unit crosses the Volturno. No card event."
+   },
+   "bernhard": {
+    "start": "2211",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Sessa Aurunca"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-III-129",
+   "name": "III/129/15PG",
+   "formation": "15 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 1,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": true,
+   "printed": "1-2-5",
+   "corner": "2116",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "2116",
+    "frozen": true,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Frozen on coastal duty (S3.3.3): released individually when an Allied unit comes within 3 hexes; all except the Formia recon released if an Allied unit crosses the Volturno. No card event."
+   },
+   "bernhard": {
+    "start": "2211",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Sessa Aurunca"
+   },
+   "confidence": "high",
+   "note": "Only its reduced side (white stripe across the counter) appears on either card, so a-d-m here are the REDUCED values; the full-strength front is not shown anywhere."
+  },
+  {
+   "id": "GE-104",
+   "name": "104/15PG",
+   "formation": "15 PG",
+   "type": "motorized",
+   "size": "III",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "6-9-5",
+   "corner": "2210",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "2210",
+    "frozen": true,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Frozen on coastal duty (S3.3.3): released individually when an Allied unit comes within 3 hexes; all except the Formia recon released if an Allied unit crosses the Volturno. No card event."
+   },
+   "bernhard": {
+    "start": "1912",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-33",
+   "name": "33/15PG",
+   "formation": "15 PG",
+   "type": "recon",
+   "size": "II",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-3-6",
+   "corner": "1706",
+   "cornerBox": "garrison",
+   "symbol": "armored recon (oval with slash); green recon circle on MA",
+   "campaign": {
+    "start": "1706",
+    "frozen": true,
+    "garrison": true,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 14,
+      "kind": "release",
+      "note": "RELEASE (dashed frame) - Formia garrison released"
+     }
+    ],
+    "note": "Formia. Garrison; frozen until Turn 14 (S3.3.3/S3.3.4)."
+   },
+   "bernhard": {
+    "start": "1706",
+    "frozen": true,
+    "garrison": true,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 14,
+      "kind": "release",
+      "note": "RELEASE (dashed frame) - Formia garrison released"
+     }
+    ],
+    "note": "Formia; white 'Starts Frozen (S2.3)' frame; released Turn 14"
+   },
+   "confidence": "high",
+   "note": "Corner 1706 in a BLACK box = Garrison (Formia, S3.3.4); recon green circle (19.2)."
+  },
+  {
+   "id": "GE-215",
+   "name": "15 PG 215",
+   "formation": "15 PG",
+   "type": "tank",
+   "size": "II",
+   "a": 4,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": 3,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "4³-3-5",
+   "back": "2³-2-5",
+   "backSp": 1,
+   "backQuality": null,
+   "corner": "2212",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "2212",
+    "frozen": true,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Frozen on coastal duty (S3.3.3): released individually when an Allied unit comes within 3 hexes; all except the Formia recon released if an Allied unit crosses the Volturno. No card event."
+   },
+   "bernhard": {
+    "start": "2211",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Sessa Aurunca; full-strength side 4³-3-5"
+   },
+   "confidence": "high",
+   "note": "Front 4³-3-5 (defense in red box) seen on Bernhard card; back 2³-2-5 (white stripe, no TQ box) seen on Campaign card. Silhouetted tank: no printed stacking box; sp recorded as 1 per rule 4.3 (first silhouetted tank in a hex stacks free, others 1 SP each) to match the Salerno oob convention. White counter outline = no ZOC Bonds (7.1)."
+  },
+  {
+   "id": "GE-15PG-ASU",
+   "name": "15 PG Div",
+   "formation": "15 PG",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "2311",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "2311",
+    "frozen": true,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Frozen on coastal duty (S3.3.3): released individually when an Allied unit comes within 3 hexes; all except the Formia recon released if an Allied unit crosses the Volturno. No card event."
+   },
+   "bernhard": {
+    "start": "2110",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": "ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2). Fired side not shown on either card."
+  },
+  {
+   "id": "GE-Reggio",
+   "name": "Reggio",
+   "formation": "independent",
+   "type": "motorized",
+   "size": "II",
+   "a": 1,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "1-2-5",
+   "corner": "2018",
+   "cornerBox": null,
+   "symbol": "white unit-type box (independent, 8.4.4), wheels",
+   "campaign": {
+    "start": "2018",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Villa Laterno (as printed)"
+   },
+   "bernhard": {
+    "start": "2609",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Only one side seen (no stripe) - probably a 1-step counter, back not visible."
+  },
+  {
+   "id": "GE-242",
+   "name": "242",
+   "formation": "independent",
+   "type": "tank",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "2³-2-5",
+   "corner": "17",
+   "cornerBox": null,
+   "symbol": "StuG silhouette, white formation band",
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 17,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 17,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Silhouetted tank: no printed stacking box; sp recorded as 1 per rule 4.3 (first silhouetted tank in a hex stacks free, others 1 SP each) to match the Salerno oob convention. White counter outline = no ZOC Bonds (7.1)."
+  },
+  {
+   "id": "GE-103Pz",
+   "name": "3 PG 103",
+   "formation": "3 PG",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "3³-2-5",
+   "corner": "2706",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "2706",
+    "frozen": true,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 2,
+      "kind": "release",
+      "note": "Turn 2 dashed box: 'Release units in hex 2706'"
+     },
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ],
+    "note": "S3.3.2: may not move on Turn 1."
+   },
+   "bernhard": {
+    "start": "3009",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": "Same face on both cards (no stripe). Silhouetted tank: no printed stacking box; sp recorded as 1 per rule 4.3 (first silhouetted tank in a hex stacks free, others 1 SP each) to match the Salerno oob convention. White counter outline = no ZOC Bonds (7.1)."
+  },
+  {
+   "id": "GE-103",
+   "name": "103/3PG",
+   "formation": "3 PG",
+   "type": "recon",
+   "size": "II",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-3-6",
+   "corner": "2123",
+   "cornerBox": null,
+   "symbol": "armored recon; green recon circle",
+   "campaign": {
+    "start": "2123",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "3309",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-I-29",
+   "name": "I/29/3PG",
+   "formation": "3 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "back": "1-2-5",
+   "backSp": 1,
+   "backQuality": null,
+   "corner": "2706",
+   "cornerBox": "frozen",
+   "campaign": {
+    "start": "2706",
+    "frozen": true,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 2,
+      "kind": "release",
+      "note": "Turn 2 dashed box: 'Release units in hex 2706'"
+     },
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ],
+    "note": "S3.3.2: may not move on Turn 1."
+   },
+   "bernhard": {
+    "start": "3009",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": "Front 2-3-5 (campaign); back 1-2-5 with white stripe and no corner number (Bernhard)."
+  },
+  {
+   "id": "GE-29",
+   "name": "29/3PG",
+   "formation": "3 PG",
+   "type": "motorized",
+   "size": "III(-)",
+   "a": 4,
+   "d": 6,
+   "m": 5,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "4-6-5",
+   "back": "2-3-5",
+   "backSp": 2,
+   "backQuality": null,
+   "corner": "3",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 3,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "2809",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ],
+    "note": "Presenzano; shown on back 2-3-5 (sp 2)"
+   },
+   "confidence": "high",
+   "note": "Front 4-6-5 sp 2 (campaign Turn 3); back 2-3-5 sp 2 with white stripe, no corner number (Bernhard 2809)."
+  },
+  {
+   "id": "GE-I-8",
+   "name": "I/8/3PG",
+   "formation": "3 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "5",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 5,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "3109",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-II-8",
+   "name": "II/8/3PG",
+   "formation": "3 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "7",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 7,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "3109",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-III-8",
+   "name": "III/8/3PG",
+   "formation": "3 PG",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "11",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 11,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "2707",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ],
+    "note": "San Pietro (with a 1L fortification)"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-3PG-ASU",
+   "name": "3 PG Div",
+   "formation": "3 PG",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "7",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 7,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "2907",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 21,
+      "kind": "remove",
+      "note": "All remaining 3 PG Div (4 units)"
+     }
+    ],
+    "note": "Venafro"
+   },
+   "confidence": "high",
+   "note": "ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-26",
+   "name": "26/26Pz",
+   "formation": "26 Pz",
+   "type": "recon",
+   "size": "II",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-3-6",
+   "corner": "3124",
+   "cornerBox": null,
+   "symbol": "armored recon; green recon circle",
+   "campaign": {
+    "start": "3124",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 7,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "permanentlyRemoved",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Shown under 'Permanently Removed'"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-I-67",
+   "name": "I/67/26Pz",
+   "formation": "26 Pz",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "3325",
+   "cornerBox": null,
+   "campaign": {
+    "start": "3325",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 7,
+      "kind": "withdraw",
+      "returnTurn": 14,
+      "note": "Withdraw, return on Turn 14"
+     },
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3"
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "withdrawn",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3"
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ],
+    "note": "Not on map at start (implicitly out of play, withdrawn in the Campaign on T7); card only shows RETURN on Turn 14 via N3."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-II-67",
+   "name": "II/67/26Pz",
+   "formation": "26 Pz",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "14",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 14,
+     "via": "N4"
+    },
+    "events": [
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 14,
+     "via": "N4"
+    },
+    "events": [
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-I-9",
+   "name": "I/9/26Pz",
+   "formation": "26 Pz",
+   "type": "pg",
+   "size": "II",
+   "a": 1,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": true,
+   "printed": "1-2-5",
+   "corner": "3525",
+   "cornerBox": null,
+   "symbol": "X with track oval (panzergrenadier)",
+   "campaign": {
+    "start": "3525",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 7,
+      "kind": "withdraw",
+      "returnTurn": 14,
+      "note": "Withdraw, return on Turn 14"
+     },
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3",
+      "reduced": true
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "withdrawn",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3",
+      "reduced": true
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ],
+    "note": "Not on map at start (implicitly out of play, withdrawn in the Campaign on T7); card only shows RETURN on Turn 14 via N3."
+   },
+   "confidence": "high",
+   "note": "Only its reduced side (white stripe across the counter) appears on either card, so a-d-m here are the REDUCED values; the full-strength front is not shown anywhere."
+  },
+  {
+   "id": "GE-II-9",
+   "name": "II/9/26Pz",
+   "formation": "26 Pz",
+   "type": "motorized",
+   "size": "II",
+   "a": 2,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-3-5",
+   "corner": "3525",
+   "cornerBox": null,
+   "symbol": "X with wheels (motorized) - differs from I/9 which is X with track oval",
+   "campaign": {
+    "start": "3525",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 7,
+      "kind": "withdraw",
+      "returnTurn": 14,
+      "note": "Withdraw, return on Turn 14"
+     },
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3"
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "withdrawn",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3"
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ],
+    "note": "Not on map at start (implicitly out of play, withdrawn in the Campaign on T7); card only shows RETURN on Turn 14 via N3."
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-26Pz-ASU",
+   "name": "26 Pz Div",
+   "formation": "26 Pz",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "fired": true,
+   "reduced": false,
+   "printed": "Fired 0 (1) 5",
+   "corner": "3325",
+   "cornerBox": null,
+   "campaign": {
+    "start": "3325",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": true,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 7,
+      "kind": "withdraw",
+      "returnTurn": 14,
+      "note": "Withdraw, return on Turn 14 (shown Fired)"
+     },
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3",
+      "fired": true
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "withdrawn",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": true,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 14,
+      "kind": "return",
+      "via": "N3",
+      "fired": true
+     },
+     {
+      "turn": 22,
+      "kind": "remove",
+      "note": "Remainder 26 Pz Div (5 units)"
+     }
+    ],
+    "note": "Not on map at start (implicitly out of play, withdrawn in the Campaign on T7); card only shows RETURN on Turn 14 via N3."
+   },
+   "confidence": "medium",
+   "note": "Shown ONLY on its Fired side on both cards (campaign start, T7 withdraw, T14 return), so its Ready side and RANGE are not visible. a-d-m here are the fired-side print. ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-HG",
+   "name": "HG/HG",
+   "formation": "HG",
+   "type": "recon",
+   "size": "II",
+   "a": 1,
+   "d": 2,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": true,
+   "printed": "1-2-6",
+   "corner": "2324",
+   "cornerBox": null,
+   "symbol": "armored recon, light HG unit box, Luftwaffe blue background; green recon circle",
+   "campaign": {
+    "start": "2324",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 28,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "2410",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 28,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": "Only its reduced side (white stripe across the counter) appears on either card, so a-d-m here are the REDUCED values; the full-strength front is not shown anywhere."
+  },
+  {
+   "id": "GE-I-2HG",
+   "name": "I/2/HG",
+   "formation": "HG",
+   "type": "pg",
+   "size": "II",
+   "a": 4,
+   "d": 4,
+   "m": 5,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "4-4-5",
+   "corner": "2525",
+   "cornerBox": null,
+   "symbol": "X with track oval (panzergrenadier)",
+   "campaign": {
+    "start": "2525",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": "2609",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-II-1HG",
+   "name": "II/1/HG",
+   "formation": "HG",
+   "type": "motorized",
+   "size": "II",
+   "a": 1,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": true,
+   "printed": "1-2-5",
+   "corner": "2725",
+   "cornerBox": null,
+   "campaign": {
+    "start": "2725",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": "2709",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Only its reduced side (white stripe across the counter) appears on either card, so a-d-m here are the REDUCED values; the full-strength front is not shown anywhere."
+  },
+  {
+   "id": "GE-HG-I-II",
+   "name": "HG I+II",
+   "formation": "HG",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": 3,
+   "range": null,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": true,
+   "printed": "3³-2-5",
+   "corner": "2525",
+   "cornerBox": null,
+   "campaign": {
+    "start": "2525",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": "2609",
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Only its reduced side (white stripe across the counter) appears on either card, so a-d-m here are the REDUCED values; the full-strength front is not shown anywhere. Defense not TQ-boxed on this side. Silhouetted tank: no printed stacking box; sp recorded as 1 per rule 4.3 (first silhouetted tank in a hex stacks free, others 1 SP each) to match the Salerno oob convention. White counter outline = no ZOC Bonds (7.1)."
+  },
+  {
+   "id": "GE-HG-III",
+   "name": "HG III",
+   "formation": "HG",
+   "type": "tank",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": 3,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "2³-2-5",
+   "corner": "2725",
+   "cornerBox": null,
+   "campaign": {
+    "start": "2725",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "eliminated",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Placed in the Eliminated Box at start"
+   },
+   "confidence": "high",
+   "note": "Defense 2 in red box. No stripe (front). Silhouetted tank: no printed stacking box; sp recorded as 1 per rule 4.3 (first silhouetted tank in a hex stacks free, others 1 SP each) to match the Salerno oob convention. White counter outline = no ZOC Bonds (7.1)."
+  },
+  {
+   "id": "GE-HG-ASU",
+   "name": "HG Div",
+   "formation": "HG",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "firedSide": "Fired 0 (1) 5",
+   "corner": "2622",
+   "cornerBox": null,
+   "campaign": {
+    "start": "2622",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": true,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": "2707",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "San Pietro; Ready side"
+   },
+   "confidence": "high",
+   "note": "Ready side (range 4) on Bernhard card shows no corner number; Fired side on Campaign card shows corner 2622. ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-III-1FJ",
+   "name": "III/1/1FJ",
+   "formation": "1 FJ",
+   "type": "airborne",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-2-3",
+   "corner": "2324",
+   "cornerBox": null,
+   "campaign": {
+    "start": "2324",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 3,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "permanentlyRemoved",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Shown under 'Permanently Removed'"
+   },
+   "confidence": "high",
+   "note": "Luftwaffe blue background. Darker stripe along the counter's upper edge (S1.3 note: marks the first 3 units to be withdrawn/removed)."
+  },
+  {
+   "id": "GE-III-6FJ",
+   "name": "III/6/2FJ",
+   "formation": "2 FJ",
+   "type": "airborne",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-2-3",
+   "corner": "13",
+   "cornerBox": null,
+   "symbol": "parachute symbol on red 2FJ unit box, Luftwaffe blue background",
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 18,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-II-64",
+   "name": "II/64/16Pz",
+   "formation": "16 Pz",
+   "type": "pg",
+   "size": "II",
+   "a": 3,
+   "d": 3,
+   "m": 5,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-3-5",
+   "corner": "2925",
+   "cornerBox": null,
+   "symbol": "X with track oval (panzergrenadier), dark grey unit box",
+   "campaign": {
+    "start": "2925",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 3,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "permanentlyRemoved",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Shown under 'Permanently Removed'"
+   },
+   "confidence": "high",
+   "note": "Darker stripe along upper edge (S1.3 first-3-withdrawn/removed marker)."
+  },
+  {
+   "id": "GE-129",
+   "name": "129/29PG",
+   "formation": "29 PG",
+   "type": "recon",
+   "size": "II",
+   "a": 3,
+   "d": 3,
+   "m": 6,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-3-6",
+   "corner": "3725",
+   "cornerBox": null,
+   "symbol": "armored recon, blue unit box; green recon circle",
+   "campaign": {
+    "start": "3725",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 4,
+      "kind": "withdraw",
+      "returnTurn": 19,
+      "note": "Withdraw, return on Turn 19"
+     },
+     {
+      "turn": 19,
+      "kind": "return",
+      "via": "N2"
+     },
+     {
+      "turn": 29,
+      "kind": "remove"
+     }
+    ],
+    "note": "Benevento"
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "withdrawn",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 19,
+      "kind": "return",
+      "via": "N2"
+     },
+     {
+      "turn": 29,
+      "kind": "remove"
+     }
+    ],
+    "note": "Not on map at start (withdrawn on T4 in the Campaign); card only shows RETURN on Turn 19 via N2."
+   },
+   "confidence": "high",
+   "note": "Darker stripe along upper edge (S1.3 first-3-withdrawn/removed marker)."
+  },
+  {
+   "id": "GE-129Pz",
+   "name": "29 PG 129",
+   "formation": "29 PG",
+   "type": "tank",
+   "size": "II",
+   "a": 3,
+   "d": 2,
+   "m": 5,
+   "sp": 1,
+   "tr": 3,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "3³-2-5",
+   "corner": "18",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 18,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 18,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Defense 2 in red box. Silhouetted tank: no printed stacking box; sp recorded as 1 per rule 4.3 (first silhouetted tank in a hex stacks free, others 1 SP each) to match the Salerno oob convention. White counter outline = no ZOC Bonds (7.1)."
+  },
+  {
+   "id": "GE-71",
+   "name": "71/29PG",
+   "formation": "29 PG",
+   "type": "motorized",
+   "size": "III",
+   "a": 4,
+   "d": 6,
+   "m": 5,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": true,
+   "printed": "4-6-5",
+   "corner": "17",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": {
+     "turn": 17,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": true,
+    "fired": false,
+    "arrive": {
+     "turn": 17,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "confidence": "medium",
+   "note": "Printed 4-6-5, defense in red box, stacking box 3, with a THIN white stripe across the counter - per 2.3.5 a thin stripe marks the reverse side of a 3-step unit, so this regiment enters on its 2nd step. Full-strength front not shown (15/29PG, the sister regiment, is 6-9-5)."
+  },
+  {
+   "id": "GE-15",
+   "name": "15/29PG",
+   "formation": "29 PG",
+   "type": "motorized",
+   "size": "III",
+   "a": 6,
+   "d": 9,
+   "m": 5,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "elite",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "6-9-5",
+   "corner": "17",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 17,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 17,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-29PG-ASU",
+   "name": "29 PG Div",
+   "formation": "29 PG",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "18",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 18,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 18,
+     "via": "N2"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-577",
+   "name": "577/305",
+   "formation": "305",
+   "type": "infantry",
+   "size": "III",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-5-3",
+   "corner": "9",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 9,
+     "via": "N3"
+    },
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "3306",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ],
+    "note": "Montequila"
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-578",
+   "name": "578/305",
+   "formation": "305",
+   "type": "infantry",
+   "size": "III",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-5-3",
+   "corner": "14",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 14,
+     "via": "N3"
+    },
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 14,
+     "via": "N3"
+    },
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-305F",
+   "name": "305F/305",
+   "formation": "305",
+   "type": "infantry",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-2-3",
+   "corner": "12",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 12,
+     "via": "N4"
+    },
+    "events": [
+     {
+      "turn": 29,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "3306",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 29,
+      "kind": "remove"
+     }
+    ],
+    "note": "Montequila"
+   },
+   "confidence": "high",
+   "note": "Fusilier battalion."
+  },
+  {
+   "id": "GE-305-ASU",
+   "name": "305 Div",
+   "formation": "305",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "9",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 9,
+     "via": "N3"
+    },
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": "3103",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": "ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-267",
+   "name": "267/94",
+   "formation": "94",
+   "type": "infantry",
+   "size": "III",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-5-3",
+   "corner": "12",
+   "cornerBox": "garrison",
+   "campaign": {
+    "start": null,
+    "frozen": true,
+    "garrison": true,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 12,
+     "via": "1706 (Formia)"
+    },
+    "events": [],
+    "note": "Card: 'Formia Garrison' with white (starts-frozen) frame; arrives in Formia hex 1706 and must stay there (S3.3.4)."
+   },
+   "bernhard": {
+    "start": "1706",
+    "frozen": true,
+    "garrison": true,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Formia; white 'Starts Frozen (S2.3)' frame; garrison per S2.3.3 -> S3.3.4 (stays for the game)"
+   },
+   "confidence": "high",
+   "note": "Defense 5 in white box = Low Quality (2.3.2). Corner 12 in a BLACK box = Garrison (Formia, S3.3.4: must remain in 1706 for the rest of the game unless forced out)."
+  },
+  {
+   "id": "GE-274",
+   "name": "274/94",
+   "formation": "94",
+   "type": "infantry",
+   "size": "III",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-5-3",
+   "corner": "11",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 11,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": "2108",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Castelforte (with a 1L fortification)"
+   },
+   "confidence": "high",
+   "note": "Defense 5 in white box = Low Quality."
+  },
+  {
+   "id": "GE-276",
+   "name": "276/94",
+   "formation": "94",
+   "type": "infantry",
+   "size": "III",
+   "a": 3,
+   "d": 5,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "3-5-3",
+   "corner": "13",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Defense 5 in white box = Low Quality."
+  },
+  {
+   "id": "GE-94Fus",
+   "name": "94Fus/94",
+   "formation": "94",
+   "type": "infantry",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-2-3",
+   "corner": "16",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 16,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 16,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Fusilier battalion; normal TQ (no white box)."
+  },
+  {
+   "id": "GE-94-ASU",
+   "name": "94 Div",
+   "formation": "94",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "13",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-131",
+   "name": "131/44",
+   "formation": "44",
+   "type": "infantry",
+   "size": "III",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "4-7-3",
+   "corner": "19",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 19,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 19,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-132",
+   "name": "132/44",
+   "formation": "44",
+   "type": "infantry",
+   "size": "III",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "4-7-3",
+   "corner": "27",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 27,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 27,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-134",
+   "name": "134/44",
+   "formation": "44",
+   "type": "infantry",
+   "size": "III",
+   "a": 4,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "4-7-3",
+   "corner": "22",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 22,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 22,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-44Fus",
+   "name": "44Fus/44",
+   "formation": "44",
+   "type": "infantry",
+   "size": "II",
+   "a": 2,
+   "d": 2,
+   "m": 3,
+   "sp": 1,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "2-2-3",
+   "corner": "28",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 28,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 28,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "Fusilier battalion."
+  },
+  {
+   "id": "GE-44-ASU",
+   "name": "44 Div",
+   "formation": "44",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "25",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 25,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 25,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-100",
+   "name": "100/5Geb",
+   "formation": "5 Geb",
+   "type": "mountain",
+   "size": "III",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "5-7-3",
+   "corner": "29",
+   "cornerBox": null,
+   "symbol": "X with mountain triangle (mountain infantry, 19.3)",
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 29,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 29,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-85",
+   "name": "85/5Geb",
+   "formation": "5 Geb",
+   "type": "mountain",
+   "size": "III",
+   "a": 5,
+   "d": 7,
+   "m": 3,
+   "sp": 3,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "5-7-3",
+   "corner": "30",
+   "cornerBox": null,
+   "symbol": "X with mountain triangle (mountain infantry, 19.3)",
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 30,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 30,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": null
+  },
+  {
+   "id": "GE-5Geb-ASU",
+   "name": "5 Geb Div",
+   "formation": "5 Geb",
+   "type": "divAsu",
+   "size": "[III]",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 4,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "29",
+   "cornerBox": null,
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 29,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 29,
+     "via": "N1-3"
+    },
+    "events": []
+   },
+   "confidence": "high",
+   "note": "ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-14Pz",
+   "name": "14 Pz Corps",
+   "formation": "XIV Pz Corps",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 5,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "firedSide": "Fired 0 (1) 5",
+   "corner": "2620",
+   "cornerBox": null,
+   "campaign": {
+    "start": "2620",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": true,
+    "arrive": null,
+    "events": [],
+    "note": "Caserta"
+   },
+   "bernhard": {
+    "start": "2707",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "San Pietro; Ready side"
+   },
+   "confidence": "high",
+   "note": "Ready side (range 5, unit box '14Pz') on Bernhard card shows no corner number; Fired side on Campaign card shows 'XXX 2620'. Rules example of play: German spends his 1 SP on Turn 1 to flip it Ready. ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-71NW",
+   "name": "71",
+   "formation": "independent",
+   "type": "nebelwerfer",
+   "size": "III",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 3,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "2622",
+   "cornerBox": null,
+   "symbol": "rocket-launcher symbol in white box",
+   "campaign": {
+    "start": "2622",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": []
+   },
+   "bernhard": {
+    "start": "2707",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "San Pietro; Ready side"
+   },
+   "confidence": "high",
+   "note": "Nebelwerfer regiment (19.1). ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-56NW",
+   "name": "56",
+   "formation": "independent",
+   "type": "nebelwerfer",
+   "size": "III",
+   "a": 0,
+   "d": 1,
+   "m": 5,
+   "sp": 0,
+   "tr": null,
+   "range": 3,
+   "quality": null,
+   "noZocBond": true,
+   "fired": false,
+   "reduced": false,
+   "printed": "S (1) 5",
+   "corner": "13",
+   "cornerBox": null,
+   "symbol": "rocket-launcher symbol in white box",
+   "campaign": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ]
+   },
+   "bernhard": {
+    "start": null,
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": {
+     "turn": 13,
+     "via": "N1-3"
+    },
+    "events": [
+     {
+      "turn": 30,
+      "kind": "remove"
+     }
+    ]
+   },
+   "confidence": "high",
+   "note": "Nebelwerfer regiment (19.1). ASU (17.0): no attack strength, column shift 'S'; defense (1) is parenthesized (9.8); one step; stacking 0; white counter outline = cannot form ZOC Bonds (7.1, 17.2)."
+  },
+  {
+   "id": "GE-REM-A",
+   "name": "REM A",
+   "formation": "independent",
+   "type": "remnant",
+   "size": null,
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "1-3-3",
+   "corner": null,
+   "cornerBox": null,
+   "symbol": "white infantry box, letter on left edge, white band",
+   "campaign": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Not shown on the Campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "'In the Remnant Display'"
+   },
+   "confidence": "high",
+   "note": "Infantry remnant (10.4). Defense 3 in white box = Low Quality. White-box remnant = Independent (8.4.4)."
+  },
+  {
+   "id": "GE-REM-B",
+   "name": "REM B",
+   "formation": "independent",
+   "type": "remnant",
+   "size": null,
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "1-3-3",
+   "corner": null,
+   "cornerBox": null,
+   "symbol": "white infantry box, letter on left edge, white band",
+   "campaign": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Not shown on the Campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "'In the Remnant Display'"
+   },
+   "confidence": "high",
+   "note": "Infantry remnant (10.4). Defense 3 in white box = Low Quality. White-box remnant = Independent (8.4.4)."
+  },
+  {
+   "id": "GE-REM-C",
+   "name": "REM C",
+   "formation": "independent",
+   "type": "remnant",
+   "size": null,
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "1-3-3",
+   "corner": null,
+   "cornerBox": null,
+   "symbol": "white infantry box, letter on left edge, white band",
+   "campaign": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Not shown on the Campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "'In the Remnant Display'"
+   },
+   "confidence": "high",
+   "note": "Infantry remnant (10.4). Defense 3 in white box = Low Quality. White-box remnant = Independent (8.4.4)."
+  },
+  {
+   "id": "GE-REM-D",
+   "name": "REM D",
+   "formation": "independent",
+   "type": "remnant",
+   "size": null,
+   "a": 1,
+   "d": 3,
+   "m": 3,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": "low",
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "1-3-3",
+   "corner": null,
+   "cornerBox": null,
+   "symbol": "white infantry box, letter on left edge, white band",
+   "campaign": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Not shown on the Campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "'In the Remnant Display'"
+   },
+   "confidence": "high",
+   "note": "Infantry remnant (10.4). Defense 3 in white box = Low Quality. White-box remnant = Independent (8.4.4)."
+  },
+  {
+   "id": "GE-REM-E",
+   "name": "REM E",
+   "formation": "independent",
+   "type": "remnant",
+   "size": null,
+   "a": 1,
+   "d": 3,
+   "m": 5,
+   "sp": 2,
+   "tr": null,
+   "range": null,
+   "quality": null,
+   "noZocBond": false,
+   "fired": false,
+   "reduced": false,
+   "printed": "1-3-5",
+   "corner": null,
+   "cornerBox": null,
+   "symbol": "white motorized box (wheels), white band",
+   "campaign": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "Not shown on the Campaign card; S3.1 says Remnants are available from the start."
+   },
+   "bernhard": {
+    "start": null,
+    "startBox": "remnantDisplay",
+    "frozen": false,
+    "garrison": false,
+    "reduced": false,
+    "fired": false,
+    "arrive": null,
+    "events": [],
+    "note": "'In the Remnant Display'"
+   },
+   "confidence": "high",
+   "note": "Motorized remnant (10.4). Defense NOT boxed (normal TQ), unlike A-D. White-box remnant = Independent."
+  }
+ ],
+ "markers": {
+  "campaign": [
+   {
+    "kind": "supplyPoints",
+    "printed": "10th Army (V)",
+    "count": 1,
+    "note": "'1 Supply Point' - German starting SP (S3.1)"
+   },
+   {
+    "kind": "truck",
+    "printed": "5 MPs",
+    "available": 2,
+    "note": "'x2 Available'"
+   },
+   {
+    "kind": "releaseNotice",
+    "turn": 2,
+    "hex": "2706",
+    "frame": "white dashed",
+    "text": "Release units in hex 2706",
+    "units": [
+     "GE-103Pz",
+     "GE-I-29"
+    ]
+   },
+   {
+    "kind": "groupRemoval",
+    "turn": 21,
+    "text": "All remaining 3 PG Div 4 units",
+    "frame": "red",
+    "units": [
+     "GE-I-29",
+     "GE-29",
+     "GE-II-8",
+     "GE-3PG-ASU"
+    ]
+   },
+   {
+    "kind": "groupRemoval",
+    "turn": 22,
+    "text": "Remainder 26 Pz Div 5 units",
+    "frame": "red",
+    "units": [
+     "GE-26Pz-ASU",
+     "GE-I-67",
+     "GE-II-67",
+     "GE-I-9",
+     "GE-II-9"
+    ]
+   },
+   {
+    "kind": "placeLabels",
+    "hexes": {
+     "2018": "Villa Laterno",
+     "1706": "Formia",
+     "1815": "Castel Volturno",
+     "2620": "Caserta",
+     "3725": "Benevento"
+    }
+   },
+   {
+    "kind": "legend",
+    "frames": [
+     {
+      "frame": "white solid",
+      "meaning": "Starts Frozen (S3.3)"
+     },
+     {
+      "frame": "white dashed",
+      "meaning": "Released from garrison"
+     },
+     {
+      "frame": "red",
+      "meaning": "Remove"
+     },
+     {
+      "frame": "black",
+      "meaning": "Withdraw (unit will return)"
+     },
+     {
+      "frame": "blue",
+      "meaning": "Return"
+     }
+    ]
+   },
+   {
+    "kind": "notOnCard",
+    "note": "No fortification or remnant counters are printed on the Campaign card; S3.1: 'Remnants, Fortifications, and Truck Markers: All are available from the start.'"
+   }
+  ],
+  "bernhard": [
+   {
+    "kind": "fortification",
+    "level": 1,
+    "hex": "1908",
+    "label": "Minturno"
+   },
+   {
+    "kind": "fortification",
+    "level": 1,
+    "hex": "2108",
+    "label": "Castelforte",
+    "with": [
+     "GE-274"
+    ]
+   },
+   {
+    "kind": "fortification",
+    "level": 1,
+    "hex": "2308"
+   },
+   {
+    "kind": "fortification",
+    "level": 1,
+    "hex": "2707",
+    "label": "San Pietro",
+    "with": [
+     "GE-14Pz",
+     "GE-HG-ASU",
+     "GE-71NW",
+     "GE-III-8"
+    ]
+   },
+   {
+    "kind": "fortificationUnderConstruction",
+    "printed": "Fortification / No Combat (pick and shovel)",
+    "hex": "2405"
+   },
+   {
+    "kind": "fortificationUnderConstruction",
+    "printed": "Fortification / No Combat (pick and shovel)",
+    "hex": "2406"
+   },
+   {
+    "kind": "fortificationUnderConstruction",
+    "printed": "Fortification / No Combat (pick and shovel)",
+    "hex": "2508"
+   },
+   {
+    "kind": "fortificationUnderConstruction",
+    "printed": "Fortification / No Combat (pick and shovel)",
+    "hex": "2504",
+    "label": "Cassino"
+   },
+   {
+    "kind": "supplyPoints",
+    "printed": "10th Army (V)",
+    "count": 1,
+    "note": "'1 Supply Point' (S2.1: German = 1)"
+   },
+   {
+    "kind": "truck",
+    "printed": "5 MPs",
+    "available": 2,
+    "note": "'x2 Available'"
+   },
+   {
+    "kind": "fortificationPool",
+    "level": 2,
+    "printed": "2L",
+    "available": 4,
+    "note": "'x4 Available' (off-map, may be built per 18.1.2)"
+   },
+   {
+    "kind": "eliminatedBox",
+    "units": [
+     "GE-HG-III"
+    ]
+   },
+   {
+    "kind": "permanentlyRemoved",
+    "units": [
+     "GE-II-64",
+     "GE-26",
+     "GE-III-1FJ"
+    ]
+   },
+   {
+    "kind": "remnantDisplay",
+    "units": [
+     "GE-REM-A",
+     "GE-REM-B",
+     "GE-REM-C",
+     "GE-REM-D",
+     "GE-REM-E"
+    ]
+   },
+   {
+    "kind": "groupRemoval",
+    "turn": 21,
+    "text": "All remaining 3 PG Div 4 units",
+    "frame": "red",
+    "units": [
+     "GE-I-29",
+     "GE-29",
+     "GE-II-8",
+     "GE-3PG-ASU"
+    ]
+   },
+   {
+    "kind": "groupRemoval",
+    "turn": 22,
+    "text": "Remainder 26 Pz Div 5 units",
+    "frame": "red",
+    "units": [
+     "GE-26Pz-ASU",
+     "GE-I-67",
+     "GE-II-67",
+     "GE-I-9",
+     "GE-II-9"
+    ]
+   },
+   {
+    "kind": "placeLabels",
+    "hexes": {
+     "2211": "Sessa Aurunca",
+     "2809": "Presenzano",
+     "2907": "Venafro",
+     "1706": "Formia",
+     "1908": "Minturno",
+     "2108": "Castelforte",
+     "2707": "San Pietro",
+     "2504": "Cassino",
+     "3306": "Montequila"
+    }
+   },
+   {
+    "kind": "legend",
+    "frames": [
+     {
+      "frame": "white solid",
+      "meaning": "Starts Frozen (S2.3)"
+     },
+     {
+      "frame": "white dashed",
+      "meaning": "Released from garrison"
+     },
+     {
+      "frame": "red",
+      "meaning": "Remove"
+     },
+     {
+      "frame": "blue",
+      "meaning": "Return"
+     }
+    ],
+    "note": "No 'Withdraw' legend entry on this card (no withdrawals in the scenario)."
+   }
+  ],
+  "counterLegend": [
+   {
+    "item": "corner number in BLUE box",
+    "meaning": "unit starts frozen (rules 2.3 sample)"
+   },
+   {
+    "item": "corner number in BLACK box",
+    "meaning": "unit is a Garrison (rules 2.3 sample; S3.3.4)"
+   },
+   {
+    "item": "defense in RED box",
+    "meaning": "Elite (2.3.2)"
+   },
+   {
+    "item": "defense in WHITE box",
+    "meaning": "Low Quality (2.3.2)"
+   },
+   {
+    "item": "green circle on MA",
+    "meaning": "Reconnaissance (19.2)"
+   },
+   {
+    "item": "white outline around counter",
+    "meaning": "cannot form ZOC Bonds (7.1) - all silhouetted tanks and ASUs here"
+   },
+   {
+    "item": "white stripe across counter",
+    "meaning": "reduced side (2.3.5): thin = 2nd step of a 3-step unit, wide = last step"
+   },
+   {
+    "item": "darker stripe along upper edge",
+    "meaning": "S1.3 note: first 3 units to be withdrawn/removed (II/64/16Pz, III/1/1FJ, 129/29PG)"
+   }
+  ]
+ },
+ "uncertain": [
+  "26 Pz Div ASU (GE-26Pz-ASU): only its FIRED side appears (Campaign at start 3325, T7 withdraw, T14 return; Bernhard T14 return) - its Ready side and RANGE are unreadable/not shown; range left null (every other division ASU on these cards is range 4).",
+  "Full-strength fronts not shown on either card (only the white-striped reduced side appears): III/129/15PG (1-2-5), III/115/15PG (1-2-5), II/1/HG (1-2-5), HG/HG (1-2-6), I/9/26Pz (1-2-5), HG I+II tank (3³-2-5), 71/29PG (4-6-5, thin stripe = 2nd step of a 3-step unit). a-d-m recorded are the reduced values with reduced=true.",
+  "Backs not shown for most full-strength units (only I/115, I/29/3PG, 29/3PG III(-) and 215 appear on both sides across the two cards). Backs of e.g. I/129, II/129, 104/15PG, I/2/HG, II/64, the 2-3-5 battalions, the 3-5-3/4-7-3/5-7-3 regiments are unknown.",
+  "TQ changes by side: I/115/15PG front 2-3-5 has red (elite) defense but its back 1-2-5 is unboxed; 215 front 4³-3-5 elite, back 2³-2-5 unboxed. Recorded as printed (backQuality null).",
+  "Bernhard 'Fortification / No Combat' markers at 2405, 2406, 2508, 2504 (Cassino): read as the reverse 'Under Construction' side of Level 1 forts (18.1.1) - 4 of these + 4 completed 1L = the 8 L1 forts of 18.1.3. Interpretation, not stated on the card.",
+  "Tank stacking value: silhouetted tanks print no stacking box; sp=1 recorded per rule 4.3 / Salerno convention.",
+  "Bernhard: 26 Pz ASU, I/67, I/9, II/9 and 129/29PG have no at-start position - the card only lists their RETURN (T14 via N3, T19 via N2). Recorded with startBox='withdrawn'.",
+  "Bernhard: HG III tank starts in the Eliminated Box (can return only via a Replacement, 20.1).",
+  "Campaign: 15PG frozen units' release is conditional (S3.3.3) and has no card turn - not encoded as events.",
+  "Place name printed 'Villa Laterno' at 2018 (historically Villa Literno) - recorded as printed.",
+  "Division insignia (top-left icons on ASUs) not transcribed."
+ ]
+}

@@ -1,18 +1,13 @@
 // Step losses, remnants and elimination.
-import { onGameData, UNIT_DEFS } from './data';
+import { onGameData, REMNANT_POOLS, UNIT_DEFS } from './data';
 import type { GameState, UnitState } from './types';
 import { def, stepsRemaining, values } from './units';
 import { unitName } from './words';
 
-const POOLS: Record<string, string[]> = {
-  US: ['US-REM-A', 'US-REM-B', 'US-REM-C'],
-  CW: ['BR-REM-A', 'BR-REM-B', 'BR-REM-C'],
-};
-
 export function remnantFor(s: GameState, unitId: string): UnitState | null {
   const r = def(unitId).remnant;
   if (!r) return null;
-  const ids = POOLS[r] ?? [r];
+  const ids = REMNANT_POOLS[r] ?? [r];
   for (const id of ids) {
     const rem = s.units[id];
     if (rem && rem.where.kind === 'remnantPool') return rem;

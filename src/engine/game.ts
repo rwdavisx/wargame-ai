@@ -1,4 +1,4 @@
-import { GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, UNIT_SETUP, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START } from './data';
+import { GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START, scenarioSetup } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import {
   applyAdvance, computeOdds, resolveAttack, resolveDefense, resolveDisengage, advanceDestinations,
@@ -71,8 +71,9 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
   const sc = SCENARIOS[scenarioId];
   if (!sc) throw new Error(`Unknown scenario ${scenarioId}`);
   const units: Record<string, UnitState> = {};
+  const setup = scenarioSetup(scenarioId);
   for (const id of Object.keys(UNIT_DEFS)) {
-    const st = UNIT_SETUP[id];
+    const st = setup[id];
     let where: UnitState['where'];
     if (st.start?.hex) where = { kind: 'map', hex: st.start.hex };
     else if (st.start?.beach) where = { kind: 'landing', beach: st.start.beach };
@@ -350,7 +351,7 @@ function doInitial(s: GameState): void {
       // 'hex:3303' is the 2/509th's old code in saved games; it drops anywhere in the 5th Army sector (21.6.1).
       u.where = at === 'reserve' ? { kind: 'reserve' } : { kind: 'entry', area: at === 'hex:3303' ? 'airdrop509' : at };
       const key = at.startsWith('hex') || at.startsWith('airdrop') ? 'airdrop' : at;
-      if (UNIT_SETUP[u.id]?.arrive?.reduced && u.stepsLost === 0) u.stepsLost = 1; // enters on its reduced side (set-up card)
+      if (scenarioSetup(s.scenarioId)[u.id]?.arrive?.reduced && u.stepsLost === 0) u.stepsLost = 1; // enters on its reduced side (set-up card)
       arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
     }
     if (u.frozenUntil && s.turn >= u.frozenUntil) {
@@ -426,7 +427,7 @@ function doRecovery(s: GameState): void {
     if (inZoc) {
       const d = def(u.id);
       const hex = (u.where as { hex: HexId }).hex;
-      const drm = (MAP.hexes[hex].city || unitsAt(s, hex).some((x) => def(x.id).cat === 'bh') ? RULES.rally.bhOrCityDrm : 0) +
+      const drm = (MAP.hexes[hex].city || unitsAt(s, hex).some((x) => def(x.id).cat === 'bh') ? RULES.rally.cityDrm : 0) +
         (d.elite ? RULES.rally.eliteDrm : 0) + (d.lowQuality ? RULES.rally.lowQualityDrm : 0);
       const r = rollD6(s);
       recover = RULES.rally.success.includes(Math.max(1, Math.min(6, r + drm)));

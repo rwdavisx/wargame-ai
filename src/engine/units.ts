@@ -100,7 +100,8 @@ export function isLand(hex: HexId): boolean {
 
 export function nationGroup(id: string): 'US' | 'CW' | 'GE' {
   const n = def(id).nation;
-  return n === 'US' ? 'US' : n === 'GE' ? 'GE' : 'CW';
+  // The French and the Italians fought under the US Fifth Army (Italy '43).
+  return n === 'US' || n === 'FR' || n === 'IT' ? 'US' : n === 'GE' ? 'GE' : 'CW';
 }
 
 export function supportNation(id: string): 'US' | 'BR' | 'GE' {

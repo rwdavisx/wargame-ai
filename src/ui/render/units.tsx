@@ -115,6 +115,7 @@ function shortId(d: UnitDef): string {
 
 /** Unit size marker: II battalion, III regiment, X brigade, XXX corps; (-) when a part is detached. */
 function sizeMark(d: UnitDef): string {
+  if (d.size) return d.size;
   const minus = d.name.includes('(-)') ? '(-)' : '';
   if (d.cat === 'corpsAsu') return 'XXX';
   if (d.cat === 'divAsu') return d.nation === 'BR' || d.nation === 'CN' ? '[X]' : '[III]';
@@ -132,10 +133,10 @@ function sizeMark(d: UnitDef): string {
 
 const MECHANIZED = new Set(['GE-II64', 'GE-I9', 'GE-I2HG', 'BR-22']);
 
-type Symbol = 'infantry' | 'motorized' | 'mechanized' | 'armor' | 'antitank' | 'armorRecon' | 'airborne' | 'commando' | 'engineer' | 'artillery' | 'rocket' | 'garrison' | 'beach';
+type Symbol = 'infantry' | 'motorized' | 'mechanized' | 'armor' | 'antitank' | 'armorRecon' | 'airborne' | 'commando' | 'engineer' | 'artillery' | 'rocket' | 'garrison' | 'beach' | 'mountain';
 
 function symbolFor(d: UnitDef): Symbol {
-  if (MECHANIZED.has(d.id)) return 'mechanized';
+  if (MECHANIZED.has(d.id) || d.kind === 'mechanized') return 'mechanized';
   switch (d.cat) {
     case 'tank': return d.tankDestroyer ? 'antitank' : 'armor';
     case 'recon': return 'armorRecon';
@@ -144,9 +145,11 @@ function symbolFor(d: UnitDef): Symbol {
     case 'airborne':
     case 'glider': return 'airborne';
     case 'ranger': return 'commando';
+    case 'mountain': return 'mountain';
     case 'engineer': return 'engineer';
     case 'divAsu':
-    case 'corpsAsu': return 'artillery';
+    case 'corpsAsu':
+    case 'heavyHowitzer': return 'artillery';
     case 'nebelwerfer': return 'rocket';
     case 'garrison': return 'garrison';
     case 'bh': return 'beach';
@@ -167,6 +170,7 @@ function NatoBox({ d, w, h }: { d: UnitDef; w: number; h: number }) {
   let body: React.ReactNode = null;
   switch (sym) {
     case 'infantry': body = cross; break;
+    case 'mountain': body = <>{cross}<path d={`M${-w * 0.16},${y + h} L0,${y + h * 0.68} L${w * 0.16},${y + h} Z`} fill={ink} /></>; break;
     case 'commando': body = <>{cross}<path d={`M${x + w * 0.22},${y + h} L0,${y + h * 0.55} L${x + w * 0.78},${y + h}`} fill={ink} opacity={0.9} /></>; break;
     case 'motorized': body = <>{cross}<circle cx={-w * 0.22} cy={y + h + 1.5} r={1} fill="#1c1c18" /><circle cx={w * 0.22} cy={y + h + 1.5} r={1} fill="#1c1c18" /></>; break;
     case 'mechanized': body = <>{cross}{oval(w * 0.3, h * 0.27)}</>; break;

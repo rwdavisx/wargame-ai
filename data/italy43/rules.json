@@ -1,8 +1,5 @@
 {
- "_note": "Tables entered from the Italy '43 player aid card (CRT, Determined Defense, isolation, rally, disengagement, TEC) and the map's weather and turn record tracks. Text fields are this program's own summaries; the rulebook governs. Values still to confirm against the rulebook are marked in _todo.",
- "_todo": [
-  "stacking limit, supply ranges, supply point cap, automatic victory margins: confirm from the rulebook comparison"
- ],
+ "_note": "Tables entered from the Italy '43 player aid card (CRT, Determined Defense, isolation, rally, disengagement, TEC) and the map's weather and turn record tracks. Text fields are this program's own summaries; the rulebook governs. Numbers checked against the rulebook (case numbers in the notes).",
  "turnOrder": [
   "German",
   "Allied"
@@ -93,15 +90,27 @@
    "vehiclesBlockedInRain": true
   },
   "mountainHexside": {
-   "inf": "tactical",
-   "mech": "prohibited",
-   "mustStartAdjacent": true
+   "infantryType": "tactical",
+   "vehicle": "prohibited",
+   "mustStartAdjacent": true,
+   "mountainUnitsAnywhere": true
   },
   "riverInf": 1,
   "enterEzoc": 0,
   "exitEzoc": 2,
   "exitEzocFullRetreat": 0,
-  "_notes": "Pass and river costs are added to the hex cost. A canal is a minor river; a river-with-marsh hexside is a major river; a lake hexside is an all-sea hexside. Ports and airfields have no effect (use the other terrain in the hex). Operational Movement (5.2.2) pays 1 MP per road hex."
+  "_notes": "Pass and river costs are added to the hex cost. A canal is a minor river; a river-with-marsh hexside is a major river; a lake hexside is an all-sea hexside. Ports and airfields have no effect (use the other terrain in the hex). Operational Movement (5.2.2) pays 1 MP per road hex.",
+  "extendedBonus": {
+   "mech": 3,
+   "nonMech": 2
+  },
+  "tacticalHexes": 2,
+  "operationalRadius": 2,
+  "trucks": {
+   "perSide": 2,
+   "ma": 5
+  },
+  "marshOverlandSupplyCost": 2
  },
  "terrainCombat": {
   "_notes": "TEC effects on combat. 'defenseX2' doubles the defender's strength except silhouetted tanks and ASUs. Hexside doubling (mountain, rivers, marsh) applies only when every attacker attacks across such a hexside or out of a marsh.",
@@ -137,7 +146,7 @@
    "tankShift": false,
    "defenseX2AllAcross": true,
    "vehiclesHalvedOutOf": true,
-   "advance": "stop",
+   "advance": "stopUnlessRoad",
    "ddColumn": "Other"
   },
   "minorRiver": {
@@ -154,9 +163,12 @@
   "city": {
    "tankShift": false,
    "defenseX2": true,
-   "battleMarkers": true,
    "advance": "stop",
-   "ddColumn": "City"
+   "ddColumn": "City",
+   "battleCapacity": {
+    "minor": 1,
+    "major": 2
+   }
   },
   "fortification": {
    "tankShift": false,
@@ -165,8 +177,11 @@
     2
    ],
    "cumulative": true,
-   "battleMarkers": true,
-   "ddColumn": "City"
+   "ddColumn": "City",
+   "battleCapacity": {
+    "1": 1,
+    "2": 2
+   }
   }
  },
  "combat": {
@@ -294,11 +309,12 @@
      1,
      2
     ],
-    "rainAndMud": 1
+    "rainAndMud": 1,
+    "artilleryMax": 1
    },
    "attackerHalved": [
     "not part of the Main Assault Force (8.4.1)",
-    "across a mountain (9.1) or major river hexside (9.7)",
+    "across a mountain hexside, except mountain units (9.7, 19.3), or a major river hexside (9.7); halved once only (9.1)",
     "vehicles across a river hexside or out of a marsh (9.7)",
     "marked Out of Supply (16.4)",
     "marked Half Effective (25.2)"
@@ -306,6 +322,22 @@
    "defenderHalved": [
     "disrupted (13.2)"
    ]
+  },
+  "strengthCap": 20,
+  "autoDsRatio": 10,
+  "minimumOddsBeforeShifts": "1-3",
+  "nonMechAdvanceCap": 2,
+  "oosAdvanceCap": 2,
+  "halfEffAdvanceCap": 1,
+  "asuMoveBeforeDisruption": 2,
+  "attachments": {
+   "silhouetteTank": 1,
+   "infantryOrRecon": 1
+  },
+  "navalRange": 2,
+  "majorAssault": {
+   "maxExtraDice": 2,
+   "spEach": 1
   }
  },
  "determinedDefense": {
@@ -364,7 +396,8 @@
    "lowQualityLead": -1,
    "defensiveSupport": 1,
    "yellowCell": -1
-  }
+  },
+  "maxDrm": 2
  },
  "isolation": {
   "lossOn": [
@@ -410,8 +443,7 @@
      "US"
     ],
     "naval": [
-     "BR",
-     "US"
+     "AL"
     ],
     "alliedSupply": 2,
     "germanSupply": 1,
@@ -425,8 +457,7 @@
      "US"
     ],
     "naval": [
-     "BR",
-     "US"
+     "AL"
     ],
     "alliedSupply": 2,
     "germanSupply": 1,
@@ -487,7 +518,8 @@
    4
   ],
   "wraps": true,
-  "_notes": "No weather roll on turn 1. On rolls of 2-4 the German may flip one Nebelwerfer and the Allied the heavy howitzer to their Ready side (23.3.3); when the marker loops from F to A every division ASU flips to Ready (23.3.4). Rain: vehicles may not cross unbridged rivers (23.4)."
+  "_notes": "No weather roll on turn 1. On rolls of 2-4 the German may flip one Nebelwerfer and the Allied the heavy howitzer to their Ready side (23.3.3); when the marker loops from F to A every division ASU flips to Ready (23.3.4). Rain: vehicles may not cross unbridged rivers (23.4).",
+  "_navalNote": "'AL': the single Allied naval marker, shared by both armies (9.6)."
  },
  "victory": {
   "benchmarks": {
@@ -522,6 +554,17 @@
    "30": 17,
    "31": 17,
    "32": 18
+  },
+  "automatic": {
+   "fromTurn": 2,
+   "alliedMargin": 5,
+   "alliedVp": 20,
+   "germanMargin": 5
+  },
+  "scenarioWin": {
+   "volturno": 7,
+   "bernhard": 18,
+   "campaign": 18
   }
  },
  "replacements": {
@@ -830,5 +873,16 @@
   "23": "Historically: the Luftwaffe strikes Bari harbor, 17 ships sunk.",
   "24": "Naples: +2 Allied supply.",
   "32": "Scenarios 2 and 3 end."
+ },
+ "supply": {
+  "overlandHexes": 5,
+  "roadUnlimited": true,
+  "locMountainHexsides": 1,
+  "supplyPointCap": 19
+ },
+ "eighthArmyZone": {
+  "E1": 8,
+  "E2": 11,
+  "E3": 15
  }
 }

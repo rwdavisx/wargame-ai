@@ -181,4 +181,6 @@ src/ui/        React UI
 scripts/       command-line self-play and game logs
 tests/         vitest tests for the engine and the AI
 tools/map-transcription/   Python scripts used to turn the photos into map.json
+tools/italy-oob/           Italy '43 set-up card transcriptions and build.py, which turns them into data/italy43/oob.json
+docs/italy43-rules-comparison.md   Italy '43's rules case by case against Salerno '43, and the engine changes they need
 ```

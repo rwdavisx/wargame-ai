@@ -42,8 +42,14 @@ export const GAMES: GameInfo[] = [
     blurb: 'From Naples across the Volturno to the Bernhard Line and the approaches to Cassino.',
     status: 'preparing',
     progress: {
-      done: ['Rulebook read and compared with Salerno ’43', 'Combat, Determined Defense, isolation, rally and disengagement tables', 'Terrain effects', 'Weather track, replacements and victory benchmarks for all 32 turns'],
-      todo: ['Counters from the four set-up cards (being entered)', 'The map, hex by hex', 'Counter backs (reduced sides)', 'The Italy ’43 rules that differ from Salerno ’43'],
+      done: [
+        'Rulebook read and compared with Salerno ’43',
+        'Combat, Determined Defense, isolation, rally and disengagement tables',
+        'Terrain effects',
+        'Weather track, replacements and victory benchmarks for all 32 turns',
+        'All 140 counters and their set-ups from the four set-up cards, for each of the three scenarios',
+      ],
+      todo: ['The map, hex by hex', 'Counter backs (reduced sides)', 'The Italy ’43 rules that differ from Salerno ’43'],
     },
   },
 ];

@@ -62,7 +62,7 @@ export function allowedModes(s: GameState, u: UnitState): MoveMode[] {
 export function movementAllowance(s: GameState, u: UnitState, mode: MoveMode): number {
   let ma = isTruck(mode) ? 5 : values(u).move;
   if (s.turn === 1 && sideOf(u) === 'German') ma = Math.ceil(ma / 2);
-  if (isExtended(mode)) ma += RULES.movement.extendedBonus;
+  if (isExtended(mode)) ma += def(u.id).mech ? RULES.movement.extendedBonus.mech : RULES.movement.extendedBonus.nonMech;
   return ma;
 }
 

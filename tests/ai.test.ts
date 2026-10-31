@@ -1,7 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { playOut } from '../src/ai/selfplay';
 import { createClaudeAi } from '../src/ai/claude';
 import { applyAction, newGame } from '../src/engine/game';
+
+// These tests play whole games without pausing, which can hold up vitest's messages to its worker past their
+// timeout; letting the event loop run before each one keeps them flowing.
+beforeEach(() => new Promise((resolve) => setTimeout(resolve, 0)));
 
 describe('heuristic AI', () => {
   it('plays a whole short scenario without illegal actions', () => {

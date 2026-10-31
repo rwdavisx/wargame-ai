@@ -237,7 +237,7 @@ export function EventFeed({ game, onFocus, humanSides = [] }: { game: GameState;
 const CAT_NAME: Record<string, string> = {
   infantry: 'Infantry', garrison: 'Coastal garrison', motorized: 'Motorized infantry', pg: 'Panzergrenadiers', engineer: 'Engineers', bh: 'Beachhead',
   airborne: 'Airborne', glider: 'Glider infantry', ranger: 'Rangers', recon: 'Reconnaissance', divAsu: 'Division artillery', corpsAsu: 'Corps artillery',
-  nebelwerfer: 'Rocket artillery', tank: 'Armour',
+  nebelwerfer: 'Rocket artillery', tank: 'Armour', mountain: 'Mountain infantry', heavyHowitzer: 'Heavy artillery',
 };
 
 function whereText(u: UnitState): string {

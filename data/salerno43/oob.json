@@ -16,6 +16,10 @@
     "nebelwerfer": { "mech": true,  "maxAdv": 0, "repl": "special", "asu": "division" },
     "tank":        { "mech": true,  "maxAdv": 4, "repl": "armor" }
   },
+  "remnantPools": {
+    "US": ["US-REM-A", "US-REM-B", "US-REM-C"],
+    "CW": ["BR-REM-A", "BR-REM-B", "BR-REM-C"]
+  },
   "units": [
     { "id": "GE-III1FJ", "name": "III/1 FJ", "side": "German", "nation": "GE", "formation": "1 FJ", "cat": "airborne", "a": 2, "d": 2, "m": 3, "sp": 1, "back": "none", "elite": true, "start": { "hex": "2202" }, "frozenUntil": 3 },
     { "id": "GE-KGDor", "name": "KG Dörnemann", "side": "German", "nation": "GE", "formation": "16 Pz", "cat": "recon", "a": 4, "d": 4, "m": 6, "sp": 2, "back": "2-2-6", "backSp": 1, "elite": true, "start": { "hex": "2905" } },

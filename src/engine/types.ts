@@ -1,13 +1,13 @@
 import type { HexId } from './hex';
 
 export type Side = 'Allied' | 'German';
-export type Nation = 'US' | 'BR' | 'CN' | 'GE';
+export type Nation = 'US' | 'BR' | 'CN' | 'FR' | 'IT' | 'GE';
 export type Terrain = 'clear' | 'hill' | 'marsh' | 'sea';
 export type ReplPool = 'German' | 'BR' | 'US';
 export type ReplType = 'inf' | 'special' | 'armor';
 export type Category =
   | 'infantry' | 'garrison' | 'motorized' | 'pg' | 'engineer' | 'bh' | 'airborne' | 'glider'
-  | 'ranger' | 'recon' | 'divAsu' | 'corpsAsu' | 'nebelwerfer' | 'tank';
+  | 'ranger' | 'recon' | 'divAsu' | 'corpsAsu' | 'nebelwerfer' | 'tank' | 'mountain' | 'heavyHowitzer';
 
 // ---------------------------------------------------------------- map data
 
@@ -88,6 +88,12 @@ export interface UnitDef {
   silhouette?: boolean;
   elite?: boolean;
   lowQuality?: boolean;
+  /** Mountain infantry (Italy '43). */
+  mountain?: boolean;
+  /** The size marking printed on the counter ("II", "III(-)", "[X]"), when the data gives it. */
+  size?: string;
+  /** The counter's own unit type when it says more than `cat` (e.g. "mechanized", "commando"). */
+  kind?: string;
   mech: boolean;
   vehicle: boolean;
   infantryType: boolean;

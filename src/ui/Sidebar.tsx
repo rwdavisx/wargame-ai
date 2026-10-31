@@ -819,7 +819,7 @@ function TablesPanel() {
         <li>Disengagement (1-6): {dice.map((d) => RULES.disengagement.table[d]).join(' ')}; all vehicles +{RULES.disengagement.mechDrm}</li>
         <li>Variable strength (1-6): {RULES.variableStrength.join(' ')}</li>
         <li>Isolation attrition: step lost on {RULES.isolation.lossOn.join(', ')}; +{RULES.isolation.cityOrCorpsDrm} with supply line to a friendly city or corps artillery, Allies +{RULES.isolation.alliedClearWeatherDrm} in clear weather</li>
-        <li>Rally: succeeds on {RULES.rally.success.join(', ')}; +{RULES.rally.bhOrCityDrm} in a beachhead or city, elite +{RULES.rally.eliteDrm}, low quality {RULES.rally.lowQualityDrm}</li>
+        <li>Rally: succeeds on {RULES.rally.success.join(', ')}; +{RULES.rally.cityDrm} in a beachhead or city, elite +{RULES.rally.eliteDrm}, low quality {RULES.rally.lowQualityDrm}</li>
         <li>Landing points: {RULES.landingPoints.perTurn} per turn; cost by stacking points 0-3+: {RULES.landingPoints.costBySp.join(' ')}</li>
       </ul>
       <h3>Weather</h3>
