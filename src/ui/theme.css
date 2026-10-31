@@ -435,6 +435,15 @@ textarea { width: 100%; font: 12px monospace; background: #0f1310; color: var(--
 .fx-fade { animation: fadeout 0.8s ease-in forwards; }
 @keyframes fadeout { to { opacity: 0; transform: scale(0.6) rotate(-8deg); } }
 .fx-ring { animation: ring 0.9s ease-out forwards; }
+/* On the ground: dust, smoke and wakes drifting with the wind (--dx, --dy). */
+.fx-dust, .fx-plume { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.fx-dust { animation: dust 1.2s ease-out forwards; }
+@keyframes dust { 0% { opacity: 0; transform: scale(0.3); } 18% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(2); } }
+.fx-plume { animation: plume 3.6s ease-out forwards; }
+@keyframes plume { 0% { opacity: 0; transform: scale(0.35); } 18% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(2.6); } }
+.fx-wake { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; animation: wake 1.7s ease-out forwards; }
+@keyframes wake { 0% { stroke-dashoffset: 1; opacity: 0.9; } 55% { stroke-dashoffset: 0; opacity: 0.85; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .fx-dust, .fx-plume, .fx-wake { display: none; } }
 @keyframes ring { from { transform: scale(0.5); opacity: 1; } to { transform: scale(1.8); opacity: 0; } }
 
 @media (max-width: 1100px) {

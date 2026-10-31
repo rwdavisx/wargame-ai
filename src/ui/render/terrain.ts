@@ -29,6 +29,9 @@ export interface TerrainImage {
   /** About 480 px wide, for the minimap. */
   small: HTMLCanvasElement;
   bounds: Bounds;
+  /** For the animated layer (ambient.ts): land, the water field and the painted area in red, green and blue, at
+   * half a pixel per map unit over the same bounds. Missing if the browser could not keep it. */
+  effects?: HTMLCanvasElement | ImageBitmap;
 }
 
 /** Final pixels per map unit: a little less on phones, which have less memory for large images. */
@@ -164,7 +167,7 @@ const SHADOW = pig([150, 146, 170]);
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 11;
+const RENDER_VERSION = 12;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -186,13 +189,18 @@ function idb(): Promise<IDBDatabase | null> {
   });
 }
 
-async function cacheGet(key: string): Promise<{ blob: Blob } | null> {
+interface Cached {
+  blob: Blob;
+  effects?: Blob;
+}
+
+async function cacheGet(key: string): Promise<Cached | null> {
   const db = await idb();
   if (!db) return null;
   return new Promise((res) => {
     try {
       const r = db.transaction('img').objectStore('img').get(key);
-      r.onsuccess = () => res((r.result as { blob: Blob }) ?? null);
+      r.onsuccess = () => res((r.result as Cached) ?? null);
       r.onerror = () => res(null);
     } catch {
       res(null);
@@ -200,7 +208,7 @@ async function cacheGet(key: string): Promise<{ blob: Blob } | null> {
   });
 }
 
-async function cachePut(key: string, value: { blob: Blob }): Promise<void> {
+async function cachePut(key: string, value: Cached): Promise<void> {
   const db = await idb();
   if (!db) return;
   try {
@@ -227,8 +235,8 @@ function copyAt(src: CanvasImageSource, w: number, h: number, width: number): HT
   return c;
 }
 
-function finish(image: HTMLCanvasElement | ImageBitmap, bounds: Bounds): TerrainImage {
-  return { image, bounds, medium: copyAt(image, image.width, image.height, 1600), small: copyAt(image, image.width, image.height, 480) };
+function finish(image: HTMLCanvasElement | ImageBitmap, bounds: Bounds, effects?: HTMLCanvasElement | ImageBitmap): TerrainImage {
+  return { image, bounds, effects, medium: copyAt(image, image.width, image.height, 1600), small: copyAt(image, image.width, image.height, 480) };
 }
 
 /** The painted map, from the browser cache when the map has not changed. */
@@ -238,8 +246,9 @@ export async function renderTerrain(onProgress?: (fraction: number, label: strin
   if (cached && typeof createImageBitmap === 'function') {
     try {
       const bmp = await createImageBitmap(cached.blob);
+      const fx = cached.effects ? await createImageBitmap(cached.effects).catch(() => undefined) : undefined;
       onProgress?.(1, 'Ready');
-      return finish(bmp, mapBounds(90));
+      return finish(bmp, mapBounds(90), fx);
     } catch {
       /* unreadable cache entry: paint again */
     }
@@ -248,14 +257,16 @@ export async function renderTerrain(onProgress?: (fraction: number, label: strin
   // Cache a compressed copy so the next start is instant; skip quietly if the browser cannot.
   try {
     const blob = await new Promise<Blob | null>((res) => result.canvas.toBlob(res, 'image/jpeg', 0.9));
-    if (blob) await cachePut(key, { blob });
+    // The effects field must stay exact: PNG.
+    const effects = await new Promise<Blob | null>((res) => result.effects.toBlob(res, 'image/png'));
+    if (blob) await cachePut(key, { blob, effects: effects ?? undefined });
   } catch {
     /* no cache */
   }
-  return finish(result.canvas, result.bounds);
+  return finish(result.canvas, result.bounds, result.effects);
 }
 
-async function paintTerrain(onProgress?: (fraction: number, label: string) => void): Promise<{ canvas: HTMLCanvasElement; bounds: Bounds }> {
+async function paintTerrain(onProgress?: (fraction: number, label: string) => void): Promise<{ canvas: HTMLCanvasElement; bounds: Bounds; effects: HTMLCanvasElement }> {
   const report = async (f: number, label: string) => {
     onProgress?.(f, label);
     await tick();
@@ -722,11 +733,14 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const ctx = out.getContext('2d')!;
   await report(0.8, 'Inking the coast');
 
+  // The land field blurred wide: its contours below one half run out to sea parallel to the coast.
+  const water = blur(landF, W, H, 14);
+
   // The pen work, in map units.
   ctx.save();
   ctx.setTransform(SCALE, 0, 0, SCALE, -b.x * SCALE, -b.y * SCALE);
   const fields: InkFields = {
-    b, W, H, land: landF, coast, water: blur(landF, W, H, 14), height: heightS, shade, hill: hillW, mtn: mtnW, marsh: marshW,
+    b, W, H, land: landF, coast, water, height: heightS, shade, hill: hillW, mtn: mtnW, marsh: marshW,
     woods, town, beach, open, paint, fieldAt,
   };
   let f0 = 0.8;
@@ -739,5 +753,22 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   paperTexture(ctx, out.width, out.height, gpu ? 0.14 : 0.3);
 
   await report(1, 'Ready');
-  return { canvas: out, bounds: b };
+  // A small map for the animated layer: land, water field and painted area, half a pixel per map unit.
+  const effects = makeCanvas(Math.ceil(W / 2), Math.ceil(H / 2));
+  {
+    const ectx = effects.getContext('2d')!;
+    const im = ectx.createImageData(effects.width, effects.height);
+    for (let y = 0; y < effects.height; y++) {
+      for (let x = 0; x < effects.width; x++) {
+        const i = Math.min(H - 1, y * 2 + 1) * W + Math.min(W - 1, x * 2 + 1);
+        const o = (y * effects.width + x) * 4;
+        im.data[o] = landF[i] * 255;
+        im.data[o + 1] = Math.min(1, water[i]) * 255;
+        im.data[o + 2] = paint[i] * 255;
+        im.data[o + 3] = 255;
+      }
+    }
+    ectx.putImageData(im, 0, 0);
+  }
+  return { canvas: out, bounds: b, effects };
 }

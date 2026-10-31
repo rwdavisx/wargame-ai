@@ -59,6 +59,7 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
           <Selector label="Combat" width="100%" value={s.combatDice} onChange={(v) => set({ combatDice: v as Settings['combatDice'] })}
             options={opts([['watch', 'Step through it and roll the dice'], ['quick', 'Quick result only']])} />
           <Switch label="Camera follows the computer's moves" value={s.followAi} onChange={(v) => set({ followAi: v })} />
+          <Switch label="Living map: the sea, clouds and rain move" value={s.ambient !== false} onChange={(v) => set({ ambient: v })} />
           <SectionLabel>Defensive air support</SectionLabel>
           {(['Allied', 'German'] as const).map((side) => (
             <Selector key={side} label={side} width="100%" value={s.defensiveAir[side]} options={AIR}

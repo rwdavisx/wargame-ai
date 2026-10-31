@@ -19,6 +19,8 @@ export interface Settings {
   followAi: boolean;
   /** Animation duration multiplier (0.5 fast to 1.5 slow). */
   animSpeed: number;
+  /** The map's living layer: the sea moving, clouds drifting, rain falling (off: the weather's light holds still). */
+  ambient: boolean;
   /** Combats you take part in: step through them and roll the die yourself, or just show the result. */
   combatDice: 'watch' | 'quick';
   showGrid: boolean;
@@ -60,6 +62,7 @@ export const DEFAULT_SETTINGS: Settings = {
   volume: 0.5,
   followAi: true,
   animSpeed: 1,
+  ambient: true,
   combatDice: 'watch',
   showGrid: true,
   showLabels: true,

@@ -16,6 +16,10 @@ import { stackMarkerMap, type Marker } from './render/markers';
 import { CueDefs, CueOverlay, FormationRings, MapBar, ModeTools, ModeUnderlay } from './MapCues';
 import type { QolMapProps } from './qol';
 import { sfx } from './sound';
+import { AmbientLayer } from './AmbientLayer';
+import { WIND } from './render/ambient';
+import { reducedMotion } from './combat/Die';
+import { currentWeather } from '../engine/game';
 
 export { R };
 
@@ -45,6 +49,8 @@ export interface MapSettings {
   showHexIds?: boolean;
   followAi: boolean;
   animSpeed: number;
+  /** The living layer (sea, clouds, rain) moves; off, it holds still. */
+  ambient?: boolean;
 }
 
 export interface MapViewProps {
@@ -496,6 +502,48 @@ type Effect =
   | { id: number; kind: 'fade'; unit: UnitState; at: Pt; ms: number }
   | { id: number; kind: 'ring'; at: Pt; color: string; ms: number };
 
+/** Effects on the ground, under the counters, that linger after the action without holding up the game: dust
+ * behind moving units, smoke drifting downwind from a fight, a landing craft's wake. They drift with the wind of
+ * the living layer (render/ambient.ts). */
+type Ground =
+  | { id: number; kind: 'dust'; at: Pt; delay: number; ms: number; size: number; tone: string }
+  | { id: number; kind: 'smoke'; at: Pt; delay: number; ms: number; heavy: boolean }
+  | { id: number; kind: 'wake'; from: Pt; to: Pt; delay: number; ms: number };
+
+const drift = (d: number) => ({ '--dx': `${WIND[0] * d}px`, '--dy': `${WIND[1] * d - d * 0.25}px` }) as React.CSSProperties;
+
+function GroundView({ g }: { g: Ground }) {
+  switch (g.kind) {
+    case 'dust':
+      return (
+        <circle cx={g.at[0]} cy={g.at[1]} r={g.size} fill={g.tone} stroke="rgba(110,92,64,0.3)" strokeWidth={0.5} className="fx-dust"
+          style={{ animationDelay: `${g.delay}ms`, animationDuration: `${g.ms}ms`, ...drift(9) }} />
+      );
+    case 'smoke':
+      return (
+        <g transform={`translate(${g.at[0]} ${g.at[1]})`}>
+          {[0, 1, 2, 3].slice(0, g.heavy ? 4 : 3).map((i) => (
+            <circle key={i} cx={(i - 1.5) * 6} cy={-4 + (i % 2) * 5} r={8 + i * 2} className="fx-plume"
+              fill={g.heavy ? 'rgba(46,42,38,0.6)' : 'rgba(92,88,82,0.5)'}
+              style={{ animationDelay: `${g.delay + i * 260}ms`, animationDuration: `${g.ms}ms`, ...drift(44 + i * 8) }} />
+          ))}
+        </g>
+      );
+    case 'wake': {
+      const [x1, y1] = g.from;
+      const [x2, y2] = g.to;
+      const d = `M${x1},${y1} Q${(x1 + x2) / 2 + (y2 - y1) * 0.15},${(y1 + y2) / 2 - (x2 - x1) * 0.15} ${x2},${y2}`;
+      const style = { animationDelay: `${g.delay}ms`, animationDuration: `${g.ms}ms` };
+      return (
+        <g fill="none" strokeLinecap="round">
+          <path d={d} pathLength={1} stroke="rgba(236,246,252,0.35)" strokeWidth={7} className="fx-wake" style={style} />
+          <path d={d} pathLength={1} stroke="rgba(248,252,255,0.85)" strokeWidth={1.8} className="fx-wake" style={style} />
+        </g>
+      );
+    }
+  }
+}
+
 function MoveGhost({ e }: { e: Extract<Effect, { kind: 'move' }> }) {
   const ref = useRef<SVGGElement>(null);
   useEffect(() => {
@@ -584,6 +632,7 @@ export function MapView(props: MapViewProps) {
   const [dragging, setDragging] = useState(false);
   const [hoverHex, setHoverHex] = useState<HexId | null>(null);
   const [effects, setEffects] = useState<Effect[]>([]);
+  const [ground, setGround] = useState<Ground[]>([]);
   const [animating, setAnimating] = useState<Set<string>>(new Set());
   const seq = useRef(1);
   const prevState = useRef<GameState | null>(null);
@@ -879,6 +928,50 @@ export function MapView(props: MapViewProps) {
     };
     if (lead) window.setTimeout(play, lead);
     else play();
+    // On the ground: dust behind the movers, smoke from the fights, wakes behind the landing craft. These linger
+    // after the action, so they are not counted in the time the computer waits.
+    if (settings.ambient !== false && !reducedMotion()) {
+      const gfx: Ground[] = [];
+      for (const f of fx) {
+        if (f.kind === 'move') {
+          const vehicle = def(f.unit.id).vehicle;
+          const every = vehicle ? 8 : 13;
+          const segs = f.pts.slice(1).map((p, i) => Math.hypot(p[0] - f.pts[i][0], p[1] - f.pts[i][1]));
+          const total = segs.reduce((a, c) => a + c, 0) || 1;
+          let run = 0;
+          segs.forEach((len, i) => {
+            const [ax, ay] = f.pts[i];
+            const [bx, by] = f.pts[i + 1];
+            for (let s = every - (run % every); s < len; s += every) {
+              const t = s / len;
+              const jitter = ((seq.current * 7919 + s * 31) % 9) - 4;
+              gfx.push({
+                id: seq.current++, kind: 'dust', delay: lead + (f.ms * (run + s)) / total, ms: vehicle ? 1300 : 1000,
+                at: [ax + (bx - ax) * t + (-(by - ay) / len) * jitter * 0.6, ay + (by - ay) * t + ((bx - ax) / len) * jitter * 0.6],
+                size: vehicle ? 5.5 : 3.8, tone: vehicle ? 'rgba(242,232,206,0.8)' : 'rgba(236,228,206,0.62)',
+              });
+            }
+            run += len;
+          });
+        } else if (f.kind === 'boom') {
+          gfx.push({ id: seq.current++, kind: 'smoke', at: f.at, delay: lead + 250, ms: 3600, heavy: f.big });
+        } else if (f.kind === 'ring' && f.color === '#9fe3ff') {
+          // A landing: the craft's wake runs in from the nearest sea.
+          const h = pixelToHex(f.at[0], f.at[1]);
+          const sea = neighbors(h).find((n) => MAP.hexes[n]?.terrain === 'sea');
+          if (sea) {
+            const [sx, sy] = center(sea);
+            gfx.push({ id: seq.current++, kind: 'wake', from: [sx + (sx - f.at[0]) * 0.9, sy + (sy - f.at[1]) * 0.9], to: f.at, delay: lead, ms: 1700 });
+          }
+        }
+      }
+      if (gfx.length) {
+        setGround((g) => [...g, ...gfx]);
+        const gids = new Set(gfx.map((g) => g.id));
+        const end = Math.max(...gfx.map((g) => g.delay + g.ms)) + 120;
+        window.setTimeout(() => setGround((g) => g.filter((x) => !gids.has(x.id))), end);
+      }
+    }
     // Moves wait at their start; the other effects appear once the camera has arrived.
     const moves = fx.filter((f) => f.kind === 'move').map((f) => ({ ...f, delay: lead }));
     const rest = fx.filter((f) => f.kind !== 'move');
@@ -953,6 +1046,7 @@ export function MapView(props: MapViewProps) {
   return (
     <div className={`mapwrap${dragging ? ' dragging' : ''}`}>
       <canvas ref={bgRef} className="map-canvas" aria-hidden />
+      <AmbientLayer terrain={terrain} svgRef={svgRef} weather={currentWeather(state)} animate={settings.ambient !== false} view={vb} />
       <svg
         ref={svgRef}
         className="map-svg"
@@ -1117,6 +1211,9 @@ export function MapView(props: MapViewProps) {
         {qol?.cues && qol.formation && qol.formationSide && (
           <FormationRings state={state} formation={qol.formation} side={qol.formationSide} selectedId={selectedUnitId} />
         )}
+        <g pointerEvents="none">
+          {ground.map((g) => <GroundView key={g.id} g={g} />)}
+        </g>
         <g pointerEvents="none" display={settings.showUnits === false ? 'none' : undefined}>
           {[...stacks.entries()].map(([h, list]) => {
             const [x, y] = center(h);
