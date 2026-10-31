@@ -217,6 +217,7 @@ function buildUnits(o: any, notes: GameData['units']) {
       parenthesized: isAsu,
       remnant: army8 ? undefined : u.remnant,
       isRemnant: startsAsRemnant,
+      twin: u.twin,
       army8,
     };
     setups[DEFAULT_SETUP][u.id] = { start: u.start, arrive: u.arrive, frozenUntil: u.frozenUntil };

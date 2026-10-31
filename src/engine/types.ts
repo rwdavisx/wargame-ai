@@ -107,6 +107,8 @@ export interface UnitDef {
   /** Remnant pool or unit id used when this 3-step unit loses its second step. */
   remnant?: string;
   isRemnant?: boolean;
+  /** The other side of a two-sided remnant counter (Italy '43): only one side can be in play at a time. */
+  twin?: string;
   army8?: boolean;
 }
 

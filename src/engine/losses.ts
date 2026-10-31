@@ -10,7 +10,9 @@ export function remnantFor(s: GameState, unitId: string): UnitState | null {
   const ids = REMNANT_POOLS[r] ?? [r];
   for (const id of ids) {
     const rem = s.units[id];
-    if (rem && rem.where.kind === 'remnantPool') return rem;
+    const twin = def(id).twin;
+    // A two-sided counter is free only while neither of its sides is on the map.
+    if (rem && rem.where.kind === 'remnantPool' && (!twin || s.units[twin]?.where.kind === 'remnantPool')) return rem;
   }
   return null;
 }
