@@ -1,0 +1,2161 @@
+{
+ "photo": "SE",
+ "grid": {
+  "oddColumnsDown": false,
+  "evenColumnsDown": true,
+  "labelOffsetHex": -0.375,
+  "residualPx": 5.9,
+  "rmsResidualPx": 2.3,
+  "anchors": 101,
+  "sigma": 3,
+  "note": "Even columns sit half a hex lower (checked on 3214/3115/3215, 3216/3316/3416 and everywhere after the fit). Label centres are 0.375 hex above hex centres (measured on 3214, 3215, 3316, 3317), so grid.LABEL_DY (-0.32) was overridden in segrid.py without touching grid.py. Fitted outlines sit within about 1-3 px of the printed hex lines over the photo (checked at 2-6x in the corners, centre, east edge and south edge); worst near the top crease (about 4 px)."
+ },
+ "extent": {
+  "minCol": 30,
+  "maxCol": 41,
+  "minRow": 13,
+  "maxRow": 27,
+  "hexCount": 166,
+  "columns": {
+   "30": [
+    13,
+    27
+   ],
+   "31": [
+    14,
+    27
+   ],
+   "32": [
+    13,
+    27
+   ],
+   "33": [
+    14,
+    27
+   ],
+   "34": [
+    13,
+    27
+   ],
+   "35": [
+    14,
+    27
+   ],
+   "36": [
+    13,
+    27
+   ],
+   "37": [
+    14,
+    27
+   ],
+   "38": [
+    13,
+    27
+   ],
+   "39": [
+    14,
+    27
+   ],
+   "40": [
+    13,
+    26
+   ],
+   "41": [
+    14,
+    20
+   ]
+  },
+  "mapEdgesVisible": [
+   "east (col 41 for rows 14-20, col 40 for rows 21-26, with the E1 box and the Sequence of Play box in the margin)",
+   "south (row 27, with the red S2 entry area, a grey margin hex at 3128 and a sliver of red S1 at the far bottom-left)"
+  ],
+  "photoEdges": "North and west edges are photo cuts, not map edges: row 13 hexes (even columns) show only their lower half and column 30 only its east half.",
+  "offMapInPhoto": "4121-4126 and 4027 are margin (no hexes printed); 3128 is a grey margin hex; 3228-3928 positions are the S2 box; col 42 positions at rows 13-16 are the E1 box."
+ },
+ "hexes": {
+  "3013": {
+   "terrain": "clear",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative.",
+   "label": "...aia (name cut by the photo edge; Baia e Latina?)"
+  },
+  "3014": {
+   "terrain": "clear",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative."
+  },
+  "3015": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative."
+  },
+  "3016": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative. Town circle visible at the left photo edge.",
+   "town": "Alvignano"
+  },
+  "3017": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative."
+  },
+  "3018": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative."
+  },
+  "3019": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative. A red VP circle is cut by the left photo edge; its numeral is not visible (assumed 1, check the S photo).",
+   "vp": 1
+  },
+  "3020": {
+   "terrain": "clear",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative. 'Limatola' printed; no town circle in the visible half (probably in the west half).",
+   "label": "Limatola"
+  },
+  "3021": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative."
+  },
+  "3022": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative. About 55% dark shading: marked mountainShade, borderline.",
+   "label": "...colo (name cut by the photo edge)"
+  },
+  "3023": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative."
+  },
+  "3024": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative."
+  },
+  "3025": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative. Name partly cut: '...sco Alto ... 357' (M. Ciesco Alto 1357 on the S photo).",
+   "peak": "M. Ciesco Alto 1357"
+  },
+  "3026": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative. About 46% dark shading (not a majority): no mountainShade."
+  },
+  "3027": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Only the east half is inside the photo (centre on the left photo edge, a map fold runs through it); the S photo should be authoritative. About 45% dark shading (not a majority): no mountainShade."
+  },
+  "3114": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3115": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "Volturno (river name)"
+  },
+  "3116": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3117": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3118": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3119": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3120": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3121": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3122": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Sant'Agata de' Goti",
+   "note": "Name printed partly off the left photo edge as '...Agata / Goti'; town circle is in this hex."
+  },
+  "3123": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Airola"
+  },
+  "3124": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3125": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3126": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3127": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "M. Acerone di Avella 1598"
+  },
+  "3213": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Only the lower half is inside the photo (top photo edge)."
+  },
+  "3214": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Alife",
+   "vp": 1
+  },
+  "3215": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3216": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3217": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3218": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3219": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Amorosi",
+   "vp": 1
+  },
+  "3220": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Solopaca"
+  },
+  "3221": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3222": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3223": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 49% dark shading (not a majority): no mountainShade. Peak triangle sits just below the 3222/3223 hexside.",
+   "peak": "M. Taburno 1394"
+  },
+  "3224": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Montesarchio"
+  },
+  "3225": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "San Martino",
+   "note": "Printed 'San Martino' (the place is San Martino Valle Caudina)."
+  },
+  "3226": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3227": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3314": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Piedimonte d'Alife"
+  },
+  "3315": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3316": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3317": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3318": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3319": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "San Salvatore Telesino",
+   "note": "Name printed over 3218/3219; the town circle is in 3319. This is the Telese area (no separate 'Telese' name printed)."
+  },
+  "3320": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3321": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3322": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 46% dark shading (not a majority): no mountainShade."
+  },
+  "3323": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "About 59% dark shading: marked mountainShade, borderline."
+  },
+  "3324": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3325": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3326": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3327": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3413": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Only the lower half is inside the photo (top photo edge). About 42% dark shading (not a majority): no mountainShade."
+  },
+  "3414": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3415": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "About 57% dark shading: marked mountainShade, borderline."
+  },
+  "3416": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 45% dark shading (not a majority): no mountainShade."
+  },
+  "3417": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 50% dark shading (not a majority): no mountainShade.",
+   "town": "Faicchio"
+  },
+  "3418": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3419": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3420": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3421": {
+   "terrain": "hill",
+   "confidence": "high",
+   "peak": "M. Camposauro 1390"
+  },
+  "3422": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "About 57% dark shading: marked mountainShade, borderline."
+  },
+  "3423": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3424": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Apollosa"
+  },
+  "3425": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3426": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3427": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Altavilla Irpina"
+  },
+  "3514": {
+   "terrain": "hill",
+   "confidence": "high",
+   "label": "Lago del Matese"
+  },
+  "3515": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3516": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3517": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "M. Erbano 1385"
+  },
+  "3518": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3519": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3520": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Guardia Sanframondi"
+  },
+  "3521": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "Calore (river name)"
+  },
+  "3522": {
+   "terrain": "hill",
+   "confidence": "high",
+   "peak": "M. Pentime 1168",
+   "note": "Peak triangle sits just above the 3522/3523 hexside; the height '1168' is printed below it in 3523."
+  },
+  "3523": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3524": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3525": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3526": {
+   "terrain": "hill",
+   "confidence": "high",
+   "label": "Sobato (river name, sic)"
+  },
+  "3527": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3613": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "Only the lower half is inside the photo (top photo edge). Small white pictogram (looks like a tiny figure) near the lake tip; not a map-key symbol, possibly a print flaw. East of Lago del Matese, inside the zone (the boundary line runs down through the lake).",
+   "zone8": "E1"
+  },
+  "3614": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 41% dark shading (not a majority): no mountainShade. The 8th Army Boundary Line clips a small NE corner (9% of the hex); hex is outside the zone."
+  },
+  "3615": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "M. Mutria 1823"
+  },
+  "3616": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 44% dark shading (not a majority): no mountainShade.",
+   "town": "Cusano Mutri"
+  },
+  "3617": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3618": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Cerreto Sannita"
+  },
+  "3619": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3620": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3621": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3622": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Torrecuso"
+  },
+  "3623": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3624": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3625": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3626": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3627": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3714": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "About 55% dark shading: marked mountainShade, borderline. The 8th Army Boundary Line clips its SW corner; 98% of the hex lies inside the zone.",
+   "label": "...NINES (part of the Matese Apennines range name)",
+   "zone8": "E1"
+  },
+  "3715": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "About 56% dark shading: marked mountainShade, borderline. The 8th Army Boundary Line clips a small NE corner (7% of the hex); hex is outside the zone."
+  },
+  "3716": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3717": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3718": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3719": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "1118 (unnamed)"
+  },
+  "3720": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3721": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3722": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3723": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3724": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3725": {
+   "terrain": "clear",
+   "confidence": "high",
+   "note": "Light-grey city hex with white hex outline; the black city grid inflates the dark fraction. Name printed in bold capitals 'BENEVENTO'. Rivers (Calore, Sabato, upper Calore and the river from the east) meet inside the hex through its vertices: rule 2.2.4, no river hexside on 3725.",
+   "city": "Benevento",
+   "cityKind": "major",
+   "vp": 1
+  },
+  "3726": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3727": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3813": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Only the lower half is inside the photo (top photo edge).",
+   "zone8": "E1"
+  },
+  "3814": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Guardiaregia",
+   "zone8": "E1",
+   "note": "The 8th Army Boundary Line clips its SW corner; 98% of the hex lies inside the zone."
+  },
+  "3815": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The 8th Army Boundary Line clips a small NE corner (7% of the hex); hex is outside the zone."
+  },
+  "3816": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3817": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "M. Moschiaturo 1471"
+  },
+  "3818": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3819": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3820": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3821": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3822": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3823": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3824": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3825": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3826": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3827": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "Calore (river name)"
+  },
+  "3914": {
+   "terrain": "clear",
+   "confidence": "high",
+   "zone8": "E1"
+  },
+  "3915": {
+   "terrain": "hill",
+   "confidence": "high",
+   "label": "8th Army Boundary Line (line label, also over 4015/4016)",
+   "zone8": "E1",
+   "note": "The 8th Army Boundary Line clips its SW corner; 97% of the hex lies inside the zone."
+  },
+  "3916": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The 8th Army Boundary Line clips a small NE corner (5% of the hex); hex is outside the zone."
+  },
+  "3917": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Sepino"
+  },
+  "3918": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Sassinoro"
+  },
+  "3919": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Morcone"
+  },
+  "3920": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3921": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Campolattaro"
+  },
+  "3922": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3923": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3924": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Pietrelcina"
+  },
+  "3925": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3926": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Paduli"
+  },
+  "3927": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Apice"
+  },
+  "4013": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Only the lower half is inside the photo (top photo edge). 'Baranello' is printed here; its town circle lies just above the SE photo's top edge (seen in hex 4013 on the NE photo).",
+   "town": "Baranello",
+   "zone8": "E1"
+  },
+  "4014": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Vinchiaturo",
+   "zone8": "E1"
+  },
+  "4015": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E1",
+   "note": "The 8th Army Boundary Line clips its SW corner; 96% of the hex lies inside the zone."
+  },
+  "4016": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The 8th Army Boundary Line clips a small NE corner (4% of the hex); hex is outside the zone."
+  },
+  "4017": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "4018": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "4019": {
+   "terrain": "hill",
+   "confidence": "high",
+   "label": "Tammaro (river name)"
+  },
+  "4020": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "4021": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The printed Sequence of Play box overlaps only the eastmost tip of this hex (about 10% of its width); the hex is otherwise visible, not covered."
+  },
+  "4022": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The printed Sequence of Play box overlaps only the eastmost tip of this hex (about 10% of its width); the hex is otherwise visible, not covered."
+  },
+  "4023": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The printed Sequence of Play box overlaps only the eastmost tip of this hex (about 10% of its width); the hex is otherwise visible, not covered."
+  },
+  "4024": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The printed Sequence of Play box overlaps only the eastmost tip of this hex (about 10% of its width); the hex is otherwise visible, not covered."
+  },
+  "4025": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The printed Sequence of Play box overlaps only the eastmost tip of this hex (about 10% of its width); the hex is otherwise visible, not covered."
+  },
+  "4026": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The printed Sequence of Play box overlaps only the eastmost tip of this hex (about 10% of its width); the hex is otherwise visible, not covered."
+  },
+  "4114": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Tiny white speck in the lower-left part, probably a print flaw.",
+   "zone8": "E1"
+  },
+  "4115": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E1"
+  },
+  "4116": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E1",
+   "note": "The 8th Army Boundary Line clips its SW corner; 95% of the hex lies inside the zone."
+  },
+  "4117": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "The 8th Army Boundary Line clips a small NE corner (3% of the hex); hex is outside the zone."
+  },
+  "4118": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Santa Croce del Sannio"
+  },
+  "4119": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "4120": {
+   "terrain": "hill",
+   "confidence": "high"
+  }
+ },
+ "hexsides": {
+  "3013-3114": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3014-3015": {
+   "road": "minor",
+   "confidence": "low",
+   "note": "Column-30 hexside, only partly inside the photo."
+  },
+  "3014-3114": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent. River drawn a few px inside 3114."
+  },
+  "3014-3115": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3015-3016": {
+   "road": "minor",
+   "confidence": "low",
+   "note": "Column-30 hexside, only partly inside the photo."
+  },
+  "3015-3115": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent.",
+   "road": "minor",
+   "bridge": true
+  },
+  "3016-3017": {
+   "road": "minor",
+   "confidence": "low",
+   "note": "Column-30 hexside, only partly inside the photo."
+  },
+  "3018-3118": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3019-3020": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Drawn with the major-river symbol: wide light-blue band with a dark navy outline (navy rim on every cross-section). Only the east end of this hexside is inside the photo."
+  },
+  "3019-3120": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3020-3120": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "note": "Drawn with the major-river symbol: wide light-blue band with a dark navy outline (navy rim on every cross-section)."
+  },
+  "3021-3122": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3022-3123": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3023-3024": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3023-3123": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3023-3124": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3025-3125": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3025-3126": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3026-3126": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3026-3127": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3027-3127": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3114-3214": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3115-3116": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3115-3214": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3116-3215": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3116-3216": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3117-3216": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3117-3217": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3118-3119": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3118-3217": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent.",
+   "road": "minor",
+   "bridge": true
+  },
+  "3118-3218": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3119-3120": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3119-3218": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent. River drawn about 10 px inside 3218, parallel to the hexside."
+  },
+  "3119-3219": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent.",
+   "road": "major",
+   "bridge": true
+  },
+  "3120-3121": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "note": "Drawn with the major-river symbol: wide light-blue band with a dark navy outline (navy rim on every cross-section)."
+  },
+  "3120-3219": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Upper Volturno: plain blue line without the navy outline (minor-river symbol), about 6.5 px wide; minor by the key, check designer intent."
+  },
+  "3120-3220": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "note": "Drawn with the major-river symbol: wide light-blue band with a dark navy outline (navy rim on every cross-section).",
+   "road": "minor",
+   "bridge": true
+  },
+  "3122-3123": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3122-3221": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3122-3222": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3123-3124": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3123-3222": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3124-3224": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3126-3127": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3127-3226": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3127-3227": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3214-3215": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3214-3314": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3215-3216": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3216-3217": {
+   "river": "minor",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "3217-3317": {
+   "river": "minor",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "3219-3220": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent.",
+   "road": "minor",
+   "bridge": true
+  },
+  "3219-3319": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3219-3320": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3220-3221": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3220-3320": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3221-3222": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3221-3321": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3222-3223": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3222-3322": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3222-3323": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3223-3323": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3223-3324": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3224-3225": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3224-3325": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3225-3326": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Unnamed branch running from the Calore at the 3524/3525/3624 vertex west to the 3225/3226/3326 vertex near San Martino; minor-river symbol."
+  },
+  "3314-3315": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3314-3413": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading along the whole hexside; the Piedimonte loop road crosses it.",
+   "road": "minor"
+  },
+  "3314-3414": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3315-3316": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3315-3414": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3316-3416": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "The Piedimonte-Faicchio road loops through the west corner of 3416 (3316 -> 3416 -> 3317)."
+  },
+  "3317-3318": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Short tributary (Titerno?) ending at the 3317/3318/3417 vertex near Faicchio."
+  },
+  "3317-3416": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "See 3316-3416."
+  },
+  "3317-3417": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3318-3319": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3318-3417": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3318-3418": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3319-3320": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent.",
+   "road": "minor",
+   "bridge": true
+  },
+  "3319-3418": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3319-3419": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3320-3419": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3320-3420": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3321-3322": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3322-3323": {
+   "mountain": true,
+   "confidence": "high",
+   "pass": true,
+   "note": "Pass symbol: two vertical arcs either side of the 3323 label, gap on this horizontal hexside (between M. Camposauro and M. Taburno)."
+  },
+  "3322-3421": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3322-3422": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3323-3324": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3323-3422": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3325-3326": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Unnamed branch running from the Calore at the 3524/3525/3624 vertex west to the 3225/3226/3326 vertex near San Martino; minor-river symbol."
+  },
+  "3325-3425": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3326-3425": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Unnamed branch running from the Calore at the 3524/3525/3624 vertex west to the 3225/3226/3326 vertex near San Martino; minor-river symbol."
+  },
+  "3413-3414": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3413-3514": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3414-3415": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3414-3514": {
+   "mountain": true,
+   "confidence": "high",
+   "pass": true,
+   "note": "Pass symbol: two black arcs above and below the hexside, gap centred on it (west of Lago del Matese)."
+  },
+  "3414-3515": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3415-3515": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3415-3516": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3416-3516": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3416-3517": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3417-3517": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3417-3518": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3418-3419": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3418-3518": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3418-3519": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3419-3420": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3419-3520": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3420-3520": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent.",
+   "road": "minor",
+   "bridge": true
+  },
+  "3420-3521": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3421-3422": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3422-3522": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3425-3426": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Unnamed branch running from the Calore at the 3524/3525/3624 vertex west to the 3225/3226/3326 vertex near San Martino; minor-river symbol."
+  },
+  "3425-3525": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3425-3526": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Unnamed branch running from the Calore at the 3524/3525/3624 vertex west to the 3225/3226/3326 vertex near San Martino; minor-river symbol."
+  },
+  "3426-3527": {
+   "river": "minor",
+   "riverName": "Sobato",
+   "confidence": "medium"
+  },
+  "3427-3527": {
+   "river": "minor",
+   "riverName": "Sobato",
+   "confidence": "medium",
+   "road": "minor",
+   "bridge": true
+  },
+  "3514-3515": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3514-3613": {
+   "river": "lake",
+   "riverName": "Lago del Matese",
+   "confidence": "high",
+   "note": "Lake drawn on the hexside (solid blue with navy outline); the 8th Army Boundary Line passes down through it."
+  },
+  "3515-3516": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3515-3614": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3515-3615": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3516-3517": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3516-3615": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3517-3518": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3517-3616": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "The Cusano Mutri road swings through the east corner of 3517 (3616 -> 3517 -> 3617)."
+  },
+  "3517-3617": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "See 3517-3616."
+  },
+  "3518-3519": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3518-3617": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3518-3618": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3519-3618": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3520-3521": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3520-3620": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3521-3620": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3521-3621": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent.",
+   "road": "minor",
+   "bridge": true
+  },
+  "3522-3523": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3522-3621": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent. River bulges about 10 px into 3621 along this hexside."
+  },
+  "3523-3622": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3524-3624": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3525-3526": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Unnamed branch running from the Calore at the 3524/3525/3624 vertex west to the 3225/3226/3326 vertex near San Martino; minor-river symbol."
+  },
+  "3525-3624": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3525-3625": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Unnamed branch running from the Calore at the 3524/3525/3624 vertex west to the 3225/3226/3326 vertex near San Martino; minor-river symbol.",
+   "road": "major",
+   "bridge": true
+  },
+  "3526-3527": {
+   "river": "minor",
+   "riverName": "Sobato",
+   "confidence": "medium"
+  },
+  "3526-3626": {
+   "river": "minor",
+   "riverName": "Sobato",
+   "confidence": "medium"
+  },
+  "3527-3626": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3613-3614": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Whole hexside under dark shading from the lake tip east (checked at 6x); the 3614 tan area starts just south of it."
+  },
+  "3613-3714": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3614-3615": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3614-3714": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3614-3715": {
+   "mountain": true,
+   "confidence": "high",
+   "pass": true,
+   "note": "Pass symbol: two arcs straddling the hexside (SE of Lago del Matese)."
+  },
+  "3615-3616": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3615-3715": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3615-3716": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3616-3716": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3616-3717": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3617-3618": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3617-3718": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3618-3719": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3619-3719": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3620-3721": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3621-3622": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3621-3722": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3622-3722": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3622-3723": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3623-3624": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent. River drawn about 12 px inside 3623, parallel to the hexside."
+  },
+  "3623-3723": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3623-3724": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3624-3625": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Drawn without the navy outline that marks a major river (rim on 0-42% of cross-sections, those hits coming from the adjacent printed hex line) but wider than the other minor rivers (about 8 px vs 5-6 px): minor by the map-key symbol; check against the rulebook/designer intent."
+  },
+  "3624-3724": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "The road from 3723 to Benevento passes through the NE corner of 3624 (3724 -> 3624 -> 3725)."
+  },
+  "3624-3725": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "See 3624-3724."
+  },
+  "3625-3626": {
+   "river": "minor",
+   "riverName": "Sobato",
+   "confidence": "medium",
+   "road": "minor",
+   "bridge": true
+  },
+  "3625-3725": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3625-3726": {
+   "river": "minor",
+   "riverName": "Sobato",
+   "confidence": "medium"
+  },
+  "3714-3715": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3715-3716": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3715-3814": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3716-3717": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3716-3815": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3716-3816": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3717-3718": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3717-3817": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3718-3719": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3718-3817": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3718-3818": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3719-3818": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3721-3820": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3722-3723": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3723-3724": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3723-3822": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3725-3726": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3725-3824": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3725-3825": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3726-3727": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3726-3825": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Upper Calore (enters from the S2 edge at 3927 and flows to Benevento): plain blue line, about 5 px, minor-river symbol."
+  },
+  "3813-3914": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3814-3915": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3816-3817": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3817-3917": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3820-3920": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3821-3921": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3821-3922": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "The Campolattaro-Benevento road zig-zags along the 3821/3922 and 3822/3922 boundary: 3921 -> 3821 -> 3922 -> 3822 -> 3723."
+  },
+  "3822-3922": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "See 3821-3922."
+  },
+  "3824-3825": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "River entering from under the Sequence of Play box (4024/4025) and flowing west into Benevento; probably the lower Tammaro (its upper course leaves eastward along 4022/4023 under the box). Name not printed here."
+  },
+  "3824-3924": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3825-3826": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Upper Calore (enters from the S2 edge at 3927 and flows to Benevento): plain blue line, about 5 px, minor-river symbol."
+  },
+  "3825-3925": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "River entering from under the Sequence of Play box (4024/4025) and flowing west into Benevento; probably the lower Tammaro (its upper course leaves eastward along 4022/4023 under the box). Name not printed here."
+  },
+  "3825-3926": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3826-3926": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Upper Calore (enters from the S2 edge at 3927 and flows to Benevento): plain blue line, about 5 px, minor-river symbol."
+  },
+  "3827-3927": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3914-3915": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3914-4014": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3917-4016": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3918-3919": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3918-4017": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3918-4018": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "3919-3920": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3919-4018": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high"
+  },
+  "3919-4019": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high"
+  },
+  "3920-3921": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3920-4019": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high"
+  },
+  "3920-4020": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high"
+  },
+  "3921-4020": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "3921-4021": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high"
+  },
+  "3922-4021": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high"
+  },
+  "3922-4022": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "high"
+  },
+  "3923-3924": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3923-4022": {
+   "river": "minor",
+   "riverName": "Tammaro",
+   "confidence": "medium",
+   "road": "minor",
+   "note": "The Pietrelcina road runs north in 3923 then east across the Tammaro into 4022 and off the east edge under the SoP box.",
+   "bridge": true
+  },
+  "3925-3926": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "River entering from under the Sequence of Play box (4024/4025) and flowing west into Benevento; probably the lower Tammaro (its upper course leaves eastward along 4022/4023 under the box). Name not printed here."
+  },
+  "3925-4025": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "River entering from under the Sequence of Play box (4024/4025) and flowing west into Benevento; probably the lower Tammaro (its upper course leaves eastward along 4022/4023 under the box). Name not printed here."
+  },
+  "3926-3927": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Upper Calore (enters from the S2 edge at 3927 and flows to Benevento): plain blue line, about 5 px, minor-river symbol."
+  },
+  "3926-4025": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3927-4026": {
+   "river": "minor",
+   "riverName": "Calore",
+   "confidence": "medium",
+   "note": "Upper Calore (enters from the S2 edge at 3927 and flows to Benevento): plain blue line, about 5 px, minor-river symbol.",
+   "road": "minor",
+   "bridge": true
+  },
+  "4014-4015": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "4014-4114": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "4014-4115": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "4015-4116": {
+   "road": "major",
+   "confidence": "medium",
+   "note": "The Vinchiaturo-Sassinoro major road passes through the west part of 4116 (4015 -> 4116 -> 4016)."
+  },
+  "4016-4017": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "4016-4116": {
+   "road": "major",
+   "confidence": "medium",
+   "note": "See 4015-4116."
+  },
+  "4018-4118": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "4019-4120": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "Eastern tributaries of the Tammaro entering from the east map edge; minor."
+  },
+  "4020-4120": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "Eastern tributaries of the Tammaro entering from the east map edge; minor.",
+   "road": "minor",
+   "bridge": true
+  },
+  "4021-4022": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "Eastern tributaries of the Tammaro entering from the east map edge; minor."
+  },
+  "4022-4023": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "Eastern tributaries of the Tammaro entering from the east map edge; minor."
+  },
+  "4024-4025": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "River entering from under the Sequence of Play box (4024/4025) and flowing west into Benevento; probably the lower Tammaro (its upper course leaves eastward along 4022/4023 under the box). Name not printed here."
+  },
+  "4119-4120": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "Eastern tributaries of the Tammaro entering from the east map edge; minor."
+  }
+ },
+ "entryAreas": {
+  "E1": {
+   "colour": "dark green",
+   "text": [
+    "E1",
+    "Turn 8 = Allied (printed vertically)"
+   ],
+   "mapEdgeHexes": [
+    "4114",
+    "4115",
+    "4116"
+   ],
+   "edgeHexsides": [
+    "4114-4213",
+    "4114-4214",
+    "4115-4214",
+    "4115-4215",
+    "4116-4215"
+   ],
+   "roadsIn": {
+    "4114-4213": "major (Vinchiaturo NE road)",
+    "4115-4215": "major (Vinchiaturo ESE road)"
+   },
+   "note": "Arrow-shaped green tab in the east margin whose notched west edge follows the east hexsides of 4114, 4115 and 4116 (it ends at the east vertex of 4116); it continues north of the photo (4113 area, NE photo). It belongs to the 8th Army zone section E1."
+  },
+  "S2": {
+   "colour": "red",
+   "text": [
+    "S2 (white, printed in the 3728 position)"
+   ],
+   "mapEdgeHexes": [
+    "3227",
+    "3327",
+    "3427",
+    "3527",
+    "3627",
+    "3727",
+    "3827",
+    "3927"
+   ],
+   "roadsIn": {
+    "3727-3728": "major (Benevento-south road)",
+    "3427-3328": "minor (Altavilla Irpina west)",
+    "3427-3528": "minor (Altavilla Irpina south-east)",
+    "3827-3728": "minor (Apice south-west)"
+   },
+   "riversIn": {
+    "3427-3528": "Sabato/Sobato runs along this edge hexside into S2",
+    "3927-3928": "upper Calore runs along the south edge of 3927 from S2 (label \"Calore\" printed beside 3827/3928)"
+   },
+   "note": "Continuous red band along the south edge from below 3227 (x about 205 px) to below 3927 (x about 1098 px), its top notched to the row-27 hex outlines. West of it a grey margin hex (3128 position) separates it from the S1 red band, of which only a sliver shows at the far bottom-left under column 30."
+  },
+  "S1": {
+   "colour": "red",
+   "text": [],
+   "mapEdgeHexes": [
+    "3027 (sliver only)"
+   ],
+   "note": "Only the east end is visible at the bottom-left corner; see the S photo."
+  }
+ },
+ "lines": {
+  "8thArmyBoundary": {
+   "style": "black dashed line",
+   "course": "Straight line fitted on its dashes: y = 0.5466 x - 302.13 in photo px (rms 0.5 px), from the south tip of Lago del Matese (about (675,67), at the 3514/3613/3614 vertex) east-south-east to the east map edge at about (1335,428) on the upper-right hexside of 4117. North of the lake it continues as a vertical dashed line down through the lake (a dash is visible inside the lake at about (650,10-30); its course further north is on the NE/N photos). Labelled \"8th Army Boundary Line\" over 3915/4015/4016.",
+   "relativeToHexes": "It does not follow hexsides exactly: it runs about 10-20 px north-east of the vertex chain 3715/3814/3815 - 3815/3915/3916 - 3916/4015/4016 - 4016/4116/4117, cutting only small corners off 3614 (9%), 3715 (7%), 3815 (7%), 3916 (5%), 4016 (4%), 4117 (3%), while 3714, 3814, 3915, 4015, 4116 lie 95-98% on the zone side. Read as hexsides, the zone boundary is: 3514-3613 (lake), 3613-3614, 3614-3714, 3714-3715, 3715-3814, 3814-3815, 3815-3915, 3915-3916, 3916-4015, 4015-4016, 4016-4116, 4116-4117.",
+   "zone8E1Hexes": [
+    "3613",
+    "3714",
+    "3813",
+    "3814",
+    "3914",
+    "3915",
+    "4013",
+    "4014",
+    "4015",
+    "4114",
+    "4115",
+    "4116"
+   ],
+   "sections": "Everything north-east of the line in this photo is section E1 (green E1 tab, \"Turn 8 = Allied\"). The white dashed E1/E2 section border is not in this photo: on the NE photo it runs along the north edges of the row-13 hexes (3612/3613, 3712/3713, 3812/3813 around Bojano, 3912/3913, 4112/4113), so 3613, 3813 and 4013 are E1."
+  },
+  "gustav": "not in this photo",
+  "bernhard": "not in this photo",
+  "E1E2SectionBorder": "not visible in this photo (just north of it, see NE photo)"
+ },
+ "edgeFeatures": {
+  "sequenceOfPlay": "Printed Sequence of Play box in the east margin from about y 950 to 1810 px (title \"Sequence of Play\" above it beside 4120/4021). It covers no map hex: hexes 4121-4126 do not exist (margin), and the box overlaps only the eastmost tips of 4021-4026.",
+  "roadsLeavingTheMap": {
+   "4120 east (4120-4220)": "minor road from Campolattaro via 4020, beside the \"Sequence of Play\" title",
+   "4118 north-east (4118-4217)": "minor road from Santa Croce del Sannio",
+   "4118 south-east (4118-4218)": "short minor spur from Santa Croce del Sannio",
+   "4022 east (under the SoP box)": "minor road from Pietrelcina via 3923",
+   "4025 east (4025-4125, under the box)": "minor road from Benevento via Paduli",
+   "4026 east (4026-4126, under the box)": "minor road from Apice"
+  },
+  "riversAlongTheEdge": "An eastern tributary runs along 4020-4121, 4021-4121 and 4021-4122 (east edge) before turning west along 4021-4022; another along 4119-4219/4119-4220; the river along 4022-4023 continues east under the SoP box; the river along 4024-4025 comes out from under the box; the upper Calore runs along 3927-3928 and 3927-4027 (south-east corner); the Sabato along 3427-3528.",
+  "otherText": "Range name \"...NINES\" (Matese Apennines) printed across 3613/3714; no \"Garrison required\" text in this photo; no compass."
+ },
+ "uncertain": [
+  "Major vs minor rivers: by the map-key symbol (major = blue band with a dark navy outline) only the Volturno below the Calore confluence (3019-3020, 3020-3120, 3120-3121, 3120-3220) is major in this photo. The upper Volturno (about 6.5 px), the Calore (about 8 px) and all other rivers have no navy rim and are recorded as minor, although the Calore and upper Volturno are drawn wider than the Tammaro and tributaries (about 5-5.5 px). If the designer intends the Calore/upper Volturno to be major, these need overriding.",
+  "Column 30 (3013-3027) is only half inside the photo; its terrain, the 3019 VP value and the column-30 internal roads (3014-3015, 3015-3016, 3016-3017) should be taken from the S photo.",
+  "Row-13 hexes 3213, 3413, 3613, 3813, 4013 show only their lower half.",
+  "Borderline mountain shading (45-59% dark): 3022, 3323, 3415, 3422, 3714, 3715 marked mountainShade; 3417 (50% on), 3223 (49%), 3026, 3027, 3322, 3416, 3616 not.",
+  "Medium-confidence mountain hexsides: 3613-3614, 3314-3413 (road), 3223-3323, 3323-3422, 3518-3618, 3522-3523, 3619-3719, 3025-3125, 3615-3715.",
+  "Roads that clip a hex corner (3416, 3517, 4116, 3624) and the zig-zag 3821/3922/3822 road are recorded as drawn; a designer may intend the straight path.",
+  "Peak positions on hexsides: M. Pentime triangle in 3522 with \"1168\" printed in 3523; M. Taburno triangle just inside 3223.",
+  "Baranello town circle is above the photo edge (taken from the NE photo as 4013).",
+  "The 8th Army line crosses hexes; zone membership was taken by majority area (all splits are 95/5 or better)."
+ ],
+ "notes": [
+  "Grid: even columns sit half a hex lower (oddColumnsDown false). Label centre offset measured as -0.375 hex. Mapper (locally weighted homography, sigma 3) fitted on 101 label anchors found by template matching (rendered Liberation Sans labels, NCC) and checked by eye; residual max 5.9 px, rms 2.3 px.",
+  "Terrain: per-hex colour fractions (clear grey / tan hill / dark shading / blue) inside 85% of each fitted hex, then every hex checked on hex-by-hex contact sheets. Terrain is clear if clear > hill + dark, else hill; mountainShade if dark shading > 50% on.",
+  "Mountain hexsides: both sides of the hexside sampled 5 px off the printed line from 8% to 92% of its length; 1.0 dark coverage taken as mountain and every candidate (and every 0.3-0.95 case) checked by eye at 3-6x. No marsh, sea, airfields, ports or landmarks in this photo.",
+  "Rivers: blue hexsides found by colour within 6 px (and 15 px for offset ones), traced by eye; class from the navy-outline test (navy rim on both edges of the blue stroke: 100% of cross-sections on the lower Volturno and the key major-river sample, 0% on the key minor sample, 0-42% elsewhere where the adjacent hex line causes the hits).",
+  "Roads: every road traced by eye as a polyline in photo pixels (roads_traced.py), hexsides crossed computed from nearest hex centres, then every crossing checked on hexside contact sheets. Major = solid dark charcoal line; minor = cream line with dashed dark edges.",
+  "River courses: Volturno comes down the west side (3013/3114 .. 3120/3219), the Titerno-like tributary joins at 3216/3217 from Faicchio; the Calore runs from Benevento west past Torrecuso and Solopaca to the confluence at the 3120/3219/3220 vertex below Amorosi; below that the Volturno (major) flows west along 3120-3220, 3120-3121, 3020-3120, 3019-3020. The Tammaro rises at Sassinoro (3918/4018), runs south along the 39xx/40xx boundary and leaves east under the SoP box at 4022/4023; a river (probably the lower Tammaro) comes back from under the box along 4024-4025 and flows west into Benevento. The Sabato (\"Sobato\") comes from S2 past Altavilla Irpina into Benevento; the upper Calore comes from the S2 edge at Apice into Benevento; an unnamed branch runs from the Calore at 3525 west to near San Martino (3225/3326).",
+  "Cities/towns: only BENEVENTO is a city (major, bold capitals, grid symbol, white hex outline). All other places are towns (small circles). VPs: Alife 3214, Amorosi 3219, Benevento 3725 (all \"1\"), plus a cut-off VP circle at 3019.",
+  "Scripts in this folder: segrid.py (grid with the Italy parity/label offset), coarse*.py/ncc.py/fit.py (calibration), analyze.py/seclass.py (colour sampling), riverwidth.py/rw2.py/outline*.py/navy.py (river class), bline.py/zone.py (boundary line), roads_traced.py/roadsides.py (roads), build.py/finish.py (assembly), tile.py/hexsheet.py/sidesheet.py/sheet.py/zoom.py/crop.py/ovl.py (review images)."
+ ]
+}
