@@ -51,6 +51,8 @@ export function areaName(a: string): string {
   if (a === 'E') return 'the east map edge';
   if (a === 'reserve') return 'the Floating Reserve';
   if (a.startsWith('airdrop') || a.startsWith('hex:')) return 'the airfields, waiting to drop';
+  if (a.includes('/')) return `Entry Area ${a.split('/').join(', ').replace(/, ([^,]*)$/, ' or $1')}`;
+  if (a === 'Naples') return 'Naples';
   const ea = MAP.entryAreas[a];
   if (!ea) return a;
   const label = ea.label?.replace(/^\w+\s*/, '').replace(/^\((.*)\)$/, '$1');

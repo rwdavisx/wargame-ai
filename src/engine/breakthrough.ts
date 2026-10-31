@@ -5,6 +5,7 @@
 // successful breakthrough attack lets the group enter the hex it attacked for
 // free; only a DR4 or DS result lets it carry on after that.
 import { MAP } from './data';
+import { razeFort } from './forts';
 import { applyAdvance, advanceDestinations, resolveAttack } from './combat';
 import { neighbors, sideKey, type HexId } from './hex';
 import { triggerFullRetreats } from './retreat';
@@ -73,6 +74,7 @@ function stepCheck(s: GameState, b: Breakthrough, to: HexId): StepCheck {
 
 function claim(s: GameState, hex: HexId, side: Side) {
   if (hex in s.control || MAP.hexes[hex].vp || MAP.hexes[hex].city) s.control[hex] = side;
+  razeFort(s, hex, side);
 }
 
 function moveGroup(s: GameState, b: Breakthrough, to: HexId, notes: string[], mountain = false) {

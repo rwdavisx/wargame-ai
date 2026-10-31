@@ -4878,6 +4878,7 @@
    "firstTurn": 1,
    "lastTurn": 7,
    "setup": "campaign",
+   "noFortifications": true,
    "description": "The Fifth Army forces the Volturno, 1 to 16 October 1943."
   },
   "bernhard": {

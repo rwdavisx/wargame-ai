@@ -1,6 +1,6 @@
 import { MAP, RULES } from './data';
 import { isAdjacent, neighbors, sideKey, type HexId } from './hex';
-import type { GameState, MoveMode, UnitState } from './types';
+import type { GameState, MoveMode, UnitState, Side } from './types';
 import { canStack, def, friendsAt, isLand, occupancy, other, sideOf, values } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 
@@ -21,7 +21,8 @@ export interface Reach {
 /** Why a unit cannot move at all this phase, or null if it can. */
 export function cannotMove(s: GameState, u: UnitState): string | null {
   const d = def(u.id);
-  if (u.frozenUntil && s.turn < u.frozenUntil) return `frozen until turn ${u.frozenUntil}`;
+  if (u.garrison && u.frozenUntil && s.turn < u.frozenUntil) return `on garrison duty in ${u.garrison}`;
+  if (u.frozenUntil && s.turn < u.frozenUntil) return u.frozenUntil >= 99 ? 'frozen until the enemy comes close' : `frozen until turn ${u.frozenUntil}`;
   if (u.stopped) return 'has finished moving';
   if (u.autoDs) return 'is committed to an Auto DS';
   if (d.cat === 'bh') return 'beachhead units never move';
@@ -71,12 +72,43 @@ interface StepInfo {
   /** Crossing allowed only as the first hex of a tactical move (earns ½ Eff). */
   firstHexOnly: boolean;
   mountainCrossing: boolean;
+  /** Entering the hex ends the move (Italy '43: marsh off the road). */
+  stop?: boolean;
+}
+
+/** Hexes within `radius` of a unit of the side other than `side` (for Operational Movement). */
+const nearEnemyCache = new WeakMap<GameState, { key: string; hexes: Set<HexId> }>();
+function nearEnemy(s: GameState, side: Side, radius: number): Set<HexId> {
+  const key = `${s.seq}|${side}|${Object.values(s.units).filter((x) => x.where.kind === 'map').length}`;
+  const hit = nearEnemyCache.get(s);
+  if (hit && hit.key === key) return hit.hexes;
+  const out = new Set<HexId>();
+  for (const e of Object.values(s.units)) {
+    if (e.where.kind !== 'map' || sideOf(e) === side) continue;
+    const ring = [e.where.hex];
+    out.add(e.where.hex);
+    for (let r = 0; r < radius; r++) {
+      for (const h of ring.splice(0)) for (const n of neighbors(h)) if (!out.has(n)) { out.add(n); ring.push(n); }
+    }
+  }
+  nearEnemyCache.set(s, { key, hexes: out });
+  return out;
+}
+
+/** Italy '43's 8th Army zone (5.8): no Allied unit may enter it, and German units only its sections not yet handed over. */
+export function zoneClosed(s: GameState, side: Side, hex: HexId): boolean {
+  const z = MAP.hexes[hex]?.zone8;
+  if (!z) return false;
+  if (side === 'Allied') return true;
+  const turn = RULES.eighthArmyZone[z];
+  return turn !== undefined && s.turn >= turn;
 }
 
 /** Cost for `u` to move from `from` into adjacent `to` (ignoring units and ZOCs), or null if prohibited. */
 export function stepCost(s: GameState, u: UnitState, from: HexId, to: HexId, mode: MoveMode): StepInfo | null {
   const dest = MAP.hexes[to];
   if (!dest || dest.terrain === 'sea' || !isAdjacent(from, to)) return null;
+  if (zoneClosed(s, sideOf(u), to)) return null;
   const d = def(u.id);
   // Trucked infantry moves at mechanized rates but is still infantry for rivers and mountains (5.8).
   const mech = isTruck(mode) || d.mech;
@@ -86,26 +118,38 @@ export function stepCost(s: GameState, u: UnitState, from: HexId, to: HexId, mod
   if (hs.road) {
     let cost = (hs.road === 'major' ? m.majorRoad : m.minorRoad)[key];
     if (mech && sideOf(u) === 'Allied' && dest.sector8) cost = m.alliedMechRoadIn8thSector;
+    // Operational Movement: near the enemy the road rate is 1 MP a hex (5.2.2).
+    if (mech && m.operationalRadius && nearEnemy(s, sideOf(u), m.operationalRadius).has(to)) cost = Math.max(cost, 1);
     return { cost, firstHexOnly: false, mountainCrossing: false };
   }
+  if (hs.lake) return null; // a lake hexside is an all-sea hexside
   const terrain = dest.city ? 'city' : dest.terrain;
   let cost = m.terrain[terrain]?.[key] ?? 1;
   let firstHexOnly = false;
   let mountainCrossing = false;
   if (hs.mountain && !hs.pass) {
     if (d.vehicle) return null;
-    firstHexOnly = true;
-    mountainCrossing = true;
+    // Mountain infantry cross as part of any move (19.3).
+    if (!d.mountain) {
+      firstHexOnly = true;
+      mountainCrossing = true;
+    }
   } else if (hs.pass) {
     cost += m.pass[key];
   }
-  if (hs.river) {
+  if (hs.river && m.minorRiver) {
+    // Italy '43: vehicles may not cross an unbridged river in rain (5.9); a major river only as a first hex (5.5).
+    if (d.vehicle && weatherBox(s).rain) return null;
+    if (hs.majorRiver) firstHexOnly = true;
+    else cost += m.minorRiver[key];
+  } else if (hs.river) {
     if (d.vehicle) {
       if (weatherBox(s).rain) return null;
       firstHexOnly = true;
     } else cost += m.riverInf;
   }
-  return { cost, firstHexOnly, mountainCrossing };
+  const stop = m.marshStops && dest.terrain === 'marsh';
+  return { cost, firstHexOnly, mountainCrossing, stop };
 }
 
 /** All hexes the unit can reach with this move. */
@@ -164,7 +208,7 @@ export function reachable(s: GameState, u: UnitState, start: HexId, mode: MoveMo
       }
       const prev = out.get(n);
       if (prev && (prev.cost < cost || (prev.cost === cost && prev.hexes <= hexes))) continue;
-      out.set(n, { cost, hexes, prev: cur, stop: nInZoc, halfEff: here.halfEff || step.firstHexOnly });
+      out.set(n, { cost, hexes, prev: cur, stop: nInZoc || !!step.stop, halfEff: here.halfEff || step.firstHexOnly });
       frontier.push(n);
     }
   }

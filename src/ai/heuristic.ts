@@ -13,6 +13,7 @@ import { nextRandom } from '../engine/rng';
 import { supplyChecker, beachheadHexes } from '../engine/supply';
 import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
 import { canStack, def, goodOrder, isElite, nationGroup, sideOf, stackPoints, stepsRemaining, unitsAt, values } from '../engine/units';
+import { fortOptions } from '../engine/forts';
 import { zocOf } from '../engine/zoc';
 import { bestAttackOn, defenseAt, distanceField, enemyAdjacentHexes, expectedOutcome, nearestEnemyDistance, threatAt } from './evaluate';
 import { ownAt, stackRisk, threatMap, type ThreatMap } from './reach';
@@ -564,6 +565,11 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
 
   function initialAction(s: GameState): Action | null {
     const side = s.activeSide;
+    if (side === 'German' && !considered.has('fort')) {
+      considered.add('fort');
+      const a = fortAction(s);
+      if (a && isLegal(s, a)) return a;
+    }
     const ctx = makeCtx(s);
     for (const u of Object.values(s.units)) {
       if (sideOf(u) !== side || u.where.kind !== 'entry' || !u.where.area.startsWith('airdrop') || considered.has(u.id)) continue;
@@ -600,6 +606,24 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
       }
     }
     return null;
+  }
+
+  /** Italy '43 fortifications: start the eight Level 1 forts on the Gustav Line first (VP hexes and hills first, away
+   * from the enemy), then complete them nearest the Allies first, then add Level 2s on the Gustav Line. */
+  function fortAction(s: GameState): Action | null {
+    const opts = fortOptions(s);
+    if (!opts.length) return null;
+    const allied = Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === 'Allied').map((u) => (u.where as { hex: string }).hex);
+    const near = (h: string) => Math.min(99, ...allied.map((a) => distance(a, h)));
+    const score = (o: (typeof opts)[number]) => {
+      const d = MAP.hexes[o.hex];
+      const dist = near(o.hex);
+      if (o.op === 'complete' || o.op === 'completeUpgrade') return 1000 - dist;
+      if (o.op === 'upgrade') return 500 + (d.vp ?? 0) * 20 - dist;
+      return (d.gustav ? 100 : 0) + (d.bernhard ? 40 : 0) + (d.vp ?? 0) * 20 + (d.terrain === 'hill' ? 5 : 0) - (dist <= 1 ? 50 : 0) - dist * 0.1;
+    };
+    const best = opts.reduce((a, b) => (score(b) > score(a) ? b : a));
+    return { type: 'buildFort', hex: best.hex, op: best.op };
   }
 
   function moveUnits(s: GameState, ctx: Ctx): Action | null {

@@ -20,6 +20,8 @@ export interface WeatherBox {
   germanSupply: number;
   clear?: boolean;
   rain?: boolean;
+  /** Columns the odds shift left on every attack (Italy '43: Rain and Mud). Salerno '43 shifts one in any rain. */
+  crtShiftLeft?: number;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -41,6 +43,14 @@ function buildRules(r: any) {
     /** Extra MPs for Extended Movement (Italy '43 gives non-mechanized units fewer). */
     extendedBonus: (typeof extended === 'number' ? { mech: extended, nonMech: extended } : extended) as { mech: number; nonMech: number },
     tacticalHexes: (r.movement.tacticalHexes ?? 2) as number,
+    /** Italy '43: rivers by class. A minor river adds MPs; a major one is crossed only as the first hex of a Tactical
+     * Move. Without these, any river is Salerno '43's (+1 for infantry, first hex only for vehicles). */
+    minorRiver: r.movement.minorRiver as { inf: number; mech: number } | undefined,
+    majorRiver: !!r.movement.majorRiver,
+    /** Italy '43: a mechanized unit pays 1 MP a road hex within this many hexes of an enemy unit (5.2.2). */
+    operationalRadius: r.movement.operationalRadius as number | undefined,
+    /** Italy '43: entering a marsh hex ends the move unless it follows a road. */
+    marshStops: !!r.movement.terrain?.marsh?.stopUnlessRoad,
     /** Salerno '43's landing day: German MAs halved (rounded up) and Allied units limited to Tactical Movement. */
     turn1GermanHalfMa: !!r.movement.turn1GermanHalfMaRoundUp,
     turn1AlliedTacticalOnly: !!r.movement.turn1AlliedTacticalOnly,
@@ -76,6 +86,8 @@ function buildRules(r: any) {
     overlandHexes: val<number>(r.supply.overlandHexes),
     cap: (val<number>(r.supply.supplyPointCap) ?? 19) as number,
     salernoPortOpenRadius: r.supply.salernoPortOpenRadius as number | undefined,
+    /** Cities whose hexes are Allied supply sources while the Allies hold them (Italy '43: Naples, 16.2.2). */
+    citySources: (r.supply.citySources ?? []) as string[],
   },
   /** `cityDrm`: a city, and a beachhead (Salerno '43) or a completed fortification (Italy '43). */
   rally: {
@@ -89,13 +101,23 @@ function buildRules(r: any) {
   disengagement: r.disengagement as { table: Record<string, string>; mechDrm: number; eliteDrm?: number; lowQualityDrm?: number },
   variableStrength: (r.variableStrength ?? []) as number[],
   landingPoints: (r.landingPoints ?? { costBySp: [], perTurn: 0 }) as { costBySp: number[]; perTurn: number },
-  weather: r.weather as { track: WeatherBox[]; advanceByRoll: Record<string, number>; wraps: boolean },
+  /** `freeFlipOnRolls`: weather rolls that ready one Nebelwerfer and the heavy howitzer for free (Italy '43, 23.3.3). */
+  weather: r.weather as { track: WeatherBox[]; advanceByRoll: Record<string, number>; wraps: boolean; freeFlipOnRolls?: number[] },
+  /** Salerno '43's amphibious rules: the invasion turn, beachheads, ports and naval movement, the 8th Army's arrival
+   * from the south, the 16th Panzer Division's withdrawal and the north-edge VPs. */
+  invasionGame: !!r.invasion,
+  /** The turn each 8th Army zone section passes to the Allies (Italy '43, 5.8.1). */
+  eighthArmyZone: (r.eighthArmyZone ?? {}) as Record<string, number>,
+  /** Extra Allied supply points each turn from the turn given while the Allies hold Naples (Italy '43, 23.3.2). */
+  naplesSupplyBonus: Object.fromEntries(Object.entries(r.naplesSupplyBonus ?? {}).map(([k, v]) => [Number(k), v as number])) as Record<number, number>,
+  /** Allied VPs needed at the end of each scenario. */
+  scenarioWin: (r.victory.scenarioWin ?? { short: 8, campaign: 20 }) as Record<string, number>,
   benchmarks: Object.fromEntries(Object.entries(r.victory.benchmarks).map(([k, v]) => [Number(k), v as number])) as Record<number, number>,
   automaticMargin: (r.victory.automatic?.alliedMargin ?? 5) as number,
   automaticAlliedVp: (r.victory.automatic?.alliedVp ?? 20) as number,
   replacementSchedule: Object.fromEntries(Object.entries(r.replacements.schedule).map(([k, v]) => [Number(k), v])) as Record<
     number,
-    Partial<Record<'German' | 'BR' | 'US', Partial<Record<'inf' | 'armor' | 'special', number>>>>
+    Partial<Record<'German' | 'BR' | 'US' | 'FR' | 'IT', Partial<Record<'inf' | 'armor' | 'special', number>>>>
   >,
   turnNotes: Object.fromEntries(Object.entries(r.turnNotes).map(([k, v]) => [Number(k), v as string])) as Record<number, string>,
   };
@@ -242,10 +264,28 @@ export let SCENARIOS: Record<string, { name: string; lastTurn: number; descripti
 export let REMNANT_POOLS: Record<string, string[]>;
 let SETUPS: Record<string, Record<string, UnitSetup>>;
 export let STARTING_SP: { German: number; Allied: number };
-export let WITHDRAWAL: { turn: number; side: 'German'; defense: number; prefer: string };
+/** Salerno '43's 16th Panzer Division withdrawal; none in other games. */
+export let WITHDRAWAL: { turn: number; side: 'German'; defense: number; prefer: string } | undefined;
 /** S1.4 tournament start: Allied assault units already ashore, and German units gone before play begins. */
 export let OPTIONAL_START: { hexes: Record<string, string>; eliminated: string[]; alliedControl: string[] };
 export let BATTLESHIPS_TURN: number;
+
+/** What a scenario's set-up cards place besides the units (Italy '43). `weather` is the starting weather box. */
+export interface SetupMarkers {
+  supplyPoints?: { German: number; Allied: number };
+  weather?: string;
+  vp?: number;
+  trucks?: number;
+  support?: { place: string; used?: boolean };
+  fortifications?: { hex: string; level: number; building?: boolean }[];
+  fortificationPool?: Record<string, number>;
+}
+let SETUP_MARKERS: Record<string, SetupMarkers>;
+
+/** The markers `scenarioId`'s set-up cards place; empty when they give none. */
+export function scenarioMarkers(scenarioId: string): SetupMarkers {
+  return SETUP_MARKERS[SCENARIOS[scenarioId]?.setup ?? DEFAULT_SETUP] ?? {};
+}
 
 /** The set-up of every unit in `scenarioId`. */
 export function scenarioSetup(scenarioId: string): Record<string, UnitSetup> {
@@ -273,7 +313,8 @@ export function loadGameData(id: string, d: GameData): void {
   UNIT_SETUP = SETUPS[DEFAULT_SETUP];
   SCENARIOS = o.scenarios;
   REMNANT_POOLS = o.remnantPools ?? {};
-  STARTING_SP = o.startingSupplyPoints;
+  SETUP_MARKERS = o.setups ?? {};
+  STARTING_SP = o.startingSupplyPoints ?? { German: 0, Allied: 0 };
   WITHDRAWAL = o.withdrawal;
   OPTIONAL_START = o.optionalStart;
   BATTLESHIPS_TURN = o.support?.battleshipsTurn ?? Infinity;

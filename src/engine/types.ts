@@ -3,7 +3,7 @@ import type { HexId } from './hex';
 export type Side = 'Allied' | 'German';
 export type Nation = 'US' | 'BR' | 'CN' | 'FR' | 'IT' | 'GE';
 export type Terrain = 'clear' | 'hill' | 'marsh' | 'sea';
-export type ReplPool = 'German' | 'BR' | 'US';
+export type ReplPool = 'German' | 'BR' | 'US' | 'FR' | 'IT';
 export type ReplType = 'inf' | 'special' | 'armor';
 export type Category =
   | 'infantry' | 'garrison' | 'motorized' | 'pg' | 'engineer' | 'bh' | 'airborne' | 'glider'
@@ -27,6 +27,15 @@ export interface HexData {
   airfield?: string;
   dropZone?: string;
   sector8?: boolean;
+  /** Italy '43: the 8th Army zone section the hex lies in (5.8). */
+  zone8?: 'N4' | 'E1' | 'E2' | 'E3';
+  /** Italy '43: the hex is on the Gustav Line (18.1.3) or the Bernhard Line. */
+  gustav?: boolean;
+  bernhard?: boolean;
+  /** Italy '43: a major city (name in capitals) holds out through two Partial results (11.5.3). */
+  majorCity?: boolean;
+  /** Italy '43: a Hill hex with six mountain hexsides (2.2.2). */
+  fullMountain?: boolean;
 }
 
 export interface HexsideData {
@@ -34,6 +43,10 @@ export interface HexsideData {
   mountain?: boolean;
   pass?: boolean;
   road?: 'major' | 'minor';
+  /** Italy '43: a major river (the unmarked kind is minor), a lake hexside (all-sea), and the river's name. */
+  majorRiver?: boolean;
+  lake?: boolean;
+  riverName?: string;
 }
 
 export interface EntryArea {
@@ -143,6 +156,8 @@ export interface UnitState {
   isolatedSince?: number;
   fired: boolean;
   frozenUntil?: number;
+  /** On garrison duty there (Italy '43: "Naples", "Formia"): frozen until released, never by the enemy's approach. */
+  garrison?: string;
   /** Movement this phase. */
   mpSpent: number | null;
   moveMode: MoveMode | null;
@@ -315,6 +330,9 @@ export interface GameState {
   /** Control of ports, cities and VP hexes (by hex) and of entry areas (by name). */
   control: Record<string, Side>;
   cityBattle: Record<HexId, number>;
+  /** Italy '43: fortifications on the map (18.0), and the turn the German player last built (one step a turn). */
+  forts?: Record<HexId, { level: 1 | 2; building?: boolean; upgrading?: boolean }>;
+  fortBuiltTurn?: number;
   replacements: Record<ReplPool, Record<ReplType, number>>;
   /** Naval transport bookkeeping for the current Allied movement phase. */
   landingPoints: number;
@@ -353,6 +371,7 @@ export interface GameState {
 
 export type Action =
   | { type: 'move'; unitId: string; to: HexId; mode?: MoveMode }
+  | { type: 'buildFort'; hex: HexId; op: 'start' | 'complete' | 'upgrade' | 'completeUpgrade' }
   | { type: 'land'; unitId: string; to: HexId }
   | { type: 'naval'; unitId: string; to: HexId | 'reserve' }
   | { type: 'enter'; unitId: string; to: HexId; mode?: MoveMode }

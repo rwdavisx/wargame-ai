@@ -879,7 +879,10 @@
   "overlandHexes": 5,
   "roadUnlimited": true,
   "locMountainHexsides": 1,
-  "supplyPointCap": 19
+  "supplyPointCap": 19,
+  "citySources": [
+   "Naples"
+  ]
  },
  "eighthArmyZone": {
   "E1": 8,

@@ -1,5 +1,6 @@
 // Combat: odds, column shifts, CRT, Determined Defense, advance after combat.
 import { BATTLESHIPS_TURN, MAP, onGameData, RULES } from './data';
+import { fortLevel, razeFort } from './forts';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import { eliminate, loseStep, takeSteps } from './losses';
 import { isExtended, movementAllowance, weatherBox } from './movement';
@@ -43,6 +44,8 @@ export interface OddsInfo {
   autoDs: boolean;
   drm: number;
   defenderAir: boolean;
+  /** Italy '43: the defender's ASU firing for a shift left (9.5.4). */
+  defenderAsu?: string;
   attackerAsus: string[];
   bhSupporters: string[];
 }
@@ -110,16 +113,24 @@ function stackKey(u: UnitState): string {
   return u.where.kind === 'map' ? u.where.hex : `entry:${(u.where as { area: string }).area}`;
 }
 
-function defenderHexTerrain(hex: HexId): 'Clear' | 'Other' | 'City' {
+function defenderHexTerrain(s: GameState, hex: HexId): 'Clear' | 'Other' | 'City' {
   const d = MAP.hexes[hex];
-  if (d.city) return 'City';
+  // A completed fortification uses the City or Fort column (18.2.2).
+  if (d.city || fortLevel(s, hex)) return 'City';
   if (d.terrain === 'clear' && !d.town) return 'Clear';
   return 'Other';
 }
 
-function tankTerrainOk(hex: HexId): boolean {
+function tankTerrainOk(s: GameState, hex: HexId): boolean {
   const d = MAP.hexes[hex];
-  return !d.city && d.terrain === 'clear';
+  return !d.city && d.terrain === 'clear' && !fortLevel(s, hex);
+}
+
+/** Partial results a city or fort can absorb before its defenders must go (11.5): a minor city or Level 1 fort one,
+ * a major city or Level 2 fort two. Salerno '43's cities take one. */
+function battleCapacity(s: GameState, hex: HexId): number {
+  const d = MAP.hexes[hex];
+  return Math.max(d.city ? (d.majorCity ? 2 : 1) : 0, fortLevel(s, hex));
 }
 
 export function readyAsusFor(s: GameState, side: Side, target: HexId, involved: string[]): UnitState[] {
@@ -143,6 +154,13 @@ export function readyAsusFor(s: GameState, side: Side, target: HexId, involved: 
 
 function markerFor(id: string, kind: 'air' | 'naval'): string {
   return `${supportNation(id)}-${kind}`;
+}
+
+/** Use up a support marker. Italy '43 has one naval marker for both Allied armies (9.6): it shows as ready for each,
+ * and firing it for one uses it for both. */
+export function spendSupport(s: GameState, key: string): void {
+  const shared = key.endsWith('-naval') && RULES.weather.track.some((b) => b.naval.includes('AL'));
+  s.support.ready = s.support.ready.filter((k) => k !== key && !(shared && k.endsWith('-naval')));
 }
 
 /** Possible Main Assault Force choices for a set of attackers. */
@@ -368,7 +386,7 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
   const shifts: { reason: string; shift: number }[] = [];
   const defenders = unitsAt(s, target).filter((u) => sideOf(u) === enemy && u.status !== 'fullRetreat' && (bt || !u.retreatedThisPhase));
   // Tank shifts.
-  if (tankTerrainOk(target)) {
+  if (tankTerrainOk(s, target)) {
     const rating = (id: string) => (def(id).tankRating ?? 0) - (def(id).tankDestroyer ? 1 : 0);
     const mafTanks = members.filter((id) => def(id).tankRating);
     // Tanks attacking across a river or mountain hexside, or out of a marsh, cannot earn the shift (9.3.3, TEC).
@@ -384,11 +402,26 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
     if (attBest > 0 && defBest < attBest) shifts.push({ reason: 'Tank shift', shift: 1 });
     else if (defBest > 0 && attAny < defBest) shifts.push({ reason: 'Defender tank shift', shift: -1 });
   }
-  if (members.some((id) => isElite(s.units[id])) && !defenders.some(isElite)) shifts.push({ reason: 'Elite', shift: 1 });
-  if (weatherBox(s).rain) shifts.push({ reason: 'Rain', shift: -1 });
+  if (RULES.invasionGame) {
+    if (members.some((id) => isElite(s.units[id])) && !defenders.some(isElite)) shifts.push({ reason: 'Elite', shift: 1 });
+  } else {
+    // Italy '43 (9.2): most of the Main Assault Force elite, or an elite infantry-type unit with a tank; all low quality
+    // costs a shift.
+    const elite = members.filter((id) => isElite(s.units[id]));
+    if (elite.length * 2 > members.length || (elite.some((id) => def(id).infantryType) && members.some((id) => def(id).tankRating)))
+      shifts.push({ reason: 'Elite', shift: 1 });
+    if (plan.attackers.length && plan.attackers.every((id) => isLowQuality(s.units[id]))) shifts.push({ reason: 'Low quality', shift: -1 });
+  }
+  // A completed fortification shifts one or two columns left, on top of the terrain (18.2.2).
+  const fort = fortLevel(s, target);
+  if (fort) shifts.push({ reason: `Level ${fort} fortification`, shift: -fort });
+  const wb = weatherBox(s);
+  const mud = wb.crtShiftLeft ?? (RULES.invasionGame && wb.rain ? 1 : 0);
+  if (mud) shifts.push({ reason: RULES.invasionGame ? 'Rain' : 'Rain and mud', shift: -mud });
   let drm = 0;
   const attackerAsus: string[] = [];
   let defenderAir = false;
+  let defenderAsu: string | undefined;
   if (!opts.autoDs) {
     if (plan.air) {
       const m = plan.attackers.map((id) => markerFor(id, 'air')).find((k) => s.support.ready.includes(k));
@@ -432,6 +465,14 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
       defenderAir = true;
       shifts.push({ reason: 'Defensive air support', shift: -1 });
     }
+    // Italy '43: a ready division or corps ASU in range may fire for the defender instead, one shift left (9.5.4).
+    if (!RULES.invasionGame && commit) {
+      const asu = readyAsusFor(s, enemy, target, defenders.map((u) => u.id)).find((u) => def(u.id).cat === 'divAsu' || def(u.id).cat === 'corpsAsu');
+      if (asu) {
+        defenderAsu = asu.id;
+        shifts.push({ reason: `Defensive artillery (${def(asu.id).name})`, shift: -1 });
+      }
+    }
   }
   const net = baseIndex + shifts.reduce((a, b) => a + b.shift, 0);
   // The minimum is checked on the attacker's declared odds; a defensive air shift after that leaves it on 1-3 (8.6.2).
@@ -442,7 +483,7 @@ export function computeOdds(s: GameState, plan: AttackPlan, opts: { autoDs?: boo
   return {
     ok: true, maf, mafUnits: members, attack, defense,
     defenseNote: dc.low !== dc.high ? `${dc.low}-${dc.high}` : undefined,
-    baseIndex, shifts, finalIndex, autoDs, drm, defenderAir, attackerAsus, bhSupporters: dc.bhSupporters,
+    baseIndex, shifts, finalIndex, autoDs, drm, defenderAir, defenderAsu, attackerAsus, bhSupporters: dc.bhSupporters,
   };
 }
 
@@ -556,8 +597,7 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
   }
   for (const id of odds.attackerAsus) s.units[id].fired = true;
   const use = (k: string) => {
-    const i = s.support.ready.indexOf(k);
-    if (i >= 0) s.support.ready.splice(i, 1);
+    spendSupport(s, k);
   };
   if (plan.air) use(plan.attackers.map((id) => markerFor(id, 'air')).find((k) => s.support.ready.includes(k))!);
   if (plan.naval) {
@@ -568,6 +608,7 @@ export function resolveAttack(s: GameState, plan: AttackPlan, autoDsMode = false
     const k = unitsAt(s, plan.target).filter((u) => sideOf(u) === enemy).map((u) => markerFor(u.id, 'air')).find((x) => s.support.ready.includes(x));
     if (k) use(k);
   }
+  if (odds.defenderAsu) s.units[odds.defenderAsu].fired = true;
 
   let roll = 0;
   let cell: Cell;
@@ -755,8 +796,7 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     supportDrm = 1;
     if (s.units[c.support]) s.units[c.support].fired = true;
     else {
-      const i = s.support.ready.indexOf(c.support);
-      if (i >= 0) s.support.ready.splice(i, 1);
+      spendSupport(s, c.support);
     }
     notes.push(`${supportName(c.support)} ${s.units[c.support] ? 'fires in support of' : 'supports'} the defenders.`);
   }
@@ -765,7 +805,7 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     shipDrm = 1;
     s.support.battleships -= 1;
   }
-  const column = defenderHexTerrain(pd.hex);
+  const column = defenderHexTerrain(s, pd.hex);
   const delayHexes = Math.max(1, Math.min(3, c.delay ?? 1));
   let delays = 0;
   const supportNat = c.support && pd.supportOptions.includes(c.support) ? supportNationOf(s, c.support) : undefined;
@@ -773,10 +813,14 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     const lead = pickLead(s, pd.hex, side, bt, c.lead, supportNat);
     if (!lead) break;
     let drm = supportDrm + shipDrm + (isElite(lead) ? 1 : 0) - (isLowQuality(lead) ? 1 : 0) - (pd.yellow ? 1 : 0);
-    drm = Math.min(drm, shipDrm ? 3 : 2);
-    const roll = rollD6(s);
-    const eff = Math.max(1, Math.min(7, roll + drm));
-    const entry = RULES.dd.table[column][eff - 1];
+    drm = Math.min(drm, shipDrm ? 3 : RULES.dd.maxDrm ?? 2);
+    const twoDice = RULES.dd.dice === 2;
+    const roll = twoDice ? rollD6(s) + rollD6(s) : rollD6(s);
+    // Italy '43 rolls two dice; its rows start at 2-3 and end at 12 or more (11.4).
+    const row = twoDice
+      ? Math.max(0, (RULES.dd.rolls ?? []).map(Number).filter((r) => r <= roll + drm).length - 1)
+      : Math.max(1, Math.min(7, roll + drm)) - 1;
+    const entry = RULES.dd.table[column][row];
     const opts = entry.split('|');
     let pick = opts[0];
     if (opts.length > 1) pick = opts.find((o) => (c.prefer === 'delay' ? !o.includes('H') : o.includes('H'))) ?? opts[0];
@@ -784,8 +828,12 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     const [losses, letter] = pick.split(' ');
     const [att, dfn] = losses.split('/');
     const steps = defs().reduce((a, id) => a + stepsRemaining(s.units[id]), 0);
-    let outcome = letter ?? 'fail';
-    if (outcome === 'P' && s.cityBattle[pd.hex]) outcome = 'D'; // a second Partial counts as a Delay
+    let outcome = letter === 'F' ? 'fail' : letter ?? 'fail';
+    if (outcome === 'P' && (s.cityBattle[pd.hex] ?? 0) >= battleCapacity(s, pd.hex)) {
+      // One Partial too many: Salerno counts it a Delay; in Italy '43 the defenders retreat 2 hexes, Disrupted (11.5).
+      outcome = 'D';
+      if (!RULES.invasionGame) delete s.cityBattle[pd.hex];
+    }
     const how = outcome === 'H' ? 'they hold' : outcome === 'P' ? 'they cling on in the streets'
       : outcome === 'D' && pd.desperate ? (delays ? 'a second delay, so they hold at the cost of a step' : 'a delay, which counts as a failure with nowhere to go')
       : outcome === 'D' ? (letter === 'P' ? 'a second partial result here, so they must fall back' : 'they fight a delaying action and give ground slowly')
@@ -810,8 +858,9 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     if (dfn === '1') loseStep(s, lead, notes);
     if (dfn === 'dis' && lead.where.kind === 'map') lead.status = 'disrupted';
     if (outcome === 'P') {
-      s.cityBattle[pd.hex] = 1;
-      notes.push('A City Battle marker is placed: a second such result here will force them out.');
+      s.cityBattle[pd.hex] = (s.cityBattle[pd.hex] ?? 0) + 1;
+      const left = battleCapacity(s, pd.hex) - s.cityBattle[pd.hex];
+      notes.push(`A Battle marker${s.cityBattle[pd.hex] > 1 ? ` (${s.cityBattle[pd.hex]})` : ''} is placed: ${left > 0 ? 'they can hold out once more here' : 'another such result here will force them out'}.`);
       outcome = 'H';
     }
     if (outcome === 'H') {
@@ -820,7 +869,7 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
       return;
     }
     if (outcome === 'D') {
-      retreatStack(s, everyone(), delayHexes, pd.hex, 'disrupted', notes, { again: bt });
+      retreatStack(s, everyone(), RULES.invasionGame ? delayHexes : 2, pd.hex, 'disrupted', notes, { again: bt });
       advanceAfter(true);
       return;
     }
@@ -928,6 +977,7 @@ export function applyAdvance(s: GameState, unitIds: string[], to: HexId, notes: 
       const hs = MAP.hexsides[sideKey(prev, h)] ?? {};
       if (hs.mountain && !hs.road && !hs.pass) u.halfEff = true;
       if (h in s.control || MAP.hexes[h].vp || MAP.hexes[h].city) s.control[h] = sideOf(u);
+      razeFort(s, h, sideOf(u));
       prev = h;
     }
     recordTrail(s, id, [originHex(u) ?? path[0], ...path].filter((h, i, a) => i === 0 || h !== a[i - 1]));

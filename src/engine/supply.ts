@@ -40,6 +40,10 @@ export function supplySources(s: GameState, side: Side, opts: { ports?: boolean 
   if (side === 'Allied') {
     for (const h of beachheadHexes(s)) out.add(h);
     if (opts.ports !== false) for (const h of usablePorts(s)) out.add(h);
+    // Italy '43: any Allied-held hex of Naples (16.2.2).
+    for (const [h, d] of Object.entries(MAP.hexes)) {
+      if (d.city && RULES.supply.citySources.includes(d.city) && s.control[h] === 'Allied' && occ.get(h) !== 'German') out.add(h);
+    }
   }
   return [...out];
 }
@@ -61,6 +65,11 @@ function makeCtx(s: GameState, side: Side, targets: HexId[]): TraceCtx {
   const zocFree = (h: HexId) => !ezoc.has(h) || occ.get(h) === side;
   const enemyControlled = (h: HexId) => {
     const d = MAP.hexes[h];
+    // A vacant completed fortification marks German control and blocks Allied lines (Italy '43, 18.2.1).
+    if (side === 'Allied' && occ.get(h) !== side) {
+      const f = s.forts?.[h];
+      if (f && !f.building) return true;
+    }
     return !!(d && (d.vp || d.city || d.port)) && occ.get(h) !== side && (s.control[h] ?? 'German') !== side;
   };
   // Road portion: any length along roads from the targets, never through enemy units or EZOCs.

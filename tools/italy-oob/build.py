@@ -333,7 +333,7 @@ def main():
         'remnantPools': POOLS,
         'units': units,
         'scenarios': {
-            'volturno': {'name': 'Across the Volturno', 'firstTurn': 1, 'lastTurn': 7, 'setup': 'campaign',
+            'volturno': {'name': 'Across the Volturno', 'firstTurn': 1, 'lastTurn': 7, 'setup': 'campaign', 'noFortifications': True,
                          'description': 'The Fifth Army forces the Volturno, 1 to 16 October 1943.'},
             'bernhard': {'name': 'The Bernhard Line', 'firstTurn': 13, 'lastTurn': 32, 'setup': 'bernhard',
                          'description': 'The winter battles for the Bernhard Line, 1 November to 31 December 1943.'},

@@ -1,5 +1,6 @@
 // Retreats, Full Retreat side effects and disengagement.
 import { MAP } from './data';
+import { razeFort } from './forts';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import { eliminate } from './losses';
 import { areaFriendly, supplyChecker } from './supply';
@@ -188,7 +189,10 @@ export function retreatStack(s: GameState, ids: string[], dist: number, origin: 
     if (plan.intoArea) u.where = { kind: 'entry', area: plan.intoArea };
     else if (plan.path.length) u.where = { kind: 'map', hex: plan.path[plan.path.length - 1] };
     // The last side to occupy or pass through a port, city or VP hex controls it (16.3.4).
-    for (const h of plan.path) if (MAP.hexes[h].vp || MAP.hexes[h].city || MAP.hexes[h].port) s.control[h] = sideOf(u);
+    for (const h of plan.path) {
+      if (MAP.hexes[h].vp || MAP.hexes[h].city || MAP.hexes[h].port) s.control[h] = sideOf(u);
+      razeFort(s, h, sideOf(u));
+    }
     if (plan.halfEff.includes(id)) u.halfEff = true;
     if (status) u.status = status === 'disrupted' && u.status !== 'good' ? 'fullRetreat' : status;
     u.retreatedThisPhase = true;

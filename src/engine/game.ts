@@ -1,4 +1,8 @@
-import { GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START, scenarioSetup } from './data';
+import {
+  GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START, scenarioMarkers, scenarioSetup,
+  type UnitEvent, type UnitSetup,
+} from './data';
+import { applyFortStep, buildNeedsRoll, fortLevel, fortOptions, razeFort, startingForts } from './forts';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import {
   applyAdvance, computeOdds, resolveAttack, resolveDefense, resolveDisengage, advanceDestinations,
@@ -47,7 +51,26 @@ export function benchmark(turn: number): number | null {
 
 export function replPool(unitId: string): ReplPool {
   const n = def(unitId).nation;
-  return n === 'GE' ? 'German' : n === 'US' ? 'US' : 'BR';
+  return n === 'GE' ? 'German' : n === 'US' ? 'US' : n === 'FR' ? 'FR' : n === 'IT' ? 'IT' : 'BR';
+}
+
+/** Replacement pools by side. */
+const REPL_POOLS: Record<Side, ReplPool[]> = { German: ['German'], Allied: ['BR', 'US', 'FR', 'IT'] };
+
+/** frozenUntil for a unit frozen with no turn of release: freed only by a rule (the enemy's approach, a crossing). */
+export const FROZEN_UNTIL_RELEASED = 99;
+
+function frozenUntilOf(st: UnitSetup): number | undefined {
+  if (st.frozenUntil) return st.frozenUntil;
+  if (!st.frozen && !st.garrison) return undefined;
+  return st.events?.find((e) => e.kind === 'release')?.turn ?? FROZEN_UNTIL_RELEASED;
+}
+
+function garrisonOf(st: UnitSetup): string | undefined {
+  if (typeof st.garrison === 'string') return st.garrison;
+  if (!st.garrison) return undefined;
+  const h = st.start?.hex ?? (st.arrive?.at.startsWith('hex:') ? st.arrive.at.slice(4) : undefined);
+  return (h && (MAP.hexes[h]?.city ?? MAP.hexes[h]?.town)) || 'its post';
 }
 
 /** The side that must act next (the defender answers a Determined Defense choice). */
@@ -64,6 +87,10 @@ function emptyRepl(): Record<ReplType, number> {
   return { inf: 0, special: 0, armor: 0 };
 }
 
+function emptyPools(): Record<ReplPool, Record<ReplType, number>> {
+  return { German: emptyRepl(), BR: emptyRepl(), US: emptyRepl(), FR: emptyRepl(), IT: emptyRepl() };
+}
+
 // ------------------------------------------------------------------ setup
 
 /** `rolls` (tests only) are used, in order, for the first die rolls, starting with the invasion. */
@@ -72,6 +99,7 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
   if (!sc) throw new Error(`Unknown scenario ${scenarioId}`);
   const units: Record<string, UnitState> = {};
   const setup = scenarioSetup(scenarioId);
+  const marks = scenarioMarkers(scenarioId);
   for (const id of Object.keys(UNIT_DEFS)) {
     const st = setup[id];
     let where: UnitState['where'];
@@ -79,28 +107,39 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
     else if (st.start?.beach) where = { kind: 'landing', beach: st.start.beach };
     else if (st.start?.followUp) where = { kind: 'followUp', corps: st.start.followUp };
     else if (st.start?.remnant) where = { kind: 'remnantPool' };
+    else if (st.start?.box === 'eliminated') where = { kind: 'eliminated' };
+    else if (st.start?.box === 'permanentlyRemoved') where = { kind: 'removed', reason: 'removed before the scenario begins' };
     else if (st.arrive) where = { kind: 'pending', turn: st.arrive.turn, at: st.arrive.at };
     else where = { kind: 'removed', reason: 'no set-up' };
     units[id] = {
-      id, where, stepsLost: 0, status: 'good', halfEff: false, repl: false, truck: false, outOfSupply: false, isolated: false,
-      fired: false, frozenUntil: st.frozenUntil, mpSpent: null, moveMode: null, tacHexes: 0, stopped: false, crossedMountain: false,
-      hexesMoved: 0, attacked: false, retreatedThisPhase: false, autoDs: false,
+      id, where, stepsLost: st.reduced ? 1 : 0, status: 'good', halfEff: false, repl: false, truck: false, outOfSupply: false, isolated: false,
+      fired: !!st.fired, frozenUntil: frozenUntilOf(st), garrison: garrisonOf(st), mpSpent: null, moveMode: null, tacHexes: 0, stopped: false,
+      crossedMountain: false, hexesMoved: 0, attacked: false, retreatedThisPhase: false, autoDs: false,
     };
   }
-  const control: Record<string, Side> = {};
-  for (const [h, d] of Object.entries(MAP.hexes)) if (d.vp || d.port || d.city) control[h] = 'German';
-  for (const [a, ea] of Object.entries(MAP.entryAreas)) if (ea.side !== 'north') control[a] = 'German';
+  const invasion = RULES.invasionGame;
+  const control = invasion ? salernoControl() : startingControl(units);
+  const box = RULES.weather.track.findIndex((b) => b.box === marks.weather);
   const s: GameState = {
-    gameId: GAME_ID, scenarioId, turn: 1, lastTurn: sc.lastTurn, phase: 'invasion', activeSide: 'Allied', weather: 0,
-    supplyPoints: { Allied: STARTING_SP.Allied, German: STARTING_SP.German },
-    support: { ready: ['US-air', 'US-naval', 'BR-air', 'BR-naval'], battleships: 0 },
+    gameId: GAME_ID, scenarioId, turn: sc.firstTurn ?? 1, lastTurn: sc.lastTurn, phase: invasion ? 'invasion' : 'initial',
+    activeSide: invasion ? 'Allied' : 'German', weather: Math.max(0, box),
+    supplyPoints: { ...(marks.supplyPoints ?? STARTING_SP) },
+    support: { ready: invasion ? ['US-air', 'US-naval', 'BR-air', 'BR-naval'] : [], battleships: 0 },
     units, control, cityBattle: {},
-    replacements: { German: emptyRepl(), BR: emptyRepl(), US: emptyRepl() },
+    forts: invasion ? undefined : startingForts(scenarioId),
+    replacements: emptyPools(),
     landingPoints: RULES.landingPoints.perTurn, portUse: {}, trucksUsed: 0,
     pendingDefense: null, pendingAdvance: null, breakthrough: null, autoDsQueue: [], combats: [], log: [], rng: seed >>> 0,
     winner: null, northVp: {}, abandoned8th: false, seq: 0, options: { ...options },
   };
   if (rolls) s.forcedRolls = [...rolls];
+  if (!invasion) {
+    // The set-up cards stand for the turn's Weather Phase: play opens with the German player turn (S1-S3).
+    if (!marks.support?.used) readySupport(s);
+    log(s, `${sc.name} begins on ${RULES.turnNotes[s.turn] ? `turn ${s.turn}` : `turn ${s.turn}`}, in ${weatherBox(s).name.toLowerCase()} weather. The German player moves first.`);
+    enterPhase(s);
+    return s;
+  }
   if (options.optionalStart) {
     // S1.4: the Allies are already ashore (Allied At Start card, back); play opens with the German player turn.
     for (const [id, hex] of Object.entries(OPTIONAL_START.hexes)) s.units[id].where = { kind: 'map', hex };
@@ -116,6 +155,37 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
   if (options.rollLandings) log(s, 'The assault waves are off the beaches: roll the Invasion table for each beach.');
   else runInvasion(s);
   return s;
+}
+
+/** Salerno '43: every port, city, VP hex and south or east entry area starts German. */
+function salernoControl(): Record<string, Side> {
+  const control: Record<string, Side> = {};
+  for (const [h, d] of Object.entries(MAP.hexes)) if (d.vp || d.port || d.city) control[h] = 'German';
+  for (const [a, ea] of Object.entries(MAP.entryAreas)) if (ea.side !== 'north') control[a] = 'German';
+  return control;
+}
+
+/** Italy '43: control is plain from the set-up (16.3.4): each city and VP hex belongs to the side whose units are
+ * nearest (the Germans on a tie). The south-edge entry areas are Allied, the east ones German until the 8th Army
+ * takes them over (5.8.1). */
+function startingControl(units: Record<string, UnitState>): Record<string, Side> {
+  const placed = Object.values(units).filter((u) => u.where.kind === 'map').map((u) => ({ hex: (u.where as { hex: HexId }).hex, side: sideOf(u) }));
+  const control: Record<string, Side> = {};
+  for (const [h, d] of Object.entries(MAP.hexes)) {
+    if (!(d.vp || d.city)) continue;
+    let best = Infinity;
+    let side: Side = 'German';
+    for (const p of placed) {
+      const dist = distance(h, p.hex);
+      if (dist < best || (dist === best && p.side === 'German')) {
+        best = dist;
+        side = p.side;
+      }
+    }
+    control[h] = side;
+  }
+  for (const [a, ea] of Object.entries(MAP.entryAreas)) if (ea.side !== 'north') control[a] = ea.side === 'south' ? 'Allied' : 'German';
+  return control;
 }
 
 /** Sleeping units with an enemy next to them wake at the start of their side's movement phase. */
@@ -295,7 +365,8 @@ function readySupport(s: GameState): void {
   const ready: string[] = [];
   for (const n of ['US', 'BR']) {
     if (wb.air.includes(n)) ready.push(`${n}-air`);
-    if (wb.naval.includes(n)) ready.push(`${n}-naval`);
+    // 'AL': Italy '43's one naval marker, shared by both armies (see spendSupport).
+    if (wb.naval.includes(n) || wb.naval.includes('AL')) ready.push(`${n}-naval`);
   }
   if (wb.air.includes('GE')) {
     const alliedField = s.control['2811'] === 'Allied' &&
@@ -309,7 +380,9 @@ function doWeather(s: GameState): void {
   const roll = rollD6(s);
   const adv = RULES.weather.advanceByRoll[String(roll)] ?? 0;
   const n = RULES.weather.track.length;
+  const wrapped = s.weather + adv >= n;
   s.weather = (s.weather + adv) % n;
+  if (!RULES.invasionGame) freeFlips(s, roll, wrapped);
   const wb = weatherBox(s);
   readySupport(s);
   const ready = s.support.ready;
@@ -323,6 +396,7 @@ function doWeather(s: GameState): void {
   }
   let allied = wb.alliedSupply;
   if (wb.alliedPortBonus && salernoPortOpen(s)) allied += 1;
+  allied += naplesBonus(s);
   s.supplyPoints.Allied = Math.min(RULES.supply.cap, s.supplyPoints.Allied + allied);
   s.supplyPoints.German = Math.min(RULES.supply.cap, s.supplyPoints.German + wb.germanSupply);
   log(s, `Supply: the Allies receive ${plural(allied, 'supply point')} (now ${s.supplyPoints.Allied}), the Germans ${wb.germanSupply} (now ${s.supplyPoints.German}).`, 'supply',
@@ -330,11 +404,34 @@ function doWeather(s: GameState): void {
   if (RULES.turnNotes[s.turn]) log(s, RULES.turnNotes[s.turn]);
 }
 
+/** Italy '43: the port of Naples adds supply points from Turn 14 (+1) and Turn 24 (+2) while the Allies hold it (23.3.2). */
+function naplesBonus(s: GameState): number {
+  let bonus = 0;
+  for (const [t, v] of Object.entries(RULES.naplesSupplyBonus)) if (s.turn >= Number(t)) bonus = v;
+  const naples = Object.entries(MAP.hexes).filter(([, d]) => d.city === 'Naples').map(([h]) => h);
+  return bonus && naples.some((h) => s.control[h] === 'Allied') ? bonus : 0;
+}
+
+/** Italy '43's free artillery reloads: on some weather rolls one Nebelwerfer and the heavy howitzer (23.3.3, 19.4); when
+ * the weather marker goes round from F to A, every division ASU on the map in good order (23.3.4). */
+function freeFlips(s: GameState, roll: number, wrapped: boolean): void {
+  const flipped: string[] = [];
+  const onMap = (u: UnitState) => u.where.kind === 'map' && u.fired && goodOrder(u);
+  if (RULES.weather.freeFlipOnRolls?.includes(roll)) {
+    const nw = Object.values(s.units).find((u) => def(u.id).cat === 'nebelwerfer' && onMap(u));
+    if (nw) flipped.push(nw.id);
+    for (const u of Object.values(s.units)) if (def(u.id).cat === 'heavyHowitzer' && onMap(u)) flipped.push(u.id);
+  }
+  if (wrapped) for (const u of Object.values(s.units)) if (def(u.id).cat === 'divAsu' && onMap(u)) flipped.push(u.id);
+  for (const id of flipped) s.units[id].fired = false;
+  if (flipped.length) log(s, `Free reload: ${nameList(flipped, 6)} ${verb(flipped, 'is', 'are')} ready to fire again.`, 'supply', { detail: flipped.map(unitName).join(', ') });
+}
+
 function doInitial(s: GameState): void {
   const side = s.activeSide;
   const notes: string[] = [];
-  if (side === 'German' && s.turn === WITHDRAWAL.turn) withdraw16Pz(s);
-  if (side === 'Allied' && s.turn === SOUTH_EDGE_ALLIED_TURN) {
+  if (WITHDRAWAL && side === 'German' && s.turn === WITHDRAWAL.turn) withdraw16Pz(s);
+  if (RULES.invasionGame && side === 'Allied' && s.turn === SOUTH_EDGE_ALLIED_TURN) {
     for (const a of ['S1', 'S2', 'S3']) {
       s.control[a] = 'Allied';
       for (const u of Object.values(s.units)) {
@@ -343,49 +440,165 @@ function doInitial(s: GameState): void {
     }
     log(s, `The British 8th Army arrives from the south: the south map edge now belongs to the Allies.${notes.length ? ` ${say(notes)}` : ''}`, 'reinforcement', { important: true });
   }
+  if (side === 'German') eighthArmyAdvance(s);
+  const forfeit = scheduledEvents(s, side);
   const arrivals = new Map<string, string[]>();
   for (const u of Object.values(s.units)) {
     if (sideOf(u) !== side) continue;
     if (u.where.kind === 'pending' && u.where.turn <= s.turn) {
       const at = u.where.at;
+      if (scenarioSetup(s.scenarioId)[u.id]?.arrive?.reduced && u.stepsLost === 0) u.stepsLost = 1; // enters on its reduced side (set-up card)
+      if (!RULES.invasionGame && (at === 'Naples' || at.startsWith('hex:'))) {
+        // Placed straight on the map: in a Naples city hex (21.1.2), or in the hex the card names (267/94 in Formia).
+        const hex = at === 'Naples' ? arrivalHex(s, u, MAP_CITY_HEXES('Naples')) : at.slice(4);
+        u.where = { kind: 'map', hex };
+        const key = at === 'Naples' ? 'Naples' : place(hex);
+        arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
+        continue;
+      }
       // 'hex:3303' is the 2/509th's old code in saved games; it drops anywhere in the 5th Army sector (21.6.1).
       u.where = at === 'reserve' ? { kind: 'reserve' } : { kind: 'entry', area: at === 'hex:3303' ? 'airdrop509' : at };
       const key = at.startsWith('hex') || at.startsWith('airdrop') ? 'airdrop' : at;
-      if (scenarioSetup(s.scenarioId)[u.id]?.arrive?.reduced && u.stepsLost === 0) u.stepsLost = 1; // enters on its reduced side (set-up card)
       arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
     }
     if (u.frozenUntil && s.turn >= u.frozenUntil) {
       u.frozenUntil = undefined;
-      log(s, `${unitName(u.id)} is released and may now move.`, 'info', { hex: u.where.kind === 'map' ? u.where.hex : undefined });
+      const duty = u.garrison ? ` from garrison duty in ${u.garrison}` : '';
+      u.garrison = undefined;
+      log(s, `${unitName(u.id)} is released${duty} and may now move.`, 'info', { hex: u.where.kind === 'map' ? u.where.hex : undefined });
     }
-    if (def(u.id).cat === 'nebelwerfer' && u.fired && u.where.kind === 'map' && goodOrder(u) && supplyChecker(s, side).inSupply(u.where.hex)) {
+    if (def(u.id).cat === 'nebelwerfer' && RULES.invasionGame && u.fired && u.where.kind === 'map' && goodOrder(u) && supplyChecker(s, side).inSupply(u.where.hex)) {
       u.fired = false;
       log(s, `${unitName(u.id)} has reloaded and can fire again.`, 'supply', { hex: u.where.hex });
     }
   }
   // One line per arrival point.
   for (const [at, ids] of arrivals) {
-    const where = at === 'reserve' ? 'join the Floating Reserve offshore, ready to land' : at === 'airdrop' ? 'are ready to drop by parachute' : `arrive at ${areaName(at)}`;
+    const where = at === 'reserve' ? 'join the Floating Reserve offshore, ready to land' : at === 'airdrop' ? 'are ready to drop by parachute'
+      : at === 'Naples' ? 'arrive in Naples' : MAP.entryAreas[at.split('/')[0]] ? `arrive at ${areaName(at)}` : `arrive in ${at}`;
     log(s, `Reinforcements: ${nameList(ids, 6)} ${ids.length === 1 ? where.replace(/^join /, 'joins ').replace(/^are /, 'is ').replace(/^arrive /, 'arrives ') : where}.`,
       'reinforcement', { detail: ids.length > 6 ? ids.map(unitName).join(', ') : undefined });
   }
   // Replacements: used this phase or lost.
-  for (const p of ['German', 'BR', 'US'] as ReplPool[]) s.replacements[p] = emptyRepl();
+  s.replacements = emptyPools();
   const sched = RULES.replacementSchedule[s.turn];
   if (sched) {
-    const pools: ReplPool[] = side === 'German' ? ['German'] : ['BR', 'US'];
-    for (const p of pools) {
-      const add = sched[p];
-      if (!add) continue;
+    for (const p of REPL_POOLS[side]) {
+      const add: Partial<Record<ReplType, number>> = { ...sched[p] };
+      if (!Object.keys(add).length) continue;
+      // A removed unit that is already in the Eliminated Box or the Remnant Display costs a replacement (22.2.2).
+      const lost = forfeit.get(p) ?? 0;
+      if (lost >= 2) {
+        log(s, `${poolName(p)} replacements are forfeited this turn: units due to leave are already out of action (22.2.2).`, 'reinforcement');
+        continue;
+      }
+      if (lost === 1) {
+        const k = (['inf', 'special', 'armor'] as ReplType[]).find((x) => (add[x] ?? 0) > 0)!;
+        add[k] = (add[k] ?? 0) - 1;
+        log(s, `One ${poolName(p)} replacement step is forfeited: a unit due to leave is already out of action (22.2.2).`, 'reinforcement');
+      }
       for (const k of ['inf', 'armor', 'special'] as ReplType[]) s.replacements[p][k] += add[k] ?? 0;
       const kinds: Record<string, string> = { inf: 'infantry', armor: 'armour', special: 'special' };
-      log(s, `${p === 'BR' ? 'British and Commonwealth' : p} replacements arrive: ${Object.entries(add).map(([k, v]) => `${plural(v ?? 0, `${kinds[k] ?? k} step`)}`).join(', ')}. ` +
+      const got = Object.entries(add).filter(([, v]) => (v ?? 0) > 0);
+      if (!got.length) continue;
+      log(s, `${poolName(p)} replacements arrive: ${got.map(([k, v]) => `${plural(v ?? 0, `${kinds[k] ?? k} step`)}`).join(', ')}. ` +
         'They must be used this phase or they are lost.', 'reinforcement');
     }
   }
 }
 
+const POOL_NAMES: Record<ReplPool, string> = { German: 'German', BR: 'British and Commonwealth', US: 'US', FR: 'French', IT: 'Italian' };
+const poolName = (p: ReplPool) => POOL_NAMES[p];
+
+/** The hexes of a city by name (Naples has three). */
+function MAP_CITY_HEXES(name: string): HexId[] {
+  return Object.entries(MAP.hexes).filter(([, d]) => d.city === name).map(([h]) => h);
+}
+
+/** The least crowded of `hexes` that `u` can stack in (stacking limits are kept "if possible", 21.1.2). */
+function arrivalHex(s: GameState, u: UnitState, hexes: HexId[]): HexId {
+  const room = hexes.filter((h) => canStack(s, h, [u.id]));
+  const pool = room.length ? room : hexes;
+  const pts = (h: HexId) => stackPoints(unitsAt(s, h).map((x) => x.id), s);
+  return pool.reduce((a, b) => (pts(b) < pts(a) ? b : a));
+}
+
+/** The set-up cards' scheduled withdrawals, returns, removals and releases for `side` this turn (22.0). Returns, per
+ * replacement pool, how many removed units were already in the Eliminated Box or the Remnant Display (22.2.2). */
+function scheduledEvents(s: GameState, side: Side): Map<ReplPool, number> {
+  const setup = scenarioSetup(s.scenarioId);
+  const forfeit = new Map<ReplPool, number>();
+  const removed: string[] = [];
+  const withdrawn: string[] = [];
+  for (const u of Object.values(s.units)) {
+    if (sideOf(u) !== side) continue;
+    for (const e of setup[u.id]?.events ?? []) {
+      if (e.turn !== s.turn || (e.kind !== 'remove' && e.kind !== 'withdraw')) continue;
+      const out = u.where.kind === 'eliminated' || u.where.kind === 'remnantHeld';
+      if (out) forfeit.set(replPool(u.id), (forfeit.get(replPool(u.id)) ?? 0) + 1);
+      if (u.where.kind === 'removed' || (u.where.kind === 'eliminated' && u.where.permanent)) continue;
+      // A unit worn down to a remnant leaves too; the remnant counter goes back to the display.
+      for (const r of Object.values(s.units)) {
+        if (r.represents === u.id) {
+          r.where = { kind: 'remnantPool' };
+          r.represents = undefined;
+          r.stepsLost = 0;
+          r.status = 'good';
+        }
+      }
+      if (e.kind === 'remove') {
+        u.where = { kind: 'removed', reason: 'withdrawn from the campaign' };
+        removed.push(u.id);
+      } else {
+        const back = returnOf(setup[u.id], e);
+        u.where = back ? { kind: 'pending', turn: back.turn, at: back.at ?? 'N1/N2/N3' } : { kind: 'removed', reason: 'withdrawn' };
+        if (back?.reduced && u.stepsLost === 0) u.stepsLost = 1;
+        if (back?.fired) u.fired = true;
+        withdrawn.push(u.id);
+      }
+      u.status = 'good';
+      u.frozenUntil = undefined;
+      u.garrison = undefined;
+    }
+  }
+  if (removed.length) log(s, `Leaving the front for good: ${nameList(removed, 8)}.`, 'reinforcement', { actor: side, important: true, detail: removed.map(unitName).join(', ') });
+  if (withdrawn.length) log(s, `Withdrawn for now: ${nameList(withdrawn, 8)}; they will return later.`, 'reinforcement', { actor: side, detail: withdrawn.map(unitName).join(', ') });
+  return forfeit;
+}
+
+/** The return that follows a withdrawal on a unit's set-up card. */
+function returnOf(st: UnitSetup | undefined, withdraw: UnitEvent): UnitEvent | undefined {
+  return st?.events?.find((e) => e.kind === 'return' && e.turn > withdraw.turn);
+}
+
+/** The 8th Army's advance (Italy '43, 5.8.1): on its turn each zone section becomes Allied; German units still in it move
+ * to the next section north and are Disrupted. */
+function eighthArmyAdvance(s: GameState): void {
+  const order = ['E1', 'E2', 'E3', 'N4'];
+  for (const [section, turn] of Object.entries(RULES.eighthArmyZone)) {
+    if (turn !== s.turn) continue;
+    if (MAP.entryAreas[section]) s.control[section] = 'Allied';
+    const next = order[order.indexOf(section) + 1] ?? 'N4';
+    const targets = Object.entries(MAP.hexes).filter(([, d]) => d.zone8 === next).map(([h]) => h);
+    const moved: string[] = [];
+    for (const u of Object.values(s.units)) {
+      if (u.where.kind !== 'map' || sideOf(u) !== 'German' || MAP.hexes[u.where.hex]?.zone8 !== section) continue;
+      const from = u.where.hex;
+      const room = targets.filter((h) => canStack(s, h, [u.id]) && !unitsAt(s, h).some((x) => sideOf(x) === 'Allied'));
+      if (!room.length) continue;
+      const to = room.reduce((a, b) => (distance(from, b) < distance(from, a) ? b : a));
+      u.where = { kind: 'map', hex: to };
+      u.status = 'disrupted';
+      moved.push(u.id);
+    }
+    log(s, `The British 8th Army advances: section ${section} of its zone now belongs to the Allies.` +
+      (moved.length ? ` ${nameList(moved)} ${verb(moved, 'falls', 'fall')} back to section ${next}, disrupted.` : ''), 'reinforcement', { important: true });
+  }
+}
+
 function withdraw16Pz(s: GameState): void {
+  if (!WITHDRAWAL) return;
+  const w = WITHDRAWAL;
   const notes: string[] = [];
   const sc = supplyChecker(s, 'German');
   let total = 0;
@@ -398,11 +611,11 @@ function withdraw16Pz(s: GameState): void {
   const pick = (pref: boolean) =>
     Object.values(s.units)
       .filter((u) => u.where.kind === 'map' && sideOf(u) === 'German' && !def(u.id).asu && sc.inSupply(u.where.hex) &&
-        (def(u.id).formation === WITHDRAWAL.prefer) === pref)
+        (def(u.id).formation === w.prefer) === pref)
       .sort((a, b) => values(b).defense - values(a).defense);
   for (const group of [pick(true), pick(false)]) {
     for (const u of group) {
-      if (total >= WITHDRAWAL.defense) break;
+      if (total >= w.defense) break;
       total += values(u).defense;
       u.where = { kind: 'removed', reason: '16th Panzer Division withdrawn' };
       notes.push(u.id);
@@ -426,7 +639,7 @@ function doRecovery(s: GameState): void {
     let recover = !inZoc;
     if (inZoc) {
       const hex = (u.where as { hex: HexId }).hex;
-      const drm = (MAP.hexes[hex].city || unitsAt(s, hex).some((x) => def(x.id).cat === 'bh') ? RULES.rally.cityDrm : 0) +
+      const drm = (MAP.hexes[hex].city || fortLevel(s, hex) || unitsAt(s, hex).some((x) => def(x.id).cat === 'bh') ? RULES.rally.cityDrm : 0) +
         (isElite(u) ? RULES.rally.eliteDrm : 0) + (isLowQuality(u) ? RULES.rally.lowQualityDrm : 0);
       const r = rollD6(s);
       recover = RULES.rally.success.includes(Math.max(1, Math.min(6, r + drm)));
@@ -559,12 +772,12 @@ export function vpBreakdown(s: GameState, final = false): { total: number; parts
     if (allied && sc.inSupply(h)) {
       vp += d.vp;
       parts.push(`${hexName(h) ?? h} +${d.vp}`);
-    } else if (final && s.scenarioId === 'campaign' && !allied && !supplyChecker(s, 'German').hasLoc(h)) {
+    } else if (RULES.invasionGame && final && s.scenarioId === 'campaign' && !allied && !supplyChecker(s, 'German').hasLoc(h)) {
       vp += d.vp;
       parts.push(`${hexName(h) ?? h} (isolated) +${d.vp}`);
     }
   }
-  for (const area of ['N1', 'N2']) {
+  for (const area of RULES.invasionGame ? ['N1', 'N2'] : []) {
     if (s.northVp[area]) {
       vp += MAP.entryAreas[area].vp ?? 0;
       parts.push(`${area} +${MAP.entryAreas[area].vp}`);
@@ -581,7 +794,7 @@ export function vpBreakdown(s: GameState, final = false): { total: number; parts
       vp += d.side === 'German' ? 1 : -1;
       parts.push(`${unitName(u.id)} lost ${d.side === 'German' ? '+1' : '-1'}`);
     }
-    if (d.cat === 'bh' && !(final && s.scenarioId === 'campaign')) {
+    if (d.cat === 'bh' && !(final && s.scenarioId === 'campaign') && RULES.invasionGame) {
       vp -= 1;
       parts.push(`${unitName(u.id)} lost -1`);
     }
@@ -615,7 +828,7 @@ function doVictoryCheck(s: GameState): void {
 
 function endGame(s: GameState): void {
   const { total } = vpBreakdown(s, true);
-  const need = s.scenarioId === 'short' ? 8 : 20;
+  const need = RULES.scenarioWin[s.scenarioId] ?? 20;
   s.winner = total >= need ? 'Allied' : 'German';
   s.victoryNote = `The Allies end the battle with ${plural(total, 'victory point')}; they needed ${need}.`;
   s.phase = 'gameOver';
@@ -623,6 +836,7 @@ function endGame(s: GameState): void {
 }
 
 function updateNorthVp(s: GameState): void {
+  if (!RULES.invasionGame) return;
   const sc = supplyChecker(s, 'Allied');
   for (const area of ['N1', 'N2']) {
     if (s.northVp[area]) continue;
@@ -758,10 +972,24 @@ export function navalDestinations(s: GameState, unitId: string): { to: HexId | '
   return out;
 }
 
+/** Italy '43 S3.3: once any Allied unit crosses the Volturno, the 15th PG units on coastal duty are all released. */
+function volturnoCrossed(s: GameState, u: UnitState, path: HexId[]): void {
+  if (sideOf(u) !== 'Allied') return;
+  const crossed = path.some((h, i) => i > 0 && MAP.hexsides[sideKey(path[i - 1], h)]?.riverName?.includes('Volturno'));
+  if (!crossed) return;
+  const freed = Object.values(s.units).filter((g) => g.frozenUntil && !g.garrison && sideOf(g) === 'German' && g.where.kind === 'map');
+  for (const g of freed) g.frozenUntil = undefined;
+  if (freed.length) log(s, `The Allies are across the Volturno: ${nameList(freed.map((g) => g.id), 6)} ${verb(freed.map((g) => g.id), 'is', 'are')} released from coastal duty.`, 'info', { important: true });
+}
+
 function moveAlong(s: GameState, u: UnitState, path: HexId[]): void {
+  volturnoCrossed(s, u, path);
   const from = u.where.kind === 'map' ? [u.where.hex] : [];
   recordTrail(s, u.id, [...from.filter((h) => h !== path[0]), ...path]);
-  for (const h of path) claimHex(s, h, sideOf(u));
+  for (const h of path) {
+    claimHex(s, h, sideOf(u));
+    if (razeFort(s, h, sideOf(u))) log(s, `Allied troops tear down the German fortification at ${place(h)}.`, 'info', { actor: 'Allied', hex: h });
+  }
   u.where = { kind: 'map', hex: path[path.length - 1] };
 }
 
@@ -771,10 +999,11 @@ function afterMoveChecks(s: GameState, u: UnitState): void {
   const notes: string[] = [];
   triggerFullRetreats(s, hex, sideOf(u), notes);
   if (notes.length) log(s, say(notes), 'retreat', { actor: other(sideOf(u)), hex });
-  // The Torre Annunziata garrison is released when Allied units come within 3 hexes.
+  // Frozen units are released when Allied units come within 3 hexes (the Torre Annunziata garrison; the 15th PG on
+  // coastal duty), but not units on garrison duty.
   if (sideOf(u) === 'Allied') {
     for (const g of Object.values(s.units)) {
-      if (g.frozenUntil && g.where.kind === 'map' && distance(g.where.hex, hex) <= 3) {
+      if (g.frozenUntil && !g.garrison && g.where.kind === 'map' && sideOf(g) === 'German' && distance(g.where.hex, hex) <= 3) {
         g.frozenUntil = undefined;
         log(s, `${unitName(g.id)} is released and may move: Allied troops have come within 3 hexes.`, 'info', { hex: g.where.hex });
       }
@@ -869,6 +1098,21 @@ export function applyAction(s: GameState, a: Action): void {
       need(landingsLeft(s).includes(a.beach), `No assault units are waiting off ${a.beach} beach.`);
       landBeach(s, a.beach);
       if (!landingsLeft(s).length) finishLandings(s);
+      return;
+    }
+    case 'buildFort': {
+      need(fortOptions(s).some((o) => o.hex === a.hex && o.op === a.op), 'That fortification work is not allowed now.');
+      s.fortBuiltTurn = s.turn;
+      const what = { start: 'start a fortification', complete: 'complete the fortification', upgrade: 'start a Level 2 fortification', completeUpgrade: 'complete the Level 2 fortification' }[a.op];
+      if (buildNeedsRoll(s, a.hex)) {
+        const r = rollD6(s);
+        if (r <= 2) {
+          log(s, `The engineers try to ${what} at ${place(a.hex)} under enemy fire, but fail (roll ${r}; 3-6 needed).`, 'info', { actor: 'German', hex: a.hex });
+          return;
+        }
+      }
+      applyFortStep(s, a.hex, a.op);
+      log(s, `German engineers ${what.replace(/^start/, 'start').replace(/^complete/, 'complete')} at ${place(a.hex)}.`, 'info', { actor: 'German', hex: a.hex });
       return;
     }
     case 'endPhase':
