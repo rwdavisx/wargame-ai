@@ -9,7 +9,7 @@ import { CanvasImage } from './render/CanvasImage';
 import { gameInfo, playable, selectGame } from '../games';
 import type { TerrainImage } from './render/terrain';
 import { Insignia } from './render/units';
-import { DifficultyCards, ScenarioCards, SideBadge, StartAndRules } from './screens';
+import { DifficultyCards, defaultScenario, ScenarioCards, SideBadge, StartAndRules } from './screens';
 import { Badge, Banner, Button, Card, Heading, HStack, Text, TextInput, VStack } from '@astryxdesign/core';
 import { ChoiceCard, SectionLabel, useConfirm } from './astryx/kit';
 import { sfx } from './sound';
@@ -288,7 +288,7 @@ function HostForm({ aiLevel, callsignField, ready, onBack, onCreate, busy }: {
 }) {
   const [mode, setMode] = useState<NetMode>('versus');
   const [side, setSide] = useState<Side>('Allied');
-  const [scenario, setScenario] = useState('short');
+  const [scenario, setScenario] = useState(defaultScenario());
   const [options, setOptions] = useState<GameOptions>({ disengagement: true, rollLandings: true });
   const [level, setLevel] = useState<Difficulty>(aiLevel);
   return (

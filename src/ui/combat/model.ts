@@ -1,7 +1,7 @@
 // Plain-language helpers for the battle screen: what each CRT result means,
 // the six outcomes of a column, and the odds of a Determined Defense.
 import { BATTLESHIPS_TURN, MAP, RULES } from '../../engine/data';
-import { columnLabel, parseCell } from '../../engine/combat';
+import { battleCapacity, columnLabel, ddColumnOf, ddRow, parseCell } from '../../engine/combat';
 import type { HexId } from '../../engine/hex';
 import { planRetreat } from '../../engine/retreat';
 import type { CombatReport, GameState, PendingDefense, Side, UnitState } from '../../engine/types';
@@ -102,7 +102,10 @@ export interface DdOutcome {
 }
 
 export interface DdFace extends DdOutcome {
+  /** The die face, or the two dice's total in Italy '43. */
   face: number;
+  /** Chances of this face: 1 of 6 for one die, 1-6 of 36 for a total of two. */
+  weight: number;
   eff: number;
   /** The table offers hold or delay; `prefer` picked one. */
   choice: boolean;
@@ -111,7 +114,8 @@ export interface DdFace extends DdOutcome {
 export const DD_KIND_LABEL: Record<DdKind, string> = { hold: 'Hold', holdLoss: 'Hold, at a cost', partial: 'Partial hold', delay: 'Delay', fail: 'Stand fails' };
 
 /** Column of the Determined Defense table for the defender's hex. */
-export function ddColumn(hex: HexId): 'Clear' | 'Other' | 'City' {
+export function ddColumn(hex: HexId, g?: GameState): 'Clear' | 'Other' | 'City' {
+  if (g) return ddColumnOf(g, hex);
   const d = MAP.hexes[hex];
   if (d.city) return 'City';
   if (d.terrain === 'clear' && !d.town) return 'Clear';
@@ -122,8 +126,9 @@ export function ddColumn(hex: HexId): 'Clear' | 'Other' | 'City' {
 export function explainDd(pick: string, o: { retreat: number; delay: number; desperate: boolean; cityBattle: boolean; mine: boolean; first?: boolean }): DdOutcome {
   const [losses, letter] = pick.split(' ');
   const [att, dfn] = losses.split('/');
-  let out = letter ?? '';
+  let out = letter === 'F' ? '' : letter ?? '';
   if (out === 'P' && o.cityBattle) out = 'D';
+  const italy = !RULES.invasionGame;
   const you = o.mine ? 'you' : 'they';
   const extra: string[] = [];
   if (dfn === '1') extra.push('the lead unit loses a step');
@@ -134,7 +139,8 @@ export function explainDd(pick: string, o: { retreat: number; delay: number; des
     return { kind: 'fail', title: out === 'D' ? 'Delay counts as a failure' : 'Stand fails', detail: `the lead unit loses a step and ${you} roll again (Desperate Defense).` };
   }
   if (out === 'H') return { kind: extra.length ? 'holdLoss' : 'hold', title: 'Hold', detail: `The hex is held, with no retreat${tail}.` };
-  if (out === 'P') return { kind: 'partial', title: 'Partial hold', detail: `The hex is held and a City Battle marker is placed${tail}.` };
+  if (out === 'P') return { kind: 'partial', title: 'Partial hold', detail: `The hex is held and a${italy ? '' : ' City'} Battle marker is placed${tail}.` };
+  if (out === 'D' && italy) return { kind: 'delay', title: 'Forced out', detail: `One Partial too many here: fall back 2 hexes and become disrupted; the attacker may only enter the vacated hex${tail}.` };
   if (out === 'D') return { kind: 'delay', title: 'Delay', detail: `Fall back ${o.delay} hex${o.delay > 1 ? 'es' : ''} and become disrupted; the attacker may only enter the vacated hex${tail}.` };
   return { kind: 'fail', title: 'Stand fails', detail: `Retreat ${o.retreat} hexes anyway and become disrupted${tail}.` };
 }
@@ -154,8 +160,9 @@ export interface DdForecast {
   mods: { label: string; value: number }[];
   drm: number;
   faces: DdFace[];
-  /** Chance (out of 6) of holding, delaying and failing on the first roll. */
+  /** Chances of holding, delaying and failing on the first roll, out of `outOf` (6, or 36 for two dice). */
   odds: { hold: number; delay: number; fail: number };
+  outOf: number;
   /** Units that cannot retreat at all (they would be destroyed). */
   trapped: string[];
 }
@@ -183,12 +190,14 @@ export function ddForecast(g: GameState, pd: PendingDefense, c: { support: strin
   if (lead && isElite(g.units[lead])) mods.push({ label: `Elite lead unit (${def(lead).name})`, value: 1 });
   if (lead && isLowQuality(g.units[lead])) mods.push({ label: `Low-quality lead unit (${def(lead).name})`, value: -1 });
   if (pd.yellow) mods.push({ label: 'Yellow result on the combat table', value: -1 });
-  const drm = Math.min(mods.reduce((a, m) => a + m.value, 0), ships ? 3 : 2);
-  const column = ddColumn(pd.hex);
-  const faces = ddFaces(column, drm, c.prefer, { retreat: pd.retreat, delay: c.delay, desperate: pd.desperate, cityBattle: !!g.cityBattle[pd.hex], mine: true });
-  const count = (k: DdKind[]) => faces.filter((f) => k.includes(f.kind)).length;
+  const drm = Math.min(mods.reduce((a, m) => a + m.value, 0), ships ? 3 : RULES.dd.maxDrm ?? 2);
+  const column = ddColumn(pd.hex, g);
+  // A Partial result here is one too many once the city or fort has taken all the Battle markers it can.
+  const full = (g.cityBattle[pd.hex] ?? 0) >= battleCapacity(g, pd.hex);
+  const faces = ddFaces(column, drm, c.prefer, { retreat: pd.retreat, delay: c.delay, desperate: pd.desperate, cityBattle: full, mine: true });
+  const count = (k: DdKind[]) => faces.filter((f) => k.includes(f.kind)).reduce((a, f) => a + f.weight, 0);
   return {
-    column, lead, mods, drm, faces, trapped,
+    column, lead, mods, drm, faces, trapped, outOf: RULES.dd.dice === 2 ? 36 : 6,
     odds: { hold: count(['hold', 'holdLoss', 'partial']), delay: count(['delay']), fail: count(['fail']) },
   };
 }
@@ -196,11 +205,13 @@ export function ddForecast(g: GameState, pd: PendingDefense, c: { support: strin
 /** The six Determined Defense outcomes for a column and modifier. */
 export function ddFaces(column: string, drm: number, prefer: 'hold' | 'delay', o: { retreat: number; delay: number; desperate: boolean; cityBattle: boolean; mine: boolean }): DdFace[] {
   const delay = Math.max(1, Math.min(3, o.delay));
-  return [1, 2, 3, 4, 5, 6].map((face): DdFace => {
-    const eff = Math.max(1, Math.min(7, face + drm));
-    const opts = RULES.dd.table[column][eff - 1].split('|');
+  const two = RULES.dd.dice === 2;
+  const faces = two ? [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] : [1, 2, 3, 4, 5, 6];
+  return faces.map((face): DdFace => {
+    const eff = face + drm;
+    const opts = RULES.dd.table[column][ddRow(face, drm)].split('|');
     const pick = opts.length > 1 ? opts.find((x) => (prefer === 'delay' ? !x.includes('H') : x.includes('H'))) ?? opts[0] : opts[0];
-    return { face, eff, choice: opts.length > 1, ...explainDd(pick, { ...o, delay }) };
+    return { face, weight: two ? 6 - Math.abs(7 - face) : 1, eff, choice: opts.length > 1, ...explainDd(pick, { ...o, delay }) };
   });
 }
 
@@ -210,12 +221,12 @@ export function ddRolls(rep: CombatReport): { roll: number; drm: number; pick: s
   const dd = rep.dd;
   const out: { roll: number; drm: number; pick: string }[] = [];
   for (const n of rep.notes) {
-    const m = / (?:leads a Determined Defense|rolls again): roll (\d)(?: ([+-]\d))?, /.exec(n);
+    const m = / (?:leads a Determined Defense|rolls again): roll (\d+)(?: ([+-]\d))?, /.exec(n);
     if (!m) continue;
     // Earlier rolls of a Desperate Defense did not end it: read their entry from the table.
     const roll = Number(m[1]);
     const drm = Number(m[2] ?? 0);
-    const opts = (RULES.dd.table[dd.column]?.[Math.max(1, Math.min(7, roll + drm)) - 1] ?? '').split('|');
+    const opts = (RULES.dd.table[dd.column]?.[ddRow(roll, drm)] ?? '').split('|');
     out.push({ roll, drm, pick: opts.find((o) => !o.includes('H')) ?? opts[0] });
   }
   if (out.length) out[out.length - 1].pick = dd.result;

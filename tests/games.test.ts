@@ -13,15 +13,18 @@ import italyRules from '../data/italy43/rules.json';
 afterAll(() => loadGameData('salerno43', SALERNO_DATA));
 
 describe('the game registry', () => {
-  it('lists Salerno as playable and Italy as in preparation', () => {
+  it('lists Salerno and Italy, both playable', () => {
     expect(GAMES.map((g) => g.id)).toEqual(['salerno43', 'italy43']);
     expect(playable('salerno43')).toBe(true);
-    expect(playable('italy43')).toBe(false);
+    expect(playable('italy43')).toBe(true);
     expect(gameInfo('nonsense').id).toBe('salerno43');
   });
 
-  it('falls back to Salerno when a game cannot be played yet', () => {
-    expect(selectGame('italy43')).toBe('salerno43');
+  it('loads the chosen game, and falls back to Salerno for one it does not know', () => {
+    expect(selectGame('italy43')).toBe('italy43');
+    expect(GAME_ID).toBe('italy43');
+    expect(MAP.hexes['3725'].city).toBe('Benevento');
+    expect(selectGame('nonsense')).toBe('salerno43');
     expect(GAME_ID).toBe('salerno43');
   });
 });

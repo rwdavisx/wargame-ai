@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useConfirm } from './astryx/kit';
 import { Button, CheckboxInput, HStack, NumberInput, Selector, Tab, TabList, TextInput, VStack } from '@astryxdesign/core';
 import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
+import { fortOptions, fortsInPlay } from '../engine/forts';
 import { columnLabel, inNavalRange, mafOptions, parseCell, readyAsusFor, type OddsInfo } from '../engine/combat';
 import { applyAction, landingHexes, lpCost, navalDestinations, replPool } from '../engine/game';
 import { neighbors, sideKey, type HexId } from '../engine/hex';
@@ -15,7 +16,7 @@ import { downloadText, type Settings } from './storage';
 import { TokenIcon } from './render/units';
 import { eligibleAttackers, NO_SUPPORT, type SupportPick } from './play';
 import { FullLog, LogList, RichText } from './logView';
-import { attackDetail, oddsText, place, resultHeadline } from '../engine/words';
+import { attackDetail, hexName, oddsText, place, resultHeadline } from '../engine/words';
 
 interface Props {
   game: GameState;
@@ -86,7 +87,7 @@ function UnitRow({ u, selected, onClick, extra }: { u: UnitState; selected?: boo
         {u.repl && <span className="tag yellow"> repl</span>}
         {u.truck && <span className="tag"> truck</span>}
         {d.asu && u.fired && <span className="tag yellow"> fired</span>}
-        {u.frozenUntil ? <span className="tag"> frozen to T{u.frozenUntil}</span> : null}
+        {u.frozenUntil ? <span className="tag"> {u.garrison ? `garrison of ${u.garrison}` : u.frozenUntil >= 99 ? 'frozen' : `frozen to T${u.frozenUntil}`}</span> : null}
       </span>
       <span className="vals">{d.asu ? `range ${d.asuRange}` : `${v.attack}-${v.defense}-${v.move}`}</span>
       {extra}
@@ -187,6 +188,47 @@ function PlayPanel(p: Props) {
   );
 }
 
+/** Italy '43: the German engineers' one step of fortification work this turn (18.1). */
+function FortControls(p: Props) {
+  const g = p.game;
+  const where = (h: HexId) => (hexName(h) ? `${hexName(h)} (${h})` : `hex ${h}`);
+  if (g.fortBuiltTurn === g.turn) {
+    return (
+      <>
+        <h3>Fortifications</h3>
+        <p className="muted">The engineers have done this turn's work.</p>
+      </>
+    );
+  }
+  const opts = fortOptions(g);
+  const started = Object.values(g.forts ?? {}).length;
+  const work = opts.filter((o) => o.op !== 'start');
+  const startHere = p.selectedHex ? opts.find((o) => o.op === 'start' && o.hex === p.selectedHex) : undefined;
+  const suggested = opts.filter((o) => o.op === 'start' && MAP.hexes[o.hex].gustav).slice(0, 6);
+  const label = { complete: 'Complete', completeUpgrade: 'Complete the Level 2 at', upgrade: 'Start a Level 2 at', start: 'Start a fort at' };
+  const build = (hex: HexId, op: (typeof opts)[number]['op']) => p.dispatch({ type: 'buildFort', hex, op });
+  return (
+    <>
+      <h3>Fortifications</h3>
+      <p className="muted">
+        Each turn the engineers may start one fortification or complete one. All eight Level 1 forts must be started before any is completed
+        ({Math.min(started, 8)} of 8 started); Level 2 forts go on or behind the Gustav Line. Work next to the enemy needs a roll of 3 or more.
+      </p>
+      {work.map((o) => (
+        <Button key={`${o.op}${o.hex}`} label={`${label[o.op]} ${where(o.hex)}`} size="sm" onClick={() => build(o.hex, o.op)} />
+      ))}
+      {startHere ? (
+        <Button label={`Start a fort at ${where(startHere.hex)}`} size="sm" variant="primary" onClick={() => build(startHere.hex, 'start')} />
+      ) : opts.some((o) => o.op === 'start') ? (
+        <>
+          <p className="muted">Select a hex on the map to start a fort there, or pick one on the Gustav Line:</p>
+          {suggested.map((o) => <Button key={o.hex} label={`Start at ${where(o.hex)}`} size="sm" onClick={() => build(o.hex, 'start')} />)}
+        </>
+      ) : null}
+    </>
+  );
+}
+
 function InvasionControls(p: Props) {
   return (
     <>
@@ -204,7 +246,7 @@ function InvasionControls(p: Props) {
 function InitialControls(p: Props) {
   const g = p.game;
   const side = g.activeSide;
-  const pools: ReplPool[] = side === 'German' ? ['German'] : ['US', 'BR'];
+  const pools: ReplPool[] = side === 'German' ? ['German'] : RULES.invasionGame ? ['US', 'BR'] : ['US', 'BR', 'FR', 'IT'];
   const own = Object.values(g.units).filter((u) => sideOf(u) === side);
   const candidates = own.filter((u) => def(u.id).repl && !u.repl &&
     ((u.where.kind === 'map' && (u.stepsLost > 0 || !!u.represents)) ||
@@ -245,7 +287,8 @@ function InitialControls(p: Props) {
       ) : (
         <p className="muted">No fired artillery to ready.</p>
       )}
-      {side === 'German' && g.turn >= 16 && !g.abandoned8th && (
+      {side === 'German' && fortsInPlay(g) && <FortControls {...p} />}
+      {side === 'German' && RULES.invasionGame && g.turn >= 16 && !g.abandoned8th && (
         <>
           <h3>8th Army sector</h3>
           {g.abandon8thDeclared ? (

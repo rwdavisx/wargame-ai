@@ -119,6 +119,11 @@ function buildRules(r: any) {
     number,
     Partial<Record<'German' | 'BR' | 'US' | 'FR' | 'IT', Partial<Record<'inf' | 'armor' | 'special', number>>>>
   >,
+  /** Italy '43: the dates each turn covers ("Oct 1-2"); Salerno '43 has a turn a day from 9 September. */
+  turnDates: (r.turns?.dates ?? null) as Record<string, string> | null,
+  /** Which support markers the game has (Salerno '43: US and British air and naval, German air). */
+  supportMarkers: (r.weather.track.some((b: WeatherBox) => b.naval.includes('AL'))
+    ? ['US-air', 'BR-air', 'AL-naval'] : ['US-air', 'BR-air', 'US-naval', 'BR-naval', 'GE-air']) as string[],
   turnNotes: Object.fromEntries(Object.entries(r.turnNotes).map(([k, v]) => [Number(k), v as string])) as Record<number, string>,
   };
 }

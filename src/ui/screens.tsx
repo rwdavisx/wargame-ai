@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { CanvasImage } from './render/CanvasImage';
 import type { TerrainImage } from './render/terrain';
-import { SCENARIOS } from '../engine/data';
+import { GAME_ID, RULES, SCENARIOS } from '../engine/data';
+import { turnWord } from '../engine/words';
 import { DIFFICULTIES } from '../ai/heuristic';
 import type { GameOptions, GameState, Side } from '../engine/types';
 import { Insignia } from './render/units';
@@ -112,7 +113,7 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
   terrain: TerrainImage; settings: Settings; setSettings: (s: Settings) => void;
   onStart: (scenario: string, options: GameOptions) => void; onBack: () => void;
 }) {
-  const [scenario, setScenario] = useState('short');
+  const [scenario, setScenario] = useState(defaultScenario());
   const initialRole: Role = settings.controllers.Allied === 'human' && settings.controllers.German === 'human' ? 'hotseat'
     : settings.controllers.Allied === 'human' ? 'Allied' : settings.controllers.German === 'human' ? 'German' : 'watch';
   const [role, setRole] = useState<Role>(initialRole);
@@ -129,8 +130,8 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
     onStart(scenario, options);
   };
   const roles: { id: Role; title: string; text: string; emblem?: Side }[] = [
-    { id: 'Allied', title: 'Command the Allies', text: 'Fifth Army: land on the beaches, take Salerno and the plain, break out for Naples.', emblem: 'Allied' },
-    { id: 'German', title: 'Command the Germans', text: 'Tenth Army: counterattack the beachhead, then hold the hills and the roads north.', emblem: 'German' },
+    { id: 'Allied', title: 'Command the Allies', text: gameInfo(GAME_ID).roles?.Allied ?? '', emblem: 'Allied' },
+    { id: 'German', title: 'Command the Germans', text: gameInfo(GAME_ID).roles?.German ?? '', emblem: 'German' },
     { id: 'hotseat', title: 'Two players', text: 'Both sides on this screen, taking turns.' },
     { id: 'watch', title: 'Watch the computer', text: 'The computer plays both sides while you watch.' },
   ];
@@ -171,6 +172,17 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
   );
 }
 
+/** The scenario the new-game screens start on: Salerno's short one, or a game's first. */
+export const defaultScenario = () => (SCENARIOS.short ? 'short' : Object.keys(SCENARIOS)[0]);
+
+/** "8 days · Allies need 8 VP", "Turns 13–32 · Allies need 18 VP". */
+function scenarioMeta(k: string): string {
+  const sc = SCENARIOS[k];
+  const first = sc.firstTurn ?? 1;
+  const span = first > 1 ? `${turnWord()}s ${first}–${sc.lastTurn}` : `${sc.lastTurn} ${turnWord().toLowerCase()}s`;
+  return `${span} · Allies need ${RULES.scenarioWin[k] ?? 20} VP`;
+}
+
 export function ScenarioCards({ scenario, setScenario }: { scenario: string; setScenario: (s: string) => void }) {
   return (
     <>
@@ -178,7 +190,7 @@ export function ScenarioCards({ scenario, setScenario }: { scenario: string; set
       <div className="cards">
         {Object.entries(SCENARIOS).map(([k, sc]) => (
           <ChoiceCard key={k} selected={scenario === k} onSelect={() => setScenario(k)} title={sc.name}
-            meta={`${sc.lastTurn} days · Allies need ${k === 'short' ? 8 : 20} VP`} text={sc.description} />
+            meta={scenarioMeta(k)} text={sc.description} />
         ))}
       </div>
     </>
@@ -201,6 +213,17 @@ export function DifficultyCards({ value, onChange }: { value: string; onChange: 
 
 /** The opening (D-Day or the tournament start) and the optional rules. */
 export function StartAndRules({ options, setOptions }: { options: GameOptions; setOptions: (o: GameOptions) => void }) {
+  if (!RULES.invasionGame) {
+    return (
+      <>
+        <SectionLabel>Optional rules</SectionLabel>
+        <VStack gap={2}>
+          <CheckboxInput label="25.4 Disengagement" description="Units next to the enemy may roll to pull back one hex in the combat phase."
+            value={options.disengagement !== false} onChange={(v) => setOptions({ ...options, disengagement: v })} />
+        </VStack>
+      </>
+    );
+  }
   return (
     <>
       <SectionLabel>Start</SectionLabel>
@@ -223,37 +246,8 @@ export function StartAndRules({ options, setOptions }: { options: GameOptions; s
   );
 }
 
-const BRIEF: Record<Side, { title: string; text: string[]; goals: (scenario: string) => string[] }> = {
-  Allied: {
-    title: 'FIFTH ARMY — OPERATION AVALANCHE',
-    text: [
-      'Italy surrendered last night, but the Germans did not. As dawn breaks on 9 September, British X Corps and US VI Corps are coming ashore on the beaches of the Gulf of Salerno, with Rangers and Commandos landing on the Sorrento peninsula to seize the passes to Naples.',
-      'The 16th Panzer Division holds the hills above the beaches and more German divisions are already on the roads from the north and from Calabria. Get the corps ashore, join them up, take Salerno, Battipaglia and the Montecorvino airfield, and keep the beachheads open until the Eighth Army arrives from the south.',
-    ],
-    goals: (sc) => [
-      sc === 'short' ? 'Hold at least 8 VP at the end of day 8.' : 'Hold at least 20 VP at the end of day 22.',
-      'From day 4 keep pace with the daily benchmark: 5 VP above it (or 20 VP) wins at once, 5 below loses.',
-      'VP hexes count only while they are in supply. Each beachhead, airborne regiment or artillery unit lost costs 1 VP.',
-      'Break out to the north edge with strong forces for 5 (N1) and 4 (N2) VP.',
-    ],
-  },
-  German: {
-    title: 'TENTH ARMY — XIV PANZER CORPS',
-    text: [
-      'The Anglo-Americans are landing in the Gulf of Salerno. The 16th Panzer Division is spread thin along the coast; the Hermann Göring and 15th Panzergrenadier Divisions are coming down from Naples, and 26th Panzer and 29th Panzergrenadier are racing up from Calabria ahead of the British Eighth Army.',
-      'Strike the beachheads before the enemy is fully ashore and drive him back into the sea. If that fails, hold the ring of hills and the roads to Naples for as long as you can.',
-    ],
-    goals: (sc) => [
-      sc === 'short' ? 'Keep the Allies below 8 VP at the end of day 8.' : 'Keep the Allies below 20 VP at the end of day 22.',
-      'From day 4, if the Allies fall 5 VP below the daily benchmark you win at once.',
-      'Every beachhead you destroy costs the Allies a VP and closes a supply source.',
-      ...(sc === 'campaign' ? ['From day 16 you may abandon the Eighth Army sector to shorten your line.'] : []),
-    ],
-  },
-};
-
 export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: TerrainImage; game: GameState; side: Side | null; onBegin: () => void }) {
-  const b = BRIEF[side ?? 'Allied'];
+  const b = gameInfo(GAME_ID).brief![side ?? 'Allied'];
   return (
     <div className="screen briefing">
       <Backdrop terrain={terrain} />

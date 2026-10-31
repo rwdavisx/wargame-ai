@@ -1,6 +1,6 @@
 // Plain-English wording for the log: place names, unit lists and combat results.
 // Text only; nothing here touches the rules.
-import { MAP, onGameData } from './data';
+import { MAP, onGameData, RULES } from './data';
 import { distance, type HexId } from './hex';
 import type { CombatReport, Phase, Side } from './types';
 import { def } from './units';
@@ -45,6 +45,26 @@ export function placeShort(hex: HexId): string {
 }
 
 /** Entry areas, map edges and off-map boxes. */
+const MONTHS: Record<string, string> = { Sep: 'September', Oct: 'October', Nov: 'November', Dec: 'December' };
+
+/** "Day" in Salerno '43 (a turn a day), "Turn" in Italy '43 (two to four days a turn). */
+export const turnWord = (): string => (RULES.turnDates ? 'Turn' : 'Day');
+
+/** "Day 3", "Turn 13". */
+export const turnLabel = (turn: number): string => `${turnWord()} ${turn}`;
+
+/** The date a turn covers: "11 September 1943", "1–2 October 1943". */
+export function turnDate(turn: number): string {
+  const d = RULES.turnDates?.[String(turn)];
+  if (!d) return `${8 + turn} September 1943`;
+  const m = /^(\w+)\s+(\d+)(?:-(\d+))?$/.exec(d.trim());
+  if (!m) return `${d} 1943`;
+  return `${m[2]}${m[3] ? `–${m[3]}` : ''} ${MONTHS[m[1]] ?? m[1]} 1943`;
+}
+
+/** The first turn with a VP benchmark. */
+export const firstBenchmarkTurn = (): number => Math.min(...Object.keys(RULES.benchmarks).map(Number));
+
 export function areaName(a: string): string {
   if (a === 'N') return 'the north map edge';
   if (a === 'S') return 'the south map edge';
@@ -95,8 +115,8 @@ export const PHASE_LABEL: Record<Phase, string> = {
 /** "Day 3 · German movement", used as the log's phase headers. */
 export function phaseTitle(turn: number, side: Side | null, phase: Phase): string {
   const label = PHASE_LABEL[phase] ?? phase;
-  if (!side || phase === 'weather' || phase === 'victory' || phase === 'gameOver') return `Day ${turn} · ${label}`;
-  return `Day ${turn} · ${side} ${label.charAt(0).toLowerCase()}${label.slice(1)}`;
+  if (!side || phase === 'weather' || phase === 'victory' || phase === 'gameOver') return `${turnLabel(turn)} · ${label}`;
+  return `${turnLabel(turn)} · ${side} ${label.charAt(0).toLowerCase()}${label.slice(1)}`;
 }
 
 /** "7-1" → "7 to 1". */

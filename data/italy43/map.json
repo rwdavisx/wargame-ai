@@ -6033,6 +6033,23 @@
  "meta": {
   "evenColumnsDown": true,
   "grid": "flat-top hexes in vertical columns; even columns are offset half a hex down; id = CCRR",
+  "seaLabels": [
+   [
+    "1108",
+    "GULF OF GAETA",
+    24
+   ],
+   [
+    "0712",
+    "TYRRHENIAN SEA",
+    20
+   ],
+   [
+    "1826",
+    "GULF OF NAPLES",
+    15
+   ]
+  ],
   "source": "Transcribed from photos of the owner’s physical map (tools/italy-map); verify against your copy.",
   "title": "Italy ’43 map data"
  },

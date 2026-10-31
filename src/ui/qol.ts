@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MAP, RULES } from '../engine/data';
 import { supplyChecker } from '../engine/supply';
-import { hexName, nearName } from '../engine/words';
+import { hexName, nearName, turnLabel } from '../engine/words';
 import { threatMap } from '../ai/reach';
 import { columnLabel, computeOdds, validateAttackers } from '../engine/combat';
 import type { HexId } from '../engine/hex';
@@ -114,7 +114,7 @@ export function unitFlags(s: GameState, u: UnitState): string[] {
   if (u.truck) f.push('on trucks');
   if (def(u.id).asu) f.push(u.fired ? 'fired' : 'ready to fire');
   if (u.attacked && sideOf(u) === s.activeSide && s.phase === 'combat') f.push('has attacked');
-  if (u.frozenUntil && s.turn < u.frozenUntil) f.push(`frozen until day ${u.frozenUntil}`);
+  if (u.frozenUntil && s.turn < u.frozenUntil) f.push(u.garrison ? `on garrison duty in ${u.garrison}` : u.frozenUntil >= 99 ? 'frozen until the enemy comes close' : `frozen until ${turnLabel(u.frozenUntil).toLowerCase()}`);
   const left = moveLeft(s, u);
   if (left) f.push(`${left} left`);
   return f;

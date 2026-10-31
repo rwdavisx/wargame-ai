@@ -1,8 +1,11 @@
 // The games this system plays. Each provides its map, tables and counters; choosing one on the home screen loads
 // its data into the engine (src/engine/data.ts) before any game of it is started or resumed.
 import { GAME_ID, loadGameData } from '../engine/data';
+import { ITALY_DATA } from './italy43/data';
 import { SALERNO_DATA } from './salerno43/data';
-import type { GameData } from './types';
+import { ITALY_BRIEF, ITALY_ROLES } from './italy43/brief';
+import { SALERNO_BRIEF, SALERNO_ROLES } from './salerno43/brief';
+import type { Briefing, GameData } from './types';
 
 export interface GameInfo {
   id: string;
@@ -20,6 +23,9 @@ export interface GameInfo {
   /** For a game in preparation: what is in and what is still needed. */
   progress?: { done: string[]; todo: string[] };
   data?: GameData;
+  /** The role cards' lines and the briefing before play. */
+  roles?: { Allied: string; German: string };
+  brief?: Briefing;
 }
 
 export const GAMES: GameInfo[] = [
@@ -32,6 +38,8 @@ export const GAMES: GameInfo[] = [
     blurb: 'The Allied landings in the Gulf of Salerno and the German counterattacks on the beachhead.',
     status: 'ready',
     data: SALERNO_DATA,
+    roles: SALERNO_ROLES,
+    brief: SALERNO_BRIEF,
   },
   {
     id: 'italy43',
@@ -40,19 +48,10 @@ export const GAMES: GameInfo[] = [
     kicker: "FIFTH ARMY'S ADVANCE TO THE GUSTAV LINE",
     dates: '1 OCTOBER – 31 DECEMBER 1943',
     blurb: 'From Naples across the Volturno to the Bernhard Line and the approaches to Cassino.',
-    status: 'preparing',
-    progress: {
-      done: [
-        'Rulebook read and compared with Salerno ’43',
-        'Combat, Determined Defense, isolation, rally and disengagement tables',
-        'Terrain effects',
-        'Weather track, replacements and victory benchmarks for all 32 turns',
-        'All 140 counters and their set-ups from the four set-up cards, for each of the three scenarios',
-        'Both sides of every counter, checked against photos: reduced sides, quality, remnants',
-        'The map, hex by hex: 652 land hexes, rivers, mountains, roads, the Gustav and Bernhard Lines',
-      ],
-      todo: ['The Italy ’43 rules that differ from Salerno ’43'],
-    },
+    status: 'ready',
+    data: ITALY_DATA,
+    roles: ITALY_ROLES,
+    brief: ITALY_BRIEF,
   },
 ];
 

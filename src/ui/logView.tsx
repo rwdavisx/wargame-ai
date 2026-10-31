@@ -4,9 +4,9 @@ import { Fragment, useEffect, useLayoutEffect, useRef, useState, type ReactNode 
 import { ToggleButton } from '@astryxdesign/core';
 import type { HexId } from '../engine/hex';
 import type { LogEntry, LogKind, Side } from '../engine/types';
-import { PHASE_LABEL, placeShort } from '../engine/words';
+import { PHASE_LABEL, placeShort, turnDate, turnLabel } from '../engine/words';
 
-const dateOf = (turn: number) => `${8 + turn} September`;
+const dateOf = (turn: number) => turnDate(turn).replace(/ 1943$/, '');
 
 /** Moves the camera to a hex. */
 export type FocusFn = (h: HexId) => void;
@@ -189,13 +189,13 @@ export function LogList({ entries, onFocus, compact }: { entries: LogEntry[]; on
           <Fragment key={`${g.key}|${gi}`}>
             {newDay && !compact && (
               <div className="log-day">
-                <span>Day {g.turn}</span>
+                <span>{turnLabel(g.turn)}</span>
                 <i>{dateOf(g.turn)}</i>
               </div>
             )}
             <div className={`log-group ${sideClass(g.side)}`}>
               <div className="log-ghead">
-                {compact && <b>Day {g.turn} · </b>}
+                {compact && <b>{turnLabel(g.turn)} · </b>}
                 {groupTitle(g)}
               </div>
               <GroupBody items={g.items} onFocus={onFocus} compact={compact} />

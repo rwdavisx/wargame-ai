@@ -191,6 +191,7 @@ def main():
         'grid': 'flat-top hexes in vertical columns; even columns are offset half a hex down; id = CCRR',
         'evenColumnsDown': True,
         'source': 'Transcribed from photos of the owner’s physical map (tools/italy-map); verify against your copy.',
+        'seaLabels': [['1108', 'GULF OF GAETA', 24], ['0712', 'TYRRHENIAN SEA', 20], ['1826', 'GULF OF NAPLES', 15]],
     }
     data = {'meta': meta, 'hexes': hexes, 'hexsides': hexsides, 'entryAreas': entry, 'offmapLinks': [], 'beaches': {}}
     OUT.write_text(json.dumps(data, indent=1, ensure_ascii=False, sort_keys=True) + '\n')

@@ -10,3 +10,8 @@ export interface GameData {
     noDivision?: string[];
   };
 }
+
+type Side = 'Allied' | 'German';
+
+/** The briefing shown before play: a title, a few paragraphs and the objectives for a scenario. */
+export type Briefing = Record<Side, { title: string; text: string[]; goals: (scenario: string) => string[] }>;

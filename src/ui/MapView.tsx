@@ -94,6 +94,16 @@ interface View {
 
 // ------------------------------------------------------------------ static line work
 
+/** Where the view starts and "back to the front" goes: the middle of the Allied units on the map, or the map's own
+ * starting point (Salerno's beaches) before any are ashore. */
+function homeHex(s: GameState): HexId {
+  const pts = Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === 'Allied').map((u) => center((u.where as { hex: HexId }).hex));
+  if (!pts.length) return MAP.meta?.home ?? Object.keys(MAP.hexes)[0];
+  const x = pts.reduce((a, p) => a + p[0], 0) / pts.length;
+  const y = pts.reduce((a, p) => a + p[1], 0) / pts.length;
+  return pixelToHex(x, y);
+}
+
 const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabels }: { version: number; showGrid: boolean; showLabels: boolean }) {
   void version;
   const data = useMemo(() => {
@@ -105,14 +115,16 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
       })
       .join('');
     const riverSegs: [Pt, Pt][] = [];
+    const bigRiverSegs: [Pt, Pt][] = [];
+    const lakeSegs: [Pt, Pt][] = [];
     const majorSegs: [Pt, Pt][] = [];
     const minorSegs: [Pt, Pt][] = [];
     const passes: Pt[] = [];
     for (const [k, s] of Object.entries(MAP.hexsides)) {
       const [a, b] = k.split('-');
-      if (s.river) {
+      if (s.river || s.lake) {
         const e = edge(a, b);
-        if (e) riverSegs.push(e);
+        if (e) (s.lake ? lakeSegs : s.majorRiver ? bigRiverSegs : riverSegs).push(e);
       }
       if (s.road) (s.road === 'major' ? majorSegs : minorSegs).push([center(a), center(b)]);
       if (s.pass) {
@@ -121,6 +133,47 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
       }
     }
     const rivers = chainSegments(riverSegs).map((l, i) => smoothPath(wiggle(l, 3.2, `riv${i}`), 0.8));
+    const bigRivers = chainSegments(bigRiverSegs).map((l, i) => smoothPath(wiggle(l, 2.4, `big${i}`), 0.8));
+    const lakes = chainSegments(lakeSegs).map((l) => smoothPath(l, 0.6));
+    // Italy '43: the Gustav Line (red dashes) and Bernhard Line (black dots) along the front faces of their hexes,
+    // the 8th Army zone's boundary and the borders between its sections.
+    const lineEdges = (flag: 'gustav' | 'bernhard') => {
+      const segs: [Pt, Pt][] = [];
+      for (const [h, d] of hexes) {
+        if (!d[flag]) continue;
+        const [, hy] = center(h);
+        for (const n of neighbors(h)) {
+          const nd = MAP.hexes[n];
+          if (!nd || nd.terrain === 'sea' || nd[flag] || center(n)[1] < hy - 1) continue;
+          const e = edge(h, n);
+          if (!e) continue;
+          // Pull the segment a little into the line hex, as the map prints it.
+          const [cx, cy] = center(h);
+          segs.push(e.map(([x, y]) => [x + (cx - x) * 0.14, y + (cy - y) * 0.14]) as [Pt, Pt]);
+        }
+      }
+      return segs.map(([p, q]) => `M${p[0].toFixed(1)},${p[1].toFixed(1)}L${q[0].toFixed(1)},${q[1].toFixed(1)}`).join('');
+    };
+    const gustav = lineEdges('gustav');
+    const bernhard = lineEdges('bernhard');
+    const zoneEdge: [Pt, Pt][] = [];
+    const sectionEdge: [Pt, Pt][] = [];
+    const sectionHexes = new Map<string, Pt[]>();
+    for (const [h, d] of hexes) {
+      if (!d.zone8) continue;
+      sectionHexes.set(d.zone8, [...(sectionHexes.get(d.zone8) ?? []), center(h)]);
+      for (const n of neighbors(h)) {
+        const nd = MAP.hexes[n];
+        if (!nd || nd.terrain === 'sea') continue;
+        const e = edge(h, n);
+        if (!e) continue;
+        if (!nd.zone8) zoneEdge.push(e);
+        else if (nd.zone8 !== d.zone8 && h < n) sectionEdge.push(e);
+      }
+    }
+    const zonePaths = chainSegments(zoneEdge).map((l) => smoothPath(l, 0.2));
+    const sectionPaths = chainSegments(sectionEdge).map((l) => smoothPath(l, 0.2));
+    const sections = [...sectionHexes].map(([name, pts]) => ({ name, x: pts.reduce((a, p) => a + p[0], 0) / pts.length, y: pts.reduce((a, p) => a + p[1], 0) / pts.length }));
     const majors = chainSegments(majorSegs).map((l) => smoothPath(l, 0.55));
     const minors = chainSegments(minorSegs).map((l) => smoothPath(l, 0.55));
     const boundary: [Pt, Pt][] = [];
@@ -134,9 +187,16 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
       }
     }
     const boundaryPaths = chainSegments(boundary).map((l) => smoothPath(l, 0.3));
-    return { grid, rivers, majors, minors, passes, boundaryPaths };
+    return { grid, rivers, bigRivers, lakes, majors, minors, passes, boundaryPaths, gustav, bernhard, zonePaths, sectionPaths, sections };
   }, []);
-  const places = Object.entries(MAP.hexes).filter(([, d]) => d.city || d.town);
+  // A city of several hexes (Naples) is named once, under its first hex.
+  const named = new Set<string>();
+  const places = Object.entries(MAP.hexes).filter(([, d]) => {
+    const n = d.city ?? d.town;
+    if (!n || (d.city && named.has(n))) return false;
+    named.add(n);
+    return true;
+  });
   const seaLabel = (h: string, text: string, size: number) => {
     if (!MAP.hexes[h]) return null;
     const [x, y] = center(h);
@@ -153,7 +213,20 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
         {data.rivers.map((d, i) => <path key={`rc${i}`} d={d} stroke="#24506e" strokeWidth={4.8} opacity={0.8} />)}
         {data.rivers.map((d, i) => <path key={`rw${i}`} d={d} stroke="#4f9fd0" strokeWidth={3} />)}
         {data.rivers.map((d, i) => <path key={`rh${i}`} d={d} stroke="#a6d6f2" strokeWidth={0.7} opacity={0.8} />)}
+        {data.bigRivers.map((d, i) => <path key={`Rc${i}`} d={d} stroke="#173a55" strokeWidth={8} opacity={0.9} />)}
+        {data.bigRivers.map((d, i) => <path key={`Rw${i}`} d={d} stroke="#4f9fd0" strokeWidth={5.4} />)}
+        {data.bigRivers.map((d, i) => <path key={`Rh${i}`} d={d} stroke="#a6d6f2" strokeWidth={1.2} opacity={0.8} />)}
+        {data.lakes.map((d, i) => <path key={`lk${i}`} d={d} stroke="#3b7fb4" strokeWidth={9} opacity={0.95} />)}
       </g>
+      {data.zonePaths.map((d, i) => <path key={`z${i}`} d={d} fill="none" stroke="#1c1c18" strokeWidth={2.2} strokeDasharray="9 5" opacity={0.75} />)}
+      {data.sectionPaths.map((d, i) => <path key={`zs${i}`} d={d} fill="none" stroke="#f4efe0" strokeWidth={1.6} strokeDasharray="5 4" opacity={0.85} />)}
+      {data.sections.map((z) => (
+        <text key={z.name} x={z.x} y={z.y} className="sea-label" fontSize={13} textAnchor="middle" opacity={0.75}>
+          {`8TH ARMY · ${z.name}`}
+        </text>
+      ))}
+      {data.gustav && <path d={data.gustav} fill="none" stroke="#a3271b" strokeWidth={2.4} strokeDasharray="6 4" strokeLinecap="round" />}
+      {data.bernhard && <path d={data.bernhard} fill="none" stroke="#151510" strokeWidth={2.6} strokeDasharray="0.1 5" strokeLinecap="round" />}
       <g fill="none" strokeLinecap="round" strokeLinejoin="round">
         {data.minors.map((d, i) => <path key={`mc${i}`} d={d} stroke="rgba(52,40,24,0.65)" strokeWidth={2.6} />)}
         {data.minors.map((d, i) => <path key={`mf${i}`} d={d} stroke="#d4bb8a" strokeWidth={1.3} />)}
@@ -170,9 +243,7 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
           <path d="M-2.4,-2.6 Q-0.6,0 -2.4,2.6 M2.4,-2.6 Q0.6,0 2.4,2.6" stroke="#f1e6c8" strokeWidth={1} fill="none" />
         </g>
       ))}
-      {seaLabel('1913', 'GULF OF SALERNO', 26)}
-      {seaLabel('1701', 'BAY OF NAPLES', 15)}
-      {seaLabel('1722', 'TYRRHENIAN SEA', 18)}
+      {(MAP.meta?.seaLabels ?? []).map(([h, text, size]) => <g key={text}>{seaLabel(h, text, size)}</g>)}
       {showLabels &&
         places.map(([h, d]) => {
           const [x, y] = center(h);
@@ -240,6 +311,26 @@ function Markers({ state }: { state: GameState }) {
                 </g>
               </g>
             ) : null}
+          </g>
+        );
+      })}
+      {Object.entries(state.forts ?? {}).map(([h, f]) => {
+        const [x, y] = center(h);
+        const label = f.building ? '⛏' : `${f.level}L`;
+        return (
+          <g key={`fort${h}`} transform={`translate(${x - 20} ${y - 21})`} pointerEvents="none">
+            <polygon points="0,-6 5.2,-3 5.2,3 0,6 -5.2,3 -5.2,-3" fill={f.building ? 'rgba(90,90,96,0.82)' : '#5b5f66'} stroke="#e8e4d6" strokeWidth={0.8} />
+            {f.upgrading && <polygon points="0,-6 5.2,-3 5.2,3 0,6 -5.2,3 -5.2,-3" fill="none" stroke="#f3cf4a" strokeWidth={1.2} />}
+            <text y={2.4} fontSize={f.building ? 6 : 5.6} fontWeight={800} textAnchor="middle" fill="#f4efe0">{label}</text>
+          </g>
+        );
+      })}
+      {Object.entries(state.cityBattle).map(([h, n]) => {
+        const [x, y] = center(h);
+        return (
+          <g key={`battle${h}`} transform={`translate(${x + 20} ${y - 21})`} pointerEvents="none">
+            <rect x={-7} y={-5} width={14} height={10} rx={1.5} fill="#151515" stroke="#e8e4d6" strokeWidth={0.6} />
+            <text y={2.4} fontSize={5.4} fontWeight={800} textAnchor="middle" fill="#f4efe0">{`B${n}`}</text>
           </g>
         );
       })}
@@ -468,7 +559,7 @@ export function MapView(props: MapViewProps) {
   // The map bar starts open where there is room for it (beside the minimap), closed on phones.
   const [barOpen, setBarOpen] = useState(() => typeof window === 'undefined' || !window.matchMedia('(max-width: 820px), (max-height: 520px)').matches);
   const [vb, setVb] = useState<View>(() => {
-    const [cx, cy] = center('2711');
+    const [cx, cy] = center(homeHex(state));
     // Phones start closer in so the counters are big enough to tap.
     const w = typeof window !== 'undefined' && window.innerWidth < 820 ? 440 : 1040;
     return { x: cx - w / 2, y: cy - (w * 0.63) / 2, w, h: w * 0.63 };
@@ -1052,7 +1143,7 @@ export function MapView(props: MapViewProps) {
         <Button label="Zoom in (+)" tooltip="Zoom in (+)" isIconOnly icon={<span aria-hidden>＋</span>} onClick={() => zoomBy(1 / 1.3)} />
         <Button label="Zoom out (−)" tooltip="Zoom out (−)" isIconOnly icon={<span aria-hidden>－</span>} onClick={() => zoomBy(1.3)} />
         <Button label="Whole map" tooltip="Whole map" isIconOnly icon={<span aria-hidden>⤢</span>} onClick={() => flyTo({ x: b.x, y: b.y, w: b.w, h: (b.w * vb.h) / vb.w })} />
-        <Button label="Back to the beaches" tooltip="Back to the beaches" isIconOnly icon={<span aria-hidden>⌖</span>} onClick={() => { const [x, y] = center('2711'); centerOn(x + 120, y, 500); }} />
+        <Button label="Back to the beaches" tooltip="Back to the beaches" isIconOnly icon={<span aria-hidden>⌖</span>} onClick={() => { const [x, y] = center(homeHex(state)); centerOn(x + 120, y, 500); }} />
         {qol && <ModeTools qol={qol} barOpen={barOpen} setBarOpen={setBarOpen} />}
       </div>
       {props.hoverText && hoverScreen && !dragging && (

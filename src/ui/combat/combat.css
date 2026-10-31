@@ -170,6 +170,12 @@
   transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
 }
 .dd-seg b { font: 700 11.5px/1.1 var(--hud); letter-spacing: 0.3px; }
+/* Two-dice tables (Italy '43): the total in place of the pips, and narrower labels for eleven segments. */
+.dd-total { font: 800 15px/1 var(--hud); }
+.dd-bar:has(.dd-total) { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+.dd-bar:has(.dd-total) .dd-seg { min-width: 0; padding-inline: 2px; }
+@media (max-width: 560px) { .dd-bar:has(.dd-total) .dd-seg b, .dd-bar:has(.dd-total) .dd-seg i { display: none; } }
+.dd-bar:has(.dd-total) .dd-seg b { font-size: 9.5px; overflow-wrap: anywhere; }
 .dd-seg i { font: 600 9.5px var(--hud); font-style: normal; color: #f3e7c4; opacity: 0.9; }
 .dd-seg.hold { background: #3a7536; }
 .dd-seg.holdloss { background: #586a22; }

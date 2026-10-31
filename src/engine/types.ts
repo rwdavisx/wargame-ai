@@ -64,6 +64,8 @@ export interface Beach {
 }
 
 export interface MapData {
+  /** `home`: where the view starts when no Allied unit is on the map yet; `seaLabels`: [hex, text, size]. */
+  meta?: { evenColumnsDown?: boolean; home?: HexId; seaLabels?: [HexId, string, number][] };
   hexes: Record<HexId, HexData>;
   hexsides: Record<string, HexsideData>;
   entryAreas: Record<string, EntryArea>;

@@ -13,8 +13,9 @@ import { EventCard, feedWorthy, readMs, sideOfEntry, type FeedItem, type FocusFn
 import { moveLeft } from './qol';
 import { useConfirm } from './astryx/kit';
 import { Badge, Button, Card, Dialog, DialogHeader, HStack, Icon, IconButton, VStack } from '@astryxdesign/core';
+import { turnDate, turnLabel, firstBenchmarkTurn } from '../engine/words';
 
-const DATE = (turn: number) => `${8 + turn} SEPT 1943`;
+const DATE = (turn: number) => turnDate(turn).toUpperCase();
 
 const PHASE_NAME: Record<string, string> = {
   invasion: 'Invasion', weather: 'Weather', initial: 'Initial', movement: 'Movement', combat: 'Combat', recovery: 'Recovery', supply: 'Supply',
@@ -101,7 +102,7 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
         </div>
       </div>
       <div className="date-block">
-        <div className="big">DAY {game.turn}</div>
+        <div className="big">{turnLabel(game.turn).toUpperCase()}</div>
         <div className="small">
           {DATE(game.turn)} · {game.turn}/{game.lastTurn}
         </div>
@@ -112,7 +113,7 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
         ))}
       </div>
       <div className="spacer" />
-      <div className="vp-block" title={bm !== null ? `Allied VP ${vp}. Benchmark ${bm}: the Allies win automatically at ${hi} or 20, the Germans if the Allies fall to ${lo}.` : `Allied VP ${vp}. Benchmarks start on day 4.`}>
+      <div className="vp-block" title={bm !== null ? `Allied VP ${vp}. Benchmark ${bm}: the Allies win automatically at ${hi} or 20, the Germans if the Allies fall to ${lo}.` : `Allied VP ${vp}. Benchmarks start on ${turnLabel(firstBenchmarkTurn()).toLowerCase()}.`}>
         <div className="vp-num">
           <span>ALLIED VP</span>
           <b>{vp}</b>
@@ -125,7 +126,7 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
               <i className="dot" style={{ left: pct(vp) }} />
             </>
           ) : (
-            <span>benchmark from day 4</span>
+            <span>benchmark from {turnLabel(firstBenchmarkTurn()).toLowerCase()}</span>
           )}
         </div>
       </div>
@@ -137,11 +138,12 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
         <span className="crate">▣</span> A {game.supplyPoints.Allied} · G {game.supplyPoints.German}
       </div>
       <div className="supports">
-        <SupportIcon kind="air" label="US" ready={ready('US-air')} />
-        <SupportIcon kind="air" label="BR" ready={ready('BR-air')} />
-        <SupportIcon kind="naval" label="US" ready={ready('US-naval')} />
-        <SupportIcon kind="naval" label="BR" ready={ready('BR-naval')} />
-        <SupportIcon kind="air" label="GE" ready={ready('GE-air')} />
+        {RULES.supportMarkers.map((k) => {
+          const [nation, kind] = k.split('-');
+          // Italy '43's one naval marker shows as ready for both armies until it is used (9.6).
+          const on = nation === 'AL' ? ready('US-naval') || ready('BR-naval') : ready(k);
+          return <SupportIcon key={k} kind={kind as 'air' | 'naval'} label={nation === 'AL' ? 'ALL' : nation} ready={on} />;
+        })}
         {game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0 && <span className="bb" title="Valiant & Warspite uses left">BB×{game.support.battleships}</span>}
       </div>
       <div className="top-buttons">
@@ -175,7 +177,7 @@ export function PhaseBanner({ game, humanSides }: { game: GameState; humanSides:
       big: sideChange,
       side: game.activeSide,
       title: sideChange ? `${game.activeSide.toUpperCase()} TURN` : `${PHASE_NAME[game.phase].toUpperCase()} PHASE`,
-      sub: sideChange ? `Day ${game.turn} · ${DATE(game.turn).toLowerCase()} · ${wb.name}${yours ? ' · your command' : ''}` : yours ? 'Your orders' : 'Enemy activity',
+      sub: sideChange ? `${turnLabel(game.turn)} · ${turnDate(game.turn)} · ${wb.name}${yours ? ' · your command' : ''}` : yours ? 'Your orders' : 'Enemy activity',
     });
     sfx.radio();
   }, [game.turn, game.activeSide, game.phase]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -247,7 +249,7 @@ function whereText(u: UnitState): string {
     case 'reserve': return 'Floating Reserve (at sea)';
     case 'followUp': return 'Follow-up wave';
     case 'atSea': return `At sea, bound for ${u.where.port}`;
-    case 'pending': return `Arrives day ${u.where.turn}`;
+    case 'pending': return `Arrives ${turnLabel(u.where.turn).toLowerCase()}`;
     case 'eliminated': return 'Eliminated';
     default: return u.where.kind;
   }
@@ -276,7 +278,8 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
   if (unit.truck) chips.push(['On trucks', 'grey']);
   if (unit.attacked && own && game.phase === 'combat') chips.push(['Has attacked', 'grey']);
   if (d.asu) chips.push([unit.fired ? 'Fired' : 'Ready to fire', unit.fired ? 'grey' : 'green']);
-  if (unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([`Frozen until day ${unit.frozenUntil}`, 'blue']);
+  if (unit.garrison && unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([`Garrison of ${unit.garrison}`, 'blue']);
+  else if (unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([unit.frozenUntil >= 99 ? 'Frozen until the enemy comes close' : `Frozen until ${turnLabel(unit.frozenUntil).toLowerCase()}`, 'blue']);
   if (d.army8) chips.push(['8th Army', 'gold']);
   return (
     <Card padding={3} elevation="high" className="unit-card">
@@ -437,7 +440,7 @@ export function GameOverScreen({ game, humanSides, onReview, onMenu }: { game: G
   return (
     <div className="gameover">
       <div className={`go-card ${won === false ? 'lost' : 'won'}`}>
-        <div className="go-kicker">{SCENARIOS[game.scenarioId]?.name} · day {game.turn}</div>
+        <div className="go-kicker">{SCENARIOS[game.scenarioId]?.name} · {turnLabel(game.turn).toLowerCase()}</div>
         <h1>{title}</h1>
         {solo && <div className="go-sub">{game.winner} victory</div>}
         <p>{game.victoryNote}</p>
@@ -466,7 +469,7 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
     <>
     {confirm.dialog}
     <Dialog isOpen onOpenChange={(o) => !o && onResume()} width={380} className="pause">
-      <DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · day ${game.turn} · the game saves itself after every action`} onOpenChange={(o) => !o && onResume()} />
+      <DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · ${turnLabel(game.turn).toLowerCase()} · the game saves itself after every action`} onOpenChange={(o) => !o && onResume()} />
         <VStack gap={2} paddingBlock={2}>
           <Button label="Resume" variant="primary" width="100%" onClick={onResume} />
           <Button label="Settings" width="100%" onClick={onSettings} />

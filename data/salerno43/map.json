@@ -6151,7 +6151,25 @@
  "meta": {
   "grid": "flat-top hexes in vertical columns; odd columns are offset half a hex down; id = CCRR",
   "source": "Transcribed from photos of the owner’s physical map; verify against your copy.",
-  "title": "Salerno ’43 map data"
+  "title": "Salerno ’43 map data",
+  "seaLabels": [
+   [
+    "1913",
+    "GULF OF SALERNO",
+    26
+   ],
+   [
+    "1701",
+    "BAY OF NAPLES",
+    15
+   ],
+   [
+    "1722",
+    "TYRRHENIAN SEA",
+    18
+   ]
+  ],
+  "home": "2711"
  },
  "navalLine": {
   "maxRowExclusive": 4,

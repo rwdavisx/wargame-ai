@@ -29,6 +29,7 @@ import { yourMoveAlert } from './alerts';
 import type { NetLink } from '../net/session';
 import { Button, StatusDot, useToast } from '@astryxdesign/core';
 import { movementAllowance } from '../engine/movement';
+import { turnDate } from '../engine/words';
 
 const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
@@ -47,7 +48,7 @@ function NetBadge({ net }: { net: NetLink }) {
   );
 }
 
-export const dateOf = (turn: number) => `${8 + turn} September 1943`;
+export const dateOf = (turn: number) => turnDate(turn);
 
 // What the map shows of the player's own plans while a battle panel is open: nothing.
 const NO_HIGHLIGHTS = new Map<HexId, Highlight>();

@@ -2,6 +2,7 @@
 // (Disrupted, Full Retreat, Out of Supply...), plus the digital-only cues: ready to act and movement left.
 import type { GameState, UnitState } from '../../engine/types';
 import { def, sideOf } from '../../engine/units';
+import { turnLabel } from '../../engine/words';
 
 export interface Marker {
   key: string;
@@ -59,7 +60,7 @@ function flagsOf(u: UnitState, s: GameState | null, frozen: boolean): string[] {
 function build(key: string, units: UnitState[], total: number, frozenUntil?: number): Marker {
   const k = KINDS[key];
   const who = total > 1 ? ` (${units.map((u) => def(u.id).name).join(', ')})` : '';
-  const name = key === 'frozen' && frozenUntil ? `Frozen until day ${frozenUntil}` : k.name;
+  const name = key === 'frozen' && frozenUntil ? (frozenUntil >= 99 ? 'Frozen until the enemy comes close' : `Frozen until ${turnLabel(frozenUntil).toLowerCase()}`) : k.name;
   return { key, text: k.text, fill: k.fill, ink: k.ink, title: `${name}: ${k.note}${who}` };
 }
 

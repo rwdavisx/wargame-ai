@@ -126,9 +126,20 @@ function tankTerrainOk(s: GameState, hex: HexId): boolean {
   return !d.city && d.terrain === 'clear' && !fortLevel(s, hex);
 }
 
+/** The row of a Determined Defense column for a roll (one die, or Italy '43's two) and its modifier. */
+export function ddRow(roll: number, drm: number): number {
+  if (RULES.dd.dice === 2) return Math.max(0, (RULES.dd.rolls ?? []).map(Number).filter((r) => r <= roll + drm).length - 1);
+  return Math.max(1, Math.min(7, roll + drm)) - 1;
+}
+
+/** The Determined Defense column for the defender's hex. */
+export function ddColumnOf(s: GameState, hex: HexId): 'Clear' | 'Other' | 'City' {
+  return defenderHexTerrain(s, hex);
+}
+
 /** Partial results a city or fort can absorb before its defenders must go (11.5): a minor city or Level 1 fort one,
  * a major city or Level 2 fort two. Salerno '43's cities take one. */
-function battleCapacity(s: GameState, hex: HexId): number {
+export function battleCapacity(s: GameState, hex: HexId): number {
   const d = MAP.hexes[hex];
   return Math.max(d.city ? (d.majorCity ? 2 : 1) : 0, fortLevel(s, hex));
 }
@@ -814,13 +825,9 @@ export function resolveDefense(s: GameState, c: DefenseChoice): void {
     if (!lead) break;
     let drm = supportDrm + shipDrm + (isElite(lead) ? 1 : 0) - (isLowQuality(lead) ? 1 : 0) - (pd.yellow ? 1 : 0);
     drm = Math.min(drm, shipDrm ? 3 : RULES.dd.maxDrm ?? 2);
-    const twoDice = RULES.dd.dice === 2;
-    const roll = twoDice ? rollD6(s) + rollD6(s) : rollD6(s);
     // Italy '43 rolls two dice; its rows start at 2-3 and end at 12 or more (11.4).
-    const row = twoDice
-      ? Math.max(0, (RULES.dd.rolls ?? []).map(Number).filter((r) => r <= roll + drm).length - 1)
-      : Math.max(1, Math.min(7, roll + drm)) - 1;
-    const entry = RULES.dd.table[column][row];
+    const roll = RULES.dd.dice === 2 ? rollD6(s) + rollD6(s) : rollD6(s);
+    const entry = RULES.dd.table[column][ddRow(roll, drm)];
     const opts = entry.split('|');
     let pick = opts[0];
     if (opts.length > 1) pick = opts.find((o) => (c.prefer === 'delay' ? !o.includes('H') : o.includes('H'))) ?? opts[0];

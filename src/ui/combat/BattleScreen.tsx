@@ -657,8 +657,9 @@ function Outcomes({ faces, drm, lit, pick, onPick, att, dfn, compact }: {
 
 /** The six Determined Defense outcomes as a bar, with the chances and (optionally) what each one means. */
 export function DdBar({ faces, lit, legend, mine = true }: { faces: DdFace[]; lit: number | null; legend?: boolean; mine?: boolean }) {
-  const count = (k: string[]) => faces.filter((f) => k.includes(f.kind)).length;
-  const pct = (n: number) => `${Math.round((n / 6) * 100)}%`;
+  const count = (k: string[]) => faces.filter((f) => k.includes(f.kind)).reduce((a, f) => a + f.weight, 0);
+  const total = faces.reduce((a, f) => a + f.weight, 0) || 6;
+  const pct = (n: number) => `${Math.round((n / total) * 100)}%`;
   const hold = count(['hold', 'holdLoss', 'partial']);
   const delay = count(['delay']);
   const fail = count(['fail']);
@@ -667,7 +668,7 @@ export function DdBar({ faces, lit, legend, mine = true }: { faces: DdFace[]; li
       <div className="dd-bar" role="list">
         {faces.map((f) => (
           <div key={f.face} role="listitem" className={`dd-seg ${KIND_TONE[f.kind]}${lit === f.face ? ' lit' : ''}${lit && lit !== f.face ? ' dim' : ''}`} title={`${f.face}: ${f.title}. ${f.detail}`}>
-            <Pips n={f.face} size={16} />
+            {f.face <= 6 && faces.length <= 6 ? <Pips n={f.face} size={16} /> : <span className="dd-total">{f.face}</span>}
             <b>{DD_KIND_LABEL[f.kind]}</b>
             {f.choice && <i>{mine ? 'your' : 'their'} pick</i>}
           </div>

@@ -6,6 +6,7 @@ import { MAP } from '../engine/data';
 import type { HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
 import { def, sideOf } from '../engine/units';
+import { turnLabel } from '../engine/words';
 
 type Kind = 'attack' | 'capture' | 'loss' | 'enemyLoss' | 'arrive' | 'move';
 
@@ -187,7 +188,7 @@ export function Recap({ game, humanSides, onJump }: { game: GameState; humanSide
       <header>
         <div>
           <div className="recap-kicker">Since your last turn</div>
-          <div className="recap-title">{who} turn · day {recap.turn}</div>
+          <div className="recap-title">{who} turn · {turnLabel(recap.turn).toLowerCase()}</div>
         </div>
         <IconButton label="Hide (R)" tooltip="Hide (R)" icon={<Icon icon="close" />} variant="ghost" size="sm" className="recap-close" onClick={() => setOpen(false)} />
       </header>
