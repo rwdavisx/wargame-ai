@@ -12,7 +12,7 @@ import { downloadText, type Settings } from './storage';
 import { EventCard, feedWorthy, readMs, sideOfEntry, type FeedItem, type FocusFn } from './logView';
 import { moveLeft } from './qol';
 import { useConfirm } from './astryx/kit';
-import { Button, Dialog, DialogHeader, HStack, Icon, IconButton } from '@astryxdesign/core';
+import { Button, Dialog, DialogHeader, HStack, Icon, IconButton, Layout, LayoutContent } from '@astryxdesign/core';
 import { Ico, weatherIcon } from './icons';
 import { Meander, Medal, MenuButton, Stat, Tip } from './chrome';
 import { turnDate, turnLabel, firstBenchmarkTurn } from '../engine/words';
@@ -471,7 +471,8 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
     <>
     {confirm.dialog}
     <Dialog isOpen onOpenChange={(o) => !o && onResume()} width={380} className="pause">
-      <DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · ${turnLabel(game.turn).toLowerCase()} · saved`} onOpenChange={(o) => !o && onResume()} />
+      <Layout header={<DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · ${turnLabel(game.turn).toLowerCase()} · saved`} onOpenChange={(o) => !o && onResume()} />} content={
+        <LayoutContent role="region" label="Pause menu options" tabIndex={0}>
         <nav className="main-menu pause-menu" aria-label="Menu">
           <MenuButton icon="play" label="Resume" primary onClick={onResume} />
           <MenuButton icon="gear" label="Settings" onClick={onSettings} />
@@ -490,6 +491,8 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
               void confirm.ask({ title: 'Not a saved game', description: 'That file is not a saved game of Salerno \'43.', actionLabel: 'OK', cancelLabel: null });
             }
           }} />
+        </LayoutContent>
+      } />
     </Dialog>
     </>
   );
