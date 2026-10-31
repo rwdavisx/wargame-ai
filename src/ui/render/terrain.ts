@@ -108,7 +108,7 @@ const FIELDS: Rgb[] = [
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 5;
+const RENDER_VERSION = 6;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -232,8 +232,14 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   }
   await report(0.02, 'Surveying the coast');
 
+  // Land is laid down a little fuller than its hexes, so the wandering coastline spends its wander in the sea
+  // hexes rather than eating into the land ones (a narrow strip like the Sorrento peninsula keeps its coast).
   const land0 = rasterize(b, (ctx) => {
-    for (const [h, d] of extended) if (d.terrain !== 'sea') (hexPath(ctx, h), ctx.fill());
+    for (const [h, d] of extended) if (d.terrain !== 'sea') (hexPath(ctx, h, 6), ctx.fill());
+  });
+  // The middle of every land hex, which is never painted as sea.
+  const landCore0 = rasterize(b, (ctx) => {
+    for (const [h, d] of hexes) if (d.terrain !== 'sea') (hexPath(ctx, h, -8), ctx.fill());
   });
   const inside0 = rasterize(b, (ctx) => {
     for (const [h] of hexes) (hexPath(ctx, h, 1), ctx.fill());
@@ -288,6 +294,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   await report(0.15, 'Measuring the heights');
 
   const landB = blur(land0, W, H, 11);
+  const landCore = blur(landCore0, W, H, 4);
   const landNear = blur(land0, W, H, 10);
   const landWide = blur(land0, W, H, 60);
   const inside = blur(inside0, W, H, 18);
@@ -354,7 +361,9 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       const sy = y - ddy;
       const n = fbm(wx / 60, wy / 60, 1, 4);
       const n2 = fbm(wx / 22, wy / 22, 7, 2);
-      const cv = sample(landB, sx, sy) + (n - 0.5) * 0.5;
+      // The coast takes a gentler share of the warp than the inland edges, and never reaches a land hex's middle.
+      const [cdx, cdy] = shift(x, y, 0.7);
+      const cv = Math.max(sample(landB, x - cdx, y - cdy) + (n - 0.5) * 0.42, landCore[i] * 0.85);
       coast[i] = cv;
       const l = smooth(0.4, 0.6, cv);
       landF[i] = l;
