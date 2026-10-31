@@ -1,0 +1,2495 @@
+{
+ "photo": "N",
+ "file": "map-n-cassino.jpg",
+ "grid": {
+  "oddColumnsDown": false,
+  "note": "Odd columns sit half a hex HIGHER than even ones (e.g. 1901 lies between 1800 and 1801). Label centre is 0.39 hex above the hex centre on this photo (fitted from ~100 printed horizontal edges; median edge misfit after the fit about 1 px on all six edge directions).",
+  "labelDy": -0.39,
+  "sigma": 3,
+  "anchors": 160,
+  "residualPx": 8.4,
+  "residualRmsPx": 3.3,
+  "residualNote": "Residuals are label positions vs the fit; printed labels themselves wander a few px (some are pushed aside by names), the outline fit is better than the label residuals suggest."
+ },
+ "extent": {
+  "columns": [
+   18,
+   30
+  ],
+  "rows": {
+   "even columns": [
+    0,
+    13
+   ],
+   "odd columns": [
+    1,
+    14
+   ]
+  },
+  "hexCount": 182,
+  "mapEdgesVisible": [
+   "north edge with entry areas N2 and N3 and the mauve off-map margin",
+   "west coast (Gulf of Gaeta) with sea hexes 1808-1813"
+  ],
+  "notVisible": [
+   "south edge",
+   "east edge",
+   "map key"
+  ],
+  "notPlayable": {
+   "1900": "N2 entry area",
+   "2100": "N2 entry area",
+   "2300": "N2 entry area",
+   "2700": "N3 entry area",
+   "2900": "N3 entry area",
+   "2500": "off-map margin (mauve) between N2 and N3"
+  },
+  "partlyOutside": [
+   "1914",
+   "2114",
+   "2314",
+   "2514",
+   "2714",
+   "2914",
+   "3000",
+   "3001",
+   "3002",
+   "3003",
+   "3004",
+   "3005",
+   "3006",
+   "3007",
+   "3008",
+   "3009",
+   "3010",
+   "3011",
+   "3012",
+   "3013"
+  ],
+  "covered": "No table or box covers any hex in this photo.",
+  "neighbourPhotos": "Column 17 (left edge) and column 31 (right edge) are cut off; row 14 even / 15 odd are below the photo."
+ },
+ "hexes": {
+  "1800": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "1801": {
+   "terrain": "hill",
+   "darkShare": 0.45,
+   "confidence": "high"
+  },
+  "1802": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 1.0,
+   "confidence": "high",
+   "peak": "M. Faggeto 1256"
+  },
+  "1803": {
+   "terrain": "hill",
+   "darkShare": 0.41,
+   "confidence": "high"
+  },
+  "1804": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.59,
+   "confidence": "high"
+  },
+  "1805": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 1.0,
+   "confidence": "high",
+   "peak": "M. Petrella 1533"
+  },
+  "1806": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Castellonorato",
+   "note": "Castellonorato town has no road; the coast road passes its west side and a minor road leaves from it eastward."
+  },
+  "1807": {
+   "terrain": "clear",
+   "confidence": "high",
+   "port": true,
+   "label": "Scauri",
+   "note": "Coastal hex (about 32% sea in the sampled area). Scauri: minor-port symbol (anchor in a white circle) on the coast road; name printed in the sea. No town circle."
+  },
+  "1808": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "All sea: light sea plus the darker coastal tint; the coast runs along its 1807 and 1908 sides."
+  },
+  "1809": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1810": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1811": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1812": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1813": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1901": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "1902": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "1903": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "1904": {
+   "terrain": "hill",
+   "darkShare": 0.44,
+   "confidence": "high"
+  },
+  "1905": {
+   "terrain": "hill",
+   "darkShare": 0.36,
+   "confidence": "high"
+  },
+  "1906": {
+   "terrain": "hill",
+   "darkShare": 0.43,
+   "confidence": "high"
+  },
+  "1907": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mixed clear/hill; about 68% hill or mountain shading by colour, checked by eye."
+  },
+  "1908": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Minturno",
+   "vp": 1,
+   "gustav": true
+  },
+  "1909": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "note": "Marsh pattern (grey with green tufts) covers most of the hex, along the lower Garigliano."
+  },
+  "1910": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1911": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1912": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "1913": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Mondragone",
+   "vp": 1,
+   "note": "Mondragone town and VP 1; the name is printed in the sea (1812/1813)."
+  },
+  "1914": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Partly outside the photo (2 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "2000": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2001": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2002": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2003": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2004": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Esperia"
+  },
+  "2005": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2006": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2007": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mixed clear/hill; about 69% hill or mountain shading by colour, checked by eye."
+  },
+  "2008": {
+   "terrain": "clear",
+   "confidence": "high",
+   "gustav": true
+  },
+  "2009": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "note": "Marsh pattern (grey with green tufts) covers most of the hex, along the lower Garigliano. 'Garigliano' river name printed across 2009/2109."
+  },
+  "2010": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Cellole"
+  },
+  "2011": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2012": {
+   "terrain": "hill",
+   "confidence": "high",
+   "peak": "M. Massico 813",
+   "note": "Peak M. Massico 813 (triangle in the lower right of the hex)."
+  },
+  "2013": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2101": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2102": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2103": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2104": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2105": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2106": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Ausonia"
+  },
+  "2107": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2108": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Castelforte",
+   "vp": 1,
+   "gustav": true
+  },
+  "2109": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "note": "Marsh pattern (grey with green tufts) covers most of the hex, along the lower Garigliano."
+  },
+  "2110": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2111": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2112": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2113": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2114": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Partly outside the photo (2 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "2200": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2201": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2202": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Pontecorvo"
+  },
+  "2203": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2204": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "San Giorgio"
+  },
+  "2205": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2206": {
+   "terrain": "hill",
+   "darkShare": 0.42,
+   "confidence": "high"
+  },
+  "2207": {
+   "terrain": "hill",
+   "darkShare": 0.42,
+   "confidence": "high"
+  },
+  "2208": {
+   "terrain": "hill",
+   "confidence": "high",
+   "gustav": true
+  },
+  "2209": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2210": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2211": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Sessa Aurunca",
+   "vp": 1
+  },
+  "2212": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Carinola"
+  },
+  "2213": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2301": {
+   "terrain": "clear",
+   "confidence": "high",
+   "vp": 5,
+   "note": "Red 5 VP with no town or other symbol (the hex north of Aquino); Route 6 enters from the N2 box through this hex."
+  },
+  "2302": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Aquino"
+  },
+  "2303": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2304": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2305": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2306": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2307": {
+   "terrain": "hill",
+   "confidence": "high",
+   "gustav": true
+  },
+  "2308": {
+   "terrain": "hill",
+   "confidence": "high",
+   "gustav": true
+  },
+  "2309": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2310": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2311": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2312": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2313": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2314": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Partly outside the photo (2 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "2400": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2401": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2402": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2403": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2404": {
+   "terrain": "clear",
+   "confidence": "high",
+   "gustav": true
+  },
+  "2405": {
+   "terrain": "clear",
+   "confidence": "high",
+   "gustav": true,
+   "note": "Clear hex; the Gari's river-with-marsh band lines its east and south sides. 'GUSTAV LINE' printed here and in 2404."
+  },
+  "2406": {
+   "terrain": "hill",
+   "confidence": "high",
+   "vp": 1,
+   "gustav": true,
+   "note": "VP 1 with no town or name; a minor road loops round it."
+  },
+  "2407": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2408": {
+   "terrain": "hill",
+   "confidence": "high",
+   "bernhard": true
+  },
+  "2409": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2410": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2411": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2412": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2413": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2501": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 1.0,
+   "confidence": "high"
+  },
+  "2502": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 1.0,
+   "confidence": "high",
+   "peak": "M. Cairo 1669",
+   "fullMountain": true,
+   "note": "All six sides are mountain hexsides: a full Mountain hex (Hill with six mountain sides)."
+  },
+  "2503": {
+   "terrain": "hill",
+   "darkShare": 0.38,
+   "confidence": "high"
+  },
+  "2504": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Cassino",
+   "vp": 2,
+   "landmark": "Monte Cassino",
+   "gustav": true,
+   "note": "Cassino: town circle (not the city grid symbol) at the Route 6 junction near the hex's lower-right side; the name 'Cassino' is printed in bold across 2403/2404. Monte Cassino landmark (white rectangle) and the red 2 VP are also in this hex."
+  },
+  "2505": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2506": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2507": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2508": {
+   "terrain": "hill",
+   "darkShare": 0.44,
+   "confidence": "high",
+   "peak": "M. Camino 963",
+   "vp": 1,
+   "bernhard": true,
+   "note": "VP 1 on M. Camino (peak 963); no town."
+  },
+  "2509": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2510": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2511": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2512": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Teano"
+  },
+  "2513": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2514": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Partly outside the photo (2 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "2600": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 1.0,
+   "confidence": "high",
+   "peak": "M. Obachelle 1466"
+  },
+  "2601": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 1.0,
+   "confidence": "high",
+   "fullMountain": true,
+   "note": "All six sides are mountain hexsides: a full Mountain hex (Hill with six mountain sides)."
+  },
+  "2602": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.58,
+   "confidence": "high"
+  },
+  "2603": {
+   "terrain": "hill",
+   "confidence": "high",
+   "gustav": true
+  },
+  "2604": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2605": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2606": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2607": {
+   "terrain": "hill",
+   "confidence": "high",
+   "bernhard": true,
+   "label": "Mignano Gap",
+   "note": "'Mignano Gap' printed across 2607, 2608 and 2609."
+  },
+  "2608": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2609": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2610": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Marzano Appio"
+  },
+  "2611": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2612": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2613": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2701": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2702": {
+   "terrain": "hill",
+   "darkShare": 0.36,
+   "confidence": "high"
+  },
+  "2703": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Sant'Elia Fiumerapido",
+   "vp": 1,
+   "gustav": true
+  },
+  "2704": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2705": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Cervaro"
+  },
+  "2706": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2707": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "town": "San Pietro",
+   "vp": 1,
+   "bernhard": true,
+   "note": "Mixed clear/hill; about 68% hill or mountain shading by colour, checked by eye. San Pietro town circle and VP 1 are in 2707; the name 'San Pietro' is printed in 2606. The rules call 2707 'Monte Lungo'."
+  },
+  "2708": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Mignano"
+  },
+  "2709": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2710": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2711": {
+   "terrain": "clear",
+   "confidence": "high",
+   "vp": 1,
+   "note": "VP 1 with no town (clear hex on Route 6)."
+  },
+  "2712": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2713": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2714": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "Partly outside the photo (2 of 6 corners beyond the edge); terrain judged from the visible part. Only the top third is in the photo; that part is hill (tan)."
+  },
+  "2800": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Atina",
+   "vp": 3,
+   "note": "Atina town and red 3 VP. Two minor roads run from Atina into the N3 entry area."
+  },
+  "2801": {
+   "terrain": "hill",
+   "darkShare": 0.38,
+   "confidence": "high"
+  },
+  "2802": {
+   "terrain": "hill",
+   "confidence": "high",
+   "gustav": true
+  },
+  "2803": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Vallerotonda"
+  },
+  "2804": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.59,
+   "confidence": "high",
+   "peak": "Colle Aquilone 1270",
+   "vp": 1,
+   "note": "VP 1 on Colle Aquilone (peak 1270); no town."
+  },
+  "2805": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.63,
+   "confidence": "high"
+  },
+  "2806": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 1.0,
+   "confidence": "high",
+   "peak": "M. Sammucro 1205",
+   "bernhard": true,
+   "fullMountain": true,
+   "note": "All six sides are mountain hexsides: a full Mountain hex (Hill with six mountain sides)."
+  },
+  "2807": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2808": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.52,
+   "confidence": "high",
+   "peak": "M. Cesima 1180",
+   "note": "Peak M. Cesima 1180."
+  },
+  "2809": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Presenzano",
+   "note": "Presenzano town has no road connection."
+  },
+  "2810": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2811": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Vairano Patenora",
+   "note": "Vairano Patenora town has no road connection."
+  },
+  "2812": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2813": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Pietramelara"
+  },
+  "2901": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2902": {
+   "terrain": "hill",
+   "darkShare": 0.38,
+   "confidence": "high",
+   "gustav": true
+  },
+  "2903": {
+   "terrain": "hill",
+   "darkShare": 0.4,
+   "confidence": "high"
+  },
+  "2904": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.83,
+   "confidence": "high"
+  },
+  "2905": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.89,
+   "confidence": "high",
+   "peak": "M. Maio 1259"
+  },
+  "2906": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.93,
+   "confidence": "high",
+   "peak": "M. Corno 1054",
+   "vp": 1,
+   "bernhard": true,
+   "fullMountain": true,
+   "note": "VP 1 on M. Corno (peak 1054), just inside the hex above the Bernhard dots; no town. All six sides are mountain hexsides: a full Mountain hex (Hill with six mountain sides)."
+  },
+  "2907": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Venafro",
+   "note": "Venafro town circle is in 2907 near its right corner; the name 'Venafro' is printed in 3007."
+  },
+  "2908": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2909": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2910": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2911": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2912": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Pietravairano"
+  },
+  "2913": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2914": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Partly outside the photo (2 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3000": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3001": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3002": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "town": "San Biagio Saracinisco",
+   "vp": 1,
+   "gustav": true,
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part. San Biagio Saracinisco town; the VP circle is cut by the right edge of the photo (digit reads as 1, medium confidence). Printed hex number is shifted left to clear the name."
+  },
+  "3003": {
+   "terrain": "hill",
+   "darkShare": 0.4,
+   "confidence": "medium",
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3004": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "darkShare": 0.74,
+   "confidence": "medium",
+   "peak": "Monna Casale 1395",
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part. Peak 'Monna Casale 1395' (name cut by the photo edge); the triangle sits just below the 3003/3004 side."
+  },
+  "3005": {
+   "terrain": "hill",
+   "darkShare": 0.33,
+   "confidence": "medium",
+   "bernhard": true,
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3006": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3007": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Partly outside the photo (3 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3008": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Partly outside the photo (2 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3009": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Partly outside the photo (1 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3010": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Partly outside the photo (1 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3011": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Partly outside the photo (1 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3012": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Partly outside the photo (1 of 6 corners beyond the edge); terrain judged from the visible part."
+  },
+  "3013": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "town": "Baia",
+   "note": "Partly outside the photo (1 of 6 corners beyond the edge); terrain judged from the visible part. Baia town has no road connection in this photo."
+  }
+ },
+ "hexsides": {
+  "2000-2101": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "East branch enters the map here from under the N2 entry area."
+  },
+  "2001-2101": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "2101-2102": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "2102-2201": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "2102-2202": {
+   "river": "minor",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "2103-2202": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "2103-2203": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "1901-2001": {
+   "river": "minor",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "note": "West branch rises at the 1901/2000/2001 corner (no river on 1901-2000)."
+  },
+  "1902-2001": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "1902-2002": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "1903-2002": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "2002-2003": {
+   "river": "minor",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "2003-2103": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "2103-2104": {
+   "river": "minor",
+   "confidence": "high",
+   "note": "Two upper branches meet here: the west branch (1901-2001 ... 2003-2103) runs along this side to the 2103/2104/2203 corner where the east branch (from the N2 edge at 2000-2101) joins; downstream of that corner the river carries the printed name Liri."
+  },
+  "2104-2203": {
+   "river": "minor",
+   "riverName": "Liri",
+   "confidence": "high"
+  },
+  "2203-2204": {
+   "river": "minor",
+   "riverName": "Liri",
+   "confidence": "high"
+  },
+  "2204-2304": {
+   "river": "minor",
+   "riverName": "Liri",
+   "confidence": "high"
+  },
+  "2204-2305": {
+   "river": "minor",
+   "riverName": "Liri",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "2205-2305": {
+   "river": "minor",
+   "riverName": "Liri",
+   "confidence": "high"
+  },
+  "2305-2306": {
+   "river": "minor",
+   "riverName": "Liri",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "2306-2405": {
+   "river": "minor",
+   "riverName": "Liri",
+   "confidence": "high"
+  },
+  "2405-2406": {
+   "river": "marsh",
+   "riverName": "Liri",
+   "confidence": "medium",
+   "note": "Grey marsh band with tufts lines the river along this side (map key: River+Marsh hexside, treated as a major river)."
+  },
+  "2703-2704": {
+   "river": "minor",
+   "riverName": "Rapido",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2603-2704": {
+   "river": "minor",
+   "riverName": "Rapido",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2603-2604": {
+   "river": "minor",
+   "riverName": "Rapido",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "gustavLine": true
+  },
+  "2504-2604": {
+   "river": "minor",
+   "riverName": "Rapido",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true,
+   "gustavLine": true
+  },
+  "2504-2505": {
+   "river": "minor",
+   "riverName": "Gari",
+   "confidence": "high",
+   "gustavLine": true,
+   "note": "Name change Rapido/Gari is not marked; I put it at Cassino (2504)."
+  },
+  "2404-2505": {
+   "river": "marsh",
+   "riverName": "Gari",
+   "confidence": "medium",
+   "gustavLine": true,
+   "note": "Grey marsh band with tufts lines the river along this side (map key: River+Marsh hexside, treated as a major river). Marsh band starts near the north end of this side and covers most of it."
+  },
+  "2405-2505": {
+   "river": "marsh",
+   "riverName": "Gari",
+   "confidence": "medium",
+   "gustavLine": true,
+   "note": "Grey marsh band with tufts lines the river along this side (map key: River+Marsh hexside, treated as a major river)."
+  },
+  "2405-2506": {
+   "river": "marsh",
+   "riverName": "Gari",
+   "confidence": "medium",
+   "gustavLine": true,
+   "note": "Grey marsh band with tufts lines the river along this side (map key: River+Marsh hexside, treated as a major river)."
+  },
+  "2406-2506": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "gustavLine": true,
+   "note": "Confluence of the Liri and the Gari is at the 2405/2406/2506 corner; the Garigliano (major style) starts here. A little marsh band continues along the 2406 side."
+  },
+  "2406-2507": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2406-2407": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2307-2407": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2308-2407": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2308-2408": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2308-2309": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "gustavLine": true
+  },
+  "2208-2309": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2208-2209": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2109-2208": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true,
+   "note": "Major river with a full marsh hex (1909/2009/2109) on the south side."
+  },
+  "2108-2109": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "gustavLine": true,
+   "note": "Major river with a full marsh hex (1909/2009/2109) on the south side."
+  },
+  "2008-2109": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true,
+   "note": "Major river with a full marsh hex (1909/2009/2109) on the south side."
+  },
+  "2008-2009": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true,
+   "note": "Major river with a full marsh hex (1909/2009/2109) on the south side."
+  },
+  "1909-2008": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "gustavLine": true,
+   "note": "Major river with a full marsh hex (1909/2009/2109) on the south side."
+  },
+  "1908-1909": {
+   "river": "major",
+   "riverName": "Garigliano",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true,
+   "gustavLine": true,
+   "note": "Major river with a full marsh hex (1909/2009/2109) on the south side."
+  },
+  "3007-3008": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "note": "Volturno enters the photo from the east here."
+  },
+  "2908-3008": {
+   "river": "marsh",
+   "riverName": "Volturno",
+   "confidence": "medium",
+   "note": "Grey marsh band with tufts lines the river along this side (map key: River+Marsh hexside, treated as a major river). Small marsh band beside the Volturno under the river name; only this side has it."
+  },
+  "2909-3008": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2909-3009": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2910-3009": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2910-3010": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "note": "Volturno wraps round the west side of 2911 (sides 2910-2911, 2810-2911, 2811-2911, 2911-2912); 2911-3010 has no river."
+  },
+  "2910-2911": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2810-2911": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2811-2911": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2911-2912": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2912-3011": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2912-3012": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "2913-3012": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "3012-3013": {
+   "river": "minor",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "3010-3011": {
+   "river": "minor",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "note": "Thin tributary entering from the east edge; joins the Volturno at the 2911/2912/3011 corner via 2911-3011."
+  },
+  "2911-3011": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "2506-2507": {
+   "river": "minor",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "note": "Thin unnamed stream from the 2506/2507/2607 corner into the Garigliano."
+  },
+  "2502-2601": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2804-2905": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2906-3005": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2708-2807": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1803-1904": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2805-2806": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2107-2206": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2806-2906": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2503-2603": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2503-2602": {
+   "mountain": true,
+   "confidence": "high",
+   "pass": true,
+   "note": "Mountain pass symbol ')(' drawn across this side."
+  },
+  "2601-2701": {
+   "mountain": true,
+   "confidence": "high",
+   "pass": true,
+   "note": "Mountain pass symbol ')(' drawn across this side."
+  },
+  "2904-2905": {
+   "mountain": true,
+   "confidence": "medium",
+   "pass": true,
+   "note": "Mountain pass symbol ')(' drawn across this side. Pass symbol drawn about 13 px into 2905, nearest side is 2904-2905."
+  },
+  "2903-2904": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2508-2608": {
+   "mountain": true,
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "2012-2113": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2707-2806": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2310-2410": {
+   "mountain": true,
+   "confidence": "high",
+   "road": "minor",
+   "note": "Road crosses a mountain hexside."
+  },
+  "2207-2307": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2805-2905": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2409-2410": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2806-2807": {
+   "mountain": true,
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "2311-2410": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2601-2702": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2508-2509": {
+   "mountain": true,
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "2702-2801": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1802-1803": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1802-1902": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2402-2502": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2600-2601": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2602-2702": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1805-1806": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2600-2701": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2808-2909": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1903-1904": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1905-1906": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2802-2902": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2105-2205": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2801-2802": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3003-3004": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "Side partly beyond the right edge of the photo."
+  },
+  "2501-2601": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2906-3006": {
+   "mountain": true,
+   "confidence": "high",
+   "bernhardLine": true,
+   "note": "Side partly beyond the right edge of the photo."
+  },
+  "2902-2903": {
+   "mountain": true,
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2706-2806": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1805-1906": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2806-2907": {
+   "mountain": true,
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "1803-1903": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2705-2804": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1801-1802": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2207-2308": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2805-2906": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2502-2602": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2502-2503": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1905-2005": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2904-3003": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2106-2206": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1804-1904": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1801-1902": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2803-2904": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2401-2502": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2107-2207": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1802-1903": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2501-2502": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2400-2501": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2905-3005": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2904-3004": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1806-1906": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1801-1901": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2709-2808": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2601-2602": {
+   "mountain": true,
+   "confidence": "high",
+   "pass": true,
+   "note": "Mountain pass symbol ')(' drawn across this side."
+  },
+  "1805-1905": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2004-2005": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2804-2805": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2905-2906": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2906-2907": {
+   "mountain": true,
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "1804-1905": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2106-2205": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2401-2501": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2708-2808": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2903-3002": {
+   "mountain": true,
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2508-2607": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1804-1805": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2501-2600": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "1901-2000": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1800-1901": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2301-2302": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2302-2402": {
+   "road": "major",
+   "confidence": "high",
+   "note": "Route 6 crosses just below the 2302/2401/2402 vertex."
+  },
+  "2402-2503": {
+   "road": "major",
+   "confidence": "high",
+   "note": "Route 6 runs close beside this hexside before entering 2503."
+  },
+  "2503-2504": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2604-2605": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2605-2706": {
+   "road": "major",
+   "confidence": "high",
+   "note": "Route 6 crosses just above the 2605/2606/2706 vertex, then runs beside 2606-2706 inside 2706."
+  },
+  "2706-2707": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2707-2708": {
+   "road": "major",
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "2708-2709": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2709-2710": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2710-2711": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2711-2712": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2612-2712": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2513-2612": {
+   "road": "major",
+   "confidence": "high",
+   "note": "Route 6 passes within ~5 px of the 2513/2612/2613 vertex, on the 2513-2612 side; it does not enter 2613."
+  },
+  "2513-2514": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1806-1807": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1807-1908": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1909-2009": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2009-2010": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2010-2111": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2111-2211": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2211-2312": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2312-2313": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2313-2314": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2907-3006": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2907-2908": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2908-2909": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2909-2910": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "2810-2910": {
+   "road": "major",
+   "confidence": "high",
+   "note": "Crosses the lower-left side of 2910, about 7 px below its left vertex."
+  },
+  "2711-2810": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1800-1801": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2001-2102": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2202-2302": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Pontecorvo-Aquino road crosses just below the 2201/2202/2302 vertex."
+  },
+  "2102-2103": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2002-2103": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2003-2004": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2004-2105": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2105-2106": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2105-2204": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2202-2203": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2203-2304": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2304-2305": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2305-2404": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2404-2504": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2306-2406": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Crosses just below the 2306/2405/2406 vertex."
+  },
+  "2307-2406": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2307-2308": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2208-2308": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2108-2208": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2109-2209": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2110-2209": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2010-2110": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Crosses just below the 2009/2010/2110 vertex."
+  },
+  "2209-2309": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2209-2310": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2309-2408": {
+   "road": "minor",
+   "confidence": "high",
+   "bernhardLine": true,
+   "note": "West end of the Bernhard dots, at the Garigliano."
+  },
+  "2407-2408": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2407-2507": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2506-2605": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2605-2705": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2604-2705": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2704-2705": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2704-2803": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2802-2803": {
+   "road": "minor",
+   "confidence": "high",
+   "gustavLine": true
+  },
+  "2703-2802": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2603-2703": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2701-2800": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2701-2702": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2702-2703": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2800-2801": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2801-2901": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2901-2902": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2902-3002": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2408-2509": {
+   "road": "minor",
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "2509-2608": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2608-2708": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2707-2807": {
+   "road": "minor",
+   "confidence": "high",
+   "bernhardLine": true
+  },
+  "2807-2907": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2310-2311": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2210-2311": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2210-2211": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2410-2511": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2511-2610": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2610-2711": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2511-2512": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2512-2611": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2611-2712": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2712-2812": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2812-2912": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2512-2612": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2612-2713": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2713-2714": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2714-2813": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2813-2914": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2412-2512": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Crosses just above the 2412/2512/2513 vertex."
+  },
+  "2313-2412": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2212-2313": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2212-2312": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2113-2212": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2113-2114": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1806-1907": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1907-2006": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2006-2106": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2006-2007": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2007-2008": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1907-1908": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1908-2008": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2008-2108": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1909-1910": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1910-2010": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1911-2010": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2010-2011": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1911-2011": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "2011-2111": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1911-1912": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1912-1913": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1913-1914": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1914-2013": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3011-3012": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1808-1909": {
+   "gustavLine": true,
+   "note": "Coastal side (1808 is sea). Gustav dashes run down it to the sea at the Garigliano mouth."
+  },
+  "2703-2803": {
+   "gustavLine": true
+  },
+  "2802-2903": {
+   "gustavLine": true
+  },
+  "3002-3003": {
+   "gustavLine": true
+  },
+  "2408-2409": {
+   "bernhardLine": true
+  },
+  "2607-2608": {
+   "bernhardLine": true
+  },
+  "2607-2708": {
+   "bernhardLine": true
+  },
+  "3005-3006": {
+   "bernhardLine": true,
+   "note": "Side partly beyond the right edge of the photo."
+  }
+ },
+ "entryAreas": {
+  "N2": {
+   "colour": "dark blue box, white bold text \"N2\"",
+   "text": "N2",
+   "occupiesHexPositions": [
+    "1900",
+    "2100",
+    "2300"
+   ],
+   "touchesHexes": {
+    "1800": "upper-right side",
+    "1901": "top side",
+    "2000": "top, upper-left and upper-right sides",
+    "2101": "top side",
+    "2200": "top, upper-left and upper-right sides",
+    "2301": "top side",
+    "2400": "upper-left side"
+   },
+   "roads": [
+    "major road into 2000 (top side)",
+    "Route 6, major, into 2301 (top side)"
+   ],
+   "rivers": [
+    "east upper branch of the Liri leaves the box at the 2000/2101 corner"
+   ]
+  },
+  "N3": {
+   "colour": "dark blue box, white bold text \"N3\"",
+   "text": "N3",
+   "occupiesHexPositions": [
+    "2700",
+    "2900"
+   ],
+   "touchesHexes": {
+    "2600": "upper-right side",
+    "2701": "top side",
+    "2800": "top, upper-left and upper-right sides",
+    "2901": "top side",
+    "3000": "upper-left side"
+   },
+   "roads": [
+    "two minor roads from Atina (2800), across its upper-left and upper-right sides"
+   ]
+  }
+ },
+ "lines": {
+  "gustav": {
+   "style": "dark red dashes; \"GUSTAV LINE\" printed in 2404/2405",
+   "hexsides": [
+    "1808-1909",
+    "1908-1909",
+    "1909-2008",
+    "2008-2009",
+    "2008-2109",
+    "2108-2109",
+    "2109-2208",
+    "2208-2209",
+    "2208-2309",
+    "2308-2309",
+    "2308-2408",
+    "2308-2407",
+    "2307-2407",
+    "2406-2407",
+    "2406-2507",
+    "2406-2506",
+    "2405-2506",
+    "2405-2505",
+    "2404-2505",
+    "2504-2505",
+    "2504-2604",
+    "2603-2604",
+    "2603-2704",
+    "2703-2704",
+    "2703-2803",
+    "2802-2803",
+    "2802-2903",
+    "2902-2903",
+    "2903-3002",
+    "3002-3003"
+   ],
+   "germanSideHexes": [
+    "1908",
+    "2008",
+    "2108",
+    "2208",
+    "2307",
+    "2308",
+    "2404",
+    "2405",
+    "2406",
+    "2504",
+    "2603",
+    "2703",
+    "2802",
+    "2902",
+    "3002"
+   ],
+   "course": "Follows hexsides, drawn just inside the north/west hex. From the sea at the Garigliano mouth (coastal side 1808-1909) along the Garigliano (1908-1909 ... 2308-2408, 2307-2407, 2406-2407, 2406-2507, 2406-2506), up the Gari (2405-2506, 2405-2505, 2404-2505), round Cassino on the Rapido (2504-2505, 2504-2604, 2603-2604, 2603-2704, 2703-2704), then north-east away from the river: 2703-2803, 2802-2803, 2802-2903, 2902-2903, 2903-3002, 3002-3003, leaving the photo east along the south side of 3002. Every river hexside from the sea to 2703-2704 carries it; it does not follow the Liri.",
+   "note": "Hexes with gustav=true are the hexes on the dashed (German) side of the line."
+  },
+  "bernhard": {
+   "style": "black dots; \"BERNHARD\" printed along 2907/3006",
+   "hexsides": [
+    "2309-2408",
+    "2408-2409",
+    "2408-2509",
+    "2508-2509",
+    "2508-2608",
+    "2607-2608",
+    "2607-2708",
+    "2707-2708",
+    "2707-2807",
+    "2806-2807",
+    "2806-2907",
+    "2906-2907",
+    "2906-3006",
+    "3005-3006"
+   ],
+   "germanSideHexes": [
+    "2408",
+    "2508",
+    "2607",
+    "2707",
+    "2806",
+    "2906",
+    "3005"
+   ],
+   "course": "Follows hexsides, dots drawn just inside the north/west hex. Starts on the Garigliano at the 2308/2309/2408 corner, runs round 2408 (2309-2408, 2408-2409, 2408-2509), round M. Camino 2508 (2508-2509, 2508-2608), along 2607 (2607-2608, 2607-2708), San Pietro/Monte Lungo 2707 (2707-2708, 2707-2807), M. Sammucro 2806 (2806-2807, 2806-2907), M. Corno 2906 (2906-2907, 2906-3006) and 3005-3006, leaving the photo east.",
+   "note": "Hexes with bernhard=true are the hexes on the dotted side of the line."
+  },
+  "eighthArmyBoundary": "Not in this photo (it is east of column 30)."
+ },
+ "rivers": {
+  "Garigliano": {
+   "class": "major",
+   "hexsides": [
+    "2406-2506",
+    "2406-2507",
+    "2406-2407",
+    "2307-2407",
+    "2308-2407",
+    "2308-2408",
+    "2308-2309",
+    "2208-2309",
+    "2208-2209",
+    "2109-2208",
+    "2108-2109",
+    "2008-2109",
+    "2008-2009",
+    "1909-2008",
+    "1908-1909"
+   ],
+   "evidence": "Drawn with a light-blue fill between dark blue outlines, 8-11 px wide, like the TEC major-river symbol."
+  },
+  "Liri": {
+   "class": "minor",
+   "hexsides": [
+    "2104-2203",
+    "2203-2204",
+    "2204-2304",
+    "2204-2305",
+    "2205-2305",
+    "2305-2306",
+    "2306-2405",
+    "2405-2406"
+   ],
+   "upperBranches": {
+    "east (from N2)": [
+     "2000-2101",
+     "2001-2101",
+     "2101-2102",
+     "2102-2201",
+     "2102-2202",
+     "2103-2202",
+     "2103-2203"
+    ],
+    "west (rises at 1901/2000/2001)": [
+     "1901-2001",
+     "1902-2001",
+     "1902-2002",
+     "1903-2002",
+     "2002-2003",
+     "2003-2103",
+     "2103-2104"
+    ]
+   }
+  },
+  "Rapido": {
+   "class": "minor",
+   "hexsides": [
+    "2703-2704",
+    "2603-2704",
+    "2603-2604",
+    "2504-2604"
+   ]
+  },
+  "Gari": {
+   "class": "minor, river-with-marsh on 2404-2505, 2405-2505, 2405-2506",
+   "hexsides": [
+    "2504-2505",
+    "2404-2505",
+    "2405-2505",
+    "2405-2506"
+   ]
+  },
+  "Volturno": {
+   "class": "minor (river-with-marsh on 2908-3008)",
+   "hexsides": [
+    "3007-3008",
+    "2908-3008",
+    "2909-3008",
+    "2909-3009",
+    "2910-3009",
+    "2910-3010",
+    "2910-2911",
+    "2810-2911",
+    "2811-2911",
+    "2911-2912",
+    "2912-3011",
+    "2912-3012",
+    "2913-3012",
+    "3012-3013"
+   ],
+   "tributary": [
+    "3010-3011",
+    "2911-3011"
+   ]
+  },
+  "stream": {
+   "class": "minor",
+   "hexsides": [
+    "2506-2507"
+   ]
+  },
+  "classificationEvidence": "Liri, Gari, Rapido, Volturno and the streams are drawn as solid mid-blue bands 4-7 px wide with no dark outline, like the map key/TEC minor river. Only the Garigliano, below the Liri-Gari confluence, is drawn with dark outlines and a light centre (major). Measured across each side: centre minus edge brightness +20 to +60 on the Garigliano, about 0 on the rest."
+ },
+ "roadExits": [
+  "Major road enters 2000 from the N2 entry area (2000 top side).",
+  "Route 6 (major) enters 2301 from the N2 entry area (2301 top side).",
+  "Two minor roads leave Atina (2800) into the N3 entry area, across the 2800 sides that face the 2700 and 2900 positions.",
+  "Minor road leaves 1800 west into 1701, and another leaves 1801 west into 1702 (column 17, off photo).",
+  "Coast road (major) enters 1806 from 1706 (off photo, toward Formia).",
+  "Minor road leaves San Biagio Saracinisco (3002) east, off photo (column 31).",
+  "Minor road enters 3010 from the east (column 31, off photo) and runs south through 3011 to 3012.",
+  "Minor road leaves 3012 east toward Raviscanina (3112, off photo).",
+  "Major road leaves 3006 east, off photo (toward Isernia).",
+  "Route 6 leaves 2514 south, off photo; coast road leaves 2314 south, off photo.",
+  "Minor road leaves 2914 south-east, off photo; minor road 2013 -> 2014 (2014 centre is below the photo).",
+  "Minor road leaves 1914 south-west (to 1815/1915, off photo); minor road 2113 -> 2114 -> south."
+ ],
+ "uncertain": [
+  "River class: in this photo only the Garigliano (from the Liri-Gari confluence at the 2405/2406/2506 corner to the sea) is drawn in the major-river style (dark outlines, light centre, 8-11 px). The Liri, Gari, Rapido and the upper Volturno are solid blue bands with no outline (4-7 px), matching the minor-river symbol, so I recorded them as minor. This contradicts the expectation that the Liri, Rapido and Volturno are major; please cross-check with the S photo (Volturno near Capua) and with the TEC. The Gari has river-with-marsh sides (2404-2505, 2405-2505, 2405-2506, 2405-2406), which count as major anyway.",
+  "2908-3008: small grey marsh band with tufts beside the Volturno under its printed name; recorded as river \"marsh\" (medium).",
+  "2404-2505: the Gari marsh band begins just after the north end of this side; recorded as \"marsh\" (medium).",
+  "Pass 2904-2905: the )( symbol sits about 13 px inside 2905; nearest side is 2904-2905 (medium).",
+  "3002: the VP circle is cut by the photo's right edge; digit read as 1 (medium).",
+  "Peak Monna Casale 1395: triangle just below the 3003/3004 side; assigned to 3004.",
+  "Column 30 hexes lose about a third of their area beyond the right edge, and the bottom row (1914, 2114, 2314, 2514, 2714, 2914) about half beyond the bottom edge: terrain and sides there come from the visible part only (2714 low). The NE and S photos should confirm them.",
+  "Mixed clear/hill hexes judged by predominance (medium): 1907, 2007, 2707.",
+  "Road crossings close to hex corners (checked at 3-4x zoom, see each hexside note): 2302-2402, 2202-2302, 2402-2503, 2605-2706, 2513-2612, 2306-2406, 2010-2110, 2412-2512, 2810-2910.",
+  "Rapido/Gari name boundary is not printed; I named the river sides north and east of Cassino Rapido and those from 2504-2505 south Gari. The two upper Liri branches carry no printed name.",
+  "San Pietro (circle in 2707, name in 2606), Venafro (circle in 2907, name in 3007) and Mondragone (circle in 1913, name in the sea): towns assigned by the circle, not the name."
+ ],
+ "notes": [
+  "Calibration: 160 label anchors read at 2-4x zoom, locally weighted homography (sigma 3 grid units) using grid.py fit_hw/apply_h with this map's parity and label offset (ngrid.py). Displaced labels (2405, 2710, 1910, 2910, 3002) were left out.",
+  "Map key (NE photo) and TEC read at zoom: minor road = cream line with black dashed edges; major road = dark grey band with cream edges; town = beige circle; city = black grid (none in this photo); minor river = solid blue line; major river = blue with dark outlines; River+Marsh hexside = river with a grey marsh band and tufts; mountain hexside = side entirely covered by the dark shading; mountain pass = \")(\" across a side; landmark = small white rectangle; peak = triangle with height.",
+  "Mountain hexsides: measured as the share of 22 points along the side where at least 4 of 5 samples across it (-6..+6 px) are dark shading (mean RGB < 66). Values were bimodal (82 sides at 0.91-1.0, the rest 0.59 or less); every borderline side was checked by eye, and all sides at 1.0 in each massif were looked at.",
+  "Rivers: blue pixels within 14 px of the side at 22 points; river sides came out at 0.73-1.0 and were all checked by eye; non-river values were 0.45 or less (2009-2109 is the blue \"Garigliano\" lettering, not a river).",
+  "Roads: traced by eye hex by hex on 20 zoomed overlays, with extra 3-4x zooms wherever a road passes near a hex corner, then drawn back over the photo to check (z/rc*.jpg). Every road side that is also a river side is marked bridge.",
+  "Gustav Line (dark red dashes) and Bernhard Line (black dots) both follow hexsides and are drawn just inside the north/west hex; the hexes on that side carry gustav/bernhard=true. Neither crosses a hex.",
+  "Full Mountain hexes (six mountain sides inside this photo): 2502 (M. Cairo), 2601, 2806 (M. Sammucro), 2906 (M. Corno). 1802 and 1805 are wholly dark too, but their column 17 sides are off the photo.",
+  "The only road on a mountain hexside is the minor road on 2310-2410. Passes: 2601-2701, 2601-2602, 2503-2602, 2904-2905.",
+  "No cities, airfields, garrison notes or 8th Army zone in this photo. Scauri (1807) is the only port (minor-port symbol). Monte Cassino (2504) is the only landmark.",
+  "Sea: everything west of the coast is sea, including the darker teal strip along the shore. Column 18 rows 8-13 are sea; their outlines are not printed apart from the zig-zag west sides of column 19.",
+  "The numbers 1-5 printed along roads (some upside down) are road numbers, not VPs; VPs are the red circles.",
+  "A VP 1 circle at the far left (photo x~8, y~936) is in column 17 (1706), outside this transcription.",
+  "Overlays: overlay.jpg (grid and ids, half size) and features.jpg (transcribed rivers, roads, mountain sides, passes and lines over the photo)."
+ ]
+}

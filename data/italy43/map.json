@@ -16,6 +16,14 @@
    ],
    "side": "north"
   },
+  "N2": {
+   "hexes": [],
+   "side": "north"
+  },
+  "N3": {
+   "hexes": [],
+   "side": "north"
+  },
   "S1": {
    "hexes": [],
    "side": "south"
@@ -665,6 +673,50 @@
   "1728": {
    "terrain": "sea"
   },
+  "1800": {
+   "terrain": "hill"
+  },
+  "1801": {
+   "terrain": "hill"
+  },
+  "1802": {
+   "peak": "M. Faggeto 1256",
+   "terrain": "hill"
+  },
+  "1803": {
+   "terrain": "hill"
+  },
+  "1804": {
+   "terrain": "hill"
+  },
+  "1805": {
+   "peak": "M. Petrella 1533",
+   "terrain": "hill"
+  },
+  "1806": {
+   "terrain": "hill",
+   "town": "Castellonorato"
+  },
+  "1807": {
+   "harbour": true,
+   "label": "Scauri",
+   "terrain": "clear"
+  },
+  "1808": {
+   "terrain": "sea"
+  },
+  "1809": {
+   "terrain": "sea"
+  },
+  "1810": {
+   "terrain": "sea"
+  },
+  "1811": {
+   "terrain": "sea"
+  },
+  "1812": {
+   "terrain": "sea"
+  },
   "1813": {
    "terrain": "sea"
   },
@@ -713,6 +765,50 @@
   "1827": {
    "terrain": "sea"
   },
+  "1901": {
+   "terrain": "hill"
+  },
+  "1902": {
+   "terrain": "hill"
+  },
+  "1903": {
+   "terrain": "hill"
+  },
+  "1904": {
+   "terrain": "hill"
+  },
+  "1905": {
+   "terrain": "hill"
+  },
+  "1906": {
+   "terrain": "hill"
+  },
+  "1907": {
+   "terrain": "hill"
+  },
+  "1908": {
+   "gustav": true,
+   "terrain": "hill",
+   "town": "Minturno",
+   "vp": 1
+  },
+  "1909": {
+   "terrain": "marsh"
+  },
+  "1910": {
+   "terrain": "clear"
+  },
+  "1911": {
+   "terrain": "clear"
+  },
+  "1912": {
+   "terrain": "hill"
+  },
+  "1913": {
+   "terrain": "hill",
+   "town": "Mondragone",
+   "vp": 1
+  },
   "1914": {
    "terrain": "clear"
   },
@@ -759,6 +855,49 @@
   },
   "1928": {
    "terrain": "sea"
+  },
+  "2000": {
+   "terrain": "hill"
+  },
+  "2001": {
+   "terrain": "hill"
+  },
+  "2002": {
+   "terrain": "hill"
+  },
+  "2003": {
+   "terrain": "hill"
+  },
+  "2004": {
+   "terrain": "hill",
+   "town": "Esperia"
+  },
+  "2005": {
+   "terrain": "hill"
+  },
+  "2006": {
+   "terrain": "clear"
+  },
+  "2007": {
+   "terrain": "hill"
+  },
+  "2008": {
+   "gustav": true,
+   "terrain": "clear"
+  },
+  "2009": {
+   "terrain": "marsh"
+  },
+  "2010": {
+   "terrain": "clear",
+   "town": "Cellole"
+  },
+  "2011": {
+   "terrain": "clear"
+  },
+  "2012": {
+   "peak": "M. Massico 813",
+   "terrain": "hill"
   },
   "2013": {
    "terrain": "hill"
@@ -811,6 +950,49 @@
   },
   "2027": {
    "terrain": "sea"
+  },
+  "2101": {
+   "terrain": "clear"
+  },
+  "2102": {
+   "terrain": "hill"
+  },
+  "2103": {
+   "terrain": "hill"
+  },
+  "2104": {
+   "terrain": "hill"
+  },
+  "2105": {
+   "terrain": "hill"
+  },
+  "2106": {
+   "terrain": "hill",
+   "town": "Ausonia"
+  },
+  "2107": {
+   "terrain": "hill"
+  },
+  "2108": {
+   "gustav": true,
+   "terrain": "hill",
+   "town": "Castelforte",
+   "vp": 1
+  },
+  "2109": {
+   "terrain": "marsh"
+  },
+  "2110": {
+   "terrain": "clear"
+  },
+  "2111": {
+   "terrain": "clear"
+  },
+  "2112": {
+   "terrain": "hill"
+  },
+  "2113": {
+   "terrain": "hill"
   },
   "2114": {
    "terrain": "clear"
@@ -866,6 +1048,51 @@
   "2127": {
    "terrain": "hill"
   },
+  "2200": {
+   "terrain": "clear"
+  },
+  "2201": {
+   "terrain": "clear"
+  },
+  "2202": {
+   "terrain": "clear",
+   "town": "Pontecorvo"
+  },
+  "2203": {
+   "terrain": "clear"
+  },
+  "2204": {
+   "terrain": "hill",
+   "town": "San Giorgio"
+  },
+  "2205": {
+   "terrain": "hill"
+  },
+  "2206": {
+   "terrain": "hill"
+  },
+  "2207": {
+   "terrain": "hill"
+  },
+  "2208": {
+   "gustav": true,
+   "terrain": "hill"
+  },
+  "2209": {
+   "terrain": "hill"
+  },
+  "2210": {
+   "terrain": "hill"
+  },
+  "2211": {
+   "terrain": "hill",
+   "town": "Sessa Aurunca",
+   "vp": 1
+  },
+  "2212": {
+   "terrain": "clear",
+   "town": "Carinola"
+  },
   "2213": {
    "terrain": "clear"
   },
@@ -917,6 +1144,49 @@
   "2227": {
    "terrain": "hill"
   },
+  "2301": {
+   "terrain": "clear",
+   "vp": 5
+  },
+  "2302": {
+   "terrain": "clear",
+   "town": "Aquino"
+  },
+  "2303": {
+   "terrain": "clear"
+  },
+  "2304": {
+   "terrain": "clear"
+  },
+  "2305": {
+   "terrain": "clear"
+  },
+  "2306": {
+   "terrain": "hill"
+  },
+  "2307": {
+   "gustav": true,
+   "terrain": "hill"
+  },
+  "2308": {
+   "gustav": true,
+   "terrain": "hill"
+  },
+  "2309": {
+   "terrain": "hill"
+  },
+  "2310": {
+   "terrain": "hill"
+  },
+  "2311": {
+   "terrain": "hill"
+  },
+  "2312": {
+   "terrain": "hill"
+  },
+  "2313": {
+   "terrain": "clear"
+  },
   "2314": {
    "terrain": "clear"
   },
@@ -962,6 +1232,50 @@
   },
   "2327": {
    "peak": "Mt. Vesuvius (M. Vesuvio) 1281",
+   "terrain": "hill"
+  },
+  "2400": {
+   "terrain": "hill"
+  },
+  "2401": {
+   "terrain": "hill"
+  },
+  "2402": {
+   "terrain": "hill"
+  },
+  "2403": {
+   "terrain": "clear"
+  },
+  "2404": {
+   "gustav": true,
+   "terrain": "clear"
+  },
+  "2405": {
+   "gustav": true,
+   "terrain": "clear"
+  },
+  "2406": {
+   "gustav": true,
+   "terrain": "hill",
+   "vp": 1
+  },
+  "2407": {
+   "terrain": "hill"
+  },
+  "2408": {
+   "bernhard": true,
+   "terrain": "hill"
+  },
+  "2409": {
+   "terrain": "hill"
+  },
+  "2410": {
+   "terrain": "hill"
+  },
+  "2411": {
+   "terrain": "hill"
+  },
+  "2412": {
    "terrain": "hill"
   },
   "2413": {
@@ -1014,6 +1328,55 @@
   "2427": {
    "terrain": "hill"
   },
+  "2501": {
+   "terrain": "hill"
+  },
+  "2502": {
+   "fullMountain": true,
+   "peak": "M. Cairo 1669",
+   "terrain": "hill"
+  },
+  "2503": {
+   "terrain": "hill"
+  },
+  "2504": {
+   "gustav": true,
+   "landmark": "Monte Cassino",
+   "terrain": "hill",
+   "town": "Cassino",
+   "vp": 2
+  },
+  "2505": {
+   "terrain": "clear"
+  },
+  "2506": {
+   "terrain": "clear"
+  },
+  "2507": {
+   "terrain": "hill"
+  },
+  "2508": {
+   "bernhard": true,
+   "peak": "M. Camino 963",
+   "terrain": "hill",
+   "vp": 1
+  },
+  "2509": {
+   "terrain": "hill"
+  },
+  "2510": {
+   "terrain": "hill"
+  },
+  "2511": {
+   "terrain": "hill"
+  },
+  "2512": {
+   "terrain": "hill",
+   "town": "Teano"
+  },
+  "2513": {
+   "terrain": "clear"
+  },
   "2514": {
    "terrain": "clear"
   },
@@ -1063,6 +1426,51 @@
   "2527": {
    "terrain": "hill",
    "town": "Ottaviano"
+  },
+  "2600": {
+   "peak": "M. Obachelle 1466",
+   "terrain": "hill"
+  },
+  "2601": {
+   "fullMountain": true,
+   "terrain": "hill"
+  },
+  "2602": {
+   "terrain": "hill"
+  },
+  "2603": {
+   "gustav": true,
+   "terrain": "hill"
+  },
+  "2604": {
+   "terrain": "hill"
+  },
+  "2605": {
+   "terrain": "hill"
+  },
+  "2606": {
+   "terrain": "clear"
+  },
+  "2607": {
+   "bernhard": true,
+   "label": "Mignano Gap",
+   "terrain": "hill"
+  },
+  "2608": {
+   "terrain": "hill"
+  },
+  "2609": {
+   "terrain": "hill"
+  },
+  "2610": {
+   "terrain": "hill",
+   "town": "Marzano Appio"
+  },
+  "2611": {
+   "terrain": "hill"
+  },
+  "2612": {
+   "terrain": "clear"
   },
   "2613": {
    "terrain": "hill"
@@ -1115,6 +1523,54 @@
   "2627": {
    "terrain": "clear"
   },
+  "2701": {
+   "terrain": "hill"
+  },
+  "2702": {
+   "terrain": "hill"
+  },
+  "2703": {
+   "gustav": true,
+   "terrain": "hill",
+   "town": "Sant'Elia Fiumerapido",
+   "vp": 1
+  },
+  "2704": {
+   "terrain": "hill"
+  },
+  "2705": {
+   "terrain": "hill",
+   "town": "Cervaro"
+  },
+  "2706": {
+   "terrain": "hill"
+  },
+  "2707": {
+   "bernhard": true,
+   "terrain": "hill",
+   "town": "San Pietro",
+   "vp": 1
+  },
+  "2708": {
+   "terrain": "hill",
+   "town": "Mignano"
+  },
+  "2709": {
+   "terrain": "hill"
+  },
+  "2710": {
+   "terrain": "clear"
+  },
+  "2711": {
+   "terrain": "clear",
+   "vp": 1
+  },
+  "2712": {
+   "terrain": "clear"
+  },
+  "2713": {
+   "terrain": "clear"
+  },
   "2714": {
    "peak": "Pizzo San Salvatore 1037",
    "terrain": "hill"
@@ -1158,6 +1614,57 @@
    "terrain": "clear"
   },
   "2727": {
+   "terrain": "clear"
+  },
+  "2800": {
+   "terrain": "hill",
+   "town": "Atina",
+   "vp": 3
+  },
+  "2801": {
+   "terrain": "hill"
+  },
+  "2802": {
+   "gustav": true,
+   "terrain": "hill"
+  },
+  "2803": {
+   "terrain": "hill",
+   "town": "Vallerotonda"
+  },
+  "2804": {
+   "peak": "Colle Aquilone 1270",
+   "terrain": "hill",
+   "vp": 1
+  },
+  "2805": {
+   "terrain": "hill"
+  },
+  "2806": {
+   "bernhard": true,
+   "fullMountain": true,
+   "peak": "M. Sammucro 1205",
+   "terrain": "hill"
+  },
+  "2807": {
+   "terrain": "hill"
+  },
+  "2808": {
+   "peak": "M. Cesima 1180",
+   "terrain": "hill"
+  },
+  "2809": {
+   "terrain": "hill",
+   "town": "Presenzano"
+  },
+  "2810": {
+   "terrain": "clear"
+  },
+  "2811": {
+   "terrain": "hill",
+   "town": "Vairano Patenora"
+  },
+  "2812": {
    "terrain": "clear"
   },
   "2813": {
@@ -1207,6 +1714,53 @@
   "2827": {
    "terrain": "hill"
   },
+  "2901": {
+   "terrain": "hill"
+  },
+  "2902": {
+   "gustav": true,
+   "terrain": "hill"
+  },
+  "2903": {
+   "terrain": "hill"
+  },
+  "2904": {
+   "terrain": "hill"
+  },
+  "2905": {
+   "peak": "M. Maio 1259",
+   "terrain": "hill"
+  },
+  "2906": {
+   "bernhard": true,
+   "fullMountain": true,
+   "peak": "M. Corno 1054",
+   "terrain": "hill",
+   "vp": 1
+  },
+  "2907": {
+   "terrain": "hill",
+   "town": "Venafro"
+  },
+  "2908": {
+   "terrain": "clear"
+  },
+  "2909": {
+   "terrain": "clear"
+  },
+  "2910": {
+   "terrain": "clear"
+  },
+  "2911": {
+   "terrain": "clear"
+  },
+  "2912": {
+   "terrain": "hill",
+   "town": "Pietravairano"
+  },
+  "2913": {
+   "terrain": "hill"
+  },
   "2914": {
    "terrain": "hill"
   },
@@ -1249,6 +1803,50 @@
   },
   "2927": {
    "terrain": "hill"
+  },
+  "3000": {
+   "terrain": "hill"
+  },
+  "3001": {
+   "terrain": "hill"
+  },
+  "3002": {
+   "gustav": true,
+   "terrain": "hill",
+   "town": "San Biagio Saracinisco",
+   "vp": 1
+  },
+  "3003": {
+   "terrain": "hill"
+  },
+  "3004": {
+   "peak": "Monna Casale 1395",
+   "terrain": "hill"
+  },
+  "3005": {
+   "bernhard": true,
+   "terrain": "hill"
+  },
+  "3006": {
+   "terrain": "hill"
+  },
+  "3007": {
+   "terrain": "clear"
+  },
+  "3008": {
+   "terrain": "hill"
+  },
+  "3009": {
+   "terrain": "hill"
+  },
+  "3010": {
+   "terrain": "hill"
+  },
+  "3011": {
+   "terrain": "clear"
+  },
+  "3012": {
+   "terrain": "clear"
   },
   "3013": {
    "terrain": "clear",
@@ -1985,6 +2583,66 @@
   "1723-1823": {
    "road": "minor"
   },
+  "1800-1801": {
+   "road": "minor"
+  },
+  "1800-1901": {
+   "road": "major"
+  },
+  "1801-1802": {
+   "mountain": true
+  },
+  "1801-1901": {
+   "mountain": true
+  },
+  "1801-1902": {
+   "mountain": true
+  },
+  "1802-1803": {
+   "mountain": true
+  },
+  "1802-1902": {
+   "mountain": true
+  },
+  "1802-1903": {
+   "mountain": true
+  },
+  "1803-1903": {
+   "mountain": true
+  },
+  "1803-1904": {
+   "mountain": true
+  },
+  "1804-1805": {
+   "mountain": true
+  },
+  "1804-1904": {
+   "mountain": true
+  },
+  "1804-1905": {
+   "mountain": true
+  },
+  "1805-1806": {
+   "mountain": true
+  },
+  "1805-1905": {
+   "mountain": true
+  },
+  "1805-1906": {
+   "mountain": true
+  },
+  "1806-1807": {
+   "road": "major"
+  },
+  "1806-1906": {
+   "mountain": true
+  },
+  "1806-1907": {
+   "road": "minor"
+  },
+  "1807-1908": {
+   "road": "major"
+  },
   "1814-1815": {
    "river": true,
    "riverName": "Agnena Canal",
@@ -2028,6 +2686,72 @@
   "1824-1924": {
    "road": "minor"
   },
+  "1901-2000": {
+   "road": "major"
+  },
+  "1901-2001": {
+   "river": true,
+   "road": "minor"
+  },
+  "1902-2001": {
+   "river": true
+  },
+  "1902-2002": {
+   "river": true
+  },
+  "1903-1904": {
+   "mountain": true
+  },
+  "1903-2002": {
+   "river": true
+  },
+  "1905-1906": {
+   "mountain": true
+  },
+  "1905-2005": {
+   "mountain": true
+  },
+  "1907-1908": {
+   "road": "minor"
+  },
+  "1907-2006": {
+   "road": "minor"
+  },
+  "1908-1909": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano",
+   "road": "major"
+  },
+  "1908-2008": {
+   "road": "minor"
+  },
+  "1909-1910": {
+   "road": "minor"
+  },
+  "1909-2008": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "1909-2009": {
+   "road": "major"
+  },
+  "1910-2010": {
+   "road": "minor"
+  },
+  "1911-1912": {
+   "road": "minor"
+  },
+  "1911-2010": {
+   "road": "minor"
+  },
+  "1911-2011": {
+   "road": "minor"
+  },
+  "1912-1913": {
+   "road": "minor"
+  },
   "1913-1914": {
    "road": "minor"
   },
@@ -2068,6 +2792,74 @@
   },
   "1924-2024": {
    "road": "minor"
+  },
+  "2000-2101": {
+   "river": true
+  },
+  "2001-2101": {
+   "river": true
+  },
+  "2001-2102": {
+   "road": "minor"
+  },
+  "2002-2003": {
+   "river": true,
+   "road": "minor"
+  },
+  "2002-2103": {
+   "road": "minor"
+  },
+  "2003-2004": {
+   "road": "minor"
+  },
+  "2003-2103": {
+   "river": true
+  },
+  "2004-2005": {
+   "mountain": true
+  },
+  "2004-2105": {
+   "road": "minor"
+  },
+  "2006-2007": {
+   "road": "minor"
+  },
+  "2006-2106": {
+   "road": "minor"
+  },
+  "2007-2008": {
+   "road": "minor"
+  },
+  "2008-2009": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2008-2108": {
+   "road": "minor"
+  },
+  "2008-2109": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2009-2010": {
+   "road": "major"
+  },
+  "2010-2011": {
+   "road": "minor"
+  },
+  "2010-2110": {
+   "road": "minor"
+  },
+  "2010-2111": {
+   "road": "major"
+  },
+  "2011-2111": {
+   "road": "minor"
+  },
+  "2012-2113": {
+   "mountain": true
   },
   "2013-2014": {
    "road": "minor"
@@ -2136,7 +2928,80 @@
   "2024-2125": {
    "road": "major"
   },
+  "2101-2102": {
+   "river": true
+  },
+  "2102-2103": {
+   "road": "minor"
+  },
+  "2102-2201": {
+   "river": true
+  },
+  "2102-2202": {
+   "river": true,
+   "road": "minor"
+  },
+  "2103-2104": {
+   "river": true
+  },
+  "2103-2202": {
+   "river": true
+  },
+  "2103-2203": {
+   "river": true
+  },
+  "2104-2203": {
+   "river": true,
+   "riverName": "Liri"
+  },
+  "2105-2106": {
+   "road": "minor"
+  },
+  "2105-2204": {
+   "road": "minor"
+  },
+  "2105-2205": {
+   "mountain": true
+  },
+  "2106-2205": {
+   "mountain": true
+  },
+  "2106-2206": {
+   "mountain": true
+  },
+  "2107-2206": {
+   "mountain": true
+  },
+  "2107-2207": {
+   "mountain": true
+  },
+  "2108-2109": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano",
+   "road": "minor"
+  },
+  "2108-2208": {
+   "road": "minor"
+  },
+  "2109-2208": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2109-2209": {
+   "road": "minor"
+  },
+  "2110-2209": {
+   "road": "minor"
+  },
+  "2111-2211": {
+   "road": "major"
+  },
   "2113-2114": {
+   "road": "minor"
+  },
+  "2113-2212": {
    "road": "minor"
   },
   "2114-2115": {
@@ -2220,6 +3085,72 @@
   "2127-2128": {
    "road": "major"
   },
+  "2202-2203": {
+   "road": "minor"
+  },
+  "2202-2302": {
+   "road": "minor"
+  },
+  "2203-2204": {
+   "river": true,
+   "riverName": "Liri"
+  },
+  "2203-2304": {
+   "road": "minor"
+  },
+  "2204-2304": {
+   "river": true,
+   "riverName": "Liri"
+  },
+  "2204-2305": {
+   "river": true,
+   "riverName": "Liri",
+   "road": "minor"
+  },
+  "2205-2305": {
+   "river": true,
+   "riverName": "Liri"
+  },
+  "2207-2307": {
+   "mountain": true
+  },
+  "2207-2308": {
+   "mountain": true
+  },
+  "2208-2209": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2208-2308": {
+   "road": "minor"
+  },
+  "2208-2309": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2209-2309": {
+   "road": "minor"
+  },
+  "2209-2310": {
+   "road": "minor"
+  },
+  "2210-2211": {
+   "road": "minor"
+  },
+  "2210-2311": {
+   "road": "minor"
+  },
+  "2211-2312": {
+   "road": "major"
+  },
+  "2212-2312": {
+   "road": "minor"
+  },
+  "2212-2313": {
+   "road": "minor"
+  },
   "2214-2215": {
    "river": true,
    "riverName": "Agnena Canal",
@@ -2284,8 +3215,78 @@
   "2227-2327": {
    "mountain": true
   },
+  "2301-2302": {
+   "road": "major"
+  },
+  "2302-2402": {
+   "road": "major"
+  },
+  "2304-2305": {
+   "road": "minor"
+  },
+  "2305-2306": {
+   "river": true,
+   "riverName": "Liri",
+   "road": "minor"
+  },
+  "2305-2404": {
+   "road": "minor"
+  },
+  "2306-2405": {
+   "river": true,
+   "riverName": "Liri"
+  },
+  "2306-2406": {
+   "road": "minor"
+  },
+  "2307-2308": {
+   "road": "minor"
+  },
+  "2307-2406": {
+   "road": "minor"
+  },
+  "2307-2407": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2308-2309": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano",
+   "road": "minor"
+  },
+  "2308-2407": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2308-2408": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2309-2408": {
+   "road": "minor"
+  },
+  "2310-2311": {
+   "road": "minor"
+  },
+  "2310-2410": {
+   "mountain": true,
+   "road": "minor"
+  },
+  "2311-2410": {
+   "mountain": true
+  },
+  "2312-2313": {
+   "road": "major"
+  },
   "2313-2314": {
    "road": "major"
+  },
+  "2313-2412": {
+   "road": "minor"
   },
   "2314-2414": {
    "road": "major"
@@ -2360,6 +3361,78 @@
   "2327-2427": {
    "mountain": true
   },
+  "2400-2501": {
+   "mountain": true
+  },
+  "2401-2501": {
+   "mountain": true
+  },
+  "2401-2502": {
+   "mountain": true
+  },
+  "2402-2502": {
+   "mountain": true
+  },
+  "2402-2503": {
+   "road": "major"
+  },
+  "2404-2504": {
+   "road": "minor"
+  },
+  "2404-2505": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Gari"
+  },
+  "2405-2406": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Liri"
+  },
+  "2405-2505": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Gari"
+  },
+  "2405-2506": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Gari"
+  },
+  "2406-2407": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2406-2506": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano",
+   "road": "minor"
+  },
+  "2406-2507": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Garigliano"
+  },
+  "2407-2408": {
+   "road": "minor"
+  },
+  "2407-2507": {
+   "road": "minor"
+  },
+  "2408-2509": {
+   "road": "minor"
+  },
+  "2409-2410": {
+   "mountain": true
+  },
+  "2410-2511": {
+   "road": "minor"
+  },
+  "2412-2512": {
+   "road": "minor"
+  },
   "2414-2515": {
    "road": "major"
   },
@@ -2420,7 +3493,78 @@
   "2426-2527": {
    "road": "minor"
   },
+  "2501-2502": {
+   "mountain": true
+  },
+  "2501-2600": {
+   "mountain": true
+  },
+  "2501-2601": {
+   "mountain": true
+  },
+  "2502-2503": {
+   "mountain": true
+  },
+  "2502-2601": {
+   "mountain": true
+  },
+  "2502-2602": {
+   "mountain": true
+  },
+  "2503-2504": {
+   "road": "major"
+  },
+  "2503-2602": {
+   "mountain": true,
+   "pass": true
+  },
+  "2503-2603": {
+   "mountain": true
+  },
+  "2504-2505": {
+   "river": true,
+   "riverName": "Gari"
+  },
+  "2504-2604": {
+   "river": true,
+   "riverName": "Rapido",
+   "road": "major"
+  },
+  "2506-2507": {
+   "river": true,
+   "road": "minor"
+  },
+  "2506-2605": {
+   "road": "minor"
+  },
+  "2508-2509": {
+   "mountain": true
+  },
+  "2508-2607": {
+   "mountain": true
+  },
+  "2508-2608": {
+   "mountain": true
+  },
+  "2509-2608": {
+   "road": "minor"
+  },
+  "2511-2512": {
+   "road": "minor"
+  },
+  "2511-2610": {
+   "road": "minor"
+  },
+  "2512-2611": {
+   "road": "minor"
+  },
+  "2512-2612": {
+   "road": "minor"
+  },
   "2513-2514": {
+   "road": "major"
+  },
+  "2513-2612": {
    "road": "major"
   },
   "2514-2515": {
@@ -2484,6 +3628,65 @@
   "2527-2528": {
    "road": "minor"
   },
+  "2600-2601": {
+   "mountain": true
+  },
+  "2600-2701": {
+   "mountain": true
+  },
+  "2601-2602": {
+   "mountain": true,
+   "pass": true
+  },
+  "2601-2701": {
+   "mountain": true,
+   "pass": true
+  },
+  "2601-2702": {
+   "mountain": true
+  },
+  "2602-2702": {
+   "mountain": true
+  },
+  "2603-2604": {
+   "river": true,
+   "riverName": "Rapido",
+   "road": "minor"
+  },
+  "2603-2703": {
+   "road": "minor"
+  },
+  "2603-2704": {
+   "river": true,
+   "riverName": "Rapido"
+  },
+  "2604-2605": {
+   "road": "major"
+  },
+  "2604-2705": {
+   "road": "minor"
+  },
+  "2605-2705": {
+   "road": "minor"
+  },
+  "2605-2706": {
+   "road": "major"
+  },
+  "2608-2708": {
+   "road": "minor"
+  },
+  "2610-2711": {
+   "road": "minor"
+  },
+  "2611-2712": {
+   "road": "minor"
+  },
+  "2612-2712": {
+   "road": "major"
+  },
+  "2612-2713": {
+   "road": "minor"
+  },
   "2614-2714": {
    "mountain": true
   },
@@ -2541,6 +3744,76 @@
   },
   "2625-2726": {
    "road": "major"
+  },
+  "2701-2702": {
+   "road": "minor"
+  },
+  "2701-2800": {
+   "road": "minor"
+  },
+  "2702-2703": {
+   "road": "minor"
+  },
+  "2702-2801": {
+   "mountain": true
+  },
+  "2703-2704": {
+   "river": true,
+   "riverName": "Rapido"
+  },
+  "2703-2802": {
+   "road": "minor"
+  },
+  "2704-2705": {
+   "road": "minor"
+  },
+  "2704-2803": {
+   "road": "minor"
+  },
+  "2705-2804": {
+   "mountain": true
+  },
+  "2706-2707": {
+   "road": "major"
+  },
+  "2706-2806": {
+   "mountain": true
+  },
+  "2707-2708": {
+   "road": "major"
+  },
+  "2707-2806": {
+   "mountain": true
+  },
+  "2707-2807": {
+   "road": "minor"
+  },
+  "2708-2709": {
+   "road": "major"
+  },
+  "2708-2807": {
+   "mountain": true
+  },
+  "2708-2808": {
+   "mountain": true
+  },
+  "2709-2710": {
+   "road": "major"
+  },
+  "2709-2808": {
+   "mountain": true
+  },
+  "2710-2711": {
+   "road": "major"
+  },
+  "2711-2712": {
+   "road": "major"
+  },
+  "2711-2810": {
+   "road": "major"
+  },
+  "2712-2812": {
+   "road": "minor"
   },
   "2713-2714": {
    "road": "minor"
@@ -2626,6 +3899,68 @@
   "2727-2728": {
    "road": "minor"
   },
+  "2800-2801": {
+   "road": "minor"
+  },
+  "2801-2802": {
+   "mountain": true
+  },
+  "2801-2901": {
+   "road": "minor"
+  },
+  "2802-2803": {
+   "road": "minor"
+  },
+  "2802-2902": {
+   "mountain": true
+  },
+  "2803-2904": {
+   "mountain": true
+  },
+  "2804-2805": {
+   "mountain": true
+  },
+  "2804-2905": {
+   "mountain": true
+  },
+  "2805-2806": {
+   "mountain": true
+  },
+  "2805-2905": {
+   "mountain": true
+  },
+  "2805-2906": {
+   "mountain": true
+  },
+  "2806-2807": {
+   "mountain": true
+  },
+  "2806-2906": {
+   "mountain": true
+  },
+  "2806-2907": {
+   "mountain": true
+  },
+  "2807-2907": {
+   "road": "minor"
+  },
+  "2808-2909": {
+   "mountain": true
+  },
+  "2810-2910": {
+   "road": "major"
+  },
+  "2810-2911": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2811-2911": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2812-2912": {
+   "road": "minor"
+  },
   "2813-2914": {
    "road": "minor"
   },
@@ -2687,6 +4022,103 @@
   "2826-2926": {
    "road": "major"
   },
+  "2901-2902": {
+   "road": "minor"
+  },
+  "2902-2903": {
+   "mountain": true
+  },
+  "2902-3002": {
+   "road": "minor"
+  },
+  "2903-2904": {
+   "mountain": true
+  },
+  "2903-3002": {
+   "mountain": true
+  },
+  "2904-2905": {
+   "mountain": true,
+   "pass": true
+  },
+  "2904-3003": {
+   "mountain": true
+  },
+  "2904-3004": {
+   "mountain": true
+  },
+  "2905-2906": {
+   "mountain": true
+  },
+  "2905-3005": {
+   "mountain": true
+  },
+  "2906-2907": {
+   "mountain": true
+  },
+  "2906-3005": {
+   "mountain": true
+  },
+  "2906-3006": {
+   "mountain": true
+  },
+  "2907-2908": {
+   "road": "major"
+  },
+  "2907-3006": {
+   "road": "major"
+  },
+  "2908-2909": {
+   "road": "major"
+  },
+  "2908-3008": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2909-2910": {
+   "road": "major"
+  },
+  "2909-3008": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2909-3009": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2910-2911": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2910-3009": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2910-3010": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2911-2912": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2911-3011": {
+   "river": true
+  },
+  "2912-3011": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "2912-3012": {
+   "river": true,
+   "riverName": "Volturno",
+   "road": "minor"
+  },
+  "2913-3012": {
+   "river": true,
+   "riverName": "Volturno"
+  },
   "2914-3014": {
    "road": "minor"
   },
@@ -2745,6 +4177,24 @@
   },
   "2926-3026": {
    "road": "major"
+  },
+  "3003-3004": {
+   "mountain": true
+  },
+  "3007-3008": {
+   "river": true,
+   "riverName": "Volturno"
+  },
+  "3010-3011": {
+   "river": true,
+   "road": "minor"
+  },
+  "3011-3012": {
+   "road": "minor"
+  },
+  "3012-3013": {
+   "river": true,
+   "riverName": "Volturno"
   },
   "3013-3114": {
    "river": true,
