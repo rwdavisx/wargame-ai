@@ -1,5 +1,6 @@
 // Zones of control and ZOC Bonds.
 import { MAP } from './data';
+import { memo } from './memo';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import type { GameState, Side } from './types';
 import { def, goodOrder, isLand, occupancy, seaBetween, sideOf, unitsAt } from './units';
@@ -16,6 +17,10 @@ function mountainWithoutRoad(a: HexId, b: HexId): boolean {
 
 /** Hexes in the zone of control of `side`'s units. */
 export function zocOf(s: GameState, side: Side): Set<HexId> {
+  return memo(s, `zoc:${side}`, () => zocOf0(s, side));
+}
+
+function zocOf0(s: GameState, side: Side): Set<HexId> {
   const z = new Set<HexId>();
   for (const u of Object.values(s.units)) {
     if (u.where.kind !== 'map' || sideOf(u) !== side || u.status === 'fullRetreat') continue;
@@ -36,6 +41,10 @@ export interface Bonds {
 
 /** ZOC Bonds formed by `side`. Enemy units may not enter `hexes` or cross `sides`. */
 export function bondsOf(s: GameState, side: Side): Bonds {
+  return memo(s, `bonds:${side}`, () => bondsOf0(s, side));
+}
+
+function bondsOf0(s: GameState, side: Side): Bonds {
   const occ = occupancy(s);
   const anchors = new Map<HexId, { vehicleOnly: boolean }>();
   for (const u of Object.values(s.units)) {

@@ -5,8 +5,20 @@ import { distance, neighbors, type HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
 import { def, goodOrder, isLand, nationGroup, occupancy, other, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
 
-/** Expected outcome of one CRT column in steps and retreat chance. */
-export function expectedOutcome(finalIndex: number, drm: number, defenderSteps: number) {
+const outcomes = new WeakMap<object, Map<string, ReturnType<typeof expectedOutcome0>>>();
+
+/** Expected outcome of one CRT column in steps and retreat chance (worked out once per column for each table). */
+export function expectedOutcome(finalIndex: number, drm: number, defenderSteps: number): ReturnType<typeof expectedOutcome0> {
+  const table = RULES.combat.crt;
+  let m = outcomes.get(table);
+  if (!m) outcomes.set(table, (m = new Map()));
+  const key = `${finalIndex}|${drm}|${defenderSteps}`;
+  let e = m.get(key);
+  if (!e) m.set(key, (e = Object.freeze(expectedOutcome0(finalIndex, drm, defenderSteps))));
+  return e;
+}
+
+function expectedOutcome0(finalIndex: number, drm: number, defenderSteps: number) {
   let defLoss = 0;
   let attLoss = 0;
   let retreat = 0;
@@ -113,23 +125,28 @@ export function bestAttackOn(s: GameState, target: HexId, aggression: number,
   return best;
 }
 
-/** Hex-distance field over land from a set of target hexes. */
-export function distanceField(targets: HexId[], limit = 40): Map<HexId, number> {
+/** Hex-distance field over land from a set of target hexes. With `start`, each target begins that many hexes out
+ * (a well-held objective counts as further away than an open one). */
+export function distanceField(targets: HexId[], limit = 40, start?: (h: HexId) => number): Map<HexId, number> {
   const d = new Map<HexId, number>();
-  const q: HexId[] = [];
+  // Buckets by distance, so targets that start further out join the spread when it reaches them.
+  const buckets: HexId[][] = [];
   for (const t of targets) {
     if (!isLand(t)) continue;
-    d.set(t, 0);
-    q.push(t);
+    const k = Math.max(0, Math.round(start ? start(t) : 0));
+    (buckets[k] ??= []).push(t);
   }
-  while (q.length) {
-    const cur = q.shift()!;
-    const k = d.get(cur)!;
-    if (k >= limit) continue;
-    for (const n of neighbors(cur)) {
-      if (d.has(n) || !isLand(n)) continue;
-      d.set(n, k + 1);
-      q.push(n);
+  for (let k = 0; k <= limit && k < buckets.length + limit; k++) {
+    const q = buckets[k];
+    if (!q) {
+      if (k >= buckets.length) break;
+      continue;
+    }
+    for (const cur of q) {
+      if (d.has(cur)) continue;
+      d.set(cur, k);
+      if (k >= limit) continue;
+      for (const n of neighbors(cur)) if (!d.has(n) && isLand(n)) (buckets[k + 1] ??= []).push(n);
     }
   }
   return d;

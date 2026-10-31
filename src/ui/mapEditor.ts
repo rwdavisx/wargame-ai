@@ -3,6 +3,7 @@
 // exported as JSON to replace the game's map.json (data/<game>/map.json). Each game keeps its own edits.
 import { GAME_ID, MAP, onGameData } from '../engine/data';
 import type { HexData, HexsideData } from '../engine/types';
+import { invalidateGrid } from '../engine/movement';
 
 const key = () => (GAME_ID === 'salerno43' ? 's43.mapOverrides.v1' : `${GAME_ID}.mapOverrides.v1`);
 
@@ -39,10 +40,12 @@ export function applyMapOverrides(): void {
     if (d && Object.keys(d).length) MAP.hexsides[k] = d;
     else delete MAP.hexsides[k];
   }
+  invalidateGrid();
 }
 
 export function editHex(id: string, data: HexData): void {
   MAP.hexes[id] = data;
+  invalidateGrid();
   const o = read();
   o.hexes[id] = data;
   write(o);
@@ -56,6 +59,7 @@ export function editHexside(key: string, data: HexsideData): void {
   if (data.road) clean.road = data.road;
   if (Object.keys(clean).length) MAP.hexsides[key] = clean;
   else delete MAP.hexsides[key];
+  invalidateGrid();
   const o = read();
   o.hexsides[key] = Object.keys(clean).length ? clean : null;
   write(o);

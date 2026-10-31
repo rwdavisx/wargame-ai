@@ -165,10 +165,12 @@ describe('online play', () => {
     // The list spills into a second chunk (unless the game ended first).
     const chunks = store.keys().filter((k) => k.startsWith(`games/${gid}/log/`)).length;
     expect(chunks).toBe(Math.ceil(ann.session.local.length / CHUNK));
-    // An order taken on a position the screen has since left is refused, as is a replay step from one.
+    // An order taken on a position the screen has since left is refused, as is a replay step from one. (The order is
+    // the computer's next one, legal wherever the random game has got to.)
     const stale = ann.game;
-    ann.act({ type: 'endPhase' });
-    expect(ann.session.push({ type: 'endPhase' }, stale, withAction(stale, { type: 'endPhase' }))).toBe(false);
+    const next = ai[actingSide(stale)].nextAction(stale) as Action;
+    ann.act(next);
+    expect(ann.session.push(next, stale, withAction(stale, next))).toBe(false);
     await until(() => ann.session.status === 'ok');
     await until(() => eve.session.incoming().length > 0);
     const eveAt = eve.game;

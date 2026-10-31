@@ -1,3 +1,4 @@
+import { memo, memoActive } from './memo';
 import { MAP, RULES, UNIT_DEFS } from './data';
 import { sideKey, type HexId } from './hex';
 import type { GameState, Side, StepValues, UnitDef, UnitState } from './types';
@@ -54,9 +55,17 @@ export function goodOrder(u: UnitState): boolean {
 }
 
 export function unitsAt(s: GameState, hex: HexId): UnitState[] {
-  const out: UnitState[] = [];
-  for (const u of Object.values(s.units)) if (u.where.kind === 'map' && u.where.hex === hex) out.push(u);
-  return out;
+  if (!memoActive(s)) {
+    const out: UnitState[] = [];
+    for (const u of Object.values(s.units)) if (u.where.kind === 'map' && u.where.hex === hex) out.push(u);
+    return out;
+  }
+  const index = memo(s, 'byHex', () => {
+    const m = new Map<HexId, UnitState[]>();
+    for (const u of Object.values(s.units)) if (u.where.kind === 'map') (m.get(u.where.hex) ?? m.set(u.where.hex, []).get(u.where.hex)!).push(u);
+    return m;
+  });
+  return index.get(hex)?.slice() ?? [];
 }
 
 export function friendsAt(s: GameState, hex: HexId, side: Side): UnitState[] {
@@ -69,9 +78,11 @@ export function liveUnits(s: GameState, side?: Side): UnitState[] {
 
 /** Map of hex -> side for every hex holding a combat unit. */
 export function occupancy(s: GameState): Map<HexId, Side> {
-  const m = new Map<HexId, Side>();
-  for (const u of Object.values(s.units)) if (u.where.kind === 'map') m.set(u.where.hex, sideOf(u));
-  return m;
+  return memo(s, 'occ', () => {
+    const m = new Map<HexId, Side>();
+    for (const u of Object.values(s.units)) if (u.where.kind === 'map') m.set(u.where.hex, sideOf(u));
+    return m;
+  });
 }
 
 /** Stacking points used by a set of units in one hex. One silhouetted tank stacks free.

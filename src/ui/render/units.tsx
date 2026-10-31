@@ -205,23 +205,21 @@ const WASHES = ['#aebfcd', '#98aec0', '#c9ccca', '#9da564', '#c9a06c', '#d2c49b'
 
 // ------------------------------------------------------------------ tokens
 
+/** A counter's shadow on the map, painted rather than filtered (an SVG filter on every counter makes the map slow to
+ * draw): the card's shape set down a little below and to the right, soft at its edge. */
+function CardShadow({ d }: { d: string }) {
+  return (
+    <path d={d} transform="translate(1.3 2.2)" fill="#1e140a" fillOpacity={0.3} stroke="#1e140a" strokeOpacity={0.14} strokeWidth={2.6} strokeLinejoin="round" pointerEvents="none" />
+  );
+}
+
 /** Shared definitions used by every counter (render once per document). */
 export function TokenDefs() {
   return (
     <svg width={0} height={0} style={{ position: 'absolute' }} aria-hidden>
       <defs>
-        <filter id="token-shadow" x="-30%" y="-30%" width="160%" height="170%">
-          <feDropShadow dx={1.3} dy={2.2} stdDeviation={1.4} floodColor="#1e140a" floodOpacity={0.5} />
-        </filter>
         <WashDefs colours={WASHES} />
         <GrainDefs />
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation={2.2} result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
         <filter id="desat">
           <feColorMatrix type="saturate" values="0.35" />
         </filter>
@@ -333,7 +331,8 @@ export const UnitToken = memo(function UnitToken({ unit, count = 1, selected, di
   const u2 = count > 2 ? under(2) : null;
   const undercard = (u: { d: string; rot: number }, dx: number, dy: number) => (
     <g transform={`translate(${dx} ${dy}) rotate(${u.rot.toFixed(2)})`}>
-      <path d={u.d} fill={wash} filter="url(#token-shadow)" />
+      <CardShadow d={u.d} />
+      <path d={u.d} fill={wash} />
       <path d={u.d} fill="none" stroke={shade(bg, -0.35)} strokeOpacity={0.5} strokeWidth={1.1} />
       <path d={u.d} fill="none" stroke={INK} strokeOpacity={0.75} strokeWidth={0.5} />
     </g>
@@ -342,11 +341,17 @@ export const UnitToken = memo(function UnitToken({ unit, count = 1, selected, di
     <g opacity={dim ? 0.72 : 1}>
       {u2 && undercard(u2, 4.6, -4.4)}
       {u1 && undercard(u1, 2.3, -2.2)}
-      {selected && <rect x={x0 - 3} y={y0 - 3} width={w + 6} height={h + 6} rx={4} fill="none" stroke="#ffd84a" strokeWidth={2.4} className="token-select" filter="url(#glow)" />}
+      {selected && (
+        <g className="token-select">
+          <rect x={x0 - 3} y={y0 - 3} width={w + 6} height={h + 6} rx={4} fill="none" stroke="#ffd84a" strokeOpacity={0.3} strokeWidth={6} />
+          <rect x={x0 - 3} y={y0 - 3} width={w + 6} height={h + 6} rx={4} fill="none" stroke="#ffd84a" strokeWidth={2.4} />
+        </g>
+      )}
       <g transform={tilt ? `rotate(${tilt.toFixed(2)})` : undefined}>
         <g filter={fired || dim ? 'url(#desat)' : undefined}>
           {/* The card: the nation's wash over the paper's grain. */}
-          <path d={card} fill={wash} filter={compact ? undefined : 'url(#token-shadow)'} />
+          {!compact && <CardShadow d={card} />}
+          <path d={card} fill={wash} />
           <path d={card} fill={grainOf(unit.id)} />
           {d.army8 && <path d={roughRect(r, x0 + 0.7, y0 + 0.7, w - 1.4, 7.1, 0.3)} fill={`url(#${washId('#e8cf52')})`} />}
           {/* The printed reverse side: a thin pale stripe on a 3-step unit's middle step, a wide one on a last step; Remnants carry a band. */}

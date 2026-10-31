@@ -4,6 +4,7 @@
 import { MAP, UNIT_DEFS } from '../../src/engine/data';
 import { distance, neighbors, sideKey, type HexId } from '../../src/engine/hex';
 import type { GameState, HexData, HexsideData } from '../../src/engine/types';
+import { invalidateGrid } from '../../src/engine/movement';
 
 /** Centre of the sandbox: inland, far from every map edge and Entry Area. */
 export const C = '3412';
@@ -39,6 +40,7 @@ export function sandbox(center: HexId = C, radius = 6): HexId[] {
       delete MAP.hexsides[k];
     }
   }
+  invalidateGrid();
   return area;
 }
 
@@ -46,6 +48,7 @@ export function sandbox(center: HexId = C, radius = 6): HexId[] {
 export function setHex(h: HexId, data: HexData): void {
   saveHex(h);
   MAP.hexes[h] = data;
+  invalidateGrid();
 }
 
 /** Sets the features of the hexside between two adjacent hexes (replacing them). */
@@ -53,6 +56,7 @@ export function setSide(a: HexId, b: HexId, data: HexsideData): void {
   const k = sideKey(a, b);
   saveSide(k);
   MAP.hexsides[k] = data;
+  invalidateGrid();
 }
 
 /** Puts back every hex and hexside changed since the last restore. */
@@ -67,6 +71,7 @@ export function restoreMap(): void {
   }
   savedHexes.clear();
   savedSides.clear();
+  invalidateGrid();
 }
 
 /** Sends the Remnant counters back to the Remnant Display (scenario() sets every unit aside). */

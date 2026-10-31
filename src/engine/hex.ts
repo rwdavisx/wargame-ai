@@ -9,7 +9,15 @@ let DOWN = 1;
 
 export function setShiftedColumns(odd: boolean): void {
   DOWN = odd ? 1 : 0;
+  NEIGHBORS.clear();
+  CUBES.clear();
+  SIDES.clear();
 }
+
+/** Neighbour lists and cube coordinates, worked out once per hex (they depend only on the layout). */
+const NEIGHBORS = new Map<HexId, readonly HexId[]>();
+const CUBES = new Map<HexId, [number, number, number]>();
+const SIDES = new Map<HexId, readonly string[]>();
 
 /** Whether column `c` sits half a hex lower than its neighbours. */
 export const shiftedDown = (c: number): boolean => (c & 1) === DOWN;
@@ -28,8 +36,25 @@ export function hexId(c: number, r: number): HexId {
 const ODD_DIRS: [number, number][] = [[0, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0]];
 const EVEN_DIRS: [number, number][] = [[0, -1], [1, -1], [1, 0], [0, 1], [-1, 0], [-1, -1]];
 
-/** The six neighbouring hex ids, clockwise from north. Ids may be off-map. */
+/** The six neighbouring hex ids, clockwise from north. Ids may be off-map. The list is shared: do not change it. */
 export function neighbors(id: HexId): HexId[] {
+  const hit = NEIGHBORS.get(id);
+  if (hit) return hit as HexId[];
+  const out = neighborsOf(id);
+  NEIGHBORS.set(id, Object.freeze(out));
+  return out;
+}
+
+/** The hexside keys toward each of `neighbors(id)`, in the same order. Shared: do not change it. */
+export function neighborSides(id: HexId): readonly string[] {
+  const hit = SIDES.get(id);
+  if (hit) return hit;
+  const out = Object.freeze(neighbors(id).map((n) => sideKey(id, n)));
+  SIDES.set(id, out);
+  return out;
+}
+
+function neighborsOf(id: HexId): HexId[] {
   const { c, r } = parseHex(id);
   const dirs = shiftedDown(c) ? ODD_DIRS : EVEN_DIRS;
   const out: HexId[] = [];
@@ -47,10 +72,14 @@ export function isAdjacent(a: HexId, b: HexId): boolean {
 }
 
 function toCube(id: HexId): [number, number, number] {
+  const hit = CUBES.get(id);
+  if (hit) return hit;
   const { c, r } = parseHex(id);
   const x = c;
   const z = r - axialShift(c);
-  return [x, -x - z, z];
+  const cube: [number, number, number] = [x, -x - z, z];
+  CUBES.set(id, cube);
+  return cube;
 }
 
 export function distance(a: HexId, b: HexId): number {

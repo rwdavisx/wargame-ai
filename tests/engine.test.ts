@@ -19,7 +19,7 @@ function put(s: GameState, id: string, hex: string) {
 
 describe('hex grid and map', () => {
   it('uses odd-q neighbours', () => {
-    expect(neighbors('2707').sort()).toEqual(['2607', '2608', '2706', '2708', '2807', '2808'].sort());
+    expect([...neighbors('2707')].sort()).toEqual(['2607', '2608', '2706', '2708', '2807', '2808'].sort());
     expect(distance('2707', '2910')).toBe(4);
     expect(sideKey('2807', '2707')).toBe('2707-2807');
   });

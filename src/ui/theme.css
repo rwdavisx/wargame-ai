@@ -102,7 +102,6 @@
 .setup-panel {
   position: relative; z-index: 1; margin: auto; width: min(920px, 94vw); max-height: 92vh; overflow-y: auto;
   background: rgba(20, 16, 12, 0.9); border: 1px solid var(--line); border-radius: 8px; padding: 26px 32px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(6px);
 }
 .setup-panel h1 { font: 400 40px var(--display); margin: 0 0 6px; color: #efe5c8; letter-spacing: 2px; }
 .setup-panel h3, .modal h3 { font: 700 13px var(--hud); letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin: 22px 0 10px; }
@@ -147,9 +146,16 @@
 /* ---------------------------------------------------------------- game layout */
 
 .game { position: fixed; inset: 0; overflow: clip; background: #18130f; }
-.mapwrap { position: absolute; inset: 0; cursor: grab; touch-action: none; }
+.mapwrap { position: absolute; inset: 0; cursor: grab; touch-action: none; overflow: hidden; }
+/* The drawn map: the view and a fifth of it again on every side (MapView's OVERSCAN), slid and scaled by the camera
+   between redraws. Its own compositing layer, so moving it repaints nothing. */
+.map-stage { position: absolute; left: -20%; top: -20%; width: 140%; height: 140%; transform-origin: 14.2857% 14.2857%; will-change: transform; }
 .mapwrap.dragging { cursor: grabbing; }
 .map-svg { position: relative; width: 100%; height: 100%; display: block; user-select: none; }
+/* The map works out what was clicked or hovered from the pointer's position, so its shapes need not be hit-tested
+   (testing every river and coastline on each mouse move is slow). Only the badges with tooltips take the pointer. */
+.map-svg * { pointer-events: none; }
+.map-svg [pointer-events='visiblePainted'], .map-svg [pointer-events='visiblePainted'] * { pointer-events: visiblePainted; }
 .map-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .map-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.55); }
 
@@ -230,7 +236,7 @@
 .command {
   position: absolute; right: 12px; top: 70px; bottom: 12px; width: 392px; z-index: 4; display: flex;
   background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px); transition: transform 0.25s ease;
+  transition: transform 0.25s ease;
 }
 .command.closed { transform: translateX(calc(100% + 12px)); }
 .command-toggle {
@@ -285,7 +291,7 @@ textarea { width: 100%; font: 12px monospace; background: #14100c; color: var(--
 .unit-card {
   position: absolute; left: 228px; bottom: calc(var(--bar-h, 70px) + 24px); z-index: 3; width: min(420px, calc(100vw - 680px)); min-width: 320px;
   background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px); animation: rise 0.2s ease-out;
+  animation: rise 0.2s ease-out;
 }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 .unit-card .close, .modal .close { position: absolute; right: 8px; top: 8px; width: 28px; height: 28px; padding: 0; background: transparent; border-color: transparent; }
@@ -364,7 +370,8 @@ textarea { width: 100%; font: 12px monospace; background: #14100c; color: var(--
 
 /* ---------------------------------------------------------------- modals */
 
-.modal-back { position: fixed; inset: 0; z-index: 20; background: rgba(6, 5, 4, 0.62); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; }
+/* No backdrop blur over the map, here or on any panel: the map animates, so a blur behind would be redone every frame. */
+.modal-back { position: fixed; inset: 0; z-index: 20; background: rgba(6, 5, 4, 0.66); display: flex; align-items: center; justify-content: center; }
 .modal-back.soft { background: rgba(6, 5, 4, 0.35); backdrop-filter: none; }
 .modal {
   position: relative; background: rgba(25, 20, 15, 0.98); border: 1px solid var(--line); border-radius: 10px; padding: 22px 26px;
@@ -386,7 +393,7 @@ textarea { width: 100%; font: 12px monospace; background: #14100c; color: var(--
 
 .gameover {
   position: fixed; inset: 0; z-index: 15; display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(ellipse, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.94)); backdrop-filter: blur(4px); animation: fadein 0.8s;
+  background: radial-gradient(ellipse, rgba(8, 7, 5, 0.76), rgba(8, 7, 5, 0.95)); animation: fadein 0.8s;
 }
 @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
 .go-card { text-align: center; max-width: 640px; padding: 30px 40px; }
@@ -414,7 +421,8 @@ textarea { width: 100%; font: 12px monospace; background: #14100c; color: var(--
 .token-num { font-family: var(--hud); letter-spacing: 0.6px; }
 /* Lettering on the counters that is drawn rather than typeset: unit IDs, size marks, formation names. */
 .token-letter { font-family: 'IM Fell English', Georgia, serif; }
-.token-select { animation: pulse 1.2s ease-in-out infinite; }
+.token-select { animation: selpulse 1.2s ease-in-out infinite; }
+@keyframes selpulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 @keyframes pulse { 0%, 100% { stroke-opacity: 1; } 50% { stroke-opacity: 0.35; } }
 .sel-hex { stroke-dasharray: 6 4; animation: march 1s linear infinite; }
 .march { animation: march 0.8s linear infinite; }
