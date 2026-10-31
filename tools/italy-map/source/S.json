@@ -1,0 +1,2330 @@
+{
+ "photo": "S",
+ "file": "map-s-naples.jpg",
+ "grid": {
+  "oddColumnsDown": false,
+  "labelOffset": -0.38,
+  "sigma": 3.0,
+  "residualPx": 7.7,
+  "residualMedianPx": 2.9,
+  "anchors": 106,
+  "note": "even columns sit half a hex lower (1915 lies between 1814 and 1815). Label centres measured ~0.38 hex above the hex centre (fitted against the printed hex lines; Salerno used 0.32); use igrid.py, which patches grid.grid_xy. Printed hex lines sit within ~2 px (mean) of the fitted outlines in clear terrain. Left out of the fit: labels printed off their usual place (2122, 2216, 2224, 2318, 2417, 2419, 2519, 2618, 2814, 2917) and labels hidden by roads or shading (2720, 2721, 2724, 2923, 3021). Anchor chain: rough.py -> refine.py -> apply_corr.py (manual offsets read from z/lab_*.jpg) -> outlier drop -> anchors.json."
+ },
+ "extent": {
+  "columns": [
+   17,
+   30
+  ],
+  "rows": [
+   13,
+   28
+  ],
+  "note": "hexes with centres inside the photo: col 17 (rows 14-18, 24-28, on the left edge), cols 18-30 rows 13/14-27, plus the row-28 S1 entry half-hexes. Row 13 only for even columns (2013, 2213, 2413, 2613, 2813, 3013; their tops are cut off). Column 30 is half visible on the right edge.",
+  "mapEdges": {
+   "south": "visible: S1 red entry band along the bottom, wood table below; the sea west of it reaches the bottom map edge at y~2525 px",
+   "west": "not visible: the Gulf of Naples / Gulf of Gaeta sea continues into the SW photo past a map fold at x~50 px",
+   "north": "not a map edge: the photo cuts through rows 13/14 (Mondragone, Pietramelara)",
+   "east": "not a map edge: the photo cuts through column 30 (Baia, Alvignano, Limatola, Avella)"
+  }
+ },
+ "hexes": {
+  "1714": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better)"
+  },
+  "1715": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better)"
+  },
+  "1716": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better)"
+  },
+  "1717": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better)"
+  },
+  "1718": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better)"
+  },
+  "1724": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better); open sea, no printed hex outline"
+  },
+  "1725": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better); open sea, no printed hex outline"
+  },
+  "1726": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better); open sea, no printed hex outline"
+  },
+  "1727": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better); open sea, no printed hex outline"
+  },
+  "1728": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "half hex at the south map edge; hex centre lies on the left edge of the photo; only its east half is visible (SW photo is better)"
+  },
+  "1813": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "sea; the place name \"Mondragone\" is printed here but belongs to the town in 1913"
+  },
+  "1814": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "coastal: about two thirds sea; a narrow beach strip along its east side carries the Mondragone-Castel Volturno minor road"
+  },
+  "1815": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "town": "Castel Volturno",
+   "note": "marsh pattern over most of the hex; Volturno mouth along its south side; sea in the west corner; name printed in two parts: \"Castel\" falls in the SW photo, \"Volturno\" on this photo"
+  },
+  "1816": {
+   "terrain": "clear",
+   "confidence": "high",
+   "note": "coastal: thin sea strip on the west side"
+  },
+  "1817": {
+   "terrain": "clear",
+   "confidence": "high",
+   "note": "coastal: thin sea strip on the west side"
+  },
+  "1818": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "note": "marsh pattern fills the hex; thin sea/lagoon strip on the west side"
+  },
+  "1819": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "Lago di Patria",
+   "note": "Lago di Patria (lake) reaches into the NW corner; label \"Lago di Patria\" printed here"
+  },
+  "1820": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1821": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1822": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "1823": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Bagnoli",
+   "note": "coastal: sea in the SW corner"
+  },
+  "1824": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "coastal: roughly half sea (south half); the Bagnoli headland and coast road occupy the north half"
+  },
+  "1825": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "open sea (Gulf of Naples), no printed hex outline"
+  },
+  "1826": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "open sea (Gulf of Naples), no printed hex outline"
+  },
+  "1827": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "open sea (Gulf of Naples), no printed hex outline"
+  },
+  "1914": {
+   "terrain": "clear",
+   "confidence": "high",
+   "note": "tiny strip of dark coastal water in the west corner"
+  },
+  "1915": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1916": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1917": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1918": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1919": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1920": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1921": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "1922": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "north third clear, rest hill"
+  },
+  "1923": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "1924": {
+   "terrain": "hill",
+   "confidence": "high",
+   "label": "Chiaia",
+   "port": true,
+   "note": "coastal: beach and sea along the south side; port anchor in a white circle (the key's Port symbol) in place of a town circle, named Chiaia"
+  },
+  "1925": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "open sea; \"NAPLES (Napoli)\" / \"Gulf of Naples\" lettering"
+  },
+  "1926": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "open sea; \"NAPLES (Napoli)\" / \"Gulf of Naples\" lettering"
+  },
+  "1927": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "open sea; \"NAPLES (Napoli)\" / \"Gulf of Naples\" lettering"
+  },
+  "1928": {
+   "terrain": "sea",
+   "confidence": "medium",
+   "note": "half hex at the south map edge, open sea"
+  },
+  "2013": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "top of the hex is cut off by the photo edge (N photo is better)"
+  },
+  "2014": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2015": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "Cancello Airfield",
+   "airfield": "minor"
+  },
+  "2016": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2017": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2018": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Villa Literno"
+  },
+  "2019": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2020": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2021": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2022": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Marano di Napoli"
+  },
+  "2023": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "south edge clear"
+  },
+  "2024": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Naples",
+   "cityKind": "major",
+   "port": true,
+   "note": "Naples city hex (white outline); SW part is the harbour (sea); part of the 3-hex Naples city graphic (2024, 2124, 2125); harbour with a BLUE-filled anchor circle (differs from the white-circle Port symbol of the key)"
+  },
+  "2025": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "sea (2025: Naples bay, lettering \"NAPLES (Napoli)\")"
+  },
+  "2026": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "sea (2025: Naples bay, lettering \"NAPLES (Napoli)\")"
+  },
+  "2027": {
+   "terrain": "sea",
+   "confidence": "high",
+   "note": "sea (2025: Naples bay, lettering \"NAPLES (Napoli)\")"
+  },
+  "2114": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2115": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2116": {
+   "terrain": "clear",
+   "confidence": "high",
+   "vp": 1,
+   "note": "VP circle in an otherwise empty clear hex on the Volturno"
+  },
+  "2117": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "Grazzanise Airfield",
+   "airfield": "minor"
+  },
+  "2118": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2119": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Casal di Principe"
+  },
+  "2120": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2121": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2122": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Giugliano in Campania",
+   "label": "2",
+   "note": "name printed above-left across 2021/2121; small numeral \"2\" beside the Naples-Capua major road"
+  },
+  "2123": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2124": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Naples",
+   "cityKind": "major",
+   "airfield": "major",
+   "note": "Naples city hex (white outline); part of the Naples city graphic; major airfield symbol (unnamed, Capodichino)"
+  },
+  "2125": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Naples",
+   "cityKind": "major",
+   "label": "1",
+   "port": true,
+   "note": "Naples city hex (white outline); west edge is harbour/sea; part of the Naples city graphic; BLUE-filled anchor circle; numeral \"1\" beside the major road"
+  },
+  "2126": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Resina",
+   "cityKind": "minor",
+   "note": "Resina city hex (white outline); west third sea"
+  },
+  "2127": {
+   "terrain": "hill",
+   "confidence": "low",
+   "note": "coastal: ~40% sea on the west; remaining land is a light (clear) strip along the major road and the tan Vesuvius slope to the east, roughly equal"
+  },
+  "2213": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2214": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2215": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2216": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Grazzanise"
+  },
+  "2217": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2218": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2219": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2220": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Aversa",
+   "cityKind": "minor",
+   "note": "a thin black hairline runs from the city symbol south into 2221 (no key meaning; looks like a printing artefact)"
+  },
+  "2221": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "S. Antimo"
+  },
+  "2222": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Frattamaggiore",
+   "cityKind": "minor"
+  },
+  "2223": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Casoria"
+  },
+  "2224": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2225": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Cercola"
+  },
+  "2226": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "NW corner clear"
+  },
+  "2227": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "dark Vesuvius shading in the NE corner only"
+  },
+  "2314": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2315": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2316": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2317": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Santa Maria la Fossa"
+  },
+  "2318": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2319": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2320": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "3",
+   "note": "numeral \"3\" beside the Capua-Aversa major road"
+  },
+  "2321": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2322": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2323": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Afragola",
+   "cityKind": "minor"
+  },
+  "2324": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Casal Nuovo"
+  },
+  "2325": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2326": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2327": {
+   "terrain": "hill",
+   "confidence": "high",
+   "mountainShade": true,
+   "peak": "Mt. Vesuvius (M. Vesuvio) 1281",
+   "note": "Mt. Vesuvius: almost entirely dark mountain shading"
+  },
+  "2413": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2414": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Sparanise"
+  },
+  "2415": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2416": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2417": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2418": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2419": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2420": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2421": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2422": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Caivano"
+  },
+  "2423": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2424": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Pomigliano",
+   "label": "Pomigliano Airfield",
+   "airfield": "major",
+   "note": "both the town circle and the airfield symbol lie in 2424; the names are printed in 2524/2325"
+  },
+  "2425": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "north half clear, south half hill (Vesuvius slope); about even"
+  },
+  "2426": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Somma Vesuviana"
+  },
+  "2427": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "west part dark Vesuvius shading (~40%), rest hill; printed number is unreadable on the dark ground (looks like 2428) but its position is 2427"
+  },
+  "2514": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2515": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "5",
+   "vp": 1,
+   "note": "numeral \"5\" beside the major road junction"
+  },
+  "2516": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2517": {
+   "terrain": "clear",
+   "confidence": "high",
+   "label": "Capua Airfield",
+   "vp": 1,
+   "airfield": "major",
+   "note": "name printed in 2416, symbol in 2517"
+  },
+  "2518": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Capua",
+   "cityKind": "minor",
+   "label": "4",
+   "note": "numeral \"4\" beside the city"
+  },
+  "2519": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2520": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Marcianise",
+   "note": "circle sits in the SW part of 2520, close to the 2520/2521 hexside; name printed in 2521"
+  },
+  "2521": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2522": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2523": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2524": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2525": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2526": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "west ~55% hill (Vesuvius slope), east part clear"
+  },
+  "2527": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Ottaviano"
+  },
+  "2613": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "top of the hex is cut off by the photo edge (N photo is better)"
+  },
+  "2614": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2615": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Pignataro Maggiore"
+  },
+  "2616": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Bellona"
+  },
+  "2617": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2618": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2619": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2620": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Caserta",
+   "cityKind": "major",
+   "vp": 1,
+   "note": "Caserta city hex (white outline); name printed in capitals (CASERTA) and the city graphic is ~1.4x the size of the other single-hex cities, so \"major\" by the brief's rule; the map key itself shows only one City symbol"
+  },
+  "2621": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2622": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2623": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2624": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2625": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Marigliano"
+  },
+  "2626": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2627": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2714": {
+   "terrain": "hill",
+   "confidence": "high",
+   "peak": "Pizzo San Salvatore 1037"
+  },
+  "2715": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "mountainShade": true
+  },
+  "2716": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2717": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2718": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2719": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2720": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2721": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2722": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Maddaloni"
+  },
+  "2723": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2724": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "tan hill blob covers ~60% of the hex, rest clear"
+  },
+  "2725": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2726": {
+   "terrain": "clear",
+   "confidence": "high",
+   "city": "Nola",
+   "cityKind": "minor",
+   "note": "Nola city hex (white outline)"
+  },
+  "2727": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2813": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "town": "Pietramelara",
+   "note": "light (clear) patch around Pietramelara with hill around the edges; top of the hex is cut off by the photo edge (N photo is better)"
+  },
+  "2814": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2815": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2816": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2817": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2818": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2819": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2820": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "mountainShade": true
+  },
+  "2821": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2822": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2823": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "San Felice a Cancello"
+  },
+  "2824": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2825": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "2826": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2827": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2914": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2915": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2916": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2917": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2918": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Caiazzo"
+  },
+  "2919": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2920": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2921": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2922": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2923": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2924": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2925": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "mountainShade": true
+  },
+  "2926": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "2927": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3013": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "town": "Baia",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better); label \"Baia\" ends at the photo edge (may continue, e.g. \"Baia e Latina\")"
+  },
+  "3014": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3015": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3016": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "town": "Alvignano",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better); name not on this photo; read from the SE photo"
+  },
+  "3017": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3018": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3019": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "vp": 1,
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better); VP circle in an otherwise empty hill hex"
+  },
+  "3020": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "town": "Limatola",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3021": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "label": "Sant'Agata de' Goti",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better); name only; its town symbol is off this photo"
+  },
+  "3022": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "peak": "M. Saucolo 753",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3023": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3024": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "3025": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "mountainShade": true,
+   "peak": "M. Ciesco Alto 1357",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better); name cut by the photo edge (\"M. Ciesco A...\")"
+  },
+  "3026": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "town": "Avella",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better); circle lies just inside the west corner of 3026; the name \"Avella\" is printed in 2927"
+  },
+  "3027": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "hex centre lies near the right edge of the photo; only its west half is visible (SE/NE photos are better)"
+  },
+  "2128": {
+   "covered": true,
+   "entryArea": "S1",
+   "confidence": "high",
+   "note": "upper half of this row-28 hex is the red S1 entry box (hex-shaped top); not a playable hex"
+  },
+  "2328": {
+   "covered": true,
+   "entryArea": "S1",
+   "confidence": "high",
+   "note": "upper half of this row-28 hex is the red S1 entry box (hex-shaped top); not a playable hex"
+  },
+  "2528": {
+   "covered": true,
+   "entryArea": "S1",
+   "confidence": "high",
+   "note": "upper half of this row-28 hex is the red S1 entry box (hex-shaped top); not a playable hex"
+  },
+  "2728": {
+   "covered": true,
+   "entryArea": "S1",
+   "confidence": "high",
+   "note": "upper half of this row-28 hex is the red S1 entry box (hex-shaped top); not a playable hex"
+  },
+  "2928": {
+   "covered": true,
+   "entryArea": "S1",
+   "confidence": "high",
+   "note": "upper half of this row-28 hex is the red S1 entry box (hex-shaped top); not a playable hex"
+  }
+ },
+ "outsideFeatures": {
+  "1913": {
+   "town": "Mondragone",
+   "note": "town circle at the top edge of this photo; hex centre outside the photo (N photo)"
+  },
+  "1723": {
+   "port": true,
+   "label": "Pozzuoli",
+   "note": "white-circle port anchor on the left photo edge; hex centre outside this photo (SW photo); minor roads leave it NE into 1822 and SE into 1823"
+  }
+ },
+ "hexsides": {
+  "1719-1819": {
+   "lake": true,
+   "river": "lake",
+   "riverName": "Lago di Patria",
+   "confidence": "medium",
+   "note": "the Lago di Patria lake shape straddles this hexside (1719 itself is mostly coastal water and lagoon); 1719 centre is outside this photo"
+  },
+  "1723-1822": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Giugliano",
+   "note": "1723 centre is outside this photo"
+  },
+  "1723-1823": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Bagnoli-Chiaia-Naples",
+   "note": "1723 centre is outside this photo"
+  },
+  "1814-1815": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high",
+   "note": "Agnena Canal runs along the east part of this hexside from the coast (1814 is mostly sea)",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "Mondragone-Castel Volturno"
+  },
+  "1814-1914": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Mondragone-Castel Volturno"
+  },
+  "1814-1915": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high"
+  },
+  "1815-1816": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "note": "Volturno mouth: the river runs along this hexside into the sea"
+  },
+  "1815-1916": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "Castel Volturno-Grazzanise"
+  },
+  "1816-1817": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "1817-1917": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "1821-1822": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Giugliano"
+  },
+  "1821-1921": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Giugliano"
+  },
+  "1823-1824": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Bagnoli-Chiaia-Naples"
+  },
+  "1824-1924": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Bagnoli-Chiaia-Naples"
+  },
+  "1913-1914": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Mondragone-Castel Volturno",
+   "note": "1913 centre is outside this photo"
+  },
+  "1914-1915": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high",
+   "note": "Agnena Canal runs along the west half of this hexside, then cuts the NE corner of 1915 to reach 1915-2014"
+  },
+  "1914-2013": {
+   "road": "minor",
+   "confidence": "medium",
+   "roadName": "m1 junction-E",
+   "note": "the minor road dips briefly into the SW corner of 2013 (hill) between 1914 and 2014"
+  },
+  "1915-1916": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "1915-2014": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high",
+   "note": "Agnena Canal joins this hexside a little below its north end after cutting the NE corner of 1915"
+  },
+  "1916-2015": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "1916-2016": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Castel Volturno-Grazzanise"
+  },
+  "1917-1918": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "1917-2017": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "1921-2021": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Giugliano"
+  },
+  "1924-2024": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Bagnoli-Chiaia-Naples"
+  },
+  "2013-2014": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "m1 junction-E"
+  },
+  "2014-2015": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "medium",
+   "note": "Agnena Canal drawn straight across the top of 2015 from its NW corner to its E corner; assigned to 2015's N and NE hexsides"
+  },
+  "2014-2115": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "m1 junction-E",
+   "note": "minor road"
+  },
+  "2015-2016": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2015-2115": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "medium",
+   "note": "Agnena Canal drawn straight across the top of 2015 from its NW corner to its E corner; assigned to 2015's N and NE hexsides"
+  },
+  "2016-2017": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2016-2116": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2016-2117": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Castel Volturno-Grazzanise"
+  },
+  "2017-2018": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2017-2117": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2018-2019": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2018-2119": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Villa Literno-Casal di Principe"
+  },
+  "2019-2020": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2020-2021": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2021-2022": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2021-2122": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Pozzuoli-Giugliano"
+  },
+  "2022-2123": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Marano-SE-M3"
+  },
+  "2024-2124": {
+   "cityGraphic": "Naples",
+   "confidence": "high",
+   "note": "no road line is printed across this hexside; the continuous Naples city graphic covers it (major roads from Aversa and Afragola end at the city in 2124, the roads to Resina/Cercola and Casal Nuovo leave from 2125, the coast road from Chiaia enters 2024)"
+  },
+  "2024-2125": {
+   "cityGraphic": "Naples",
+   "confidence": "high",
+   "note": "no road line is printed across this hexside; the continuous Naples city graphic covers it (major roads from Aversa and Afragola end at the city in 2124, the roads to Resina/Cercola and Casal Nuovo leave from 2125, the coast road from Chiaia enters 2024)"
+  },
+  "2113-2114": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Villa Literno-Marano",
+   "note": "2113 centre is outside this photo"
+  },
+  "2114-2115": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2115-2116": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "N edge-Villa Literno-Marano"
+  },
+  "2115-2214": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "m1 junction-E"
+  },
+  "2115-2215": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high"
+  },
+  "2116-2117": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2116-2216": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2117-2118": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "medium",
+   "note": "Regi Lagni Canal drawn straight across the top of 2118 (NW corner to E corner); assigned to 2118's N and NE hexsides"
+  },
+  "2117-2216": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Castel Volturno-Grazzanise"
+  },
+  "2118-2218": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "medium",
+   "note": "Regi Lagni Canal drawn straight across the top of 2118 (NW corner to E corner); assigned to 2118's N and NE hexsides"
+  },
+  "2119-2120": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Casal di Principe-Aversa"
+  },
+  "2120-2220": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Casal di Principe-Aversa"
+  },
+  "2121-2122": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Giugliano-Aversa"
+  },
+  "2121-2220": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Giugliano-Aversa"
+  },
+  "2122-2123": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2122-2221": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2122-2222": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Giugliano-Frattamaggiore-Afragola"
+  },
+  "2123-2124": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2124-2125": {
+   "cityGraphic": "Naples",
+   "confidence": "high",
+   "note": "no road line is printed across this hexside; the continuous Naples city graphic covers it (major roads from Aversa and Afragola end at the city in 2124, the roads to Resina/Cercola and Casal Nuovo leave from 2125, the coast road from Chiaia enters 2024)"
+  },
+  "2124-2223": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Afragola-Casoria-Naples"
+  },
+  "2125-2126": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-S-Resina-S1"
+  },
+  "2125-2224": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "2125-2225": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "M9-Cercola-Somma Vesuviana"
+  },
+  "2126-2127": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-S-Resina-S1"
+  },
+  "2127-2128": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-S-Resina-S1"
+  },
+  "2214-2215": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "S branch-Capua airfield-E"
+  },
+  "2214-2314": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "NE branch to M1"
+  },
+  "2215-2216": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2215-2315": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high"
+  },
+  "2215-2316": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "S branch-Capua airfield-E"
+  },
+  "2216-2316": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "Grazzanise-N to m6"
+  },
+  "2216-2317": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Grazzanise-S.M.la Fossa-Capua"
+  },
+  "2217-2218": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "medium",
+   "note": "Regi Lagni Canal drawn straight across the top of 2218 (NW corner to E corner); assigned to 2218's N and NE hexsides"
+  },
+  "2218-2318": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "medium",
+   "note": "Regi Lagni Canal drawn straight across the top of 2218 (NW corner to E corner); assigned to 2218's N and NE hexsides"
+  },
+  "2220-2221": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2220-2320": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2220-2321": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Aversa-Marcianise-Caserta"
+  },
+  "2222-2323": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Giugliano-Frattamaggiore-Afragola"
+  },
+  "2223-2323": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Afragola-Casoria-Naples"
+  },
+  "2224-2324": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "2225-2326": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "M9-Cercola-Somma Vesuviana"
+  },
+  "2226-2327": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "Vesuvius"
+  },
+  "2227-2327": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "Vesuvius"
+  },
+  "2313-2314": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Sparanise road (from N edge) to join M2",
+   "note": "2313 centre is outside this photo"
+  },
+  "2314-2414": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Sparanise road (from N edge) to join M2"
+  },
+  "2315-2316": {
+   "river": "minor",
+   "riverName": "Agnena Canal",
+   "confidence": "high"
+  },
+  "2316-2317": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2316-2416": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "S branch-Capua airfield-E"
+  },
+  "2317-2416": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2317-2417": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Grazzanise-S.M.la Fossa-Capua"
+  },
+  "2318-2319": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "medium",
+   "note": "Regi Lagni Canal drawn straight across the top of 2319 (NW corner to E corner); assigned to 2319's N and NE hexsides"
+  },
+  "2319-2418": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "medium",
+   "note": "Regi Lagni Canal drawn straight across the top of 2319 (NW corner to E corner); assigned to 2319's N and NE hexsides"
+  },
+  "2319-2419": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2320-2419": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true,
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2320-2420": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2321-2420": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "Aversa-Marcianise-Caserta"
+  },
+  "2323-2324": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Afragola-S"
+  },
+  "2323-2422": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2324-2423": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Casal Nuovo-NE-E"
+  },
+  "2324-2424": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "2326-2327": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "Vesuvius"
+  },
+  "2326-2426": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "M9-Cercola-Somma Vesuviana"
+  },
+  "2327-2426": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "Vesuvius"
+  },
+  "2327-2427": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "Vesuvius; the automatic darkness measure missed it (near-black shading and white lettering) but the side is fully dark at zoom"
+  },
+  "2414-2515": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Sparanise road (from N edge) to join M2"
+  },
+  "2416-2417": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2416-2517": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "S branch-Capua airfield-E"
+  },
+  "2417-2517": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2417-2518": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Grazzanise-S.M.la Fossa-Capua"
+  },
+  "2418-2419": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2418-2518": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-Aversa-S.Antimo-Naples"
+  },
+  "2420-2421": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2420-2520": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Aversa-Marcianise-Caserta"
+  },
+  "2421-2521": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2421-2522": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2422-2522": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true,
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2422-2523": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2423-2523": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "Casal Nuovo-NE-E"
+  },
+  "2424-2525": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "2426-2527": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Somma Vesuviana-Ottaviano-S1"
+  },
+  "2513-2514": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "N-S road from N edge to Capua",
+   "note": "2513 centre is outside this photo"
+  },
+  "2514-2515": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "N-S road from N edge to Capua"
+  },
+  "2515-2516": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "N-S road from N edge to Capua"
+  },
+  "2516-2517": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "N-S road from N edge to Capua"
+  },
+  "2517-2518": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true,
+   "roadName": "N-S road from N edge to Capua"
+  },
+  "2517-2617": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "S branch-Capua airfield-E"
+  },
+  "2518-2519": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-SE-Maddaloni"
+  },
+  "2518-2617": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2519-2619": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-SE-Maddaloni",
+   "note": "the Capua-Maddaloni major road runs close to this hexside before crossing it"
+  },
+  "2520-2620": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Aversa-Marcianise-Caserta"
+  },
+  "2521-2522": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2521-2620": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2523-2524": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2523-2623": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Casal Nuovo-NE-E"
+  },
+  "2524-2623": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high"
+  },
+  "2525-2625": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "2526-2527": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Marigliano-Ottaviano"
+  },
+  "2526-2625": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Marigliano-Ottaviano"
+  },
+  "2527-2528": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Somma Vesuviana-Ottaviano-S1"
+  },
+  "2614-2714": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2614-2715": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "also a pass",
+   "pass": true
+  },
+  "2615-2715": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2615-2716": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2616-2716": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2617-2618": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2617-2718": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "S branch-Capua airfield-E"
+  },
+  "2618-2718": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2618-2719": {
+   "note": "not marked mountain: dark shading covers only the south half of this hexside",
+   "confidence": "medium"
+  },
+  "2619-2719": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2619-2720": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-SE-Maddaloni"
+  },
+  "2620-2720": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2622-2623": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Maddaloni-SW"
+  },
+  "2622-2722": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Maddaloni-SW"
+  },
+  "2623-2624": {
+   "river": "minor",
+   "riverName": "Regi Lagni Canal",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "junction-Marigliano"
+  },
+  "2623-2723": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "junction-San Felice"
+  },
+  "2624-2625": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "junction-Marigliano"
+  },
+  "2625-2726": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "2713-2714": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Pietramelara-3016 town",
+   "note": "2713 centre is outside this photo"
+  },
+  "2714-2715": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2714-2813": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Pietramelara-3016 town"
+  },
+  "2714-2814": {
+   "note": "not marked mountain: about a quarter dark",
+   "confidence": "medium"
+  },
+  "2715-2716": {
+   "note": "not marked mountain: about a third dark",
+   "confidence": "medium"
+  },
+  "2715-2814": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2715-2815": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2716-2717": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "mountain track to M6 loop"
+  },
+  "2716-2815": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "mountain track to M6 loop"
+  },
+  "2717-2718": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "mountain track to M6 loop"
+  },
+  "2718-2719": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true,
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2718-2818": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2719-2720": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2719-2818": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2720-2721": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-SE-Maddaloni"
+  },
+  "2720-2819": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "pass symbol on this hexside; the dark ridge covers only about half of it",
+   "pass": true
+  },
+  "2720-2820": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2721-2722": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Capua-SE-Maddaloni"
+  },
+  "2721-2820": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2722-2821": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Maddaloni-Limatola"
+  },
+  "2722-2822": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Maddaloni-SE-San Felice-E edge"
+  },
+  "2723-2724": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "branch S to Nola"
+  },
+  "2723-2823": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "junction-San Felice"
+  },
+  "2724-2725": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "branch S to Nola"
+  },
+  "2725-2726": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "branch S to Nola"
+  },
+  "2726-2727": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Nola-S1"
+  },
+  "2726-2826": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1",
+   "note": "the Nola-Avella major road passes just south of the 2726/2825/2826 corner (checked at 6x zoom): it crosses 2726-2826, not 2726-2825"
+  },
+  "2727-2728": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Nola-S1"
+  },
+  "2813-2914": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Pietramelara-3016 town"
+  },
+  "2814-2815": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2815-2816": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2815-2915": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2815-2916": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "mountain track to M6 loop"
+  },
+  "2816-2817": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2816-2916": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2817-2917": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2818-2819": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2818-2918": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2819-2820": {
+   "note": "not marked mountain: dark shading covers only the west half",
+   "confidence": "medium"
+  },
+  "2819-2919": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2820-2821": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2821-2921": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Maddaloni-Limatola"
+  },
+  "2822-2823": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Maddaloni-SE-San Felice-E edge"
+  },
+  "2823-2824": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2823-2924": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Maddaloni-SE-San Felice-E edge"
+  },
+  "2824-2924": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2824-2925": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2826-2926": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "2914-3014": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Pietramelara-3016 town"
+  },
+  "2915-2916": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2916-3015": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "mountain track to M6 loop"
+  },
+  "2918-2919": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Caiazzo-S-Limatola"
+  },
+  "2918-3017": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Caiazzo-N-town 3016"
+  },
+  "2918-3018": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Caiazzo-W-loop-S-Caserta-Caivano-Afragola"
+  },
+  "2919-2920": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2919-3019": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Caiazzo-S-Limatola"
+  },
+  "2920-3019": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high"
+  },
+  "2921-3020": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Maddaloni-Limatola"
+  },
+  "2922-2923": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2922-3022": {
+   "note": "not marked mountain: about half dark",
+   "confidence": "medium"
+  },
+  "2923-3022": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2924-2925": {
+   "mountain": true,
+   "confidence": "high",
+   "note": "also a pass",
+   "pass": true
+  },
+  "2924-3023": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Maddaloni-SE-San Felice-E edge"
+  },
+  "2925-3024": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2925-3025": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2926-3025": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "2926-3026": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  },
+  "3014-3015": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Pietramelara-3016 town"
+  },
+  "3015-3016": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "N edge-Pietramelara-3016 town"
+  },
+  "3016-3017": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Caiazzo-N-town 3016"
+  },
+  "3019-3020": {
+   "river": "major",
+   "riverName": "Volturno",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true,
+   "roadName": "Caiazzo-S-Limatola"
+  },
+  "3020-3021": {
+   "road": "minor",
+   "confidence": "high",
+   "roadName": "Limatola-S-E edge"
+  },
+  "3022-3023": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "at the right photo edge"
+  },
+  "3024-3025": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "at the right photo edge"
+  },
+  "3025-3026": {
+   "note": "not marked mountain: mostly dark (~70%) at the right photo edge; not marked",
+   "confidence": "medium"
+  },
+  "3026-3027": {
+   "road": "major",
+   "confidence": "high",
+   "roadName": "Naples-Casal Nuovo-Pomigliano-Marigliano-Nola-Avella-S1"
+  }
+ },
+ "entryAreas": {
+  "S1": {
+   "colour": "red",
+   "text": "S1 (printed in the 2528 half-hex)",
+   "edge": "south",
+   "boxHexes": [
+    "2128",
+    "2228",
+    "2328",
+    "2428",
+    "2528",
+    "2628",
+    "2728",
+    "2828",
+    "2928",
+    "3028"
+   ],
+   "note": "one continuous red band along the south map edge; its top edge follows the hex outlines, so the odd-column row-28 hexes (2128, 2328, 2528, 2728, 2928) show as hex-shaped red tops and the even-column row-28 hexes (2228...3028) only as a thin strip under the row-27 hexes. West end: the slanted NW side of 2128 at the Resina coast (2027 is sea). East end: 3028; in the SE photo the band stops there and 3128 is grey (off-map), S2 starts further east",
+   "touchesMapHexes": [
+    "2127",
+    "2227",
+    "2327",
+    "2427",
+    "2527",
+    "2627",
+    "2727",
+    "2827",
+    "2927",
+    "3027"
+   ],
+   "roadsIn": {
+    "2127-2128": "major (Naples-Resina road)",
+    "2527-2528": "minor (Ottaviano)",
+    "2727-2728": "minor (Nola)",
+    "3027-3028": "major (Avella road)"
+   }
+  }
+ },
+ "uncertain": [
+  "2127 terrain: coastal hex, ~40% sea; land split about evenly between a clear strip (major road) and the tan Vesuvius slope; called hill (low)",
+  "2425, 2526, 2724 terrain: about half clear / half hill; called hill (medium)",
+  "1814: about two thirds sea but carries the Mondragone-Castel Volturno road on its beach strip; called clear (coastal). 1824 likewise about half sea, called hill",
+  "canals drawn diagonally across hexes (Agnena across 2015; Regi Lagni across 2118, 2218, 2319, each from the NW corner to the E corner): assigned to the two hexsides on the cut-off corner side (N and NE of that hex); the alternative would be the four hexsides on the other side",
+  "2720-2819: mountain pass symbol, but the dark ridge covers only about half the hexside; marked mountain + pass (medium)",
+  "partly dark hexsides NOT marked mountain: 2618-2719, 2819-2820, 3025-3026 (~70%, photo edge), 2714-2814, 2715-2716, 2922-3022",
+  "mountainShade (mostly dark shading) is a judgement call for 2715, 2820, 2925, 3025 (each ~50-70% dark); 2327 (Vesuvius) is certain",
+  "CASERTA cityKind major: capitals and a larger graphic, but the map key has only one City symbol",
+  "Naples 2024/2124/2125: no road line crosses the internal hexsides; marked cityGraphic, not road",
+  "printed number of 2427 is unreadable on the dark shading (looks like 2428); position is 2427",
+  "column 17 and column 30 hexes are only half on this photo; row 13 hexes have their tops cut off",
+  "purpose of the numerals 1-5 printed beside the Naples-Capua-Sparanise major road is not given on the map key"
+ ],
+ "notes": [
+  "Map key (NE photo) read first: Port (anchor in a white circle), Clear, Minor Road (double dashed tan line), Town (circle), Major Road (solid dark line), City (grid symbol in a white-outlined hex), River+Marsh hexside, Minor/Major River (blue, major thicker), Victory Point (red circle), Minor Airfield (white bar), Major Airfield (plane in grey circle), Lake (blue shape on a hexside), Marsh, Hill, Landmark (small white rectangle), Mountain Hexside (hexside covered by the dark shading), Mountain Peak (triangle + height), Mountain Pass \")(\" across a hexside. No separate major-city symbol in the key.",
+  "Mountain hexsides: hexsides fully covered by the dark ridge shading (measured along each hexside on a lighting-normalised image, mtn_sides.py, then every candidate checked by eye in z2/mtn_*.jpg). Ridges: Pizzo San Salvatore massif (2614-2917), Caserta hills (2619/2720-2821), Monti di Avella / Cancello (2823-3025), and the Vesuvius cone (all land sides of 2327).",
+  "Rivers: the Volturno (major: light blue with dark edges, thicker) follows hexsides from the east photo edge (3019-3020) to its mouth on 1815-1816; Capua (2518) lies on its south bank. The Agnena Canal and Regi Lagni Canal are thin dark-navy lines, recorded as minor rivers; the Regi Lagni ends at the 2623/2624/2724 corner. Bridges = road crossing a river/canal hexside.",
+  "Roads were traced as centrelines in photo pixels (roads_trace.py), converted to hexside crossings (hexat.py, roads_x.py) and every crossing was checked on zoomed overlays (z2/x_*.jpg).",
+  "Naples is a 3-hex major city (2024, 2124, 2125: one city graphic, all three hexes white-outlined); ports (blue-filled anchor circles) in 2024 and 2125; major airfield in 2124. No VP circle in any Naples hex. Other cities: Capua 2518, Aversa 2220, Frattamaggiore 2222, Afragola 2323, Caserta 2620 (VP 1), Resina 2126, Nola 2726.",
+  "VP circles (all value 1): 2116 (empty clear hex north of the Volturno), 2515 (major road junction south of Sparanise), 2517 (Capua Airfield), 2620 (Caserta), 3019 (empty hill hex north of Limatola).",
+  "Two port symbols: white circle with dark anchor (the key's Port) at Chiaia 1924 and Pozzuoli 1723; blue-filled circle with white anchor at Naples 2024 and 2125.",
+  "Small bold numerals beside the Naples-Capua-Sparanise major road: 1 in 2125, 2 in 2122, 3 in 2320, 4 in 2518, 5 in 2515 (recorded as label).",
+  "Printed text without symbols: CAMPANIA PLAIN (large letters across 1820-2319), Gulf of Naples (1826/1827), NAPLES (Napoli) (1925/2025), Volturno (2215/2216), Agnena Canal (2014/2015), Regi Lagni Canal (2218/2318), Mondragone (1813, for the town in 1913), Sant'Agata de' Goti (3021/3022, town off photo).",
+  "Open sea has no printed hex outlines (only coastal sea hexes are outlined); sea hexes there were placed from the fitted grid.",
+  "Outside this photo but visible at its edges: Mondragone town (1913), Pozzuoli port (1723; roads to 1822 and 1823 confirmed), a minor road entering 2313 from the west to meet the major road at the top edge, and a blue river line at the very top-right corner (beyond 3013).",
+  "No Gustav Line, Bernhard Line, 8th Army boundary, 8th Army zone, garrison note or covering table on this photo; the only box is the S1 entry band."
+ ],
+ "lines": {
+  "gustav": null,
+  "bernhard": null,
+  "eighthArmyBoundary": null,
+  "note": "none of the three printed lines appears on this photo. The vertical whitish line near x~1905 px (east edge) is a worn paper fold, not a printed line."
+ }
+}

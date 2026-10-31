@@ -1,0 +1,1118 @@
+{
+ "photo": "SW",
+ "grid": {
+  "oddColumnsDown": false,
+  "residualPx": 6.52,
+  "note": "Even columns sit half a hex LOWER (e.g. 1621 label 82 px below 1721 and 86 px above 1522). Fitted on 8 hex labels (anchors.json) plus 27 printed hex corners (vertices.json; key \"HHHH:k\", k=0 right corner, 1 bottom-right, 2 bottom-left, 3 left, 4 top-left, 5 top-right), sigma 3. Corner residuals <= 3.0 px; the max (6.5 px) is the label centres of 1522/1523 sitting ~5-6 px left of the hex centre line. The label centre sits 0.37 hex above the hex centre on this map (grid.py LABEL_DY is -0.32 from Salerno), so label-only fits should use -0.37. italygrid.py patches grid.grid_xy for the Italy parity at import time (grid.py itself is unchanged). Hex size here ~168 px flat to flat.",
+  "labelDy": -0.37
+ },
+ "extent": {
+  "minCol": 15,
+  "maxCol": 17,
+  "minRow": 20,
+  "maxRow": 23,
+  "playableHexes": [
+   "1522",
+   "1523",
+   "1621",
+   "1622",
+   "1720",
+   "1721",
+   "1722",
+   "1723"
+  ],
+  "mapEdgesVisible": "West and south edges of the map sheet (photo left edge x~15 px and bottom y~2505 px, wood table beyond): this is the sheet corner, all non-playable sea with no hex grid. No playable-map edge or entry area is visible. Top: the photo cuts through the Weather Table (continues in NW). Right: the photo cuts through column 17/18 (continues in S).",
+  "note": "Only 8 playable hexes have their centre in this photo. Column 17 rows 14-19 carry no hex lines (non-playable sea); along the right edge the left halves of the column-18 hexes 1814-1819 are outlined but their centres are off the photo (S photo). Hexes 1720-1723 are also visible at the left edge of the S photo."
+ },
+ "hexes": {
+  "1522": {
+   "terrain": "clear",
+   "coastal": true,
+   "confidence": "medium",
+   "note": "Mostly sea (~80%). Land is a strip of the Cuma / Lago Fusaro coast with a jagged shoreline in the lower (south-east) part of the hex, pale (clear) colour, no symbols. Outlined on all six sides, so it is a playable hex; recorded as clear because it is not all-sea.",
+   "seaFraction": 0.79,
+   "measuredFractions": {
+    "sea": 0.79,
+    "clearLand": 0.18,
+    "hillShade": 0.0
+   }
+  },
+  "1523": {
+   "terrain": "clear",
+   "coastal": true,
+   "port": true,
+   "label": "Bacoli",
+   "confidence": "low",
+   "note": "Cape Miseno / Bacoli peninsula along the east side of the hex, the rest (~60%) sea. Of the land, about 55-60% is pale (clear) and 40-45% olive hill shading (one blob in the upper-right part of the land), so clear only narrowly; check. Port symbol (anchor in a white circle, no separate town circle) in the east of the hex just inside the 1523/1622 side; the name \"Bacoli\" is printed in the sea of 1623 to its lower right. A minor road from 1622 ends at the port. \"Cape Miseno\" is printed in the sea below the hex (in non-playable 1524).",
+   "seaFraction": 0.62,
+   "measuredFractions": {
+    "sea": 0.62,
+    "clearLand": 0.2,
+    "hillShade": 0.13
+   }
+  },
+  "1621": {
+   "terrain": "clear",
+   "coastal": true,
+   "confidence": "high",
+   "note": "Coastline runs diagonally across the hex from its top-right corner to the bottom side; west/north-west half sea, east/south-east half pale clear land (with a small headland near the lower-left side). No symbols, no shading.",
+   "seaFraction": 0.48,
+   "measuredFractions": {
+    "sea": 0.48,
+    "clearLand": 0.47,
+    "hillShade": 0.02
+   }
+  },
+  "1622": {
+   "terrain": "hill",
+   "coastal": true,
+   "confidence": "medium",
+   "note": "Land in the north and west parts, Pozzuoli bay (sea) in the south-east ~40%. About two thirds of the land is olive hill shading (a ridge curving from the top centre to the lower left); rest pale clear. Hex label \"1622\" mostly hidden under the shading. Minor road enters across the 1622/1722 side near its north end, turns west then south and leaves across the 1523/1622 side to the Bacoli port. Part of the word \"Pozzuoli\" (the port in 1723) is printed in the bay at the lower right of this hex.",
+   "seaFraction": 0.44,
+   "measuredFractions": {
+    "sea": 0.44,
+    "clearLand": 0.16,
+    "hillShade": 0.31
+   }
+  },
+  "1720": {
+   "terrain": "marsh",
+   "coastal": true,
+   "confidence": "high",
+   "note": "West ~35% sea; the land is covered by the marsh pattern (dashes and grass tufts) except a thin pale strip along the bottom side. Lago di Patria area: dark grey shapes (the same dark grey used for the off-map islands Procida and Nisida, i.e. land outside the playable hexes) lie just north of the top side, in non-playable 1719; the lake itself is in 1819 (S photo). A paper fold runs north-south through the east part of the hex. Right corner just outside the photo.",
+   "seaFraction": 0.37,
+   "measuredFractions": {
+    "sea": 0.37,
+    "clearLand": 0.4,
+    "hillShade": 0.17
+   }
+  },
+  "1721": {
+   "terrain": "clear",
+   "confidence": "high",
+   "note": "All land, pale clear. The coastline runs right along the 1620/1721 side (hex line and coast drawn side by side). A minor road (double dashed) starts inside the hex, west of centre (dead end, no continuation in any direction) and runs south across the 1721/1722 side. Paper fold through the east part.",
+   "seaFraction": 0.02,
+   "measuredFractions": {
+    "sea": 0.02,
+    "clearLand": 0.91,
+    "hillShade": 0.05
+   }
+  },
+  "1722": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "About two thirds covered by olive hill shading (centre and east); pale clear in the north-west. Label reads \"722\" (the \"1\" is under the road). Road junction in the south-west part: minor road from 1721 (north side), minor road west across the 1622/1722 side, minor road south across the 1722/1723 side. No mountain shading (the shading matches the olive hill colour of the Campi Flegrei hexes in the S photo).",
+   "seaFraction": 0.01,
+   "measuredFractions": {
+    "sea": 0.01,
+    "clearLand": 0.31,
+    "hillShade": 0.66
+   }
+  },
+  "1723": {
+   "terrain": "hill",
+   "coastal": true,
+   "port": true,
+   "label": "Pozzuoli",
+   "confidence": "medium",
+   "note": "Pozzuoli bay (sea) in the west/south-west ~45%; the land is mostly olive hill shading (~3/4) with a pale coastal strip. Port symbol (anchor in a white circle, no separate town circle) just below the hex label; the name \"Pozzuoli\" is printed to its west across the 1622/1723 boundary. Minor roads from the port: north across 1722/1723, north-east across 1723/1822, south-east across 1723/1823 (towards Bagnoli). East part in shadow beyond the paper fold; right corner just outside the photo.",
+   "seaFraction": 0.46,
+   "measuredFractions": {
+    "sea": 0.46,
+    "clearLand": 0.12,
+    "hillShade": 0.34
+   }
+  }
+ },
+ "nonPlayableNeighbours": {
+  "1421": {
+   "drawnSides": [
+    "1522"
+   ],
+   "undrawnSides": [
+    "1321",
+    "1322",
+    "1420",
+    "1422",
+    "1521"
+   ]
+  },
+  "1422": {
+   "drawnSides": [
+    "1522",
+    "1523"
+   ],
+   "undrawnSides": [
+    "1322",
+    "1323",
+    "1421",
+    "1423"
+   ]
+  },
+  "1423": {
+   "drawnSides": [
+    "1523"
+   ],
+   "undrawnSides": [
+    "1323",
+    "1324",
+    "1422",
+    "1424",
+    "1524"
+   ]
+  },
+  "1521": {
+   "drawnSides": [
+    "1522",
+    "1621"
+   ],
+   "undrawnSides": [
+    "1420",
+    "1421",
+    "1520",
+    "1620"
+   ]
+  },
+  "1524": {
+   "drawnSides": [
+    "1523"
+   ],
+   "undrawnSides": [
+    "1423",
+    "1424",
+    "1623",
+    "1624",
+    "1525"
+   ],
+   "note": "Sea. The automatic test flagged 1524/1525 because the \"Allied Support Markers\" heading lies there; no hex line by eye."
+  },
+  "1620": {
+   "drawnSides": [
+    "1621",
+    "1720",
+    "1721"
+   ],
+   "undrawnSides": [
+    "1520",
+    "1521",
+    "1619"
+   ],
+   "note": "Sea. The 1620/1721 side scores low only because the coastline is drawn right beside the hex line; by eye it is drawn."
+  },
+  "1623": {
+   "drawnSides": [
+    "1523",
+    "1622",
+    "1723"
+   ],
+   "undrawnSides": [
+    "1524",
+    "1624",
+    "1724"
+   ],
+   "note": "All sea (Pozzuoli bay south of 1622); the name \"Bacoli\" is printed here. Its three southern sides carry no hex line."
+  },
+  "1624": {
+   "drawnSides": [],
+   "undrawnSides": [
+    "1524",
+    "1525",
+    "1623",
+    "1625",
+    "1724",
+    "1725"
+   ]
+  },
+  "1719": {
+   "drawnSides": [
+    "1720",
+    "1818",
+    "1819"
+   ],
+   "undrawnSides": [
+    "1618",
+    "1619",
+    "1718"
+   ],
+   "note": "Sea plus dark grey (non-playable land) shapes of the Lago di Patria outlet."
+  },
+  "1724": {
+   "drawnSides": [
+    "1723",
+    "1823",
+    "1824"
+   ],
+   "undrawnSides": [
+    "1623",
+    "1624",
+    "1725"
+   ],
+   "note": "I. di Nisida (dark grey islet with a causeway line to the mainland in 1823/1824) lies in this hex; non-playable."
+  }
+ },
+ "hexsides": {
+  "1622-1722": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Crosses about a quarter of the way down from the 1621/1622/1722 corner."
+  },
+  "1523-1622": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Road to the Bacoli port; crosses a little below the middle of the side."
+  },
+  "1721-1722": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Crosses about 30% from the west end."
+  },
+  "1722-1723": {
+   "road": "minor",
+   "confidence": "high",
+   "note": "Crosses a little west of the middle."
+  },
+  "1723-1822": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "Pozzuoli to the north-east; crosses about 20% along from the 1722/1723/1822 corner. 1822 centre is off this photo: confirm in the S photo."
+  },
+  "1723-1823": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "Pozzuoli to Bagnoli; crosses near the middle. 1823 centre is off this photo: confirm in the S photo."
+  }
+ },
+ "tables": {
+  "weatherTable": {
+   "source": "Only the lower part of the table is in this photo (it continues from the NW photo). Column headers (A-F) are cut off; only the lower ends of the header cells show: A-D light grey, E mid grey, F dark slate grey with \"CRT = 1L\" printed in it.",
+   "headersFromNWPhotoForReference": {
+    "A": "Clear*",
+    "B": "Clear*",
+    "C": "Cloudy",
+    "D": "Cloudy",
+    "E": "Rain**",
+    "F": "Rain and Mud** / CRT = 1L",
+    "bracketAboveAtoF": "Flip all division ASUs to their Ready side (23.3.4)"
+   },
+   "rows": {
+    "Available Air Units": {
+     "A": "BR + US",
+     "B": "BR + US",
+     "C": "US",
+     "D": "BR",
+     "E": "-",
+     "F": "-",
+     "style": "white/light grey row; the A cell is crossed by a paper crease but reads BR + US"
+    },
+    "Available Naval Unit": {
+     "A": "Yes",
+     "B": "Yes",
+     "C": "-",
+     "D": "-",
+     "E": "-",
+     "F": "-",
+     "style": "blue row, white text"
+    },
+    "Allied Supply Pts.": {
+     "A": 2,
+     "B": 2,
+     "C": 2,
+     "D": 2,
+     "E": 0,
+     "F": 0,
+     "style": "yellow-green row"
+    },
+    "German Supply Pts.": {
+     "A": 1,
+     "B": 1,
+     "C": 2,
+     "D": 2,
+     "E": 1,
+     "F": 1,
+     "style": "brown-grey row"
+    }
+   },
+   "rowLabels": "printed to the right of the table, each with a black pointer: \"Available Air Units\" (white text), \"Available Naval Unit\", \"Allied Supply Pts.\", \"German Supply Pts.\"",
+   "footnotes": [
+    "* = +1 DRM for the Allied Isolation Attrition rolls on all Clear weather turns (16.5.5)",
+    "** = see Other Effects of Weather (23.4)"
+   ],
+   "dieRoll": {
+    "visibleHere": [
+     "die faces 2, 3, 4 = 1 -> \"Flip 1 NW (23.3.3) and Hv. Howitzer (19.4)\" (lower half of this row only)",
+     "die faces 5, 6 = 2 ->"
+    ],
+    "fromNWPhoto": "Heading \"Weather Table Die roll:\" and die face 1 = 0 ->",
+    "meaning": "arrows = number of boxes the Weather marker moves right (rule 23.1)"
+   }
+  },
+  "turnRecordTrack": {
+   "layout": "32 boxes in six rows (turns 1-5, 6-10, 11-15, 16-20, 21-25, 26-32). Each box: turn number in red (top left), dates in black bold italic (top right), event text in the middle, replacement icons along the bottom (Allied at bottom left, stacked when two; German at bottom right, stacked when two with the \"Ge\" label beside the lower icon only), and the VP benchmark in a yellow strip under the box.",
+   "legend": "Right of turn 5: Union Jack flag \"<- 8th Army Zone (5.8)\", \"<- Replacements\", \"<- VP Benchmark\".",
+   "iconKey": {
+    "X": "small rectangle with both diagonals drawn (crossed box) = Infantry replacement",
+    "plain": "small filled rectangle with no symbol = Special replacement",
+    "oval": "small rectangle containing a rounded-end oval = Tank/Panzer replacement",
+    "source": "shapes read from the photo; the shape-to-type mapping is confirmed by the replacement-type symbols in rule 20.1.2 (rulebook page 19)"
+   },
+   "nationColours": {
+    "Br": "khaki / light tan",
+    "US": "olive green",
+    "Ge": "grey (mauve-grey in this photo)",
+    "Fr": "medium blue",
+    "IT": "pale yellow-green"
+   },
+   "replacementTotals": {
+    "Ge infantry": 21,
+    "US infantry": 14,
+    "Ge special": 9,
+    "Br infantry": 7,
+    "Br special": 3,
+    "US special": 7,
+    "Ge tank": 5,
+    "US tank": 7,
+    "Br tank": 3,
+    "Fr special": 1,
+    "IT infantry": 1
+   },
+   "turns": [
+    {
+     "turn": 1,
+     "dates": "Oct 1-2",
+     "text": [
+      "Start Scen. #1 and #3 (bold black)",
+      "German Player moves first (italic grey)"
+     ],
+     "replacements": [],
+     "vpBenchmark": "-"
+    },
+    {
+     "turn": 2,
+     "dates": "Oct 3-4",
+     "text": [
+      "Corsica is liberated by the Free French (italic grey, historical note)"
+     ],
+     "replacements": [
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 1
+    },
+    {
+     "turn": 3,
+     "dates": "Oct 5-6",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 2
+    },
+    {
+     "turn": 4,
+     "dates": "Oct 7-8",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 3
+    },
+    {
+     "turn": 5,
+     "dates": "Oct 9-10",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 4
+    },
+    {
+     "turn": 6,
+     "dates": "Oct 11-13",
+     "text": [
+      "Italy declares war on Germany (italic grey, historical note)"
+     ],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "US",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "Ge",
+       "icon": "oval",
+       "type": "tank"
+      }
+     ],
+     "vpBenchmark": 5
+    },
+    {
+     "turn": 7,
+     "dates": "Oct 14-16",
+     "text": [
+      "End Scen. #1 (red bold)"
+     ],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 6
+    },
+    {
+     "turn": 8,
+     "dates": "Oct 17-19",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 7,
+     "eighthArmyZone": {
+      "section": "E1",
+      "printed": "Union Jack flag followed by \"E1\" in red"
+     }
+    },
+    {
+     "turn": 9,
+     "dates": "Oct 20-22",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 7
+    },
+    {
+     "turn": 10,
+     "dates": "Oct 23-25",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "US",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 8
+    },
+    {
+     "turn": 11,
+     "dates": "Oct 26-28",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 8,
+     "eighthArmyZone": {
+      "section": "E2",
+      "printed": "Union Jack flag followed by \"E2\" in red"
+     }
+    },
+    {
+     "turn": 12,
+     "dates": "Oct 29-31",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 9
+    },
+    {
+     "turn": 13,
+     "dates": "Nov 1-3",
+     "text": [
+      "Start Scen. #2 (bold black)"
+     ],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "oval",
+       "type": "tank"
+      }
+     ],
+     "vpBenchmark": 9
+    },
+    {
+     "turn": 14,
+     "dates": "Nov 4-6",
+     "text": [
+      "NAPLES: +1 Supply (black on a grey-blue rounded panel; the whole turn box has a light blue frame)"
+     ],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 10,
+     "naplesSupply": 1
+    },
+    {
+     "turn": 15,
+     "dates": "Nov 7-9",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 10,
+     "eighthArmyZone": {
+      "section": "E3",
+      "printed": "Union Jack flag followed by \"E3\" in red"
+     }
+    },
+    {
+     "turn": 16,
+     "dates": "Nov 10-12",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 11
+    },
+    {
+     "turn": 17,
+     "dates": "Nov 13-15",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Br",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 11
+    },
+    {
+     "turn": 18,
+     "dates": "Nov 16-18",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "US",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 12
+    },
+    {
+     "turn": 19,
+     "dates": "Nov 19-21",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "oval",
+       "type": "tank"
+      }
+     ],
+     "vpBenchmark": 12
+    },
+    {
+     "turn": 20,
+     "dates": "Nov 22-24",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "US",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 13
+    },
+    {
+     "turn": 21,
+     "dates": "Nov 25-27",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 13
+    },
+    {
+     "turn": 22,
+     "dates": "Nov 28-30",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "US",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 14
+    },
+    {
+     "turn": 23,
+     "dates": "Dec 1-3",
+     "text": [
+      "Luftwaffe strikes Bari Harbor, 17 ships sunk (italic grey, historical note)"
+     ],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 14
+    },
+    {
+     "turn": 24,
+     "dates": "Dec 4-6",
+     "text": [
+      "NAPLES: +2 Supply (black on a grey-blue rounded panel; light blue frame round the turn box)"
+     ],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 15,
+     "naplesSupply": 2
+    },
+    {
+     "turn": 25,
+     "dates": "Dec 7-9",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "oval",
+       "type": "tank"
+      }
+     ],
+     "vpBenchmark": 15
+    },
+    {
+     "turn": 26,
+     "dates": "Dec 10-12",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "US",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 16
+    },
+    {
+     "turn": 27,
+     "dates": "Dec 13-15",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 16
+    },
+    {
+     "turn": 28,
+     "dates": "Dec 16-18",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "US",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 16
+    },
+    {
+     "turn": 29,
+     "dates": "Dec 19-21",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Br",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "plain",
+       "type": "special"
+      }
+     ],
+     "vpBenchmark": 17
+    },
+    {
+     "turn": 30,
+     "dates": "Dec 22-24",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "Fr",
+       "icon": "plain",
+       "type": "special"
+      },
+      {
+       "nation": "US",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 17,
+     "note": "A short dark stroke above the \"Fr\" label is a mark on the paper, not print."
+    },
+    {
+     "turn": 31,
+     "dates": "Dec 25-28",
+     "text": [],
+     "replacements": [
+      {
+       "nation": "IT",
+       "icon": "X",
+       "type": "infantry"
+      },
+      {
+       "nation": "US",
+       "icon": "oval",
+       "type": "tank"
+      },
+      {
+       "nation": "Ge",
+       "icon": "oval",
+       "type": "tank"
+      }
+     ],
+     "vpBenchmark": 17
+    },
+    {
+     "turn": 32,
+     "dates": "Dec 29-31",
+     "text": [
+      "End Scen. #2 and #3 (red bold)"
+     ],
+     "replacements": [
+      {
+       "nation": "Ge",
+       "icon": "X",
+       "type": "infantry"
+      }
+     ],
+     "vpBenchmark": 18
+    }
+   ]
+  },
+  "alliedSupportMarkers": {
+   "printed": "Heading \"Allied Support Markers\" over three rounded light-blue boxes: (1) US flag above a white P-38 (twin-boom) aircraft silhouette, (2) Union Jack above a white single-engine fighter silhouette, (3) two white warship silhouettes. Holding boxes for the US air, British air and naval support markers.",
+   "position": "In the sea south of Cape Miseno, below non-playable hexes 1524/1624; covers no playable hex."
+  }
+ },
+ "entryAreas": {},
+ "lines": {
+  "note": "No Gustav Line, Bernhard Line or 8th Army Boundary Line in this photo."
+ },
+ "covered": {
+  "playableHexesCovered": [],
+  "note": "No playable hex is covered. The Weather Table (lower part), the Turn Record Track with its legend, and the Allied Support Markers box are printed on the non-playable sea of the Gulf of Gaeta/Naples, where no hex grid is drawn. Rough extrapolation of the grid (unreliable this far from the anchors): the Turn Record Track spans about columns 6-16, rows 16-27; the visible part of the Weather Table about columns 6-12, rows 13-15; the Allied Support Markers box about columns 13-16, rows 24-25."
+ },
+ "offMapText": [
+  {
+   "text": "Castel Volturno",
+   "where": "printed in the non-playable sea at about hex 1715/1716 position, left of the coast; the town itself is in 1815 (rule 9.6 example, S photo)"
+  },
+  {
+   "text": "Mond[ragone]",
+   "where": "clipped at the top-right corner of the photo; the town is in the S/N photos"
+  },
+  {
+   "text": "I. di Procida",
+   "where": "dark grey island (plus a small islet to its west) in the non-playable sea around column 13-14, row 22-23; no hex lines"
+  },
+  {
+   "text": "I. di Nisida",
+   "where": "dark grey islet in non-playable 1724 with a thin causeway line to the mainland"
+  },
+  {
+   "text": "Cape Miseno",
+   "where": "white italic text in the sea below 1523"
+  },
+  {
+   "text": "Bacoli / Pozzuoli",
+   "where": "port names, see hexes 1523 / 1723"
+  },
+  {
+   "text": "Gu[lf of] Na[ples]",
+   "where": "white italic text clipped at the right edge near the bottom"
+  }
+ ],
+ "uncertain": [
+  "1523 terrain: clear only narrowly over hill (about 55-60% of the land is pale); check against another photo.",
+  "1522 is ~80% sea but has a strip of land, so recorded as clear, not sea.",
+  "Pozzuoli (1723) and Bacoli (1523) are drawn with the port symbol only (anchor in a white circle) and a name, no town circle: recorded as port + label. Whether a named port counts as a town (e.g. for the Determined Defense table) is a rules call.",
+  "Roads 1723-1822 and 1723-1823: the neighbour hexes are centred off this photo; confirm in the S photo.",
+  "The minor road in 1721 ends inside the hex (dead end); the S photo cannot see this spot.",
+  "The olive shading in 1622/1722/1723 is read as hill shading, not mountain: it has the same tone ratio to clear (about 0.5) as the Campi Flegrei hill hexes in the S photo, and no hexside is covered by the much darker mountain shading. So no mountain hexsides here."
+ ],
+ "notes": [
+  "Playable hexes were identified from the printed hex lines: a playable hex has all six sides drawn; a non-playable sea hex has lines only where it borders a playable hex (edge_scores.json, edges.py). Non-playable land (islands, the Lago di Patria spit in 1719) is drawn dark grey.",
+  "Terrain: colour fractions (samples.json) checked by eye at 3x on each hex (zoom/hex_*.png). In this warm-lit photo clear terrain looks beige and hill shading olive-brown; the S photo shows the same hexes (1720-1723 at its left edge) in neutral colours: 1720 marsh, 1721 clear, 1722 hill.",
+  "No rivers, lakes, mountain hexsides, passes, VP circles, airfields, towns, cities, landmarks or peaks in the transcribed hexes.",
+  "A paper fold runs north-south at x~1875 px through column 17 (bright line, shadow on its east side).",
+  "Scripts: italygrid.py (Italy parity + corner anchors), calib.py, ov.py, overlay.py, edges.py, sample.py, labels.py, vcrop.py, hexcrops.py, icons.py, build_json.py. Overlays: overlay.jpg (whole photo, 0.5x; magenta = transcribed hexes, cyan = non-playable neighbours, yellow = column-18 hexes centred off the photo) and overlay_coast.jpg (coastal strip at 1x)."
+ ]
+}

@@ -1,0 +1,1984 @@
+{
+ "photo": "NW",
+ "file": "map-nw-terracina.jpg (1512x2016)",
+ "grid": {
+  "oddColumnsDown": false,
+  "note": "EVEN columns sit half a hex lower than odd ones (e.g. label 1300 at y~100, 1400 at y~167, 1500 at y~100). Hex-number labels sit 0.36 hex above the hex centre (LABEL_DY=-0.36, measured from printed hex corners; with -0.32 every fitted corner was ~5 px too high). Fit: grid.Mapper (sigma 3 grid units) on 32 legible labels plus 28 printed hex corners; geometry patched in fit.py without changing grid.py.",
+  "residualPx": 4.6,
+  "meanResidualPx": 1.3,
+  "anchors": {
+   "labels": 32,
+   "corners": 28
+  },
+  "hexSizePx": {
+   "columnSpacing": 116,
+   "rowSpacing": 133
+  }
+ },
+ "extent": {
+  "playableHexes": {
+   "minCol": 10,
+   "maxCol": 17,
+   "minRow": 0,
+   "maxRow": 7,
+   "count": 42
+  },
+  "seaPositionsListed": {
+   "minCol": 5,
+   "maxCol": 17,
+   "minRow": 0,
+   "maxRow": 14
+  },
+  "mapEdgesVisible": {
+   "north": "Yes: hex-shaped top edge from N1 (x~500) to the photo edge; odd-column row-00 hexes (1100, 1300, 1500, 1700) reach the edge and a brown off-map band fills the notches above even-column row-00 hexes (1000 sits under N1, 1200, 1400, 1600).",
+   "west": "Yes: the map's west edge at x~25 is open sea, with a strip of grey off-map land (Cape Circeo, labelled) along the top-left and the N1 box.",
+   "south": "No: the photo ends inside the Weather Table (the SW photo continues).",
+   "east": "Cut: the photo ends at x~1511, through column 17 (about the west three quarters of column 17 visible). \"S\" (Scauri?) and \"Mo\" (Mondragone) appear at the edge."
+  },
+  "photoPxOfMapArea": [
+   25,
+   60,
+   1511,
+   2016
+  ]
+ },
+ "hexes": {
+  "0500": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0501": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0502": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0503": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0504": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0505": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0506": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0507": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0508": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0509": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0510": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0511": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0512": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0513": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0600": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0601": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0602": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0603": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0604": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0605": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0606": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0607": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0608": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0609": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0610": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0611": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0612": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0613": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0700": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0701": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0702": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0703": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0704": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0705": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0706": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0707": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0708": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0709": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0710": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0711": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0712": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0713": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0800": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0801": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0802": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0803": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0804": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0805": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0806": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0807": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0808": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0809": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0810": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0811": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0812": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0813": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0901": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "0902": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0903": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "0904": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "0905": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0906": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0907": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "0908": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0909": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0910": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0911": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "0912": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0913": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "0914": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "visiblePct": 54,
+   "confidence": "high"
+  },
+  "1000": {
+   "terrain": "hill",
+   "city": "Terracina",
+   "cityKind": "minor",
+   "port": true,
+   "vp": 4,
+   "confidence": "high",
+   "note": "City hex drawn with a white hex outline; grid city symbol, anchor and red VP 4. Land is tan hill colour with darker shading in its upper right; its lower part (about a quarter of the hex) is sea. A major road leaves the city northwards through the top hexside into the N1 entry area. The name \"Terracina\" is printed in the sea west of the hex.",
+   "coastal": true,
+   "seaPct": 23,
+   "darkShadePct": 20
+  },
+  "1001": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high",
+   "note": "\"Terracina\" printed here."
+  },
+  "1002": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "title block"
+   ],
+   "confidence": "high"
+  },
+  "1003": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "compass rose"
+   ],
+   "confidence": "high"
+  },
+  "1004": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "compass rose"
+   ],
+   "confidence": "high"
+  },
+  "1005": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1006": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "1007": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "1008": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "1009": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "1010": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "1011": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track",
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "1012": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "1013": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "1100": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "North map-edge hex (odd column, row 00 reaches the top edge). Upper half carries dark mountain shading (about half the hex), lower half tan hill; not called mountainShade because the shading is only about 50%. Hex number not legible (under shading). Its upper-left side borders the N1 entry area.",
+   "darkShadePct": 51
+  },
+  "1101": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "note": "Marsh pattern on the north-east half; the coast cuts the hex diagonally, south-west part is sea. Lake (Lago di Fondi) arm along the 1101-1200 hexside.",
+   "coastal": true,
+   "seaPct": 45,
+   "darkShadePct": 0
+  },
+  "1102": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1103": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1104": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1105": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1106": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1107": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Remnant Display"
+   ],
+   "confidence": "high"
+  },
+  "1108": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1109": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "1110": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "1111": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "General Records Track"
+   ],
+   "confidence": "high"
+  },
+  "1112": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "1113": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "confidence": "high"
+  },
+  "1114": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table"
+   ],
+   "visiblePct": 58,
+   "confidence": "high"
+  },
+  "1200": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Tan hill with some darker shading; the Lago di Fondi lake fills its lower part along three hexsides (1101-1200, 1200-1201, 1200-1301). Major road along its upper part.",
+   "darkShadePct": 11
+  },
+  "1201": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "note": "Marsh pattern almost throughout; lake along its top. A dark grey band about 5 px wide follows its 1201-1302 and 1201-1202 hexsides from the lake down to the coast; it is not lake-blue and does not match the key's river or river+marsh symbols, so it is read as the outline of the lake/marsh artwork, not a river (see uncertain).",
+   "darkShadePct": 0
+  },
+  "1202": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Coastal: about two thirds sea; the land strip along its east side is cream (clear, Fondi plain).",
+   "coastal": true,
+   "seaPct": 68,
+   "darkShadePct": 0
+  },
+  "1203": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high",
+   "note": "The coastline runs along its NE hexside (1203-1303); no land inside, no outline printed. \"Sperlonga\" printed here."
+  },
+  "1204": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1205": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1206": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1207": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1208": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1209": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1210": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1211": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1212": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table die-roll key"
+   ],
+   "confidence": "high"
+  },
+  "1213": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table row labels"
+   ],
+   "confidence": "high"
+  },
+  "1300": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "North map-edge hex; tan hill with dark shading along the top edge. Major road crosses its lower part.",
+   "darkShadePct": 23
+  },
+  "1301": {
+   "terrain": "clear",
+   "label": "Lago di Fondi",
+   "confidence": "high",
+   "note": "Cream (clear); the lake bulges into its west part. \"Lago di Fondi\" printed here.",
+   "darkShadePct": 0
+  },
+  "1302": {
+   "terrain": "clear",
+   "confidence": "high",
+   "note": "Minor road (Fondi-Sperlonga) crosses it.",
+   "darkShadePct": 0
+  },
+  "1303": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Hill shading over about three quarters, cream along the north and west edge. Minor road runs N-S through it.",
+   "darkShadePct": 0
+  },
+  "1304": {
+   "terrain": "hill",
+   "port": true,
+   "label": "Sperlonga",
+   "confidence": "high",
+   "note": "Coastal (about a quarter sea). Anchor (port) at the coast in the upper-left part; no town circle. The name \"Sperlonga\" is printed in the sea of 1203. The Fondi-Sperlonga minor road ends at the port.",
+   "coastal": true,
+   "seaPct": 23,
+   "darkShadePct": 0
+  },
+  "1305": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mostly sea (about three quarters); outlined because a narrow strip of hill land and beach runs along its east side.",
+   "coastal": true,
+   "seaPct": 77,
+   "darkShadePct": 0
+  },
+  "1306": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1307": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1308": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1309": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1310": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1311": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1312": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table die-roll key"
+   ],
+   "confidence": "high"
+  },
+  "1313": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table die-roll key"
+   ],
+   "confidence": "high"
+  },
+  "1314": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table row labels"
+   ],
+   "visiblePct": 59,
+   "confidence": "high"
+  },
+  "1400": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "North map-edge hex (even column; its top side is the map edge). Major road crosses it diagonally.",
+   "darkShadePct": 11
+  },
+  "1401": {
+   "terrain": "marsh",
+   "confidence": "high",
+   "note": "An irregular marsh patch covers about 70-75% of the hex, cream clear around it. Minor road crosses it SW-NE.",
+   "darkShadePct": 0
+  },
+  "1402": {
+   "terrain": "clear",
+   "confidence": "high",
+   "darkShadePct": 0
+  },
+  "1403": {
+   "terrain": "hill",
+   "confidence": "high",
+   "darkShadePct": 0
+  },
+  "1404": {
+   "terrain": "hill",
+   "confidence": "high",
+   "darkShadePct": 0
+  },
+  "1405": {
+   "terrain": "hill",
+   "confidence": "high",
+   "coastal": true,
+   "seaPct": 6,
+   "darkShadePct": 0
+  },
+  "1406": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Coastal, about half sea; land is hill brown with a cream beach fringe.",
+   "coastal": true,
+   "seaPct": 53,
+   "darkShadePct": 0
+  },
+  "1407": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1408": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1409": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1410": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Eliminated Box"
+   ],
+   "confidence": "high"
+  },
+  "1411": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1412": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table die-roll key"
+   ],
+   "confidence": "high"
+  },
+  "1413": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1500": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "North map-edge hex.",
+   "darkShadePct": 11
+  },
+  "1501": {
+   "terrain": "hill",
+   "town": "Fondi",
+   "vp": 1,
+   "confidence": "high",
+   "note": "Town circle at its lower-left; VP 1. Major road from Terracina arrives here and turns south; minor roads leave NE (to 1600) and SW (to 1401). Cream (clear) band along its upper-left edge, rest tan hill.",
+   "darkShadePct": 9
+  },
+  "1502": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "About a quarter dark shading on its east side.",
+   "darkShadePct": 25
+  },
+  "1503": {
+   "terrain": "hill",
+   "confidence": "high",
+   "darkShadePct": 19
+  },
+  "1504": {
+   "terrain": "hill",
+   "town": "Itri",
+   "confidence": "high",
+   "note": "Town circle on the major road; minor road leaves NE.",
+   "darkShadePct": 8
+  },
+  "1505": {
+   "terrain": "hill",
+   "confidence": "high",
+   "darkShadePct": 11
+  },
+  "1506": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Coastal (about a quarter sea along the south).",
+   "coastal": true,
+   "seaPct": 24,
+   "darkShadePct": 8
+  },
+  "1507": {
+   "terrain": "clear",
+   "port": true,
+   "label": "Gaeta",
+   "confidence": "low",
+   "note": "About three quarters sea. The land is only the tip of the Gaeta promontory, drawn in the light coastal colour (called clear, low confidence). Anchor (port) on the promontory; \"Gaeta\" printed in the sea part of this hex; no town circle.",
+   "coastal": true,
+   "seaPct": 76,
+   "darkShadePct": 0
+  },
+  "1508": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1509": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1510": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1511": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1512": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table die-roll key"
+   ],
+   "confidence": "high"
+  },
+  "1513": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table die-roll key"
+   ],
+   "confidence": "high"
+  },
+  "1514": {
+   "terrain": "sea",
+   "visiblePct": 60,
+   "confidence": "high"
+  },
+  "1600": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "North map-edge hex. Minor-road junction: one branch leaves the map northwards through the top side, one goes east into 1701.",
+   "darkShadePct": 12
+  },
+  "1601": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "About 70% dark mountain shading; a tan pocket in its west part.",
+   "darkShadePct": 71
+  },
+  "1602": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "About 70% dark mountain shading; a tan tongue across its middle. Hex number not legible.",
+   "darkShadePct": 69
+  },
+  "1603": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "About 35% dark shading (bands at top and bottom). Minor road from Itri crosses it.",
+   "darkShadePct": 37
+  },
+  "1604": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "peak": "M. Orso 1023",
+   "confidence": "high",
+   "note": "About 80% dark shading (tan pocket at its west side). Peak triangle with \"M. Orso\" and \"1023\".",
+   "darkShadePct": 83
+  },
+  "1605": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "fullMountain": true,
+   "confidence": "high",
+   "note": "Entirely covered by dark shading: a full mountain hex, so all six hexsides are mountain hexsides (rule 2.2.2).",
+   "darkShadePct": 100
+  },
+  "1606": {
+   "terrain": "clear",
+   "confidence": "low",
+   "note": "About two thirds sea. Land is a strip along the top carrying the major road and a light coastal fringe, with a little dark shading under the 1605 hexside; called clear with low confidence. \"Formia\" and the underlined \"Garrison required\" are printed in its sea part (they belong to Formia, 1706).",
+   "coastal": true,
+   "seaPct": 64,
+   "darkShadePct": 19
+  },
+  "1607": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "confidence": "high"
+  },
+  "1608": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1609": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1610": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1611": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1612": {
+   "terrain": "sea",
+   "covered": true,
+   "coveredBy": [
+    "Weather Table die-roll key"
+   ],
+   "confidence": "high"
+  },
+  "1613": {
+   "terrain": "sea",
+   "confidence": "high"
+  },
+  "1700": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "North map-edge hex; east quarter beyond the photo edge.",
+   "darkShadePct": 27,
+   "visiblePct": 74
+  },
+  "1701": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 45% dark shading; east quarter beyond the photo edge. Minor road from 1600 continues east out of the photo.",
+   "darkShadePct": 44,
+   "visiblePct": 75
+  },
+  "1702": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "About 60% of the visible part is dark shading, but the east quarter is not visible, so mountainShade is left false; check in the N photo. Minor road from Itri exits the photo NE in this hex.",
+   "darkShadePct": 59,
+   "visiblePct": 75
+  },
+  "1703": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "East quarter beyond the photo edge.",
+   "darkShadePct": 35,
+   "visiblePct": 77
+  },
+  "1704": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "East quarter beyond the photo edge.",
+   "darkShadePct": 46,
+   "visiblePct": 77
+  },
+  "1705": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "East quarter beyond the photo edge.",
+   "darkShadePct": 43,
+   "visiblePct": 79
+  },
+  "1706": {
+   "terrain": "hill",
+   "city": "Formia",
+   "cityKind": "minor",
+   "port": true,
+   "vp": 1,
+   "garrison": "Garrison required",
+   "confidence": "high",
+   "note": "City hex with white outline on its lower-left and bottom sides; grid city symbol with anchor at its lower-left; VP 1. \"Formia\" and \"Garrison required\" are printed just to the south-west, in the sea of 1606. Major road passes through the city and continues east beyond the photo edge.",
+   "darkShadePct": 21,
+   "visiblePct": 79
+  },
+  "1707": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "About two thirds sea; land (cream) along the east side; east quarter beyond the photo edge.",
+   "coastal": true,
+   "seaPct": 66,
+   "darkShadePct": 0,
+   "visiblePct": 81
+  },
+  "1708": {
+   "terrain": "sea",
+   "adjacentToLand": true,
+   "visiblePct": 82,
+   "confidence": "medium",
+   "note": "No land in the visible west 80%; an \"S\" (start of a place name, probably Scauri) is printed just beyond, at the photo edge. Check in the N photo."
+  },
+  "1709": {
+   "terrain": "sea",
+   "visiblePct": 84,
+   "confidence": "high"
+  },
+  "1710": {
+   "terrain": "sea",
+   "visiblePct": 86,
+   "confidence": "high"
+  },
+  "1711": {
+   "terrain": "sea",
+   "visiblePct": 88,
+   "confidence": "high"
+  },
+  "1712": {
+   "terrain": "sea",
+   "visiblePct": 90,
+   "confidence": "high"
+  },
+  "1713": {
+   "terrain": "sea",
+   "visiblePct": 90,
+   "confidence": "high"
+  },
+  "1714": {
+   "terrain": "sea",
+   "visiblePct": 53,
+   "confidence": "high"
+  }
+ },
+ "hexsides": {
+  "1000-1100": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1100-1200": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1101-1200": {
+   "river": "lake",
+   "riverName": "Lago di Fondi",
+   "confidence": "high"
+  },
+  "1200-1201": {
+   "river": "lake",
+   "riverName": "Lago di Fondi",
+   "confidence": "high"
+  },
+  "1200-1300": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1200-1301": {
+   "river": "lake",
+   "riverName": "Lago di Fondi",
+   "confidence": "high"
+  },
+  "1201-1301": {
+   "river": "lake",
+   "riverName": "Lago di Fondi",
+   "confidence": "high"
+  },
+  "1300-1400": {
+   "road": "major",
+   "roadNote": "crosses ~10 px from a hex corner; checked at 7x zoom",
+   "confidence": "high"
+  },
+  "1302-1303": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1302-1401": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1303-1304": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1400-1501": {
+   "road": "major",
+   "roadNote": "crosses ~12 px from a hex corner; checked at 7x zoom",
+   "confidence": "high"
+  },
+  "1401-1501": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1501-1502": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1501-1600": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1502-1503": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1502-1601": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1502-1602": {
+   "mountain": true,
+   "confidence": "medium",
+   "shadeCoverPct": 88,
+   "note": "Shading covers the whole side but the tan of 1502 comes within ~4 px of the line near its lower (south) end."
+  },
+  "1503-1504": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1503-1602": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1503-1603": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1504-1505": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1504-1603": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1505-1506": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1505-1605": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1506-1605": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 92
+  },
+  "1506-1606": {
+   "road": "major",
+   "roadNote": "crosses ~11 px from a hex corner; checked at 7x zoom",
+   "confidence": "high"
+  },
+  "1600-1601": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1600-1701": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1601-1602": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1601-1701": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1601-1702": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1602-1603": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1602-1702": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1602-1703": {
+   "mountain": true,
+   "confidence": "medium",
+   "shadeCoverPct": 92,
+   "note": "Shading continuous along the side except where the Itri minor road crosses it.",
+   "road": "minor"
+  },
+  "1603-1604": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1603-1703": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "1603-1704": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1604-1605": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1604-1704": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1604-1705": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1605-1606": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 92,
+   "note": "Land part of this coastal-hex side is all dark (1605 is a full mountain hex)."
+  },
+  "1605-1705": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100
+  },
+  "1605-1706": {
+   "mountain": true,
+   "confidence": "medium",
+   "shadeCoverPct": 42,
+   "note": "Mountain by rule 2.2.2 because 1605 is a full mountain hex; the shading edge coincides with the hexside here and Formia's white outline runs just inside 1706."
+  },
+  "1606-1706": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "1701-1702": {
+   "mountain": true,
+   "confidence": "medium",
+   "shadeCoverPct": 100,
+   "note": "Dark along the visible ~90% of the side; its east end is beyond the photo edge."
+  },
+  "1702-1703": {
+   "mountain": true,
+   "confidence": "medium",
+   "shadeCoverPct": 100,
+   "note": "Dark along the visible ~90% of the side; its east end is beyond the photo edge."
+  },
+  "1704-1705": {
+   "mountain": true,
+   "confidence": "high",
+   "shadeCoverPct": 100,
+   "note": "Mountain pass symbol \")(\" drawn across this side, in a narrow neck of dark shading between tan areas; east end beyond the photo edge.",
+   "pass": true
+  }
+ },
+ "entryAreas": {
+  "N1": {
+   "colour": "dark navy blue",
+   "text": "N1",
+   "photoBox": [
+    497,
+    55,
+    750,
+    160
+   ],
+   "hexes": [
+    "1000",
+    "1100"
+   ],
+   "touches": {
+    "1000": "top hexside and the land part of its upper-left hexside (down to the Cape Circeo coastline)",
+    "1100": "upper-left hexside"
+   },
+   "note": "Box sits at the north-west corner of the playable map, over the land north of Terracina; its lower-left edge follows the coastline. The major road from Terracina runs north into it. Hex position 0900 is mostly this box (not a hex)."
+  }
+ },
+ "lines": {
+  "gustavLine": "Not in this photo.",
+  "bernhardLine": "Not in this photo.",
+  "8thArmyBoundary": "Not in this photo."
+ },
+ "edgeFeatures": {
+  "roadsLeavingTheMap": [
+   {
+    "road": "major",
+    "from": "1000",
+    "through": "top hexside",
+    "to": "N1 entry area (north)"
+   },
+   {
+    "road": "minor",
+    "from": "1600",
+    "through": "top hexside",
+    "to": "off the north map edge (no entry area box there)"
+   }
+  ],
+  "roadsLeavingThePhoto": [
+   {
+    "road": "major",
+    "hex": "1706",
+    "direction": "east, toward 1806 (beyond photo)"
+   },
+   {
+    "road": "minor",
+    "hex": "1701",
+    "direction": "east (beyond photo)"
+   },
+   {
+    "road": "minor",
+    "hex": "1702",
+    "direction": "north-east (beyond photo)"
+   }
+  ],
+  "text": [
+   "\"Garrison required\" (underlined, cream) under \"Formia\", printed in 1606, belongs to Formia 1706",
+   "\"Cape Circeo\" (off-map land, top left)",
+   "\"Gulf of Gaeta\" (sea, x~1220-1440, y~1300-1390)",
+   "\"Terracina\" printed in sea hex 1001",
+   "\"Sperlonga\" printed in sea hex 1203",
+   "\"Gaeta\" printed in 1507",
+   "\"Formia\" printed in 1606",
+   "\"Lago di Fondi\" in 1301"
+  ]
+ },
+ "roads": {
+  "major_terracina_fondi": [
+   "1000",
+   "1100",
+   "1200",
+   "1300",
+   "1400",
+   "1501"
+  ],
+  "major_fondi_itri": [
+   "1501",
+   "1502",
+   "1503",
+   "1504"
+  ],
+  "major_itri_formia_east": [
+   "1504",
+   "1505",
+   "1506",
+   "1606",
+   "1706"
+  ],
+  "major_terracina_north": [
+   "1000",
+   "N1 (off map, north)"
+  ],
+  "minor_fondi_north_east": [
+   "1501",
+   "1600",
+   "1701"
+  ],
+  "minor_fondi_north_spur": [
+   "1600",
+   "off map, north"
+  ],
+  "minor_fondi_sperlonga": [
+   "1501",
+   "1401",
+   "1302",
+   "1303",
+   "1304"
+  ],
+  "minor_itri_northeast": [
+   "1504",
+   "1603",
+   "1703",
+   "1602",
+   "1702"
+  ]
+ },
+ "tables": {
+  "titleBlock": {
+   "text": [
+    "ITALY '43",
+    "Fifth Army's Advance to the Gustav Line",
+    "© 2025 GMT Games, LLC",
+    "P.O. Box 1308, Hanford, California  93232-1308"
+   ],
+   "photoBox": [
+    105,
+    365,
+    695,
+    635
+   ],
+   "compassRose": {
+    "photoCentre": [
+     655,
+     685
+    ],
+    "description": "Rose ring lettered NW (top), NE (right), SE (bottom), SW (left); arrows labelled N (up-right), E (down-right), S (down-left), W (up-left). So true north points about 35-45 degrees clockwise of map-up: the top of the map faces north-west."
+   }
+  },
+  "remnantDisplay": {
+   "title": "Remnant Display (10.4)",
+   "photoBox": [
+    112,
+    765,
+    888,
+    1190
+   ],
+   "layout": "Three rows of counter-sized boxes, each box coloured by nationality and showing a printed remnant counter: \"REM\" above a unit symbol, a letter (or unit id) on the left of the symbol, a black square with \"2\" on its right, and factors below.",
+   "rows": [
+    {
+     "row": 1,
+     "colour": "olive green (US)",
+     "boxes": [
+      {
+       "col": 1,
+       "id": "A",
+       "symbol": "infantry (white box with X)",
+       "factors": "1-3-3",
+       "note": "middle 3 printed on a white square"
+      },
+      {
+       "col": 2,
+       "id": "B",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 3,
+       "id": "C",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 4,
+       "id": "82",
+       "symbol": "airborne infantry (red box, X with parachute arcs)",
+       "factors": "1-3-3",
+       "note": "no white square behind the 3"
+      }
+     ]
+    },
+    {
+     "row": 2,
+     "colour": "tan/orange (British) for columns 1-4, blue (French) for columns 5-6",
+     "boxes": [
+      {
+       "col": 1,
+       "id": "A",
+       "side": "British",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 2,
+       "id": "B",
+       "side": "British",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 3,
+       "id": "C",
+       "side": "British",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 4,
+       "id": "22/7A",
+       "side": "British",
+       "symbol": "armour (red box with oval)",
+       "factors": "5³-3-5",
+       "note": "attack 5 with a superscript 3; \"22/7A\" printed vertically on the left; no white square"
+      },
+      {
+       "col": 5,
+       "id": "A",
+       "side": "French",
+       "symbol": "infantry, X box filled dark brown",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 6,
+       "id": "B",
+       "side": "French",
+       "symbol": "infantry, X box filled dark brown",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      }
+     ]
+    },
+    {
+     "row": 3,
+     "colour": "greyish mauve (German) for columns 1-5",
+     "boxes": [
+      {
+       "col": 1,
+       "id": "A",
+       "side": "German",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 2,
+       "id": "B",
+       "side": "German",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 3,
+       "id": "C",
+       "side": "German",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 4,
+       "id": "D",
+       "side": "German",
+       "symbol": "infantry",
+       "factors": "1-3-3",
+       "note": "middle 3 on a white square"
+      },
+      {
+       "col": 5,
+       "id": "E",
+       "side": "German",
+       "symbol": "motorized infantry (X box with wheels)",
+       "factors": "1-3-5",
+       "note": "no white square"
+      },
+      {
+       "col": 6,
+       "item": "hexagon marker \"1L\" on a brown box",
+       "count": "x8 (printed below)",
+       "note": "fortification markers, 1L (rules: eight 1L forts)"
+      },
+      {
+       "col": 7,
+       "item": "hexagon marker \"2L\" on a darker brown box",
+       "count": "x4 (printed below)",
+       "note": "fortification markers, 2L"
+      }
+     ]
+    }
+   ],
+   "note": "Nationality colours read from the box colours; the blue pair matches the French remnants (FR-REM-A/B) in the counter transcription. The 1L/2L boxes sit to the right of row 3, slightly separated from the remnant boxes."
+  },
+  "generalRecordsTrack": {
+   "title": "General Records Track (VPs and Supply Points)",
+   "photoBox": [
+    115,
+    1228,
+    833,
+    1655
+   ],
+   "layout": "Ten large boxes in two rows of five: 0 1 2 3 4 (top) and 5 6 7 8 9 (bottom), each a big grey numeral on a pale grey box; box 0 is slightly pinker/lighter than the rest. No other text in the boxes."
+  },
+  "eliminatedBox": {
+   "title": "Eliminated Box",
+   "photoBox": [
+    848,
+    1278,
+    1138,
+    1655
+   ],
+   "layout": "One large rounded pale-grey box to the right of the records track, title at the top, otherwise empty."
+  },
+  "weatherTable": {
+   "photoBox": [
+    80,
+    1695,
+    1395,
+    2016
+   ],
+   "bracket": "Above the boxes: \"Flip all division ASUs to their Ready side (23.3.4)\" on a bracket line that runs from the right side of box F over the top and back down into box A with an arrowhead pointing into A (the marker loops from F back to A).",
+   "boxes": [
+    {
+     "box": "A",
+     "name": "Clear*",
+     "shade": "pinkish tan, no clouds",
+     "airUnits": "BR + US",
+     "navalUnit": "Yes",
+     "alliedSupplyPts": 2,
+     "germanSupplyPts": "not visible"
+    },
+    {
+     "box": "B",
+     "name": "Clear*",
+     "shade": "pinkish tan, no clouds",
+     "airUnits": "BR + US",
+     "navalUnit": "Yes",
+     "alliedSupplyPts": 2,
+     "germanSupplyPts": "not visible"
+    },
+    {
+     "box": "C",
+     "name": "Cloudy",
+     "shade": "pale with a cloud band at the top",
+     "airUnits": "US",
+     "navalUnit": "-",
+     "alliedSupplyPts": 2,
+     "germanSupplyPts": "not visible"
+    },
+    {
+     "box": "D",
+     "name": "Cloudy",
+     "shade": "pale with a cloud band at the top",
+     "airUnits": "BR",
+     "navalUnit": "-",
+     "alliedSupplyPts": 2,
+     "germanSupplyPts": "not visible"
+    },
+    {
+     "box": "E",
+     "name": "Rain**",
+     "shade": "grey with clouds, white letter",
+     "airUnits": "-",
+     "navalUnit": "-",
+     "alliedSupplyPts": 0,
+     "germanSupplyPts": "not visible"
+    },
+    {
+     "box": "F",
+     "name": "Rain and Mud**",
+     "extraText": "CRT = 1L",
+     "shade": "dark blue-grey with clouds, white letter",
+     "airUnits": "-",
+     "navalUnit": "-",
+     "alliedSupplyPts": 0,
+     "germanSupplyPts": "not visible"
+    }
+   ],
+   "rowLabels": [
+    "◄ Available Air Units",
+    "◄ Available Naval Unit",
+    "◄ Allied Supply Pts. (cut off by the photo bottom edge)"
+   ],
+   "rowColours": {
+    "airUnits": "light grey",
+    "navalUnit": "blue",
+    "alliedSupplyPts": "olive green"
+   },
+   "dieRoll": {
+    "title": "Weather Table Die roll:",
+    "rows": [
+     {
+      "faces": [
+       1
+      ],
+      "move": "0→"
+     },
+     {
+      "faces": [
+       2,
+       3,
+       4
+      ],
+      "move": "1→",
+      "extra": "Flip 1 NW (23.3.3) and Hv. Howitzer (19.4)"
+     },
+     {
+      "faces": [
+       5,
+       6
+      ],
+      "move": "2→"
+     }
+    ],
+    "note": "Dice drawn as pip faces; the extra text box sits only on the 1→ row."
+   },
+   "visibility": {
+    "visible": "Box letters and names, the bracket text, the Available Air Units and Available Naval Unit rows, the die-roll key, and the top half of the Allied Supply Pts. row (the two 0s in E and F are cut through the middle but readable).",
+    "notVisible": "The German Supply Pts. row and both footnotes (* and **) are below the photo bottom edge. A paper fold crosses the Available Air Units row.",
+    "seenInSWphotoNotHere": {
+     "germanSupplyPts": [
+      1,
+      1,
+      2,
+      2,
+      1,
+      1
+     ],
+     "footnoteStar": "* = +1 DRM for the Allied Isolation Attrition rolls on all Clear weather turns (16.5.5)",
+     "footnoteDoubleStar": "** = see Other Effects of Weather (23.4) (small, read from the overview only)",
+     "note": "Read from the top of map-sw-turntrack.jpg for cross-checking only; the SW transcription is authoritative for these."
+    }
+   }
+  }
+ },
+ "uncertain": [
+  "1606, 1507, 1305: coastal hexes that are mostly sea; their land terrain (clear vs hill) is read from a thin land strip (low/medium).",
+  "1100 (dark shading ~50%) and 1702 (~60% of the visible part; east quarter not visible): mountainShade left false.",
+  "1502-1602 mountain hexside: shading covers it, but the tan of 1502 comes within ~4 px near the south end (medium).",
+  "1605-1706 mountain hexside comes from the full-mountain-hex rule for 1605; the shading edge itself coincides with the hexside.",
+  "1701-1702, 1702-1703, 1704-1705 (pass): east ends of these sides are beyond the photo edge.",
+  "1201: dark grey band along the 1201-1302 and 1201-1202 hexsides (lake to coast). Not lake-blue (R-B ~ +12 against the lake's -13) and unlike the key's river symbols; not recorded as a hexside feature. If it is meant as a channel/canal, those two hexsides would need a river flag.",
+  "1708: sea in the visible west 80%; east part not visible.",
+  "Column 17 hexes (1700-1707): east quarter beyond the photo; terrain called from the visible part.",
+  "Sea positions far from the coast (columns 5-9, rows 9-14) are extrapolated from the fit (no printed outlines there); their pixel positions may be off by 10+ px, which only matters for the \"covered\" calls."
+ ],
+ "notes": [
+  "Hex outlines are printed only for hexes that contain land; all-sea positions (the non-playable sea area of rule 9.6) have no outline. They are listed with terrain \"sea\" so naval range (within 2 hexes of that sea area) can be computed.",
+  "Mountain hexsides: rule 2.2.2 (the whole hexside covered by mountain shading; for coastal sides the whole land part) and the key's Mountain Hexside example (dark shading straddling the side). Measured on a 2-px-blurred photo: points 5 px either side of the fitted hexside at 24 positions; a point is dark when its lightness is below 66 (dark tone ~45-55, tan hill ~85-90). Sides with nearly all points dark on both sides were then checked by eye at 3-6x; borderline ones were decided by eye (shadeCoverPct is the measured share).",
+  "No rivers, bridges, airfields or landmarks are printed in this photo. The only water feature inland is Lago di Fondi, recorded as lake hexsides 1101-1200, 1200-1201, 1200-1301 and 1201-1301 (the lake also bulges into 1200, 1201 and 1301).",
+  "Roads were traced as polylines (roads.json) and assigned to hexes by nearest fitted hex centre; three crossings within ~10-13 px of a corner (1300-1400, 1400-1501, 1506-1606) were confirmed at 7x.",
+  "City symbol in the key = grid-patterned block; Terracina and Formia use it and are named in normal case, so both are minor cities. Their hexes also get a white outline.",
+  "Fondi and Itri are town circles. Sperlonga and Gaeta have only an anchor (port) and a name, no town circle."
+ ]
+}
