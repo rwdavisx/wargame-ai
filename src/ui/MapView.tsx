@@ -214,15 +214,15 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
   };
   return (
     <g pointerEvents="none">
-      {showGrid && <path d={data.grid} fill="none" stroke="rgba(20,22,14,0.22)" strokeWidth={0.7} />}
+      {showGrid && <path d={data.grid} fill="none" stroke="rgba(64,46,30,0.24)" strokeWidth={0.6} />}
       <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        {data.rivers.map((d, i) => <path key={`rc${i}`} d={d} stroke="#24506e" strokeWidth={4.8} opacity={0.8} />)}
-        {data.rivers.map((d, i) => <path key={`rw${i}`} d={d} stroke="#4f9fd0" strokeWidth={3} />)}
-        {data.rivers.map((d, i) => <path key={`rh${i}`} d={d} stroke="#a6d6f2" strokeWidth={0.7} opacity={0.8} />)}
-        {data.bigRivers.map((d, i) => <path key={`Rc${i}`} d={d} stroke="#173a55" strokeWidth={8} opacity={0.9} />)}
-        {data.bigRivers.map((d, i) => <path key={`Rw${i}`} d={d} stroke="#4f9fd0" strokeWidth={5.4} />)}
-        {data.bigRivers.map((d, i) => <path key={`Rh${i}`} d={d} stroke="#a6d6f2" strokeWidth={1.2} opacity={0.8} />)}
-        {data.lakes.map((d, i) => <path key={`lk${i}`} d={d} stroke="#3b7fb4" strokeWidth={9} opacity={0.95} />)}
+        {/* Rivers inked in Prussian blue over a wash of water colour, like the coast. */}
+        {data.rivers.map((d, i) => <path key={`rc${i}`} d={d} stroke="#22446a" strokeWidth={4} opacity={0.88} />)}
+        {data.rivers.map((d, i) => <path key={`rw${i}`} d={d} stroke="#79aed0" strokeWidth={2.5} />)}
+        {data.bigRivers.map((d, i) => <path key={`Rc${i}`} d={d} stroke="#1c3b5e" strokeWidth={6.8} opacity={0.9} />)}
+        {data.bigRivers.map((d, i) => <path key={`Rw${i}`} d={d} stroke="#79aed0" strokeWidth={4.6} />)}
+        {data.bigRivers.map((d, i) => <path key={`Rh${i}`} d={d} stroke="#a9cfe4" strokeWidth={1} opacity={0.7} />)}
+        {data.lakes.map((d, i) => <path key={`lk${i}`} d={d} stroke="#5e95bf" strokeWidth={9} opacity={0.95} />)}
       </g>
       {data.zonePaths.map((d, i) => <path key={`z${i}`} d={d} fill="none" stroke="#1c1c18" strokeWidth={2.2} strokeDasharray="9 5" opacity={0.75} />)}
       {data.sectionPaths.map((d, i) => <path key={`zs${i}`} d={d} fill="none" stroke="#f4efe0" strokeWidth={1.6} strokeDasharray="5 4" opacity={0.85} />)}
@@ -234,11 +234,12 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
       {data.gustav && <path d={data.gustav} fill="none" stroke="#a3271b" strokeWidth={2.4} strokeDasharray="6 4" strokeLinecap="round" />}
       {data.bernhard && <path d={data.bernhard} fill="none" stroke="#151510" strokeWidth={2.6} strokeDasharray="0.1 5" strokeLinecap="round" />}
       <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        {data.minors.map((d, i) => <path key={`mc${i}`} d={d} stroke="rgba(52,40,24,0.65)" strokeWidth={2.6} />)}
-        {data.minors.map((d, i) => <path key={`mf${i}`} d={d} stroke="#d4bb8a" strokeWidth={1.3} />)}
-        {data.majors.map((d, i) => <path key={`Mc${i}`} d={d} stroke="rgba(38,32,24,0.85)" strokeWidth={4.6} />)}
-        {data.majors.map((d, i) => <path key={`Mf${i}`} d={d} stroke="#efe4c6" strokeWidth={2.7} />)}
-        {data.majors.map((d, i) => <path key={`Ml${i}`} d={d} stroke="#b9a77d" strokeWidth={0.5} strokeDasharray="3 3" />)}
+        {/* Roads in the engraver's manner: a pair of sepia lines, the major roads filled in red ochre. */}
+        {data.minors.map((d, i) => <path key={`mc${i}`} d={d} stroke="rgba(74,52,34,0.72)" strokeWidth={2.4} />)}
+        {data.minors.map((d, i) => <path key={`mf${i}`} d={d} stroke="#efe2c0" strokeWidth={1.1} />)}
+        {data.majors.map((d, i) => <path key={`Mc${i}`} d={d} stroke="rgba(66,44,28,0.9)" strokeWidth={4.4} />)}
+        {data.majors.map((d, i) => <path key={`Mf${i}`} d={d} stroke="#cf7a52" strokeWidth={2.6} />)}
+        {data.majors.map((d, i) => <path key={`Ml${i}`} d={d} stroke="#e9a57c" strokeWidth={0.8} opacity={0.8} />)}
       </g>
       {data.boundaryPaths.map((d, i) => (
         <path key={`b${i}`} d={d} fill="none" stroke="#f3cf4a" strokeWidth={1.8} strokeDasharray="7 4" opacity={0.75} />

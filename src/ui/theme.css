@@ -405,9 +405,10 @@ textarea { width: 100%; font: 12px monospace; background: #0f1310; color: var(--
 
 /* ---------------------------------------------------------------- map graphics */
 
-.place-label { font: 600 7.6px var(--hud); fill: #f7f1dd; stroke: rgba(22, 20, 15, 0.85); stroke-width: 2.4px; paint-order: stroke; letter-spacing: 0.5px; text-transform: uppercase; }
-.place-label.city { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; stroke-width: 3px; }
-.sea-label { font: italic 600 26px var(--hud); fill: rgba(224, 240, 248, 0.42); letter-spacing: 10px; }
+/* Place names lettered as on an engraved map: an old-style face in sepia ink, haloed in the paper's colour. */
+.place-label { font: 400 9.4px 'IM Fell English', Georgia, serif; fill: #3b2a1c; stroke: rgba(246, 239, 221, 0.82); stroke-width: 2.6px; paint-order: stroke; letter-spacing: 0.3px; }
+.place-label.city { font-size: 12.5px; letter-spacing: 2px; text-transform: uppercase; stroke-width: 3px; }
+.sea-label { font: italic 400 30px 'IM Fell English', Georgia, serif; fill: rgba(30, 62, 96, 0.55); letter-spacing: 9px; }
 .outlined { stroke: #10202e; stroke-width: 2px; paint-order: stroke; font-family: var(--hud); }
 .token-num { font-family: var(--hud); letter-spacing: 0.6px; }
 .token-select { animation: pulse 1.2s ease-in-out infinite; }

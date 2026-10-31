@@ -176,7 +176,8 @@ src/ui/        React UI
   MapView.tsx      map camera, overlays, unit stacks, animations, minimap
   hud.tsx          top bar, banners, event feed, unit card, combat card, menus
   Sidebar.tsx      command panel tabs and the map editor
-  render/          painted terrain (canvas, cached in IndexedDB), hex geometry, NATO-style unit counters
+  render/          the map as a watercolour and ink sheet (terrain.ts washes, ink.ts pen work, patches.ts fields,
+                   coast.ts traced coastlines; canvas, cached in IndexedDB), hex geometry, NATO-style unit counters
   sound.ts         synthesized sound effects (WebAudio)
   theme.css        the interface theme
   dev/Gallery.tsx  every counter on one page, dev builds only (open /#gallery)
@@ -185,5 +186,6 @@ tests/         vitest tests for the engine and the AI
 tools/map-transcription/   Python scripts used to turn the photos into map.json
 tools/italy-oob/           Italy '43 set-up card transcriptions and build.py, which turns them into data/italy43/oob.json
 tools/italy-map/           Italy '43 map: per-photo transcriptions, grid anchors and build_map.py, which merges them into data/italy43/map.json
+tools/map-art/             traces the printed coastline into both maps (coast_masks.py) and checks the painted map against it
 docs/italy43-rules-comparison.md   Italy '43's rules case by case against Salerno '43, and the engine changes they need
 ```

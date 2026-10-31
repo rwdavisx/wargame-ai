@@ -13,6 +13,8 @@ import '@fontsource/barlow/400.css';
 import '@fontsource/barlow/500.css';
 import '@fontsource/barlow/600.css';
 import '@fontsource/special-elite/400.css';
+import '@fontsource/im-fell-english/latin-400.css';
+import '@fontsource/im-fell-english/latin-400-italic.css';
 import './ui/astryx/astryx.css';
 import './ui/theme.css';
 import './ui/log.css';
