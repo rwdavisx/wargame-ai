@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useConfirm } from './astryx/kit';
-import { Button, CheckboxInput, HStack, NumberInput, Selector, Tab, TabList, TextInput, VStack } from '@astryxdesign/core';
+import { Button, CheckboxInput, HStack, NumberInput, Selector, TextInput, VStack } from '@astryxdesign/core';
+import { Ico } from './icons';
+import { Medal, Tip } from './chrome';
 import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
 import { fortOptions, fortsInPlay } from '../engine/forts';
 import { columnLabel, inNavalRange, mafOptions, parseCell, readyAsusFor, type OddsInfo } from '../engine/combat';
 import { applyAction, landingHexes, lpCost, navalDestinations, replPool } from '../engine/game';
 import { neighbors, sideKey, type HexId } from '../engine/hex';
-import { allowedModes, cannotMove } from '../engine/movement';
+import { cannotMove } from '../engine/movement';
 import { breakthroughTargets, groupUnits } from '../engine/breakthrough';
 import { areaFriendly, supplyChecker } from '../engine/supply';
 import type { Action, CombatReport, GameState, HexData, HexsideData, MoveMode, ReplPool, Side, Terrain, UnitState } from '../engine/types';
-import { def, isElite, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values } from '../engine/units';
+import { def, sideOf, stackPoints, stepsRemaining, supportNation, unitsAt, values } from '../engine/units';
 import { clearOverrides, editHex, editHexside, exportMapJson, overrideCount } from './mapEditor';
 import { downloadText, type Settings } from './storage';
 import { TokenIcon } from './render/units';
@@ -96,18 +98,28 @@ function UnitRow({ u, selected, onClick, extra }: { u: UnitState; selected?: boo
 }
 
 export function Sidebar(p: Props) {
-  const tabs: [string, string][] = [
-    ['play', 'Orders'],
-    ['units', 'Forces'],
-    ['log', 'Log'],
-    ['crt', 'Rules'],
+  const tabs: [string, string, string][] = [
+    ['play', 'Orders', 'quill'],
+    ['units', 'Forces', 'army'],
+    ['log', 'Log', 'log'],
+    ['crt', 'Rules', 'book'],
   ];
-  if (p.editorOn) tabs.push(['editor', 'Map editor']);
+  if (p.editorOn) tabs.push(['editor', 'Map editor', 'compass']);
+  const cur = tabs.find(([k]) => k === p.tab) ?? tabs[0];
   return (
     <div className="sidebar">
-      <TabList value={p.tab} onChange={p.setTab} hasDivider layout="fill" className="side-tabs">
-        {tabs.map(([k, label]) => <Tab key={k} value={k} label={label} />)}
-      </TabList>
+      <div className="ol-head">
+        <div className="ol-tabs" role="tablist" aria-label="Panel">
+          {tabs.map(([k, label, icon]) => (
+            <Tip key={k} title={label} pos="below">
+              <button role="tab" aria-selected={p.tab === k} aria-label={label} className={`ol-tab${p.tab === k ? ' on' : ''}`} onClick={() => p.setTab(k)}>
+                <Ico name={icon} size={19} />
+              </button>
+            </Tip>
+          ))}
+        </div>
+        <div className="ol-title">{cur[1]}</div>
+      </div>
       <div className="panel">
         {p.tab === 'play' && <PlayPanel {...p} />}
         {p.tab === 'units' && <OffMapPanel {...p} />}
@@ -137,12 +149,13 @@ function PlayPanel(p: Props) {
     const remote = p.settings.controllers[p.acting] === 'remote';
     return (
       <>
-        <h3>
-          {p.acting} {remote ? 'player' : 'AI'} is {g.pendingDefense ? `choosing ${remote ? 'a' : 'its'} defense` : `playing the ${g.phase} phase`}
-        </h3>
-        <p className="muted">{p.aiStatus || 'Watch the map; each move is logged.'}</p>
-        <div className="row">
-          <Button label={p.paused ? (remote ? 'Resume replay' : 'Resume AI') : remote ? 'Pause replay' : 'Pause AI'} size="sm" onClick={() => p.setPaused(!p.paused)} />
+        <div className="ol-status">
+          <Ico name={remote ? 'globe' : 'radio'} size={22} />
+          <div>
+            <b>{p.acting} {remote ? 'player' : 'AI'}</b>
+            <small>{g.pendingDefense ? 'Choosing a defense' : p.aiStatus || `${g.phase[0].toUpperCase()}${g.phase.slice(1)} phase`}</small>
+          </div>
+          <Medal icon={p.paused ? 'play' : 'pause'} label={p.paused ? 'Resume' : 'Pause'} size="sm" active={p.paused} pos="left" onClick={() => p.setPaused(!p.paused)} />
         </div>
         <RecentLog game={g} n={8} onFocus={p.onFocusHex} onMore={() => p.setTab('log')} />
         <SelectedHexInfo {...p} />
@@ -160,8 +173,8 @@ function PlayPanel(p: Props) {
   if (g.pendingDefense) {
     return (
       <>
-        <h3>Your units are under attack</h3>
-        <p className="muted">Your units in {g.pendingDefense.hex} must fall back or make a stand. Choose on the battle screen.</p>
+        <h3>Under attack</h3>
+        <p className="hint"><Ico name="shield" size={14} />{g.pendingDefense.hex}: choose on the battle panel</p>
         <SelectedHexInfo {...p} />
       </>
     );
@@ -169,7 +182,7 @@ function PlayPanel(p: Props) {
   const note = RULES.turnNotes[g.turn];
   return (
     <>
-      {note && g.phase !== 'combat' && <p className="muted">Turn {g.turn}: {note}</p>}
+      {note && g.phase !== 'combat' && <p className="ol-note"><Ico name="quill" size={15} /><span>{note}</span></p>}
       {g.breakthrough ? (
         <BreakthroughControls {...p} />
       ) : g.pendingAdvance ? (
@@ -232,11 +245,8 @@ function FortControls(p: Props) {
 function InvasionControls(p: Props) {
   return (
     <>
-      <h3>Invasion phase</h3>
-      <p className="muted">
-        The assault waves have landed (the log shows each beach's landing roll). Units that may still advance can move up to their remaining
-        tactical hexes. The Commandos at Vietri may attack Salerno: {actVerb(p)} the red hex.
-      </p>
+      <h3>Ashore</h3>
+      <p className="hint"><Ico name="landing" size={14} />Push inland · Commandos may hit Salerno</p>
       <SelectedUnitBox {...p} />
       {p.attackTarget && <AttackPlanner {...p} kind="invasion" />}
     </>
@@ -257,12 +267,10 @@ function InitialControls(p: Props) {
   return (
     <>
       {confirm.dialog}
-      <h3>{side} initial phase</h3>
-      <p className="muted">Reinforcements have arrived (see Off-map). Use replacements and ready artillery, then end the phase. Unused replacements are lost.</p>
       {drops.length > 0 && (
         <>
           <h3>Airborne drops</h3>
-          <p className="muted">Select a unit, then {actVerb(p)} a blue hex to drop it. Units listed here must drop this turn if they can.</p>
+          <p className="hint"><Ico name="plane" size={14} />Pick a unit, then a blue hex</p>
           {drops.map((u) => (
             <UnitRow key={u.id} u={u} selected={u.id === p.selectedUnit} onClick={() => p.setSelectedUnit(u.id)}
               extra={<span className="muted">{landingHexes(g, u.id).length} hexes</span>} />
@@ -270,22 +278,26 @@ function InitialControls(p: Props) {
         </>
       )}
       <h3>Replacements</h3>
-      <p>
+      <div className="pools">
         {pools.map((k) => (
-          <span key={k} className="chip" style={{ marginRight: 4 }}>
-            {k}: {g.replacements[k].inf} inf · {g.replacements[k].special} special · {g.replacements[k].armor} armor
-          </span>
+          <Tip key={k} title={`${k} replacements`} lines={['Unused ones are lost']} pos="below">
+            <span className="pool"><b>{k}</b>
+              <span title="Infantry"><Ico name="person" size={13} />{g.replacements[k].inf}</span>
+              <span title="Special"><Ico name="star" size={13} />{g.replacements[k].special}</span>
+              <span title="Armour"><Ico name="tank" size={13} />{g.replacements[k].armor}</span>
+            </span>
+          </Tip>
         ))}
-      </p>
-      {candidates.length ? candidates.map((u) => <ReplaceRow key={u.id} {...p} u={u} />) : <p className="muted">No units can take replacements.</p>}
-      <h3>Artillery ({g.supplyPoints[side]} supply points)</h3>
+      </div>
+      {candidates.length ? candidates.map((u) => <ReplaceRow key={u.id} {...p} u={u} />) : <p className="hint">None needed</p>}
+      <h3>Artillery <span className="h3-stat"><Ico name="supply" size={13} />{g.supplyPoints[side]}</span></h3>
       {fired.length ? (
         fired.map((u) => (
           <UnitRow key={u.id} u={u}
-            extra={<Button label="Ready (1 SP)" size="sm" isDisabled={g.supplyPoints[side] < 1} onClick={() => p.dispatch({ type: 'readyAsu', unitId: u.id })} />} />
+            extra={<Medal icon="artillery" label="Ready" tip={['Costs 1 supply point']} size="sm" pos="left" disabled={g.supplyPoints[side] < 1} onClick={() => p.dispatch({ type: 'readyAsu', unitId: u.id })} />} />
         ))
       ) : (
-        <p className="muted">No fired artillery to ready.</p>
+        <p className="hint">All ready</p>
       )}
       {side === 'German' && fortsInPlay(g) && <FortControls {...p} />}
       {side === 'German' && RULES.invasionGame && g.turn >= 16 && !g.abandoned8th && (
@@ -311,7 +323,7 @@ function ReplaceRow(p: Props & { u: UnitState }) {
   const have = pool[d.repl!] + (d.repl === 'inf' ? pool.special : 0);
   const [to, setTo] = useState('');
   if (u.where.kind === 'map') {
-    return <UnitRow u={u} extra={<Button label={`Add step (${d.repl})`} size="sm" isDisabled={!have} onClick={() => p.dispatch({ type: 'replace', unitId: u.id })} />} />;
+    return <UnitRow u={u} extra={<Medal icon="replacement" label="Add a step" tip={[`Uses one ${d.repl === 'inf' ? 'infantry' : d.repl} replacement`]} size="sm" pos="left" disabled={!have} onClick={() => p.dispatch({ type: 'replace', unitId: u.id })} />} />;
   }
   // Eliminated units return off-map, or to a supplied hex with a suitable friendly ASU.
   const side = sideOf(u);
@@ -337,6 +349,7 @@ function ReplaceRow(p: Props & { u: UnitState }) {
   );
 }
 
+const MODE_ICONS: Record<MoveMode, string> = { normal: 'boot', extended: 'advance', tactical: 'hex', truck: 'truck', truckExtended: 'truck' };
 const MODE_HELP: Record<MoveMode, string> = {
   normal: 'Full movement allowance; stops on entering an enemy zone of control.',
   extended: '+3 MP, but may never enter an enemy zone of control.',
@@ -354,14 +367,13 @@ function SelectedUnitBox(p: Props) {
   let status = '';
   if (sel.where.kind === 'map') {
     const why = cannotMove(g, sel);
-    if (why) status = `Cannot move: ${why}.`;
-    else status = `${sel.mpSpent === null ? 'Has not moved.' : `${+sel.mpSpent.toFixed(1)} MP used.`} Modes: ${allowedModes(g, sel).join(', ')}.`;
+    if (why) status = `Can't move: ${why}`;
   } else if (sel.where.kind === 'reserve' || sel.where.kind === 'followUp') {
-    status = `Waiting to land (${lpCost(sel.id)} LP): ${actVerb(p)} a blue beach or port hex. A 2 or 3 LP unit can reach a capacity-1 port in two turns.`;
+    status = `Lands for ${lpCost(sel.id)} LP · pick a beach or port`;
   } else if (sel.where.kind === 'atSea') {
-    status = `At sea on a 2-turn transfer to ${sel.where.port}: it can land ${sel.where.since >= g.turn ? 'next turn' : `now (${actVerb(p)} the blue hex)`}.`;
+    status = `At sea to ${sel.where.port} · lands ${sel.where.since >= g.turn ? 'next turn' : 'now'}`;
   } else if (sel.where.kind === 'entry') {
-    status = sel.where.area.startsWith('airdrop') ? 'Airborne: drops in the initial phase.' : `In entry area ${sel.where.area}: ${actVerb(p)} a blue hex to enter.`;
+    status = sel.where.area.startsWith('airdrop') ? 'Drops in the initial phase' : `Entry ${sel.where.area} · pick a hex`;
   }
   const areaActions = g.phase === 'movement' && (sel.where.kind === 'map' || sel.where.kind === 'entry')
     ? Object.keys(MAP.entryAreas).map((area) => ({ type: 'changeArea', unitId: sel.id, area }) as Action).filter((a) => isLegal(g, a))
@@ -372,10 +384,10 @@ function SelectedUnitBox(p: Props) {
   return (
     <div className="result-box">
       <UnitRow u={sel} />
-      <div className="muted">{d.formation} · {d.cat}{isElite(sel) ? ' · elite' : ''}{d.tankRating ? ` · tank ${d.tankRating}` : ''}. {status}</div>
+      {status && <p className="hint"><Ico name="info" size={14} />{status}</p>}
       <div className="row">
         {areaActions.map((a) => (
-          <Button key={(a as { area: string }).area} label={`Move into entry area ${(a as { area: string }).area}${MAP.entryAreas[(a as { area: string }).area].vp ? ` (${MAP.entryAreas[(a as { area: string }).area].vp} VP)` : ''}`} size="sm" onClick={() => p.dispatch(a)} />
+          <Button key={(a as { area: string }).area} label={`Enter ${(a as { area: string }).area}${MAP.entryAreas[(a as { area: string }).area].vp ? ` · ${MAP.entryAreas[(a as { area: string }).area].vp} VP` : ''}`} size="sm" onClick={() => p.dispatch(a)} />
         ))}
         {naval.length > 0 && <NavalPicker {...p} unitId={sel.id} options={naval} />}
         {canFullRetreat && (
@@ -410,30 +422,22 @@ function MovementControls(p: Props) {
   const label = (m: MoveMode) => (m === 'truckExtended' ? 'Truck + Ext' : m[0].toUpperCase() + m.slice(1));
   return (
     <>
-      <h3>{side} movement phase</h3>
-      <p className="muted">
-        Select one of your units, then {actVerb(p)} a highlighted hex: blue it can reach, amber where it must stop. Hover a hex to see the route
-        and its cost. Select a stack again to cycle through it, or {actVerb(p)} a red enemy hex to plan an Auto DS overrun.
-        {side === 'Allied' ? ` Landing points left: ${g.landingPoints}.` : ` Trucks used: ${g.trucksUsed}/2.`}
-      </p>
-      <div className="row">
-        Mode:
+      <h3>Move <span className="h3-stat">{side === 'Allied' ? <><Ico name="landing" size={13} />{g.landingPoints} LP</> : <><Ico name="truck" size={13} />{g.trucksUsed}/2</>}</span></h3>
+      <div className="row modes">
         {modes.map((m) => (
-          <Button key={m} label={label(m)} size="sm" variant={p.moveMode === m ? 'primary' : 'secondary'} tooltip={MODE_HELP[m]} onClick={() => p.setMoveMode(m)} />
+          <Medal key={m} icon={MODE_ICONS[m]} label={label(m)} tip={[MODE_HELP[m]]} size="sm" pos="below" active={p.moveMode === m} onClick={() => p.setMoveMode(m)} />
         ))}
       </div>
       <SelectedUnitBox {...p} />
       {p.attackTarget && <AttackPlanner {...p} kind="autoDs" />}
-      <h3>Waiting to enter ({waiting.length})</h3>
+      {waiting.length > 0 && <h3>Waiting <span className="h3-stat">{waiting.length}</span></h3>}
       {waiting.length ? (
         waiting.map((u) => (
           <UnitRow key={u.id} u={u} selected={u.id === p.selectedUnit} onClick={() => p.setSelectedUnit(u.id)}
             extra={<span className="muted">{u.where.kind === 'reserve' ? 'reserve' : u.where.kind === 'followUp' ? `follow-up ${u.where.corps}` :
               u.where.kind === 'atSea' ? `at sea → ${u.where.port}` : (u.where as { area: string }).area}</span>} />
         ))
-      ) : (
-        <p className="muted">None.</p>
-      )}
+      ) : null}
     </>
   );
 }
@@ -447,9 +451,8 @@ function CombatControls(p: Props) {
     neighbors(h).some((n) => unitsAt(g, n).some((x) => sideOf(x) !== side));
   return (
     <>
-      <h3>{side} combat phase</h3>
       {last && last.turn === g.turn && last.attackerSide === side && <CombatResult r={last} />}
-      {p.attackTarget ? <AttackPlanner {...p} kind="attack" /> : <p className="muted">{cap(actVerb(p))} a red enemy hex to plan an attack.</p>}
+      {p.attackTarget ? <AttackPlanner {...p} kind="attack" /> : <p className="hint"><Ico name="swords" size={14} />{cap(actVerb(p))} a red hex</p>}
       {canDisengage && (
         <div className="row">
           <Button label={`Disengage from ${h}`} size="sm" tooltip="Roll to pull the units in this hex back one hex; they may not attack this phase." onClick={() => p.dispatch({ type: 'disengage', hex: h })} />
@@ -571,12 +574,8 @@ function RetreatChoiceControls(p: Props) {
   return (
     <>
       {last && last.turn === g.turn && <CombatResult r={last} />}
-      <h3>{rq.side}: choose where your units retreat</h3>
-      <p className="muted">
-        {rq.units.map((id) => def(id).name).join(', ')} retreat {rq.distance} hex{rq.distance > 1 ? 'es' : ''} from {rq.from}. They are now at{' '}
-        {rq.options[rq.current].end}. {cap(actVerb(p))} another highlighted hex to retreat there instead (every option follows the retreat priorities and loses
-        no more units), or keep the current one.
-      </p>
+      <h3>Retreat</h3>
+      <p className="hint"><Ico name="retreat" size={14} />{rq.distance} from {rq.from} · now {rq.options[rq.current].end}</p>
       <div className="row">
         {rq.options.map((o, i) => (
           <Button key={i} label={`${o.intoArea ? `Entry Area ${o.intoArea}` : o.end}${i === rq.current ? ' (keep)' : ''}`} size="sm" variant={i === rq.current ? 'primary' : 'secondary'} onClick={() => p.dispatch({ type: 'retreatChoice', index: i })} />
@@ -594,8 +593,8 @@ function AdvanceControls(p: Props) {
   return (
     <>
       {last && <CombatResult r={last} />}
-      <h3>Advance after combat{pa.limited ? ' (limited: vacated hex only)' : ''}</h3>
-      <p className="muted">Tick the units that advance together, then {actVerb(p)} a violet hex. Units may advance separately. Finish when done.</p>
+      <h3>Advance{pa.limited ? ' · vacated hex' : ''}</h3>
+      <p className="hint"><Ico name="advance" size={14} />Tick units, then a violet hex</p>
       {ids.map((id) => (
         <div key={id} className="unitrow">
           <CheckboxInput label={def(id).name} value={p.advanceSel.includes(id)}
@@ -606,12 +605,10 @@ function AdvanceControls(p: Props) {
       {!ids.length && <p className="muted">No units left to advance.</p>}
       {pa.btAllowed && !pa.started && ids.length > 0 && (
         <>
-          <h3>Breakthrough Combat</h3>
-          <p className="muted">
-            This attack earned two or more hexes, so one stack may form a Breakthrough Group before anyone else advances. It spends its advance
-            on moving (1 per hex) and on attacking (1 per attack, no artillery, air or naval support). Turning away from the vacated hex at the start
-            costs 1. Tick the units, then form the group.
-          </p>
+          <h3>Breakthrough</h3>
+          <Tip title="Breakthrough group" pos="below" lines={['Spends its advance moving (1/hex) and attacking (1/attack)', 'No artillery, air or naval support', 'Turning away from the vacated hex costs 1']}>
+            <p className="hint"><Ico name="breakthrough" size={14} />One stack may break through first</p>
+          </Tip>
           <div className="row">
             <Button label={`Form group in ${pa.vacated} (1 hex)`} size="sm" isDisabled={!p.advanceSel.length} onClick={() => p.dispatch({ type: 'btStart', unitIds: p.advanceSel, form: 'vacated' }) && p.setAdvanceSel([])} />
             <Button label="Ticked stack is the group" size="sm" isDisabled={!p.advanceSel.length || new Set(p.advanceSel.map((id) => (g.units[id].where as { hex: HexId }).hex)).size !== 1} onClick={() => p.dispatch({ type: 'btStart', unitIds: p.advanceSel, form: 'stack' }) && p.setAdvanceSel([])} />
@@ -631,12 +628,8 @@ function BreakthroughControls(p: Props) {
   return (
     <>
       {last && last.turn === g.turn && <CombatResult r={last} />}
-      <h3>Breakthrough Group at {b.hex}: {b.left} hex{b.left === 1 ? '' : 'es'} left</h3>
-      <p className="muted">
-        {cap(actVerb(p))} a violet hex to advance (the number is its cost) or a red hex to attack it.
-        {b.freeHex ? ` The group may enter ${b.freeHex} for free${b.mayContinue ? ' and keep going' : ' and must then stop'}.` : ''}
-        {!b.committed ? ' Turning away from the vacated hex costs 1 extra hex.' : ''}
-      </p>
+      <h3>Breakthrough <span className="h3-stat"><Ico name="boot" size={13} />{b.left}</span></h3>
+      <p className="hint"><Ico name="breakthrough" size={14} />Violet: move · red: attack{b.freeHex ? ` · ${b.freeHex} free` : ''}</p>
       {ids.map((id) => (
         <UnitRow key={id} u={g.units[id]}
           extra={ids.length > 1 ? <Button label="Drop off" size="sm" tooltip="Leave the group and stop here" onClick={() => p.dispatch({ type: 'btDrop', unitIds: [id] })} /> : undefined} />

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BATTLESHIPS_TURN, MAP, RULES, SCENARIOS } from '../engine/data';
 import { alliedVp, benchmark, currentWeather, vpBreakdown } from '../engine/game';
-import { cannotMove, allowedModes } from '../engine/movement';
+import { cannotMove } from '../engine/movement';
 import type { CombatReport, GameState, Side, UnitState } from '../engine/types';
 import { def, isElite, isLowQuality, sideOf, stepsRemaining, unitsAt, values } from '../engine/units';
 import { Insignia, TokenIcon } from './render/units';
@@ -12,7 +12,9 @@ import { downloadText, type Settings } from './storage';
 import { EventCard, feedWorthy, readMs, sideOfEntry, type FeedItem, type FocusFn } from './logView';
 import { moveLeft } from './qol';
 import { useConfirm } from './astryx/kit';
-import { Badge, Button, Card, Dialog, DialogHeader, HStack, Icon, IconButton, VStack } from '@astryxdesign/core';
+import { Button, Dialog, DialogHeader, HStack, Icon, IconButton } from '@astryxdesign/core';
+import { Ico, weatherIcon } from './icons';
+import { Meander, Medal, MenuButton, Stat, Tip } from './chrome';
 import { turnDate, turnLabel, firstBenchmarkTurn } from '../engine/words';
 
 const DATE = (turn: number) => turnDate(turn).toUpperCase();
@@ -30,52 +32,20 @@ function SideEmblem({ side, size = 26 }: { side: Side; size?: number }) {
   );
 }
 
-function WeatherIcon({ name }: { name: string }) {
-  if (name === 'Rain')
-    return (
-      <svg viewBox="0 0 24 24" width={22} height={22}>
-        <path d="M6 14a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.6 1.4A3.5 3.5 0 0 1 17 14Z" fill="#c9d3dc" />
-        <path d="M8 17l-1.5 3M12 17l-1.5 3M16 17l-1.5 3" stroke="#6fb4ff" strokeWidth={1.8} strokeLinecap="round" />
-      </svg>
-    );
-  if (name === 'Cloudy')
-    return (
-      <svg viewBox="0 0 24 24" width={22} height={22}>
-        <circle cx={8} cy={8} r={3.5} fill="#f6c945" />
-        <path d="M7 18a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.6 1.4A3.5 3.5 0 0 1 18 18Z" fill="#dfe6ec" />
-      </svg>
-    );
-  if (name === 'Air Support')
-    return (
-      <svg viewBox="0 0 24 24" width={22} height={22}>
-        <circle cx={12} cy={12} r={5} fill="#f6c945" />
-        <path d="M3 13h18M12 7v11M9 18h6" stroke="#e8eef2" strokeWidth={2} strokeLinecap="round" />
-      </svg>
-    );
-  return (
-    <svg viewBox="0 0 24 24" width={22} height={22}>
-      <circle cx={12} cy={12} r={5} fill="#f6c945" />
-      {Array.from({ length: 8 }, (_, i) => {
-        const a = (i * Math.PI) / 4;
-        return <line key={i} x1={12 + Math.cos(a) * 7.5} y1={12 + Math.sin(a) * 7.5} x2={12 + Math.cos(a) * 10} y2={12 + Math.sin(a) * 10} stroke="#f6c945" strokeWidth={1.8} strokeLinecap="round" />;
-      })}
-    </svg>
-  );
-}
+/** The phase track's icon for each phase. */
+export const PHASE_ICON: Record<string, string> = {
+  invasion: 'landing', weather: 'sunCloud', initial: 'replacement', movement: 'boot', combat: 'swords', recovery: 'flag', supply: 'supply', gameOver: 'laurel',
+};
 
-function SupportIcon({ kind, label, ready }: { kind: 'air' | 'naval'; label: string; ready: boolean }) {
-  return (
-    <span className={`support${ready ? ' ready' : ''}`} title={`${label} ${kind === 'air' ? 'air support' : 'naval gunfire'}: ${ready ? 'ready' : 'used or unavailable'}`}>
-      <svg viewBox="0 0 24 16" width={22} height={15}>
-        {kind === 'air' ? (
-          <path d="M2 8h20M12 3v10M8 13h8M4 6l2 2-2 2" stroke="currentColor" strokeWidth={2} strokeLinecap="round" fill="none" />
-        ) : (
-          <path d="M2 10h20l-3 4H5Z M7 10V7h8v3 M10 7V4h3v3 M15 8l5-2" stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinejoin="round" />
-        )}
-      </svg>
-      <b>{label}</b>
-    </span>
-  );
+/** What the weather box means for play, in a few short lines. */
+function weatherLines(w: ReturnType<typeof currentWeather>): string[] {
+  const out: string[] = [];
+  out.push(w.air.length ? `Air: ${w.air.join(', ')}` : 'No air support');
+  out.push(w.naval.length ? `Naval: ${w.naval.map((n) => (n === 'AL' ? 'Allied' : n)).join(', ')}` : 'No naval gunfire');
+  out.push(`Supply: Allied ${w.alliedSupply} · German ${w.germanSupply}`);
+  if (w.rain) out.push('Vehicles stop at unbridged rivers');
+  if (w.mud) out.push('Mud: every attack one column left');
+  return out;
 }
 
 // ------------------------------------------------------------------ top bar
@@ -88,70 +58,90 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
   const vp = alliedVp(game);
   const bm = benchmark(game.turn);
   const phases = game.phase === 'invasion' ? ['invasion'] : ['initial', 'movement', 'combat', 'recovery', 'supply'];
+  const at = phases.indexOf(game.phase);
   const ready = (k: string) => game.support.ready.includes(k);
   const lo = (bm ?? 6) - RULES.automaticMargin;
   const hi = (bm ?? 6) + RULES.automaticMargin;
   const pct = (v: number) => `${Math.max(0, Math.min(100, ((v - lo) / (hi - lo)) * 100))}%`;
+  const over = game.phase === 'gameOver';
+  const who = over ? 'Battle over' : humanTurn ? (acting !== game.activeSide ? `${acting} decides` : 'Your orders') : aiStatus || 'Enemy moving';
+  const wIcon = weatherIcon(wb);
   return (
-    <header className="topbar">
-      <div className={`turn-side ${game.activeSide === 'Allied' ? 'allied' : 'german'}`}>
-        <SideEmblem side={game.activeSide} />
-        <div>
-          <div className="big">{game.phase === 'gameOver' ? 'BATTLE OVER' : `${game.activeSide.toUpperCase()} TURN`}</div>
-          <div className="small">{humanTurn ? (acting !== game.activeSide ? `${acting} must decide` : 'Your orders') : aiStatus || 'Computer is moving…'}</div>
+    <header className="hud-top">
+      <div className="hud-side">
+        <Tip title={`${game.activeSide} turn`} lines={[who]} pos="below">
+          <div className={`hud-emblem ${game.activeSide === 'Allied' ? 'allied' : 'german'}`}>
+            <SideEmblem side={game.activeSide} size={40} />
+          </div>
+        </Tip>
+        <div className="hud-who">
+          <b>{over ? 'Finis' : game.activeSide}</b>
+          <small><Ico name={humanTurn ? 'quill' : 'radio'} size={13} /><span>{who}</span></small>
         </div>
       </div>
-      <div className="date-block">
-        <div className="big">{turnLabel(game.turn).toUpperCase()}</div>
-        <div className="small">
-          {DATE(game.turn)} · {game.turn}/{game.lastTurn}
-        </div>
-      </div>
-      <div className="phases">
-        {phases.map((p) => (
-          <span key={p} className={`phase${game.phase === p ? ' on' : ''}`}>{PHASE_NAME[p]}</span>
-        ))}
-      </div>
-      <div className="spacer" />
-      <div className="vp-block" title={bm !== null ? `Allied VP ${vp}. Benchmark ${bm}: the Allies win automatically at ${hi} or 20, the Germans if the Allies fall to ${lo}.` : `Allied VP ${vp}. Benchmarks start on ${turnLabel(firstBenchmarkTurn()).toLowerCase()}.`}>
-        <div className="vp-num">
-          <span>ALLIED VP</span>
-          <b>{vp}</b>
-          {bm !== null && <em>/ {bm}</em>}
-        </div>
-        <div className="vp-bar">
-          {bm !== null ? (
-            <>
-              <i className="mark" style={{ left: pct(bm) }} />
-              <i className="dot" style={{ left: pct(vp) }} />
-            </>
-          ) : (
-            <span>benchmark from {turnLabel(firstBenchmarkTurn()).toLowerCase()}</span>
+      <div className="hud-sep" />
+      <div className="hud-res">
+        <Tip title="Victory points" pos="below" lines={bm !== null
+          ? [`Allied ${vp} · benchmark ${bm}`, `Allies win at ${hi} (or 20)`, `Germans win at ${lo}`]
+          : [`Allied ${vp}`, `Benchmarks from ${turnLabel(firstBenchmarkTurn()).toLowerCase()}`]}>
+          <div className="hud-vp">
+            <Stat icon="laurel" value={vp} sub={bm !== null ? `/ ${bm}` : undefined} className="vp" />
+            {bm !== null && (
+              <div className="hud-vp-bar">
+                <i className="mark" style={{ left: pct(bm) }} />
+                <i className="dot" style={{ left: pct(vp) }} />
+              </div>
+            )}
+          </div>
+        </Tip>
+        <Tip title={`Weather · ${wb.name}`} lines={weatherLines(wb)} pos="below">
+          <span className={`stat hud-weather ${wIcon === 'sunCloud' ? 'cloud' : wIcon}`}><Ico name={wIcon} size={24} /><b>{wb.name}</b></span>
+        </Tip>
+        <Tip title="Supply points" lines={[`Allied ${game.supplyPoints.Allied} · German ${game.supplyPoints.German}`, 'Spent to ready artillery']} pos="below">
+          <span className="stat hud-supply"><Ico name="supply" size={20} /><b><span className="a">{game.supplyPoints.Allied}</span><span>·</span><span className="g">{game.supplyPoints.German}</span></b></span>
+        </Tip>
+        <div className="hud-support">
+          {RULES.supportMarkers.map((k) => {
+            const [nation, kind] = k.split('-');
+            // Italy '43's one naval marker shows as ready for both armies until it is used (9.6).
+            const on = nation === 'AL' ? ready('US-naval') || ready('BR-naval') : ready(k);
+            const name = nation === 'AL' ? 'Allied' : nation === 'GE' ? 'German' : nation;
+            return (
+              <Tip key={k} title={`${name} ${kind === 'air' ? 'air support' : 'naval gunfire'}`} lines={[on ? 'Ready' : 'Used or grounded']} pos="below">
+                <span className={`sup ${kind}${on ? ' ready' : ''}`}><Ico name={kind === 'air' ? 'plane' : 'ship'} size={18} /><em>{nation === 'AL' ? 'ALL' : nation}</em></span>
+              </Tip>
+            );
+          })}
+          {game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0 && (
+            <Tip title="Valiant & Warspite" lines={[`${game.support.battleships} bombardment${game.support.battleships > 1 ? 's' : ''} left`]} pos="below">
+              <span className="sup ready naval"><Ico name="battleship" size={18} /><em>×{game.support.battleships}</em></span>
+            </Tip>
           )}
         </div>
       </div>
-      <div className="weather" title={`Weather box ${wb.box}: ${wb.name}`}>
-        <WeatherIcon name={wb.name} />
-        <span>{wb.name}</span>
+      <div className="hud-phases" role="list" aria-label="Phases">
+        {phases.map((p, i) => (
+          <Tip key={p} title={PHASE_NAME[p]} pos="below">
+            <span role="listitem" className={`hud-phase${game.phase === p ? ' on' : i < at ? ' done' : ''}`} aria-current={game.phase === p ? 'step' : undefined}>
+              <Ico name={PHASE_ICON[p]} size={game.phase === p ? 21 : 15} />
+              {game.phase === p && <span className="hud-phase-name">{PHASE_NAME[p]}</span>}
+            </span>
+          </Tip>
+        ))}
       </div>
-      <div className="supplies" title="Supply points (ready artillery)">
-        <span className="crate">▣</span> A {game.supplyPoints.Allied} · G {game.supplyPoints.German}
-      </div>
-      <div className="supports">
-        {RULES.supportMarkers.map((k) => {
-          const [nation, kind] = k.split('-');
-          // Italy '43's one naval marker shows as ready for both armies until it is used (9.6).
-          const on = nation === 'AL' ? ready('US-naval') || ready('BR-naval') : ready(k);
-          return <SupportIcon key={k} kind={kind as 'air' | 'naval'} label={nation === 'AL' ? 'ALL' : nation} ready={on} />;
-        })}
-        {game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0 && <span className="bb" title="Valiant & Warspite uses left">BB×{game.support.battleships}</span>}
-      </div>
-      <div className="top-buttons">
-        <Button label={settings.sound ? 'Mute' : 'Sound on'} tooltip={settings.sound ? 'Mute' : 'Sound on'} isIconOnly icon={<span aria-hidden>{settings.sound ? '🔊' : '🔈'}</span>}
+      <Tip title={turnLabel(game.turn)} lines={[`${game.lastTurn - game.turn} turn${game.lastTurn - game.turn === 1 ? '' : 's'} after this one`]} pos="below">
+        <div className="hud-date">
+          <b>{DATE(game.turn)}</b>
+          <small><Ico name="hourglass" size={12} />Turn {game.turn} / {game.lastTurn}</small>
+        </div>
+      </Tip>
+      <div className="hud-buttons">
+        <Medal icon={settings.sound ? 'soundOn' : 'soundOff'} label={settings.sound ? 'Mute' : 'Sound on'} size="sm" pos="below"
           onClick={() => { setSettings({ ...settings, sound: !settings.sound }); setSound(!settings.sound, settings.volume); }} />
-        <IconButton label="Settings" icon={<Icon icon="wrench" />} tooltip="Settings" onClick={onSettings} />
-        <IconButton label="Menu (Esc)" icon={<Icon icon="menu" />} tooltip="Menu (Esc)" onClick={onMenu} />
+        <Medal icon="gear" label="Settings" size="sm" pos="below" onClick={onSettings} />
+        <Medal icon="menu" label="Menu" keyHint="Esc" size="sm" pos="below" onClick={onMenu} />
       </div>
+      <Meander />
     </header>
   );
 }
@@ -159,7 +149,7 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
 // ------------------------------------------------------------------ phase banner
 
 export function PhaseBanner({ game, humanSides }: { game: GameState; humanSides: Side[] }) {
-  const [banner, setBanner] = useState<{ key: number; big: boolean; title: string; sub: string; side: Side } | null>(null);
+  const [banner, setBanner] = useState<{ key: number; big: boolean; title: string; sub: string; side: Side; phase: string } | null>(null);
   const prev = useRef<{ turn: number; side: Side; phase: string } | null>(null);
   const counter = useRef(0);
   useEffect(() => {
@@ -176,8 +166,9 @@ export function PhaseBanner({ game, humanSides }: { game: GameState; humanSides:
       key: ++counter.current,
       big: sideChange,
       side: game.activeSide,
-      title: sideChange ? `${game.activeSide.toUpperCase()} TURN` : `${PHASE_NAME[game.phase].toUpperCase()} PHASE`,
-      sub: sideChange ? `${turnLabel(game.turn)} · ${turnDate(game.turn)} · ${wb.name}${yours ? ' · your command' : ''}` : yours ? 'Your orders' : 'Enemy activity',
+      phase: game.phase,
+      title: sideChange ? `${game.activeSide} turn` : PHASE_NAME[game.phase],
+      sub: sideChange ? `${turnDate(game.turn)} · ${wb.name}` : yours ? 'Your orders' : 'Enemy',
     });
     sfx.radio();
   }, [game.turn, game.activeSide, game.phase]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -189,10 +180,10 @@ export function PhaseBanner({ game, humanSides }: { game: GameState; humanSides:
   if (!banner) return null;
   return (
     <div key={banner.key} className={`phase-banner ${banner.big ? 'big' : ''} ${banner.side === 'Allied' ? 'allied' : 'german'}`}>
-      {banner.big && <SideEmblem side={banner.side} size={56} />}
+      <span className="pb-medal">{banner.big ? <SideEmblem side={banner.side} size={50} /> : <Ico name={PHASE_ICON[banner.phase] ?? 'hourglass'} size={30} />}</span>
       <div>
         <div className="title">{banner.title}</div>
-        <div className="sub">{banner.sub}</div>
+        <div className="sub"><i />{banner.sub}<i /></div>
       </div>
     </div>
   );
@@ -255,10 +246,13 @@ function whereText(u: UnitState): string {
   }
 }
 
-const CHIP_BADGE: Record<string, 'warning' | 'neutral' | 'orange' | 'error' | 'yellow' | 'info' | 'success'> = {
-  gold: 'warning', grey: 'neutral', orange: 'orange', red: 'error', yellow: 'yellow', blue: 'info', green: 'success',
+const CHIP_ICON: Record<string, string> = {
+  Elite: 'star', 'Low quality': 'starOutline', Disrupted: 'disrupted', 'Full Retreat': 'retreat', '½ Effective': 'warning', Isolated: 'shattered',
+  'Out of supply': 'supply', Replacement: 'replacement', 'On trucks': 'truck', 'Has attacked': 'swords', Fired: 'artillery', 'Ready to fire': 'artillery',
+  '8th Army': 'flag',
 };
 
+/** The selected unit, as a strategy game's unit panel: its counter, name, figures and condition. */
 export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameState; unit: UnitState; hex: string | null; onSelect: (id: string) => void; onClose: () => void }) {
   const d = def(unit.id);
   const v = values(unit);
@@ -266,7 +260,7 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
   const stack = stackHex ? unitsAt(game, stackHex) : [];
   const own = sideOf(unit) === game.activeSide;
   const why = unit.where.kind === 'map' && own && game.phase === 'movement' ? cannotMove(game, unit) : null;
-  const chips: [string, string][] = [];
+  const chips: [string, string, string?][] = [];
   if (isElite(unit)) chips.push(['Elite', 'gold']);
   if (isLowQuality(unit)) chips.push(['Low quality', 'grey']);
   if (unit.status === 'disrupted') chips.push(['Disrupted', 'orange']);
@@ -278,51 +272,58 @@ export function UnitCard({ game, unit, hex, onSelect, onClose }: { game: GameSta
   if (unit.truck) chips.push(['On trucks', 'grey']);
   if (unit.attacked && own && game.phase === 'combat') chips.push(['Has attacked', 'grey']);
   if (d.asu) chips.push([unit.fired ? 'Fired' : 'Ready to fire', unit.fired ? 'grey' : 'green']);
-  if (unit.garrison && unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([`Garrison of ${unit.garrison}`, 'blue']);
-  else if (unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([unit.frozenUntil >= 99 ? 'Frozen until the enemy comes close' : `Frozen until ${turnLabel(unit.frozenUntil).toLowerCase()}`, 'blue']);
+  if (unit.garrison && unit.frozenUntil && game.turn < unit.frozenUntil) chips.push([`Garrison`, 'blue', `Garrison of ${unit.garrison}`]);
+  else if (unit.frozenUntil && game.turn < unit.frozenUntil) chips.push(['Frozen', 'blue', unit.frozenUntil >= 99 ? 'Until the enemy comes close' : `Until ${turnLabel(unit.frozenUntil).toLowerCase()}`]);
   if (d.army8) chips.push(['8th Army', 'gold']);
+  const steps = stepsRemaining(unit);
+  const moveNote = own && unit.where.kind === 'map' && game.phase === 'movement'
+    ? why ? `Can't move: ${why}` : unit.mpSpent === null ? 'Ready to move' : moveLeft(game, unit) ? `${moveLeft(game, unit)} left` : `${+unit.mpSpent.toFixed(1)} MP used`
+    : '';
   return (
-    <Card padding={3} elevation="high" className="unit-card">
-      <IconButton label="Close" icon={<Icon icon="close" />} variant="ghost" size="sm" className="close" onClick={onClose} />
-      <div className="uc-main">
-        <TokenIcon unit={unit} size={60} />
-        <div className="uc-info">
-          <div className="uc-name">{d.name}</div>
-          <div className="uc-sub">{CAT_NAME[d.cat] ?? d.cat} · {d.formation} · {d.nation === 'GE' ? 'German' : d.nation === 'US' ? 'American' : d.nation === 'CN' ? 'Canadian' : 'British'}</div>
-          <div className="uc-stats">
-            {d.asu ? (
-              <span><b>{d.asuRange}</b><i>RANGE</i></span>
-            ) : (
+    <div className="unit-card unit-panel gilt">
+      <button className="up-close" aria-label="Close" onClick={onClose}><Ico name="close" size={14} /></button>
+      <div className="up-main">
+        <div className="up-portrait"><TokenIcon unit={unit} size={64} /></div>
+        <div className="up-info">
+          <div className="up-name">{d.name}</div>
+          <div className="up-sub">{CAT_NAME[d.cat] ?? d.cat} · {d.formation}</div>
+          <div className="up-stats">
+            {d.asu ? <Tip title="Range" pos="above"><Stat icon="target" value={d.asuRange} className="att" /></Tip> : (
               <>
-                <span><b>{v.attack}</b><i>ATTACK</i></span>
-                <span><b>{v.defense}</b><i>DEFENSE</i></span>
+                <Tip title="Attack" pos="above"><Stat icon="swords" value={v.attack} className="att" /></Tip>
+                <Tip title="Defense" pos="above"><Stat icon="shield" value={v.defense} className="def" /></Tip>
               </>
             )}
-            <span><b>{v.move}</b><i>MOVE</i></span>
-            {d.tankRating ? <span><b>{d.tankRating}</b><i>TANK</i></span> : null}
-            <span><b>{stepsRemaining(unit)}/{d.steps.length}</b><i>STEPS</i></span>
-          </div>
-          <HStack gap={1} wrap="wrap" className="uc-chips">
-            {chips.map(([t, c]) => <Badge key={t} variant={CHIP_BADGE[c] ?? 'neutral'} label={t} />)}
-          </HStack>
-          <div className="uc-where">
-            {whereText(unit)}
-            {own && unit.where.kind === 'map' && game.phase === 'movement' && (
-              <> · {why ? `cannot move: ${why}` : unit.mpSpent === null ? `can move (${allowedModes(game, unit).join(', ')})` : moveLeft(game, unit) ? `${moveLeft(game, unit)} left` : `${+unit.mpSpent.toFixed(1)} MP used`}</>
-            )}
+            <Tip title="Movement" pos="above"><Stat icon="boot" value={v.move} className="mov" /></Tip>
+            {d.tankRating ? <Tip title="Tank rating" pos="above"><Stat icon="tank" value={d.tankRating} /></Tip> : null}
+            <Tip title="Steps" lines={[`${steps} of ${d.steps.length} left`]} pos="above">
+              <span className="up-steps">{d.steps.map((_, i) => <i key={i} className={i < steps ? 'on' : ''} />)}</span>
+            </Tip>
           </div>
         </div>
       </div>
-      {stack.length > 1 && (
-        <div className="uc-stack">
-          {stack.map((u) => (
-            <button key={u.id} className={u.id === unit.id ? 'on' : ''} onClick={() => onSelect(u.id)} title={def(u.id).name}>
-              <TokenIcon unit={u} size={40} />
-            </button>
+      {chips.length > 0 && (
+        <div className="up-chips">
+          {chips.map(([t, tone, tip]) => (
+            <Tip key={t} title={t} lines={tip ? [tip] : undefined} pos="above">
+              <span className={`up-chip ${tone}`}><Ico name={CHIP_ICON[t] ?? (t === 'Garrison' ? 'garrison' : t === 'Frozen' ? 'sleep' : 'info')} size={13} />{t}</span>
+            </Tip>
           ))}
         </div>
       )}
-    </Card>
+      <div className="up-where"><Ico name="hex" size={13} />{whereText(unit)}{moveNote && <em>{moveNote}</em>}</div>
+      {stack.length > 1 && (
+        <div className="up-stack">
+          {stack.map((u) => (
+            <Tip key={u.id} title={def(u.id).name} pos="above">
+              <button className={u.id === unit.id ? 'on' : ''} aria-label={def(u.id).name} onClick={() => onSelect(u.id)}>
+                <TokenIcon unit={u} size={36} />
+              </button>
+            </Tip>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -440,15 +441,16 @@ export function GameOverScreen({ game, humanSides, onReview, onMenu }: { game: G
   return (
     <div className="gameover">
       <div className={`go-card ${won === false ? 'lost' : 'won'}`}>
+        <Ico name="laurel" size={84} className="go-laurel" />
         <div className="go-kicker">{SCENARIOS[game.scenarioId]?.name} · {turnLabel(game.turn).toLowerCase()}</div>
         <h1>{title}</h1>
         {solo && <div className="go-sub">{game.winner} victory</div>}
         <p>{game.victoryNote}</p>
         <div className="go-stats">
-          <div><b>{alliedVp(game)}</b><span>Allied VP</span></div>
-          <div><b>{game.combats.length}</b><span>Battles</span></div>
-          <div><b>{lost('Allied')}</b><span>Allied units lost</span></div>
-          <div><b>{lost('German')}</b><span>German units lost</span></div>
+          <div><Ico name="laurel" size={22} /><b>{alliedVp(game)}</b><span>Allied VP</span></div>
+          <div><Ico name="swords" size={22} /><b>{game.combats.length}</b><span>Battles</span></div>
+          <div><Ico name="shattered" size={22} /><b>{lost('Allied')}</b><span>Allied lost</span></div>
+          <div><Ico name="shattered" size={22} /><b>{lost('German')}</b><span>German lost</span></div>
         </div>
         {breakdown.parts.length > 0 && <div className="go-parts">{breakdown.parts.join(' · ')}</div>}
         <HStack className="go-buttons" gap={3} hAlign="center">
@@ -469,15 +471,15 @@ export function PauseMenu({ game, onResume, onSettings, onQuit, onLoad, onRules 
     <>
     {confirm.dialog}
     <Dialog isOpen onOpenChange={(o) => !o && onResume()} width={380} className="pause">
-      <DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · ${turnLabel(game.turn).toLowerCase()} · the game saves itself after every action`} onOpenChange={(o) => !o && onResume()} />
-        <VStack gap={2} paddingBlock={2}>
-          <Button label="Resume" variant="primary" width="100%" onClick={onResume} />
-          <Button label="Settings" width="100%" onClick={onSettings} />
-          <Button label="Rules reference" width="100%" onClick={onRules} />
-          <Button label="Save to file" width="100%" onClick={() => downloadText(`salerno43-day${game.turn}.json`, JSON.stringify(game))} />
-          <Button label="Load from file" width="100%" onClick={() => fileRef.current?.click()} />
-          <Button label="Main menu" variant="destructive" width="100%" onClick={onQuit} />
-        </VStack>
+      <DialogHeader title="Paused" subtitle={`${SCENARIOS[game.scenarioId]?.name} · ${turnLabel(game.turn).toLowerCase()} · saved`} onOpenChange={(o) => !o && onResume()} />
+        <nav className="main-menu pause-menu" aria-label="Menu">
+          <MenuButton icon="play" label="Resume" primary onClick={onResume} />
+          <MenuButton icon="gear" label="Settings" onClick={onSettings} />
+          <MenuButton icon="book" label="Rules" onClick={onRules} />
+          <MenuButton icon="save" label="Save to file" onClick={() => downloadText(`salerno43-day${game.turn}.json`, JSON.stringify(game))} />
+          <MenuButton icon="load" label="Load from file" onClick={() => fileRef.current?.click()} />
+          <MenuButton icon="exit" label="Main menu" danger onClick={onQuit} />
+        </nav>
         <input ref={fileRef} type="file" accept="application/json" style={{ display: 'none' }}
           onChange={async (e) => {
             const f = e.target.files?.[0];

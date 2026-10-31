@@ -1,7 +1,8 @@
 // Map layers the printed game never had: the map modes' shading (supply, control, ZOC...), rings around
 // the selected unit's formation, odds on every target, and the map mode selector with its legend.
 import { memo, useMemo, useState } from 'react';
-import { Button, Icon, IconButton, ToggleButton } from '@astryxdesign/core';
+import { Ico } from './icons';
+import { Medal } from './chrome';
 import type { HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
 import { def, sideOf } from '../engine/units';
@@ -121,22 +122,11 @@ export const CueOverlay = memo(function CueOverlay({ qol, attackTarget }: { qol:
 
 // ------------------------------------------------------------------ map mode selector
 
-/** Small line icons for the modes. */
-function ModeIcon({ mode }: { mode: MapMode }) {
-  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  return (
-    <svg width={20} height={20} viewBox="0 0 20 20" aria-hidden>
-      {mode === 'normal' && <path d="M10 2.5 L16.5 6.2 V13.8 L10 17.5 L3.5 13.8 V6.2 Z" {...p} />}
-      {mode === 'supply' && <><path d="M3.5 7 L10 3.5 L16.5 7 V13.5 L10 17 L3.5 13.5 Z" {...p} /><path d="M3.5 7 L10 10.5 L16.5 7 M10 10.5 V17" {...p} /></>}
-      {mode === 'control' && <><path d="M5 17.5 V3" {...p} /><path d="M5 3.5 H15 L12.5 7 L15 10.5 H5" {...p} fill="currentColor" fillOpacity={0.35} /></>}
-      {mode === 'threat' && <><path d="M10 2.5 L18 16.5 H2 Z" {...p} /><path d="M10 8 V11.5" {...p} /><circle cx={10} cy={14} r={0.9} fill="currentColor" /></>}
-      {mode === 'zoc' && <><path d="M10 2.5 L16.5 6.2 V13.8 L10 17.5 L3.5 13.8 V6.2 Z" {...p} /><path d="M6 13 L13 6 M8.5 15 L15 8.5 M5 10 L10 5" {...p} strokeWidth={1.2} /></>}
-      {mode === 'support' && <><circle cx={10} cy={10} r={6.5} {...p} /><path d="M10 1.5 V5.5 M10 14.5 V18.5 M1.5 10 H5.5 M14.5 10 H18.5" {...p} /><circle cx={10} cy={10} r={1.2} fill="currentColor" /></>}
-      {mode === 'terrain' && <path d="M1.5 16.5 L7.5 6.5 L11 12 L13 9 L18.5 16.5 Z" {...p} />}
-      {mode === 'stacking' && <><rect x={3} y={8} width={10} height={9} rx={1} {...p} /><path d="M6 5 H16 V14" {...p} /></>}
-    </svg>
-  );
-}
+/** The icon for each map mode and each layer. */
+export const MODE_ICON: Record<MapMode, string> = {
+  normal: 'map', supply: 'supply', control: 'flag', threat: 'warning', zoc: 'zoc', support: 'artillery', terrain: 'mountain', stacking: 'layers',
+};
+const LAYER_ICON: Record<LayerKey, string> = { showUnits: 'army', showLabels: 'labels', showMarkers: 'tag', showGrid: 'hex', showHexIds: 'hash', showCues: 'target' };
 
 function SwatchIcon({ s }: { s: Swatch }) {
   return (
@@ -155,26 +145,22 @@ export function ModeTools({ qol, barOpen, setBarOpen }: { qol: QolMapProps; barO
   const cur = MAP_MODES.find((m) => m.key === qol.mode) ?? MAP_MODES[0];
   return (
     <div className="mode-tools">
-      <ToggleButton label={`Map modes and layers (${cur.label})`} tooltip={`Map modes and layers (${cur.label})`} isIconOnly icon={<ModeIcon mode={qol.mode} />}
-        className={`mode-btn${qol.mode !== 'normal' ? ' active' : ''}`} aria-expanded={barOpen} aria-controls="map-bar" isPressed={barOpen} onPressedChange={() => setBarOpen(!barOpen)} />
+      <Medal icon={MODE_ICON[qol.mode]} label="Map modes" tip={[cur.label]} active={barOpen} pos="right" onClick={() => setBarOpen(!barOpen)}
+        className={qol.mode !== 'normal' ? 'mode-on' : undefined} />
       {qol.layer && (
-        <div className="mode-legend" role="note" aria-label={`${cur.label} legend`}>
+        <div className="mode-legend gilt" role="note" aria-label={`${cur.label} legend`}>
           <div className="mode-legend-head">
-            <Button label={cur.label} variant="ghost" size="sm" className="mode-legend-title" aria-expanded={!folded} tooltip={folded ? 'Show the legend' : 'Fold the legend'}
-              icon={<ModeIcon mode={qol.mode} />} onClick={() => setFolded((f) => !f)}>
-              <b>{cur.label}</b> <span aria-hidden>{folded ? '▸' : '▾'}</span>
-            </Button>
-            <IconButton label="Back to the normal map" tooltip="Back to the normal map" icon={<Icon icon="close" />} variant="ghost" size="sm" className="mode-legend-close" onClick={() => qol.setMode('normal')} />
+            <button className="mode-legend-title" aria-expanded={!folded} onClick={() => setFolded((f) => !f)}>
+              <Ico name={MODE_ICON[qol.mode]} size={16} /><b>{cur.label}</b><Ico name={folded ? 'chevronDown' : 'chevronUp'} size={14} />
+            </button>
+            <button className="mode-legend-close" aria-label="Back to the normal map" onClick={() => qol.setMode('normal')}><Ico name="close" size={14} /></button>
           </div>
           {!folded && (
-            <>
-              <ul>
-                {qol.layer.legend.map((l) => (
-                  <li key={l.label}><SwatchIcon s={l.swatch} /><span>{l.label}</span></li>
-                ))}
-              </ul>
-              {qol.layer.note && <p>{qol.layer.note}</p>}
-            </>
+            <ul>
+              {qol.layer.legend.map((l) => (
+                <li key={l.label}><SwatchIcon s={l.swatch} /><span>{l.label}</span></li>
+              ))}
+            </ul>
           )}
         </div>
       )}
@@ -182,50 +168,27 @@ export function ModeTools({ qol, barOpen, setBarOpen }: { qol: QolMapProps; barO
   );
 }
 
-/** Little icons for the map layers. */
-function LayerIcon({ k }: { k: LayerKey }) {
-  const p = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
-  return (
-    <svg width={20} height={20} viewBox="0 0 20 20" aria-hidden>
-      {k === 'showUnits' && <><rect x={3} y={4} width={14} height={12} rx={1.5} {...p} /><rect x={6.5} y={6.5} width={7} height={4.5} {...p} strokeWidth={1.2} /><path d="M6.5 6.5 L13.5 11 M13.5 6.5 L6.5 11" {...p} strokeWidth={1.1} /><path d="M7 13.6 H13" {...p} strokeWidth={1.2} /></>}
-      {k === 'showLabels' && <><path d="M3 15 L6.5 5 L10 15 M4.3 11.5 H8.7" {...p} /><path d="M12 9.5 Q14 8 15.8 9.2 V15 M15.8 12 Q12 11.3 12 13.4 Q12.3 15.4 15.8 14" {...p} strokeWidth={1.3} /></>}
-      {k === 'showMarkers' && <><path d="M10 3 L11.8 7.4 L16.5 7.7 L12.9 10.7 L14 15.3 L10 12.8 L6 15.3 L7.1 10.7 L3.5 7.7 L8.2 7.4 Z" {...p} /></>}
-      {k === 'showGrid' && <path d="M9.7 8.4 L6.3 10.4 L2.9 8.4 L2.9 4.5 L6.3 2.6 L9.7 4.5 Z M17.1 8.4 L13.7 10.4 L10.3 8.4 L10.3 4.5 L13.7 2.6 L17.1 4.5 Z M13.4 14.8 L10.0 16.8 L6.6 14.8 L6.6 10.9 L10.0 9.0 L13.4 10.9 Z" {...p} strokeWidth={1.3} />}
-      {k === 'showHexIds' && <><path d="M10 2.5 L16.5 6.2 V13.8 L10 17.5 L3.5 13.8 V6.2 Z" {...p} strokeWidth={1.3} /><text x={10} y={12.6} textAnchor="middle" fontSize={7.2} fontWeight={700} fill="currentColor" stroke="none">27</text></>}
-      {k === 'showCues' && <><circle cx={10} cy={10} r={6.5} {...p} /><path d="M7.2 7.4 L10 10 L7.2 12.6 M10.4 7.4 L13.2 10 L10.4 12.6" {...p} strokeWidth={1.4} /></>}
-    </svg>
-  );
-}
-
 /**
- * The map bar, as in grand-strategy games: one button per map mode and switches for the map's layers.
- * On a large screen it sits on the minimap; on a phone it opens above the action bar from the map tools.
+ * The map bar, as in grand-strategy games: one medallion per map mode and switches for the map's layers, docked on
+ * the minimap. The mode's name and what it shows are in the tooltips.
  */
 export function MapBar({ qol, onClose, minimapH }: { qol: QolMapProps; onClose: () => void; minimapH: number }) {
-  const [hot, setHot] = useState<MapMode | null>(null);
-  const shown = MAP_MODES.find((m) => m.key === (hot ?? qol.mode)) ?? MAP_MODES[0];
+  const cur = MAP_MODES.find((m) => m.key === qol.mode) ?? MAP_MODES[0];
   return (
-    <div className="map-bar" id="map-bar" role="toolbar" aria-label="Map modes and layers" style={{ '--mm-h': `${Math.round(minimapH)}px` } as React.CSSProperties}>
+    <div className="map-bar gilt" id="map-bar" role="toolbar" aria-label="Map modes and layers" style={{ '--mm-h': `${Math.round(minimapH)}px` } as React.CSSProperties}>
       <div className="mb-head">
-        <span className="mb-now"><span className="mb-kicker">Map mode</span> <b>{shown.label}</b></span>
-        <IconButton label="Hide the map bar" tooltip="Hide the map bar" icon={<Icon icon="close" />} variant="ghost" size="sm" className="mb-close" onClick={onClose} />
+        <span className="mb-now">{cur.label}</span>
+        <button className="mb-close" aria-label="Hide the map bar" onClick={onClose}><Ico name="chevronDown" size={14} /></button>
       </div>
-      <div className="mb-note">{shown.note}</div>
-      <div className="mb-modes" role="group" aria-label="Map mode" onPointerLeave={() => setHot(null)}>
+      <div className="mb-modes" role="group" aria-label="Map mode">
         {MAP_MODES.map((m) => (
-          <ToggleButton key={m.key} label={m.label} icon={<ModeIcon mode={m.key} />} isPressed={qol.mode === m.key} className={qol.mode === m.key ? 'on' : ''}
-            onPointerEnter={() => setHot(m.key)} onFocus={() => setHot(m.key)} onBlur={() => setHot(null)} onPressedChange={() => qol.setMode(m.key)}>
-            <span className="mb-label">{m.label === 'Zones of control' ? 'ZOC' : m.label === 'Support range' ? 'Support' : m.label}</span>
-          </ToggleButton>
+          <Medal key={m.key} icon={MODE_ICON[m.key]} label={m.label} tip={[m.note]} size="sm" active={qol.mode === m.key} onClick={() => qol.setMode(m.key)} />
         ))}
       </div>
-      <div className="mb-sep">Show</div>
-      <div className="mb-layers">
+      <div className="mb-layers" role="group" aria-label="Show">
         {qol.layers.map((l) => (
-          <ToggleButton key={l.key} label={l.label} icon={<LayerIcon k={l.key} />} isPressed={l.on} className={l.on ? 'on' : ''}
-            tooltip={`${l.label}: ${l.note} (${l.on ? 'shown' : 'hidden'})`} onPressedChange={() => qol.toggleLayer(l.key)}>
-            <span className="mb-label">{l.label}</span>
-          </ToggleButton>
+          <Medal key={l.key} icon={LAYER_ICON[l.key]} label={l.label} tip={[l.note, l.on ? 'Shown' : 'Hidden']} size="sm" className={l.on ? 'lit' : 'dim'}
+            onClick={() => qol.toggleLayer(l.key)} />
         ))}
       </div>
     </div>

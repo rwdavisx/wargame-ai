@@ -8,46 +8,6 @@
 @keyframes qolpulse { 0% { transform: scale(1.35); opacity: 0.3; } 60% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .qol-pulse { animation: none; } }
 
-/* ---------------------------------------------------------------- map modes */
-
-.mode-tools { position: relative; }
-.maptools .mode-btn { display: flex; align-items: center; justify-content: center; color: var(--text); }
-.maptools .mode-btn.on, .maptools .mode-btn.active { border-color: var(--gold); color: var(--gold-2); background: rgba(40, 34, 18, 0.92); }
-.mode-menu {
-  position: absolute; left: calc(100% + 8px); top: 0; z-index: 7; width: 270px; display: flex; flex-direction: column; gap: 2px; padding: 6px;
-  background: var(--panel-solid); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6); animation: rise 0.15s ease-out;
-}
-.mode-menu-head { display: flex; align-items: center; justify-content: space-between; padding: 2px 6px 4px; font: 700 12px var(--hud); letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
-.mode-menu-sep { height: 1px; margin: 4px 2px; background: var(--line-soft); }
-.maptools .mode-menu button {
-  width: auto; height: auto; min-height: 40px; display: flex; align-items: center; gap: 10px; padding: 5px 8px; text-align: left;
-  color: var(--text); background: transparent; border-color: transparent;
-}
-.maptools .mode-menu button svg { flex: none; color: var(--muted); }
-.maptools .mode-menu button span { display: flex; flex-direction: column; min-width: 0; }
-.maptools .mode-menu button b { font: 600 15px/1.1 var(--hud); letter-spacing: 0.4px; }
-.maptools .mode-menu button small { font: 12px/1.25 var(--body); color: var(--muted); }
-.maptools .mode-menu button.on { background: rgba(216, 180, 90, 0.14); border-color: var(--line); }
-.maptools .mode-menu button.on svg, .maptools .mode-menu button.on b { color: var(--gold-2); }
-
-.mode-legend {
-  position: absolute; left: calc(100% + 8px); top: 0; z-index: 3; width: 252px; padding: 6px 8px 8px 10px;
-  background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); color: var(--text); animation: rise 0.15s ease-out;
-}
-.mode-legend-head { display: flex; align-items: center; gap: 6px; color: var(--gold-2); }
-.maptools .mode-legend .mode-legend-title {
-  flex: 1; width: auto; height: auto; min-height: 28px; display: flex; align-items: center; gap: 6px; padding: 0; text-align: left;
-  background: transparent; border-color: transparent; color: var(--gold-2);
-}
-.mode-legend-title b { flex: 1; font: 700 14px var(--hud); letter-spacing: 1.5px; text-transform: uppercase; }
-.mode-legend-title b + span { font-size: 12px; color: var(--muted); }
-.maptools .mode-legend .mode-legend-close { width: 26px; height: 26px; padding: 0; font-size: 13px; background: transparent; border-color: transparent; color: var(--text); }
-.mode-legend ul { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
-.mode-legend li { display: flex; align-items: center; gap: 7px; font: 12.5px/1.25 var(--body); color: #ddd7c3; }
-.mode-legend li svg { flex: none; }
-.mode-legend p { margin: 5px 0 0; font: 11.5px/1.3 var(--body); color: var(--muted); }
-
 /* ---------------------------------------------------------------- enemy turn recap */
 
 .recap {
@@ -122,58 +82,6 @@
   .maptools .mode-legend .mode-legend-close { width: 34px; height: 34px; }
 }
 
-/* ---------------------------------------------------------------- the map bar: map modes and layers */
-
-.map-bar {
-  position: absolute; left: 14px; bottom: calc(14px + var(--mm-h, 200px) + 8px); z-index: 3; width: 202px; box-sizing: border-box;
-  padding: 7px 8px 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); color: var(--text); animation: rise 0.18s ease-out;
-}
-.mb-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-.mb-now { font: 700 14px var(--hud); letter-spacing: 0.6px; text-transform: uppercase; color: var(--gold-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mb-kicker { font: 600 10.5px var(--hud); letter-spacing: 1.6px; color: var(--muted); }
-.map-bar .mb-close { width: 22px; height: 22px; padding: 0; flex: none; background: transparent; border-color: transparent; color: var(--muted); font-size: 13px; }
-.map-bar .mb-close:hover { color: var(--text); }
-.mb-note { font: 12px/1.25 var(--body); color: #bdb8a4; margin: 1px 0 6px; min-height: 2.5em; }
-.mb-modes, .mb-layers { display: grid; gap: 3px; }
-.mb-modes { grid-template-columns: repeat(7, 1fr); }
-.mb-layers { grid-template-columns: repeat(6, 1fr); }
-.map-bar .mb-modes button, .map-bar .mb-layers button {
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 0; height: 30px; padding: 0;
-  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line-soft); border-radius: 4px; color: #bdb8a4;
-}
-.map-bar .mb-label { display: none; font: 600 10.5px var(--hud); letter-spacing: 0.3px; white-space: nowrap; }
-.map-bar .mb-modes button:hover, .map-bar .mb-layers button:hover { color: var(--text); border-color: var(--line); background: rgba(255, 255, 255, 0.07); }
-.map-bar .mb-modes button.on { color: #1d1608; background: linear-gradient(#e4c46c, #b18a35); border-color: #f2d78f; }
-.map-bar .mb-layers button { color: #77736a; }
-.map-bar .mb-layers button.on { color: #e9e2c8; border-color: var(--line); background: rgba(216, 180, 90, 0.14); }
-.mb-sep { margin: 7px 0 4px; font: 600 10.5px var(--hud); letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); }
 .hex-ids text { font: 700 7.5px var(--hud); fill: rgba(24, 20, 12, 0.85); letter-spacing: 0.2px; paint-order: stroke; stroke: rgba(240, 232, 210, 0.45); stroke-width: 1.4px; }
 
-/* Phones: the bar opens from the map tools as a sheet above the action bar, with labels. */
-@media (max-width: 820px), (max-height: 520px) {
-  .map-bar {
-    left: max(8px, env(safe-area-inset-left)); right: 8px; width: auto; max-width: 460px; bottom: calc(var(--bar-h, 110px) + 8px); z-index: 7;
-    padding: 8px 10px 10px;
-  }
-  .mb-note { min-height: 0; }
-  .mb-modes { grid-template-columns: repeat(4, 1fr); gap: 5px; }
-  .mb-layers { grid-template-columns: repeat(3, 1fr); gap: 5px; }
-  .map-bar .mb-modes button, .map-bar .mb-layers button { height: 46px; }
-  .map-bar .mb-layers button { flex-direction: row; height: 38px; gap: 6px; }
-  .map-bar .mb-label { display: block; }
-  .map-bar .mb-close { width: 32px; height: 32px; font-size: 16px; }
-  .game.panel-open .map-bar, .game.battle-open .map-bar { display: none; }
-  .maptools:has(~ .map-bar) .mode-legend, .map-bar ~ .maptools .mode-legend { display: none; }
-}
-@media (max-height: 520px) {
-  .map-bar { max-width: min(460px, calc(100vw - min(330px, 42vw) - 30px)); }
-  .mb-modes { grid-template-columns: repeat(7, 1fr); }
-  .mb-layers { grid-template-columns: repeat(6, 1fr); }
-  .map-bar .mb-modes button, .map-bar .mb-layers button { height: 40px; flex-direction: column; gap: 1px; }
-  .map-bar .mb-label { font-size: 9px; }
-}
 
-/* Astryx buttons on the map: full-size glyphs and icons. */
-.maptools .astryx-button > span [aria-hidden], .maptools .astryx-button > span > span { font-size: 18px; line-height: 1; }
-.map-bar .astryx-toggle-button svg, .maptools .mode-btn svg { width: 20px !important; height: 20px !important; }

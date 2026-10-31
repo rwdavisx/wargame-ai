@@ -168,20 +168,23 @@ src/games/     the game registry: the games the system plays, picked on the home
 src/ai/        built-in heuristic AI, Claude AI, self-play
 src/net/       online play: the shared game (setup + action list in chunks), seats, sync and replay; a local stand-in store for tests and two-tab development
 src/ui/        React UI
-  astryx/          the Astryx theme, CSS layer order and shared compositions (choice cards, section labels)
+  astryx/          the Astryx theme (Italia '43), CSS layer order and shared compositions
   App.tsx          screen flow: loading, title, new operation, online lobby, briefing, game
   NetLobby.tsx     Play with friends: the games on the page, hosting, joining
   screens.tsx      title, new operation, briefing and how-to-play screens
   GameScreen.tsx   in-game controller: AI loop, selection, highlights, dialogs
   MapView.tsx      map camera, overlays, unit stacks, animations, minimap
   hud.tsx          top bar, banners, event feed, unit card, combat card, menus
+  icons.tsx        the icon set (engraved line icons on a 24-unit grid)
+  chrome.tsx       medallion buttons, tooltips, the Greek key band, menu buttons
+  italia.css       the Italia '43 interface: gilt-framed walnut panels, Roman capitals, the HUD layout
   Sidebar.tsx      command panel tabs and the map editor
   render/          the map as a watercolour and ink sheet (terrain.ts fields and washes, gpu.ts the washes as a WebGL2
                    shader, ink.ts pen work, patches.ts fields, coast.ts traced coastlines; cached in IndexedDB),
                    ambient.ts the living layer (sea, clouds, rain), hex geometry, NATO-style unit counters
   AmbientLayer.tsx keeps the living layer in step with the camera and the weather
   sound.ts         synthesized sound effects (WebAudio)
-  theme.css        the interface theme
+  theme.css        base styles and layouts
   dev/Gallery.tsx  every counter on one page, dev builds only (open /#gallery)
 scripts/       command-line self-play and game logs
 tests/         vitest tests for the engine and the AI

@@ -21,7 +21,8 @@ export const oddsWords = oddsText;
 export { resultAdvance };
 
 /** The log's headline for a result, as a sentence start: "The defenders must give ground". */
-export const resultTitle = (result: string) => cap(resultHeadline(result));
+/** A result's short name ("Losses both sides"), or its headline where it has none. */
+export const resultTitle = (result: string) => RESULT_TITLE[resultKey(result)] ?? cap(resultHeadline(result));
 
 const NOUN: Record<string, string> = {
   infantry: 'infantry', garrison: 'coastal garrison', motorized: 'motorized infantry', pg: 'panzergrenadiers', engineer: 'engineers',

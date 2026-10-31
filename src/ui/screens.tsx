@@ -10,26 +10,29 @@ import { Insignia } from './render/units';
 import { sfx } from './sound';
 import { BUILD } from './version';
 import type { Controller, MouseControls, Settings } from './storage';
-import { Badge, Button, Card, CheckboxInput, Dialog, DialogHeader, Heading, HStack, SegmentedControl, SegmentedControlItem, Text, TextInput, ToggleButton, VStack } from '@astryxdesign/core';
+import { Dialog, DialogHeader, TextInput } from '@astryxdesign/core';
 import { GAMES, gameInfo } from '../games';
-import { ChoiceCard, SectionLabel } from './astryx/kit';
+import { SectionLabel } from './astryx/kit';
+import { Ico } from './icons';
+import { MenuButton, Tip } from './chrome';
 
 /** A side's emblem for a choice card. */
 export const SideBadge = ({ side }: { side: Side }) => (
-  <svg viewBox="-6 -6 12 12" width={30} height={30} aria-hidden>
+  <svg viewBox="-6 -6 12 12" width={34} height={34} aria-hidden>
     <Insignia nation={side === 'Allied' ? 'US' : 'GE'} x={0} y={0} r={5.4} />
   </svg>
 );
 /** Difficulty as one to four stars. */
 export const Pips = ({ n }: { n: number }) => (
-  <span className="pips" aria-hidden>{[0, 1, 2, 3].map((k) => <i key={k} className={k <= n ? 'on' : ''}>★</i>)}</span>
+  <span className="pips" aria-hidden>{[0, 1, 2, 3].map((k) => <Ico key={k} name={k <= n ? 'star' : 'starOutline'} size={13} className={k <= n ? 'on' : ''} />)}</span>
 );
 
 export function LoadingScreen({ progress, label }: { progress: number; label: string }) {
   return (
     <div className="screen loading">
+      <Ico name="laurel" size={64} className="load-laurel" />
       <div className="logo small">
-        <span className="logo-title">SALERNO '43</span>
+        <span className="logo-title">{gameInfo(GAME_ID).title}</span>
       </div>
       <div className="load-bar">
         <i style={{ width: `${Math.round(progress * 100)}%` }} />
@@ -64,50 +67,61 @@ export function TitleScreen({ terrain, gameId, onChooseGame, canContinue, onCont
     <div className="screen title">
       <Backdrop terrain={terrain} />
       <div className="title-col">
-        <HStack gap={2} className="game-picker" wrap="wrap" role="group" aria-label="Game">
+        <div className="game-picker" role="group" aria-label="Game">
           {GAMES.map((g) => (
-            <ToggleButton key={g.id} label={g.title} isPressed={g.id === shownId} className="game-pick"
-              onPressedChange={() => {
+            <button key={g.id} className={`game-pick${g.id === shownId ? ' on' : ''}`} aria-pressed={g.id === shownId}
+              onClick={() => {
                 sfx.click();
                 setShownId(g.id);
                 if (g.status === 'ready') onChooseGame(g.id);
               }}>
-              {g.title}{g.status !== 'ready' && <Badge variant="warning" label="In preparation" />}
-            </ToggleButton>
+              {g.title}{g.status !== 'ready' && <small>soon</small>}
+            </button>
           ))}
-        </HStack>
+        </div>
         <div className="logo">
-          <div className="logo-kicker">{shown.kicker}</div>
+          <div className="logo-kicker"><i />{shown.kicker}<i /></div>
           <div className="logo-title">{shown.title}</div>
-          <div className="logo-date">{shown.dates}</div>
+          <div className="logo-date"><Ico name="laurel" size={22} />{shown.dates}</div>
         </div>
         {preparing ? (
-          <Card padding={4} className="game-preparing" maxWidth={560}>
-            <VStack gap={2}>
-              <Heading level={3} className="choice-title">{shown.name} is being prepared</Heading>
-              <Text color="secondary" display="block">{shown.blurb} It uses the same system as the other games, and will be playable here once its map and counters are entered.</Text>
-              <SectionLabel>Done</SectionLabel>
-              <ul className="prep-list done">{shown.progress?.done.map((t) => <li key={t}>{t}</li>)}</ul>
-              <SectionLabel>Still to do</SectionLabel>
-              <ul className="prep-list">{shown.progress?.todo.map((t) => <li key={t}>{t}</li>)}</ul>
-            </VStack>
-          </Card>
+          <div className="gilt game-preparing">
+            <h3 className="roman">{shown.name}</h3>
+            <p>{shown.blurb}</p>
+            <ul className="prep-list done">{shown.progress?.done.map((t) => <li key={t}><Ico name="check" size={14} />{t}</li>)}</ul>
+            <ul className="prep-list">{shown.progress?.todo.map((t) => <li key={t}><Ico name="hourglass" size={14} />{t}</li>)}</ul>
+          </div>
         ) : (
-        <VStack gap={2} className="main-menu" width={260}>
-          {canContinue && <Button label="Continue" variant="primary" size="lg" width="100%" onClick={click(onContinue)} />}
-          <Button label="New operation" variant={canContinue ? 'secondary' : 'primary'} size="lg" width="100%" onClick={click(onNew)} />
-          <Button label="Play with friends" size="lg" width="100%" onClick={click(onOnline)} />
-          <Button label="How to play" size="lg" width="100%" onClick={click(onHowTo)} />
-          <Button label="Settings" size="lg" width="100%" onClick={click(onSettings)} />
-        </VStack>
+          <nav className="main-menu" aria-label="Main menu">
+            {canContinue && <MenuButton icon="play" label="Continue" primary onClick={click(onContinue)} />}
+            <MenuButton icon="flag" label="New operation" primary={!canContinue} onClick={click(onNew)} />
+            <MenuButton icon="globe" label="Play with friends" onClick={click(onOnline)} />
+            <MenuButton icon="book" label="How to play" onClick={click(onHowTo)} />
+            <MenuButton icon="gear" label="Settings" onClick={click(onSettings)} />
+          </nav>
         )}
-        <div className="title-foot">A digital companion to GMT Games’ {shown.name} · keep your copy of the game at hand for the full rules<span className="build">Build {BUILD}</span></div>
+        <div className="title-foot">Companion to GMT Games’ {shown.name} · you need the boxed game for the rules<span className="build">Build {BUILD}</span></div>
       </div>
     </div>
   );
 }
 
 type Role = 'Allied' | 'German' | 'hotseat' | 'watch';
+
+/** A square choice tile: an icon (or emblem) over a short name; the detail is in its tooltip. */
+function Tile({ selected, onSelect, icon, title, aria, tip, children }: {
+  selected: boolean; onSelect: () => void; icon: React.ReactNode; title: React.ReactNode; aria: string; tip?: string; children?: React.ReactNode;
+}) {
+  return (
+    <Tip title={aria} lines={tip ? [tip] : undefined} pos="below" className="tile-wrap">
+      <button className={`tile${selected ? ' on' : ''}`} aria-pressed={selected} aria-label={aria} onClick={onSelect}>
+        <span className="tile-icon">{icon}</span>
+        <span className="tile-title">{title}</span>
+        {children}
+      </button>
+    </Tip>
+  );
+}
 
 export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack }: {
   terrain: TerrainImage; settings: Settings; setSettings: (s: Settings) => void;
@@ -129,44 +143,53 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
     sfx.select();
     onStart(scenario, options);
   };
-  const roles: { id: Role; title: string; text: string; emblem?: Side }[] = [
-    { id: 'Allied', title: 'Command the Allies', text: gameInfo(GAME_ID).roles?.Allied ?? '', emblem: 'Allied' },
-    { id: 'German', title: 'Command the Germans', text: gameInfo(GAME_ID).roles?.German ?? '', emblem: 'German' },
-    { id: 'hotseat', title: 'Two players', text: 'Both sides on this screen, taking turns.' },
-    { id: 'watch', title: 'Watch the computer', text: 'The computer plays both sides while you watch.' },
+  const roles: { id: Role; title: string; aria: string; text: string; icon: React.ReactNode }[] = [
+    { id: 'Allied', title: 'Allies', aria: 'Command the Allies', text: gameInfo(GAME_ID).roles?.Allied ?? '', icon: <SideBadge side="Allied" /> },
+    { id: 'German', title: 'Germans', aria: 'Command the Germans', text: gameInfo(GAME_ID).roles?.German ?? '', icon: <SideBadge side="German" /> },
+    { id: 'hotseat', title: 'Two players', aria: 'Two players', text: 'Both sides on this screen, taking turns', icon: <Ico name="twoPlayers" size={28} /> },
+    { id: 'watch', title: 'Watch', aria: 'Watch the computer', text: 'The computer plays both sides', icon: <Ico name="eye" size={28} /> },
   ];
   return (
     <div className="screen setup">
       <Backdrop terrain={terrain} />
-      <div className="setup-panel">
-        <Heading level={1} className="screen-title">New operation</Heading>
-        <ScenarioCards scenario={scenario} setScenario={setScenario} />
-        <SectionLabel>Your role</SectionLabel>
-        <div className="cards four">
-          {roles.map((r) => (
-            <ChoiceCard key={r.id} selected={role === r.id} onSelect={() => setRole(r.id)} title={r.title} text={r.text}
-              icon={r.emblem && <SideBadge side={r.emblem} />} />
-          ))}
-        </div>
-        {role !== 'hotseat' && (
-          <>
-            <SectionLabel>Computer opponent</SectionLabel>
-            <SegmentedControl label="Computer opponent" value={opponent} onChange={(v) => setOpponent(v as Controller)}>
-              <SegmentedControlItem value="heuristic" label="Built-in AI" />
-              <SegmentedControlItem value="claude" label="Claude" />
-            </SegmentedControl>
-            {opponent === 'heuristic' && <DifficultyCards value={settings.aiLevel} onChange={(k) => setSettings({ ...settings, aiLevel: k })} />}
-            {opponent === 'claude' && (
-              <TextInput type="password" label="Anthropic API key" isLabelHidden placeholder="Anthropic API key (sk-ant-…)" value={settings.claudeApiKey}
-                width="100%" containerClassName="row" onChange={(v) => setSettings({ ...settings, claudeApiKey: v.trim() })} />
+      <div className="setup-panel gilt">
+        <header className="setup-head">
+          <Ico name="flag" size={24} />
+          <h1 className="screen-title">New operation</h1>
+          <span className="setup-game">{gameInfo(GAME_ID).title}</span>
+        </header>
+        <div className="setup-grid">
+          <section>
+            <ScenarioCards scenario={scenario} setScenario={setScenario} />
+          </section>
+          <section>
+            <SectionLabel>Command</SectionLabel>
+            <div className="tiles four">
+              {roles.map((r) => (
+                <Tile key={r.id} selected={role === r.id} onSelect={() => setRole(r.id)} icon={r.icon} title={r.title} aria={r.aria} tip={r.text} />
+              ))}
+            </div>
+            {role !== 'hotseat' && (
+              <>
+                <SectionLabel>Opponent</SectionLabel>
+                <div className="tiles two">
+                  <Tile selected={opponent === 'heuristic'} onSelect={() => setOpponent('heuristic')} icon={<Ico name="radio" size={24} />} title="Built-in AI" aria="Built-in AI" tip="Plays on this device" />
+                  <Tile selected={opponent === 'claude'} onSelect={() => setOpponent('claude')} icon={<Ico name="quill" size={24} />} title="Claude" aria="Claude" tip="Needs an Anthropic API key" />
+                </div>
+                {opponent === 'heuristic' && <DifficultyCards value={settings.aiLevel} onChange={(k) => setSettings({ ...settings, aiLevel: k })} />}
+                {opponent === 'claude' && (
+                  <TextInput type="password" label="Anthropic API key" isLabelHidden placeholder="Anthropic API key (sk-ant-…)" value={settings.claudeApiKey}
+                    width="100%" containerClassName="row" onChange={(v) => setSettings({ ...settings, claudeApiKey: v.trim() })} />
+                )}
+              </>
             )}
-          </>
-        )}
-        <StartAndRules options={options} setOptions={setOptions} />
-        <HStack className="setup-buttons" hAlign="between">
-          <Button label="Back" onClick={onBack} />
-          <Button label="To the briefing ▶" variant="primary" size="lg" onClick={start} />
-        </HStack>
+            <StartAndRules options={options} setOptions={setOptions} />
+          </section>
+        </div>
+        <footer className="setup-buttons">
+          <button className="text-btn" onClick={onBack}><Ico name="chevronLeft" size={16} />Back</button>
+          <button className="seal-btn" onClick={start}>To the briefing<Ico name="chevronRight" size={18} /></button>
+        </footer>
       </div>
     </div>
   );
@@ -175,76 +198,97 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
 /** The scenario the new-game screens start on: Salerno's short one, or a game's first. */
 export const defaultScenario = () => (SCENARIOS.short ? 'short' : Object.keys(SCENARIOS)[0]);
 
-/** "8 days · Allies need 8 VP", "Turns 13–32 · Allies need 18 VP". */
-function scenarioMeta(k: string): string {
-  const sc = SCENARIOS[k];
-  const first = sc.firstTurn ?? 1;
-  const span = first > 1 ? `${turnWord()}s ${first}–${sc.lastTurn}` : `${sc.lastTurn} ${turnWord().toLowerCase()}s`;
-  return `${span} · Allies need ${RULES.scenarioWin[k] ?? 20} VP`;
-}
-
 export function ScenarioCards({ scenario, setScenario }: { scenario: string; setScenario: (s: string) => void }) {
   return (
     <>
       <SectionLabel>Scenario</SectionLabel>
-      <div className="cards">
-        {Object.entries(SCENARIOS).map(([k, sc]) => (
-          <ChoiceCard key={k} selected={scenario === k} onSelect={() => setScenario(k)} title={sc.name}
-            meta={scenarioMeta(k)} text={sc.description} />
+      <div className="scenarios" role="radiogroup" aria-label="Scenario">
+        {Object.entries(SCENARIOS).map(([k, sc]) => {
+          const first = sc.firstTurn ?? 1;
+          return (
+            <Tip key={k} title={sc.name} lines={[sc.description]} pos="right" className="scen-wrap">
+              <button role="radio" aria-checked={scenario === k} className={`scen${scenario === k ? ' on' : ''}`} onClick={() => setScenario(k)}>
+                <span className="scen-name">{sc.name}</span>
+                <span className="scen-meta">
+                  <span><Ico name="hourglass" size={13} />{first > 1 ? `${first}–${sc.lastTurn}` : sc.lastTurn} {turnWord().toLowerCase()}s</span>
+                  <span><Ico name="laurel" size={14} />{RULES.scenarioWin[k] ?? 20} VP</span>
+                </span>
+              </button>
+            </Tip>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+/** The computer's skill, as four tiles of one to four stars. */
+export function DifficultyCards({ value, onChange }: { value: string; onChange: (k: (typeof DIFFICULTIES)[number]['key']) => void }) {
+  return (
+    <>
+      <SectionLabel>Difficulty</SectionLabel>
+      <div className="tiles four difficulty">
+        {DIFFICULTIES.map((d, i) => (
+          <Tile key={d.key} selected={value === d.key} onSelect={() => onChange(d.key)} icon={<Pips n={i} />} title={d.label} aria={d.label} tip={d.note} />
         ))}
       </div>
     </>
   );
 }
 
-/** The computer's skill, as four cards. */
-export function DifficultyCards({ value, onChange }: { value: string; onChange: (k: (typeof DIFFICULTIES)[number]['key']) => void }) {
+/** A switch for an optional rule: an icon and a short name, the rule in its tooltip. */
+function RuleToggle({ icon, label, tip, on, set }: { icon: string; label: string; tip: string; on: boolean; set: (v: boolean) => void }) {
   return (
-    <>
-      <SectionLabel>Difficulty</SectionLabel>
-      <div className="cards four difficulty">
-        {DIFFICULTIES.map((d, i) => (
-          <ChoiceCard key={d.key} selected={value === d.key} onSelect={() => onChange(d.key)} label={d.label} title={<><Pips n={i} /> {d.label}</>} text={d.note} />
-        ))}
-      </div>
-    </>
+    <Tip title={label} lines={[tip]} pos="above">
+      <button className={`rule-toggle${on ? ' on' : ''}`} role="switch" aria-checked={on} aria-label={label} onClick={() => set(!on)}>
+        <Ico name={icon} size={16} />{label}<i className="rule-led" />
+      </button>
+    </Tip>
   );
 }
 
 /** The opening (D-Day or the tournament start) and the optional rules. */
 export function StartAndRules({ options, setOptions }: { options: GameOptions; setOptions: (o: GameOptions) => void }) {
+  const dis = <RuleToggle icon="retreat" label="Disengagement" tip="Units next to the enemy may roll to pull back one hex in the combat phase"
+    on={options.disengagement !== false} set={(v) => setOptions({ ...options, disengagement: v })} />;
   if (!RULES.invasionGame) {
     return (
       <>
         <SectionLabel>Optional rules</SectionLabel>
-        <VStack gap={2}>
-          <CheckboxInput label="25.4 Disengagement" description="Units next to the enemy may roll to pull back one hex in the combat phase."
-            value={options.disengagement !== false} onChange={(v) => setOptions({ ...options, disengagement: v })} />
-        </VStack>
+        <div className="rule-toggles">{dis}</div>
       </>
     );
   }
   return (
     <>
       <SectionLabel>Start</SectionLabel>
-      <div className="cards">
-        <ChoiceCard selected={!options.optionalStart} onSelect={() => setOptions({ ...options, optionalStart: false })} title="D-Day landings"
-          text="The standard start: the Allies roll the Invasion table for each beach, then the Germans react." />
-        <ChoiceCard selected={!!options.optionalStart} onSelect={() => setOptions({ ...options, optionalStart: true })} title="Allies already ashore"
-          text="Tournament start (S1.4): no landing rolls; the assault units start inland and the Germans move first." />
+      <div className="tiles two">
+        <Tile selected={!options.optionalStart} onSelect={() => setOptions({ ...options, optionalStart: false })} icon={<Ico name="landing" size={24} />}
+          title="D-Day" aria="D-Day landings" tip="The Allies roll the Invasion table for each beach" />
+        <Tile selected={!!options.optionalStart} onSelect={() => setOptions({ ...options, optionalStart: true })} icon={<Ico name="boot" size={24} />}
+          title="Ashore" aria="Allies already ashore" tip="Tournament start: no landing rolls, the Germans move first" />
       </div>
       <SectionLabel>Optional rules</SectionLabel>
-      <VStack gap={2}>
-        <CheckboxInput label="25.1 Disengagement" description="Units next to the enemy may roll to pull back one hex in the combat phase."
-          value={options.disengagement !== false} onChange={(v) => setOptions({ ...options, disengagement: v })} />
-        <CheckboxInput label="25.2 Reconnaissance" description="Reconnaissance units shrug off the step loss of a D1 or DS when alone."
-          value={!!options.recon} onChange={(v) => setOptions({ ...options, recon: v })} />
-        <CheckboxInput label="25.3 Limited port supply" description="Ports can only supply a limited number of units."
-          value={!!options.limitedPortSupply} onChange={(v) => setOptions({ ...options, limitedPortSupply: v })} />
-      </VStack>
+      <div className="rule-toggles">
+        {dis}
+        <RuleToggle icon="eye" label="Recon" tip="Reconnaissance units shrug off the step loss of a D1 or DS when alone"
+          on={!!options.recon} set={(v) => setOptions({ ...options, recon: v })} />
+        <RuleToggle icon="ship" label="Port supply" tip="Ports can only supply a limited number of units"
+          on={!!options.limitedPortSupply} set={(v) => setOptions({ ...options, limitedPortSupply: v })} />
+      </div>
     </>
   );
 }
+
+/** How to play, in a row of key chips. */
+const CONTROLS: [string, string, string][] = [
+  ['target', 'Click', 'Select'],
+  ['advance', 'Right-click', 'Move · attack'],
+  ['hourglass', 'Space', 'End phase'],
+  ['next', 'N', 'Next unit'],
+  ['zoomIn', 'Wheel', 'Zoom'],
+  ['menu', 'Esc', 'Menu'],
+];
 
 export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: TerrainImage; game: GameState; side: Side | null; onBegin: () => void }) {
   const b = gameInfo(GAME_ID).brief![side ?? 'Allied'];
@@ -252,23 +296,19 @@ export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: Terr
     <div className="screen briefing">
       <Backdrop terrain={terrain} />
       <div className="dispatch">
-        <div className="stamp">{side === 'German' ? 'GEHEIME KOMMANDOSACHE' : 'MOST SECRET'}</div>
+        <div className="seal" aria-hidden><Ico name="laurel" size={34} /></div>
         <div className="dispatch-head">
-          <span>{b.title}</span>
-          <span>{SCENARIOS[game.scenarioId]?.name.toUpperCase()}</span>
+          <span className="dispatch-from">{b.title}</span>
+          <h2>{SCENARIOS[game.scenarioId]?.name}</h2>
         </div>
-        {b.text.map((t, i) => <p key={i}>{t}</p>)}
-        <h3>OBJECTIVES</h3>
-        <ul>{b.goals(game.scenarioId).map((g) => <li key={g}>{g}</li>)}</ul>
-        <h3>FIELD NOTES</h3>
-        <ul className="notes">
-          <li>Click a unit to select it, then right-click a highlighted hex to move (on a touch screen, tap it twice). Hover a hex to see the route and its cost.</li>
-          <li>Red hexes can be attacked: right-click one to see the odds, right-click it again to attack. Pick attackers and support in the orders panel.</li>
-          <li>End each phase with the button at the bottom of the orders panel. Esc opens the menu.</li>
-          <li>Drag or use the arrow keys to pan, the mouse wheel or +/− to zoom, and the minimap to jump.</li>
-        </ul>
+        {b.text[0] && <p className="dispatch-lede">{b.text[0]}</p>}
+        <h3><Ico name="flag" size={16} />Objectives</h3>
+        <ul className="dispatch-goals">{b.goals(game.scenarioId).map((g) => <li key={g}><Ico name="laurel" size={14} /><span>{g}</span></li>)}</ul>
+        <div className="dispatch-keys">
+          {CONTROLS.map(([icon, key, what]) => <span key={key}><Ico name={icon} size={14} /><kbd>{key}</kbd>{what}</span>)}
+        </div>
         <div className="dispatch-foot">
-          <Button label="Begin ▶" variant="primary" size="lg" onClick={() => { sfx.select(); onBegin(); }} />
+          <button className="seal-btn" onClick={() => { sfx.select(); onBegin(); }}>Begin<Ico name="chevronRight" size={18} /></button>
         </div>
       </div>
     </div>

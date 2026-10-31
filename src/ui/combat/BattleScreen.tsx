@@ -19,6 +19,7 @@ import {
   placeLong, placeName, RESULT_TITLE, resultAdvance, resultTitle, resultKey, resultTone, shipsAllowed, sideAdj, sideNoun, signed, supportLabel, type DdFace,
 } from './model';
 import './combat.css';
+import { Ico } from '../icons';
 import { Badge, Button, Card, Collapsible, Heading, HStack, Kbd, NumberInput, SegmentedControl, SegmentedControlItem, Step, Stepper, Text, ToggleButton } from '@astryxdesign/core';
 
 /** An attack the player has ordered but not yet rolled for. */
@@ -122,8 +123,6 @@ export function BattleScreen(p: Props) {
   const mineDef = humanSides.includes(defSide) && !humanSides.includes(attSide);
   const attWho = mineAtt ? 'your units' : sideNoun(attSide);
   const defWho = mineDef ? 'your units' : sideNoun(defSide);
-  const attRoller = mineAtt ? 'You' : cap(sideNoun(attSide));
-  const defRoller = mineDef ? 'You' : cap(sideNoun(defSide));
   const defHuman = settings.controllers[defSide] === 'human';
 
   const faces = crtFaces(columnIndex(finalCol), drm);
@@ -383,9 +382,9 @@ export function BattleScreen(p: Props) {
       <div className="cbx" role="dialog" aria-modal="false" aria-label={`${kind} on ${place}`}>
         <header className="cbx-head">
           <div className="cbx-kicker">
-            {mineAtt ? 'Your ' : mineDef ? `${sideAdj(attSide)} ` : `${sideAdj(attSide)} `}{kind.toLowerCase()}{mineDef ? ' on your units' : ''} · day {rep?.turn ?? game.turn}
+            <Ico name={mineDef ? 'shield' : 'swords'} size={13} />{mineAtt ? 'Your' : sideAdj(attSide)} {kind.toLowerCase()}{mineDef ? ' · you defend' : ''}
           </div>
-          <h2 className="cbx-title">{place}</h2>
+          <h2 className="cbx-title" title={intro}>{place}</h2>
           {collapsed ? (
             <div className="cbx-strip-step">{pills[pillAt]}<span> · {stripStep}</span></div>
           ) : (
@@ -429,10 +428,9 @@ export function BattleScreen(p: Props) {
         <section className="cbx-stage" aria-live="polite">
           {(step === 'ready' || step === 'intro' || step === 'rolling') && (
             <>
-              <p className="cbx-say">{intro}</p>
               <OddsLine attack={attack} defense={defense} note={!rep ? o?.defenseNote : undefined} baseCol={baseCol} finalCol={finalCol} shifts={shifts} drm={drm} noDie={noDie} />
               {noDie ? (
-                <p className="cbx-say small">{kind === 'Overrun' ? 'At 10 to 1 or better there is no die roll: the defenders are shattered automatically (DS).' : 'There is no die roll: the result is automatic.'}</p>
+                <p className="cbx-say small"><Ico name="shattered" size={14} /> {kind === 'Overrun' ? 'No roll: shattered (DS)' : 'No roll: automatic'}</p>
               ) : (
                 <Outcomes faces={faces} drm={drm} lit={null} pick={face} onPick={setFace} att={attWho} dfn={defWho} />
               )}
@@ -442,34 +440,24 @@ export function BattleScreen(p: Props) {
           {shown && rep && !ddStage && step !== 'decide' && step !== 'deciding' && step !== 'aiChoice' && step !== 'retreated' && (
             <div className={`cbx-result tone-${resultTone(key)}`}>
               {!noDie && <Outcomes faces={faces} drm={drm} lit={rolled} pick={null} onPick={() => {}} att={attWho} dfn={defWho} compact />}
-              <div className="cbx-verdict">
+              <div className="cbx-verdict" title={explainResult(key, attWho, defWho)}>
                 <div className="cbx-stamp">{resultTitle(rep.result)}</div>
                 <code>{rep.result}</code>
               </div>
-              <p className="cbx-say">
-                {hidden.map((h) => `${h} `)}
-                {goneNote ? `${goneNote} `
-                  : noDie ? 'Overrun! ' : `${attRoller} rolled a ${rolled}${drm ? `, ${signed(drm)} for the battleships, making ${rolledRow}` : ''}. `}
-                {gone ? `${cap(attWho)} may advance up to ${adv} hexes.` : explainResult(key, attWho, defWho)}
-                {!gone && !pending && !pdSnap && defenders.every((d) => game.units[d]?.where.kind !== 'map') ? ' The losses destroy the defenders: the hex is cleared.' : ''}
-                {adv && !gone && !pending && !pdSnap ? ` If the hex is cleared, ${attWho} may advance up to ${adv} hex${adv > 1 ? 'es' : ''}.` : ''}
-              </p>
-              {pd && (
-                <p className="cbx-say accent">
-                  {defHuman
-                    ? `${mineDef ? 'You' : cap(sideNoun(defSide))} must choose now: retreat ${pd.retreat} hexes, or stand and make a Determined Defense.`
-                    : `${cap(sideNoun(defSide))} must now choose: retreat ${pd.retreat} hexes, or stand and fight.`}
-                  {pd.yellow ? ' This is a yellow result, so a stand rolls at −1.' : ''}
-                </p>
-              )}
+              <div className="cbx-facts">
+                {!noDie && <span><Ico name="dice" size={14} />{rolled}{drm ? ` ${signed(drm)} → ${rolledRow}` : ''}</span>}
+                {(gone || (adv && !pending && !pdSnap)) ? <span><Ico name="advance" size={14} />{gone ? adv : `${adv} if cleared`}</span> : null}
+                {!gone && !pending && !pdSnap && defenders.every((d) => game.units[d]?.where.kind !== 'map') ? <span className="bad"><Ico name="shattered" size={14} />Cleared</span> : null}
+                {pd && <span className="ask"><Ico name="retreat" size={14} />{pd.retreat} or <Ico name="shield" size={14} />stand{pd.yellow ? ' (−1)' : ''}</span>}
+              </div>
+              {(hidden.length > 0 || goneNote) && <p className="cbx-say small">{hidden.join(' ')} {goneNote}</p>}
               {final && <Aftermath game={game} rep={rep} defenders={defenders} before={before} humanSides={humanSides} />}
             </div>
           )}
 
           {step === 'deciding' && (
             <div className="cbx-deciding">
-              <div className="cbx-stamp">{cap(sideNoun(defSide))} are deciding<span className="dots"><i>.</i><i>.</i><i>.</i></span></div>
-              <p className="cbx-say">Retreat {pd?.retreat ?? 2} hexes, or hold and roll a Determined Defense?</p>
+              <div className="cbx-stamp">{cap(sideNoun(defSide))} deciding<span className="dots"><i>.</i><i>.</i><i>.</i></span></div>
             </div>
           )}
 
@@ -479,13 +467,10 @@ export function BattleScreen(p: Props) {
                 <div className="cbx-stamp">{rep.dd ? `${cap(sideNoun(defSide))} make a stand!` : `${cap(sideNoun(defSide))} fall back`}</div>
               </div>
               {rep.dd ? (
-                <p className="cbx-say">
-                  They choose a {pd?.desperate ? 'Desperate' : 'Determined'} Defense and roll a die to hold {placeLong(target)}
-                  {supportUsed(rep) ? `, backed by ${supportUsed(rep)}` : ''}.
-                </p>
+                <div className="cbx-facts"><span><Ico name="shield" size={14} />{pd?.desperate ? 'Desperate' : 'Determined'} Defense</span>{supportUsed(rep) && <span><Ico name="artillery" size={14} />{supportUsed(rep)}</span>}</div>
               ) : (
                 <>
-                  <p className="cbx-say">They retreat {pd?.retreat ?? 2} hexes and become disrupted. {adv ? `${cap(attWho)} may advance into the hex.` : ''}</p>
+                  <div className="cbx-facts"><span><Ico name="retreat" size={14} />{pd?.retreat ?? 2} hexes</span><span><Ico name="disrupted" size={14} />Disrupted</span>{adv ? <span><Ico name="advance" size={14} />Enemy may advance</span> : null}</div>
                   <Aftermath game={game} rep={rep} defenders={defenders} before={before} humanSides={humanSides} />
                 </>
               )}
@@ -494,9 +479,8 @@ export function BattleScreen(p: Props) {
 
           {step === 'decide' && rep && (
             <div className={`cbx-verdict small tone-${resultTone(key)}`}>
-              <div className="cbx-stamp">{resultTitle(rep.result)}</div>
+              <div className="cbx-stamp" title={explainResult(key, attWho, defWho)}>{resultTitle(rep.result)}</div>
               <code>{rep.result}</code>
-              <p className="cbx-say small">{attRoller} rolled {noDie ? 'no die' : `a ${rolled}`}: {lower(explainResult(key, attWho, defWho))}</p>
             </div>
           )}
           {step === 'decide' && pd && forecast && (
@@ -507,11 +491,8 @@ export function BattleScreen(p: Props) {
 
           {step === 'ddReady' && forecast && pd && (
             <div className="cbx-ddready">
-              <p className="cbx-say">
-                {pd.desperate ? 'Desperate Defense' : 'Determined Defense'} on the <b>{forecast.column}</b> column
-                {forecast.drm ? `, ${signed(forecast.drm)} to the roll` : ''}. Roll the die: here is what each number does.
-              </p>
-              <DdBar faces={forecast.faces} lit={null} legend />
+              <div className="cbx-facts"><span><Ico name="shield" size={14} />{pd.desperate ? 'Desperate' : 'Determined'}</span><span><Ico name="mountain" size={14} />{forecast.column}</span>{forecast.drm ? <span><Ico name="dice" size={14} />{signed(forecast.drm)}</span> : null}</div>
+              <DdBar faces={forecast.faces} lit={null} />
               <Mods mods={forecast.mods} drm={forecast.drm} lead={forecast.lead} />
             </div>
           )}
@@ -519,7 +500,7 @@ export function BattleScreen(p: Props) {
           {(step === 'ddRolling' || step === 'ddResult') && rep && (
             <div className="cbx-result">
               {(forecast || doneFaces) && <DdBar faces={(step === 'ddResult' ? doneFaces : null) ?? forecast?.faces ?? doneFaces!} lit={step === 'ddResult' ? rep.dd?.roll ?? null : null} mine={mineDef} legend={step === 'ddRolling' && !mineDef} />}
-              {step === 'ddRolling' && <p className="cbx-say">{defRoller} roll{defRoller === 'You' ? '' : 's'} for the Determined Defense…</p>}
+
               {step === 'ddResult' && lastDd && (
                 <>
                   <div className={`cbx-verdict dd-${wiped ? 'fail' : KIND_TONE[lastOutcome?.kind ?? 'fail']}`}>
@@ -533,11 +514,9 @@ export function BattleScreen(p: Props) {
                       ))}
                     </ol>
                   )}
-                  <p className="cbx-say">
-                    {defRoller} rolled a {lastDd.roll}{lastDd.drm ? `, ${signed(lastDd.drm)} for modifiers, making ${Math.max(1, Math.min(7, lastDd.roll + lastDd.drm))}` : ''}:{' '}
-                    {heldToDeath ? 'the hex is held, but the losses take the last of the defenders.'
-                      : wiped ? 'the stand fails and the last of the defenders is destroyed.' : lower(lastOutcome?.detail ?? '')}
-                  </p>
+                  <div className="cbx-facts" title={heldToDeath ? 'The hex is held, but the losses take the last of the defenders.' : wiped ? 'The stand fails and the last of the defenders is destroyed.' : lastOutcome?.detail ?? ''}>
+                    <span><Ico name="dice" size={14} />{lastDd.roll}{lastDd.drm ? ` ${signed(lastDd.drm)} → ${Math.max(1, Math.min(7, lastDd.roll + lastDd.drm))}` : ''}</span>
+                  </div>
                   <Aftermath game={game} rep={rep} defenders={defenders} before={before} humanSides={humanSides} />
                 </>
               )}
@@ -547,7 +526,7 @@ export function BattleScreen(p: Props) {
           {step === 'retreated' && rep && (
             <div className="cbx-result">
               <div className="cbx-verdict"><div className="cbx-stamp">You fall back</div></div>
-              <p className="cbx-say">Your units retreat {pd?.retreat ?? 2} hexes and become disrupted. No further steps are lost.</p>
+              <div className="cbx-facts"><span><Ico name="retreat" size={14} />{pd?.retreat ?? 2} hexes</span><span><Ico name="disrupted" size={14} />Disrupted</span></div>
               <Aftermath game={game} rep={rep} defenders={defenders} before={before} humanSides={humanSides} />
             </div>
           )}
@@ -610,16 +589,18 @@ function OddsLine({ attack, defense, note, baseCol, finalCol, shifts, drm, noDie
   attack: number; defense: number; note?: string; baseCol: string; finalCol: string; shifts: { reason: string; shift: number }[]; drm: number; noDie: boolean;
 }) {
   return (
-    <HStack gap={1.5} wrap="wrap" className="cbx-oddsline">
-      <Badge variant="neutral" label={`${attack} against ${defense}${note ? ` (${note})` : ''} = ${baseCol}`} />
+    <div className="cbx-oddsline">
+      <span className="chip" title={`${attack} against ${defense}${note ? ` (${note})` : ''}`}>
+        <Ico name="swords" size={14} />{attack}<Ico name="shield" size={14} />{defense}{note ? '?' : ''}<em>{baseCol}</em>
+      </span>
       {shifts.map((s, i) => (
-        <span key={i} title={s.shift > 0 ? 'Shifts the odds one column in the attacker\'s favour' : 'Shifts the odds one column in the defender\'s favour'}>
-          <Badge variant={s.shift > 0 ? 'success' : 'error'} label={`${s.reason} ${s.shift > 0 ? '▶' : '◀'}`} />
+        <span key={i} className={`chip ${s.shift > 0 ? 'up' : 'down'}`} title={s.shift > 0 ? 'One column in the attacker\'s favour' : 'One column in the defender\'s favour'}>
+          {s.reason}<Ico name={s.shift > 0 ? 'chevronRight' : 'chevronLeft'} size={13} />
         </span>
       ))}
-      {!noDie && shifts.length > 0 && <Badge variant="neutral" label={`→ ${finalCol}`} />}
-      {drm !== 0 && <span title="Added to the die roll"><Badge variant="success" label={`Battleships: die ${signed(drm)}`} /></span>}
-    </HStack>
+      {!noDie && shifts.length > 0 && <span className="chip final"><Ico name="advance" size={13} />{finalCol}</span>}
+      {drm !== 0 && <span className="chip up" title="Added to the die roll"><Ico name="battleship" size={14} />{signed(drm)}</span>}
+    </div>
   );
 }
 
@@ -629,18 +610,17 @@ function Outcomes({ faces, drm, lit, pick, onPick, att, dfn, compact }: {
   const sel = faces.find((f) => f.face === (lit ?? pick));
   return (
     <div className={`cbx-outcomes${compact ? ' compact' : ''}`}>
-      {!compact && <div className="cbx-sub">What each roll would do{drm ? ` (die ${signed(drm)})` : ''} — {lit ? '' : 'tap one to read it'}</div>}
+      {!compact && drm ? <div className="cbx-sub"><Ico name="dice" size={12} /> {signed(drm)}</div> : null}
       <div className="cbx-faces" role="list">
         {faces.map((f) => (
           <button key={f.face} role="listitem" className={`cbx-face tone-${resultTone(f.key)}${lit === f.face ? ' lit' : ''}${lit && lit !== f.face ? ' dim' : ''}${pick === f.face ? ' pick' : ''}`}
             onClick={() => onPick(pick === f.face ? null : f.face)} title={`${RESULT_TITLE[f.key] ?? f.key}: ${explainResult(f.key, att, dfn)}`} tabIndex={compact ? -1 : 0}>
             <Pips n={f.face} size={compact ? 16 : 20} />
             <b>{f.key}</b>
-            {!compact && <span className="cbx-face-name">{RESULT_TITLE[f.key] ?? ''}</span>}
             <span className="cbx-face-flags">
-              {f.adv > 0 && <i title={`The attacker may advance up to ${f.adv} hexes`}>adv {f.adv}</i>}
-              {f.color === 'y' && <i className="y" title="A Determined Defense against this result rolls at −1">stand −1</i>}
-              {f.color === 'r' && <i className="r" title="No Determined Defense against this result">no stand</i>}
+              {f.adv > 0 && <i title={`The attacker may advance up to ${f.adv} hexes`}><Ico name="advance" size={11} />{f.adv}</i>}
+              {f.color === 'y' && <i className="y" title="A Determined Defense against this result rolls at −1"><Ico name="shield" size={11} />−1</i>}
+              {f.color === 'r' && <i className="r" title="No Determined Defense against this result"><Ico name="shattered" size={11} /></i>}
             </span>
           </button>
         ))}
@@ -669,7 +649,8 @@ export function DdBar({ faces, lit, legend, mine = true }: { faces: DdFace[]; li
         {faces.map((f) => (
           <div key={f.face} role="listitem" className={`dd-seg ${KIND_TONE[f.kind]}${lit === f.face ? ' lit' : ''}${lit && lit !== f.face ? ' dim' : ''}`} title={`${f.face}: ${f.title}. ${f.detail}`}>
             {f.face <= 6 && faces.length <= 6 ? <Pips n={f.face} size={16} /> : <span className="dd-total">{f.face}</span>}
-            <b>{DD_KIND_LABEL[f.kind]}</b>
+            <Ico name={DD_ICON[f.kind]} size={16} />
+            <b className="sr-only">{DD_KIND_LABEL[f.kind]}</b>
             {f.choice && <i>{mine ? 'your' : 'their'} pick</i>}
           </div>
         ))}
@@ -693,6 +674,7 @@ export function DdBar({ faces, lit, legend, mine = true }: { faces: DdFace[]; li
 }
 
 const lower = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
+const DD_ICON: Record<string, string> = { hold: 'shield', holdLoss: 'shield', partial: 'shield', delay: 'retreat', fail: 'shattered' };
 
 /** Runs of die faces with the same outcome ("1–2 Stand fails …"). */
 function groups(faces: DdFace[]) {
@@ -733,36 +715,27 @@ function Decision(p: {
         window.setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
       }
     }}>
-      <p className="cbx-say accent">Your units in {placeLong(pd.hex)} are being forced back. Retreat, or stand and fight?</p>
       <div className="dfx-cards">
         <Card padding={3} className={`dfx-card retreat${trapped.length ? ' warn' : ''}`}>
-          <div className="dfx-card-head"><span className="dfx-icon" aria-hidden>⇦</span><Heading level={3}>Retreat {pd.retreat} hexes</Heading></div>
-          <ul>
-            <li>Your units fall back {pd.retreat} hexes and become disrupted.</li>
-            <li>No step losses beyond the combat result.</li>
-            <li>The enemy may advance into the hex.</li>
-          </ul>
+          <div className="dfx-card-head"><Ico name="retreat" size={22} /><Heading level={3}>Retreat {pd.retreat}</Heading></div>
+          <div className="cbx-facts"><span><Ico name="disrupted" size={14} />Disrupted</span><span><Ico name="check" size={14} />No more losses</span><span><Ico name="advance" size={14} />Enemy may advance</span></div>
           {pd.desperate && (
             <p className="dfx-warn">
               {trapped.length
-                ? `${trapped.map((id) => def(id).name).join(', ')} cannot retreat and would be destroyed.`
-                : 'Retreating would leave your units cut off from supply.'}
-              {' '}A stand here is a Desperate Defense.
+                ? `${trapped.map((id) => def(id).name).join(', ')}: no way out, destroyed`
+                : 'Retreat cuts you off from supply'}
             </p>
           )}
-          <Button label={p.confirmRetreat ? `Retreat anyway (lose ${trapped.length} unit${trapped.length > 1 ? 's' : ''})` : `Retreat ${pd.retreat} hexes`}
+          <Button label={p.confirmRetreat ? `Retreat anyway (lose ${trapped.length})` : `Retreat ${pd.retreat} hexes`}
             variant={p.confirmRetreat ? 'destructive' : 'secondary'} size="lg" width="100%" className="dfx-go" onClick={p.onRetreat} />
         </Card>
         <Card padding={3} className="dfx-card stand">
-          <div className="dfx-card-head"><span className="dfx-icon" aria-hidden>⛨</span><Heading level={3}>{pd.desperate ? 'Desperate Defense' : 'Determined Defense'}</Heading></div>
-          <p className="dfx-note">
-            Stand in the hex and roll a die on the <b>{f.column}</b> column.
-            {pd.desperate ? ' Each failure costs the lead unit a step and you roll again.' : ''}
-          </p>
-          <DdBar faces={f.faces} lit={null} legend />
+          <div className="dfx-card-head"><Ico name="shield" size={22} /><Heading level={3}>{pd.desperate ? 'Desperate stand' : 'Make a stand'}</Heading></div>
+          <div className="cbx-facts"><span title="Determined Defense table column"><Ico name="mountain" size={14} />{f.column}</span>{pd.desperate && <span className="bad" title="Each failure costs the lead unit a step and you roll again"><Ico name="dice" size={14} />Roll until it holds</span>}</div>
+          <DdBar faces={f.faces} lit={null} />
           {(pd.supportOptions.length > 0 || p.canShips) && (
             <div className="dfx-row">
-              <span className="dfx-label">Support (+1, one only)</span>
+              <span className="dfx-label">Support +1</span>
               <div className="dfx-chips">
                 {pd.supportOptions.map((s) => (
                   <ToggleButton key={s} label={supportLabel(s)} isPressed={p.support === s} onPressedChange={() => p.setSupport(p.support === s ? null : s)} />
@@ -773,23 +746,23 @@ function Decision(p: {
           )}
           {anyChoice && (
             <div className="dfx-row">
-              <span className="dfx-label">If the roll offers a choice</span>
+              <span className="dfx-label">On a choice</span>
               <SegmentedControl label="If the roll offers a choice" value={p.prefer} onChange={(v) => p.setPrefer(v as 'hold' | 'delay')}>
                 <SegmentedControlItem value="hold" label="Hold" />
                 <SegmentedControlItem value="delay" label="Delay" />
               </SegmentedControl>
-              <span className="dfx-hint">{p.prefer === 'hold' ? 'Keep the hex and lose a step.' : 'Fall back a little, disrupted, with no step lost.'}</span>
+              <span className="dfx-hint">{p.prefer === 'hold' ? 'Keep the hex, lose a step' : 'Fall back, no step lost'}</span>
             </div>
           )}
           {(anyDelay || anyChoice) && (
             <div className="dfx-row">
-              <span className="dfx-label">On a Delay, fall back</span>
+              <span className="dfx-label">Delay distance</span>
               <NumberInput label="Hexes to fall back on a Delay" isLabelHidden value={p.delay} min={1} max={3} step={1} width={120}
                 onChange={(v) => p.setDelay(Math.max(1, Math.min(3, Math.round(v))))} />
             </div>
           )}
           <Mods mods={f.mods} drm={f.drm} lead={f.lead} />
-          <Button label="Make a stand ▶" variant="primary" size="lg" width="100%" className="dfx-go" onClick={p.onStand} />
+          <Button label="Make a stand" variant="primary" size="lg" width="100%" className="dfx-go" onClick={p.onStand} />
         </Card>
       </div>
     </div>
@@ -825,7 +798,7 @@ function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameSta
   const youAdvance = game.pendingAdvance?.combatId === rep.id && humanSides.includes(rep.attackerSide);
   return (
     <div className="cbx-after">
-      <div className="cbx-sub">What it cost</div>
+      <div className="cbx-sub">Losses</div>
       <ul className="cbx-fates">
         {rows.map(({ id, att }) => {
           const u = game.units[id] ?? before[id];
@@ -839,10 +812,10 @@ function Aftermath({ game, rep, defenders, before, humanSides }: { game: GameSta
           );
         })}
       </ul>
-      {youRetreat ? <p className="cbx-say small">After you continue, pick where your units retreat to on the map (or keep the suggested hex).</p> : null}
-      {youAdvance ? <p className="cbx-say small">After you continue, you may advance into {placeLong(rep.defenderHex)}: pick the units and a violet hex.</p> : null}
+      {youRetreat ? <p className="cbx-say small"><Ico name="retreat" size={14} /> Next: pick the retreat hex</p> : null}
+      {youAdvance ? <p className="cbx-say small"><Ico name="advance" size={14} /> Next: advance into {placeName(rep.defenderHex)}</p> : null}
       {rep.notes.length > 0 && (
-        <Collapsible className="cbx-notes" trigger={<Text type="label" color="secondary">Combat record</Text>}>
+        <Collapsible className="cbx-notes" trigger={<Text type="label" color="secondary">Record</Text>}>
           <ul>{rep.notes.map((n, i) => <li key={i}>{n}</li>)}</ul>
         </Collapsible>
       )}

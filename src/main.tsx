@@ -4,21 +4,23 @@ import { applyMapOverrides } from './ui/mapEditor';
 import App from './ui/App';
 import { Theme } from '@astryxdesign/core/theme';
 import { ToastViewport } from '@astryxdesign/core/Toast';
-import { wartimeTheme } from './ui/astryx/wartimeTheme';
-import '@fontsource/black-ops-one/400.css';
+import { italiaTheme } from './ui/astryx/italiaTheme';
+import '@fontsource/cinzel/latin-400.css';
+import '@fontsource/cinzel/latin-600.css';
+import '@fontsource/cinzel/latin-700.css';
 import '@fontsource/barlow-condensed/500.css';
 import '@fontsource/barlow-condensed/600.css';
 import '@fontsource/barlow-condensed/700.css';
 import '@fontsource/barlow/400.css';
 import '@fontsource/barlow/500.css';
 import '@fontsource/barlow/600.css';
-import '@fontsource/special-elite/400.css';
 import '@fontsource/im-fell-english/latin-400.css';
 import '@fontsource/im-fell-english/latin-400-italic.css';
 import './ui/astryx/astryx.css';
 import './ui/theme.css';
 import './ui/log.css';
 import './ui/qol.css';
+import './ui/italia.css';
 
 applyMapOverrides();
 
@@ -35,7 +37,7 @@ if (import.meta.env.DEV && location.hash === '#gallery') {
 } else {
   root.render(
     <StrictMode>
-      <Theme theme={wartimeTheme} mode="dark">
+      <Theme theme={italiaTheme} mode="dark">
         <App />
         <ToastViewport position="topEnd" inset={{ top: 70 }} />
       </Theme>

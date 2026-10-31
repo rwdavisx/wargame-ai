@@ -91,7 +91,7 @@
 .full-log { display: flex; flex-direction: column; }
 .log-filters { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
 .log-filters button {
-  padding: 5px 10px; font: 600 12.5px var(--hud); letter-spacing: 0.6px; border-radius: 14px; background: #20251f; border-color: #3d4035; color: #d9d3bf;
+  padding: 5px 10px; font: 600 12.5px var(--hud); letter-spacing: 0.6px; border-radius: 14px; background: #272018; border-color: #3d4035; color: #d9d3bf;
 }
 .log-filters button.on { background: linear-gradient(#e4c46c, #b18a35); color: #1d1608; border-color: #f2d78f; }
 .log-hint { margin: 0 0 4px !important; font-size: 12px; color: var(--muted); }
@@ -130,13 +130,13 @@
 .event-feed { pointer-events: none; gap: 7px; }
 .event-card {
   position: relative; overflow: hidden; pointer-events: auto; padding: 7px 11px 8px 10px; border-radius: 0 6px 6px 0;
-  background: rgba(16, 19, 17, 0.94); border: 1px solid var(--line-soft); border-left: 4px solid var(--gold);
+  background: rgba(20, 16, 12, 0.94); border: 1px solid var(--line-soft); border-left: 4px solid var(--gold);
   color: var(--text); font: 13px/1.38 var(--body); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5); animation: slidein 0.35s ease-out;
 }
 .event-card.s-allied { border-left-color: var(--allied); }
 .event-card.s-german { border-left-color: var(--german); }
 .event-card.jump { cursor: pointer; }
-.event-card.jump:hover, .event-card.jump:focus-visible { border-color: var(--line); background: rgba(24, 28, 25, 0.97); outline: none; }
+.event-card.jump:hover, .event-card.jump:focus-visible { border-color: var(--line); background: rgba(30, 24, 18, 0.97); outline: none; }
 .event-card.s-allied.jump:hover { border-left-color: var(--allied); }
 .event-card.s-german.jump:hover { border-left-color: var(--german); }
 .ec-head { display: flex; align-items: center; gap: 7px; margin-bottom: 2px; min-width: 0; }
@@ -144,7 +144,7 @@
 .ec-hex { font: 600 11.5px var(--hud); color: var(--muted); font-variant-numeric: tabular-nums; }
 .ec-side {
   margin-left: auto; flex: none; font: 700 10.5px var(--hud); letter-spacing: 1.4px; text-transform: uppercase; padding: 1px 6px; border-radius: 3px;
-  color: #141712; background: var(--muted);
+  color: #18130f; background: var(--muted);
 }
 .event-card.s-allied .ec-side { background: var(--allied); }
 .event-card.s-german .ec-side { background: var(--german); }

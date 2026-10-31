@@ -1,7 +1,6 @@
 // The battle map: painted terrain, crisp line work, movement and attack
 // overlays, unit tokens with move/combat animations, a minimap and camera.
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Button } from '@astryxdesign/core';
 import { MAP } from '../engine/data';
 import { neighbors, type HexId } from '../engine/hex';
 import type { GameState, Side, UnitState } from '../engine/types';
@@ -17,6 +16,7 @@ import { CueDefs, CueOverlay, FormationRings, MapBar, ModeTools, ModeUnderlay } 
 import type { QolMapProps } from './qol';
 import { sfx } from './sound';
 import { AmbientLayer } from './AmbientLayer';
+import { Medal } from './chrome';
 import { WIND } from './render/ambient';
 import { reducedMotion } from './combat/Die';
 import { currentWeather } from '../engine/game';
@@ -1246,10 +1246,10 @@ export function MapView(props: MapViewProps) {
       <Minimap terrain={terrain} state={state} view={vb} onJump={(x, y) => centerOn(x, y, 350)} />
       {qol && barOpen && <MapBar qol={qol} onClose={() => setBarOpen(false)} minimapH={(200 * b.h) / b.w} />}
       <div className="maptools">
-        <Button label="Zoom in (+)" tooltip="Zoom in (+)" isIconOnly icon={<span aria-hidden>＋</span>} onClick={() => zoomBy(1 / 1.3)} />
-        <Button label="Zoom out (−)" tooltip="Zoom out (−)" isIconOnly icon={<span aria-hidden>－</span>} onClick={() => zoomBy(1.3)} />
-        <Button label="Whole map" tooltip="Whole map" isIconOnly icon={<span aria-hidden>⤢</span>} onClick={() => flyTo({ x: b.x, y: b.y, w: b.w, h: (b.w * vb.h) / vb.w })} />
-        <Button label="Back to the beaches" tooltip="Back to the beaches" isIconOnly icon={<span aria-hidden>⌖</span>} onClick={() => { const [x, y] = center(homeHex(state)); centerOn(x + 120, y, 500); }} />
+        <Medal icon="zoomIn" label="Zoom in" keyHint="+" pos="right" onClick={() => zoomBy(1 / 1.3)} />
+        <Medal icon="zoomOut" label="Zoom out" keyHint="−" pos="right" onClick={() => zoomBy(1.3)} />
+        <Medal icon="fit" label="Whole map" pos="right" onClick={() => flyTo({ x: b.x, y: b.y, w: b.w, h: (b.w * vb.h) / vb.w })} />
+        <Medal icon="target" label="Back to the front" pos="right" onClick={() => { const [x, y] = center(homeHex(state)); centerOn(x + 120, y, 500); }} />
         {qol && <ModeTools qol={qol} barOpen={barOpen} setBarOpen={setBarOpen} />}
       </div>
       {props.hoverText && hoverScreen && !dragging && (
@@ -1278,7 +1278,7 @@ function Minimap({ terrain, state, view, onJump }: { terrain: TerrainImage; stat
     onJump(b.x + (e.clientX - r.left) / k, b.y + (e.clientY - r.top) / k);
   };
   return (
-    <div className="minimap" style={{ width: W, height: H }} onPointerDown={(e) => { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); jump(e); }}
+    <div className="minimap gilt" style={{ width: W, height: H }} onPointerDown={(e) => { (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); jump(e); }}
       onPointerMove={(e) => e.buttons && jump(e)}>
       <CanvasImage src={terrain.small} style={{ width: W, height: H }} />
       <svg width={W} height={H} viewBox={`${b.x} ${b.y} ${b.w} ${b.h}`}>

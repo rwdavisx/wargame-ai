@@ -20,6 +20,8 @@ export interface WeatherBox {
   germanSupply: number;
   clear?: boolean;
   rain?: boolean;
+  /** Italy '43's Rain and Mud box. */
+  mud?: boolean;
   /** Columns the odds shift left on every attack (Italy '43: Rain and Mud). Salerno '43 shifts one in any rain. */
   crtShiftLeft?: number;
 }

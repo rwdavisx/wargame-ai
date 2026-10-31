@@ -13,6 +13,7 @@ import { createHeuristicAi, type AiPlayer } from '../ai/heuristic';
 import { createClaudeAi } from '../ai/claude';
 import { MapView, type BattleMark, type Highlight } from './MapView';
 import { ActionBar, type AttackKind } from './ActionBar';
+import { Ico } from './icons';
 import { Sidebar } from './Sidebar';
 import { BattleScreen, NO_INSET, type BattleInset, type PlannedAttack } from './combat/BattleScreen';
 import { LandingPanel } from './combat/LandingPanel';
@@ -27,7 +28,7 @@ import { endChecklist, moveLeft, stackText, unitFlags, useQol, type CheckItem } 
 import { Recap } from './Recap';
 import { yourMoveAlert } from './alerts';
 import type { NetLink } from '../net/session';
-import { Button, StatusDot, useToast } from '@astryxdesign/core';
+import { StatusDot, useToast } from '@astryxdesign/core';
 import { movementAllowance } from '../engine/movement';
 import { turnDate } from '../engine/words';
 
@@ -792,7 +793,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     : drops.length ? 'Airborne units are still waiting to drop.' : '';
   const ordersLeft = !game.pendingAdvance && !game.breakthrough ? waitingOrders.length : 0;
   const endLabel = game.breakthrough ? 'Stop the group' : game.pendingAdvance ? (noneAdvanced ? 'Stay put' : 'Finish advance')
-    : ordersLeft ? `${ordersLeft} awaiting orders` : `End ${game.phase === 'invasion' ? 'invasion' : game.phase}`;
+    : ordersLeft ? `${ordersLeft} waiting` : `End ${game.phase === 'invasion' ? 'invasion' : game.phase === 'movement' ? 'move' : game.phase}`;
   const endPhase = () => {
     if (ordersLeft) {
       // The phase ends only once every unit that can act has acted or been told to hold or sleep.
@@ -830,10 +831,6 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   };
   // The selected own unit: movement modes and a one-line status.
   const mineSel = selUnit && sideOf(selUnit) === side && humanTurn ? selUnit : null;
-  // How the player selects (selVerb) and how they move or attack (verb) with this pointer.
-  const selVerb = touch ? 'Tap' : 'Click';
-  const verb = touch ? 'Tap' : rightClick ? 'Right-click' : 'Click';
-  const verbL = verb.toLowerCase();
   let unitNote = '';
   let modes: MoveMode[] = [];
   if (mineSel) {
@@ -842,15 +839,15 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       if (game.phase === 'movement' || game.phase === 'invasion') {
         modes = why ? [] : game.phase === 'invasion' ? ['tactical'] : allowedModes(game, mineSel);
         const r = confirmHex && reach?.get(confirmHex);
-        unitNote = why ? `Cannot move: ${why}.`
-          : `${mineSel.mpSpent === null ? 'Ready to move' : moveLeft(game, mineSel) ? `${moveLeft(game, mineSel)} left` : `${+mineSel.mpSpent.toFixed(1)} MP used`} · ${verbL} a blue or amber hex${r ? '' : ''}`;
+        unitNote = why ? `Can't move: ${why}`
+          : `${mineSel.mpSpent === null ? 'Ready' : moveLeft(game, mineSel) ? `${moveLeft(game, mineSel)} left` : `${+mineSel.mpSpent.toFixed(1)} MP used`}${r ? '' : ''}`;
       } else if (game.phase === 'combat') {
-        unitNote = targets.length ? `${verb} a red hex to attack it.` : 'No enemy within reach.';
+        unitNote = targets.length ? 'Pick a red hex' : 'No enemy in reach';
       } else unitNote = `${def(mineSel.id).formation} · ${def(mineSel.id).cat}`;
     } else if (mineSel.where.kind === 'reserve' || mineSel.where.kind === 'followUp' || mineSel.where.kind === 'atSea') {
-      unitNote = `Waiting to land (${lpCost(mineSel.id)} LP, ${game.landingPoints} left): ${verbL} a blue beach or port.`;
+      unitNote = `Lands for ${lpCost(mineSel.id)} LP · ${game.landingPoints} left`;
     } else if (mineSel.where.kind === 'entry') {
-      unitNote = mineSel.where.area.startsWith('airdrop') ? `Airborne: ${verbL} a blue hex to drop.` : `In entry area ${mineSel.where.area}: ${verbL} a blue hex to enter.`;
+      unitNote = mineSel.where.area.startsWith('airdrop') ? 'Pick a drop hex' : `Entry ${mineSel.where.area} · pick a hex`;
       if (!mineSel.where.area.startsWith('airdrop') && game.phase === 'movement') modes = entryModes(game, mineSel);
     }
   }
@@ -919,29 +916,29 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     }
     : null;
 
-  const phasePrompt = (): { title: string; sub: string } => {
+  const phasePrompt = (): { title: string; sub: string; icon: string } => {
     if (game.retreatQueue?.length) {
       const rq = game.retreatQueue[0];
-      return { title: 'Choose where your units retreat', sub: `${verb} a highlighted hex, or keep ${rq.options[rq.current].end}.` };
+      return { title: 'Retreat', sub: `Pick a hex, or keep ${rq.options[rq.current].end}`, icon: 'retreat' };
     }
-    if (game.pendingDefense) return { title: 'Your units are under attack', sub: 'Fall back or make a stand: choose on the battle screen.' };
+    if (game.pendingDefense) return { title: 'Under attack', sub: 'Choose on the battle panel', icon: 'shield' };
     if (game.breakthrough) {
       const b = game.breakthrough;
-      return { title: `Breakthrough Group · ${b.left} hex${b.left === 1 ? '' : 'es'} left`, sub: `${verb} a violet hex to move or a red hex to attack.` };
+      return { title: `Breakthrough · ${b.left} hex${b.left === 1 ? '' : 'es'}`, sub: 'Violet: move · red: attack', icon: 'breakthrough' };
     }
     switch (game.phase) {
-      case 'invasion': if (landingsLeft(game).length) return { title: 'Invasion: the assault waves are offshore', sub: 'Roll the Invasion table for each beach on the landing panel.' };
-        return { title: 'Invasion: the troops are ashore', sub: `Units with advance left may move (Next unit).${targets.length ? ` ${verb} the red hex at Salerno to send in the Commandos.` : ''}` };
-      case 'initial': return { title: `${side} initial phase`, sub: drops.length ? `Airborne drops waiting: use Next drop.` : 'Replacements and artillery are under Details.' };
-      case 'movement': return { title: `${side} movement`, sub: readyUnits.length ? `${readyUnits.length} unit${readyUnits.length === 1 ? '' : 's'} ready. ${selVerb} a unit, or use Next unit.` : 'All units have moved.' };
-      case 'combat': return { title: `${side} combat`, sub: targets.length ? `${targets.length} enem${targets.length === 1 ? 'y' : 'ies'} in reach. ${verb} a red hex to plan an attack.` : 'No enemy within reach.' };
-      default: return { title: `${side} ${game.phase}`, sub: '' };
+      case 'invasion': if (landingsLeft(game).length) return { title: 'Invasion', sub: 'Roll for each beach', icon: 'landing' };
+        return { title: 'Ashore', sub: targets.length ? 'Commandos may attack Salerno' : 'Units may push inland', icon: 'landing' };
+      case 'initial': return { title: 'Initial phase', sub: drops.length ? 'Airborne drops waiting' : 'Replacements · artillery', icon: 'replacement' };
+      case 'movement': return { title: 'Movement', sub: readyUnits.length ? `${readyUnits.length} ready to move` : 'All units moved', icon: 'boot' };
+      case 'combat': return { title: 'Combat', sub: targets.length ? `${targets.length} target${targets.length === 1 ? '' : 's'} in reach` : 'No enemy in reach', icon: 'swords' };
+      default: return { title: `${game.phase[0].toUpperCase()}${game.phase.slice(1)}`, sub: '', icon: 'hourglass' };
     }
   };
-  const extra: { label: string; onClick: () => void; primary?: boolean }[] = [];
+  const extra: { label: string; onClick: () => void; primary?: boolean; icon?: string }[] = [];
   if (game.retreatQueue?.length && humanTurn) {
     const rq = game.retreatQueue[0];
-    extra.push({ label: `Keep ${rq.options[rq.current].end}`, primary: true, onClick: () => dispatch({ type: 'retreatChoice', index: rq.current }) });
+    extra.push({ label: `Keep ${rq.options[rq.current].end}`, primary: true, icon: 'check', onClick: () => dispatch({ type: 'retreatChoice', index: rq.current }) });
   }
   const toggleDetails = () => {
     if (panelOpen && tab === (humanTurn ? 'play' : 'log')) setPanelOpen(false);
@@ -1075,9 +1072,10 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           onCheck: (h) => { focusOn(h); qol.pulse(h); },
         } : null}
       />
-      <aside className={`command${panelOpen ? '' : ' closed'}`}>
-        <Button label={phone ? '▾ Close' : panelOpen ? '›' : '‹'} size="sm" className="command-toggle" tooltip={panelOpen ? 'Hide orders' : 'Show orders'}
-          onClick={() => setPanelOpen((o) => !o)} />
+      <aside className={`command gilt${panelOpen ? '' : ' closed'}`}>
+        <button className="command-toggle" aria-label={panelOpen ? 'Hide the panel' : 'Show the panel'} onClick={() => setPanelOpen((o) => !o)}>
+          {phone ? <><Ico name="chevronDown" size={16} /> Close</> : <Ico name={panelOpen ? 'chevronRight' : 'chevronLeft'} size={18} />}
+        </button>
         <Sidebar
           game={game}
           acting={acting}
