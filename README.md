@@ -176,8 +176,9 @@ src/ui/        React UI
   MapView.tsx      map camera, overlays, unit stacks, animations, minimap
   hud.tsx          top bar, banners, event feed, unit card, combat card, menus
   Sidebar.tsx      command panel tabs and the map editor
-  render/          the map as a watercolour and ink sheet (terrain.ts washes, ink.ts pen work, patches.ts fields,
-                   coast.ts traced coastlines; canvas, cached in IndexedDB), hex geometry, NATO-style unit counters
+  render/          the map as a watercolour and ink sheet (terrain.ts fields and washes, gpu.ts the washes as a WebGL2
+                   shader, ink.ts pen work, patches.ts fields, coast.ts traced coastlines; cached in IndexedDB),
+                   hex geometry, NATO-style unit counters
   sound.ts         synthesized sound effects (WebAudio)
   theme.css        the interface theme
   dev/Gallery.tsx  every counter on one page, dev builds only (open /#gallery)

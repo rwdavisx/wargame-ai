@@ -777,7 +777,7 @@ function drawFrame(ctx: Ctx, f: InkFields) {
 }
 
 /** Laid paper: fine grain and the odd fibre, worked over everything (pigment and ink sit in the paper's tooth). */
-export function paperTexture(ctx: Ctx, width: number, height: number) {
+export function paperTexture(ctx: Ctx, width: number, height: number, strength = 0.3) {
   const size = 256;
   const tile = document.createElement('canvas');
   tile.width = tile.height = size;
@@ -807,7 +807,7 @@ export function paperTexture(ctx: Ctx, width: number, height: number) {
   ctx.save();
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.globalCompositeOperation = 'overlay';
-  ctx.globalAlpha = 0.3;
+  ctx.globalAlpha = strength;
   ctx.fillStyle = ctx.createPattern(tile, 'repeat')!;
   ctx.fillRect(0, 0, width, height);
   ctx.restore();

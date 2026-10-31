@@ -2,7 +2,9 @@
 // printed map's colours for its terrain: a patchwork of tinted fields on the plain, ochre and olive hill country,
 // umber mountains with ridges and violet shadows, sage marsh, and a sea that deepens offshore. Each wash is a glaze
 // that multiplies the paper's colour, mottled wet-in-wet, granulating in the paper's tooth and pooling darker where
-// it dried at its edge; the painting runs a little past the map's edge and stops raggedly on bare paper. The pen
+// it dried at its edge; the painting runs a little past the map's edge and stops raggedly on bare paper. Where the
+// browser has WebGL2 the washes are painted by a fragment shader at full resolution (gpu.ts), which adds the paper's
+// tooth, brush strokes along the contours and crisp dried edges; otherwise this file paints them itself. The pen
 // work (ink.ts) is laid over it: the coast and its waterlines, hachures, woods, groves, marsh, villages, a compass
 // rose and the sheet's frame. Everything is derived from map.json, so edits made in the map editor show up after a
 // re-render. Every field is read through the organic warp (noise.ts), so edges wander across the hex lines as a
@@ -13,6 +15,7 @@ import { distance, hexCorners, hexId, neighbors, parseHex, sideKey } from '../..
 import type { HexData } from '../../engine/types';
 import { COAST_COLS, COAST_ROWS, COAST_STEP, decodeCoast, landSpot } from './coast';
 import { R as HEX_R, center, corners, edge, mapBounds, rng, type Bounds } from './geom';
+import { paintWashesGL } from './gpu';
 import { drawInk, paperTexture, type InkFields } from './ink';
 import { noiseTile, tileAt, warp } from './noise';
 import { patchAt, type FieldKind } from './patches';
@@ -146,6 +149,8 @@ const FIELD_TINTS: Record<FieldKind, Rgb[]> = {
 const HILL = pig([200, 186, 134]);
 /** The hills' greener stretches, where the wash was mixed with more sap green. */
 const HILL_GREEN = pig([178, 184, 132]);
+/** And its warmer stretches, a touch of sienna. */
+const HILL_WARM = pig([206, 174, 122]);
 const MOUNTAIN = pig([170, 142, 104]);
 const MOUNTAIN_CORE = pig([126, 100, 76]);
 const MARSH = pig([176, 196, 172]);
@@ -155,11 +160,11 @@ const SAND = pig([238, 224, 182]);
 const WOODS = pig([146, 168, 104]);
 const TOWN = pig([204, 186, 162]);
 /** A cool violet-grey for the shadowed slopes. */
-const SHADOW = pig([150, 142, 176]);
+const SHADOW = pig([150, 146, 170]);
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 10;
+const RENDER_VERSION = 11;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -515,7 +520,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       }
       // The hills rise gently from the plain (a wider ramp than their wash's edge), so their foot casts no hard line.
       const hillRise = smooth(0.12, 0.85, hraw);
-      height[i] = l * (0.05 + hillRise * (0.08 + 0.12 * roll) + clamp(mv) * (0.3 + 0.32 * n + 0.14 * crag * mtnW[i]) + ridges + (n2 - 0.5) * 0.03 - marshW[i] * 0.04);
+      height[i] = l * (0.05 + hillRise * (0.08 + 0.17 * roll) + clamp(mv) * (0.3 + 0.32 * n + 0.14 * crag * mtnW[i]) + ridges + (n2 - 0.5) * 0.03 - marshW[i] * 0.04);
       // Woods: on the hills and the lower mountain slopes, the odd copse on the plain.
       if (l > 0.5) {
         const wn = tileAt(NA, wx * 1.4 + 800, wy * 1.4) * 0.7 + tileAt(NB, wx * 1.3 + 100, wy * 1.3) * 0.3;
@@ -548,141 +553,173 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       }
     }
   }
-  await report(0.52, 'Laying the washes');
-
-  // ---------------------------------------------------------------- the watercolour
-  // Each wash is a glaze: it multiplies the paper's colour, so washes laid over one another deepen like real
-  // pigment. Its strength wanders (wet-in-wet blooms), its pigment granulates in the paper's tooth, and it pools
-  // darker where it dried at its edge.
-  const img = new ImageData(W, H);
-  const px = img.data;
-  const open = new Float32Array(N);
+  // Local relief: valleys below their surroundings, crests above.
+  const heightW = blur(heightS, W, H, 16);
+  const relief = new Float32Array(N);
+  for (let i = 0; i < N; i++) relief[i] = heightS[i] - heightW[i];
+  // Where the painting runs (a little past the map's edge, the sea further), how far out to sea, and field space.
   const paint = new Float32Array(N);
-  let R = 0;
-  let Gc = 0;
-  let B = 0;
-  const glaze = (p: Rgb, d: number) => {
-    if (d <= 0) return;
-    R *= 1 - d * (1 - p[0]);
-    Gc *= 1 - d * (1 - p[1]);
-    B *= 1 - d * (1 - p[2]);
-  };
-  // The pigment being mixed for the current pixel, kept in three numbers.
-  let P0 = 0;
-  let P1 = 0;
-  let P2 = 0;
-  const setP = (p: Rgb) => {
-    P0 = p[0];
-    P1 = p[1];
-    P2 = p[2];
-  };
-  const mixP = (p: Rgb, t: number) => {
-    P0 += (p[0] - P0) * t;
-    P1 += (p[1] - P1) * t;
-    P2 += (p[2] - P2) * t;
-  };
-  /** Mix toward a blend of two pigments: a + (c - a) * s, by t. */
-  const mixP2 = (a: Rgb, c: Rgb, s: number, t: number) => {
-    P0 += (a[0] + (c[0] - a[0]) * s - P0) * t;
-    P1 += (a[1] + (c[1] - a[1]) * s - P1) * t;
-    P2 += (a[2] + (c[2] - a[2]) * s - P2) * t;
-  };
-  const glazeP = (d: number) => {
-    if (d <= 0) return;
-    R *= 1 - d * (1 - P0);
-    Gc *= 1 - d * (1 - P1);
-    B *= 1 - d * (1 - P2);
-  };
+  const open = new Float32Array(N);
+  const fieldDx = new Float32Array(N);
+  const fieldDy = new Float32Array(N);
   for (let y = 0; y < H; y++) {
     for (let x = 0; x < W; x++) {
       const i = y * W + x;
       const wx = x + b.x;
       const wy = y + b.y;
-      // The paper, a shade warmer in its stains and toward the sheet's edges.
-      const stain = tileAt(NA, wx * 0.45 + 1500, wy * 0.45);
-      const border = Math.min(x, y, W - 1 - x, H - 1 - y);
-      const age = 1 - 0.035 * smooth(0.5, 0.8, stain) - 0.1 * (1 - smooth(0, 70, border));
-      R = PAPER[0] * age;
-      Gc = PAPER[1] * age;
-      B = PAPER[2] * (age - 0.015 * stain);
       const pv = fringe[i] + (tileAt(NA, wx * 1.5 + 2500, wy * 1.5) - 0.5) * 0.14 + (tileAt(NB, wx * 1.2, wy * 1.2 + 4000) - 0.5) * 0.06;
-      const pt = Math.max(smooth(0.06, 0.13, pv), (1 - landF[i]) * smooth(0.05, 0.12, seaFringe[i] + (pv - fringe[i]) * 0.8));
-      paint[i] = pt;
+      paint[i] = Math.max(smooth(0.06, 0.13, pv), (1 - landF[i]) * smooth(0.05, 0.12, seaFringe[i] + (pv - fringe[i]) * 0.8));
       open[i] = 1 - smooth(0.03, 0.2, landWide[i]);
-      if (pt > 0.001) {
-        // Land past the map's edge is painted fainter; the sea runs on at full strength to the painting's edge.
-        const strength = pt * (0.55 + 0.45 * smooth(0.15, 0.85, inside[i]));
-        const m1 = tileAt(NA, wx * 0.8 + 2000, wy * 0.8) - 0.5;
-        const m2 = tileAt(NB, wx * 0.9 + 1200, wy * 0.9) - 0.5;
-        const g = tileAt(NG, wx, wy) - 0.5;
-        const l = landF[i];
-        if (l < 0.999) {
-          // The sea: deeper offshore, in long horizontal strokes, deepest just off the shore where the colour pooled.
-          const depth = smooth(0.0, 0.85, 1 - landWide[i]);
-          const streak = tileAt(NB, wx * 0.16 + 3000, wy * 1.5) - 0.5;
-          const hug = smooth(0.06, 0.46, nearW[i]);
-          const d = (0.66 + 0.3 * m1 + 0.12 * m2 + 0.16 * streak) * (1 + 0.4 * g) + 0.3 * hug;
-          setP(SEA_SHALLOW);
-          mixP(SEA_DEEP, depth);
-          glazeP((1 - l) * d * pt);
-        }
-        if (l > 0.001) {
-          const wH = hillW[i];
-          const wM = mtnW[i];
-          const wK = marshW[i] * (1 - wM);
-          const wFarm = (1 - wH) * (1 - wM) * (1 - wK);
-          setP(FIELD_LOW);
-          let d = 0.9;
-          if (wFarm > 0.02) {
-            // The plain's patchwork: each field its own tint and strength, darker where its wash dried at the edge,
-            // and here and there a hair of bare paper between two fields.
-            shift(x, y, 2.2);
-            const f = patchAt(wx + sdx, wy + sdy);
-            const tints = FIELD_TINTS[f.kind];
-            mixP(tints[Math.floor(f.id * tints.length)], wFarm);
-            let fd = 0.78 + 0.32 * (f.id * 7.31 - Math.floor(f.id * 7.31));
-            fd += 0.2 * (1 - smooth(0, 2.4, f.edge));
-            if ((f.id * 13.7) % 1 > 0.45) fd *= 0.25 + 0.75 * smooth(0.25, 0.95, f.edge);
-            d = 0.9 + (fd - 0.9) * wFarm;
-          }
-          if (wH > 0.001) mixP2(HILL, HILL_GREEN, smooth(0.35, 0.7, tileAt(NA, wx * 0.55 + 3300, wy * 0.55)), wH);
-          if (wK > 0.001) mixP(MARSH, wK);
-          if (wM > 0.001) mixP2(MOUNTAIN, MOUNTAIN_CORE, mtnCore[i], wM);
-          d *= 1 + 0.34 * m1 + 0.18 * m2 + g * (0.16 + 0.4 * wM);
-          // Pigment pooled at the edges of the hill and mountain washes, and along the coast.
-          const cv = coast[i];
-          d += 0.15 * hillEdge[i] * (1 - wM) + 0.22 * mtnEdge[i] + 0.22 * smooth(0.5, 0.58, cv) * (1 - smooth(0.62, 0.8, cv));
-          // Sunlit slopes are left paler; beaches take their own pale sand.
-          const sh = shade[i];
-          d *= (1 - (0.34 - 0.08 * wM) * clamp(sh)) * (1 - 0.75 * beach[i]);
-          glazeP(l * d * strength);
-          glaze(SAND, beach[i] * 0.75 * strength);
-          glaze(SHADOW, l * clamp(-sh) * (0.6 + 0.3 * wM) * strength);
-          glaze(WOODS, woods[i] * (0.42 + 0.2 * m2) * strength);
-          glaze(TOWN, town[i] * 0.55 * strength);
-        }
-        // The painting's own ragged edge, a little darker where the wash dried.
-        const pool = smooth(0.15, 0.45, pt) * (1 - smooth(0.5, 0.95, pt));
-        R *= 1 - 0.1 * pool;
-        Gc *= 1 - 0.1 * pool;
-        B *= 1 - 0.1 * pool;
-      }
-      const o = i * 4;
-      px[o] = R;
-      px[o + 1] = Gc;
-      px[o + 2] = B;
-      px[o + 3] = 255;
+      shift(x, y, 2.2);
+      fieldDx[i] = sdx;
+      fieldDy[i] = sdy;
     }
-    if (y % 150 === 0) await report(0.52 + (0.25 * y) / H, 'Laying the washes');
   }
-  const base = makeCanvas(W, H);
-  base.getContext('2d')!.putImageData(img, 0, 0);
+  await report(0.52, 'Laying the washes');
 
-  const out = makeCanvas(W * SCALE, H * SCALE);
+  // The washes: by the GPU's shader at full resolution where it can, else by the CPU below and scaled up.
+  let out = paintWashesGL({
+    b, W, H, scale: SCALE, land: landF, coast, near: nearW, wide: landWide, hill: hillW, hillEdge, mtn: mtnW, mtnCore, mtnEdge,
+    marsh: marshW, woods, beach, town, inside, paint, shade, height: heightS, relief, fieldDx, fieldDy, noise: { a: NA, b: NB, g: NG },
+    pigments: {
+      uPaper: PAPER, uFieldLow: FIELD_LOW, uHill: HILL, uHillGreen: HILL_GREEN, uHillWarm: HILL_WARM, uMtn: MOUNTAIN, uMtnCore: MOUNTAIN_CORE, uMarsh: MARSH,
+      uSeaShallow: SEA_SHALLOW, uSeaDeep: SEA_DEEP, uSand: SAND, uWoods: WOODS, uTown: TOWN, uShadow: SHADOW,
+      uOlive: FIELD_TINTS.olive[0], uVine: FIELD_TINTS.vine[0], uCrop: FIELD_TINTS.crop, uPasture: FIELD_TINTS.pasture,
+    },
+  });
+  if (!out) out = await paintWashesCPU();
+
+  // ---------------------------------------------------------------- the watercolour (CPU)
+  // Each wash is a glaze: it multiplies the paper's colour, so washes laid over one another deepen like real
+  // pigment. Its strength wanders (wet-in-wet blooms), its pigment granulates in the paper's tooth, and it pools
+  // darker where it dried at its edge.
+  async function paintWashesCPU(): Promise<HTMLCanvasElement> {
+    const img = new ImageData(W, H);
+    const px = img.data;
+    let R = 0;
+    let Gc = 0;
+    let B = 0;
+    const glaze = (p: Rgb, d: number) => {
+      if (d <= 0) return;
+      R *= 1 - d * (1 - p[0]);
+      Gc *= 1 - d * (1 - p[1]);
+      B *= 1 - d * (1 - p[2]);
+    };
+    // The pigment being mixed for the current pixel, kept in three numbers.
+    let P0 = 0;
+    let P1 = 0;
+    let P2 = 0;
+    const setP = (p: Rgb) => {
+      P0 = p[0];
+      P1 = p[1];
+      P2 = p[2];
+    };
+    const mixP = (p: Rgb, t: number) => {
+      P0 += (p[0] - P0) * t;
+      P1 += (p[1] - P1) * t;
+      P2 += (p[2] - P2) * t;
+    };
+    /** Mix toward a blend of two pigments: a + (c - a) * s, by t. */
+    const mixP2 = (a: Rgb, c: Rgb, s: number, t: number) => {
+      P0 += (a[0] + (c[0] - a[0]) * s - P0) * t;
+      P1 += (a[1] + (c[1] - a[1]) * s - P1) * t;
+      P2 += (a[2] + (c[2] - a[2]) * s - P2) * t;
+    };
+    const glazeP = (d: number) => {
+      if (d <= 0) return;
+      R *= 1 - d * (1 - P0);
+      Gc *= 1 - d * (1 - P1);
+      B *= 1 - d * (1 - P2);
+    };
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const i = y * W + x;
+        const wx = x + b.x;
+        const wy = y + b.y;
+        // The paper, a shade warmer in its stains and toward the sheet's edges.
+        const stain = tileAt(NA, wx * 0.45 + 1500, wy * 0.45);
+        const border = Math.min(x, y, W - 1 - x, H - 1 - y);
+        const age = 1 - 0.035 * smooth(0.5, 0.8, stain) - 0.1 * (1 - smooth(0, 70, border));
+        R = PAPER[0] * age;
+        Gc = PAPER[1] * age;
+        B = PAPER[2] * (age - 0.015 * stain);
+        const pt = paint[i];
+        if (pt > 0.001) {
+          // Land past the map's edge is painted fainter; the sea runs on at full strength to the painting's edge.
+          const strength = pt * (0.55 + 0.45 * smooth(0.15, 0.85, inside[i]));
+          const m1 = tileAt(NA, wx * 0.8 + 2000, wy * 0.8) - 0.5;
+          const m2 = tileAt(NB, wx * 0.9 + 1200, wy * 0.9) - 0.5;
+          const g = tileAt(NG, wx, wy) - 0.5;
+          const l = landF[i];
+          if (l < 0.999) {
+            // The sea: deeper offshore, in long horizontal strokes, deepest just off the shore where the colour pooled.
+            const depth = smooth(0.0, 0.85, 1 - landWide[i]);
+            const streak = tileAt(NB, wx * 0.16 + 3000, wy * 1.5) - 0.5;
+            const hug = smooth(0.06, 0.46, nearW[i]);
+            const d = (0.66 + 0.3 * m1 + 0.12 * m2 + 0.16 * streak) * (1 + 0.4 * g) + 0.3 * hug;
+            setP(SEA_SHALLOW);
+            mixP(SEA_DEEP, depth);
+            glazeP((1 - l) * d * pt);
+          }
+          if (l > 0.001) {
+            const wH = hillW[i];
+            const wM = mtnW[i];
+            const wK = marshW[i] * (1 - wM);
+            const wFarm = (1 - wH) * (1 - wM) * (1 - wK);
+            setP(FIELD_LOW);
+            let d = 0.9;
+            if (wFarm > 0.02) {
+              // The plain's patchwork: each field its own tint and strength, darker where its wash dried at the edge,
+              // and here and there a hair of bare paper between two fields.
+              const f = patchAt(wx + fieldDx[i], wy + fieldDy[i]);
+              const tints = FIELD_TINTS[f.kind];
+              mixP(tints[Math.floor(f.id * tints.length)], wFarm);
+              let fd = 0.78 + 0.32 * (f.id * 7.31 - Math.floor(f.id * 7.31));
+              fd += 0.2 * (1 - smooth(0, 2.4, f.edge));
+              if ((f.id * 13.7) % 1 > 0.45) fd *= 0.25 + 0.75 * smooth(0.25, 0.95, f.edge);
+              d = 0.9 + (fd - 0.9) * wFarm;
+            }
+            if (wH > 0.001) mixP2(HILL, HILL_GREEN, smooth(0.35, 0.7, tileAt(NA, wx * 0.55 + 3300, wy * 0.55)), wH);
+            if (wK > 0.001) mixP(MARSH, wK);
+            if (wM > 0.001) mixP2(MOUNTAIN, MOUNTAIN_CORE, mtnCore[i], wM);
+            d *= 1 + 0.34 * m1 + 0.18 * m2 + g * (0.16 + 0.4 * wM);
+            // Pigment pooled at the edges of the hill and mountain washes, and along the coast.
+            const cv = coast[i];
+            d += 0.15 * hillEdge[i] * (1 - wM) + 0.22 * mtnEdge[i] + 0.22 * smooth(0.5, 0.58, cv) * (1 - smooth(0.62, 0.8, cv));
+            // Sunlit slopes are left paler; beaches take their own pale sand.
+            const sh = shade[i];
+            d *= (1 - (0.34 - 0.08 * wM) * clamp(sh)) * (1 - 0.75 * beach[i]);
+            glazeP(l * d * strength);
+            glaze(SAND, beach[i] * 0.75 * strength);
+            glaze(SHADOW, l * clamp(-sh) * (0.6 + 0.3 * wM) * strength);
+            glaze(WOODS, woods[i] * (0.42 + 0.2 * m2) * strength);
+            glaze(TOWN, town[i] * 0.55 * strength);
+          }
+          // The painting's own ragged edge, a little darker where the wash dried.
+          const pool = smooth(0.15, 0.45, pt) * (1 - smooth(0.5, 0.95, pt));
+          R *= 1 - 0.1 * pool;
+          Gc *= 1 - 0.1 * pool;
+          B *= 1 - 0.1 * pool;
+        }
+        const o = i * 4;
+        px[o] = R;
+        px[o + 1] = Gc;
+        px[o + 2] = B;
+        px[o + 3] = 255;
+      }
+      if (y % 150 === 0) await report(0.52 + (0.25 * y) / H, 'Laying the washes');
+    }
+    const base = makeCanvas(W, H);
+    base.getContext('2d')!.putImageData(img, 0, 0);
+    const sheet = makeCanvas(W * SCALE, H * SCALE);
+    const sctx = sheet.getContext('2d')!;
+    sctx.imageSmoothingEnabled = true;
+    sctx.imageSmoothingQuality = 'high';
+    sctx.drawImage(base, 0, 0, W * SCALE, H * SCALE);
+    return sheet;
+  }
+  const gpu = !!out;
   const ctx = out.getContext('2d')!;
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(base, 0, 0, W * SCALE, H * SCALE);
   await report(0.8, 'Inking the coast');
 
   // The pen work, in map units.
@@ -698,7 +735,8 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
     await report(f0, label);
   });
   ctx.restore();
-  paperTexture(ctx, out.width, out.height);
+  // The shader's paper already has its tooth; the overlay then only adds a little grain to the ink.
+  paperTexture(ctx, out.width, out.height, gpu ? 0.14 : 0.3);
 
   await report(1, 'Ready');
   return { canvas: out, bounds: b };
