@@ -10,7 +10,7 @@ import { Insignia } from './render/units';
 import { sfx } from './sound';
 import { BUILD } from './version';
 import type { Controller, MouseControls, Settings } from './storage';
-import { Dialog, DialogHeader, TextInput } from '@astryxdesign/core';
+import { Dialog, DialogHeader, Layout, LayoutContent, TextInput } from '@astryxdesign/core';
 import { GAMES, gameInfo } from '../games';
 import { SectionLabel } from './astryx/kit';
 import { Ico } from './icons';
@@ -319,7 +319,8 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
   const rts = mouse !== 'classic';
   return (
     <Dialog isOpen onOpenChange={(o) => !o && onClose()} width={1040} maxHeight="88dvh" className="howto">
-      <DialogHeader title="How to play" onOpenChange={(o) => !o && onClose()} />
+      <Layout header={<DialogHeader title="How to play" onOpenChange={(o) => !o && onClose()} />} content={
+        <LayoutContent role="region" label="How to play instructions" tabIndex={0}>
         <div className="howto-grid">
           <section>
             <SectionLabel>The day</SectionLabel>
@@ -362,6 +363,8 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
             <p>The Allies score VP for objective hexes they hold in supply and must keep up with a rising daily benchmark. The top bar shows Allied VP against the benchmark.</p>
           </section>
         </div>
+        </LayoutContent>
+      } />
     </Dialog>
   );
 }
