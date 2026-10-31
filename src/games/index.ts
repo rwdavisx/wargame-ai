@@ -49,8 +49,9 @@ export const GAMES: GameInfo[] = [
         'Weather track, replacements and victory benchmarks for all 32 turns',
         'All 140 counters and their set-ups from the four set-up cards, for each of the three scenarios',
         'Both sides of every counter, checked against photos: reduced sides, quality, remnants',
+        'The map, hex by hex: 652 land hexes, rivers, mountains, roads, the Gustav and Bernhard Lines',
       ],
-      todo: ['The map, hex by hex', 'The Italy ’43 rules that differ from Salerno ’43'],
+      todo: ['The Italy ’43 rules that differ from Salerno ’43'],
     },
   },
 ];

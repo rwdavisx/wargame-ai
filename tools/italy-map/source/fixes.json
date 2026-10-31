@@ -1,0 +1,106 @@
+{
+ "_note": "Corrections applied over the photo readings, each with its evidence. Field values use the transcription format (river: minor | major | marsh | lake).",
+ "hexsides": {
+  "3007-3008": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3007-3108": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3012-3013": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3013-3113": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3013-3114": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3107-3108": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3107-3207": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3206-3207": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3206-3307": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3306-3307": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3306-3406": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3405-3406": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3405-3506": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3505-3506": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3505-3605": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3604-3605": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3604-3705": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3704-3705": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3704-3804": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3813-3913": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3912-4012": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3913-4012": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "3913-4013": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "4012-4013": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  },
+  "4013-4113": {
+   "river": "minor",
+   "why": "Upper Volturno / Biferno: the NE photo read a dark edge, but the N and SE photos read the same course as minor, the river is as narrow as the known minor rivers (3.0-3.7% of a hex against 4.5-6.6% for the Garigliano and the lower Volturno), and the designer's notes speak of the lower Volturno as the line west of 3220."
+  }
+ },
+ "hexes": {}
+}

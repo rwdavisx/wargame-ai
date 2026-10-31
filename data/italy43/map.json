@@ -3,9 +3,28 @@
  "entryAreas": {
   "E1": {
    "hexes": [
+    "4113",
     "4114",
     "4115",
     "4116"
+   ],
+   "side": "east"
+  },
+  "E2": {
+   "hexes": [
+    "3910",
+    "3911",
+    "3912",
+    "4012"
+   ],
+   "side": "east"
+  },
+  "E3": {
+   "hexes": [
+    "3804",
+    "3805",
+    "3806",
+    "3807"
    ],
    "side": "east"
   },
@@ -17,15 +36,50 @@
    "side": "north"
   },
   "N2": {
-   "hexes": [],
+   "hexes": [
+    "1800",
+    "1901",
+    "2000",
+    "2101",
+    "2200",
+    "2301",
+    "2400"
+   ],
    "side": "north"
   },
   "N3": {
-   "hexes": [],
+   "hexes": [
+    "2600",
+    "2701",
+    "2800",
+    "2901",
+    "3000"
+   ],
+   "side": "north"
+  },
+  "N4": {
+   "hexes": [
+    "3300",
+    "3400",
+    "3500",
+    "3600",
+    "3601"
+   ],
    "side": "north"
   },
   "S1": {
-   "hexes": [],
+   "hexes": [
+    "2127",
+    "2227",
+    "2327",
+    "2427",
+    "2527",
+    "2627",
+    "2727",
+    "2827",
+    "2927",
+    "3027"
+   ],
    "side": "south"
   },
   "S2": {
@@ -1808,6 +1862,7 @@
    "terrain": "hill"
   },
   "3001": {
+   "label": "Biagio (part of the San Biagio Saracinisco name)",
    "terrain": "hill"
   },
   "3002": {
@@ -1820,7 +1875,7 @@
    "terrain": "hill"
   },
   "3004": {
-   "peak": "Monna Casale 1395",
+   "peak": "1395 ...a Casale",
    "terrain": "hill"
   },
   "3005": {
@@ -1850,7 +1905,7 @@
   },
   "3013": {
    "terrain": "clear",
-   "town": "Baia"
+   "town": "Baia (name cut)"
   },
   "3014": {
    "terrain": "clear"
@@ -1901,6 +1956,53 @@
   "3027": {
    "terrain": "hill"
   },
+  "3100": {
+   "peak": "2018 Rocca Altiera",
+   "terrain": "hill"
+  },
+  "3101": {
+   "terrain": "hill"
+  },
+  "3102": {
+   "gustav": true,
+   "terrain": "hill"
+  },
+  "3103": {
+   "terrain": "hill"
+  },
+  "3104": {
+   "terrain": "hill"
+  },
+  "3105": {
+   "terrain": "hill"
+  },
+  "3106": {
+   "bernhard": true,
+   "terrain": "hill"
+  },
+  "3107": {
+   "terrain": "hill"
+  },
+  "3108": {
+   "terrain": "hill"
+  },
+  "3109": {
+   "terrain": "hill"
+  },
+  "3110": {
+   "terrain": "hill",
+   "town": "Prata Sannita"
+  },
+  "3111": {
+   "terrain": "hill"
+  },
+  "3112": {
+   "terrain": "hill",
+   "town": "Raviscanina"
+  },
+  "3113": {
+   "terrain": "clear"
+  },
   "3114": {
    "terrain": "clear"
   },
@@ -1945,6 +2047,55 @@
   },
   "3127": {
    "peak": "M. Acerone di Avella 1598",
+   "terrain": "hill"
+  },
+  "3200": {
+   "terrain": "hill"
+  },
+  "3201": {
+   "gustav": true,
+   "peak": "2241 M. Meta",
+   "terrain": "hill"
+  },
+  "3202": {
+   "bernhard": true,
+   "terrain": "hill"
+  },
+  "3203": {
+   "bernhard": true,
+   "terrain": "hill"
+  },
+  "3204": {
+   "bernhard": true,
+   "terrain": "hill"
+  },
+  "3205": {
+   "bernhard": true,
+   "peak": "1036 Colle Alto",
+   "terrain": "hill",
+   "vp": 1
+  },
+  "3206": {
+   "terrain": "hill"
+  },
+  "3207": {
+   "terrain": "clear"
+  },
+  "3208": {
+   "terrain": "hill"
+  },
+  "3209": {
+   "terrain": "hill"
+  },
+  "3210": {
+   "terrain": "hill"
+  },
+  "3211": {
+   "terrain": "hill",
+   "town": "Valle Agricola"
+  },
+  "3212": {
+   "peak": "1281 Montagnoni",
    "terrain": "hill"
   },
   "3213": {
@@ -2000,6 +2151,59 @@
   "3227": {
    "terrain": "hill"
   },
+  "3300": {
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3301": {
+   "gustav": true,
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3302": {
+   "bernhard": true,
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3303": {
+   "terrain": "hill",
+   "town": "Castel San Vincenzo",
+   "vp": 1
+  },
+  "3304": {
+   "terrain": "hill"
+  },
+  "3305": {
+   "terrain": "hill"
+  },
+  "3306": {
+   "terrain": "hill",
+   "town": "Montaquila"
+  },
+  "3307": {
+   "terrain": "clear",
+   "town": "Macchia d'Isernia"
+  },
+  "3308": {
+   "terrain": "hill"
+  },
+  "3309": {
+   "terrain": "hill"
+  },
+  "3310": {
+   "terrain": "hill"
+  },
+  "3311": {
+   "terrain": "hill"
+  },
+  "3312": {
+   "peak": "1575 M. Ianara",
+   "terrain": "hill"
+  },
+  "3313": {
+   "peak": "1266 M. Acuto",
+   "terrain": "hill"
+  },
   "3314": {
    "terrain": "hill",
    "town": "Piedimonte d'Alife"
@@ -2042,6 +2246,50 @@
    "terrain": "clear"
   },
   "3327": {
+   "terrain": "hill"
+  },
+  "3400": {
+   "gustav": true,
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3401": {
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3402": {
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3403": {
+   "terrain": "hill"
+  },
+  "3404": {
+   "terrain": "hill"
+  },
+  "3405": {
+   "terrain": "hill"
+  },
+  "3406": {
+   "terrain": "hill"
+  },
+  "3407": {
+   "terrain": "hill"
+  },
+  "3408": {
+   "terrain": "hill"
+  },
+  "3409": {
+   "terrain": "hill"
+  },
+  "3410": {
+   "peak": "1571 M. Valle Diamante",
+   "terrain": "hill"
+  },
+  "3411": {
+   "terrain": "hill"
+  },
+  "3412": {
    "terrain": "hill"
   },
   "3413": {
@@ -2093,6 +2341,67 @@
    "terrain": "hill",
    "town": "Altavilla Irpina"
   },
+  "3500": {
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3501": {
+   "gustav": true,
+   "terrain": "hill",
+   "town": "Alfedena",
+   "zone8": "N4"
+  },
+  "3502": {
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3503": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3504": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3505": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3506": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3507": {
+   "terrain": "hill",
+   "town": "Isernia",
+   "zone8": "E3"
+  },
+  "3508": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3509": {
+   "terrain": "hill",
+   "town": "Castelpizzuto",
+   "zone8": "E3"
+  },
+  "3510": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3511": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3512": {
+   "label": "MATESE APENNIN... (region name, spaced capitals across 3512, 3612, 3613, 3713)",
+   "peak": "2050 M. Miletto",
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3513": {
+   "terrain": "hill"
+  },
   "3514": {
    "label": "Lago del Matese",
    "terrain": "hill"
@@ -2140,6 +2449,61 @@
   },
   "3527": {
    "terrain": "hill"
+  },
+  "3600": {
+   "gustav": true,
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3601": {
+   "terrain": "hill",
+   "zone8": "N4"
+  },
+  "3602": {
+   "terrain": "hill",
+   "town": "Rionero Sannitico",
+   "zone8": "N4"
+  },
+  "3603": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3604": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3605": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3606": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3607": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3608": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3609": {
+   "peak": "1400 M. Patalecchia",
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3610": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3611": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3612": {
+   "terrain": "hill",
+   "zone8": "E2"
   },
   "3613": {
    "terrain": "hill",
@@ -2191,6 +2555,52 @@
   "3627": {
    "terrain": "hill"
   },
+  "3703": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3704": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3705": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3706": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3707": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3708": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3709": {
+   "terrain": "hill",
+   "town": "Carpinone",
+   "zone8": "E3"
+  },
+  "3710": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3711": {
+   "terrain": "clear",
+   "town": "Cantalupo nel Sannio",
+   "zone8": "E2"
+  },
+  "3712": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3713": {
+   "terrain": "hill",
+   "zone8": "E1"
+  },
   "3714": {
    "label": "...NINES (part of the Matese Apennines range name)",
    "terrain": "hill",
@@ -2238,6 +2648,48 @@
   },
   "3727": {
    "terrain": "clear"
+  },
+  "3803": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3804": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3805": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3806": {
+   "peak": "1385 M. Totila",
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3807": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3808": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3809": {
+   "terrain": "hill",
+   "zone8": "E3"
+  },
+  "3810": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3811": {
+   "terrain": "clear",
+   "zone8": "E2"
+  },
+  "3812": {
+   "city": "Bojano",
+   "terrain": "clear",
+   "zone8": "E2"
   },
   "3813": {
    "terrain": "clear",
@@ -2288,6 +2740,22 @@
   "3827": {
    "label": "Calore (river name)",
    "terrain": "clear"
+  },
+  "3910": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3911": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3912": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
+  "3913": {
+   "terrain": "hill",
+   "zone8": "E1"
   },
   "3914": {
    "terrain": "clear",
@@ -2341,6 +2809,10 @@
    "terrain": "hill",
    "town": "Apice"
   },
+  "4012": {
+   "terrain": "hill",
+   "zone8": "E2"
+  },
   "4013": {
    "terrain": "hill",
    "town": "Baranello",
@@ -2388,6 +2860,10 @@
   },
   "4026": {
    "terrain": "hill"
+  },
+  "4113": {
+   "terrain": "hill",
+   "zone8": "E1"
   },
   "4114": {
    "terrain": "hill",
@@ -4178,27 +4654,78 @@
   "2926-3026": {
    "road": "major"
   },
+  "3000-3100": {
+   "mountain": true
+  },
+  "3000-3101": {
+   "mountain": true
+  },
+  "3001-3102": {
+   "mountain": true
+  },
+  "3002-3102": {
+   "mountain": true
+  },
+  "3002-3103": {
+   "road": "minor"
+  },
   "3003-3004": {
    "mountain": true
   },
+  "3003-3103": {
+   "road": "minor"
+  },
+  "3003-3104": {
+   "road": "minor"
+  },
+  "3004-3104": {
+   "mountain": true
+  },
+  "3004-3105": {
+   "mountain": true
+  },
+  "3005-3105": {
+   "mountain": true
+  },
+  "3005-3106": {
+   "mountain": true
+  },
+  "3006-3107": {
+   "road": "major"
+  },
   "3007-3008": {
-   "river": true,
-   "riverName": "Volturno"
+   "river": true
+  },
+  "3007-3108": {
+   "river": true
+  },
+  "3009-3110": {
+   "mountain": true
   },
   "3010-3011": {
    "river": true,
    "road": "minor"
   },
+  "3010-3110": {
+   "road": "minor"
+  },
+  "3010-3111": {
+   "river": true
+  },
   "3011-3012": {
    "road": "minor"
   },
   "3012-3013": {
-   "river": true,
-   "riverName": "Volturno"
+   "river": true
+  },
+  "3012-3113": {
+   "road": "minor"
+  },
+  "3013-3113": {
+   "river": true
   },
   "3013-3114": {
-   "river": true,
-   "riverName": "Volturno"
+   "river": true
   },
   "3014-3015": {
    "road": "minor"
@@ -4280,6 +4807,80 @@
   },
   "3027-3127": {
    "mountain": true
+  },
+  "3100-3101": {
+   "mountain": true
+  },
+  "3100-3200": {
+   "mountain": true
+  },
+  "3101-3102": {
+   "mountain": true
+  },
+  "3102-3103": {
+   "mountain": true
+  },
+  "3102-3202": {
+   "mountain": true
+  },
+  "3103-3202": {
+   "mountain": true
+  },
+  "3103-3203": {
+   "mountain": true
+  },
+  "3104-3204": {
+   "road": "minor"
+  },
+  "3105-3204": {
+   "mountain": true
+  },
+  "3106-3205": {
+   "mountain": true
+  },
+  "3106-3206": {
+   "mountain": true
+  },
+  "3107-3108": {
+   "river": true
+  },
+  "3107-3206": {
+   "road": "minor"
+  },
+  "3107-3207": {
+   "river": true,
+   "road": "major"
+  },
+  "3108-3109": {
+   "road": "minor"
+  },
+  "3108-3207": {
+   "road": "minor"
+  },
+  "3109-3110": {
+   "road": "minor"
+  },
+  "3109-3208": {
+   "mountain": true
+  },
+  "3109-3209": {
+   "mountain": true,
+   "pass": true
+  },
+  "3110-3111": {
+   "river": true
+  },
+  "3110-3209": {
+   "mountain": true
+  },
+  "3112-3211": {
+   "mountain": true
+  },
+  "3112-3212": {
+   "mountain": true
+  },
+  "3113-3114": {
+   "road": "minor"
   },
   "3114-3214": {
    "road": "minor"
@@ -4373,6 +4974,67 @@
   "3127-3227": {
    "mountain": true
   },
+  "3200-3300": {
+   "mountain": true
+  },
+  "3200-3301": {
+   "mountain": true
+  },
+  "3201-3202": {
+   "mountain": true
+  },
+  "3201-3301": {
+   "mountain": true
+  },
+  "3201-3302": {
+   "mountain": true
+  },
+  "3203-3304": {
+   "mountain": true
+  },
+  "3204-3205": {
+   "mountain": true
+  },
+  "3204-3305": {
+   "road": "minor"
+  },
+  "3205-3206": {
+   "mountain": true
+  },
+  "3205-3305": {
+   "mountain": true
+  },
+  "3206-3207": {
+   "river": true,
+   "road": "minor"
+  },
+  "3206-3306": {
+   "road": "minor"
+  },
+  "3206-3307": {
+   "river": true
+  },
+  "3207-3307": {
+   "road": "major"
+  },
+  "3208-3209": {
+   "mountain": true
+  },
+  "3209-3210": {
+   "mountain": true
+  },
+  "3210-3310": {
+   "mountain": true
+  },
+  "3210-3311": {
+   "mountain": true
+  },
+  "3211-3212": {
+   "mountain": true
+  },
+  "3211-3311": {
+   "mountain": true
+  },
   "3214-3215": {
    "road": "minor"
   },
@@ -4437,6 +5099,66 @@
   },
   "3225-3326": {
    "river": true
+  },
+  "3300-3301": {
+   "mountain": true
+  },
+  "3303-3402": {
+   "road": "minor"
+  },
+  "3303-3403": {
+   "road": "minor"
+  },
+  "3305-3306": {
+   "road": "minor"
+  },
+  "3305-3404": {
+   "road": "minor"
+  },
+  "3306-3307": {
+   "river": true
+  },
+  "3306-3406": {
+   "river": true
+  },
+  "3307-3406": {
+   "road": "major"
+  },
+  "3308-3408": {
+   "mountain": true
+  },
+  "3309-3310": {
+   "road": "minor"
+  },
+  "3309-3408": {
+   "road": "minor"
+  },
+  "3310-3311": {
+   "road": "minor"
+  },
+  "3310-3409": {
+   "mountain": true
+  },
+  "3311-3312": {
+   "mountain": true
+  },
+  "3311-3411": {
+   "road": "minor"
+  },
+  "3312-3411": {
+   "mountain": true
+  },
+  "3312-3412": {
+   "mountain": true
+  },
+  "3313-3314": {
+   "mountain": true
+  },
+  "3313-3412": {
+   "mountain": true
+  },
+  "3313-3413": {
+   "mountain": true
   },
   "3314-3315": {
    "road": "minor"
@@ -4521,8 +5243,81 @@
   "3326-3425": {
    "river": true
   },
+  "3400-3500": {
+   "mountain": true
+  },
+  "3400-3501": {
+   "road": "major"
+  },
+  "3401-3402": {
+   "road": "minor"
+  },
+  "3401-3501": {
+   "road": "minor"
+  },
+  "3402-3403": {
+   "mountain": true
+  },
+  "3403-3404": {
+   "road": "minor"
+  },
+  "3403-3503": {
+   "mountain": true
+  },
+  "3404-3405": {
+   "road": "minor"
+  },
+  "3404-3504": {
+   "road": "minor"
+  },
+  "3404-3505": {
+   "mountain": true
+  },
+  "3405-3406": {
+   "river": true,
+   "road": "minor"
+  },
+  "3405-3506": {
+   "river": true
+  },
+  "3406-3507": {
+   "road": "major"
+  },
+  "3408-3508": {
+   "road": "minor"
+  },
+  "3408-3509": {
+   "road": "minor"
+  },
+  "3409-3410": {
+   "mountain": true
+  },
+  "3410-3411": {
+   "mountain": true
+  },
+  "3410-3510": {
+   "mountain": true
+  },
+  "3410-3511": {
+   "mountain": true
+  },
+  "3411-3511": {
+   "mountain": true
+  },
+  "3411-3512": {
+   "mountain": true
+  },
+  "3412-3413": {
+   "mountain": true
+  },
+  "3412-3512": {
+   "mountain": true
+  },
   "3413-3414": {
    "road": "minor"
+  },
+  "3413-3513": {
+   "mountain": true
   },
   "3413-3514": {
    "mountain": true
@@ -4602,6 +5397,75 @@
    "river": true,
    "riverName": "Sobato",
    "road": "minor"
+  },
+  "3500-3501": {
+   "mountain": true
+  },
+  "3500-3600": {
+   "mountain": true
+  },
+  "3501-3600": {
+   "mountain": true
+  },
+  "3501-3601": {
+   "road": "major"
+  },
+  "3503-3504": {
+   "mountain": true
+  },
+  "3503-3603": {
+   "mountain": true
+  },
+  "3504-3505": {
+   "mountain": true
+  },
+  "3504-3604": {
+   "road": "minor"
+  },
+  "3505-3506": {
+   "river": true
+  },
+  "3505-3605": {
+   "river": true
+  },
+  "3507-3508": {
+   "road": "minor"
+  },
+  "3507-3606": {
+   "road": "major"
+  },
+  "3509-3510": {
+   "road": "minor"
+  },
+  "3509-3608": {
+   "mountain": true
+  },
+  "3509-3609": {
+   "mountain": true
+  },
+  "3510-3609": {
+   "mountain": true
+  },
+  "3510-3610": {
+   "road": "minor"
+  },
+  "3511-3512": {
+   "mountain": true
+  },
+  "3512-3513": {
+   "mountain": true
+  },
+  "3512-3611": {
+   "mountain": true
+  },
+  "3512-3612": {
+   "mountain": true
+  },
+  "3513-3612": {
+   "mountain": true
+  },
+  "3513-3613": {
+   "mountain": true
   },
   "3514-3515": {
    "mountain": true
@@ -4697,7 +5561,50 @@
   "3527-3626": {
    "road": "minor"
   },
+  "3600-3601": {
+   "mountain": true
+  },
+  "3601-3602": {
+   "road": "major"
+  },
+  "3602-3603": {
+   "road": "major"
+  },
+  "3603-3604": {
+   "road": "major"
+  },
+  "3603-3704": {
+   "road": "major"
+  },
+  "3604-3605": {
+   "river": true,
+   "road": "major"
+  },
+  "3604-3705": {
+   "river": true
+  },
+  "3605-3606": {
+   "road": "major"
+  },
+  "3606-3607": {
+   "road": "major"
+  },
+  "3607-3708": {
+   "road": "major"
+  },
+  "3610-3711": {
+   "road": "minor"
+  },
+  "3612-3613": {
+   "mountain": true
+  },
+  "3612-3713": {
+   "mountain": true
+  },
   "3613-3614": {
+   "mountain": true
+  },
+  "3613-3713": {
    "mountain": true
   },
   "3613-3714": {
@@ -4792,6 +5699,42 @@
    "river": true,
    "riverName": "Sobato"
   },
+  "3704-3705": {
+   "river": true
+  },
+  "3704-3803": {
+   "road": "major"
+  },
+  "3704-3804": {
+   "river": true
+  },
+  "3706-3806": {
+   "mountain": true
+  },
+  "3707-3806": {
+   "mountain": true
+  },
+  "3707-3807": {
+   "mountain": true
+  },
+  "3708-3709": {
+   "road": "major"
+  },
+  "3709-3710": {
+   "road": "major"
+  },
+  "3709-3808": {
+   "road": "minor"
+  },
+  "3710-3711": {
+   "road": "major"
+  },
+  "3711-3810": {
+   "road": "minor"
+  },
+  "3711-3811": {
+   "road": "major"
+  },
   "3714-3715": {
    "mountain": true
   },
@@ -4856,6 +5799,34 @@
    "river": true,
    "riverName": "Calore"
   },
+  "3803-3804": {
+   "road": "major"
+  },
+  "3805-3806": {
+   "mountain": true
+  },
+  "3806-3807": {
+   "mountain": true
+  },
+  "3807-3808": {
+   "road": "minor"
+  },
+  "3810-3911": {
+   "road": "minor"
+  },
+  "3811-3812": {
+   "road": "major"
+  },
+  "3812-3813": {
+   "road": "major"
+  },
+  "3812-3912": {
+   "road": "minor"
+  },
+  "3813-3913": {
+   "river": true,
+   "riverName": "Biferno"
+  },
   "3813-3914": {
    "road": "major"
   },
@@ -4902,6 +5873,23 @@
   },
   "3827-3927": {
    "road": "minor"
+  },
+  "3912-4012": {
+   "river": true,
+   "riverName": "Biferno"
+  },
+  "3913-3914": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Biferno"
+  },
+  "3913-4012": {
+   "river": true,
+   "riverName": "Biferno"
+  },
+  "3913-4013": {
+   "river": true,
+   "riverName": "Biferno"
   },
   "3914-3915": {
    "road": "minor"
@@ -4987,6 +5975,19 @@
    "river": true,
    "riverName": "Calore",
    "road": "minor"
+  },
+  "4011-4012": {
+   "majorRiver": true,
+   "river": true,
+   "riverName": "Biferno"
+  },
+  "4012-4013": {
+   "river": true,
+   "riverName": "Biferno"
+  },
+  "4013-4113": {
+   "river": true,
+   "riverName": "Biferno"
   },
   "4014-4015": {
    "road": "major"

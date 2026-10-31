@@ -1,0 +1,2404 @@
+{
+ "photo": "NE",
+ "grid": {
+  "oddColumnsDown": false,
+  "residualPx": 5.0,
+  "anchors": 98,
+  "sigma": 3.0,
+  "labelOffsetHex": -0.37,
+  "check": "Printed hex lines vs fitted hexsides: median offset 0 px on 112 horizontal sides and 107 NE sides; the few outliers sit next to printed dashed lines."
+ },
+ "extent": {
+  "cols": [
+   30,
+   41
+  ],
+  "rows": [
+   0,
+   14
+  ],
+  "hexCount": 128,
+  "perColumn": {
+   "30": [
+    0,
+    13
+   ],
+   "31": [
+    0,
+    14
+   ],
+   "32": [
+    0,
+    13
+   ],
+   "33": [
+    0,
+    13
+   ],
+   "34": [
+    0,
+    13
+   ],
+   "35": [
+    0,
+    13
+   ],
+   "36": [
+    0,
+    13
+   ],
+   "37": [
+    3,
+    13
+   ],
+   "38": [
+    3,
+    13
+   ],
+   "39": [
+    10,
+    13
+   ],
+   "40": [
+    12,
+    13
+   ],
+   "41": [
+    13,
+    13
+   ]
+  },
+  "edges": "North map edge visible (row 0 of cols 30-36, margin and N entry tabs above). East map edge visible and stepped: map ends after col 36 in rows 0-2 (3700-3702 are margin/key), after col 38 in rows 3-9, after col 39 in rows 10-12 (3909 margin), col 40/41 in rows 12-13. West: photo cuts through col 30 (inland, no sea). South: photo bottom/fold cuts rows 13-14 (3314, 3514, 3914, 4114 centres are below the photo).",
+  "offMapInPhoto": [
+   "3700",
+   "3701",
+   "3702",
+   "3802",
+   "3903",
+   "3904",
+   "3905",
+   "3906",
+   "3907",
+   "3908",
+   "3909",
+   "4010",
+   "4011",
+   "4112",
+   "4212",
+   "4213"
+  ],
+  "covered": "No on-map hex is covered: the Map Key and the Permanently Removed box are on the off-map margin."
+ },
+ "hexes": {
+  "3000": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3001": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible.",
+   "label": "Biagio (part of the San Biagio Saracinisco name)"
+  },
+  "3002": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible. Town circle at the photo's west edge; the name is cut: 'Biagio' printed in 3001 and '...inisco' in 3002.",
+   "town": "San Biagio Saracinisco",
+   "vp": 1,
+   "gustav": true,
+   "gustavFaces": [
+    "S",
+    "SE"
+   ]
+  },
+  "3003": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3004": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible. Peak triangle with 1395; the name is cut at the photo edge ('...a Casale'); probably Monna Casale.",
+   "peak": "1395 ...a Casale"
+  },
+  "3005": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mountain shading covers about 40% of the hex (borderline for mountainShade). Hex centre is at the photo's west edge: only its eastern half is visible.",
+   "bernhard": true,
+   "bernhardFaces": [
+    "S"
+   ]
+  },
+  "3006": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3007": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible. Black text fragment '...ro' at the west edge (part of a name printed further west, perhaps Venafro); a blue italic 'o' at the river is probably the end of the Volturno label."
+  },
+  "3008": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3009": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3010": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3011": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3012": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible."
+  },
+  "3013": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Hex centre is at the photo's west edge: only its eastern half is visible. Bottom of the hex is cut by the photo edge / a paper fold. Town circle at the very west edge, label 'Baia' (probably Baia e Latina); only the east part of the hex is visible.",
+   "town": "Baia (name cut)"
+  },
+  "3100": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "2018 Rocca Altiera"
+  },
+  "3101": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3102": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "gustav": true,
+   "gustavFaces": [
+    "S",
+    "SE"
+   ]
+  },
+  "3103": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 42% of the hex (borderline for mountainShade)."
+  },
+  "3104": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3105": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 44% of the hex (borderline for mountainShade)."
+  },
+  "3106": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 53% of the hex (borderline for mountainShade).",
+   "bernhard": true,
+   "bernhardFaces": [
+    "SW",
+    "S",
+    "SE"
+   ]
+  },
+  "3107": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3108": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mixed hex: light grey clear ground around a tan hill core; called hill as the larger share (eye + colour)."
+  },
+  "3109": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3110": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Prata Sannita",
+   "note": "Town circle in 3110; the name is printed to its right, in 3210."
+  },
+  "3111": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3112": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Raviscanina"
+  },
+  "3113": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3114": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Bottom of the hex is cut by the photo edge / a paper fold."
+  },
+  "3200": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 55% of the hex (borderline for mountainShade)."
+  },
+  "3201": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 51% of the hex (borderline for mountainShade).",
+   "peak": "2241 M. Meta",
+   "gustav": true,
+   "gustavFaces": [
+    "S",
+    "SE"
+   ]
+  },
+  "3202": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 48% of the hex (borderline for mountainShade).",
+   "bernhard": true,
+   "bernhardFaces": [
+    "SE"
+   ]
+  },
+  "3203": {
+   "terrain": "hill",
+   "confidence": "high",
+   "bernhard": true,
+   "bernhardFaces": [
+    "SE",
+    "NE"
+   ]
+  },
+  "3204": {
+   "terrain": "hill",
+   "confidence": "high",
+   "bernhard": true,
+   "bernhardFaces": [
+    "SE",
+    "NE"
+   ]
+  },
+  "3205": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 52% of the hex (borderline for mountainShade).",
+   "vp": 1,
+   "peak": "1036 Colle Alto",
+   "bernhard": true,
+   "bernhardFaces": [
+    "S",
+    "SE",
+    "NE"
+   ]
+  },
+  "3206": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3207": {
+   "terrain": "clear",
+   "confidence": "high"
+  },
+  "3208": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3209": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 46% of the hex (borderline for mountainShade)."
+  },
+  "3210": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 41% of the hex (borderline for mountainShade)."
+  },
+  "3211": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 54% of the hex (borderline for mountainShade).",
+   "town": "Valle Agricola"
+  },
+  "3212": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 51% of the hex (borderline for mountainShade).",
+   "peak": "1281 Montagnoni"
+  },
+  "3213": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mixed hex: light grey clear ground around a tan hill core; called hill as the larger share (eye + colour). Bottom of the hex is cut by the photo edge / a paper fold. Label 'Piedimonte' printed along the bottom of 3213 / top of 3314 at the fold; its symbol is below the photo."
+  },
+  "3300": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "N4"
+  },
+  "3301": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 45% of the hex (borderline for mountainShade).",
+   "gustav": true,
+   "gustavFaces": [
+    "S",
+    "SE"
+   ],
+   "zone8": "N4"
+  },
+  "3302": {
+   "terrain": "hill",
+   "confidence": "high",
+   "bernhard": true,
+   "bernhardFaces": [
+    "S",
+    "SE",
+    "NE"
+   ],
+   "zone8": "N4"
+  },
+  "3303": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Castel San Vincenzo",
+   "vp": 1
+  },
+  "3304": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3305": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3306": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Montaquila"
+  },
+  "3307": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Macchia d'Isernia"
+  },
+  "3308": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3309": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3310": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3311": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 40% of the hex (borderline for mountainShade)."
+  },
+  "3312": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 52% of the hex (borderline for mountainShade).",
+   "peak": "1575 M. Ianara"
+  },
+  "3313": {
+   "terrain": "hill",
+   "confidence": "high",
+   "peak": "1266 M. Acuto"
+  },
+  "3400": {
+   "terrain": "hill",
+   "confidence": "high",
+   "gustav": true,
+   "gustavFaces": [
+    "S"
+   ],
+   "zone8": "N4"
+  },
+  "3401": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "N4"
+  },
+  "3402": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "N4"
+  },
+  "3403": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3404": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3405": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3406": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3407": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3408": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3409": {
+   "terrain": "hill",
+   "confidence": "high"
+  },
+  "3410": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "1571 M. Valle Diamante"
+  },
+  "3411": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high"
+  },
+  "3412": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 52% of the hex (borderline for mountainShade)."
+  },
+  "3413": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "Mountain shading covers about 54% of the hex (borderline for mountainShade). Bottom of the hex is cut by the photo edge / a paper fold."
+  },
+  "3500": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "zone8": "N4"
+  },
+  "3501": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Alfedena",
+   "gustav": true,
+   "gustavFaces": [
+    "SW",
+    "S",
+    "SE"
+   ],
+   "zone8": "N4"
+  },
+  "3502": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "N4"
+  },
+  "3503": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 42% of the hex (borderline for mountainShade).",
+   "zone8": "E3"
+  },
+  "3504": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3505": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3506": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3507": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Isernia",
+   "note": "Isernia is drawn as a town (small circle, mixed-case name), not a city; no VP circle.",
+   "zone8": "E3"
+  },
+  "3508": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3509": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Castelpizzuto",
+   "zone8": "E3"
+  },
+  "3510": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3511": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3512": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "2050 M. Miletto",
+   "label": "MATESE APENNIN... (region name, spaced capitals across 3512, 3612, 3613, 3713)",
+   "zone8": "E2"
+  },
+  "3513": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 45% of the hex (borderline for mountainShade)."
+  },
+  "3600": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "gustav": true,
+   "gustavFaces": [
+    "S"
+   ],
+   "zone8": "N4"
+  },
+  "3601": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "N4"
+  },
+  "3602": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Rionero Sannitico",
+   "zone8": "N4"
+  },
+  "3603": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3604": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3605": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3606": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3607": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3608": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3609": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 42% of the hex (borderline for mountainShade).",
+   "peak": "1400 M. Patalecchia",
+   "zone8": "E3"
+  },
+  "3610": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3611": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3612": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "note": "Mountain shading covers about 50% of the hex (borderline for mountainShade).",
+   "zone8": "E2"
+  },
+  "3613": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "medium",
+   "note": "Mountain shading covers about 59% of the hex (borderline for mountainShade). Bottom of the hex is cut by the photo edge / a paper fold.",
+   "zone8": "E1"
+  },
+  "3703": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3704": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3705": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3706": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3707": {
+   "terrain": "hill",
+   "confidence": "high",
+   "note": "Mountain shading covers about 41% of the hex (borderline for mountainShade).",
+   "zone8": "E3"
+  },
+  "3708": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3709": {
+   "terrain": "hill",
+   "confidence": "high",
+   "town": "Carpinone",
+   "zone8": "E3"
+  },
+  "3710": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3711": {
+   "terrain": "clear",
+   "confidence": "high",
+   "town": "Cantalupo nel Sannio",
+   "zone8": "E2"
+  },
+  "3712": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3713": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E1"
+  },
+  "3803": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3804": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3805": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3806": {
+   "terrain": "hill",
+   "mountainShade": true,
+   "confidence": "high",
+   "peak": "1385 M. Totila",
+   "zone8": "E3"
+  },
+  "3807": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3808": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3809": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E3"
+  },
+  "3810": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3811": {
+   "terrain": "clear",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3812": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "city": "Bojano",
+   "cityKind": "minor",
+   "note": "City symbol (black gridded polygon) with a white hex outline; name in bold capitals 'BOJANO'. The key has only one City symbol; called minor because Naples is the only major city per the rules notes.",
+   "zone8": "E2"
+  },
+  "3813": {
+   "terrain": "clear",
+   "confidence": "medium",
+   "note": "Bottom of the hex is cut by the photo edge / a paper fold.",
+   "zone8": "E1"
+  },
+  "3910": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3911": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3912": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E2"
+  },
+  "3913": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mixed hex: light grey clear ground around a tan hill core; called hill as the larger share (eye + colour).",
+   "zone8": "E1"
+  },
+  "4012": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Mixed hex: light grey clear ground around a tan hill core; called hill as the larger share (eye + colour).",
+   "zone8": "E2"
+  },
+  "4013": {
+   "terrain": "hill",
+   "confidence": "medium",
+   "note": "Bottom of the hex is cut by the photo edge / a paper fold.",
+   "town": "Baranello",
+   "zone8": "E1"
+  },
+  "4113": {
+   "terrain": "hill",
+   "confidence": "high",
+   "zone8": "E1"
+  }
+ },
+ "hexsides": {
+  "3000-3100": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3000-3101": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3001-3102": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3002-3102": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3002-3103": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "Road passes close to a hex corner; crossing read by eye at zoom."
+  },
+  "3003-3004": {
+   "mountain": true,
+   "confidence": "medium"
+  },
+  "3003-3103": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3003-3104": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3004-3104": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3004-3105": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3005-3105": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3005-3106": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3006-3107": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3007-3008": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3007-3108": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3009-3110": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3010-3011": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Thin river continuing from 3110-3111 (no dark edge, ~5-6 px); minor. Joins the major river west of the photo.",
+   "road": "minor",
+   "bridge": true
+  },
+  "3010-3110": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3010-3111": {
+   "river": "minor",
+   "confidence": "medium",
+   "note": "Thin river continuing from 3110-3111 (no dark edge, ~5-6 px); minor. Joins the major river west of the photo."
+  },
+  "3011-3012": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3012-3013": {
+   "river": "major",
+   "confidence": "high",
+   "note": "Major-river style (dark edge, ~8 px); probably the Volturno returning from the west (Baia e Latina in 3013)."
+  },
+  "3012-3113": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3013-3113": {
+   "river": "major",
+   "confidence": "high",
+   "note": "Major-river style (dark edge, ~8 px); probably the Volturno returning from the west (Baia e Latina in 3013)."
+  },
+  "3013-3114": {
+   "river": "major",
+   "confidence": "medium",
+   "note": "Major-river style (dark edge, ~8 px); probably the Volturno returning from the west (Baia e Latina in 3013)."
+  },
+  "3100-3101": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 78% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score)."
+  },
+  "3100-3200": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 76% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score)."
+  },
+  "3101-3102": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 68% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score)."
+  },
+  "3102-3103": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3102-3202": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3103-3202": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3103-3203": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3104-3204": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3105-3204": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3106-3205": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3106-3206": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3107-3108": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3107-3206": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3107-3207": {
+   "river": "major",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true
+  },
+  "3108-3109": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "Road passes close to a hex corner; crossing read by eye at zoom."
+  },
+  "3108-3207": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3109-3110": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3109-3208": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3109-3209": {
+   "mountain": true,
+   "confidence": "high",
+   "pass": true,
+   "note": "Mountain pass: two short black curved strokes across the hexside, over dark shading."
+  },
+  "3110-3111": {
+   "river": "minor",
+   "confidence": "high"
+  },
+  "3110-3209": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3112-3211": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3112-3212": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3113-3114": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3200-3300": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3200-3301": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3201-3202": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3201-3301": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3201-3302": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3203-3304": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3204-3205": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3204-3305": {
+   "road": "minor",
+   "confidence": "medium",
+   "note": "Road passes close to a hex corner; crossing read by eye at zoom."
+  },
+  "3205-3206": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3205-3305": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3206-3207": {
+   "river": "major",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "3206-3306": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3206-3307": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3207-3307": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3208-3209": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3209-3210": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3210-3310": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3210-3311": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3211-3212": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3211-3311": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3300-3301": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3303-3402": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3303-3403": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3305-3306": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3305-3404": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3306-3307": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3306-3406": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3307-3406": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3308-3408": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3309-3310": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3309-3408": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3310-3311": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3310-3409": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3311-3312": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3311-3411": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3312-3411": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3312-3412": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3313-3412": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3313-3413": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3400-3500": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3400-3501": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3401-3402": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3401-3501": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3402-3403": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3402-3503": {
+   "zoneBorder": "N4|E3",
+   "confidence": "high"
+  },
+  "3403-3404": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3403-3503": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3404-3405": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3404-3504": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3404-3505": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3405-3406": {
+   "river": "major",
+   "confidence": "high",
+   "road": "minor",
+   "bridge": true
+  },
+  "3405-3506": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3406-3507": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3408-3508": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3408-3509": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3409-3410": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3410-3411": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3410-3510": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3410-3511": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3411-3511": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3411-3512": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3412-3413": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 84% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score)."
+  },
+  "3412-3512": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3413-3513": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3500-3501": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3500-3600": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3501-3600": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3501-3601": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3502-3503": {
+   "zoneBorder": "N4|E3",
+   "confidence": "high"
+  },
+  "3503-3504": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3503-3602": {
+   "zoneBorder": "N4|E3",
+   "confidence": "high"
+  },
+  "3503-3603": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3504-3505": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3504-3604": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3505-3506": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3505-3605": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3507-3508": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3507-3606": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3509-3510": {
+   "road": "minor",
+   "confidence": "high",
+   "zoneBorder": "E3|E2"
+  },
+  "3509-3608": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3509-3609": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3510-3609": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 84% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score).",
+   "zoneBorder": "E3|E2"
+  },
+  "3510-3610": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3511-3512": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3512-3513": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3512-3611": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3512-3612": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3513-3612": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3513-3613": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3600-3601": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3601-3602": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3602-3603": {
+   "road": "major",
+   "confidence": "high",
+   "zoneBorder": "N4|E3"
+  },
+  "3602-3703": {
+   "zoneBorder": "N4|E3",
+   "confidence": "high"
+  },
+  "3603-3604": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3603-3704": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3604-3605": {
+   "river": "major",
+   "confidence": "high",
+   "road": "major",
+   "bridge": true
+  },
+  "3604-3705": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3605-3606": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3606-3607": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3607-3708": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3609-3610": {
+   "zoneBorder": "E3|E2",
+   "confidence": "high"
+  },
+  "3609-3710": {
+   "zoneBorder": "E3|E2",
+   "confidence": "high"
+  },
+  "3610-3711": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3612-3613": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 75% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score).",
+   "zoneBorder": "E2|E1"
+  },
+  "3612-3713": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 84% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score).",
+   "zoneBorder": "E2|E1"
+  },
+  "3613-3713": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3704-3705": {
+   "river": "major",
+   "confidence": "high"
+  },
+  "3704-3803": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3704-3804": {
+   "river": "major",
+   "confidence": "medium",
+   "note": "Head of the river: the line narrows toward the 3704/3803/3804 vertex; same style as the rest (major) but thinner here."
+  },
+  "3706-3806": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3707-3806": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3707-3807": {
+   "mountain": true,
+   "confidence": "high"
+  },
+  "3708-3709": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3709-3710": {
+   "road": "major",
+   "confidence": "high",
+   "zoneBorder": "E3|E2"
+  },
+  "3709-3808": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3710-3711": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3710-3809": {
+   "zoneBorder": "E3|E2",
+   "confidence": "high"
+  },
+  "3711-3810": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3711-3811": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3712-3713": {
+   "zoneBorder": "E2|E1",
+   "confidence": "high"
+  },
+  "3713-3812": {
+   "zoneBorder": "E2|E1",
+   "confidence": "high"
+  },
+  "3803-3804": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3805-3806": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 79% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score)."
+  },
+  "3806-3807": {
+   "mountain": true,
+   "confidence": "medium",
+   "note": "Dark shading measured on 84% of sample points; checked by eye: the band covers the whole hexside (text or a lighter patch lowers the score)."
+  },
+  "3807-3808": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3809-3810": {
+   "zoneBorder": "E3|E2",
+   "confidence": "high"
+  },
+  "3809-3910": {
+   "zoneBorder": "E3|E2",
+   "confidence": "high"
+  },
+  "3810-3911": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3811-3812": {
+   "road": "major",
+   "confidence": "high"
+  },
+  "3812-3813": {
+   "road": "major",
+   "confidence": "high",
+   "zoneBorder": "E2|E1"
+  },
+  "3812-3912": {
+   "road": "minor",
+   "confidence": "high"
+  },
+  "3812-3913": {
+   "zoneBorder": "E2|E1",
+   "note": "White dashes merge with Bojano's solid white city outline here; the border must run along this side to connect 3812-3813 with 3912-3913.",
+   "confidence": "high"
+  },
+  "3813-3913": {
+   "river": "major",
+   "confidence": "high",
+   "riverName": "Biferno"
+  },
+  "3912-3913": {
+   "zoneBorder": "E2|E1",
+   "confidence": "high"
+  },
+  "3912-4012": {
+   "river": "major",
+   "confidence": "high",
+   "riverName": "Biferno"
+  },
+  "3913-4012": {
+   "river": "major",
+   "confidence": "high",
+   "riverName": "Biferno",
+   "zoneBorder": "E2|E1"
+  },
+  "3913-4013": {
+   "river": "major",
+   "confidence": "high",
+   "riverName": "Biferno"
+  },
+  "4012-4013": {
+   "river": "major",
+   "confidence": "high",
+   "riverName": "Biferno",
+   "zoneBorder": "E2|E1"
+  },
+  "4012-4113": {
+   "zoneBorder": "E2|E1",
+   "confidence": "high"
+  },
+  "4013-4113": {
+   "river": "major",
+   "confidence": "high",
+   "riverName": "Biferno"
+  }
+ },
+ "edgeHexsides": {
+  "3513-3514": {
+   "lake": "partial",
+   "note": "Lago del Matese's upper (north-west) end overlaps the east part of this side. 3514's centre is just below the photo.",
+   "confidence": "medium"
+  },
+  "3514-3613": {
+   "river": "lake",
+   "note": "Lago del Matese (blue blob, dark outline) lies along this whole visible side; continues south off the photo. 3514 centre is just below the photo edge.",
+   "confidence": "high"
+  },
+  "4011-4012": {
+   "river": "major",
+   "riverName": "Biferno",
+   "note": "Biferno runs along 4012's north side; the west half of the side is under the E2 tab's bottom edge (4011 = E2 tab), the river then leaves the map east at 4012's upper-right corner.",
+   "confidence": "medium"
+  },
+  "3913-3914": {
+   "river": "major",
+   "riverName": "Biferno",
+   "note": "3914 centre is below the photo; the river runs along this side.",
+   "confidence": "medium"
+  },
+  "3813-3914": {
+   "road": "major",
+   "note": "Major road from Bojano leaves 3813 south-east toward 3914 (below the photo).",
+   "confidence": "medium"
+  },
+  "3314-3413": {
+   "road": "minor",
+   "note": "Minor road crosses near the fold at the photo's bottom edge (3314 centre is on the edge).",
+   "confidence": "low"
+  },
+  "3313-3314": {
+   "mountain": true,
+   "note": "Dark shading across the visible part; 3314 is mostly below the photo.",
+   "confidence": "low"
+  },
+  "3413-3514": {
+   "mountain": true,
+   "note": "Dark shading across the visible part; 3514 is mostly below the photo.",
+   "confidence": "low"
+  }
+ },
+ "entryAreas": {
+  "N4": {
+   "colour": "dark blue, white text \"N4\"",
+   "tabs": [
+    {
+     "where": "north edge: the hex-shaped tab fills the off-map hex north of 3400 (between the tops of 3300 and 3500)",
+     "touches": {
+      "3400": "N side",
+      "3300": "NE side",
+      "3500": "NW side"
+     },
+     "roads": [
+      "major road from 3400 runs north into the tab"
+     ]
+    },
+    {
+     "where": "east side of the north edge: tab fills the west half of off-map hex 3701",
+     "touches": {
+      "3600": "SE side (3600-3701)",
+      "3601": "NE side (3601-3701)"
+     },
+     "roads": [
+      "major road from the 3601 junction runs north-east into the tab"
+     ]
+    }
+   ],
+   "section": "N4 (zone hexes 3300-3302, 3400-3402, 3500-3502, 3600-3602)",
+   "confidence": "high"
+  },
+  "E3": {
+   "colour": "dark green, white text \"E3\" and \"Turn 15 = Allied\"",
+   "where": "long tab on the east edge filling the west halves of off-map hexes 3905, 3906, 3907",
+   "touches": {
+    "3804": "3804-3905",
+    "3805": "3805-3905 and 3805-3906",
+    "3806": "3806-3906 and 3806-3907",
+    "3807": "3807-3907"
+   },
+   "roads": [
+    "major road 3804 -> 3905 (enters the tab at its top slant)",
+    "minor road 3807 -> 3907 (enters the tab at its lowest slant)"
+   ],
+   "confidence": "high"
+  },
+  "E2": {
+   "colour": "dark green, white text \"E2\" and \"Turn 11 = Allied\"",
+   "where": "tab on the east edge filling the west halves of off-map hexes 4010 and 4011",
+   "touches": {
+    "3910": "3910-4010",
+    "3911": "3911-4010 and 3911-4011",
+    "3912": "3912-4011",
+    "4012": "west half of 4011-4012 (the tab's bottom edge)"
+   },
+   "roads": [
+    "minor road 3911 -> 4010",
+    "minor road 3912 -> 4011"
+   ],
+   "confidence": "high"
+  },
+  "E1": {
+   "colour": "dark green, white text \"E1\"",
+   "where": "tab in the photo's bottom-right corner filling the west half of off-map hex 4213 and continuing below the photo",
+   "touches": {
+    "4113": "4113-4213",
+    "4114": "4114-4213 (4114 is below the photo)"
+   },
+   "text": "\"Turn 8 = Allied\" is not visible in this photo (below the edge)",
+   "confidence": "medium"
+  },
+  "unlabelled_blue_NW": {
+   "colour": "dark blue",
+   "where": "top-left corner: tab fills the off-map hex north of 3000; its label is cut off by the photo's west edge (probably N3)",
+   "touches": {
+    "3000": "N side",
+    "3100": "NW side"
+   },
+   "roads": [],
+   "confidence": "low"
+  }
+ },
+ "lines": {
+  "eighthArmyBoundary": {
+   "style": "heavy black dashes; label \"8th Army Boundary Line\" printed vertically alongside, near 3405/3506",
+   "course": "Drawn as straight segments, NOT along hexsides. From the north map edge it runs straight south through the middle of the zigzag between columns 32 and 33 (col 32 west, col 33 east) down to the 3202/3302 latitude; then a straight diagonal south-east from about the left corner of 3302, along/just above the 3302-3303 side, across the upper-right corner of 3303, through the bottom of 3402 and along the 3403-3503 side to the right corner of 3403; then straight south through the middle of the zigzag between columns 34 and 35 (col 34 west, col 35 east) down to 3512; then a short diagonal south-east across the bottom of 3512 / top of 3513 to the 3513/3612/3613 corner; then straight south through the middle of the zigzag between columns 35 and 36 (3513, 3514 west; 3613 east) past the east side of Lago del Matese and off the bottom of the photo.",
+   "photoPolylinePx": [
+    [
+     326,
+     60
+    ],
+    [
+     312,
+     448
+    ],
+    [
+     548,
+     590
+    ],
+    [
+     545,
+     1000
+    ],
+    [
+     537,
+     1520
+    ],
+    [
+     535,
+     1805
+    ],
+    [
+     655,
+     1867
+    ],
+    [
+     655,
+     2016
+    ]
+   ],
+   "hexesEast": [
+    "3300",
+    "3301",
+    "3302",
+    "3400",
+    "3401",
+    "3402",
+    "3500",
+    "3501",
+    "3502",
+    "3503",
+    "3504",
+    "3505",
+    "3506",
+    "3507",
+    "3508",
+    "3509",
+    "3510",
+    "3511",
+    "3512",
+    "3600",
+    "3601",
+    "3602",
+    "3603",
+    "3604",
+    "3605",
+    "3606",
+    "3607",
+    "3608",
+    "3609",
+    "3610",
+    "3611",
+    "3612",
+    "3613",
+    "3703",
+    "3704",
+    "3705",
+    "3706",
+    "3707",
+    "3708",
+    "3709",
+    "3710",
+    "3711",
+    "3712",
+    "3713",
+    "3803",
+    "3804",
+    "3805",
+    "3806",
+    "3807",
+    "3808",
+    "3809",
+    "3810",
+    "3811",
+    "3812",
+    "3813",
+    "3910",
+    "3911",
+    "3912",
+    "3913",
+    "4012",
+    "4013",
+    "4113"
+   ],
+   "hexesWestAdjacent": [
+    "3200",
+    "3201",
+    "3202",
+    "3203",
+    "3303",
+    "3403",
+    "3404",
+    "3405",
+    "3406",
+    "3407",
+    "3408",
+    "3409",
+    "3410",
+    "3411",
+    "3412",
+    "3413",
+    "3513"
+   ],
+   "sideTest": "Every hex lies at least 89% on one side (largest cut: 3513 has 11% east of the line, 3302 has 10% west)."
+  },
+  "zoneSections": {
+   "style": "white dashed lines along hexsides",
+   "N4|E3": [
+    "3402-3503",
+    "3502-3503",
+    "3503-3602",
+    "3602-3603",
+    "3602-3703"
+   ],
+   "E3|E2": [
+    "3509-3510",
+    "3510-3609",
+    "3609-3610",
+    "3609-3710",
+    "3709-3710",
+    "3710-3809",
+    "3809-3810",
+    "3809-3910",
+    "3909-3910 (to the margin)"
+   ],
+   "E2|E1": [
+    "3612-3613",
+    "3612-3713",
+    "3712-3713",
+    "3713-3812",
+    "3812-3813",
+    "3812-3913",
+    "3912-3913",
+    "3913-4012",
+    "4012-4013",
+    "4012-4113",
+    "4112-4113 (to the margin)"
+   ],
+   "sections": {
+    "N4": [
+     "3300",
+     "3301",
+     "3302",
+     "3400",
+     "3401",
+     "3402",
+     "3500",
+     "3501",
+     "3502",
+     "3600",
+     "3601",
+     "3602"
+    ],
+    "E3": [
+     "3503",
+     "3504",
+     "3505",
+     "3506",
+     "3507",
+     "3508",
+     "3509",
+     "3603",
+     "3604",
+     "3605",
+     "3606",
+     "3607",
+     "3608",
+     "3609",
+     "3703",
+     "3704",
+     "3705",
+     "3706",
+     "3707",
+     "3708",
+     "3709",
+     "3803",
+     "3804",
+     "3805",
+     "3806",
+     "3807",
+     "3808",
+     "3809"
+    ],
+    "E2": [
+     "3510",
+     "3511",
+     "3512",
+     "3610",
+     "3611",
+     "3612",
+     "3710",
+     "3711",
+     "3712",
+     "3810",
+     "3811",
+     "3812",
+     "3910",
+     "3911",
+     "3912",
+     "4012"
+    ],
+    "E1": [
+     "3613",
+     "3713",
+     "3813",
+     "3913",
+     "4013",
+     "4113"
+    ]
+   }
+  },
+  "gustavLine": {
+   "style": "dark red-brown (rust) dashes drawn just inside the line hexes, parallel to their southern hexsides; no label in this photo (the N photo has the same dashes as the Gustav Line)",
+   "hexesOnLine": [
+    "3002",
+    "3102",
+    "3201",
+    "3301",
+    "3400",
+    "3501",
+    "3600"
+   ],
+   "faces": {
+    "3002": [
+     "S",
+     "SE"
+    ],
+    "3102": [
+     "S",
+     "SE"
+    ],
+    "3201": [
+     "S",
+     "SE"
+    ],
+    "3301": [
+     "S",
+     "SE"
+    ],
+    "3400": [
+     "S"
+    ],
+    "3501": [
+     "SW",
+     "S",
+     "SE"
+    ],
+    "3600": [
+     "S"
+    ]
+   },
+   "hexsidesTraced": [
+    "3002-3003",
+    "3002-3103",
+    "3102-3103",
+    "3102-3202",
+    "3201-3202",
+    "3201-3302",
+    "3301-3302",
+    "3301-3401",
+    "3400-3401",
+    "3401-3501",
+    "3501-3502",
+    "3501-3601",
+    "3600-3601"
+   ],
+   "course": "Enters from the west along the south side of 3002, runs east-north-east along the south faces of 3002, 3102, 3201, 3301, 3400 (each marked inside the hex), wraps around the south of Alfedena 3501 (SW, S, SE faces) and ends along the south face of 3600 at the N4 east entry tab (3701). So 3002, 3102, 3201, 3301, 3400, 3501, 3600 are ON the line and the hexes north of them are behind it. 3300, 3400, 3500, 3600, 3501 etc. are in the N4 zone section.",
+   "confidence": "medium"
+  },
+  "bernhardLine": {
+   "style": "small black dots drawn just inside the line hexes along their east/south faces; label \"...RD LINE\" (BERNHARD LINE) in spaced serif capitals in 3006/3107",
+   "hexesOnLine": [
+    "3005",
+    "3106",
+    "3205",
+    "3204",
+    "3203",
+    "3202",
+    "3302"
+   ],
+   "faces": {
+    "3005": [
+     "S"
+    ],
+    "3106": [
+     "SW",
+     "S",
+     "SE"
+    ],
+    "3205": [
+     "S",
+     "SE",
+     "NE"
+    ],
+    "3204": [
+     "SE",
+     "NE"
+    ],
+    "3203": [
+     "SE",
+     "NE"
+    ],
+    "3202": [
+     "SE"
+    ],
+    "3302": [
+     "S",
+     "SE",
+     "NE"
+    ]
+   },
+   "hexsidesTraced": [
+    "3005-3006",
+    "3006-3106",
+    "3106-3107",
+    "3106-3206",
+    "3205-3206",
+    "3205-3306",
+    "3205-3305",
+    "3204-3305",
+    "3204-3304",
+    "3203-3304",
+    "3203-3303",
+    "3202-3303",
+    "3302-3303",
+    "3302-3402",
+    "3302-3401"
+   ],
+   "course": "Enters from the west along the south face of 3005, wraps the south of 3106 (SW, S, SE faces), then runs north along the east faces of 3205 (also its S face), 3204, 3203 and 3202, then around the south and east faces of 3302 (S, SE, NE) and ends at the corner 3301/3302/3401 where it meets the Gustav Line dashes.",
+   "confidence": "high"
+  }
+ },
+ "tables": {
+  "mapKey": {
+   "location": "NE photo, top right: panel on the off-map margin, x 860-1480, y 130-590; sample hexes drawn pointy-top (rotated from the map grid). Full text: italy-map/map-key.md",
+   "port": "Light grey hex with a strip of medium-blue sea and a wavy coastline on one edge; inside, a small white disc with a dark rim holding a black anchor.",
+   "clear": "Plain, flat, very light grey (almost off-white) hex, no texture.",
+   "minorRoad": "Narrow pale cream line edged on both sides by thin black DASHED lines (like a pale line between two dashed rails).",
+   "majorRoad": "Solid, wider, dark charcoal-grey line with no dashes; on the map it has a thin cream edge on each side.",
+   "town": "Small circle, pale tan/pinkish fill, black outline (about 1/6 of a hex wide); name beside it in mixed case.",
+   "cityMinor_or_cityMajor": "Only ONE city symbol in the key (\"City\"): a black irregular polygon filled with a dark square grid, inside a hex with a solid WHITE outline; name in bold capitals on the map (BOJANO 3812). No separate major-city symbol is shown.",
+   "riverMarshHexside": "River line on the hexside with a grey-green (sage) marsh wash and a dark tuft along the same hexside (river edged with marsh).",
+   "minorRiver": "Medium-blue line of moderate width (~6-7 px in this photo) with no distinct dark outline, running along hexsides.",
+   "majorRiver": "Thicker blue line (~8-9 px in this photo) with a thin dark-navy outline on both edges, running along hexsides.",
+   "lake": "Solid medium-blue elongated blob with a dark navy outline lying along a hexside (the hexside line is still visible under it).",
+   "victoryPoint": "Red disc with a dark rim and a yellow numeral (e.g. \"1\").",
+   "minorAirfield": "Plain white horizontal bar with a grey edge (runway strip).",
+   "majorAirfield": "Grey disc with a darker rim holding a white aircraft silhouette seen from above.",
+   "marsh": "Whole hex in a grey-green (sage) wash sprinkled with small teal grass tufts and short dark horizontal dashes.",
+   "hill": "Whole hex in flat khaki / tan (sand-brown).",
+   "landmark": "Small white rectangle with a thin grey border (smaller than the minor-airfield bar); no effect on play.",
+   "mountainHexside": "Darker grey-brown relief shading over the tan hill colour; the hexside is a mountain hexside when this dark band covers it along its whole length, continuing into both hexes. No separate ridge-line symbol.",
+   "mountainPeak": "Small solid black triangle with the height in metres below it (\"1577\" in the key) and, on the map, the peak name; no effect on play.",
+   "mountainPass": "Two short black curved strokes, roughly parallel, crossing a hexside over the dark shading.",
+   "otherConventions": {
+    "hexNumbers": "CCRR printed small in dark grey near the top of each hex; EVEN columns are half a hex lower; label centre 0.37 hex above the hex centre.",
+    "eighthArmyBoundaryLine": "Heavy black dashes, labelled \"8th Army Boundary Line\"; straight segments through the middle of the zigzag between hex columns.",
+    "zoneSectionBorders": "White dashed lines along hexsides.",
+    "gustavLine": "Dark red-brown (rust) dashes drawn just inside the line hexes, parallel to their southern hexsides (no label in this photo).",
+    "bernhardLine": "Small black dots drawn just inside the line hexes along their east/south faces; label BERNHARD LINE in spaced serif capitals.",
+    "entryAreas": "Hex-shaped tabs on the map edge: north ones dark blue with white \"N4\"; east ones dark green with white \"E1/E2/E3\" and \"Turn NN = Allied\".",
+    "margin": "Mauve-brown."
+   }
+  },
+  "permanentlyRemoved": {
+   "location": "margin box east of the map, photo x 1110-1490, y 590-1780, titled \"Permanently Removed Units\"",
+   "counterFormat": "unit id printed vertically on the left, size \"II\", a number top-right (4 digits = probably a set-up hex, 2 digits = probably an entry turn), NATO symbol, step box \"1\", factors attack-defence-move (red box = anti-tank/attack highlight, green circle = mechanized movement)",
+   "entries": [
+    {
+     "turn": "3",
+     "units": [
+      {
+       "unit": "II/64/16Pz",
+       "side": "German",
+       "colour": "grey",
+       "type": "mechanized (panzergrenadier) infantry",
+       "size": "II",
+       "corner": "2925",
+       "steps": 1,
+       "factors": "3-3-5"
+      },
+      {
+       "unit": "III/1/1FJ",
+       "side": "German",
+       "colour": "blue (Luftwaffe)",
+       "type": "paratroop infantry",
+       "size": "II",
+       "corner": "2324",
+       "steps": 1,
+       "factors": "2-2-3"
+      }
+     ]
+    },
+    {
+     "turn": "18",
+     "units": [
+      {
+       "unit": "3rd PG Div.",
+       "text": "3rd PG Div. (4 units)",
+       "side": "German"
+      }
+     ]
+    },
+    {
+     "turn": "18",
+     "units": [
+      {
+       "unit": "III/6/2FJ",
+       "side": "German",
+       "colour": "blue (Luftwaffe)",
+       "type": "paratroop infantry (orange symbol box)",
+       "size": "II",
+       "corner": "13",
+       "steps": 1,
+       "factors": "2-2-3"
+      }
+     ]
+    },
+    {
+     "turn": "21",
+     "units": [
+      {
+       "unit": "3rd PG Div.",
+       "text": "3rd PG Div. (4 unit)",
+       "side": "German",
+       "note": "printed \"unit\" (singular)"
+      }
+     ]
+    },
+    {
+     "turn": "7 & 22",
+     "units": [
+      {
+       "unit": "26th Pz Div.",
+       "text": "26th Pz Div. (6 units)",
+       "side": "German"
+      }
+     ]
+    },
+    {
+     "turn": "28",
+     "units": [
+      {
+       "unit": "HG/HG",
+       "side": "German",
+       "colour": "blue (Luftwaffe, Hermann Goering)",
+       "type": "reconnaissance",
+       "size": "II",
+       "corner": "2324",
+       "steps": 1,
+       "factors": "1-2-6 (6 in green circle)"
+      }
+     ]
+    },
+    {
+     "turn": "29",
+     "units": [
+      {
+       "unit": "129/29PG",
+       "side": "German",
+       "colour": "grey",
+       "type": "armoured reconnaissance (blue symbol box)",
+       "size": "II",
+       "corner": "3725",
+       "steps": 1,
+       "factors": "3-3-6 (attack 3 in red box, 6 in green circle)"
+      },
+      {
+       "unit": "305F/305",
+       "side": "German",
+       "colour": "grey",
+       "type": "infantry (blue symbol box)",
+       "size": "II",
+       "corner": "12",
+       "steps": 1,
+       "factors": "2-2-3"
+      }
+     ]
+    },
+    {
+     "turn": "30",
+     "units": [
+      {
+       "unit": "305th Div.",
+       "text": "305th Div. (3 units)",
+       "side": "German"
+      }
+     ]
+    },
+    {
+     "turn": "13",
+     "units": [
+      {
+       "unit": "11H/7A",
+       "side": "British",
+       "colour": "tan",
+       "type": "reconnaissance (orange symbol box)",
+       "size": "II",
+       "corner": "2526",
+       "steps": 1,
+       "factors": "2-2-6 (6 in green circle)"
+      }
+     ]
+    },
+    {
+     "turn": "17",
+     "units": [
+      {
+       "unit": "Br 7th Arm. Div.",
+       "text": "Br 7th Arm. Div. (3 units)",
+       "side": "British"
+      }
+     ]
+    },
+    {
+     "turn": "18",
+     "units": [
+      {
+       "unit": "US 3rd Div.",
+       "text": "US 3rd Div. (4 units)",
+       "side": "US"
+      },
+      {
+       "unit": "751 Tank, 601 TD",
+       "text": "751 Tank 601 TD (2 units)",
+       "side": "US"
+      }
+     ]
+    },
+    {
+     "turn": "19",
+     "units": [
+      {
+       "unit": "US 82nd Div.",
+       "text": "US 82nd Div. (2 units)",
+       "side": "US"
+      }
+     ]
+    },
+    {
+     "turn": "20",
+     "units": [
+      {
+       "unit": "1 Rgr",
+       "side": "US",
+       "colour": "olive green",
+       "type": "infantry (Rangers)",
+       "size": "II",
+       "corner": "14",
+       "steps": 1,
+       "factors": "2-2-3"
+      }
+     ]
+    },
+    {
+     "turn": "22",
+     "units": [
+      {
+       "unit": "4 Rgr",
+       "side": "US",
+       "colour": "olive green",
+       "type": "infantry (Rangers)",
+       "size": "II",
+       "corner": "12",
+       "steps": 1,
+       "factors": "2-2-3"
+      }
+     ]
+    },
+    {
+     "turn": "27",
+     "units": [
+      {
+       "unit": "3 Rgr",
+       "side": "US",
+       "colour": "olive green",
+       "type": "infantry (Rangers)",
+       "size": "II",
+       "corner": "20",
+       "steps": 1,
+       "factors": "2-2-3"
+      }
+     ]
+    },
+    {
+     "turn": "28",
+     "units": [
+      {
+       "unit": "2/509",
+       "side": "US",
+       "colour": "olive green",
+       "type": "paratroop infantry (black symbol box)",
+       "size": "II",
+       "corner": "15",
+       "steps": 1,
+       "factors": "2-2-3"
+      }
+     ]
+    }
+   ],
+   "layout": "Read row by row, left to right: [T3: II/64/16Pz + III/1/1FJ | T18: 3rd PG Div], [T18: III/6/2FJ | T21: 3rd PG Div | T7&22: 26th Pz Div], [T28: HG/HG | T29: 129/29PG + 305F/305], [T30: 305th Div | T13: 11H/7A | T17: Br 7th Arm Div], [T18: US 3rd Div + 751 Tank/601 TD | T19: US 82nd Div], [T20: 1 Rgr | T22: 4 Rgr], [T27: 3 Rgr | T28: 2/509]. The red attack number in \"3-3-5\", \"2-2-3\" etc. is printed white on a red box on most counters.",
+   "confidence": "high"
+  }
+ },
+ "uncertain": [
+  "Gustav Line: identified from the dark-red dashes (no label in this photo); which side is \"on\" vs \"behind\" is read from the dashes being drawn inside 3002/3102/3201/3301/3400/3501/3600.",
+  "River class: Volturno-style and Biferno rivers called major (dark edge, ~8 px); 3110-3111/3010-3111/3010-3011 called minor (thin, no dark edge). Widths at this resolution separate the classes only weakly (key minor ~6.5-7 px, key major ~8.5-9.5 px).",
+  "3704-3804: river head tapers; class major by continuity (medium).",
+  "Bojano 3812 cityKind \"minor\": the key shows one City symbol only.",
+  "Mountain hexsides with shading scores 0.68-0.84 accepted by eye: 3100-3101, 3100-3200, 3101-3102, 3412-3413, 3510-3609, 3612-3613, 3612-3713, 3805-3806, 3806-3807. Rejected: 3105-3106 (0.53), 3113-3212 (shading edge on the side), 3211-3312, 3311-3411.",
+  "Col 30 hexes are only half visible; rows 13-14 cut by the photo bottom and a paper fold.",
+  "Unlabelled blue entry tab above 3000 (label off the photo; probably N3).",
+  "Mixed clear/hill hexes 3108, 3913, 4012, 3213 called hill."
+ ],
+ "notes": [
+  "Grid: Italy map has EVEN columns half a hex lower (3302 label y 366 vs 3402 y 435). Label centre is 0.37 hex above the hex centre (Salerno used 0.32; with 0.32 the fitted hex lines sat 7 px below the printed ones).",
+  "No marsh, airfield, port or landmark symbols in this photo. VP circles: 3002, 3205, 3303 (all \"1\").",
+  "Mountains: the map shows mountains only as dark relief shading over tan hill; mountainShade=true when >=50% of the hex is dark. Mountain hexsides were measured as the share of points 5-8 px either side of the side (10-90% of its length) inside the dark shading (>=0.85 accepted), then every candidate 0.3-1.0 was checked by eye on side crops.",
+  "Roads traced by eye on zoomed tiles and confirmed per hexside on side crops. Major-road network: N4 tab -> 3400 -> Alfedena 3501 -> 3601 junction (branch to N4 east tab) -> Rionero 3602 -> 3603 junction (branch east 3704-3803-3804 -> E3 tab) -> 3604 -> bridge -> 3605 -> 3606 junction: west to Isernia 3507 -> 3406 -> Macchia 3307 -> 3207 -> bridge -> 3107 -> 3006 -> off west; south 3607 -> 3708 -> Carpinone 3709 -> 3710 -> Cantalupo 3711 -> 3811 -> Bojano 3812 -> 3813 -> off south.",
+  "Roads leaving the photo: major road 3006 west and 3813 south; minor roads 3012 west (to 2912), 3114 south, 3002 west (town at the photo edge), 3314/3413 at the bottom fold.",
+  "Zone sections: the 8th Army Boundary Line splits the photo; everything east of it is the 8th Army zone. White dashed hexside lines divide it into N4 (north), E3, E2, E1 (south). Each east entry tab sits beside hexes of the section with the same name.",
+  "Atina is not in this photo (it lies further west).",
+  "River text: \"Biferno\" printed along 3912-4012; a blue italic \"o\" at 3007's west edge is probably the end of \"Volturno\".",
+  "Region label \"MATESE APENNIN...\" (spaced capitals) across 3512-3713; lake label \"Lago del...\" in 3514."
+ ]
+}

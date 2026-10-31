@@ -10,6 +10,7 @@ disagreement between photos to report.md for checking against the photos.
 
 import json
 import pathlib
+import re
 
 HERE = pathlib.Path(__file__).parent
 OUT = HERE.parent.parent / 'data' / 'italy43' / 'map.json'
@@ -65,7 +66,7 @@ SIDE_FIELDS = ('river', 'mountain', 'pass', 'road')
 def norm_side(v):
     out = {}
     river = v.get('river')
-    if v.get('lake'):
+    if v.get('lake') is True:
         river = 'lake'
     if river in ('minor', 'canal', True):
         out['river'] = True
@@ -108,6 +109,7 @@ def norm_hex(v):
 
 def main():
     src = load()
+    fixes = json.loads((HERE / 'source' / 'fixes.json').read_text()) if (HERE / 'source' / 'fixes.json').exists() else {}
     mids = {k: middle(t) for k, t in src.items()}
     hex_reads, side_reads = {}, {}
     for k, t in src.items():
@@ -117,12 +119,19 @@ def main():
             hex_reads.setdefault(h, {})[k] = v
         for s, v in t['hexsides'].items():
             side_reads.setdefault(s, {})[k] = v
+        # Hexsides at the edge of a photo, touching a hex it does not show: a weaker reading.
+        for s, v in (t.get('edgeHexsides') or {}).items():
+            if k not in side_reads.get(s, {}):
+                weaker = {'high': 'medium', 'medium': 'low'}.get(v.get('confidence'), 'low')
+                side_reads.setdefault(s, {})[k] = {**v, 'confidence': weaker}
 
     report = ['# Italy \'43 map: where the photos disagree', '']
     hexes = {}
     for h in sorted(hex_reads):
         reads = hex_reads[h]
         photo, best = pick(reads, h, mids)
+        if h in fixes.get('hexes', {}):
+            best = {**best, **{k: v for k, v in fixes['hexes'][h].items() if k != 'why'}}
         hexes[h] = norm_hex(best)
         if len(reads) > 1:
             normed = {k: norm_hex(v) for k, v in reads.items()}
@@ -133,6 +142,8 @@ def main():
     for s in sorted(side_reads):
         reads = side_reads[s]
         photo, best = pick(reads, s, mids)
+        if s in fixes.get('hexsides', {}):
+            best = {**best, **{k: v for k, v in fixes['hexsides'][s].items() if k != 'why'}}
         n = norm_side(best)
         if len(reads) > 1:
             normed = {k: norm_side(v) for k, v in reads.items()}
@@ -154,17 +165,25 @@ def main():
             if a < b and b in neighbours(a):
                 hexsides.setdefault(side_key(a, b), {})['road'] = 'major'
 
+    # Entry areas: the map-edge hexes each one touches. The photos describe them in slightly different shapes.
     entry = {}
     for k, t in src.items():
         for name, ea in (t.get('entryAreas') or {}).items():
-            if not isinstance(ea, dict):
-                continue
-            hs = ea.get('hexes') or ea.get('mapEdgeHexes') or ea.get('touches') or []
-            if isinstance(hs, dict):
-                hs = list(hs)
-            side = {'N': 'north', 'S': 'south', 'E': 'east'}.get(name[0])
+            if not re.fullmatch(r'[NSE]\d', name):
+                continue  # a tab seen at a photo's edge and read properly in the next photo
+            hs = set()
+            if isinstance(ea, list):
+                hs = {x.split()[0] for x in ea}
+            elif isinstance(ea, dict):
+                for key in ('hexes', 'touches', 'touchesHexes', 'touchesMapHexes', 'mapEdgeHexes'):
+                    if ea.get(key):
+                        hs |= set(ea[key])
+                for tab in ea.get('tabs') or []:
+                    hs |= set(tab.get('touches') or {})
+                hs |= {x for x in ea if re.fullmatch(r'\d{4}', x)}
+            side = {'N': 'north', 'S': 'south', 'E': 'east'}[name[0]]
             cur = entry.setdefault(name, {'hexes': [], 'side': side})
-            cur['hexes'] = sorted(set(cur['hexes']) | {h for h in hs if h in hexes})
+            cur['hexes'] = sorted(set(cur['hexes']) | {h for h in hs if h in hexes and hexes[h]['terrain'] != 'sea'})
 
     land = sum(1 for v in hexes.values() if v['terrain'] != 'sea')
     meta = {
