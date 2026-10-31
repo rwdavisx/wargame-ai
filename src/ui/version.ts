@@ -1,2 +1,2 @@
 // Shown on the title screen so a player can tell at a glance which build they are running.
-export const BUILD = '24 · two games';
+export const BUILD = '25 · Italy counters';
