@@ -607,9 +607,9 @@ function EffectView({ e }: { e: Effect }) {
 
 // ------------------------------------------------------------------ the map
 
-/** The margin drawn round the view on every side, as a share of its size: what a pan can show before the map is
- * drawn again. */
-const OVERSCAN = 0.2;
+/** The margin drawn round the view on every side, as a share of its size: how far a drag or a zoom out can go before
+ * an edge would show. */
+const OVERSCAN = 0.5;
 
 export function MapView(props: MapViewProps) {
   const { state, terrain, settings, highlights, selectedHex, selectedUnitId, attackTarget, attackers } = props;
@@ -639,7 +639,13 @@ export function MapView(props: MapViewProps) {
   const fingers = useRef(new Map<number, { x: number; y: number }>());
   const pinch = useRef<{ d: number; mx: number; my: number; v: View } | null>(null);
   const lastPointer = useRef('mouse');
-  const [dragging, setDragging] = useState(false);
+  // A drag or pinch in progress: the map is not drawn again until it ends. Marked on the element rather than in state,
+  // so starting a drag does not re-render the map.
+  const holding = useRef(false);
+  const setDragging = useCallback((on: boolean) => {
+    holding.current = on;
+    wrapRef.current?.classList.toggle('dragging', on);
+  }, []);
   const [hoverHex, setHoverHex] = useState<HexId | null>(null);
   const [effects, setEffects] = useState<Effect[]>([]);
   const [ground, setGround] = useState<Ground[]>([]);
@@ -680,9 +686,10 @@ export function MapView(props: MapViewProps) {
     settleTimer.current = 0;
     setVb(vbRef.current);
   }, []);
-  /** Moves the camera. The map is drawn again a moment after it stops (`now`: at once), or as soon as the view runs
-   * past the margin drawn round it or is zoomed far enough to blur. */
-  const moveView = useCallback((next: View | ((v: View) => View), settle: 'idle' | 'now' = 'idle') => {
+  /** Moves the camera. The map is drawn again once the camera rests: at once (`now`), a moment after the last move
+   * (`idle`, or `wheel` for the longer pause between turns of a wheel), or when a drag, pinch or flight (`hold`) ends.
+   * Until then the drawn map only slides and scales, unless an edge of it would come into view. */
+  const moveView = useCallback((next: View | ((v: View) => View), settle: 'idle' | 'wheel' | 'now' | 'hold' = 'idle') => {
     const v = typeof next === 'function' ? next(vbRef.current) : next;
     vbRef.current = v;
     placeStage();
@@ -691,10 +698,15 @@ export function MapView(props: MapViewProps) {
     const hs = wrapRef.current?.clientHeight || 1;
     const k = ws / v.w;
     const s = c.w / v.w;
-    const out = s < 0.76 || s > 1.6 || Math.abs(c.x - v.x) * k > ws * OVERSCAN * 0.8 || Math.abs(c.y - v.y) * k > hs * OVERSCAN * 0.8;
+    // The view on screen as a share of the drawn one: past that margin an edge shows; zoomed far in, it blurs.
+    const dx = Math.abs(c.x - v.x + (c.w - v.w) / 2) * k;
+    const dy = Math.abs(c.y - v.y + (c.h - v.h) / 2) * k;
+    const edge = ((1 + 2 * OVERSCAN) * s - 1) / 2;
+    const out = s > 2.5 || dx > ws * edge * 0.98 || dy > hs * edge * 0.98;
     window.clearTimeout(settleTimer.current);
+    settleTimer.current = 0;
     if (settle === 'now' || out) settleView();
-    else settleTimer.current = window.setTimeout(settleView, 140);
+    else if (settle !== 'hold' && !holding.current) settleTimer.current = window.setTimeout(settleView, settle === 'wheel' ? 260 : 140);
   }, [placeStage, settleView]);
   useLayoutEffect(() => {
     committed.current = vb;
@@ -736,8 +748,9 @@ export function MapView(props: MapViewProps) {
     const c = bgRef.current;
     const ws = wrapRef.current?.clientWidth ?? 0;
     if (!c || !ws) return;
-    // The canvas covers the view and its margin; it is drawn only when the view settles.
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // The canvas covers the view and its margin; it is drawn only when the view settles. A watercolour wash needs no
+    // more than one and a half pixels to the CSS pixel, even on a sharp screen.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const k = (ws / vb.w) * dpr;
     const W = Math.round(drawn.w * k);
     const H = Math.round(drawn.h * k);
@@ -773,7 +786,7 @@ export function MapView(props: MapViewProps) {
       const step = (t: number) => {
         const k = Math.min(1, (t - t0) / ms);
         const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-        moveView({ x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e, w: from.w + (to.w - from.w) * e, h: from.h + (to.h - from.h) * e }, k < 1 ? 'idle' : 'now');
+        moveView({ x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e, w: from.w + (to.w - from.w) * e, h: from.h + (to.h - from.h) * e }, k < 1 ? 'hold' : 'now');
         if (k < 1) anim.current = requestAnimationFrame(step);
       };
       anim.current = requestAnimationFrame(step);
@@ -844,14 +857,45 @@ export function MapView(props: MapViewProps) {
   useEffect(() => {
     const el = svgRef.current;
     if (!el) return;
+    // The wheel zooms by as much as it turned (a mouse notch about 15%, a trackpad a little at a time), and the camera
+    // eases to where it is told rather than jumping a notch at a time.
+    let target: View | null = null;
+    let raf = 0;
+    const ease = () => {
+      const v = vbRef.current;
+      const t = target!;
+      const f = 0.32;
+      const next = { x: v.x + (t.x - v.x) * f, y: v.y + (t.y - v.y) * f, w: v.w + (t.w - v.w) * f, h: v.h + (t.h - v.h) * f };
+      const done = Math.abs(next.w - t.w) < t.w * 0.002 && Math.abs(next.x - t.x) < t.w * 0.001 && Math.abs(next.y - t.y) < t.w * 0.001;
+      moveView(done ? t : next, done ? 'wheel' : 'hold');
+      if (done) {
+        target = null;
+        raf = 0;
+      } else raf = requestAnimationFrame(ease);
+    };
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
+      if (anim.current) cancelAnimationFrame(anim.current);
+      const px = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1;
+      const d = Math.max(-240, Math.min(240, e.deltaY * px));
+      const f = Math.exp(d * 0.0014);
+      const from = target ?? vbRef.current;
       const p = toSvg(e.clientX, e.clientY);
-      zoomBy(e.deltaY > 0 ? 1.13 : 1 / 1.13, p);
+      // Zoom about the point under the pointer, as it will be when the camera gets there.
+      const sx = (p.x - vbRef.current.x) / vbRef.current.w;
+      const sy = (p.y - vbRef.current.y) / vbRef.current.h;
+      const at = { x: from.x + sx * from.w, y: from.y + sy * from.h };
+      const w = Math.min(b.w * 1.15, Math.max(330, from.w * f));
+      const h = (from.h / from.w) * w;
+      target = clampView({ x: at.x - sx * w, y: at.y - sy * h, w, h });
+      if (!raf) raf = requestAnimationFrame(ease);
     };
     el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, [toSvg, zoomBy]);
+    return () => {
+      el.removeEventListener('wheel', onWheel);
+      cancelAnimationFrame(raf);
+    };
+  }, [toSvg, moveView, clampView, b]);
 
   // Keyboard camera: arrows/WASD to pan, +/- to zoom.
   useEffect(() => {
@@ -1090,7 +1134,7 @@ export function MapView(props: MapViewProps) {
   const turnSide = state.activeSide;
 
   return (
-    <div ref={wrapRef} className={`mapwrap${dragging ? ' dragging' : ''}`}>
+    <div ref={wrapRef} className="mapwrap">
       <div ref={stageRef} className="map-stage">
       <canvas ref={bgRef} className="map-canvas" aria-hidden />
       <AmbientLayer terrain={terrain} weather={currentWeather(state)} animate={settings.ambient !== false} frame={drawn} cssPerUnit={(wrapRef.current?.clientWidth || 1) / vb.w} sizeTick={sizeTick} />
@@ -1099,7 +1143,7 @@ export function MapView(props: MapViewProps) {
         className="map-svg"
         viewBox={`${drawn.x} ${drawn.y} ${drawn.w} ${drawn.h}`}
         preserveAspectRatio="xMidYMid meet"
-        style={props.cursor && !dragging ? { cursor: props.cursor } : undefined}
+        style={props.cursor ? { cursor: props.cursor } : undefined}
         onPointerDown={(e) => {
           lastPointer.current = e.pointerType;
           if (e.pointerType === 'mouse' && e.button !== 0) return; // right-click is handled by onContextMenu, never selects
@@ -1136,7 +1180,7 @@ export function MapView(props: MapViewProps) {
               const w = Math.min(b.w * 1.15, Math.max(330, (pz.v.w * pz.d) / d));
               const h = (pz.v.h / pz.v.w) * w;
               const k = w / rect.width;
-              moveView(clampView({ x: px - (mx - rect.left) * k, y: py - (my - rect.top) * k, w, h }));
+              moveView(clampView({ x: px - (mx - rect.left) * k, y: py - (my - rect.top) * k, w, h }), 'hold');
               return;
             }
           }
@@ -1151,7 +1195,7 @@ export function MapView(props: MapViewProps) {
             }
             if (d.moved) {
               const { scale } = toSvg(e.clientX, e.clientY);
-              moveView((v) => clampView({ ...v, x: d.vx - dx * scale, y: d.vy - dy * scale }));
+              moveView((v) => clampView({ ...v, x: d.vx - dx * scale, y: d.vy - dy * scale }), 'hold');
               return;
             }
           }
@@ -1304,7 +1348,7 @@ export function MapView(props: MapViewProps) {
         <Medal icon="target" label="Back to the front" pos="right" onClick={() => { const [x, y] = center(homeHex(state)); centerOn(x + 120, y, 500); }} />
         {qol && <ModeTools qol={qol} barOpen={barOpen} setBarOpen={setBarOpen} />}
       </div>
-      {props.hoverText && hoverScreen && !dragging && (
+      {props.hoverText && hoverScreen && (
         <div key={props.hoverText} className="hex-tip" style={{ left: hoverScreen.left + 28, top: hoverScreen.top - 10 }}>
           {props.hoverText.split('\n').map((l, i) => <div key={i} className={i ? 'sub' : 'head'}>{l}</div>)}
         </div>

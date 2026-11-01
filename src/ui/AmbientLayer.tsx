@@ -40,7 +40,7 @@ export function AmbientLayer({ terrain, weather, animate, frame, cssPerUnit, siz
     const draw = (now: number) => {
       const { frame: f, cssPerUnit: css } = place.current;
       // A soft layer: well under a pixel per CSS pixel is plenty (and less still without a graphics card).
-      const k = amb.software ? 0.5 : Math.min(window.devicePixelRatio || 1, 1) * 0.75;
+      const k = amb.software ? 0.5 : Math.min(window.devicePixelRatio || 1, 1) * 0.6;
       const W = Math.max(1, Math.round(f.w * css * k));
       const H = Math.max(1, Math.round(f.h * css * k));
       if (canvas.width !== W || canvas.height !== H) {
