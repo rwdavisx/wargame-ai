@@ -167,7 +167,7 @@ const SHADOW = pig([150, 146, 170]);
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 12;
+const RENDER_VERSION = 13;
 
 function mapHash(): string {
   const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
@@ -275,26 +275,52 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const W = b.w;
   const H = b.h;
   const hexes = Object.entries(MAP.hexes);
-  // Hexes just beyond the map edge borrow the terrain of the nearest map hex, so the land runs on past the frame.
+  // Where the map has no hexes. The printed map gives open water no grid, so a gap inside the frame that opens onto
+  // the sea is sea, painted out to the frame. Past the frame, a missing hex carries on the land of the nearest map
+  // hexes, so the land runs on past the edge, but only where none of them is sea: a coast that meets the edge stops
+  // at it rather than running on out to sea.
   const real = Object.keys(MAP.hexes);
   const edgeHexes = real.filter((h) => neighbors(h).some((n) => !MAP.hexes[n]));
   const extended: [string, HexData][] = [...hexes];
   const cols = real.map((h) => parseHex(h).c);
   const rows = real.map((h) => parseHex(h).r);
-  for (let c = Math.max(0, Math.min(...cols) - 3); c <= Math.max(...cols) + 3; c++) {
-    for (let r = Math.max(0, Math.min(...rows) - 3); r <= Math.max(...rows) + 3; r++) {
+  const [c0, c1, r0, r1] = [Math.min(...cols), Math.max(...cols), Math.min(...rows), Math.max(...rows)];
+  const inFrame = (id: string) => {
+    const { c, r } = parseHex(id);
+    return c >= c0 && c <= c1 && r >= r0 && r <= r1;
+  };
+  // The water spreads from the sea hexes through the gap, but not through a gap hex beside inland land (so it cannot
+  // run round the frame along a row of missing edge hexes); those beside the water it reaches are coast, and water.
+  const inland = (h: string) => !!MAP.hexes[h] && MAP.hexes[h].terrain !== 'sea' && !MAP.hexes[h].coast && !MAP.hexes[h].shore;
+  const gap = (h: string) => !MAP.hexes[h] && inFrame(h);
+  const openWater = new Set<string>();
+  const queue: string[] = [];
+  const reach = (n: string) => {
+    if (!gap(n) || openWater.has(n) || neighbors(n).some(inland)) return;
+    openWater.add(n);
+    queue.push(n);
+  };
+  for (const [h, d] of hexes) if (d.terrain === 'sea') neighbors(h).forEach(reach);
+  while (queue.length) neighbors(queue.pop()!).forEach(reach);
+  for (const h of [...openWater]) for (const n of neighbors(h)) if (gap(n)) openWater.add(n);
+  for (let c = Math.max(0, c0 - 3); c <= c1 + 3; c++) {
+    for (let r = Math.max(0, r0 - 3); r <= r1 + 3; r++) {
       const id = hexId(c, r);
       if (MAP.hexes[id]) continue;
-      let best = edgeHexes[0];
+      if (openWater.has(id)) {
+        extended.push([id, { terrain: 'sea' }]);
+        continue;
+      }
       let bd = Infinity;
+      let nearest: string[] = [];
       for (const e of edgeHexes) {
         const d = distance(id, e);
-        if (d < bd) {
-          bd = d;
-          best = e;
-        }
+        if (d < bd) (bd = d), (nearest = [e]);
+        else if (d === bd) nearest.push(e);
       }
-      if (bd <= 4) extended.push([id, { terrain: MAP.hexes[best].terrain }]);
+      if (bd > 4) continue;
+      const sea = nearest.some((e) => MAP.hexes[e].terrain === 'sea' || MAP.hexes[e].coast || MAP.hexes[e].shore);
+      extended.push([id, { terrain: sea && !inFrame(id) ? 'sea' : MAP.hexes[nearest[0]].terrain }]);
     }
   }
   // Past the top and left edges there are no hex ids to borrow: copies of the edge hexes carry the land on there,
@@ -348,6 +374,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   });
   const inside0 = rasterize(b, (ctx) => {
     for (const [h] of hexes) (hexPath(ctx, h, 1), ctx.fill());
+    for (const h of openWater) (hexPath(ctx, h, 1), ctx.fill());
   });
   const hill0 = rasterize(b, (ctx) => {
     for (const [h, d] of extended) if (d.terrain === 'hill') (hexPath(ctx, h, 1), ctx.fill());
