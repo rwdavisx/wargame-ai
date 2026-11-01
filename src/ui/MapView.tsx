@@ -631,6 +631,16 @@ export function MapView(props: MapViewProps) {
   const vbRef = useRef(vb);
   const committed = useRef(vb);
   const wrapRef = useRef<HTMLDivElement>(null);
+  // Where the map's element is and how big, read from the page only when it is resized (never while the camera
+  // moves: a layout read after a change forces the page to lay itself out again then and there).
+  const box = useRef({ left: 0, top: 0, width: 0, height: 0 });
+  const wrapBox = useCallback(() => {
+    if (!box.current.width && wrapRef.current) {
+      const r = wrapRef.current.getBoundingClientRect();
+      box.current = { left: r.left, top: r.top, width: r.width, height: r.height };
+    }
+    return box.current;
+  }, []);
   const stageRef = useRef<HTMLDivElement>(null);
   const settleTimer = useRef(0);
   // `t` is when the press began; `long` marks a touch long press, which only shows the hex details.
@@ -658,7 +668,7 @@ export function MapView(props: MapViewProps) {
     (v: View): View => {
       const w = Math.min(b.w * 1.15, Math.max(330, v.w));
       // Always keep the element's aspect ratio, whatever view was asked for.
-      const r = wrapRef.current?.getBoundingClientRect();
+      const r = wrapBox();
       const h = r && r.width && r.height ? (w * r.height) / r.width : (v.h / v.w) * w;
       const x = Math.min(b.x + b.w - w * 0.35, Math.max(b.x - w * 0.65, v.x));
       const y = Math.min(b.y + b.h - h * 0.35, Math.max(b.y - h * 0.65, v.y));
@@ -668,12 +678,21 @@ export function MapView(props: MapViewProps) {
   );
 
   /** Slides and scales the drawn layers from the view they were drawn for to the one on screen. */
+  const miniRef = useRef<SVGRectElement>(null);
   const placeStage = useCallback(() => {
     const st = stageRef.current;
-    const ws = wrapRef.current?.clientWidth ?? 0;
+    const ws = wrapBox().width;
     if (!st) return;
     const c = committed.current;
     const l = vbRef.current;
+    // The minimap's frame follows the camera directly, without a render.
+    const mr = miniRef.current;
+    if (mr) {
+      mr.setAttribute('x', String(l.x));
+      mr.setAttribute('y', String(l.y));
+      mr.setAttribute('width', String(l.w));
+      mr.setAttribute('height', String(l.h));
+    }
     if (!ws || (c.x === l.x && c.y === l.y && c.w === l.w)) {
       st.style.transform = '';
       return;
@@ -694,8 +713,8 @@ export function MapView(props: MapViewProps) {
     vbRef.current = v;
     placeStage();
     const c = committed.current;
-    const ws = wrapRef.current?.clientWidth || 1;
-    const hs = wrapRef.current?.clientHeight || 1;
+    const ws = wrapBox().width || 1;
+    const hs = wrapBox().height || 1;
     const k = ws / v.w;
     const s = c.w / v.w;
     // The view on screen as a share of the drawn one: past that margin an edge shows; zoomed far in, it blurs.
@@ -708,6 +727,23 @@ export function MapView(props: MapViewProps) {
     if (settle === 'now' || out) settleView();
     else if (settle !== 'hold' && !holding.current) settleTimer.current = window.setTimeout(settleView, settle === 'wheel' ? 260 : 140);
   }, [placeStage, settleView]);
+  /** After a drag: the map is drawn again only if the view has used up much of the margin drawn round it (or been
+   * zoomed), and then only once the hand has rested a moment, so a quick next grab does not meet a redraw. */
+  const settleLater = useCallback(() => {
+    const c = committed.current;
+    const v = vbRef.current;
+    const ws = wrapBox().width || 1;
+    const hs = wrapBox().height || 1;
+    const k = ws / v.w;
+    const s = c.w / v.w;
+    const dx = Math.abs(c.x - v.x + (c.w - v.w) / 2) * k;
+    const dy = Math.abs(c.y - v.y + (c.h - v.h) / 2) * k;
+    const edge = ((1 + 2 * OVERSCAN) * s - 1) / 2;
+    window.clearTimeout(settleTimer.current);
+    settleTimer.current = 0;
+    if (Math.abs(s - 1) < 0.01 && dx < ws * edge * 0.45 && dy < hs * edge * 0.45) return;
+    settleTimer.current = window.setTimeout(settleView, 450);
+  }, [settleView]);
   useLayoutEffect(() => {
     committed.current = vb;
     placeStage();
@@ -715,6 +751,10 @@ export function MapView(props: MapViewProps) {
   useEffect(() => () => window.clearTimeout(settleTimer.current), []);
   /** The view as drawn, with its margin. */
   const drawn = useMemo(() => ({ x: vb.x - vb.w * OVERSCAN, y: vb.y - vb.h * OVERSCAN, w: vb.w * (1 + 2 * OVERSCAN), h: vb.h * (1 + 2 * OVERSCAN) }), [vb]);
+  // CSS pixels per map unit as drawn. The map's drawing (the SVG) covers the whole map at this scale and is only
+  // moved when the view settles after a pan, so it is drawn again only when the zoom changes; the canvases under it
+  // cover the view and its margin and are redrawn, at once and whole, when it settles.
+  const kz = (wrapBox().width || 1) / vb.w;
 
   // Keep the view's aspect ratio equal to the element's.
   useEffect(() => {
@@ -722,6 +762,7 @@ export function MapView(props: MapViewProps) {
     if (!el) return;
     const fit = () => {
       const r = el.getBoundingClientRect();
+      box.current = { left: r.left, top: r.top, width: r.width, height: r.height };
       if (!r.width || !r.height) return;
       moveView((v) => {
         const h = (v.w * r.height) / r.width;
@@ -746,7 +787,7 @@ export function MapView(props: MapViewProps) {
   }, []);
   useLayoutEffect(() => {
     const c = bgRef.current;
-    const ws = wrapRef.current?.clientWidth ?? 0;
+    const ws = wrapBox().width;
     if (!c || !ws) return;
     // The canvas covers the view and its margin; it is drawn only when the view settles. A watercolour wash needs no
     // more than one and a half pixels to the CSS pixel, even on a sharp screen.
@@ -771,7 +812,7 @@ export function MapView(props: MapViewProps) {
 
   const toSvg = useCallback((clientX: number, clientY: number) => {
     // From the view on screen (the element keeps the view's aspect ratio, so there is no letterboxing).
-    const rect = wrapRef.current!.getBoundingClientRect();
+    const rect = wrapBox();
     const v = vbRef.current;
     const scale = v.w / (rect.width || 1);
     return { x: v.x + (clientX - rect.left) * scale, y: v.y + (clientY - rect.top) * scale, scale };
@@ -855,23 +896,16 @@ export function MapView(props: MapViewProps) {
   );
 
   useEffect(() => {
-    const el = svgRef.current;
+    const el = stageRef.current;
     if (!el) return;
-    // The wheel zooms by as much as it turned (a mouse notch about 15%, a trackpad a little at a time), and the camera
-    // eases to where it is told rather than jumping a notch at a time.
+    // The wheel zooms by as much as it turned (a mouse notch about 15%, a trackpad a little at a time), applied once a
+    // frame however many wheel events arrive in it.
     let target: View | null = null;
     let raf = 0;
-    const ease = () => {
-      const v = vbRef.current;
-      const t = target!;
-      const f = 0.32;
-      const next = { x: v.x + (t.x - v.x) * f, y: v.y + (t.y - v.y) * f, w: v.w + (t.w - v.w) * f, h: v.h + (t.h - v.h) * f };
-      const done = Math.abs(next.w - t.w) < t.w * 0.002 && Math.abs(next.x - t.x) < t.w * 0.001 && Math.abs(next.y - t.y) < t.w * 0.001;
-      moveView(done ? t : next, done ? 'wheel' : 'hold');
-      if (done) {
-        target = null;
-        raf = 0;
-      } else raf = requestAnimationFrame(ease);
+    const apply = () => {
+      raf = 0;
+      if (target) moveView(target, 'wheel');
+      target = null;
     };
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -880,22 +914,22 @@ export function MapView(props: MapViewProps) {
       const d = Math.max(-240, Math.min(240, e.deltaY * px));
       const f = Math.exp(d * 0.0014);
       const from = target ?? vbRef.current;
-      const p = toSvg(e.clientX, e.clientY);
-      // Zoom about the point under the pointer, as it will be when the camera gets there.
-      const sx = (p.x - vbRef.current.x) / vbRef.current.w;
-      const sy = (p.y - vbRef.current.y) / vbRef.current.h;
+      const r = wrapBox();
+      // Zoom about the point under the pointer.
+      const sx = (e.clientX - r.left) / (r.width || 1);
+      const sy = (e.clientY - r.top) / (r.height || 1);
       const at = { x: from.x + sx * from.w, y: from.y + sy * from.h };
       const w = Math.min(b.w * 1.15, Math.max(330, from.w * f));
       const h = (from.h / from.w) * w;
       target = clampView({ x: at.x - sx * w, y: at.y - sy * h, w, h });
-      if (!raf) raf = requestAnimationFrame(ease);
+      if (!raf) raf = requestAnimationFrame(apply);
     };
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => {
       el.removeEventListener('wheel', onWheel);
       cancelAnimationFrame(raf);
     };
-  }, [toSvg, moveView, clampView, b]);
+  }, [wrapBox, moveView, clampView, b]);
 
   // Keyboard camera: arrows/WASD to pan, +/- to zoom.
   useEffect(() => {
@@ -999,7 +1033,7 @@ export function MapView(props: MapViewProps) {
         const to = first.kind === 'move' ? first.pts[first.pts.length - 1] : from;
         const v = vbRef.current;
         const mx = v.w * 0.12;
-        const right = v.x + v.w - mx - 380 * (v.w / (wrapRef.current?.clientWidth || 1));
+        const right = v.x + v.w - mx - 380 * (v.w / (wrapBox().width || 1));
         const out = (p: Pt) => p[0] < v.x + mx || p[0] > right || p[1] < v.y + mx || p[1] > v.y + v.h - mx;
         if (out(from) || out(to)) {
           followed.current = true;
@@ -1127,7 +1161,7 @@ export function MapView(props: MapViewProps) {
     if (!hoverHex || !wrapRef.current) return null;
     const v = vbRef.current;
     const [x, y] = center(hoverHex);
-    const k = wrapRef.current.clientWidth / v.w;
+    const k = wrapBox().width / v.w;
     return { left: (x - v.x) * k, top: (y - v.y) * k };
   }, [hoverHex, vb]);
 
@@ -1135,14 +1169,9 @@ export function MapView(props: MapViewProps) {
 
   return (
     <div ref={wrapRef} className="mapwrap">
-      <div ref={stageRef} className="map-stage">
-      <canvas ref={bgRef} className="map-canvas" aria-hidden />
-      <AmbientLayer terrain={terrain} weather={currentWeather(state)} animate={settings.ambient !== false} frame={drawn} cssPerUnit={(wrapRef.current?.clientWidth || 1) / vb.w} sizeTick={sizeTick} />
-      <svg
-        ref={svgRef}
-        className="map-svg"
-        viewBox={`${drawn.x} ${drawn.y} ${drawn.w} ${drawn.h}`}
-        preserveAspectRatio="xMidYMid meet"
+      <div
+        ref={stageRef}
+        className="map-stage"
         style={props.cursor ? { cursor: props.cursor } : undefined}
         onPointerDown={(e) => {
           lastPointer.current = e.pointerType;
@@ -1161,6 +1190,11 @@ export function MapView(props: MapViewProps) {
             }
             if (fingers.current.size > 2) return;
           }
+          // A new grab puts off any redraw still waiting from the last one.
+          if (settleTimer.current) {
+            window.clearTimeout(settleTimer.current);
+            settleTimer.current = 0;
+          }
           drag.current = { x: e.clientX, y: e.clientY, vx: vbRef.current.x, vy: vbRef.current.y, moved: false, t: e.timeStamp };
         }}
         onPointerMove={(e) => {
@@ -1172,7 +1206,7 @@ export function MapView(props: MapViewProps) {
               const d = Math.hypot(a.x - c.x, a.y - c.y) || 1;
               const mx = (a.x + c.x) / 2;
               const my = (a.y + c.y) / 2;
-              const rect = wrapRef.current!.getBoundingClientRect();
+              const rect = wrapBox();
               const k0 = pz.v.w / rect.width;
               // The map point under the starting midpoint stays under the fingers.
               const px = pz.v.x + (pz.mx - rect.left) * k0;
@@ -1200,6 +1234,8 @@ export function MapView(props: MapViewProps) {
             }
           }
           if (e.pointerType !== 'mouse') return; // no hover on touch screens
+          // A press about to become a drag does no hover work (it would re-render the screen as the grab begins).
+          if (d) return;
           const p = toSvg(e.clientX, e.clientY);
           const h = pixelToHex(p.x, p.y);
           const hex = MAP.hexes[h] ? h : null;
@@ -1215,7 +1251,7 @@ export function MapView(props: MapViewProps) {
             if (pinch.current) {
               if (fingers.current.size < 2) {
                 pinch.current = null;
-                settleView();
+                settleLater();
               }
               if (fingers.current.size === 0) {
                 drag.current = null;
@@ -1227,7 +1263,7 @@ export function MapView(props: MapViewProps) {
           const d = drag.current;
           drag.current = null;
           setDragging(false);
-          if (d?.moved) settleView();
+          if (d?.moved) settleLater();
           if (d && !d.moved) {
             const p = toSvg(e.clientX, e.clientY);
             const h = pixelToHex(p.x, p.y);
@@ -1266,6 +1302,15 @@ export function MapView(props: MapViewProps) {
           setHoverHex(null);
           props.onHover(null);
         }}
+      >
+      <canvas ref={bgRef} className="map-canvas" aria-hidden />
+      <AmbientLayer terrain={terrain} weather={currentWeather(state)} animate={settings.ambient !== false} frame={drawn} cssPerUnit={kz} sizeTick={sizeTick} />
+      <svg
+        ref={svgRef}
+        className="map-svg"
+        viewBox={`${b.x} ${b.y} ${b.w} ${b.h}`}
+        preserveAspectRatio="none"
+        style={{ width: b.w * kz, height: b.h * kz, transform: `translate(${(b.x - drawn.x) * kz}px, ${(b.y - drawn.y) * kz}px)` }}
       >
         <defs>
           {['fff6d5', 'ef5a3c', 'ffd27a'].map((c) => (
@@ -1339,7 +1384,7 @@ export function MapView(props: MapViewProps) {
       </svg>
       </div>
       <div className="map-vignette" />
-      <Minimap terrain={terrain} state={state} view={vb} onJump={(x, y) => centerOn(x, y, 350)} />
+      <Minimap terrain={terrain} state={state} view={vb} rectRef={miniRef} onJump={(x, y) => centerOn(x, y, 350)} />
       {qol && barOpen && <MapBar qol={qol} onClose={() => setBarOpen(false)} minimapH={(200 * b.h) / b.w} />}
       <div className="maptools">
         <Medal icon="zoomIn" label="Zoom in" keyHint="+" pos="right" onClick={() => zoomBy(1 / 1.3)} />
@@ -1359,7 +1404,9 @@ export function MapView(props: MapViewProps) {
 
 // ------------------------------------------------------------------ minimap
 
-function Minimap({ terrain, state, view, onJump }: { terrain: TerrainImage; state: GameState; view: View; onJump: (x: number, y: number) => void }) {
+function Minimap({ terrain, state, view, rectRef, onJump }: {
+  terrain: TerrainImage; state: GameState; view: View; rectRef: React.RefObject<SVGRectElement | null>; onJump: (x: number, y: number) => void;
+}) {
   const b = terrain.bounds;
   const W = 200;
   const H = (W * b.h) / b.w;
@@ -1382,7 +1429,7 @@ function Minimap({ terrain, state, view, onJump }: { terrain: TerrainImage; stat
           const [x, y] = center(h);
           return <rect key={h} x={x - 11} y={y - 11} width={22} height={22} rx={4} fill={side === 'Allied' ? '#b7d36b' : '#e8eef2'} stroke="#111" strokeWidth={4} />;
         })}
-        <rect x={view.x} y={view.y} width={view.w} height={view.h} fill="rgba(255,255,255,0.08)" stroke="#ffd84a" strokeWidth={8} />
+        <rect ref={rectRef} x={view.x} y={view.y} width={view.w} height={view.h} fill="rgba(255,255,255,0.08)" stroke="#ffd84a" strokeWidth={8} />
       </svg>
     </div>
   );

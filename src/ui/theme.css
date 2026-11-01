@@ -150,13 +150,16 @@
 /* The drawn map: the view and half of it again on every side (MapView's OVERSCAN), slid and scaled by the camera
    between redraws. Its own compositing layer, so moving it repaints nothing. */
 .map-stage { position: absolute; left: -50%; top: -50%; width: 200%; height: 200%; transform-origin: 25% 25%; will-change: transform; }
-.mapwrap.dragging, .mapwrap.dragging .map-svg { cursor: grabbing !important; }
+.mapwrap.dragging, .mapwrap.dragging .map-stage { cursor: grabbing !important; }
 .mapwrap.dragging .hex-tip { display: none; }
-.map-svg { position: relative; width: 100%; height: 100%; display: block; user-select: none; }
-/* The map works out what was clicked or hovered from the pointer's position, so its shapes need not be hit-tested
-   (testing every river and coastline on each mouse move is slow). Only the badges with tooltips take the pointer. */
-.map-svg * { pointer-events: none; }
-.map-svg [pointer-events='visiblePainted'], .map-svg [pointer-events='visiblePainted'] * { pointer-events: visiblePainted; }
+/* The map's drawing: the whole map at the drawn zoom, its own layer, moved as the view settles. The map works out
+   what was clicked or hovered from the pointer's position (the stage takes the pointer), so none of its shapes is
+   hit-tested: testing every river and coastline on each mouse move and wheel turn is slow. */
+.map-svg { position: absolute; left: 0; top: 0; display: block; user-select: none; transform-origin: 0 0; will-change: transform; }
+.map-svg, .map-svg * { pointer-events: none !important; }
+/* Lettering scaled as drawing, not fitted afresh to each screen size: otherwise every step of a zoom makes the
+   browser lay out all the map's text again. */
+.map-svg text { text-rendering: geometricPrecision; }
 .map-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .map-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.55); }
 
