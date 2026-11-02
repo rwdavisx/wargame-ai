@@ -3,8 +3,8 @@ stitch.py) and the Adriatic front drawn from the ground (parts/extension.json, f
 
 On top of the join this script sets what the scenario needs:
 - the entry areas of the joined map (the printed maps' inner edges are gone; new ones where the 1943 roads leave the
-  map: the Via Tiburtina at Popoli and the Via Adriatica north of Pescara for the Germans, the roads from Cerignola
-  and Candela for the Eighth Army coming up from Apulia);
+  map: the Appia, the Casilina, the Tiburtina at Avezzano, the road to L'Aquila and the Via Adriatica north of
+  Pescara for the Germans, the roads from Calabria, Taranto and Bari for the Eighth Army);
 - the victory hexes of one VP total for both fronts, each with the date the Allies took it in 1943 (or none), from
   which rules.json's benchmarks are worked out (build_oob.py);
 - the Bernhard and Gustav positions across the Adriatic sector (research/german.json, 'lines');
@@ -73,10 +73,11 @@ LINES = {
 
 # Roads leaving the map: from a town to the edge, toward the place given.
 STUBS = [
-    ('Cisterna di Latina', (41.69, 12.78), 'major'),   # Via Appia toward Velletri and Rome
+    ('Cisterna di Littoria', (41.69, 12.78), 'major'), # Via Appia toward Velletri and Rome
     ('Anagni', (41.78, 12.92), 'major'),               # Via Casilina (SS 6) toward Valmontone and Rome
-    ('Avezzano', (42.10, 13.40), 'minor'),             # the Fucino toward Tagliacozzo and Rome
-    ('Popoli', (42.33, 13.55), 'major'),               # Via Tiburtina (SS 5) toward L'Aquila
+    ('Avezzano', (42.10, 13.40), 'major'),             # Via Tiburtina Valeria (SS 5) toward Tagliacozzo and Rome
+    ('Popoli', (42.33, 13.55), 'major'),               # SS 17 up the Aterno toward L'Aquila
+    ('Foggia', (41.627, 15.918), 'major'),             # SS 89 past Amendola toward Manfredonia (no entry area)
     ('Pescara', (42.53, 14.13), 'major'),              # Via Adriatica north (SS 16) toward Ancona
     ('Tricarico', (40.63, 16.28), 'major'),            # SS 7 Appia toward Grassano and Matera
     ('Gravina in Puglia', (40.83, 16.55), 'minor'),    # toward Altamura and Bari
@@ -86,10 +87,10 @@ STUBS = [
 
 # Entry areas: (name, side, label, hexes or a stitched area to take them from)
 ENTRY = [
-    ('G1', 'north', 'G1 Via Appia, to Rome', 'stub:Cisterna di Latina'),
+    ('G1', 'north', 'G1 Via Appia, to Rome', 'stub:Cisterna di Littoria'),
     ('G2', 'north', 'G2 Via Casilina, to Rome', 'stub:Anagni'),
-    ('G3', 'north', 'G3 to Avezzano and Rome', 'stub:Avezzano'),
-    ('G4', 'north', "G4 Via Tiburtina, to L'Aquila", 'stub:Popoli'),
+    ('G3', 'north', 'G3 Via Tiburtina, to Rome', 'stub:Avezzano'),
+    ('G4', 'north', "G4 to L'Aquila", 'stub:Popoli'),
     ('G5', 'north', 'G5 Via Adriatica, to Ancona', 'stub:Pescara'),
     ('A1', 'south', 'A1 to Calabria (coast)', 'SS1'),
     ('A2', 'south', 'A2 to Calabria (Sala Consilina)', 'SS2'),

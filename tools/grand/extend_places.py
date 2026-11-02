@@ -46,6 +46,9 @@ TOWNS = [
     ('San Marco dei Cavoti', None, False), ('Molinara', None, False), ('San Giorgio La Molara', None, False), ('Buonalbergo', None, False),
     ('Casalbore', None, False), ('Sulmona', None, True), ('Pratola Peligna', None, False), ('Popoli', None, False), ('Lama dei Peligni', None, False),
     ('Taranta Peligna', None, False), ('Gamberale', None, False), ('Pizzoferrato', None, False), ('Rocca San Giovanni', None, False), ('Perano', None, False),
+    # the Via Tiburtina Valeria (SS 5) from Avezzano over the Forca Caruso and down the Pescara valley
+    ('Celano', None, False), ('Cerchio', None, False), ('Castelvecchio Subequo', None, False), ('Raiano', None, False),
+    ('Bussi sul Tirino', None, False), ("Torre de' Passeri", None, False), ('Scafa', None, False),
     # Apulia and Basilicata: the Eighth Army's approach
     ('Potenza', None, True), ('Cerignola', None, True), ('Melfi', None, False), ('Rionero in Vulture', None, False), ('Atella', None, False),
     ('Lavello', None, False), ('Venosa', None, False), ('Canosa di Puglia', None, False), ('Minervino Murge', None, False), ('Spinazzola', None, False),
@@ -55,7 +58,7 @@ TOWNS = [
     ('Avigliano', None, False), ('Oppido Lucano', None, False), ('Banzi', None, False),
     # Lazio: the roads to Rome
     ('Littoria', 'Latina, Lazio', True), ('Frosinone', None, True), ('Sora', 'Sora, Lazio', True), ('Avezzano', None, True),
-    ('Cisterna di Latina', None, False), ('Sezze', None, False), ('Priverno', None, False), ('Pontinia', None, False), ('Sabaudia', None, False),
+    ('Cisterna di Littoria', 'Cisterna di Latina', False), ('Sezze', None, False), ('Priverno', None, False), ('Pontinia', None, False), ('Sabaudia', None, False),
     ('San Felice Circeo', None, False), ('Ceccano', None, False), ('Ceprano', None, False), ('Ferentino', None, False), ('Anagni', None, False),
     ('Alatri', None, False), ('Veroli', None, False), ('Isola del Liri', None, False), ('Arpino', None, False), ('Balsorano', None, False),
     ('Capistrello', None, False), ('Sonnino', None, False), ('Pofi', None, False),
@@ -68,7 +71,9 @@ ON_PRINTED_EDGE = {'Potenza'}
 MAJOR = [
     ['Pescara', 'Francavilla al Mare', 'Ortona', 'San Vito Chietino', 'Fossacesia', 'Torino di Sangro', 'Casalbordino', 'Vasto', 'San Salvo',
      'Petacciato', 'Termoli', 'Campomarino', 'Chieuti', 'Serracapriola', 'San Severo', 'Foggia'],            # Via Adriatica (SS 16)
-    ['Isernia', 'Castel San Vincenzo', 'Castel di Sangro', 'Roccaraso', 'Sulmona'],                          # SS 17 north
+    ['Isernia', 'Castel San Vincenzo', 'Castel di Sangro', 'Roccaraso', 'Sulmona', 'Pratola Peligna', 'Popoli'],  # SS 17 north
+    ['Avezzano', 'Celano', 'Cerchio', 'Castelvecchio Subequo', 'Raiano', 'Popoli', 'Bussi sul Tirino', "Torre de' Passeri", 'Scafa',
+     'Chieti'],                                                                                         # SS 5 Tiburtina Valeria
     ['Vinchiaturo', 'Campobasso', 'Gambatesa', 'Volturara Appula', 'Motta Montecorvino', 'Lucera', 'Foggia'],  # SS 17 east (approximate)
     ['Benevento', 'Apice', 'Ariano Irpino', 'Greci', 'Savignano di Puglia', 'Orsara di Puglia', 'Bovino', 'Foggia'],  # SS 90 delle Puglie
     ['Pietrelcina', 'Colle Sannita', 'Riccia', 'Campobasso', 'Ripalimosani', 'Montagano', 'Casacalenda', 'Larino', 'Guglionesi', 'Termoli'],  # SS 87 Sannitica (approximate)
@@ -77,8 +82,8 @@ MAJOR = [
     ['Cerignola', 'Canosa di Puglia', 'Lavello', 'Rionero in Vulture', 'Atella', 'Avigliano', 'Potenza'],  # SS 93 Appulo-Lucana (approximate)
     ['Potenza', 'Vaglio Basilicata', 'Tolve', 'Tricarico'],                                             # SS 7 Appia toward Matera
     ['Foggia', 'Ascoli Satriano', 'Candela', 'Rocchetta Sant\'Antonio', 'Melfi', 'Rionero in Vulture'],    # Foggia-Melfi
-    ['Terracina', 'Pontinia', 'Littoria', 'Cisterna di Latina'],                                        # Via Appia
-    ['Ceprano', 'Frosinone', 'Ferentino', 'Anagni'],                                                    # Via Casilina (SS 6)
+    ['Terracina', 'Pontinia', 'Littoria', 'Cisterna di Littoria'],                                      # Via Appia
+    ['Aquino', 'Ceprano', 'Frosinone', 'Ferentino', 'Anagni'],                                          # Via Casilina (SS 6)
     ['Sora', 'Balsorano', 'Capistrello', 'Avezzano'],                                                   # SS 82 Valle del Liri
 ]
 MINOR = [
@@ -97,15 +102,18 @@ MINOR = [
     ['Benevento', 'San Giorgio La Molara', 'San Bartolomeo in Galdo', 'Celenza Valfortore'],
     ['Frosolone', 'Carovilli'], ['Frosolone', 'Campobasso'],
     ['Lucera', 'Biccari', 'Troia'],
-    ['Sulmona', 'Pratola Peligna', 'Popoli'],
     ['Melfi', 'Lavello'], ['Venosa', 'Palazzo San Gervasio', 'Spinazzola', 'Minervino Murge', 'Canosa di Puglia'], ['Lavello', 'Venosa'],
     ['Potenza', 'Pietragalla', 'Acerenza', 'Genzano di Lucania', 'Gravina in Puglia'], ['Genzano di Lucania', 'Palazzo San Gervasio'],
     ['Tolve', 'Irsina', 'Gravina in Puglia'],
     ['Frosinone', 'Ceccano', 'Priverno', 'Sezze', 'Littoria'], ['Terracina', 'Sonnino', 'Priverno'], ['Littoria', 'Sabaudia', 'San Felice Circeo'],
     ['Frosinone', 'Alatri', 'Veroli', 'Sora'], ['Sora', 'Isola del Liri', 'Arpino'], ['Isola del Liri', 'Ceprano'], ['Ceccano', 'Pofi', 'Ceprano'],
 ]
-# Fifty-year-old names: the town on the map is called as it was in 1943.
-RENAME_1943 = {'Latina': 'Littoria'}
+# The gazetteer's names as the map gives them: as in 1943 (Latina was Littoria, Cisterna di Latina Cisterna di
+# Littoria, Caramanico Terme plain Caramanico), and the comune for a seat the gazetteer names by a hamlet or a
+# double-barrelled form.
+RENAME_1943 = {'Latina': 'Littoria', 'Cisterna di Latina': 'Cisterna di Littoria', 'Caramanico Terme': 'Caramanico',
+               'Sambuceto': 'San Giovanni Teatino', 'Collefontana-Fontana Liri Inferiore': 'Fontana Liri',
+               'Canistro Inferiore': 'Canistro', 'Roccaspinalveti-Santa Giusta': 'Roccaspinalveti', 'Torre Caietani': 'Torre Cajetani'}
 TOWN_DENSITY = 0.16      # towns per land hex in the drawn sectors (the printed maps have 0.17-0.18)
 CITY_POP = 30000         # comuni this size today are cities on the map
 
@@ -155,12 +163,13 @@ def main():
     # Positions: the gazetteer's (by the place's own name), else Wikipedia's (wiki_places.py, cached).
     cached = json.load(open(f'{os.path.dirname(__file__)}/places_cache.json'))
     pos = {}
+    folded = {n.lower(): v for n, v in comuni.items()}
     for t in titles.values():
-        base = t.split(',')[0].strip()
+        base = t.split(',')[0].strip().lower()
         if t in cached:
             pos[t] = tuple(cached[t])
-        elif base in comuni:
-            pos[t] = comuni[base][:2]
+        elif base in folded:
+            pos[t] = folded[base][:2]
     rest = [t for t in titles.values() if t not in pos]
     if rest:
         more, missing = locate(rest)
@@ -195,8 +204,10 @@ def main():
     # The larger comuni, the largest in each hex, to the printed maps' density.
     land = [h for h, d in ext['hexes'].items() if d['terrain'] != 'sea']
     best = {}
+    # A comune already on the map under its own name, its 1943 name or its title (any case) is not added again.
+    have = {n.lower() for n in at} | {titles[n].split(',')[0].strip().lower() for n in at if n in titles}
     for t, (la, lo, size) in comuni.items():
-        if t in at or RENAME_1943.get(t) in at:
+        if t.lower() in have or town_name(t).lower() in have:
             continue
         h = ll_to_hex(la, lo)
         if h not in ext['hexes'] or ext['hexes'][h]['terrain'] == 'sea' or h in at.values():
@@ -215,13 +226,15 @@ def main():
     named = {(d.get('city') or d.get('town')): h for h, d in grand['hexes'].items() if d.get('city') or d.get('town')}
     named.update(at)
 
+    over_mountain = [8.0]   # what crossing a mountain hexside costs a route
+
     def cost(a, b):
         da, db = hexes[a], hexes[b]
         if da['terrain'] == 'sea' or db['terrain'] == 'sea':
             return None
         s = sides.get(side_key(a, b), {})
         # The printed maps' roads keep off mountain hexsides (a handful cross one) and never use a pass.
-        k = 1.0 + (0.6 if db['terrain'] == 'hill' else 0) + (8.0 if s.get('mountain') else 0) + (0.6 if s.get('river') else 0)
+        k = 1.0 + (0.6 if db['terrain'] == 'hill' else 0) + (over_mountain[0] if s.get('mountain') else 0) + (0.6 if s.get('river') else 0)
         if s.get('road'):
             k -= 0.6
         return k
@@ -273,6 +286,9 @@ def main():
                 continue
             s['road'] = kind
             ext['hexsides'].setdefault(k, {})['road'] = kind
+            if s.pop('pass', None):
+                # The printed maps' roads cross a ridge on a mountain hexside, never a pass.
+                ext['hexsides'][k].pop('pass', None)
             made += 1
 
     for roads, kind in ((MAJOR, 'major'), (MINOR, 'minor')):
@@ -283,7 +299,16 @@ def main():
                     print(f'road town not on the map: {n}')
             pts = [p for p in pts if p]
             for a, b in zip(pts, pts[1:]):
-                lay(route(a, b), kind)
+                path = route(a, b)
+                if not path or len(path) - 1 > 1.5 * hex_distance(a, b) + 2:
+                    # A road of 1943 that the ranges would send far round went over them (the Forchetta between
+                    # Palena and Roccaraso): it may cross a mountain hexside.
+                    over_mountain[0] = 2.0
+                    short = route(a, b)
+                    over_mountain[0] = 8.0
+                    if short and (not path or len(short) < len(path)):
+                        path = short
+                lay(path, kind)
     chains = made
 
     def road_hex(h):

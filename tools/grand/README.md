@@ -33,7 +33,7 @@ down (`ROW_SHIFT`), leaving room north of the Italy map.
 
 No printed map covers the Adriatic front, Apulia and Basilicata south of it (Potenza, Melfi, Cerignola: the Eighth
 Army's approach), or Lazio north of the Italy map (Littoria, Frosinone, Sora: the roads to Rome). They are drawn
-from the ground in the printed maps' own manner, so the whole frame is playable (3,683 hexes, 3,193 of them land):
+from the ground in the printed maps' own manner, so the whole frame is playable (3,683 hexes, 3,195 of them land):
 
 - `geo.py`: the grid on the ground (the fit above) and elevation from the public Terrarium tiles (AWS open data).
 - `calibrate.py`: a hex is hill where the 90th less the 10th percentile of the heights inside it is over 70 m,
@@ -42,17 +42,32 @@ from the ground in the printed maps' own manner, so the whole frame is playable 
   density; it agrees with the designers on 61% of their mountain hexsides. The lowest 3% of the mountain hexsides
   are passes, about the printed maps' share.
 - `extend.py`: rivers traced from the ground (water run downhill over a filled surface; a river from 220 km² of
-  catchment, a major river from 1,200 km², the cut-offs that give the printed maps' density of each: about 30 river
-  and 7 major-river hexsides per 100 land hexes), snapped onto the hex edges nearest their course. The Sangro,
-  Trigno, Biferno, Fortore, Pescara and Ofanto come out at their real mouths.
+  catchment, the cut-off that gives the printed maps' density, about 30 river hexsides per 100 land hexes), snapped
+  onto the hex edges nearest their course. The Sangro, Trigno, Biferno, Fortore, Pescara and Ofanto come out at their
+  real mouths. Major rivers follow the printed maps' own choices, not a density: Italy '43 draws the Volturno major
+  below the Calore (some 5,000 km²) but the Calore at Benevento (3,000 km²) and the Liri above the Gari minor, so a
+  river is major from 3,500 km², which no drawn river reaches (the Pescara has 3,200 km² at its mouth). As the
+  printed map makes the Gari major for its battle, the Sangro is major below the Aventino (the Eighth Army's
+  November crossing). Three rivers are drawn whatever their size: the Moro (the Canadians' December line), the
+  Sangro below the Aventino and the upper Liri down the Valle Roveto (small on the ground because the Fucino reaches
+  it by a tunnel). A traced river does not run beside a printed hex that has its own river.
+- Valleys stay open: no mountain hexside on a river or across its valley floor (where a river turns at a hex corner,
+  the hexside between the two hexes on the same bank). The printed maps break this 14 times in 782; the model alone
+  put 57 there (the Valle Roveto was closed on every side), which are opened. Passes are chosen after that.
+- Sea cut off from the open sea is marsh (two hexes of the Pontine plain lie below sea level).
 - `extend_places.py`: towns to the printed maps' density (about one land hex in six): the places the history names,
   then the largest comune in each hex from the GeoNames gazetteer (`comuni.py` → `comuni.json`; GeoNames,
-  www.geonames.org, CC BY 4.0), the larger ones cities, named as in 1943 (Littoria, not Latina). Roads: the main
-  roads of 1943 as the towns they ran through (the Via Adriatica, the Appia, the Casilina, the Tiburtina, the SS 17,
-  87, 90 and 93, the valley roads), then a minor road to every town not on one, and between neighbouring towns the
-  network leaves far apart: some 62 road hexsides per 100 land hexes against the printed maps' 72, the mountains of
-  the Abruzzo being emptier. Roads keep off mountain hexsides and passes, as on the printed maps. Termoli, Ortona and
-  Pescara are ports, Foggia and Amendola airfields. Routes are reconstructions, to be checked against period maps.
+  www.geonames.org, CC BY 4.0), the larger ones cities, named as in 1943 (Littoria, not Latina; Cisterna di Littoria;
+  Caramanico, not Caramanico Terme) and by the comune where the gazetteer names a hamlet or a double name (San Giovanni
+  Teatino, not Sambuceto; Fontana Liri). A place is never given twice, whatever the case of its name. Roads: the main
+  roads of 1943 as the towns they ran through (the Via Adriatica, the Appia, the Casilina from Aquino, the Tiburtina
+  Valeria from Avezzano over the Forca Caruso and down the Pescara valley to Chieti, the SS 17 from Popoli to Isernia
+  and from Campobasso to Foggia, the SS 87, 90 and 93, the valley roads), then a minor road to every town not on one,
+  and between neighbouring towns the network leaves far apart: some 64 road hexsides per 100 land hexes against the
+  printed maps' 72, the mountains of the Abruzzo being emptier. Roads keep off mountain hexsides where they can, as on
+  the printed maps; a main road the ranges would send far round (more than half as long again) goes over (the
+  Forchetta between Palena and Roccaraso), and a road never takes a pass hexside. Termoli, Ortona and Pescara are
+  ports, Foggia and Amendola airfields. Routes are reconstructions, to be checked against period maps.
 - `render_check.py` draws the whole map for checking by eye (`MERGED=1` for the playable map).
 
 ## The joins
@@ -61,7 +76,7 @@ from the ground in the printed maps' own manner, so the whole frame is playable 
 printed map's edge) to the nearest road it does not already reach, joins every piece of road cut off from the
 network (the Terracina roads on Italy '43's map, two stubs on Salerno '43's south edge), joins each river that stops
 at a join to the river across it, and leads a printed river whose upper course was off its map a few hexsides up its
-valley from the elevation data. Result: one road network, no road ending in open country, 55 roads across the joins.
+valley from the elevation data. Result: one road network, no road ending in open country, 57 roads across the joins.
 
 ## Rules: Italy '43 with Salerno '43's landings
 
@@ -73,10 +88,12 @@ Allies hold, 12 landing points a day. Naples is a port once taken; until then un
 September the weather is Salerno '43's daily track (`weatherSeasons`), from October Italy '43's, and Salerno's
 landing-day movement rules apply on day 1.
 
-Entry areas: G1-G5 on the north edge are German (the Appia, the Casilina, the road to Avezzano, the Tiburtina and the
-Via Adriatica); A1-A7 on the south and east edges are German until the Eighth Army comes up (`rules.entryOpens`: the
-Calabrian roads on day 11, the Basento valley road on day 12, the roads from Bari on days 13-15); German units still
-waiting in one then are lost.
+Entry areas: G1-G5 on the north edge are German (the Appia, the Casilina, the Tiburtina at Avezzano, the SS 17 from
+L'Aquila and the Via Adriatica); Italy '43's units due at its N3 (the Sora road) come at G3, at its N4 (the Castel di
+Sangro road) at G4. A1-A7 on the south and east edges are German until the Eighth Army comes up (`rules.entryOpens`:
+the Calabrian roads on day 11, the Basento valley road on day 12, the roads from Bari on days 13-15); German units
+still waiting in one then are lost. A road from Foggia past Amendola leaves the east edge toward Manfredonia, with no
+entry area.
 
 ## Turn track and victory
 
@@ -91,7 +108,8 @@ Allies run ahead of 1943 because they move through an emptier south than the rea
 limits) and score for the German guns they catch. From 11 October six VP above the benchmark wins at once and six
 below loses. A scenario is won on its last turn's benchmark: 34 VP for the Race (turn 27, 10 October), 55 for the
 Campaign and the Winter Line (turn 54). In the six calibration campaigns the Allies ended on 55-57, in two Winter
-Lines on 54.
+Lines on 54. After the map review (fewer major rivers on the Adriatic, the Pescara valley road) three campaigns ended
+on 58-60 and two Winter Lines on 56 and 49; `pace_ai.json` is not yet redone for them.
 
 ## Counters
 
@@ -105,8 +123,11 @@ standing where they were that day (Hermann Göring round Naples and Caserta, 15t
 Gaeta), each held until the day Salerno '43 brings it in, and those Salerno '43 never brings in watching the coast
 until the enemy comes near; the 3rd Panzergrenadier comes from Rome, the 29th, 26th and 1st Parachute up from Calabria
 and Apulia. Italy '43's removals that were really moves to the Adriatic (the 26th Panzer, 29th Panzergrenadier, 305th
-Division) are dropped. **winter** (1 November) is Italy '43's Bernhard Line cards in the west and, east of them, each
-unit at its research position nearest 2 November, kept on its own side of the Trigno front of 28 October.
+Division) are dropped; II/64 leaves with the rest of the 16th Panzer on 17 November. **winter** (1 November) is Italy
+'43's Bernhard Line cards in the west and, east of them, each unit at its research position nearest 2 November (or its
+division's), kept on its own side of the Trigno front of 28 October; a division placed that way stands at most three
+stacking points to a hex, so it holds a front. The counters Italy '43's November cards keep off its map because they
+were on the Adriatic that day (the 26th Panzer between the Trigno and Isernia, II/64, III/1 FJ) start there.
 
 ## Still open
 
@@ -114,3 +135,11 @@ unit at its research position nearest 2 November, kept on its own side of the Tr
   uncertain.
 - The Termoli landing (3 October) is not modelled as a landing: the Commandos enter with the Eighth Army.
 - The Salerno map's rivers are all minor; the Sele and the Calore may deserve major.
+- Italy '43's edge VP hexes keep their values though the map now runs on past them: 5 for the Casilina above Aquino
+  (2315), 4 for Terracina, 3 for Atina. None fell in 1943, so they move no benchmark.
+- Vasto was officially Istonio from 1938 to 1944; the map gives Vasto, as the Allied maps and histories do.
+- The winter set-up gives Isernia to the Allies (their 13th Brigade stands nearer it than any German); it fell on
+  4 November.
+- Mountain hexsides come from a model that knows height and roughness, not valleys: high flat ground (the Piano delle
+  Cinquemiglia on the SS 17) is still crossed by mountain hexsides, and 32 road hexsides of the drawn sectors cross
+  one (the printed maps: 12).

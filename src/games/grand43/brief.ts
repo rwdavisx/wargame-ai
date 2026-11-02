@@ -20,7 +20,7 @@ export const GRAND_BRIEF: Briefing = {
     goals: (sc) => [
       `Hold at least ${win(sc).vp} VP at the end of ${when(win(sc).turn)}.`,
       `From ${when(RULES.automaticFromTurn)} keep pace with the benchmark: ${RULES.automaticMargin} VP above it wins at once, ${RULES.automaticMargin} below loses. September's landing battle is fought out whatever the count.`,
-      'VP hexes count only with a supply line. Naples (4), Foggia (3) and Salerno, Avellino, Termoli, Campobasso and Ortona (2 each) are worth the most.',
+      'VP hexes count only with a supply line. Worth the most: the Via Casilina above Aquino (5), Naples and Terracina (4), Foggia, Pescara and Atina (3); Salerno, Avellino, Termoli, Campobasso, Ortona, Chieti, Sulmona, Cassino and Frosinone 2 each.',
       ...(sc === 'winter' ? [] : ['Day 1 is the landing: each beach rolls on the Invasion table. Later waves come by sea through the Floating Reserve to a beachhead or a port you hold. In September a turn is a day.']),
       'Naples, once taken, is your port: reinforcements due there come straight onto the map; until then they come by sea.',
     ],

@@ -813,7 +813,7 @@
     },
     "winter": {
      "start": {
-      "box": "permanentlyRemoved"
+      "hex": "3619"
      }
     }
    }
@@ -841,16 +841,9 @@
      }
     },
     "winter": {
-     "arrive": {
-      "turn": 36,
-      "at": "G3"
-     },
-     "events": [
-      {
-       "turn": 44,
-       "kind": "remove"
-      }
-     ]
+     "start": {
+      "hex": "3619"
+     }
     }
    }
   },
@@ -877,16 +870,9 @@
      }
     },
     "winter": {
-     "arrive": {
-      "turn": 36,
-      "at": "G3"
-     },
-     "events": [
-      {
-       "turn": 44,
-       "kind": "remove"
-      }
-     ]
+     "start": {
+      "hex": "3618"
+     }
     }
    }
   },
@@ -914,17 +900,9 @@
     },
     "winter": {
      "reduced": true,
-     "arrive": {
-      "turn": 36,
-      "at": "G3",
-      "reduced": true
-     },
-     "events": [
-      {
-       "turn": 44,
-       "kind": "remove"
-      }
-     ]
+     "start": {
+      "hex": "3618"
+     }
     }
    }
   },
@@ -951,16 +929,9 @@
      }
     },
     "winter": {
-     "arrive": {
-      "turn": 36,
-      "at": "G3"
-     },
-     "events": [
-      {
-       "turn": 44,
-       "kind": "remove"
-      }
-     ]
+     "start": {
+      "hex": "3618"
+     }
     }
    }
   },
@@ -988,16 +959,9 @@
     },
     "winter": {
      "fired": true,
-     "arrive": {
-      "turn": 36,
-      "at": "G3"
-     },
-     "events": [
-      {
-       "turn": 44,
-       "kind": "remove"
-      }
-     ]
+     "start": {
+      "hex": "3619"
+     }
     }
    }
   },
@@ -1216,7 +1180,7 @@
     },
     "winter": {
      "start": {
-      "box": "permanentlyRemoved"
+      "hex": "4715"
      }
     }
    }
@@ -1281,12 +1245,24 @@
     "campaign": {
      "start": {
       "hex": "3053"
-     }
+     },
+     "events": [
+      {
+       "turn": 40,
+       "kind": "remove"
+      }
+     ]
     },
     "winter": {
      "start": {
-      "box": "permanentlyRemoved"
-     }
+      "hex": "5415"
+     },
+     "events": [
+      {
+       "turn": 40,
+       "kind": "remove"
+      }
+     ]
     }
    }
   },
@@ -1477,7 +1453,7 @@
     },
     "winter": {
      "start": {
-      "hex": "3319"
+      "hex": "3320"
      },
      "events": []
     }
@@ -1530,7 +1506,7 @@
     "campaign": {
      "arrive": {
       "turn": 34,
-      "at": "G3"
+      "at": "G4"
      }
     },
     "winter": {
@@ -4874,7 +4850,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5414"
+      "hex": "5315"
      },
      "events": [
       {
@@ -4988,7 +4964,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5415"
+      "hex": "5414"
      },
      "events": [
       {
@@ -5064,7 +5040,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5415"
+      "hex": "5414"
      },
      "events": [
       {
@@ -5102,7 +5078,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5415"
+      "hex": "5414"
      },
      "events": [
       {
@@ -5411,7 +5387,7 @@
     },
     "winter": {
      "start": {
-      "hex": "4716"
+      "hex": "4615"
      }
     }
    }
@@ -5465,7 +5441,7 @@
     },
     "winter": {
      "start": {
-      "hex": "4716"
+      "hex": "4715"
      }
     }
    }
@@ -5713,7 +5689,7 @@
     },
     "winter": {
      "start": {
-      "hex": "3826"
+      "hex": "3827"
      }
     }
    }
@@ -5769,7 +5745,7 @@
     },
     "winter": {
      "start": {
-      "hex": "3827"
+      "hex": "3727"
      }
     }
    }
@@ -5961,7 +5937,7 @@
     },
     "winter": {
      "start": {
-      "hex": "4716"
+      "hex": "4715"
      }
     }
    }
@@ -6069,7 +6045,7 @@
     },
     "winter": {
      "start": {
-      "hex": "4715"
+      "hex": "4615"
      }
     }
    }
@@ -6095,7 +6071,7 @@
     },
     "winter": {
      "start": {
-      "hex": "3320"
+      "hex": "3319"
      }
     }
    }
@@ -6637,7 +6613,7 @@
     },
     "winter": {
      "start": {
-      "hex": "3621"
+      "hex": "3622"
      }
     }
    }
@@ -6698,7 +6674,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5842"
+      "hex": "5843"
      },
      "events": [
       {
@@ -6737,7 +6713,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5843"
+      "hex": "5743"
      },
      "events": [
       {
@@ -6864,7 +6840,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5417"
+      "hex": "5418"
      }
     }
    }
@@ -6891,7 +6867,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5418"
+      "hex": "5318"
      }
     }
    }
@@ -7231,7 +7207,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5120"
+      "hex": "5219"
      }
     }
    }
@@ -7285,7 +7261,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5539"
+      "hex": "5438"
      }
     }
    }
@@ -7312,7 +7288,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5539"
+      "hex": "5638"
      }
     }
    }
@@ -7338,7 +7314,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5538"
+      "hex": "5539"
      }
     }
    }
@@ -7472,7 +7448,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5538"
+      "hex": "5539"
      }
     }
    }
@@ -7499,7 +7475,7 @@
     },
     "winter": {
      "start": {
-      "hex": "5418"
+      "hex": "5518"
      }
     }
    }
