@@ -49,6 +49,9 @@
     justify-content: center; min-height: 48px; padding: 6px 6px; text-align: center; white-space: normal;
     font-size: 12px; line-height: 1.2; letter-spacing: 0.08em;
   }
+  /* A long name (Salerno to Ortona) wraps instead of running off the screen. */
+  .logo-title { display: block; white-space: normal; overflow-wrap: break-word; line-height: 1.02; }
+  .loading .logo { max-width: calc(100vw - 32px); text-align: center; }
   .logo-kicker { flex-wrap: wrap; font-size: 12px; letter-spacing: 0.18em; line-height: 1.4; }
   .logo-kicker i { display: none; }
   .logo-date { flex-wrap: wrap; font-size: 13px; letter-spacing: 0.14em; }
