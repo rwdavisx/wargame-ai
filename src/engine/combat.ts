@@ -1,5 +1,5 @@
 // Combat: odds, column shifts, CRT, Determined Defense, advance after combat.
-import { BATTLESHIPS_TURN, MAP, onGameData, RULES } from './data';
+import { BATTLESHIPS_TURN, MAP, onGameData, RULES, weatherTrack } from './data';
 import { fortLevel, razeFort } from './forts';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import { eliminate, loseStep, takeSteps } from './losses';
@@ -172,7 +172,7 @@ function markerFor(id: string, kind: 'air' | 'naval'): string {
 /** Use up a support marker. Italy '43 has one naval marker for both Allied armies (9.6): it shows as ready for each,
  * and firing it for one uses it for both. */
 export function spendSupport(s: GameState, key: string): void {
-  const shared = key.endsWith('-naval') && RULES.weather.track.some((b) => b.naval.includes('AL'));
+  const shared = key.endsWith('-naval') && weatherTrack(s.turn).some((b) => b.naval.includes('AL'));
   s.support.ready = s.support.ready.filter((k) => k !== key && !(shared && k.endsWith('-naval')));
 }
 

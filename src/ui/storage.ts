@@ -47,8 +47,10 @@ export interface Settings {
   turnAlerts: boolean;
 }
 
-// One autosave per game (Salerno's keeps its original key; its v1 saves predate the real rules and are ignored).
-const gameKey = (id: string) => (id === 'salerno43' ? 's43.autosave.v2' : `${id}.autosave.v1`);
+// One autosave per game (Salerno's keeps its original key; its v1 saves predate the real rules and are ignored). The
+// grand campaign's v1 saves are of the first map and 2-day September turns, which no longer fit.
+const SAVE_KEYS: Record<string, string> = { salerno43: 's43.autosave.v2', grand43: 'grand43.autosave.v2' };
+const gameKey = (id: string) => SAVE_KEYS[id] ?? `${id}.autosave.v1`;
 const SETTINGS_KEY = 's43.settings.v1';
 
 export const DEFAULT_SETTINGS: Settings = {

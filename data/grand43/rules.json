@@ -5,51 +5,62 @@
   "Allied"
  ],
  "turns": {
-  "campaign": 43,
+  "campaign": 54,
   "dates": {
-   "1": "Sep 9-10",
-   "2": "Sep 11-12",
-   "3": "Sep 13-14",
-   "4": "Sep 15-16",
-   "5": "Sep 17-18",
-   "6": "Sep 19-20",
-   "7": "Sep 21-22",
-   "8": "Sep 23-24",
-   "9": "Sep 25-26",
-   "10": "Sep 27-28",
-   "11": "Sep 29-30",
-   "12": "Oct 1-2",
-   "13": "Oct 3-4",
-   "14": "Oct 5-6",
-   "15": "Oct 7-8",
-   "16": "Oct 9-10",
-   "17": "Oct 11-13",
-   "18": "Oct 14-16",
-   "19": "Oct 17-19",
-   "20": "Oct 20-22",
-   "21": "Oct 23-25",
-   "22": "Oct 26-28",
-   "23": "Oct 29-31",
-   "24": "Nov 1-3",
-   "25": "Nov 4-6",
-   "26": "Nov 7-9",
-   "27": "Nov 10-12",
-   "28": "Nov 13-15",
-   "29": "Nov 16-18",
-   "30": "Nov 19-21",
-   "31": "Nov 22-24",
-   "32": "Nov 25-27",
-   "33": "Nov 28-30",
-   "34": "Dec 1-3",
-   "35": "Dec 4-6",
-   "36": "Dec 7-9",
-   "37": "Dec 10-12",
-   "38": "Dec 13-15",
-   "39": "Dec 16-18",
-   "40": "Dec 19-21",
-   "41": "Dec 22-24",
-   "42": "Dec 25-28",
-   "43": "Dec 29-31"
+   "1": "Sep 9",
+   "2": "Sep 10",
+   "3": "Sep 11",
+   "4": "Sep 12",
+   "5": "Sep 13",
+   "6": "Sep 14",
+   "7": "Sep 15",
+   "8": "Sep 16",
+   "9": "Sep 17",
+   "10": "Sep 18",
+   "11": "Sep 19",
+   "12": "Sep 20",
+   "13": "Sep 21",
+   "14": "Sep 22",
+   "15": "Sep 23",
+   "16": "Sep 24",
+   "17": "Sep 25",
+   "18": "Sep 26",
+   "19": "Sep 27",
+   "20": "Sep 28",
+   "21": "Sep 29",
+   "22": "Sep 30",
+   "23": "Oct 1-2",
+   "24": "Oct 3-4",
+   "25": "Oct 5-6",
+   "26": "Oct 7-8",
+   "27": "Oct 9-10",
+   "28": "Oct 11-13",
+   "29": "Oct 14-16",
+   "30": "Oct 17-19",
+   "31": "Oct 20-22",
+   "32": "Oct 23-25",
+   "33": "Oct 26-28",
+   "34": "Oct 29-31",
+   "35": "Nov 1-3",
+   "36": "Nov 4-6",
+   "37": "Nov 7-9",
+   "38": "Nov 10-12",
+   "39": "Nov 13-15",
+   "40": "Nov 16-18",
+   "41": "Nov 19-21",
+   "42": "Nov 22-24",
+   "43": "Nov 25-27",
+   "44": "Nov 28-30",
+   "45": "Dec 1-3",
+   "46": "Dec 4-6",
+   "47": "Dec 7-9",
+   "48": "Dec 10-12",
+   "49": "Dec 13-15",
+   "50": "Dec 16-18",
+   "51": "Dec 19-21",
+   "52": "Dec 22-24",
+   "53": "Dec 25-28",
+   "54": "Dec 29-31"
   }
  },
  "stacking": {
@@ -121,7 +132,9 @@
    "perSide": 2,
    "ma": 5
   },
-  "marshOverlandSupplyCost": 2
+  "marshOverlandSupplyCost": 2,
+  "turn1GermanHalfMaRoundUp": true,
+  "turn1AlliedTacticalOnly": true
  },
  "terrainCombat": {
   "_notes": "TEC effects on combat. 'defenseX2' doubles the defender's strength except silhouetted tanks and ASUs. Hexside doubling (mountain, rivers, marsh) applies only when every attacker attacks across such a hexside or out of a marsh.",
@@ -535,196 +548,157 @@
  },
  "victory": {
   "benchmarks": {
-   "2": 4,
-   "3": 4,
-   "4": 4,
+   "2": 5,
+   "3": 5,
+   "4": 5,
    "5": 5,
-   "6": 8,
-   "7": 8,
-   "8": 8,
-   "9": 8,
-   "10": 15,
-   "11": 18,
-   "12": 26,
-   "13": 28,
-   "14": 31,
-   "15": 32,
-   "16": 32,
-   "17": 32,
-   "18": 36,
-   "19": 37,
-   "20": 39,
-   "21": 39,
-   "22": 39,
-   "23": 39,
-   "24": 42,
-   "25": 44,
-   "26": 44,
-   "27": 44,
-   "28": 44,
-   "29": 44,
-   "30": 44,
-   "31": 45,
-   "32": 45,
-   "33": 45,
-   "34": 46,
-   "35": 46,
-   "36": 47,
-   "37": 47,
-   "38": 47,
-   "39": 48,
-   "40": 48,
-   "41": 48,
-   "42": 51,
-   "43": 51
+   "6": 5,
+   "7": 5,
+   "8": 5,
+   "9": 5,
+   "10": 6,
+   "11": 8,
+   "12": 10,
+   "13": 11,
+   "14": 11,
+   "15": 11,
+   "16": 11,
+   "17": 11,
+   "18": 11,
+   "19": 14,
+   "20": 16,
+   "21": 17,
+   "22": 19,
+   "23": 29,
+   "24": 31,
+   "25": 33,
+   "26": 33,
+   "27": 34,
+   "28": 35,
+   "29": 39,
+   "30": 39,
+   "31": 41,
+   "32": 41,
+   "33": 41,
+   "34": 41,
+   "35": 43,
+   "36": 45,
+   "37": 45,
+   "38": 45,
+   "39": 45,
+   "40": 45,
+   "41": 47,
+   "42": 47,
+   "43": 47,
+   "44": 49,
+   "45": 49,
+   "46": 50,
+   "47": 50,
+   "48": 50,
+   "49": 51,
+   "50": 51,
+   "51": 51,
+   "52": 54,
+   "53": 54,
+   "54": 55
   },
   "automatic": {
-   "fromTurn": 2,
+   "fromTurn": 28,
    "alliedMargin": 6,
    "alliedVp": 999,
    "germanMargin": 6
   },
   "scenarioWin": {
-   "campaign": 51,
-   "race": 32,
-   "winter": 51
+   "campaign": 55,
+   "race": 34,
+   "winter": 55
   },
   "pace": {
-   "1927": 24,
-   "2130": 18,
-   "2138": 12,
-   "2225": 24,
-   "2243": 11,
+   "1927": 35,
+   "2130": 29,
+   "2138": 23,
+   "2225": 35,
+   "2243": 22,
    "2448": 1,
    "2459": 1,
-   "2522": 36,
-   "2529": 20,
-   "2531": 18,
-   "2634": 13,
-   "2646": 10,
-   "2721": 39,
-   "2725": 24,
-   "2744": 11,
-   "2749": 1,
+   "2522": 47,
+   "2529": 31,
+   "2531": 29,
+   "2634": 24,
+   "2646": 20,
+   "2721": 50,
+   "2725": 35,
+   "2744": 21,
+   "2749": 2,
    "2758": 1,
-   "2852": 1,
-   "2920": 42,
-   "3033": 14,
-   "3053": 5,
-   "3158": 6,
-   "3228": 20,
-   "3233": 19,
-   "3244": 12,
-   "3254": 6,
-   "3521": 25,
-   "3715": 31,
-   "3739": 12,
-   "3860": 6,
-   "4153": 10,
-   "4328": 18,
-   "4343": 13,
-   "5208": 34,
-   "5326": 15,
-   "5506": 42,
-   "5538": 12,
-   "5615": 25,
-   "5922": 14,
-   "5942": 10,
-   "6034": 11
+   "2852": 2,
+   "2920": 53,
+   "3033": 25,
+   "3053": 10,
+   "3158": 11,
+   "3228": 31,
+   "3233": 30,
+   "3244": 23,
+   "3254": 11,
+   "3521": 36,
+   "3715": 42,
+   "3739": 23,
+   "3860": 12,
+   "4153": 20,
+   "4328": 29,
+   "4343": 24,
+   "4664": 12,
+   "5208": 45,
+   "5326": 26,
+   "5506": 53,
+   "5538": 23,
+   "5615": 36,
+   "5922": 25,
+   "5942": 19,
+   "6034": 22
   }
  },
  "replacements": {
   "schedule": {
-   "2": {
-    "German": {
-     "special": 1
-    }
-   },
-   "3": {
-    "German": {
-     "armor": 1,
-     "inf": 1
-    },
-    "BR": {
-     "inf": 1,
-     "armor": 1
-    },
-    "US": {
-     "inf": 1,
-     "armor": 1
-    }
-   },
    "4": {
     "German": {
-     "inf": 1,
      "special": 1
     }
    },
    "5": {
     "German": {
-     "armor": 1,
-     "inf": 1
+     "armor": 1
     },
     "BR": {
-     "inf": 1,
-     "special": 1
+     "inf": 1
     },
     "US": {
-     "inf": 1,
-     "special": 1
+     "inf": 1
     }
    },
    "6": {
     "German": {
-     "inf": 1,
-     "special": 1
+     "inf": 1
+    },
+    "BR": {
+     "armor": 1
+    },
+    "US": {
+     "armor": 1
     }
    },
    "7": {
     "German": {
-     "armor": 1,
      "inf": 1
-    },
-    "BR": {
-     "inf": 2,
-     "armor": 1
-    },
-    "US": {
-     "inf": 1,
-     "armor": 1
     }
    },
    "8": {
     "German": {
-     "inf": 1,
      "special": 1
     }
    },
    "9": {
     "German": {
-     "armor": 1,
-     "inf": 1
-    },
-    "BR": {
-     "inf": 1,
-     "special": 1
-    },
-    "US": {
-     "inf": 1,
-     "special": 1
-    }
-   },
-   "10": {
-    "German": {
-     "inf": 1,
-     "special": 1
-    },
-    "BR": {
-     "inf": 1
-    }
-   },
-   "11": {
-    "German": {
      "armor": 1
     },
     "BR": {
@@ -734,142 +708,131 @@
      "inf": 1
     }
    },
-   "13": {
+   "10": {
     "German": {
      "inf": 1
     },
     "BR": {
+     "special": 1
+    },
+    "US": {
+     "special": 1
+    }
+   },
+   "11": {
+    "German": {
      "inf": 1
     }
    },
-   "14": {
-    "US": {
-     "inf": 1
-    },
+   "12": {
     "German": {
      "special": 1
     }
    },
-   "15": {
+   "13": {
+    "German": {
+     "armor": 1
+    },
     "BR": {
+     "inf": 2
+    },
+    "US": {
+     "inf": 1
+    }
+   },
+   "14": {
+    "German": {
      "inf": 1
     },
+    "BR": {
+     "armor": 1
+    },
+    "US": {
+     "armor": 1
+    }
+   },
+   "15": {
     "German": {
      "inf": 1
     }
    },
    "16": {
-    "US": {
-     "inf": 1
-    },
     "German": {
-     "inf": 1
-    },
-    "BR": {
-     "inf": 1
+     "special": 1
     }
    },
    "17": {
-    "BR": {
-     "special": 1
-    },
-    "US": {
-     "special": 1
-    },
     "German": {
      "armor": 1
-    }
-   },
-   "18": {
-    "US": {
-     "armor": 1
     },
-    "German": {
-     "inf": 1
-    }
-   },
-   "19": {
     "BR": {
      "inf": 2
     },
     "US": {
      "inf": 1
+    }
+   },
+   "18": {
+    "German": {
+     "inf": 1
     },
+    "BR": {
+     "special": 1
+    },
+    "US": {
+     "special": 1
+    }
+   },
+   "19": {
     "German": {
      "inf": 1
     }
    },
    "20": {
-    "US": {
-     "inf": 1
-    },
     "German": {
      "special": 1
     }
    },
    "21": {
-    "BR": {
-     "armor": 1
-    },
-    "US": {
-     "special": 1
-    },
-    "German": {
-     "inf": 1
-    }
-   },
-   "22": {
-    "US": {
-     "armor": 1
-    },
-    "German": {
-     "inf": 1
-    },
-    "BR": {
-     "inf": 1
-    }
-   },
-   "23": {
-    "BR": {
-     "special": 1
-    },
-    "US": {
-     "inf": 1
-    },
-    "German": {
-     "special": 1
-    }
-   },
-   "24": {
-    "US": {
-     "inf": 1
-    },
     "German": {
      "armor": 1
-    }
-   },
-   "25": {
+    },
     "BR": {
      "inf": 2
     },
     "US": {
      "inf": 1
+    }
+   },
+   "23": {
+    "BR": {
+     "inf": 1
+    }
+   },
+   "24": {
+    "German": {
+     "inf": 1
+    }
+   },
+   "25": {
+    "US": {
+     "inf": 1
+    },
+    "German": {
+     "special": 1
+    }
+   },
+   "26": {
+    "BR": {
+     "inf": 2
     },
     "German": {
      "inf": 1
     }
    },
-   "26": {
-    "US": {
-     "special": 1
-    },
-    "German": {
-     "special": 1
-    }
-   },
    "27": {
     "US": {
-     "armor": 1
+     "inf": 1
     },
     "German": {
      "inf": 1
@@ -877,75 +840,66 @@
    },
    "28": {
     "BR": {
-     "armor": 1,
-     "inf": 2
+     "special": 1
+    },
+    "US": {
+     "special": 1
     },
     "German": {
-     "inf": 1
+     "armor": 1
     }
    },
    "29": {
     "US": {
-     "inf": 1,
      "armor": 1
     },
     "German": {
-     "inf": 1,
-     "special": 1
+     "inf": 1
+    },
+    "BR": {
+     "inf": 1
     }
    },
    "30": {
+    "BR": {
+     "inf": 1
+    },
     "US": {
      "inf": 1
     },
     "German": {
-     "armor": 1
+     "inf": 1
     }
    },
    "31": {
-    "BR": {
-     "inf": 2
-    },
     "US": {
-     "special": 1
+     "inf": 1
     },
     "German": {
-     "inf": 1
+     "special": 1
     }
    },
    "32": {
+    "BR": {
+     "armor": 1,
+     "inf": 1
+    },
     "US": {
-     "armor": 1
+     "special": 1
     },
     "German": {
-     "inf": 1,
-     "special": 1
+     "inf": 1
     }
    },
    "33": {
-    "BR": {
+    "US": {
      "armor": 1
     },
-    "US": {
-     "special": 1
-    },
     "German": {
-     "inf": 1,
-     "special": 1
+     "inf": 1
     }
    },
    "34": {
-    "US": {
-     "inf": 1
-    },
-    "German": {
-     "inf": 1
-    },
-    "BR": {
-     "inf": 1
-    }
-   },
-   "35": {
     "BR": {
      "special": 1
     },
@@ -953,50 +907,63 @@
      "inf": 1
     },
     "German": {
+     "special": 1
+    }
+   },
+   "35": {
+    "US": {
+     "inf": 1
+    },
+    "German": {
+     "armor": 1
+    },
+    "BR": {
      "inf": 1
     }
    },
    "36": {
+    "BR": {
+     "inf": 1
+    },
     "US": {
      "inf": 1
     },
     "German": {
-     "armor": 1
+     "inf": 1
     }
    },
    "37": {
-    "BR": {
-     "inf": 2
-    },
     "US": {
-     "armor": 1
+     "special": 1
     },
     "German": {
-     "inf": 1
+     "special": 1
     }
    },
    "38": {
     "US": {
-     "special": 1
+     "armor": 1
     },
     "German": {
+     "inf": 1
+    },
+    "BR": {
      "inf": 1
     }
    },
    "39": {
-    "US": {
-     "special": 1
+    "BR": {
+     "armor": 1,
+     "inf": 1
     },
     "German": {
-     "special": 1
+     "inf": 1
     }
    },
    "40": {
-    "BR": {
-     "inf": 2
-    },
     "US": {
-     "inf": 1
+     "inf": 1,
+     "armor": 1
     },
     "German": {
      "inf": 1,
@@ -1004,6 +971,122 @@
     }
    },
    "41": {
+    "US": {
+     "inf": 1
+    },
+    "German": {
+     "armor": 1
+    },
+    "BR": {
+     "inf": 1
+    }
+   },
+   "42": {
+    "BR": {
+     "inf": 1
+    },
+    "US": {
+     "special": 1
+    },
+    "German": {
+     "inf": 1
+    }
+   },
+   "43": {
+    "US": {
+     "armor": 1
+    },
+    "German": {
+     "inf": 1,
+     "special": 1
+    }
+   },
+   "44": {
+    "BR": {
+     "armor": 1,
+     "inf": 1
+    },
+    "US": {
+     "special": 1
+    },
+    "German": {
+     "inf": 1,
+     "special": 1
+    }
+   },
+   "45": {
+    "US": {
+     "inf": 1
+    },
+    "German": {
+     "inf": 1
+    }
+   },
+   "46": {
+    "BR": {
+     "special": 1
+    },
+    "US": {
+     "inf": 1
+    },
+    "German": {
+     "inf": 1
+    }
+   },
+   "47": {
+    "US": {
+     "inf": 1
+    },
+    "German": {
+     "armor": 1
+    },
+    "BR": {
+     "inf": 1
+    }
+   },
+   "48": {
+    "BR": {
+     "inf": 1
+    },
+    "US": {
+     "armor": 1
+    },
+    "German": {
+     "inf": 1
+    }
+   },
+   "49": {
+    "US": {
+     "special": 1
+    },
+    "German": {
+     "inf": 1
+    }
+   },
+   "50": {
+    "US": {
+     "special": 1
+    },
+    "German": {
+     "special": 1
+    },
+    "BR": {
+     "inf": 1
+    }
+   },
+   "51": {
+    "BR": {
+     "inf": 1
+    },
+    "US": {
+     "inf": 1
+    },
+    "German": {
+     "inf": 1,
+     "special": 1
+    }
+   },
+   "52": {
     "FR": {
      "special": 1
     },
@@ -1014,7 +1097,7 @@
      "inf": 1
     }
    },
-   "42": {
+   "53": {
     "IT": {
      "inf": 1
     },
@@ -1023,38 +1106,40 @@
     },
     "German": {
      "armor": 1
-    }
-   },
-   "43": {
-    "German": {
-     "inf": 1
     },
     "BR": {
+     "inf": 1
+    }
+   },
+   "54": {
+    "German": {
      "inf": 1
     }
    }
   }
  },
  "naplesSupplyBonus": {
-  "25": 1,
-  "35": 2
+  "36": 1,
+  "46": 2
  },
  "turnNotes": {
   "1": "D-Day, 9 September: the Fifth Army lands in the Gulf of Salerno. Roll the Invasion table for each beach.",
-  "3": "Historically: the 82nd Airborne drops into the beachhead (13-14 Sept).",
-  "4": "Historically: the main German counterattacks on the beachhead have failed; the battleships arrive.",
-  "6": "Historically: the Eighth Army joins the Fifth near Auletta; the 36th Division goes into army reserve.",
-  "7": "Historically: the Eighth Army is on the Foggia plain.",
-  "12": "Historically: Naples falls on 1 October.",
-  "13": "Historically: Corsica is liberated by the Free French.",
-  "14": "Historically: the commandos land at Termoli (3 October).",
-  "16": "The Race for Naples and Foggia ends.",
-  "17": "Historically: Italy declares war on Germany.",
-  "24": "The Winter Line begins.",
-  "25": "Naples: +1 Allied supply. Naples: +1 Allied supply while the Allies hold it.",
-  "34": "Historically: the Luftwaffe strikes Bari harbor, 17 ships sunk.",
-  "35": "Naples: +2 Allied supply. Naples: +2 Allied supply while the Allies hold it.",
-  "43": "The campaign ends."
+  "5": "Historically: the 82nd Airborne drops into the beachhead overnight (13-14 Sept).",
+  "6": "Historically: the main German counterattack on the beachhead (14 Sept).",
+  "8": "Historically: the battleships Valiant and Warspite arrive; the Germans begin to draw off (16 Sept).",
+  "11": "The Eighth Army arrives from Calabria at the south edge.",
+  "12": "Historically: the Fifth and Eighth Armies join near Auletta; Potenza falls (20 Sept). The 36th Division goes into army reserve.",
+  "19": "Historically: Foggia falls to the Eighth Army (27 Sept).",
+  "23": "Historically: Naples falls on 1 October.",
+  "24": "Historically: Corsica is liberated by the Free French.",
+  "25": "Historically: the commandos land at Termoli (3 October).",
+  "27": "The Race for Naples and Foggia ends.",
+  "28": "Historically: Italy declares war on Germany.",
+  "35": "The Winter Line begins.",
+  "36": "Naples: +1 Allied supply. Naples: +1 Allied supply while the Allies hold it.",
+  "45": "Historically: the Luftwaffe strikes Bari harbor, 17 ships sunk.",
+  "46": "Naples: +2 Allied supply. Naples: +2 Allied supply while the Allies hold it.",
+  "54": "The campaign ends."
  },
  "supply": {
   "overlandHexes": 5,
@@ -1075,7 +1160,7 @@
    2,
    3
   ],
-  "perTurn": 24
+  "perTurn": 12
  },
  "invasion": {
   "Rangers": [
@@ -1138,15 +1223,174 @@
   1,
   2
  ],
+ "weatherSeasons": [
+  {
+   "fromTurn": 1,
+   "track": [
+    {
+     "box": "A",
+     "name": "Clear",
+     "air": [
+      "BR",
+      "US"
+     ],
+     "naval": [
+      "BR",
+      "US"
+     ],
+     "alliedSupply": 1,
+     "alliedPortBonus": true,
+     "germanSupply": 1,
+     "clear": true
+    },
+    {
+     "box": "B",
+     "name": "Clear",
+     "air": [
+      "BR",
+      "US"
+     ],
+     "naval": [
+      "BR",
+      "US"
+     ],
+     "alliedSupply": 1,
+     "alliedPortBonus": true,
+     "germanSupply": 1,
+     "clear": true
+    },
+    {
+     "box": "C",
+     "name": "Air Support",
+     "air": [
+      "GE"
+     ],
+     "naval": [
+      "BR",
+      "US"
+     ],
+     "alliedSupply": 1,
+     "germanSupply": 2
+    },
+    {
+     "box": "D",
+     "name": "Cloudy",
+     "air": [
+      "BR"
+     ],
+     "naval": [
+      "BR",
+      "US"
+     ],
+     "alliedSupply": 2,
+     "germanSupply": 1
+    },
+    {
+     "box": "E",
+     "name": "Cloudy",
+     "air": [
+      "US"
+     ],
+     "naval": [
+      "BR",
+      "US"
+     ],
+     "alliedSupply": 2,
+     "germanSupply": 2
+    },
+    {
+     "box": "F",
+     "name": "Rain",
+     "air": [],
+     "naval": [],
+     "alliedSupply": 0,
+     "germanSupply": 0,
+     "rain": true
+    }
+   ]
+  },
+  {
+   "fromTurn": 23,
+   "track": [
+    {
+     "box": "A",
+     "name": "Clear",
+     "air": [
+      "BR",
+      "US"
+     ],
+     "naval": [
+      "AL"
+     ],
+     "alliedSupply": 2,
+     "germanSupply": 1,
+     "clear": true
+    },
+    {
+     "box": "B",
+     "name": "Clear",
+     "air": [
+      "BR",
+      "US"
+     ],
+     "naval": [
+      "AL"
+     ],
+     "alliedSupply": 2,
+     "germanSupply": 1,
+     "clear": true
+    },
+    {
+     "box": "C",
+     "name": "Cloudy",
+     "air": [
+      "US"
+     ],
+     "naval": [],
+     "alliedSupply": 2,
+     "germanSupply": 2
+    },
+    {
+     "box": "D",
+     "name": "Cloudy",
+     "air": [
+      "BR"
+     ],
+     "naval": [],
+     "alliedSupply": 2,
+     "germanSupply": 2
+    },
+    {
+     "box": "E",
+     "name": "Rain",
+     "air": [],
+     "naval": [],
+     "alliedSupply": 0,
+     "germanSupply": 1,
+     "rain": true
+    },
+    {
+     "box": "F",
+     "name": "Rain and Mud",
+     "air": [],
+     "naval": [],
+     "alliedSupply": 0,
+     "germanSupply": 1,
+     "rain": true,
+     "mud": true,
+     "crtShiftLeft": 1
+    }
+   ]
+  }
+ ],
+ "landingBattleTurns": 22,
  "entryOpens": {
-  "A1": 6,
-  "A2": 6,
-  "A3": 6,
-  "A4": 6,
-  "A5": 6,
-  "A6": 7,
-  "A7": 7,
-  "A9": 7,
-  "A8": 7
+  "A1": 11,
+  "A2": 11,
+  "A3": 11,
+  "A4": 12,
+  "A5": 13,
+  "A6": 14,
+  "A7": 15
  }
 }

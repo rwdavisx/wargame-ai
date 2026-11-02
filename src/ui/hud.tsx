@@ -1,7 +1,7 @@
 // Heads-up display: top bar, phase banners, event feed, unit card,
 // combat pop-up with dice, game over and pause menus.
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { BATTLESHIPS_TURN, MAP, RULES, SCENARIOS } from '../engine/data';
+import { BATTLESHIPS_TURN, MAP, RULES, SCENARIOS, supportMarkersFor } from '../engine/data';
 import { alliedVp, benchmark, currentWeather, vpBreakdown } from '../engine/game';
 import { cannotMove } from '../engine/movement';
 import type { CombatReport, GameState, Side, UnitState } from '../engine/types';
@@ -101,7 +101,7 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
           <span className="stat hud-supply"><Ico name="supply" size={20} /><b><span className="a">{game.supplyPoints.Allied}</span><span>·</span><span className="g">{game.supplyPoints.German}</span></b></span>
         </Tip>
         <div className="hud-support">
-          {RULES.supportMarkers.map((k) => {
+          {supportMarkersFor(game.turn).map((k) => {
             const [nation, kind] = k.split('-');
             // Italy '43's one naval marker shows as ready for both armies until it is used (9.6).
             const on = nation === 'AL' ? ready('US-naval') || ready('BR-naval') : ready(k);

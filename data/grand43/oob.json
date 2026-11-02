@@ -147,7 +147,8 @@
     "campaign": {
      "start": {
       "hex": "1836"
-     }
+     },
+     "frozenUntil": 6
     },
     "winter": {
      "start": {
@@ -176,7 +177,8 @@
     "campaign": {
      "start": {
       "hex": "2130"
-     }
+     },
+     "frozenUntil": 2
     },
     "winter": {
      "start": {
@@ -205,7 +207,8 @@
     "campaign": {
      "start": {
       "hex": "1829"
-     }
+     },
+     "frozenUntil": 3
     },
     "winter": {
      "start": {
@@ -233,7 +236,8 @@
     "campaign": {
      "start": {
       "hex": "2029"
-     }
+     },
+     "frozenUntil": 3
     },
     "winter": {
      "start": {
@@ -261,7 +265,8 @@
     "campaign": {
      "start": {
       "hex": "2130"
-     }
+     },
+     "frozenUntil": 3
     },
     "winter": {
      "start": {
@@ -290,7 +295,8 @@
     "campaign": {
      "start": {
       "hex": "2224"
-     }
+     },
+     "frozenUntil": 6
     },
     "winter": {
      "start": {
@@ -322,7 +328,7 @@
      "garrison": true,
      "events": [
       {
-       "turn": 25,
+       "turn": 36,
        "kind": "release"
       }
      ]
@@ -335,7 +341,7 @@
      "garrison": true,
      "events": [
       {
-       "turn": 25,
+       "turn": 36,
        "kind": "release"
       }
      ]
@@ -363,7 +369,8 @@
     "campaign": {
      "start": {
       "hex": "2226"
-     }
+     },
+     "frozenUntil": 3
     },
     "winter": {
      "start": {
@@ -390,7 +397,8 @@
     "campaign": {
      "start": {
       "hex": "2325"
-     }
+     },
+     "frozenUntil": 6
     },
     "winter": {
      "start": {
@@ -416,7 +424,8 @@
     "campaign": {
      "start": {
       "hex": "2032"
-     }
+     },
+     "frozenUntil": 12
     },
     "winter": {
      "start": {
@@ -443,13 +452,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "G1/G2/G3"
      }
     }
@@ -473,16 +482,16 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 6,
       "at": "G2"
      },
      "events": [
       {
-       "turn": 13,
+       "turn": 24,
        "kind": "release"
       },
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -493,7 +502,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -516,12 +525,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 6,
       "at": "G2"
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -532,7 +541,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -555,16 +564,16 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 6,
       "at": "G2"
      },
      "events": [
       {
-       "turn": 13,
+       "turn": 24,
        "kind": "release"
       },
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -576,7 +585,7 @@
      "reduced": true,
      "events": [
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -599,12 +608,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 14,
+      "turn": 25,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -616,7 +625,7 @@
      "reduced": true,
      "events": [
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -639,12 +648,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 16,
+      "turn": 27,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -655,7 +664,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -678,12 +687,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 18,
+      "turn": 29,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -694,7 +703,7 @@
      },
      "events": [
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -717,12 +726,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 22,
+      "turn": 33,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -733,7 +742,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -757,12 +766,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 18,
+      "turn": 29,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -773,7 +782,7 @@
      },
      "events": [
       {
-       "turn": 32,
+       "turn": 43,
        "kind": "remove"
       }
      ]
@@ -798,7 +807,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 2,
+      "turn": 3,
       "at": "A1/A2/A3"
      }
     },
@@ -827,18 +836,18 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 5,
+      "turn": 10,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "G3"
      },
      "events": [
       {
-       "turn": 33,
+       "turn": 44,
        "kind": "remove"
       }
      ]
@@ -863,18 +872,18 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
-      "at": "A4/A5"
+      "turn": 6,
+      "at": "A3/A4"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "G3"
      },
      "events": [
       {
-       "turn": 33,
+       "turn": 44,
        "kind": "remove"
       }
      ]
@@ -899,20 +908,20 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "reduced": true,
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "G3",
       "reduced": true
      },
      "events": [
       {
-       "turn": 33,
+       "turn": 44,
        "kind": "remove"
       }
      ]
@@ -937,18 +946,18 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "G3"
      },
      "events": [
       {
-       "turn": 33,
+       "turn": 44,
        "kind": "remove"
       }
      ]
@@ -973,19 +982,19 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 6,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "fired": true,
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "G3"
      },
      "events": [
       {
-       "turn": 33,
+       "turn": 44,
        "kind": "remove"
       }
      ]
@@ -1014,7 +1023,7 @@
      },
      "events": [
       {
-       "turn": 39,
+       "turn": 50,
        "kind": "remove"
       }
      ]
@@ -1026,7 +1035,7 @@
      "reduced": true,
      "events": [
       {
-       "turn": 39,
+       "turn": 50,
        "kind": "remove"
       }
      ]
@@ -1052,7 +1061,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "G2"
      }
     },
@@ -1082,7 +1091,8 @@
     "campaign": {
      "start": {
       "hex": "2438"
-     }
+     },
+     "frozenUntil": 2
     },
     "winter": {
      "start": {
@@ -1112,7 +1122,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 2,
+      "turn": 4,
       "at": "hex:2634",
       "reduced": true
      }
@@ -1145,7 +1155,8 @@
     "campaign": {
      "start": {
       "hex": "2634"
-     }
+     },
+     "frozenUntil": 2
     },
     "winter": {
      "start": {
@@ -1172,7 +1183,8 @@
     "campaign": {
      "start": {
       "hex": "2634"
-     }
+     },
+     "frozenUntil": 2
     },
     "winter": {
      "start": {
@@ -1200,7 +1212,7 @@
      "start": {
       "hex": "2243"
      },
-     "frozenUntil": 2
+     "frozenUntil": 3
     },
     "winter": {
      "start": {
@@ -1226,24 +1238,24 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
     },
     "winter": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -1296,24 +1308,24 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "A1/A2/A3"
      },
      "events": [
       {
-       "turn": 40,
+       "turn": 51,
        "kind": "remove"
       }
      ]
     },
     "winter": {
      "arrive": {
-      "turn": 30,
+      "turn": 41,
       "at": "G2"
      },
      "events": [
       {
-       "turn": 40,
+       "turn": 51,
        "kind": "remove"
       }
      ]
@@ -1339,13 +1351,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 2,
+      "turn": 4,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 29,
+      "turn": 40,
       "at": "G2"
      }
     }
@@ -1370,13 +1382,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 2,
+      "turn": 3,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "G2",
       "reduced": true
      }
@@ -1401,13 +1413,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "G2"
      }
     }
@@ -1430,13 +1442,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "A1/A2/A3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 29,
+      "turn": 40,
       "at": "G2"
      }
     }
@@ -1459,7 +1471,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 20,
+      "turn": 31,
       "at": "G3"
      }
     },
@@ -1488,13 +1500,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "G3"
      },
      "events": []
@@ -1517,7 +1529,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
+      "turn": 34,
       "at": "G3"
      }
     },
@@ -1546,7 +1558,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 20,
+      "turn": 31,
       "at": "G3"
      }
     },
@@ -1576,7 +1588,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
+      "turn": 34,
       "at": "hex:1720"
      },
      "frozen": true,
@@ -1609,7 +1621,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 22,
+      "turn": 33,
       "at": "G1/G2/G3"
      }
     },
@@ -1638,13 +1650,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      }
     }
@@ -1666,13 +1678,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 27,
+      "turn": 38,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 27,
+      "turn": 38,
       "at": "G1/G2/G3"
      }
     }
@@ -1695,13 +1707,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      }
     }
@@ -1724,13 +1736,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 30,
+      "turn": 41,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 30,
+      "turn": 41,
       "at": "G1/G2/G3"
      }
     }
@@ -1753,13 +1765,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 38,
+      "turn": 49,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 38,
+      "turn": 49,
       "at": "G1/G2/G3"
      }
     }
@@ -1782,13 +1794,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 33,
+      "turn": 44,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 33,
+      "turn": 44,
       "at": "G1/G2/G3"
      }
     }
@@ -1810,13 +1822,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G1/G2/G3"
      }
     }
@@ -1839,13 +1851,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 36,
+      "turn": 47,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 36,
+      "turn": 47,
       "at": "G1/G2/G3"
      }
     }
@@ -1869,13 +1881,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 40,
+      "turn": 51,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 40,
+      "turn": 51,
       "at": "G1/G2/G3"
      }
     }
@@ -1899,13 +1911,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 41,
+      "turn": 52,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 41,
+      "turn": 52,
       "at": "G1/G2/G3"
      }
     }
@@ -1928,13 +1940,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 40,
+      "turn": 51,
       "at": "G1/G2/G3"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 40,
+      "turn": 51,
       "at": "G1/G2/G3"
      }
     }
@@ -1958,7 +1970,8 @@
     "campaign": {
      "start": {
       "hex": "2634"
-     }
+     },
+     "frozenUntil": 3
     },
     "winter": {
      "start": {
@@ -1985,7 +1998,8 @@
     "campaign": {
      "start": {
       "hex": "2531"
-     }
+     },
+     "frozenUntil": 3
     },
     "winter": {
      "start": {
@@ -2011,24 +2025,24 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 41,
+       "turn": 52,
        "kind": "remove"
       }
      ]
     },
     "winter": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "G1/G2/G3"
      },
      "events": [
       {
-       "turn": 41,
+       "turn": 52,
        "kind": "remove"
       }
      ]
@@ -2186,7 +2200,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "airdrop"
      }
     },
@@ -2215,12 +2229,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 6,
       "at": "airdrop"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2233,7 +2247,7 @@
      "frozen": true,
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2258,12 +2272,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 4,
+      "turn": 8,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2276,7 +2290,7 @@
      "frozen": true,
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2355,13 +2369,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     }
@@ -2383,7 +2397,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 8,
+      "turn": 16,
       "at": "reserve"
      }
     },
@@ -2411,12 +2425,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 4,
+      "turn": 7,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "remove"
       }
      ]
@@ -2427,7 +2441,7 @@
      },
      "events": [
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "remove"
       }
      ]
@@ -2450,12 +2464,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 5,
+      "turn": 9,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 24,
+       "turn": 35,
        "kind": "remove"
       }
      ]
@@ -2487,12 +2501,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
+      "turn": 11,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "remove"
       }
      ]
@@ -2503,7 +2517,7 @@
      },
      "events": [
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "remove"
       }
      ]
@@ -2527,12 +2541,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 5,
+      "turn": 10,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "remove"
       }
      ]
@@ -2543,7 +2557,7 @@
      },
      "events": [
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "remove"
       }
      ]
@@ -2624,7 +2638,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -2652,7 +2666,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -2708,7 +2722,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 16,
+      "turn": 27,
       "at": "Naples"
      }
     },
@@ -2791,7 +2805,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -2819,7 +2833,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -2848,13 +2862,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 42,
+      "turn": 53,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 42,
+      "turn": 53,
       "at": "Naples"
      }
     }
@@ -2877,12 +2891,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
+      "turn": 13,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2893,7 +2907,7 @@
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2917,12 +2931,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 5,
+      "turn": 10,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2933,7 +2947,7 @@
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2957,12 +2971,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
+      "turn": 12,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2974,7 +2988,7 @@
      "reduced": true,
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -2999,12 +3013,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -3015,7 +3029,7 @@
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -3041,12 +3055,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -3057,7 +3071,7 @@
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -3081,12 +3095,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
+      "turn": 13,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -3097,7 +3111,7 @@
      },
      "events": [
       {
-       "turn": 30,
+       "turn": 41,
        "kind": "remove"
       }
      ]
@@ -3120,7 +3134,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
+      "turn": 14,
       "at": "reserve"
      }
     },
@@ -3149,7 +3163,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
+      "turn": 18,
       "at": "reserve"
      }
     },
@@ -3177,7 +3191,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 10,
+      "turn": 19,
       "at": "reserve"
      }
     },
@@ -3205,7 +3219,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
+      "turn": 14,
       "at": "reserve"
      }
     },
@@ -3233,7 +3247,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 10,
+      "turn": 20,
       "at": "reserve"
      }
     },
@@ -3263,7 +3277,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 15,
+      "turn": 26,
       "at": "Naples"
      }
     },
@@ -3292,7 +3306,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
+      "turn": 34,
       "at": "Naples"
      }
     },
@@ -3324,11 +3338,11 @@
      },
      "events": [
       {
-       "turn": 6,
+       "turn": 12,
        "kind": "withdraw"
       },
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "return",
        "at": "Naples"
       }
@@ -3336,7 +3350,7 @@
     },
     "winter": {
      "arrive": {
-      "turn": 29,
+      "turn": 40,
       "at": "Naples"
      }
     }
@@ -3366,11 +3380,11 @@
      },
      "events": [
       {
-       "turn": 6,
+       "turn": 12,
        "kind": "withdraw"
       },
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "return",
        "at": "Naples"
       }
@@ -3378,7 +3392,7 @@
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     }
@@ -3405,11 +3419,11 @@
      },
      "events": [
       {
-       "turn": 6,
+       "turn": 12,
        "kind": "withdraw"
       },
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "return",
        "at": "Naples"
       }
@@ -3417,7 +3431,7 @@
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     }
@@ -3441,16 +3455,16 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 6,
+       "turn": 12,
        "kind": "withdraw"
       },
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "return",
        "at": "Naples"
       }
@@ -3458,7 +3472,7 @@
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     }
@@ -3483,16 +3497,16 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 6,
+       "turn": 12,
        "kind": "withdraw"
       },
       {
-       "turn": 28,
+       "turn": 39,
        "kind": "return",
        "at": "Naples"
       }
@@ -3500,7 +3514,7 @@
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     }
@@ -3527,11 +3541,11 @@
      },
      "events": [
       {
-       "turn": 6,
+       "turn": 12,
        "kind": "withdraw"
       },
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "return",
        "at": "Naples"
       }
@@ -3539,7 +3553,7 @@
     },
     "winter": {
      "arrive": {
-      "turn": 29,
+      "turn": 40,
       "at": "Naples"
      }
     }
@@ -3562,7 +3576,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -3592,7 +3606,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -3620,7 +3634,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 6,
       "at": "reserve"
      }
     },
@@ -3678,13 +3692,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "Naples"
      }
     }
@@ -3707,7 +3721,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -3736,13 +3750,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "Naples"
      }
     }
@@ -3765,13 +3779,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 24,
+      "turn": 35,
       "at": "Naples"
      }
     }
@@ -3823,7 +3837,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 5,
+      "turn": 9,
       "at": "reserve"
      }
     },
@@ -3850,7 +3864,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 20,
+      "turn": 31,
       "at": "Naples"
      }
     },
@@ -3878,7 +3892,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      }
     },
@@ -3906,13 +3920,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 28,
+      "turn": 39,
       "at": "Naples"
      }
     }
@@ -3935,13 +3949,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 29,
+      "turn": 40,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 29,
+      "turn": 40,
       "at": "Naples"
      }
     }
@@ -3968,28 +3982,28 @@
      },
      "events": [
       {
-       "turn": 12,
+       "turn": 23,
        "kind": "withdraw"
       },
       {
-       "turn": 25,
+       "turn": 36,
        "kind": "return",
        "at": "Naples"
       },
       {
-       "turn": 31,
+       "turn": 42,
        "kind": "remove"
       }
      ]
     },
     "winter": {
      "arrive": {
-      "turn": 25,
+      "turn": 36,
       "at": "Naples"
      },
      "events": [
       {
-       "turn": 31,
+       "turn": 42,
        "kind": "remove"
       }
      ]
@@ -4017,28 +4031,28 @@
      },
      "events": [
       {
-       "turn": 12,
+       "turn": 23,
        "kind": "withdraw"
       },
       {
-       "turn": 31,
+       "turn": 42,
        "kind": "return",
        "at": "Naples"
       },
       {
-       "turn": 38,
+       "turn": 49,
        "kind": "remove"
       }
      ]
     },
     "winter": {
      "arrive": {
-      "turn": 31,
+      "turn": 42,
       "at": "Naples"
      },
      "events": [
       {
-       "turn": 38,
+       "turn": 49,
        "kind": "remove"
       }
      ]
@@ -4066,16 +4080,16 @@
      },
      "events": [
       {
-       "turn": 12,
+       "turn": 23,
        "kind": "withdraw"
       },
       {
-       "turn": 23,
+       "turn": 34,
        "kind": "return",
        "at": "Naples"
       },
       {
-       "turn": 33,
+       "turn": 44,
        "kind": "remove"
       }
      ]
@@ -4086,7 +4100,7 @@
      },
      "events": [
       {
-       "turn": 33,
+       "turn": 44,
        "kind": "remove"
       }
      ]
@@ -4110,33 +4124,33 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 6,
       "at": "airdrop509"
      },
      "events": [
       {
-       "turn": 12,
+       "turn": 23,
        "kind": "withdraw"
       },
       {
-       "turn": 26,
+       "turn": 37,
        "kind": "return",
        "at": "Naples"
       },
       {
-       "turn": 39,
+       "turn": 50,
        "kind": "remove"
       }
      ]
     },
     "winter": {
      "arrive": {
-      "turn": 26,
+      "turn": 37,
       "at": "Naples"
      },
      "events": [
       {
-       "turn": 39,
+       "turn": 50,
        "kind": "remove"
       }
      ]
@@ -4162,13 +4176,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 30,
+      "turn": 41,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 30,
+      "turn": 41,
       "at": "Naples"
      }
     }
@@ -4192,13 +4206,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     }
@@ -4222,13 +4236,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     }
@@ -4252,13 +4266,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     }
@@ -4283,13 +4297,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     }
@@ -4312,13 +4326,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "Naples"
      }
     }
@@ -4341,13 +4355,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 35,
+      "turn": 46,
       "at": "Naples"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 35,
+      "turn": 46,
       "at": "Naples"
      }
     }
@@ -4853,7 +4867,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -4864,7 +4878,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -4891,7 +4905,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -4902,7 +4916,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -4929,7 +4943,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -4940,7 +4954,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -4967,7 +4981,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -4978,7 +4992,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5005,7 +5019,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5016,7 +5030,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5043,7 +5057,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5054,7 +5068,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5081,7 +5095,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5092,7 +5106,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5119,7 +5133,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5130,7 +5144,7 @@
      },
      "events": [
       {
-       "turn": 29,
+       "turn": 40,
        "kind": "remove"
       }
      ]
@@ -5310,7 +5324,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "A1/A2/A3"
      }
     },
@@ -5337,7 +5351,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "A1/A2/A3"
      }
     },
@@ -5364,7 +5378,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "A1/A2/A3"
      }
     },
@@ -5391,7 +5405,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
+      "turn": 5,
       "at": "A1/A2/A3"
      }
     },
@@ -5418,8 +5432,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 4,
-      "at": "A4/A5"
+      "turn": 7,
+      "at": "A3/A4"
      }
     },
     "winter": {
@@ -5445,8 +5459,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 5,
-      "at": "A4/A5/A6/A7"
+      "turn": 9,
+      "at": "A4/A5"
      }
     },
     "winter": {
@@ -5476,7 +5490,7 @@
      },
      "events": [
       {
-       "turn": 5,
+       "turn": 10,
        "kind": "remove"
       }
      ]
@@ -5508,7 +5522,7 @@
      },
      "events": [
       {
-       "turn": 5,
+       "turn": 10,
        "kind": "remove"
       }
      ]
@@ -5539,7 +5553,7 @@
      },
      "events": [
       {
-       "turn": 18,
+       "turn": 29,
        "kind": "remove"
       }
      ]
@@ -5570,7 +5584,7 @@
      },
      "events": [
       {
-       "turn": 18,
+       "turn": 29,
        "kind": "remove"
       }
      ]
@@ -5601,7 +5615,7 @@
      },
      "events": [
       {
-       "turn": 18,
+       "turn": 29,
        "kind": "remove"
       }
      ]
@@ -5632,7 +5646,7 @@
      },
      "events": [
       {
-       "turn": 18,
+       "turn": 29,
        "kind": "remove"
       }
      ]
@@ -5659,12 +5673,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 1,
+      "turn": 2,
       "at": "reserve"
      },
      "events": [
       {
-       "turn": 18,
+       "turn": 29,
        "kind": "remove"
       }
      ]
@@ -5693,7 +5707,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
+      "turn": 11,
       "at": "A1/A2"
      }
     },
@@ -5721,8 +5735,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
-      "at": "A5"
+      "turn": 12,
+      "at": "A4"
      }
     },
     "winter": {
@@ -5749,8 +5763,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
-      "at": "A5"
+      "turn": 12,
+      "at": "A4"
      }
     },
     "winter": {
@@ -5776,8 +5790,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
-      "at": "A5"
+      "turn": 12,
+      "at": "A4"
      }
     },
     "winter": {
@@ -5803,8 +5817,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
-      "at": "A5"
+      "turn": 13,
+      "at": "A4"
      }
     },
     "winter": {
@@ -5831,7 +5845,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
+      "turn": 12,
       "at": "A1/A2"
      }
     },
@@ -5859,7 +5873,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
+      "turn": 12,
       "at": "A1/A2"
      }
     },
@@ -5887,8 +5901,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
-      "at": "A5"
+      "turn": 12,
+      "at": "A4"
      }
     },
     "winter": {
@@ -5914,8 +5928,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 2,
-      "at": "A8"
+      "turn": 3,
+      "at": "A5/A6"
      }
     },
     "winter": {
@@ -5941,8 +5955,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 2,
-      "at": "A8"
+      "turn": 3,
+      "at": "A5/A6"
      }
     },
     "winter": {
@@ -5968,8 +5982,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 4,
-      "at": "A5"
+      "turn": 5,
+      "at": "A4/A5"
      }
     },
     "winter": {
@@ -5995,7 +6009,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 20,
+      "turn": 31,
       "at": "G5"
      }
     },
@@ -6022,8 +6036,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 3,
-      "at": "A8"
+      "turn": 4,
+      "at": "A5/A6"
      }
     },
     "winter": {
@@ -6049,8 +6063,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 8,
-      "at": "A8"
+      "turn": 10,
+      "at": "A6/A7"
      }
     },
     "winter": {
@@ -6075,7 +6089,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 20,
+      "turn": 31,
       "at": "G3"
      }
     },
@@ -6102,7 +6116,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 18,
+      "turn": 29,
       "at": "G5"
      }
     },
@@ -6129,7 +6143,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 18,
+      "turn": 29,
       "at": "G5"
      }
     },
@@ -6156,7 +6170,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 18,
+      "turn": 29,
       "at": "G5"
      }
     },
@@ -6183,13 +6197,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 31,
+      "turn": 42,
       "at": "G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 31,
+      "turn": 42,
       "at": "G5"
      }
     }
@@ -6211,13 +6225,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "G5"
      }
     }
@@ -6239,13 +6253,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "G5"
      }
     }
@@ -6267,13 +6281,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 34,
+      "turn": 45,
       "at": "G5"
      }
     }
@@ -6295,13 +6309,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     }
@@ -6323,13 +6337,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     }
@@ -6351,13 +6365,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     }
@@ -6379,13 +6393,13 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     },
     "winter": {
      "arrive": {
-      "turn": 39,
+      "turn": 50,
       "at": "G4/G5"
      }
     }
@@ -6484,8 +6498,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
-      "at": "A5"
+      "turn": 12,
+      "at": "A4"
      }
     },
     "winter": {
@@ -6510,7 +6524,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
+      "turn": 11,
       "at": "A1/A2"
      }
     },
@@ -6537,7 +6551,7 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
+      "turn": 11,
       "at": "A1/A2"
      }
     },
@@ -6563,8 +6577,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 6,
-      "at": "A5"
+      "turn": 12,
+      "at": "A4"
      }
     },
     "winter": {
@@ -6590,8 +6604,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
-      "at": "A5"
+      "turn": 13,
+      "at": "A4"
      }
     },
     "winter": {
@@ -6617,8 +6631,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 14,
-      "at": "A8"
+      "turn": 25,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6644,8 +6658,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
-      "at": "A8/A9"
+      "turn": 17,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6672,12 +6686,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
-      "at": "A8"
+      "turn": 13,
+      "at": "A5/A6"
      },
      "events": [
       {
-       "turn": 34,
+       "turn": 45,
        "kind": "remove"
       }
      ]
@@ -6688,7 +6702,7 @@
      },
      "events": [
       {
-       "turn": 34,
+       "turn": 45,
        "kind": "remove"
       }
      ]
@@ -6711,12 +6725,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
-      "at": "A8"
+      "turn": 13,
+      "at": "A5/A6"
      },
      "events": [
       {
-       "turn": 34,
+       "turn": 45,
        "kind": "remove"
       }
      ]
@@ -6727,7 +6741,7 @@
      },
      "events": [
       {
-       "turn": 34,
+       "turn": 45,
        "kind": "remove"
       }
      ]
@@ -6750,12 +6764,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
-      "at": "A8"
+      "turn": 14,
+      "at": "A5/A6"
      },
      "events": [
       {
-       "turn": 34,
+       "turn": 45,
        "kind": "remove"
       }
      ]
@@ -6766,7 +6780,7 @@
      },
      "events": [
       {
-       "turn": 34,
+       "turn": 45,
        "kind": "remove"
       }
      ]
@@ -6790,8 +6804,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 7,
-      "at": "A8"
+      "turn": 14,
+      "at": "A5/A6"
      }
     },
     "winter": {
@@ -6817,8 +6831,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
-      "at": "A8"
+      "turn": 15,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6844,8 +6858,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
-      "at": "A8"
+      "turn": 16,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6871,8 +6885,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 10,
-      "at": "A8"
+      "turn": 17,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6897,8 +6911,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
-      "at": "A8"
+      "turn": 15,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6924,8 +6938,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 10,
-      "at": "A8"
+      "turn": 17,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6951,8 +6965,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
-      "at": "A8"
+      "turn": 16,
+      "at": "A7"
      }
     },
     "winter": {
@@ -6978,8 +6992,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
-      "at": "A8"
+      "turn": 16,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7005,8 +7019,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 9,
-      "at": "A8"
+      "turn": 16,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7032,12 +7046,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 11,
-      "at": "A8"
+      "turn": 21,
+      "at": "A7"
      },
      "events": [
       {
-       "turn": 16,
+       "turn": 26,
        "kind": "remove"
       }
      ]
@@ -7065,12 +7079,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 11,
-      "at": "A8"
+      "turn": 21,
+      "at": "A7"
      },
      "events": [
       {
-       "turn": 16,
+       "turn": 26,
        "kind": "remove"
       }
      ]
@@ -7098,12 +7112,12 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 11,
-      "at": "A8"
+      "turn": 21,
+      "at": "A7"
      },
      "events": [
       {
-       "turn": 16,
+       "turn": 26,
        "kind": "remove"
       }
      ]
@@ -7131,8 +7145,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 17,
-      "at": "A8"
+      "turn": 28,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7158,8 +7172,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 17,
-      "at": "A8"
+      "turn": 28,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7185,8 +7199,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 18,
-      "at": "A8"
+      "turn": 29,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7211,8 +7225,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 17,
-      "at": "A8"
+      "turn": 28,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7238,8 +7252,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 18,
-      "at": "A8"
+      "turn": 29,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7265,8 +7279,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 22,
-      "at": "A8"
+      "turn": 33,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7292,8 +7306,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 22,
-      "at": "A8"
+      "turn": 33,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7318,8 +7332,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
-      "at": "A8"
+      "turn": 34,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7345,8 +7359,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
-      "at": "A8"
+      "turn": 34,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7372,8 +7386,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
-      "at": "A8"
+      "turn": 34,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7399,8 +7413,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
-      "at": "A8"
+      "turn": 34,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7426,8 +7440,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
-      "at": "A8"
+      "turn": 34,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7452,8 +7466,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 23,
-      "at": "A8"
+      "turn": 34,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7479,8 +7493,8 @@
    "setup": {
     "campaign": {
      "arrive": {
-      "turn": 24,
-      "at": "A8"
+      "turn": 35,
+      "at": "A7"
      }
     },
     "winter": {
@@ -7581,7 +7595,7 @@
   "GE": {
    "air": "X Fliegerkorps"
   },
-  "battleshipsTurn": 4,
+  "battleshipsTurn": 8,
   "navalRange": 2
  },
  "startingSupplyPoints": {
@@ -7597,21 +7611,21 @@
   "campaign": {
    "name": "Grand Campaign",
    "firstTurn": 1,
-   "lastTurn": 43,
+   "lastTurn": 54,
    "setup": "campaign",
    "description": "From the Salerno landings to the Winter Line on both coasts, 9 September to 31 December 1943."
   },
   "race": {
    "name": "Race for Naples and Foggia",
    "firstTurn": 1,
-   "lastTurn": 16,
+   "lastTurn": 27,
    "setup": "campaign",
    "description": "The landings, the battle for the beachhead and the drive on Naples and the Foggia airfields, 9 September to 10 October 1943."
   },
   "winter": {
    "name": "The Winter Line",
-   "firstTurn": 24,
-   "lastTurn": 43,
+   "firstTurn": 35,
+   "lastTurn": 54,
    "setup": "winter",
    "description": "Both armies against the Bernhard and Gustav positions, from the Garigliano to the Sangro and Ortona, 1 November to 31 December 1943."
   }

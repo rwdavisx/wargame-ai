@@ -1,4 +1,4 @@
-import { MAP, RULES } from './data';
+import { MAP, RULES, weatherTrack } from './data';
 import { hexId, isAdjacent, neighborSides, neighbors, parseHex, sideKey, type HexId } from './hex';
 import type { GameState, HexsideData, MoveMode, UnitDef, UnitState, Side } from './types';
 import { canStack, def, friendsAt, isLand, occupancy, other, sideOf, values } from './units';
@@ -8,7 +8,7 @@ import { memo } from './memo';
 export { isLand };
 
 export function weatherBox(s: GameState) {
-  return RULES.weather.track[s.weather];
+  return weatherTrack(s.turn)[s.weather];
 }
 
 export interface Reach {

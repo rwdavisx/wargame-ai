@@ -1,9 +1,11 @@
-"""Towns, cities and roads for the Adriatic extension (data/grand43/parts/extension.json, written by extend.py first).
+"""Towns, cities and roads for the drawn sectors (data/grand43/parts/extension.json, written by extend.py first).
 
-Towns are placed at their Wikipedia positions (wiki_places.py); the larger ones are cities. Roads: the main roads of
-1943 (the national roads of the period), each given as the towns it ran through, routed hex by hex along the cheapest
-way between them (open ground preferred, mountain hexsides and rivers avoided where there is a choice, an existing
-road followed where it joins the printed maps). These are reconstructions to be checked against period maps."""
+Towns: the places named below at their Wikipedia or gazetteer positions, then, to reach the printed maps' density of
+towns (about one land hex in six), the larger comuni of the area (comuni.py, from GeoNames), the largest in each hex. The larger places are cities. Roads: the main roads of 1943 (the national roads of the period), each given
+as the towns it ran through; then a minor road to every town not on one, and between neighbouring towns the road
+network leaves far apart, as the printed maps draw them. Every road is routed hex by hex along the cheapest way (open
+ground preferred, mountain hexsides and rivers avoided where there is a choice, an existing road followed). The
+routes are reconstructions to be checked against period maps."""
 import heapq
 import json
 import math
@@ -44,7 +46,23 @@ TOWNS = [
     ('San Marco dei Cavoti', None, False), ('Molinara', None, False), ('San Giorgio La Molara', None, False), ('Buonalbergo', None, False),
     ('Casalbore', None, False), ('Sulmona', None, True), ('Pratola Peligna', None, False), ('Popoli', None, False), ('Lama dei Peligni', None, False),
     ('Taranta Peligna', None, False), ('Gamberale', None, False), ('Pizzoferrato', None, False), ('Rocca San Giovanni', None, False), ('Perano', None, False),
+    # Apulia and Basilicata: the Eighth Army's approach
+    ('Potenza', None, True), ('Cerignola', None, True), ('Melfi', None, False), ('Rionero in Vulture', None, False), ('Atella', None, False),
+    ('Lavello', None, False), ('Venosa', None, False), ('Canosa di Puglia', None, False), ('Minervino Murge', None, False), ('Spinazzola', None, False),
+    ('Palazzo San Gervasio', None, False), ('Genzano di Lucania', None, False), ('Acerenza', None, False), ('Pietragalla', None, False),
+    ('Tricarico', None, False), ('Tolve', None, False), ('Vaglio Basilicata', None, False), ('Gravina in Puglia', None, False), ('Irsina', None, False),
+    ('Ascoli Satriano', None, False), ('Candela', 'Candela, Apulia', False), ('Orta Nova', None, False), ('Rocchetta Sant\'Antonio', None, False),
+    ('Avigliano', None, False), ('Oppido Lucano', None, False), ('Banzi', None, False),
+    # Lazio: the roads to Rome
+    ('Littoria', 'Latina, Lazio', True), ('Frosinone', None, True), ('Sora', 'Sora, Lazio', True), ('Avezzano', None, True),
+    ('Cisterna di Latina', None, False), ('Sezze', None, False), ('Priverno', None, False), ('Pontinia', None, False), ('Sabaudia', None, False),
+    ('San Felice Circeo', None, False), ('Ceccano', None, False), ('Ceprano', None, False), ('Ferentino', None, False), ('Anagni', None, False),
+    ('Alatri', None, False), ('Veroli', None, False), ('Isola del Liri', None, False), ('Arpino', None, False), ('Balsorano', None, False),
+    ('Capistrello', None, False), ('Sonnino', None, False), ('Pofi', None, False),
 ]
+# Places given to the map though their hex is on a printed map's edge with no town of its own (the fit puts Potenza
+# just inside Salerno '43's east edge, which shows the road to it but not the town).
+ON_PRINTED_EDGE = {'Potenza'}
 
 # The main roads of 1943 as the towns they ran through (names as on the grand map, old towns included).
 MAJOR = [
@@ -53,13 +71,20 @@ MAJOR = [
     ['Isernia', 'Castel San Vincenzo', 'Castel di Sangro', 'Roccaraso', 'Sulmona'],                          # SS 17 north
     ['Vinchiaturo', 'Campobasso', 'Gambatesa', 'Volturara Appula', 'Motta Montecorvino', 'Lucera', 'Foggia'],  # SS 17 east (approximate)
     ['Benevento', 'Apice', 'Ariano Irpino', 'Greci', 'Savignano di Puglia', 'Orsara di Puglia', 'Bovino', 'Foggia'],  # SS 90 delle Puglie
-    ['Pietrelcina', 'Pesco Sannita', 'Colle Sannita', 'Riccia', 'Campobasso', 'Ripalimosani', 'Montagano', 'Casacalenda', 'Larino', 'Guglionesi', 'Termoli'],  # SS 87 Sannitica (approximate)
+    ['Pietrelcina', 'Colle Sannita', 'Riccia', 'Campobasso', 'Ripalimosani', 'Montagano', 'Casacalenda', 'Larino', 'Guglionesi', 'Termoli'],  # SS 87 Sannitica (approximate)
     ['Pescara', 'Chieti'],
+    ['Foggia', 'Orta Nova', 'Cerignola'],                                                                # Via Adriatica south (SS 16)
+    ['Cerignola', 'Canosa di Puglia', 'Lavello', 'Rionero in Vulture', 'Atella', 'Avigliano', 'Potenza'],  # SS 93 Appulo-Lucana (approximate)
+    ['Potenza', 'Vaglio Basilicata', 'Tolve', 'Tricarico'],                                             # SS 7 Appia toward Matera
+    ['Foggia', 'Ascoli Satriano', 'Candela', 'Rocchetta Sant\'Antonio', 'Melfi', 'Rionero in Vulture'],    # Foggia-Melfi
+    ['Terracina', 'Pontinia', 'Littoria', 'Cisterna di Latina'],                                        # Via Appia
+    ['Ceprano', 'Frosinone', 'Ferentino', 'Anagni'],                                                    # Via Casilina (SS 6)
+    ['Sora', 'Balsorano', 'Capistrello', 'Avezzano'],                                                   # SS 82 Valle del Liri
 ]
 MINOR = [
     ['Isernia', 'Carovilli', 'Agnone', 'Castiglione Messer Marino', 'Gissi', 'Scerni', 'Vasto'],             # SS 86 Istonia
     ['Lanciano', 'Castel Frentano', 'Casoli', 'Palena', 'Pescocostanzo', 'Roccaraso'],                        # SS 84 Frentana
-    ['Ortona', 'Tollo', 'Canosa Sannita', 'Orsogna', 'Guardiagrele', 'Chieti'],                                # the Ortona–Orsogna lateral
+    ['Ortona', 'Tollo', 'Orsogna', 'Guardiagrele', 'Chieti'],                                # the Ortona–Orsogna lateral
     ['Orsogna', 'Lanciano', 'Mozzagrogna', 'Fossacesia'],
     ['Lanciano', 'San Vito Chietino'],
     ['Castel di Sangro', 'Ateleta', 'Villa Santa Maria', 'Bomba', 'Archi', 'Atessa', 'Paglieta', 'Torino di Sangro'],  # the Sangro valley
@@ -73,7 +98,16 @@ MINOR = [
     ['Frosolone', 'Carovilli'], ['Frosolone', 'Campobasso'],
     ['Lucera', 'Biccari', 'Troia'],
     ['Sulmona', 'Pratola Peligna', 'Popoli'],
+    ['Melfi', 'Lavello'], ['Venosa', 'Palazzo San Gervasio', 'Spinazzola', 'Minervino Murge', 'Canosa di Puglia'], ['Lavello', 'Venosa'],
+    ['Potenza', 'Pietragalla', 'Acerenza', 'Genzano di Lucania', 'Gravina in Puglia'], ['Genzano di Lucania', 'Palazzo San Gervasio'],
+    ['Tolve', 'Irsina', 'Gravina in Puglia'],
+    ['Frosinone', 'Ceccano', 'Priverno', 'Sezze', 'Littoria'], ['Terracina', 'Sonnino', 'Priverno'], ['Littoria', 'Sabaudia', 'San Felice Circeo'],
+    ['Frosinone', 'Alatri', 'Veroli', 'Sora'], ['Sora', 'Isola del Liri', 'Arpino'], ['Isola del Liri', 'Ceprano'], ['Ceccano', 'Pofi', 'Ceprano'],
 ]
+# Fifty-year-old names: the town on the map is called as it was in 1943.
+RENAME_1943 = {'Latina': 'Littoria'}
+TOWN_DENSITY = 0.16      # towns per land hex in the drawn sectors (the printed maps have 0.17-0.18)
+CITY_POP = 30000         # comuni this size today are cities on the map
 
 
 def hid(c, r):
@@ -84,15 +118,56 @@ def side_key(a, b):
     return f'{a}-{b}' if a < b else f'{b}-{a}'
 
 
+def cube(h):
+    c, r = int(h[:2]), int(h[2:])
+    z = r - (c + (c & 1)) // 2
+    return c, z
+
+
+def hex_distance(a, b):
+    (x1, z1), (x2, z2) = cube(a), cube(b)
+    return max(abs(x1 - x2), abs(z1 - z2), abs((-x1 - z1) - (-x2 - z2)))
+
+
+def comuni_positions():
+    """The comuni of the area (comuni.py, from GeoNames): {name: (lat, lon, population)}."""
+    path = f'{os.path.dirname(__file__)}/comuni.json'
+    if not os.path.exists(path):
+        return {}
+    out = {}
+    for p in json.load(open(path))['comuni']:
+        out.setdefault(p['name'], (p['lat'], p['lon'], p['pop']))
+    return out
+
+
+def town_name(title):
+    n = title.split(',')[0].strip()
+    return RENAME_1943.get(n, n)
+
+
 def main():
     ext = json.load(open(f'{ROOT}/data/grand43/parts/extension.json'))
     grand = json.load(open(f'{ROOT}/data/grand43/parts/stitched.json'))
     hexes = {**grand['hexes'], **ext['hexes']}
     sides = {**grand['hexsides'], **ext['hexsides']}
+    comuni = comuni_positions()
     titles = {name: (t or name) for name, t, _ in TOWNS}
-    pos, missing = locate(list(titles.values()))
-    if missing:
-        print('not placed:', missing)
+    # Positions: the gazetteer's (by the place's own name), else Wikipedia's (wiki_places.py, cached).
+    cached = json.load(open(f'{os.path.dirname(__file__)}/places_cache.json'))
+    pos = {}
+    for t in titles.values():
+        base = t.split(',')[0].strip()
+        if t in cached:
+            pos[t] = tuple(cached[t])
+        elif base in comuni:
+            pos[t] = comuni[base][:2]
+    rest = [t for t in titles.values() if t not in pos]
+    if rest:
+        more, missing = locate(rest)
+        pos.update({t: more[t] for t in rest if t in more})
+        if missing:
+            print('not placed:', missing)
+    edge_of_printed = lambda h: h in grand['hexes'] and any(n in ext['hexes'] or n not in hexes for n in (hid(*x) for x in mtn.nbrs(int(h[:2]), int(h[2:]))))
     # Towns: the first town in a hex keeps it (cities are listed first).
     at = {}
     for name, t, city in TOWNS:
@@ -101,9 +176,14 @@ def main():
             continue
         h = ll_to_hex(*ll)
         if h in grand['hexes']:
+            d = grand['hexes'][h]
+            if name in ON_PRINTED_EDGE and edge_of_printed(h) and not (d.get('town') or d.get('city')):
+                d['city' if city else 'town'] = name
+                at[name] = h
+                ext.setdefault('printedTowns', {})[h] = {'city' if city else 'town': name}
             continue  # the printed maps' own towns stay as printed
         if h not in ext['hexes']:
-            print(f'{name} falls outside the extension ({h})')
+            print(f'{name} falls outside the drawn sectors ({h})')
             continue
         if any(v == h for v in at.values()):
             continue
@@ -112,6 +192,25 @@ def main():
         if d['terrain'] == 'sea':
             d['terrain'] = 'clear'  # a coastal town stands on land
         d['city' if city else 'town'] = name
+    # The larger comuni, the largest in each hex, to the printed maps' density.
+    land = [h for h, d in ext['hexes'].items() if d['terrain'] != 'sea']
+    best = {}
+    for t, (la, lo, size) in comuni.items():
+        if t in at or RENAME_1943.get(t) in at:
+            continue
+        h = ll_to_hex(la, lo)
+        if h not in ext['hexes'] or ext['hexes'][h]['terrain'] == 'sea' or h in at.values():
+            continue
+        if h not in best or size > best[h][1]:
+            best[h] = (t, size)
+    want = max(0, round(TOWN_DENSITY * len(land)) - len(at))
+    for h, (t, size) in sorted(best.items(), key=lambda kv: -kv[1][1])[:want]:
+        name = town_name(t)
+        if name in at:
+            continue
+        at[name] = h
+        ext['hexes'][h]['city' if size >= CITY_POP else 'town'] = name
+    print(f'{len(at)} towns in the drawn sectors ({sum(1 for h in at.values() if h in ext["hexes"] and ext["hexes"][h].get("city"))} cities) over {len(land)} land hexes')
     # Names of the printed maps' towns, for road ends.
     named = {(d.get('city') or d.get('town')): h for h, d in grand['hexes'].items() if d.get('city') or d.get('town')}
     named.update(at)
@@ -121,21 +220,28 @@ def main():
         if da['terrain'] == 'sea' or db['terrain'] == 'sea':
             return None
         s = sides.get(side_key(a, b), {})
-        k = 1.0 + (0.6 if db['terrain'] == 'hill' else 0) + (3.0 if s.get('mountain') else 0) + (0.6 if s.get('river') else 0)
+        # The printed maps' roads keep off mountain hexsides (a handful cross one) and never use a pass.
+        k = 1.0 + (0.6 if db['terrain'] == 'hill' else 0) + (8.0 if s.get('mountain') else 0) + (0.6 if s.get('river') else 0)
         if s.get('road'):
             k -= 0.6
         return k
 
-    def route(a, b):
+    def search(a, goal):
+        """Cheapest route from a to the first hex goal(h) accepts."""
         pq = [(0, a)]
         best = {a: 0}
         prev = {a: None}
         while pq:
             g, h = heapq.heappop(pq)
-            if h == b:
-                break
             if g > best[h]:
                 continue
+            if h != a and goal(h):
+                path = [h]
+                while prev[path[-1]]:
+                    path.append(prev[path[-1]])
+                return path[::-1]
+            if g > 40:
+                break
             c, r = int(h[:2]), int(h[2:])
             for n in mtn.nbrs(c, r):
                 nh = hid(*n)
@@ -148,14 +254,27 @@ def main():
                     best[nh] = g + k
                     prev[nh] = h
                     heapq.heappush(pq, (g + k, nh))
-        if b not in prev:
-            return []
-        path = [b]
-        while prev[path[-1]]:
-            path.append(prev[path[-1]])
-        return path[::-1]
+        return []
+
+    def route(a, b):
+        return search(a, lambda h: h == b)
 
     made = 0
+
+    def lay(path, kind):
+        nonlocal made
+        for x, y in zip(path, path[1:]):
+            k = side_key(x, y)
+            s = sides.setdefault(k, {})
+            if s.get('road') == 'major' or (s.get('road') and kind == 'minor'):
+                continue
+            # The printed maps keep their roads as printed.
+            if x in grand['hexes'] and y in grand['hexes']:
+                continue
+            s['road'] = kind
+            ext['hexsides'].setdefault(k, {})['road'] = kind
+            made += 1
+
     for roads, kind in ((MAJOR, 'major'), (MINOR, 'minor')):
         for chain in roads:
             pts = [named.get(n) for n in chain]
@@ -164,19 +283,57 @@ def main():
                     print(f'road town not on the map: {n}')
             pts = [p for p in pts if p]
             for a, b in zip(pts, pts[1:]):
-                path = route(a, b)
-                for x, y in zip(path, path[1:]):
-                    k = side_key(x, y)
-                    s = sides.setdefault(k, {})
-                    if s.get('road') == 'major':
-                        continue
-                    # The printed maps keep their roads as printed.
-                    if x in grand['hexes'] and y in grand['hexes']:
-                        continue
-                    s['road'] = kind
-                    ext['hexsides'].setdefault(k, {})['road'] = kind
-                    made += 1
-    print(f'{len(at)} towns placed, {made} road hexsides')
+                lay(route(a, b), kind)
+    chains = made
+
+    def road_hex(h):
+        c, r = int(h[:2]), int(h[2:])
+        return any(sides.get(side_key(h, hid(*n)), {}).get('road') for n in mtn.nbrs(c, r))
+
+    # A minor road to every town of the drawn sectors that has none.
+    towns = [h for h in at.values() if h in ext['hexes']]
+    for h in towns:
+        if not road_hex(h):
+            lay(search(h, road_hex), 'minor')
+    to_towns = made - chains
+
+    def road_steps(a, limit):
+        """Steps from a along roads to every hex within `limit`."""
+        dist = {a: 0}
+        frontier = [a]
+        for d in range(1, limit + 1):
+            nxt = []
+            for h in frontier:
+                c, r = int(h[:2]), int(h[2:])
+                for n in mtn.nbrs(c, r):
+                    nh = hid(*n)
+                    if nh not in dist and sides.get(side_key(h, nh), {}).get('road'):
+                        dist[nh] = d
+                        nxt.append(nh)
+            frontier = nxt
+        return dist
+
+    # Neighbouring towns the roads leave far apart get a road between them, nearest pairs first.
+    every = [h for h, d in hexes.items() if d.get('town') or d.get('city')]
+    pairs = sorted({(hex_distance(a, b), min(a, b), max(a, b)) for a in towns for b in every
+                    if a != b and 2 <= hex_distance(a, b) <= 4})
+    for d, a, b in pairs:
+        if road_steps(a, max(d + 1, int(1.6 * d))).get(b) is None:
+            lay(route(a, b), 'minor')
+    print(f'{made} road hexsides: {chains} on the main roads, {to_towns} to towns, {made - chains - to_towns} between neighbours')
+
+    # Ports and airfields of the Adriatic sector.
+    for name in ('Termoli', 'Ortona', 'Pescara'):
+        h = named.get(name)
+        if h and h in ext['hexes']:
+            ext['hexes'][h]['port'] = {'capacity': 1}
+            ext['hexes'][h]['harbour'] = True
+    for name, ll, kind in (('Foggia', None, 'major'), ('Amendola Airfield', (41.535, 15.718), 'minor'), ('Lucera', None, 'minor')):
+        h = named.get(name) if ll is None else ll_to_hex(*ll)
+        if h and h in ext['hexes'] and ext['hexes'][h]['terrain'] != 'sea':
+            ext['hexes'][h]['airfield'] = kind
+            if ll is not None and not (ext['hexes'][h].get('town') or ext['hexes'][h].get('city')):
+                ext['hexes'][h]['label'] = name
     json.dump(ext, open(f'{ROOT}/data/grand43/parts/extension.json', 'w'), indent=1, ensure_ascii=False)
 
 

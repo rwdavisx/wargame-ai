@@ -14,14 +14,14 @@ export const GRAND_BRIEF: Briefing = {
   Allied: {
     title: 'FIFTH AND EIGHTH ARMIES — FROM AVALANCHE TO THE SANGRO',
     text: [
-      'All of southern Italy on one map, both coasts. On 9 September the Fifth Army comes ashore in the Gulf of Salerno; the Eighth Army, already across the Strait of Messina, is coming up from Calabria and Taranto and reaches the map from the south from 19 September.',
+      'All of southern Italy on one map, from the Pontine Marshes and the Abruzzo to Potenza and the Foggia plain. On 9 September the Fifth Army comes ashore in the Gulf of Salerno; the Eighth Army, already across the Strait of Messina, is coming up from Calabria, Taranto and Bari and reaches the map from the south from 19 September. In September a turn is a day, as in Salerno ’43; from October two or three days, as in Italy ’43.',
       'Hold the beachhead, then take Naples and its port and the Foggia airfields. After them come the rivers and the mountains: the Volturno, the Trigno and the Sangro, the Bernhard positions round Monte Camino and San Pietro, Ortona on the Adriatic, and behind them the Gustav Line and Cassino. Victory points are counted for both fronts together, against the pace of 1943.',
     ],
     goals: (sc) => [
       `Hold at least ${win(sc).vp} VP at the end of ${when(win(sc).turn)}.`,
-      `Keep pace with the benchmark: ${RULES.automaticMargin} VP above it wins at once, ${RULES.automaticMargin} below loses.`,
+      `From ${when(RULES.automaticFromTurn)} keep pace with the benchmark: ${RULES.automaticMargin} VP above it wins at once, ${RULES.automaticMargin} below loses. September's landing battle is fought out whatever the count.`,
       'VP hexes count only with a supply line. Naples (4), Foggia (3) and Salerno, Avellino, Termoli, Campobasso and Ortona (2 each) are worth the most.',
-      ...(sc === 'winter' ? [] : ['Turn 1 is the landing: each beach rolls on the Invasion table. Later waves come by sea through the Floating Reserve to a beachhead or a port you hold.']),
+      ...(sc === 'winter' ? [] : ['Day 1 is the landing: each beach rolls on the Invasion table. Later waves come by sea through the Floating Reserve to a beachhead or a port you hold. In September a turn is a day.']),
       'Naples, once taken, is your port: reinforcements due there come straight onto the map; until then they come by sea.',
     ],
   },
@@ -33,7 +33,7 @@ export const GRAND_BRIEF: Briefing = {
     ],
     goals: (sc) => [
       `Keep the Allies below ${win(sc).vp} VP at the end of ${when(win(sc).turn)}.`,
-      `If the Allies fall ${RULES.automaticMargin} VP below the benchmark, you win at once.`,
+      `From ${when(RULES.automaticFromTurn)}, if the Allies fall ${RULES.automaticMargin} VP below the benchmark, you win at once.`,
       'The 16th Panzer Division leaves for Russia in mid-November; the 65th, 90th Panzergrenadier and 334th Divisions come to the Adriatic, the 94th, 305th, 44th and 5th Mountain to the west.',
       'Each turn your engineers may start or complete one fortification. The Eighth Army takes the south-edge entry areas as it comes up: units still waiting there are lost.',
     ],

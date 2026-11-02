@@ -1,5 +1,5 @@
 import {
-  GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START, scenarioMarkers, scenarioSetup,
+  GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START, scenarioMarkers, scenarioSetup, weatherTrack,
   type UnitEvent, type UnitSetup,
 } from './data';
 import { applyFortStep, buildNeedsRoll, fortLevel, fortOptions, razeFort, startingForts } from './forts';
@@ -120,7 +120,7 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
   // A scenario that opens with assault waves offshore starts with the Invasion phase (Salerno '43, the grand campaign).
   const invasion = RULES.landings && Object.values(units).some((u) => u.where.kind === 'landing');
   const control = invasion ? salernoControl() : startingControl(units, sc.firstTurn ?? 1);
-  const box = RULES.weather.track.findIndex((b) => b.box === marks.weather);
+  const box = weatherTrack(sc.firstTurn ?? 1).findIndex((b) => b.box === marks.weather);
   const s: GameState = {
     gameId: GAME_ID, scenarioId, turn: sc.firstTurn ?? 1, lastTurn: sc.lastTurn, phase: invasion ? 'invasion' : 'initial',
     activeSide: invasion ? 'Allied' : 'German', weather: Math.max(0, box),
@@ -387,7 +387,7 @@ function readySupport(s: GameState): void {
 function doWeather(s: GameState): void {
   const roll = rollD6(s);
   const adv = RULES.weather.advanceByRoll[String(roll)] ?? 0;
-  const n = RULES.weather.track.length;
+  const n = weatherTrack(s.turn).length;
   const wrapped = s.weather + adv >= n;
   s.weather = (s.weather + adv) % n;
   if (!RULES.invasionGame) freeFlips(s, roll, wrapped);
@@ -864,8 +864,8 @@ function doVictoryCheck(s: GameState): void {
   const vp = alliedVp(s);
   const b = benchmark(s.turn);
   log(s, `The Allies hold ${plural(vp, 'victory point')}${b !== null ? `; the benchmark for today is ${b}` : ''}.`, 'victory',
-    { detail: `${vpBreakdown(s).parts.join(', ') || 'Nothing held'}.${b !== null ? ' Five or more above or below the benchmark ends the game.' : ''}` });
-  if (b === null) return;
+    { detail: `${vpBreakdown(s).parts.join(', ') || 'Nothing held'}.${b !== null && s.turn >= RULES.automaticFromTurn ? ` ${RULES.automaticMargin} or more above or below the benchmark ends the game.` : ''}` });
+  if (b === null || s.turn < RULES.automaticFromTurn) return;
   if (vp >= b + RULES.automaticMargin || vp >= RULES.automaticAlliedVp) {
     s.winner = 'Allied';
     s.victoryNote = `Automatic Allied victory: the Allies hold ${vp} victory points against a benchmark of ${b}.`;
@@ -950,6 +950,12 @@ function receiveMode(s: GameState, hex: HexId, cost: number): 'normal' | 'twoTur
 }
 
 /** Hexes where an Allied unit waiting off-map may land or drop. */
+let sector8Cache: { map: unknown; has: boolean } | null = null;
+const sector8Map = (): boolean => {
+  if (sector8Cache?.map !== MAP) sector8Cache = { map: MAP, has: Object.values(MAP.hexes).some((d) => d.sector8) };
+  return sector8Cache.has;
+};
+
 export function landingHexes(s: GameState, unitId: string): HexId[] {
   const u = s.units[unitId];
   const occ = occupancy(s);
@@ -976,7 +982,9 @@ export function landingHexes(s: GameState, unitId: string): HexId[] {
       const d = MAP.hexes[h];
       if (d.terrain === 'sea' || d.city || occ.get(h) === 'German' || bonds.hexes.has(h)) return false;
       if (u.where.kind === 'entry' && u.where.area === 'airdrop') return bh.some((b) => distance(b, h) <= 3);
-      return !d.sector8;
+      // The 2/509th: anywhere in the Fifth Army's sector of Salerno '43's map; on a map without that sector (the grand
+      // campaign), within ten hexes of a beachhead (it dropped near Avellino, about seven from Salerno).
+      return sector8Map() ? !d.sector8 : bh.some((b) => distance(b, h) <= 10);
     });
   }
   return [];

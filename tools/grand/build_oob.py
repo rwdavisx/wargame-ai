@@ -11,8 +11,8 @@ brings in placed where they stood that day (research/german.json); 'winter' is 1
 Bernhard Line cards in the west and the Eighth Army and LXXVI Panzer Corps' positions on the Trigno (research
 positions nearest that date).
 
-Turn track: 2-day turns from 9 September (GT1 = 9-10 Sept) to 10 October, then Italy '43's own track (GT = Italy turn
-+ 11): 43 turns to 31 December. Salerno day d is GT ceil(d / 2).
+Turn track: a turn a day from 9 to 30 September (Salerno '43's scale: its day d is turn d), then Italy '43's own track
+(turn = Italy turn + 22): 54 turns to 31 December.
 
 Victory: one VP total for both fronts; the benchmarks follow the pace of 1943 (vp_dates.json, written by merge.py)."""
 import json
@@ -54,18 +54,14 @@ def nbr_ids(h):
 def turn_dates():
     out = {}
     d0 = date(1943, 9, 9)
-    for t in range(1, 17):
-        a = d0 + timedelta(days=2 * (t - 1))
-        b = a + timedelta(days=1)
-        out[t] = (a, b)
+    for t in range(1, 23):
+        out[t] = (d0 + timedelta(days=t - 1),) * 2
     for it, txt in ITA_R['turns']['dates'].items():
         it = int(it)
-        if it <= 5:
-            continue
         mon, days = txt.split(' ')
         m = {'Oct': 10, 'Nov': 11, 'Dec': 12}[mon]
         a, b = [int(x) for x in days.split('-')]
-        out[it + 11] = (date(1943, m, a), date(1943, m, b))
+        out[it + 22] = (date(1943, m, a), date(1943, m, b))
     return out
 
 
@@ -86,11 +82,13 @@ def gt(d):
 def label(t):
     a, b = DATES[t]
     mon = lambda x: x.strftime('%b')
+    if a == b:
+        return f'{mon(a)} {a.day}'
     return f'{mon(a)} {a.day}-{b.day}' if a.month == b.month else f'{mon(a)} {a.day}-{mon(b)} {b.day}'
 
 
-sal_gt = lambda day: math.ceil(day / 2)
-ita_gt = lambda t: t + 11
+sal_gt = lambda day: day
+ita_gt = lambda t: t + 22
 
 # ------------------------------------------------------------------ counters
 
@@ -144,8 +142,8 @@ SAL2G = {
     'GE-I2HG': 'GE-I-2HG',
 }
 # Salerno's off-map codes on the grand map.
-SAL_AREA = {'N': 'G1/G2/G3', 'S': 'A1/A2/A3', 'S1': 'A1', 'S2': 'A2', 'S3': 'A3', 'E': 'A4/A5/A6/A7', 'E1': 'A4', 'E2': 'A5', 'E3': 'A6', 'E4': 'A7',
-            'E5': 'A7'}
+SAL_AREA = {'N': 'G1/G2/G3', 'S': 'A1/A2/A3', 'S1': 'A1', 'S2': 'A2', 'S3': 'A3', 'E': 'A4/A5', 'E1': 'A4/A5', 'E2': 'A4/A5', 'E3': 'A4/A5',
+            'E4': 'A4/A5', 'E5': 'A4/A5'}
 ITA_AREA = {'N1/N2/N3': 'G1/G2/G3', 'N1': 'G1', 'N2': 'G2', 'N3': 'G3', 'N4': 'G3', 'Naples': 'Naples', 'S1': 'Naples', 'S2': 'Naples',
             'S1/S2': 'Naples'}
 
@@ -156,11 +154,17 @@ GERMAN_START = {
     'GE-I-115': it2g('1822'), 'GE-III-115': it2g('2116'), 'GE-I-129': it2g('1815'), 'GE-II-129': it2g('2015'), 'GE-III-129': it2g('2116'),
     'GE-104': it2g('2210'), 'GE-215': it2g('2212'), 'GE-15PG-ASU': it2g('2311'), 'GE-Reggio': it2g('2018'),
 }
-GERMAN_ARRIVE = {  # id: (grand turn, where[, reduced])
-    'GE-HG-I-II': (2, 'hex:2634', True), 'GE-I-2HG': (3, 'G2'), 'GE-I-29': (3, 'G2'), 'GE-103Pz': (3, 'G2'), 'GE-103': (3, 'G2'),
-    'GE-15': (1, 'A1/A2/A3'), 'GE-29PG-ASU': (1, 'A1/A2/A3'), 'GE-71': (2, 'A1/A2/A3'), 'GE-129Pz': (2, 'A1/A2/A3'), 'GE-129': (3, 'A1/A2/A3'),
-    'GE-26': (2, 'A1/A2/A3'), 'GE-I-9': (3, 'A1/A2/A3'), 'GE-II-9': (3, 'A1/A2/A3'), 'GE-II-67': (3, 'A4/A5'), 'GE-26Pz-ASU': (3, 'A1/A2/A3'),
-    'GE-I-67': (5, 'A1/A2/A3'),
+# They are held where they stand until the day Salerno '43 brings them onto its map (its north edge is the road from
+# Naples to Salerno), so they reach the beachhead when they did; the 15th Panzergrenadier's units Salerno '43 never
+# brings in watch the Gulf of Gaeta until the division went to Salerno.
+GERMAN_HELD = {'GE-HG': 1, 'GE-II-1HG': 2, 'GE-HG-III': 2, 'GE-HG-ASU': 2, 'GE-14Pz': 3, 'GE-71NW': 3, 'GE-III-115': 2, 'GE-I-129': 3,
+               'GE-II-129': 3, 'GE-III-129': 3, 'GE-215': 3}
+GERMAN_WATCH = {'GE-I-115': 6, 'GE-104': 6, 'GE-15PG-ASU': 6, 'GE-Reggio': 12}
+GERMAN_ARRIVE = {  # id: (turn, where[, reduced]): Salerno '43's days
+    'GE-HG-I-II': (4, 'hex:2634', True), 'GE-I-2HG': (5, 'G2'), 'GE-I-29': (6, 'G2'), 'GE-103Pz': (6, 'G2'), 'GE-103': (6, 'G2'),
+    'GE-15': (2, 'A1/A2/A3'), 'GE-29PG-ASU': (2, 'A1/A2/A3'), 'GE-71': (3, 'A1/A2/A3'), 'GE-129Pz': (4, 'A1/A2/A3'), 'GE-129': (5, 'A1/A2/A3'),
+    'GE-26': (3, 'A1/A2/A3'), 'GE-I-9': (5, 'A1/A2/A3'), 'GE-II-9': (5, 'A1/A2/A3'), 'GE-II-67': (6, 'A3/A4'), 'GE-26Pz-ASU': (6, 'A1/A2/A3'),
+    'GE-I-67': (10, 'A1/A2/A3'),
 }
 # Italy '43 removals that mean a move to the Adriatic front (on the grand map already), not leaving Italy.
 KEEP_ITALY_EVENTS = {'GE-HG', 'GE-103Pz', 'GE-103', 'GE-I-29', 'GE-29', 'GE-I-8', 'GE-II-8', 'GE-III-8', 'GE-3PG-ASU', 'GE-129',
@@ -178,14 +182,14 @@ def fifth_army_events(gid):
     if gid in ('US-1Rgr', 'US-3Rgr', 'US-4Rgr', 'US-2-509'):
         st = ita_unit(gid)['setup']['campaign']
         back = ita_gt(st['arrive']['turn']) if 'arrive' in st else None
-        ev = [{'turn': 12, 'kind': 'withdraw'}]
+        ev = [{'turn': ita_gt(1), 'kind': 'withdraw'}]
         if back:
             ev.append({'turn': back, 'kind': 'return', 'at': 'Naples'})
         ev += [e for e in italy_events(gid) if e['kind'] == 'remove']
     elif gid in ('US-141-36', 'US-142-36', 'US-143-36', 'US-36DivASU', 'US-753', 'US-636'):
         # The 36th Division went into army reserve from 20 September and came back in mid-November (Italy '43's turns).
         back = ita_gt(ita_unit(gid)['setup']['campaign']['arrive']['turn'])
-        ev = [{'turn': 6, 'kind': 'withdraw'}, {'turn': back, 'kind': 'return', 'at': 'Naples'}]
+        ev = [{'turn': gt('1943-09-20'), 'kind': 'withdraw'}, {'turn': back, 'kind': 'return', 'at': 'Naples'}]
     else:
         ev = [e for e in italy_events(gid) if e['kind'] == 'remove']
     return ev
@@ -221,6 +225,11 @@ for iu in ITA['units']:
     if gid.startswith('GE-'):
         if gid in GERMAN_START:
             camp = {'start': {'hex': GERMAN_START[gid]}}
+            if GERMAN_HELD.get(gid, 1) > 1:
+                camp['frozenUntil'] = GERMAN_HELD[gid]
+            if gid in GERMAN_WATCH:
+                # Watching the Gulf of Gaeta until they went to Salerno (the division was at Castellammare by the 18th).
+                camp['frozenUntil'] = GERMAN_WATCH[gid]
         elif gid in GERMAN_ARRIVE:
             t, at, *red = GERMAN_ARRIVE[gid]
             camp = {'arrive': {'turn': t, 'at': at, **({'reduced': True} if red else {})}}
@@ -292,8 +301,8 @@ for iu in ITA['units']:
 
 # ---- Salerno '43's own counters.
 NO_REMNANT_8TH = {'BR-13', 'BR-15', 'BR-17', 'CN-1', 'CN-2', 'CN-3'}
-EIGHTH_ARRIVE = {'BR-13': (6, 'A1/A2'), 'BR-15': (6, 'A1/A2'), 'BR-17': (6, 'A1/A2'), 'CN-1': (6, 'A5'), 'CN-2': (6, 'A5'), 'CN-3': (6, 'A5'),
-                 'CN-14': (6, 'A5'), 'CN-11': (7, 'A5')}
+EIGHTH_ARRIVE = {'BR-13': (12, 'A1/A2'), 'BR-15': (12, 'A1/A2'), 'BR-17': (11, 'A1/A2'), 'CN-1': (12, 'A4'), 'CN-2': (12, 'A4'),
+                 'CN-3': (12, 'A4'), 'CN-14': (12, 'A4'), 'CN-11': (13, 'A4')}
 for su in SAL['units']:
     sid = su['id']
     if sid in SAL2G:
@@ -308,7 +317,7 @@ for su in SAL['units']:
         u['formation'] = {'BR': '5 Div', 'CN': u['formation']}.get(u['nation'], u['formation'])
     if sid == 'GE-826':
         # The 26th Panzer's tanks came up from Calabria with the division.
-        camp = {'arrive': {'turn': 4, 'at': 'A4/A5'}}
+        camp = {'arrive': {'turn': 7, 'at': 'A3/A4'}}
     if sid in ('BR-2Cdo', 'BR-41Cdo'):
         camp['events'] = [{'turn': gt('1943-09-18'), 'kind': 'remove'}]
     if su['cat'] == 'bh' or sid == 'US-3-531':
@@ -318,130 +327,172 @@ for su in SAL['units']:
     add(u, camp, {})
 
 # ---- New counters (research/*.json, 'suggestedValues', by analogy with the two games' counters).
+# When and where each new counter comes and goes, in grand turns (a day each to 30 September: day d of the month is
+# turn d - 8; from 1 October Italy '43's turn + 22). Sources: research/*.json ('enters', 'leaves', 'positions').
+ARR = {
+    # German: the 1st Parachute Division in Apulia and Basilicata, the reinforcements from the north
+    'GE-I-1FJ': {'arrive': {'turn': 3, 'at': 'A5/A6'}}, 'GE-II-4FJ': {'arrive': {'turn': 3, 'at': 'A5/A6'}},
+    'GE-II-3FJ': {'arrive': {'turn': 5, 'at': 'A4/A5'}}, 'GE-III-3FJ': {'arrive': {'turn': ita_gt(9), 'at': 'G5'}},
+    'GE-1FJ-ASU': {'arrive': {'turn': 4, 'at': 'A5/A6'}}, 'GE-KGRau': {'arrive': {'turn': 10, 'at': 'A6/A7'}},
+    'GE-576': {'arrive': {'turn': ita_gt(9), 'at': 'G3'}},
+    'GE-145': {'arrive': {'turn': ita_gt(7), 'at': 'G5'}}, 'GE-146': {'arrive': {'turn': ita_gt(7), 'at': 'G5'}},
+    'GE-65-ASU': {'arrive': {'turn': ita_gt(7), 'at': 'G5'}},
+    'GE-361': {'arrive': {'turn': ita_gt(20), 'at': 'G5'}}, 'GE-200': {'arrive': {'turn': ita_gt(23), 'at': 'G5'}},
+    'GE-190Pz': {'arrive': {'turn': ita_gt(23), 'at': 'G5'}}, 'GE-90-ASU': {'arrive': {'turn': ita_gt(23), 'at': 'G5'}},
+    'GE-754': {'arrive': {'turn': ita_gt(28), 'at': 'G4/G5'}}, 'GE-755': {'arrive': {'turn': ita_gt(28), 'at': 'G4/G5'}},
+    'GE-756': {'arrive': {'turn': ita_gt(28), 'at': 'G4/G5'}}, 'GE-334-ASU': {'arrive': {'turn': ita_gt(28), 'at': 'G4/G5'}},
+    'GE-REM-F': {'start': {'remnant': True}}, 'GE-REM-G': {'start': {'remnant': True}}, 'GE-REM-H': {'start': {'remnant': True}},
+    # XIII Corps up from Calabria: the 5th Division by the coast roads, the Canadians by the Basento valley to Potenza
+    'BR-13CorpsASU': {'arrive': {'turn': 12, 'at': 'A4'}}, 'BR-5Recce': {'arrive': {'turn': 11, 'at': 'A1/A2'}},
+    'BR-5DivASU': {'arrive': {'turn': 11, 'at': 'A1/A2'}}, 'CN-4PLDG': {'arrive': {'turn': 12, 'at': 'A4'}},
+    'CN-1DivASU': {'arrive': {'turn': 13, 'at': 'A4'}}, 'CN-12': {'arrive': {'turn': ita_gt(3), 'at': 'A7'}},
+    # V Corps up from Taranto and Bari
+    'BR-5CorpsASU': {'arrive': {'turn': 17, 'at': 'A7'}},
+    'BR-1Para': {'arrive': {'turn': 13, 'at': 'A5/A6'}, 'events': [{'turn': ita_gt(23), 'kind': 'remove'}]},
+    'BR-4Para': {'arrive': {'turn': 13, 'at': 'A5/A6'}, 'events': [{'turn': ita_gt(23), 'kind': 'remove'}]},
+    'BR-1AL': {'arrive': {'turn': 14, 'at': 'A5/A6'}, 'events': [{'turn': ita_gt(23), 'kind': 'remove'}]},
+    'BR-2Para': {'arrive': {'turn': 14, 'at': 'A5/A6'}},
+    'BR-11-78': {'arrive': {'turn': 15, 'at': 'A7'}}, 'BR-36-78': {'arrive': {'turn': 16, 'at': 'A7'}},
+    'BR-38-78': {'arrive': {'turn': 17, 'at': 'A7'}}, 'BR-56Recce': {'arrive': {'turn': 15, 'at': 'A7'}},
+    'BR-78DivASU': {'arrive': {'turn': 17, 'at': 'A7'}},
+    'BR-3CLY': {'arrive': {'turn': 16, 'at': 'A7'}}, 'BR-44RTR': {'arrive': {'turn': 16, 'at': 'A7'}}, 'BR-50RTR': {'arrive': {'turn': 16, 'at': 'A7'}},
+    'BR-3Cdo': {'arrive': {'turn': 21, 'at': 'A7'}, 'events': [{'turn': ita_gt(4), 'kind': 'remove'}]},
+    'BR-40Cdo': {'arrive': {'turn': 21, 'at': 'A7'}, 'events': [{'turn': ita_gt(4), 'kind': 'remove'}]},
+    'BR-1SRS': {'arrive': {'turn': 21, 'at': 'A7'}, 'events': [{'turn': ita_gt(4), 'kind': 'remove'}]},
+    'IN-17': {'arrive': {'turn': ita_gt(6), 'at': 'A7'}}, 'IN-19': {'arrive': {'turn': ita_gt(6), 'at': 'A7'}},
+    'IN-21': {'arrive': {'turn': ita_gt(7), 'at': 'A7'}}, 'IN-6L': {'arrive': {'turn': ita_gt(6), 'at': 'A7'}},
+    'IN-8DivASU': {'arrive': {'turn': ita_gt(7), 'at': 'A7'}},
+    'NZ-5': {'arrive': {'turn': ita_gt(11), 'at': 'A7'}}, 'NZ-6': {'arrive': {'turn': ita_gt(11), 'at': 'A7'}},
+    'NZ-Cav': {'arrive': {'turn': ita_gt(12), 'at': 'A7'}}, 'NZ-DivASU': {'arrive': {'turn': ita_gt(12), 'at': 'A7'}},
+    'NZ-18': {'arrive': {'turn': ita_gt(12), 'at': 'A7'}}, 'NZ-19': {'arrive': {'turn': ita_gt(12), 'at': 'A7'}},
+    'NZ-20': {'arrive': {'turn': ita_gt(12), 'at': 'A7'}}, 'NZ-22': {'arrive': {'turn': ita_gt(12), 'at': 'A7'}},
+    'BR-46RTR': {'arrive': {'turn': ita_gt(13), 'at': 'A7'}},
+    'BR-REM-D': {'start': {'remnant': True}}, 'BR-REM-E': {'start': {'remnant': True}}, 'BR-REM-F': {'start': {'remnant': True}},
+}
 NEW = [
     # German
     dict(id='GE-I-1FJ', name='I/1 FJ', side='German', nation='GE', formation='1 FJ', cat='airborne', sp=1, back='none', elite=True,
-         **counter('2-2-3'), _c={'arrive': {'turn': 2, 'at': 'A8'}}),
+         **counter('2-2-3'), _c=ARR['GE-I-1FJ']),
     dict(id='GE-II-4FJ', name='II/4 FJ', side='German', nation='GE', formation='1 FJ', cat='airborne', sp=1, back='none', elite=True,
-         **counter('2-2-3'), _c={'arrive': {'turn': 2, 'at': 'A8'}}),
+         **counter('2-2-3'), _c=ARR['GE-II-4FJ']),
     dict(id='GE-II-3FJ', name='II/3 FJ', side='German', nation='GE', formation='1 FJ', cat='airborne', sp=1, back='none', elite=True,
-         **counter('2-2-3'), _c={'arrive': {'turn': 4, 'at': 'A5'}}),
+         **counter('2-2-3'), _c=ARR['GE-II-3FJ']),
     dict(id='GE-III-3FJ', name='III/3 FJ', side='German', nation='GE', formation='1 FJ', cat='airborne', sp=1, back='none', elite=True,
-         **counter('2-2-3'), _c={'arrive': {'turn': 20, 'at': 'G5'}}),
+         **counter('2-2-3'), _c=ARR['GE-III-3FJ']),
     dict(id='GE-1FJ-ASU', name='1 FJ Div ASU', side='German', nation='GE', formation='1 FJ', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 3, 'at': 'A8'}}),
+         **counter('0-1-5'), _c=ARR['GE-1FJ-ASU']),
     dict(id='GE-KGRau', name='KG Rau', side='German', nation='GE', formation='1 FJ', cat='airborne', sp=1, back='none', elite=True,
-         **counter('1-1-3'), _c={'arrive': {'turn': 8, 'at': 'A8'}}),
+         **counter('1-1-3'), _c=ARR['GE-KGRau']),
     dict(id='GE-576', name='576/305', side='German', nation='GE', formation='305', cat='infantry', sp=3, back='1-3-3', **counter('3-5-3'),
-         _c={'arrive': {'turn': 20, 'at': 'G3'}}),
+         _c=ARR['GE-576']),
     dict(id='GE-145', name='145/65', side='German', nation='GE', formation='65', cat='infantry', sp=3, back='1-3-3', lowQuality=True,
-         **counter('3-5-3'), _c={'arrive': {'turn': 18, 'at': 'G5'}}),
+         **counter('3-5-3'), _c=ARR['GE-145']),
     dict(id='GE-146', name='146/65', side='German', nation='GE', formation='65', cat='infantry', sp=3, back='1-3-3', lowQuality=True,
-         **counter('3-5-3'), _c={'arrive': {'turn': 18, 'at': 'G5'}}),
+         **counter('3-5-3'), _c=ARR['GE-146']),
     dict(id='GE-65-ASU', name='65 Div', side='German', nation='GE', formation='65', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 18, 'at': 'G5'}}),
+         **counter('0-1-5'), _c=ARR['GE-65-ASU']),
     dict(id='GE-361', name='361/90PG', side='German', nation='GE', formation='90 PG', cat='motorized', sp=2, back='2-3-5', elite=True,
-         **counter('4-6-5'), _c={'arrive': {'turn': 31, 'at': 'G5'}}),
+         **counter('4-6-5'), _c=ARR['GE-361']),
     dict(id='GE-200', name='200/90PG', side='German', nation='GE', formation='90 PG', cat='motorized', sp=3, back='4-6-5', remnant='GE-MOT',
-         **counter('6-9-5'), _c={'arrive': {'turn': 34, 'at': 'G5'}}),
+         **counter('6-9-5'), _c=ARR['GE-200']),
     dict(id='GE-190Pz', name='90 PG 190', side='German', nation='GE', formation='90 PG', cat='tank', sp=1, back='none', tr=3,
-         **counter('3-2-5'), _c={'arrive': {'turn': 34, 'at': 'G5'}}),
+         **counter('3-2-5'), _c=ARR['GE-190Pz']),
     dict(id='GE-90-ASU', name='90 PG Div', side='German', nation='GE', formation='90 PG', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 34, 'at': 'G5'}}),
+         **counter('0-1-5'), _c=ARR['GE-90-ASU']),
     dict(id='GE-754', name='754/334', side='German', nation='GE', formation='334', cat='infantry', sp=2, back='none', lowQuality=True,
-         **counter('2-4-3'), _c={'arrive': {'turn': 39, 'at': 'G4/G5'}}),
+         **counter('2-4-3'), _c=ARR['GE-754']),
     dict(id='GE-755', name='755/334', side='German', nation='GE', formation='334', cat='infantry', sp=2, back='none', lowQuality=True,
-         **counter('2-4-3'), _c={'arrive': {'turn': 39, 'at': 'G4/G5'}}),
+         **counter('2-4-3'), _c=ARR['GE-755']),
     dict(id='GE-756', name='756/334', side='German', nation='GE', formation='334', cat='infantry', sp=3, back='1-3-3', lowQuality=True,
-         **counter('3-5-3'), _c={'arrive': {'turn': 39, 'at': 'G4/G5'}}),
+         **counter('3-5-3'), _c=ARR['GE-756']),
     dict(id='GE-334-ASU', name='334 Div', side='German', nation='GE', formation='334', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 39, 'at': 'G4/G5'}}),
+         **counter('0-1-5'), _c=ARR['GE-334-ASU']),
     dict(id='GE-REM-F', name='REM F', side='German', nation='GE', formation='independent', cat='infantry', sp=2, back='none', lowQuality=True,
-         **counter('1-3-3'), _c={'start': {'remnant': True}}),
+         **counter('1-3-3'), _c=ARR['GE-REM-F']),
     dict(id='GE-REM-G', name='REM G', side='German', nation='GE', formation='independent', cat='infantry', sp=2, back='none', lowQuality=True,
-         **counter('1-3-3'), _c={'start': {'remnant': True}}),
+         **counter('1-3-3'), _c=ARR['GE-REM-G']),
     dict(id='GE-REM-H', name='REM H (motorized)', side='German', nation='GE', formation='Independent', cat='motorized', sp=2, back='none',
-         **counter('1-3-5'), _c={'start': {'remnant': True}}),
+         **counter('1-3-5'), _c=ARR['GE-REM-H']),
     # Eighth Army: XIII Corps (from Calabria, up the Salerno map's south and east edges)
     dict(id='BR-13CorpsASU', name='13 Corps', side='Allied', nation='BR', formation='13 Corps', cat='corpsAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 6, 'at': 'A5'}}),
+         **counter('0-1-5'), _c=ARR['BR-13CorpsASU']),
     dict(id='BR-5Recce', name='5 Recce', side='Allied', nation='BR', formation='5 Div', cat='recon', sp=1, back='none', **counter('2-2-6'),
-         _c={'arrive': {'turn': 6, 'at': 'A1/A2'}}),
+         _c=ARR['BR-5Recce']),
     dict(id='BR-5DivASU', name='5 Div', side='Allied', nation='BR', formation='5 Div', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 6, 'at': 'A1/A2'}}),
+         **counter('0-1-5'), _c=ARR['BR-5DivASU']),
     dict(id='CN-4PLDG', name='4 PLDG', side='Allied', nation='CN', formation='1 CN Div', cat='recon', sp=1, back='none', **counter('2-2-6'),
-         _c={'arrive': {'turn': 6, 'at': 'A5'}}),
+         _c=ARR['CN-4PLDG']),
     dict(id='CN-1DivASU', name='1 Cdn Div', side='Allied', nation='CN', formation='1 CN Div', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 7, 'at': 'A5'}}),
+         **counter('0-1-5'), _c=ARR['CN-1DivASU']),
     dict(id='CN-12', name='12 CN Tank Rgt', side='Allied', nation='CN', formation='1 CN Armd Bde', cat='tank', sp=1, back='none', tr=3,
-         **counter('3-2-5'), _c={'arrive': {'turn': 14, 'at': 'A8'}}),
+         **counter('3-2-5'), _c=ARR['CN-12']),
     # V Corps (from Taranto and Bari, up the Via Adriatica and the Candela road)
     dict(id='BR-5CorpsASU', name='5 Corps', side='Allied', nation='BR', formation='5 Corps', cat='corpsAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 9, 'at': 'A8/A9'}}),
+         **counter('0-1-5'), _c=ARR['BR-5CorpsASU']),
     dict(id='BR-1Para', name='1 Para Bde', side='Allied', nation='BR', formation='1 Abn Div', cat='airborne', sp=3, back='3-4-3', elite=True,
-         remnant='BR', **counter('5-6-3'), _c={'arrive': {'turn': 7, 'at': 'A8'}, 'events': [{'turn': 34, 'kind': 'remove'}]}),
+         remnant='BR', **counter('5-6-3'), _c=ARR['BR-1Para']),
     dict(id='BR-4Para', name='4 Para Bde (-)', side='Allied', nation='BR', formation='1 Abn Div', cat='airborne', sp=2, back='none', elite=True,
-         **counter('3-4-3'), _c={'arrive': {'turn': 7, 'at': 'A8'}, 'events': [{'turn': 34, 'kind': 'remove'}]}),
+         **counter('3-4-3'), _c=ARR['BR-4Para']),
     dict(id='BR-1AL', name='1 Airlanding Bde (-)', side='Allied', nation='BR', formation='1 Abn Div', cat='glider', sp=2, back='none', elite=True,
-         **counter('3-4-3'), _c={'arrive': {'turn': 7, 'at': 'A8'}, 'events': [{'turn': 34, 'kind': 'remove'}]}),
+         **counter('3-4-3'), _c=ARR['BR-1AL']),
     dict(id='BR-2Para', name='2 Para Bde', side='Allied', nation='BR', formation='Independent', cat='airborne', sp=3, back='3-4-3', elite=True,
-         remnant='BR', **counter('5-6-3'), _c={'arrive': {'turn': 7, 'at': 'A8'}}),
+         remnant='BR', **counter('5-6-3'), _c=ARR['BR-2Para']),
     dict(id='BR-11-78', name='11/78', side='Allied', nation='BR', formation='78 Div', cat='infantry', sp=3, back='3-5-3', remnant='BR',
-         **counter('5-7-3'), _c={'arrive': {'turn': 9, 'at': 'A8'}}),
+         **counter('5-7-3'), _c=ARR['BR-11-78']),
     dict(id='BR-36-78', name='36/78', side='Allied', nation='BR', formation='78 Div', cat='infantry', sp=3, back='3-5-3', remnant='BR',
-         **counter('5-7-3'), _c={'arrive': {'turn': 9, 'at': 'A8'}}),
+         **counter('5-7-3'), _c=ARR['BR-36-78']),
     dict(id='BR-38-78', name='38 (Irish)/78', side='Allied', nation='BR', formation='78 Div', cat='infantry', sp=3, back='3-5-3', remnant='BR',
-         **counter('5-7-3'), _c={'arrive': {'turn': 10, 'at': 'A8'}}),
+         **counter('5-7-3'), _c=ARR['BR-38-78']),
     dict(id='BR-56Recce', name='56 Recce', side='Allied', nation='BR', formation='78 Div', cat='recon', sp=1, back='none', **counter('2-2-6'),
-         _c={'arrive': {'turn': 9, 'at': 'A8'}}),
+         _c=ARR['BR-56Recce']),
     dict(id='BR-78DivASU', name='78 Div', side='Allied', nation='BR', formation='78 Div', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 10, 'at': 'A8'}}),
+         **counter('0-1-5'), _c=ARR['BR-78DivASU']),
     dict(id='BR-3CLY', name='3 CLY', side='Allied', nation='BR', formation='4 Armd Bde', cat='tank', sp=1, back='none', tr=3, **counter('3-2-5'),
-         _c={'arrive': {'turn': 9, 'at': 'A8'}}),
+         _c=ARR['BR-3CLY']),
     dict(id='BR-44RTR', name='44 RTR', side='Allied', nation='BR', formation='4 Armd Bde', cat='tank', sp=1, back='none', tr=3, **counter('3-2-5'),
-         _c={'arrive': {'turn': 9, 'at': 'A8'}}),
+         _c=ARR['BR-44RTR']),
     dict(id='BR-50RTR', name='50 RTR', side='Allied', nation='BR', formation='4 Armd Bde', cat='tank', sp=1, back='none', tr=3, **counter('3-2-5'),
-         _c={'arrive': {'turn': 9, 'at': 'A8'}}),
+         _c=ARR['BR-50RTR']),
     dict(id='BR-3Cdo', name='3 Commando', side='Allied', nation='BR', formation='Special Service Bde', cat='ranger', sp=1, back='none', elite=True,
-         **counter('2-2-3'), _c={'arrive': {'turn': 11, 'at': 'A8'}, 'events': [{'turn': 16, 'kind': 'remove'}]}),
+         **counter('2-2-3'), _c=ARR['BR-3Cdo']),
     dict(id='BR-40Cdo', name='40 RM Commando', side='Allied', nation='BR', formation='Special Service Bde', cat='ranger', sp=1, back='none',
-         elite=True, **counter('2-2-3'), _c={'arrive': {'turn': 11, 'at': 'A8'}, 'events': [{'turn': 16, 'kind': 'remove'}]}),
+         elite=True, **counter('2-2-3'), _c=ARR['BR-40Cdo']),
     dict(id='BR-1SRS', name='1 SRS', side='Allied', nation='BR', formation='Special Service Bde', cat='ranger', sp=1, back='none', elite=True,
-         **counter('1-1-3'), _c={'arrive': {'turn': 11, 'at': 'A8'}, 'events': [{'turn': 16, 'kind': 'remove'}]}),
+         **counter('1-1-3'), _c=ARR['BR-1SRS']),
     dict(id='IN-17', name='17 Ind Bde', side='Allied', nation='BR', formation='8 Ind Div', cat='infantry', sp=3, back='3-5-3', remnant='BR',
-         **counter('5-7-3'), _c={'arrive': {'turn': 17, 'at': 'A8'}}),
+         **counter('5-7-3'), _c=ARR['IN-17']),
     dict(id='IN-19', name='19 Ind Bde', side='Allied', nation='BR', formation='8 Ind Div', cat='infantry', sp=3, back='3-5-3', remnant='BR',
-         **counter('5-7-3'), _c={'arrive': {'turn': 17, 'at': 'A8'}}),
+         **counter('5-7-3'), _c=ARR['IN-19']),
     dict(id='IN-21', name='21 Ind Bde', side='Allied', nation='BR', formation='8 Ind Div', cat='infantry', sp=3, back='3-5-3', remnant='BR',
-         **counter('5-7-3'), _c={'arrive': {'turn': 18, 'at': 'A8'}}),
+         **counter('5-7-3'), _c=ARR['IN-21']),
     dict(id='IN-6L', name='6 Lancers', side='Allied', nation='BR', formation='8 Ind Div', cat='recon', sp=1, back='none', **counter('2-2-6'),
-         _c={'arrive': {'turn': 17, 'at': 'A8'}}),
+         _c=ARR['IN-6L']),
     dict(id='IN-8DivASU', name='8 Ind Div', side='Allied', nation='BR', formation='8 Ind Div', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 18, 'at': 'A8'}}),
+         **counter('0-1-5'), _c=ARR['IN-8DivASU']),
     dict(id='NZ-5', name='5 NZ Bde', side='Allied', nation='BR', formation='2 NZ Div', cat='infantry', sp=3, back='4-5-3', remnant='BR',
-         **counter('6-7-3'), _c={'arrive': {'turn': 22, 'at': 'A8'}}),
+         **counter('6-7-3'), _c=ARR['NZ-5']),
     dict(id='NZ-6', name='6 NZ Bde', side='Allied', nation='BR', formation='2 NZ Div', cat='infantry', sp=3, back='4-5-3', remnant='BR',
-         **counter('6-7-3'), _c={'arrive': {'turn': 22, 'at': 'A8'}}),
+         **counter('6-7-3'), _c=ARR['NZ-6']),
     dict(id='NZ-Cav', name='NZ Div Cav', side='Allied', nation='BR', formation='2 NZ Div', cat='recon', sp=1, back='none', **counter('2-2-6'),
-         _c={'arrive': {'turn': 23, 'at': 'A8'}}),
+         _c=ARR['NZ-Cav']),
     dict(id='NZ-DivASU', name='2 NZ Div', side='Allied', nation='BR', formation='2 NZ Div', cat='divAsu', sp=0, back='none', range=4,
-         **counter('0-1-5'), _c={'arrive': {'turn': 23, 'at': 'A8'}}),
+         **counter('0-1-5'), _c=ARR['NZ-DivASU']),
     dict(id='NZ-18', name='18 NZ Armd', side='Allied', nation='BR', formation='4 NZ Armd Bde', cat='tank', sp=1, back='none', tr=3,
-         **counter('3-2-5'), _c={'arrive': {'turn': 23, 'at': 'A8'}}),
+         **counter('3-2-5'), _c=ARR['NZ-18']),
     dict(id='NZ-19', name='19 NZ Armd', side='Allied', nation='BR', formation='4 NZ Armd Bde', cat='tank', sp=1, back='none', tr=3,
-         **counter('3-2-5'), _c={'arrive': {'turn': 23, 'at': 'A8'}}),
+         **counter('3-2-5'), _c=ARR['NZ-19']),
     dict(id='NZ-20', name='20 NZ Armd', side='Allied', nation='BR', formation='4 NZ Armd Bde', cat='tank', sp=1, back='none', tr=3,
-         **counter('3-2-5'), _c={'arrive': {'turn': 23, 'at': 'A8'}}),
+         **counter('3-2-5'), _c=ARR['NZ-20']),
     dict(id='NZ-22', name='22 NZ Motor', side='Allied', nation='BR', formation='4 NZ Armd Bde', cat='motorized', sp=1, back='none',
-         **counter('2-2-5'), _c={'arrive': {'turn': 23, 'at': 'A8'}}),
+         **counter('2-2-5'), _c=ARR['NZ-22']),
     dict(id='BR-46RTR', name='46 RTR', side='Allied', nation='BR', formation='Independent', cat='tank', sp=1, back='none', tr=3,
-         **counter('3-2-5'), _c={'arrive': {'turn': 24, 'at': 'A8'}}),
+         **counter('3-2-5'), _c=ARR['BR-46RTR']),
     dict(id='BR-REM-D', name='REM (British) D', side='Allied', nation='BR', formation='Independent', cat='infantry', sp=2, back='none',
-         lowQuality=True, **counter('1-3-3'), _c={'start': {'remnant': True}}),
+         lowQuality=True, **counter('1-3-3'), _c=ARR['BR-REM-D']),
     dict(id='BR-REM-E', name='REM (British) E', side='Allied', nation='BR', formation='Independent', cat='infantry', sp=2, back='none',
-         lowQuality=True, **counter('1-3-3'), _c={'start': {'remnant': True}}),
+         lowQuality=True, **counter('1-3-3'), _c=ARR['BR-REM-E']),
     dict(id='BR-REM-F', name='REM (British) F', side='Allied', nation='BR', formation='Independent', cat='infantry', sp=2, back='none',
-         lowQuality=True, **counter('1-3-3'), _c={'start': {'remnant': True}}),
+         lowQuality=True, **counter('1-3-3'), _c=ARR['BR-REM-F']),
 ]
 for n in NEW:
     c = n.pop('_c')
@@ -462,6 +513,7 @@ for u in EIGHTH['units']:
                                       'IN-6Lancers': 'IN-6L', 'NZ-DivCav': 'NZ-Cav', 'NZ-18AR': 'NZ-18', 'NZ-19AR': 'NZ-19', 'NZ-20AR': 'NZ-20',
                                       'NZ-22Mot': 'NZ-22'}.get(u['id'], u['id'])])
 WINTER_DAY = date(1943, 11, 2)
+WINTER = ita_gt(13)  # 1 November
 
 
 def position_near(r, lo=date(1943, 10, 20), hi=date(1943, 11, 5)):
@@ -493,10 +545,10 @@ for gid, u in UNITS.items():
     if c.get('start', {}).get('remnant'):
         SETUP['winter'][gid] = {'start': {'remnant': True}}
         continue
-    if 'arrive' in c and c['arrive']['turn'] > 24:
+    if 'arrive' in c and c['arrive']['turn'] > WINTER:
         SETUP['winter'][gid] = {k: v for k, v in c.items()}
         continue
-    gone = [e for e in c.get('events', []) if e['kind'] == 'remove' and e['turn'] <= 24]
+    gone = [e for e in c.get('events', []) if e['kind'] == 'remove' and e['turn'] <= WINTER]
     if gone or u['cat'] in ('bh', 'garrison') or gid in ('US-3-531',):
         SETUP['winter'][gid] = {'start': {'box': 'permanentlyRemoved'}}
         continue
@@ -517,7 +569,7 @@ for gid, u in UNITS.items():
         if not ll:
             raise SystemExit(f'no 1 November place for {gid} ({u["formation"]})')
     w = {'start': {'hex': ll_to_hex(*ll)}}
-    w['events'] = [e for e in c.get('events', []) if e['turn'] > 24]
+    w['events'] = [e for e in c.get('events', []) if e['turn'] > WINTER]
     if not w['events']:
         del w['events']
     SETUP['winter'][gid] = w
@@ -626,9 +678,9 @@ oob = {
     'scenarios': {
         'campaign': {'name': 'Grand Campaign', 'firstTurn': 1, 'lastTurn': LAST, 'setup': 'campaign',
                      'description': 'From the Salerno landings to the Winter Line on both coasts, 9 September to 31 December 1943.'},
-        'race': {'name': 'Race for Naples and Foggia', 'firstTurn': 1, 'lastTurn': 16, 'setup': 'campaign',
+        'race': {'name': 'Race for Naples and Foggia', 'firstTurn': 1, 'lastTurn': ita_gt(5), 'setup': 'campaign',
                  'description': 'The landings, the battle for the beachhead and the drive on Naples and the Foggia airfields, 9 September to 10 October 1943.'},
-        'winter': {'name': 'The Winter Line', 'firstTurn': 24, 'lastTurn': LAST, 'setup': 'winter',
+        'winter': {'name': 'The Winter Line', 'firstTurn': WINTER, 'lastTurn': LAST, 'setup': 'winter',
                    'description': 'Both armies against the Bernhard and Gustav positions, from the Garigliano to the Sangro and Ortona, 1 November to 31 December 1943.'},
     },
     'setups': {
@@ -655,7 +707,17 @@ def pace(t):
 # turns' fighting decided in a day or two what the counters take a turn to do).
 bench = {}
 for t in range(2, LAST + 1):
-    bench[str(t)] = max(0, pace(t) - (2 if t <= 9 else 0))
+    bench[str(t)] = max(0, pace(t) - (1 if t <= 12 else 0))
+# From 1 October the benchmark is also held to the game's own pace: the median VP of AI-against-AI games (elite
+# against elite, pace_ai.json, written by pace.py from scripts/grand.ts runs), taken as the least it reaches from each
+# turn on so the benchmark never falls, less one. The game's Allies move faster than 1943's through the empty south and
+# score for the German guns they catch; this keeps the counters' own campaign even.
+if os.path.exists(f'{HERE}/pace_ai.json'):
+    ai = {int(k): v for k, v in json.load(open(f'{HERE}/pace_ai.json'))['median'].items()}
+    for t in range(ita_gt(1), LAST + 1):
+        later = [ai[x] for x in range(t, LAST + 1) if x in ai]
+        if later:
+            bench[str(t)] = max(bench[str(t)], round(min(later)) - 1)
 rules = json.loads(json.dumps(ITA_R))
 rules['system'] = 'italy43'
 rules['landingPoints'] = None
@@ -664,20 +726,25 @@ rules['_note'] = ('The grand campaign plays Italy \'43\'s rules and tables throu
                   'Built by tools/grand/build_oob.py; the rulebooks govern.')
 for k in ('invasion', 'airdrop', 'landingPoints', 'variableStrength'):
     rules[k] = SAL_R[k]
-rules['landingPoints'] = {**SAL_R['landingPoints'], 'perTurn': 24}
+rules['landingPoints'] = SAL_R['landingPoints']
+# September at Salerno '43's scale: its daily weather track and landing-day rules; Italy '43's track from 1 October.
+rules['weatherSeasons'] = [{'fromTurn': 1, 'track': SAL_R['weather']['track']}, {'fromTurn': ita_gt(1), 'track': ITA_R['weather']['track']}]
+rules['movement']['turn1GermanHalfMaRoundUp'] = True
+rules['movement']['turn1AlliedTacticalOnly'] = True
+rules['landingBattleTurns'] = 22
 rules['turns'] = {'campaign': LAST, 'dates': {str(t): label(t) for t in DATES}}
 rules['victory'] = {
     'benchmarks': bench,
-    'automatic': {'fromTurn': 2, 'alliedMargin': 6, 'alliedVp': 999, 'germanMargin': 6},
-    'scenarioWin': {'campaign': bench[str(LAST)], 'race': bench['16'], 'winter': bench[str(LAST)]},
+    'automatic': {'fromTurn': ita_gt(6), 'alliedMargin': 6, 'alliedVp': 999, 'germanMargin': 6},
+    'scenarioWin': {'campaign': bench[str(LAST)], 'race': bench[str(ita_gt(5))], 'winter': bench[str(LAST)]},
     'pace': {h: g for h, g in sorted(held_by.items())},
 }
 rules['naplesSupplyBonus'] = {str(ita_gt(int(k))): v for k, v in ITA_R['naplesSupplyBonus'].items()}
 rules['eighthArmyZone'] = {}
-# Entry areas that pass to the Allies as the Eighth Army comes up (Salerno '43's turn 11, 20 Sept, on the south edge;
-# Potenza on the 20th; Foggia on the 27th).
-rules['entryOpens'] = {'A1': 6, 'A2': 6, 'A3': 6, 'A4': 6, 'A5': 6, 'A6': 7, 'A7': 7, 'A9': 7, 'A8': 7}
-# Replacements: Salerno '43's daily schedule folded into 2-day turns for September, Italy '43's from October; the
+# Entry areas that pass to the Allies as the Eighth Army comes up: Salerno '43's day 11 on the south edge, the roads
+# from Taranto and Bari as the front reached Potenza (20 Sept) and the Ofanto (21-23 Sept).
+rules['entryOpens'] = {'A1': 11, 'A2': 11, 'A3': 11, 'A4': 12, 'A5': 13, 'A6': 14, 'A7': 15}
+# Replacements: Salerno '43's daily schedule for September, Italy '43's from October; the
 # Eighth Army adds a British infantry step every third turn.
 sched = {}
 for d, v in SAL_R['replacements']['schedule'].items():
@@ -692,20 +759,22 @@ for d, v in ITA_R['replacements']['schedule'].items():
         for k, n in kinds.items():
             sched.setdefault(t, {}).setdefault(pool, {})
             sched[t][pool][k] = sched[t][pool].get(k, 0) + n
-for t in range(7, LAST + 1, 3):
+for t in list(range(13, 23, 4)) + list(range(ita_gt(1), LAST + 1, 3)):
     sched.setdefault(t, {}).setdefault('BR', {})
     sched[t]['BR']['inf'] = sched[t]['BR'].get('inf', 0) + 1
 rules['replacements'] = {'schedule': {str(k): sched[k] for k in sorted(sched)}}
 notes = {
     1: 'D-Day, 9 September: the Fifth Army lands in the Gulf of Salerno. Roll the Invasion table for each beach.',
-    3: 'Historically: the 82nd Airborne drops into the beachhead (13-14 Sept).',
-    4: 'Historically: the main German counterattacks on the beachhead have failed; the battleships arrive.',
-    6: 'Historically: the Eighth Army joins the Fifth near Auletta; the 36th Division goes into army reserve.',
-    7: 'Historically: the Eighth Army is on the Foggia plain.',
-    12: 'Historically: Naples falls on 1 October.',
-    14: 'Historically: the commandos land at Termoli (3 October).',
-    16: 'The Race for Naples and Foggia ends.',
-    24: 'The Winter Line begins.',
+    5: 'Historically: the 82nd Airborne drops into the beachhead overnight (13-14 Sept).',
+    6: 'Historically: the main German counterattack on the beachhead (14 Sept).',
+    8: 'Historically: the battleships Valiant and Warspite arrive; the Germans begin to draw off (16 Sept).',
+    11: 'The Eighth Army arrives from Calabria at the south edge.',
+    12: 'Historically: the Fifth and Eighth Armies join near Auletta; Potenza falls (20 Sept). The 36th Division goes into army reserve.',
+    19: 'Historically: Foggia falls to the Eighth Army (27 Sept).',
+    23: 'Historically: Naples falls on 1 October.',
+    25: 'Historically: the commandos land at Termoli (3 October).',
+    ita_gt(5): 'The Race for Naples and Foggia ends.',
+    WINTER: 'The Winter Line begins.',
     LAST: 'The campaign ends.',
 }
 for k, v in ITA_R['turnNotes'].items():

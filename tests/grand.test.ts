@@ -51,7 +51,7 @@ describe('grand campaign', () => {
   it('starts the Winter Line with both armies in the line and the entry areas the Allies have reached', () => {
     loadGameData('grand43', GRAND_DATA);
     const s = newGame('winter', 9);
-    expect(s.turn).toBe(24);
+    expect(s.turn).toBe(35);
     for (const a of Object.keys(RULES.entryOpens)) expect(s.control[a]).toBe('Allied');
     const onMap = (side: Side) => Object.values(s.units).filter((u) => u.where.kind === 'map' && sideOf(u) === side).length;
     expect(onMap('Allied')).toBeGreaterThan(60);

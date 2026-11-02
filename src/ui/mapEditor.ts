@@ -5,7 +5,8 @@ import { GAME_ID, MAP, onGameData } from '../engine/data';
 import type { HexData, HexsideData } from '../engine/types';
 import { invalidateGrid } from '../engine/movement';
 
-const key = () => (GAME_ID === 'salerno43' ? 's43.mapOverrides.v1' : `${GAME_ID}.mapOverrides.v1`);
+// The grand campaign's v1 overrides were edits of its first map.
+const key = () => (GAME_ID === 'salerno43' ? 's43.mapOverrides.v1' : GAME_ID === 'grand43' ? 'grand43.mapOverrides.v2' : `${GAME_ID}.mapOverrides.v1`);
 
 interface Overrides {
   hexes: Record<string, HexData>;

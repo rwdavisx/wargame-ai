@@ -1,0 +1,9191 @@
+{
+"_source": "GeoNames (www.geonames.org), CC BY 4.0: seats of comuni (PPLA-PPLA3) with population",
+"comuni": [
+{
+"name": "Rome",
+"lat": 41.89193,
+"lon": 12.51133,
+"pop": 2318895
+},
+{
+"name": "Naples",
+"lat": 40.85216,
+"lon": 14.26811,
+"pop": 909048
+},
+{
+"name": "Foggia",
+"lat": 41.45845,
+"lon": 15.55188,
+"pop": 137032
+},
+{
+"name": "Salerno",
+"lat": 40.67545,
+"lon": 14.79328,
+"pop": 125797
+},
+{
+"name": "Pescara",
+"lat": 42.4584,
+"lon": 14.20283,
+"pop": 119554
+},
+{
+"name": "Terni",
+"lat": 42.56335,
+"lon": 12.64329,
+"pop": 111189
+},
+{
+"name": "Andria",
+"lat": 41.23117,
+"lon": 16.29797,
+"pop": 99784
+},
+{
+"name": "Barletta",
+"lat": 41.31429,
+"lon": 16.28165,
+"pop": 93279
+},
+{
+"name": "Guidonia Montecelio",
+"lat": 41.99362,
+"lon": 12.72238,
+"pop": 89165
+},
+{
+"name": "Torre del Greco",
+"lat": 40.78931,
+"lon": 14.36806,
+"pop": 85332
+},
+{
+"name": "Pozzuoli",
+"lat": 40.84394,
+"lon": 14.0952,
+"pop": 81231
+},
+{
+"name": "Giugliano in Campania",
+"lat": 40.92849,
+"lon": 14.20197,
+"pop": 80269
+},
+{
+"name": "Latina",
+"lat": 41.46614,
+"lon": 12.9043,
+"pop": 76305
+},
+{
+"name": "Aprilia",
+"lat": 41.59452,
+"lon": 12.65419,
+"pop": 74977
+},
+{
+"name": "Casoria",
+"lat": 40.90751,
+"lon": 14.293,
+"pop": 73918
+},
+{
+"name": "Caserta",
+"lat": 41.07262,
+"lon": 14.33231,
+"pop": 72844
+},
+{
+"name": "Altamura",
+"lat": 40.82664,
+"lon": 16.54952,
+"pop": 70539
+},
+{
+"name": "Castellammare di Stabia",
+"lat": 40.70211,
+"lon": 14.48685,
+"pop": 66164
+},
+{
+"name": "Afragola",
+"lat": 40.92298,
+"lon": 14.30935,
+"pop": 64470
+},
+{
+"name": "Matera",
+"lat": 40.66599,
+"lon": 16.60463,
+"pop": 60403
+},
+{
+"name": "Acerra",
+"lat": 40.94477,
+"lon": 14.3714,
+"pop": 59910
+},
+{
+"name": "Molfetta",
+"lat": 41.20036,
+"lon": 16.59905,
+"pop": 59557
+},
+{
+"name": "Benevento",
+"lat": 41.1307,
+"lon": 14.77816,
+"pop": 58418
+},
+{
+"name": "Manfredonia",
+"lat": 41.63065,
+"lon": 15.91876,
+"pop": 56932
+},
+{
+"name": "Potenza",
+"lat": 40.64175,
+"lon": 15.80794,
+"pop": 56433
+},
+{
+"name": "Bisceglie",
+"lat": 41.24264,
+"lon": 16.50104,
+"pop": 55385
+},
+{
+"name": "Teramo",
+"lat": 42.66123,
+"lon": 13.69901,
+"pop": 54338
+},
+{
+"name": "Cerignola",
+"lat": 41.26523,
+"lon": 15.89559,
+"pop": 54056
+},
+{
+"name": "Trani",
+"lat": 41.27733,
+"lon": 16.41011,
+"pop": 53981
+},
+{
+"name": "Portici",
+"lat": 40.81563,
+"lon": 14.33716,
+"pop": 53801
+},
+{
+"name": "Ercolano",
+"lat": 40.80783,
+"lon": 14.35012,
+"pop": 53576
+},
+{
+"name": "Montesilvano",
+"lat": 42.5114,
+"lon": 14.14507,
+"pop": 53275
+},
+{
+"name": "Cava Dè Tirreni",
+"lat": 40.69954,
+"lon": 14.70773,
+"pop": 53130
+},
+{
+"name": "Aversa",
+"lat": 40.97259,
+"lon": 14.20745,
+"pop": 52974
+},
+{
+"name": "Velletri",
+"lat": 41.68573,
+"lon": 12.77753,
+"pop": 52911
+},
+{
+"name": "San Severo",
+"lat": 41.68564,
+"lon": 15.38148,
+"pop": 51919
+},
+{
+"name": "Bitonto",
+"lat": 41.11006,
+"lon": 16.69086,
+"pop": 51661
+},
+{
+"name": "Marano di Napoli",
+"lat": 40.8971,
+"lon": 14.18824,
+"pop": 49920
+},
+{
+"name": "Nettuno",
+"lat": 41.45794,
+"lon": 12.66393,
+"pop": 49873
+},
+{
+"name": "Campobasso",
+"lat": 41.55947,
+"lon": 14.66737,
+"pop": 49230
+},
+{
+"name": "Scafati",
+"lat": 40.7602,
+"lon": 14.53723,
+"pop": 48702
+},
+{
+"name": "Avellino",
+"lat": 40.91494,
+"lon": 14.79103,
+"pop": 48104
+},
+{
+"name": "Battipaglia",
+"lat": 40.60861,
+"lon": 14.98209,
+"pop": 47104
+},
+{
+"name": "Corato",
+"lat": 41.15171,
+"lon": 16.41143,
+"pop": 46505
+},
+{
+"name": "Casalnuovo di Napoli",
+"lat": 40.90969,
+"lon": 14.34205,
+"pop": 45796
+},
+{
+"name": "Nocera Inferiore",
+"lat": 40.7454,
+"lon": 14.64542,
+"pop": 45608
+},
+{
+"name": "San Giorgio a Cremano",
+"lat": 40.83261,
+"lon": 14.34162,
+"pop": 45463
+},
+{
+"name": "Anzio",
+"lat": 41.45263,
+"lon": 12.62157,
+"pop": 45403
+},
+{
+"name": "Frosinone",
+"lat": 41.63976,
+"lon": 13.34109,
+"pop": 44505
+},
+{
+"name": "Chieti",
+"lat": 42.34827,
+"lon": 14.16494,
+"pop": 44444
+},
+{
+"name": "Marino",
+"lat": 41.76984,
+"lon": 12.65917,
+"pop": 44142
+},
+{
+"name": "Torre Annunziata",
+"lat": 40.75337,
+"lon": 14.45251,
+"pop": 43521
+},
+{
+"name": "Gravina in Puglia",
+"lat": 40.81748,
+"lon": 16.41915,
+"pop": 42210
+},
+{
+"name": "Vasto",
+"lat": 42.1115,
+"lon": 14.70649,
+"pop": 41409
+},
+{
+"name": "Marcianise",
+"lat": 41.03064,
+"lon": 14.29868,
+"pop": 40239
+},
+{
+"name": "Fondi",
+"lat": 41.35787,
+"lon": 13.42718,
+"pop": 39762
+},
+{
+"name": "Rieti",
+"lat": 42.40476,
+"lon": 12.85735,
+"pop": 39068
+},
+{
+"name": "Pomigliano d'Arco",
+"lat": 40.90975,
+"lon": 14.38316,
+"pop": 38921
+},
+{
+"name": "Ciampino",
+"lat": 41.80064,
+"lon": 12.60158,
+"pop": 38277
+},
+{
+"name": "Avezzano",
+"lat": 42.02896,
+"lon": 13.42641,
+"pop": 37808
+},
+{
+"name": "Quarto",
+"lat": 40.87822,
+"lon": 14.14352,
+"pop": 37683
+},
+{
+"name": "Monterotondo",
+"lat": 42.05159,
+"lon": 12.61969,
+"pop": 37225
+},
+{
+"name": "Melito di Napoli",
+"lat": 40.91948,
+"lon": 14.23104,
+"pop": 36933
+},
+{
+"name": "Arzano",
+"lat": 40.90959,
+"lon": 14.26519,
+"pop": 34933
+},
+{
+"name": "Lanciano",
+"lat": 42.22718,
+"lon": 14.39024,
+"pop": 34791
+},
+{
+"name": "Caivano",
+"lat": 40.95753,
+"lon": 14.30591,
+"pop": 34604
+},
+{
+"name": "Maddaloni",
+"lat": 41.03578,
+"lon": 14.3823,
+"pop": 34546
+},
+{
+"name": "Mugnano di Napoli",
+"lat": 40.90936,
+"lon": 14.20984,
+"pop": 34231
+},
+{
+"name": "L'Aquila",
+"lat": 42.35055,
+"lon": 13.39954,
+"pop": 33691
+},
+{
+"name": "Sant'Antimo",
+"lat": 40.94223,
+"lon": 14.23476,
+"pop": 33561
+},
+{
+"name": "Pagani",
+"lat": 40.74199,
+"lon": 14.61448,
+"pop": 32835
+},
+{
+"name": "Somma Vesuviana",
+"lat": 40.87329,
+"lon": 14.43865,
+"pop": 32484
+},
+{
+"name": "Lucera",
+"lat": 41.5055,
+"lon": 15.3391,
+"pop": 32222
+},
+{
+"name": "Santa Maria Capua Vetere",
+"lat": 41.08156,
+"lon": 14.25342,
+"pop": 31743
+},
+{
+"name": "Angri",
+"lat": 40.73815,
+"lon": 14.5707,
+"pop": 31632
+},
+{
+"name": "Termoli",
+"lat": 41.99994,
+"lon": 14.99389,
+"pop": 31044
+},
+{
+"name": "Terracina",
+"lat": 41.29174,
+"lon": 13.24359,
+"pop": 30980
+},
+{
+"name": "Marigliano",
+"lat": 40.9248,
+"lon": 14.45612,
+"pop": 29901
+},
+{
+"name": "Canosa di Puglia",
+"lat": 41.21954,
+"lon": 16.06768,
+"pop": 29847
+},
+{
+"name": "Frattamaggiore",
+"lat": 40.9414,
+"lon": 14.27588,
+"pop": 29822
+},
+{
+"name": "Gragnano",
+"lat": 40.68907,
+"lon": 14.52036,
+"pop": 29082
+},
+{
+"name": "Sarno",
+"lat": 40.80748,
+"lon": 14.62151,
+"pop": 28837
+},
+{
+"name": "Mondragone",
+"lat": 41.11399,
+"lon": 13.89157,
+"pop": 28683
+},
+{
+"name": "Formia",
+"lat": 41.25632,
+"lon": 13.60888,
+"pop": 28521
+},
+{
+"name": "Cisterna di Latina",
+"lat": 41.5908,
+"lon": 12.82808,
+"pop": 27362
+},
+{
+"name": "San Giovanni Rotondo",
+"lat": 41.70643,
+"lon": 15.7277,
+"pop": 27124
+},
+{
+"name": "San Giuseppe Vesuviano",
+"lat": 40.8356,
+"lon": 14.50487,
+"pop": 26888
+},
+{
+"name": "Boscoreale",
+"lat": 40.77274,
+"lon": 14.48118,
+"pop": 26861
+},
+{
+"name": "Albano Laziale",
+"lat": 41.72748,
+"lon": 12.659,
+"pop": 26684
+},
+{
+"name": "Eboli",
+"lat": 40.61747,
+"lon": 15.05693,
+"pop": 26183
+},
+{
+"name": "Terlizzi",
+"lat": 41.12905,
+"lon": 16.54536,
+"pop": 25811
+},
+{
+"name": "Bacoli",
+"lat": 40.79672,
+"lon": 14.07349,
+"pop": 25590
+},
+{
+"name": "Villaricca",
+"lat": 40.92006,
+"lon": 14.19339,
+"pop": 25074
+},
+{
+"name": "Orta di Atella",
+"lat": 40.96441,
+"lon": 14.26854,
+"pop": 24750
+},
+{
+"name": "Nola",
+"lat": 40.92606,
+"lon": 14.52816,
+"pop": 24101
+},
+{
+"name": "Ruvo di Puglia",
+"lat": 41.11758,
+"lon": 16.48421,
+"pop": 23938
+},
+{
+"name": "Pompei",
+"lat": 40.74574,
+"lon": 14.49698,
+"pop": 23902
+},
+{
+"name": "Sora",
+"lat": 41.71829,
+"lon": 13.61356,
+"pop": 23758
+},
+{
+"name": "Qualiano",
+"lat": 40.91899,
+"lon": 14.15352,
+"pop": 23752
+},
+{
+"name": "Nocera Superiore",
+"lat": 40.74248,
+"lon": 14.67447,
+"pop": 23452
+},
+{
+"name": "Ottaviano",
+"lat": 40.85193,
+"lon": 14.47826,
+"pop": 23396
+},
+{
+"name": "Volla",
+"lat": 40.87363,
+"lon": 14.34085,
+"pop": 22911
+},
+{
+"name": "Pomezia",
+"lat": 41.66931,
+"lon": 12.50124,
+"pop": 22346
+},
+{
+"name": "Tivoli",
+"lat": 41.95952,
+"lon": 12.8016,
+"pop": 22018
+},
+{
+"name": "Castel Volturno",
+"lat": 41.03288,
+"lon": 13.94354,
+"pop": 21881
+},
+{
+"name": "Cardito",
+"lat": 40.94643,
+"lon": 14.29533,
+"pop": 21458
+},
+{
+"name": "San Nicola la Strada",
+"lat": 41.05237,
+"lon": 14.33334,
+"pop": 21147
+},
+{
+"name": "Francavilla al Mare",
+"lat": 42.42158,
+"lon": 14.28217,
+"pop": 21095
+},
+{
+"name": "Sulmona",
+"lat": 42.04945,
+"lon": 13.92578,
+"pop": 21086
+},
+{
+"name": "Cassino",
+"lat": 41.48581,
+"lon": 13.82835,
+"pop": 21074
+},
+{
+"name": "Guidonia",
+"lat": 41.99232,
+"lon": 12.71876,
+"pop": 20943
+},
+{
+"name": "Tor Lupara",
+"lat": 41.99771,
+"lon": 12.61814,
+"pop": 20843
+},
+{
+"name": "Colleferro",
+"lat": 41.72722,
+"lon": 13.00481,
+"pop": 20736
+},
+{
+"name": "Sant'Anastasia",
+"lat": 40.86842,
+"lon": 14.40196,
+"pop": 20733
+},
+{
+"name": "Casal di Principe",
+"lat": 41.00996,
+"lon": 14.13013,
+"pop": 20589
+},
+{
+"name": "Genzano di Roma",
+"lat": 41.70706,
+"lon": 12.68904,
+"pop": 20582
+},
+{
+"name": "Frascati",
+"lat": 41.8091,
+"lon": 12.67942,
+"pop": 20036
+},
+{
+"name": "Gaeta",
+"lat": 41.21408,
+"lon": 13.57082,
+"pop": 19936
+},
+{
+"name": "Poggiomarino",
+"lat": 40.80114,
+"lon": 14.54066,
+"pop": 19451
+},
+{
+"name": "Sabaudia",
+"lat": 41.30025,
+"lon": 13.02815,
+"pop": 19327
+},
+{
+"name": "Spoleto",
+"lat": 42.74071,
+"lon": 12.73899,
+"pop": 19266
+},
+{
+"name": "Giovinazzo",
+"lat": 41.185,
+"lon": 16.67054,
+"pop": 19186
+},
+{
+"name": "Sant'Antonio Abate",
+"lat": 40.72152,
+"lon": 14.54021,
+"pop": 18859
+},
+{
+"name": "Casavatore",
+"lat": 40.89921,
+"lon": 14.27663,
+"pop": 18663
+},
+{
+"name": "Ischia",
+"lat": 40.73793,
+"lon": 13.94862,
+"pop": 18564
+},
+{
+"name": "Grottaferrata",
+"lat": 41.78664,
+"lon": 12.67144,
+"pop": 18144
+},
+{
+"name": "Grumo Nevano",
+"lat": 40.93591,
+"lon": 14.25983,
+"pop": 17879
+},
+{
+"name": "Cercola",
+"lat": 40.86043,
+"lon": 14.35733,
+"pop": 17821
+},
+{
+"name": "Ariccia",
+"lat": 41.72063,
+"lon": 12.6723,
+"pop": 17487
+},
+{
+"name": "Agropoli",
+"lat": 40.34923,
+"lon": 14.99067,
+"pop": 17335
+},
+{
+"name": "Terzigno",
+"lat": 40.804,
+"lon": 14.49309,
+"pop": 17138
+},
+{
+"name": "San Salvo",
+"lat": 42.04413,
+"lon": 14.73335,
+"pop": 17123
+},
+{
+"name": "Ardea",
+"lat": 41.60742,
+"lon": 12.54158,
+"pop": 17078
+},
+{
+"name": "Trentola-Ducenta",
+"lat": 40.97517,
+"lon": 14.1749,
+"pop": 17056
+},
+{
+"name": "Mentana",
+"lat": 42.03539,
+"lon": 12.64413,
+"pop": 17047
+},
+{
+"name": "Torremaggiore",
+"lat": 41.68894,
+"lon": 15.29408,
+"pop": 16955
+},
+{
+"name": "Isernia",
+"lat": 41.59603,
+"lon": 14.23399,
+"pop": 16945
+},
+{
+"name": "Orta Nova",
+"lat": 41.32879,
+"lon": 15.70994,
+"pop": 16677
+},
+{
+"name": "San Felice A Cancello",
+"lat": 41.01702,
+"lon": 14.48736,
+"pop": 16571
+},
+{
+"name": "Roseto degli Abruzzi",
+"lat": 42.67164,
+"lon": 14.01481,
+"pop": 16538
+},
+{
+"name": "Minturno",
+"lat": 41.26294,
+"lon": 13.74583,
+"pop": 16236
+},
+{
+"name": "Sezze",
+"lat": 41.50032,
+"lon": 13.06176,
+"pop": 16071
+},
+{
+"name": "Forio",
+"lat": 40.73757,
+"lon": 13.86003,
+"pop": 15969
+},
+{
+"name": "San Nicandro Garganico",
+"lat": 41.83844,
+"lon": 15.56535,
+"pop": 15815
+},
+{
+"name": "Frattaminore",
+"lat": 40.9558,
+"lon": 14.27201,
+"pop": 15487
+},
+{
+"name": "Capua",
+"lat": 41.10519,
+"lon": 14.21269,
+"pop": 15438
+},
+{
+"name": "Brusciano",
+"lat": 40.92237,
+"lon": 14.42386,
+"pop": 15238
+},
+{
+"name": "Rocca di Papa",
+"lat": 41.7658,
+"lon": 12.70188,
+"pop": 15036
+},
+{
+"name": "Palestrina",
+"lat": 41.83274,
+"lon": 12.88178,
+"pop": 14925
+},
+{
+"name": "Ceccano",
+"lat": 41.57236,
+"lon": 13.32901,
+"pop": 14805
+},
+{
+"name": "Sorrento",
+"lat": 40.62678,
+"lon": 14.37771,
+"pop": 14724
+},
+{
+"name": "Lusciano",
+"lat": 40.97001,
+"lon": 14.19043,
+"pop": 14107
+},
+{
+"name": "Santa Maria A Vico",
+"lat": 41.02611,
+"lon": 14.46515,
+"pop": 14095
+},
+{
+"name": "Trinitapoli",
+"lat": 41.35654,
+"lon": 16.08924,
+"pop": 13885
+},
+{
+"name": "San Ferdinando di Puglia",
+"lat": 41.30263,
+"lon": 16.07046,
+"pop": 13734
+},
+{
+"name": "Casagiove",
+"lat": 41.07124,
+"lon": 14.31163,
+"pop": 13654
+},
+{
+"name": "San Cipriano d'Aversa",
+"lat": 40.99881,
+"lon": 14.13173,
+"pop": 13416
+},
+{
+"name": "San Marco in Lamis",
+"lat": 41.7121,
+"lon": 15.63825,
+"pop": 13388
+},
+{
+"name": "Ortona",
+"lat": 42.35087,
+"lon": 14.40342,
+"pop": 13327
+},
+{
+"name": "Apricena",
+"lat": 41.78629,
+"lon": 15.44394,
+"pop": 13195
+},
+{
+"name": "Casandrino",
+"lat": 40.92845,
+"lon": 14.24744,
+"pop": 13179
+},
+{
+"name": "Saviano",
+"lat": 40.90507,
+"lon": 14.50498,
+"pop": 13110
+},
+{
+"name": "Lavello",
+"lat": 41.04769,
+"lon": 15.78915,
+"pop": 13086
+},
+{
+"name": "Melfi",
+"lat": 40.99571,
+"lon": 15.65578,
+"pop": 13079
+},
+{
+"name": "Valmontone",
+"lat": 41.77323,
+"lon": 12.91856,
+"pop": 13001
+},
+{
+"name": "Monte di Procida",
+"lat": 40.79809,
+"lon": 14.05023,
+"pop": 12975
+},
+{
+"name": "Lariano",
+"lat": 41.71847,
+"lon": 12.82868,
+"pop": 12893
+},
+{
+"name": "Vico Equense",
+"lat": 40.65977,
+"lon": 14.43386,
+"pop": 12820
+},
+{
+"name": "Palma Campania",
+"lat": 40.86608,
+"lon": 14.5517,
+"pop": 12689
+},
+{
+"name": "Rionero in Vulture",
+"lat": 40.92328,
+"lon": 15.6711,
+"pop": 12670
+},
+{
+"name": "Cicciano",
+"lat": 40.96402,
+"lon": 14.53487,
+"pop": 12639
+},
+{
+"name": "San Marcellino",
+"lat": 40.99001,
+"lon": 14.17583,
+"pop": 12558
+},
+{
+"name": "Silvi",
+"lat": 42.54984,
+"lon": 14.11759,
+"pop": 12551
+},
+{
+"name": "Ferentino",
+"lat": 41.69119,
+"lon": 13.2562,
+"pop": 12539
+},
+{
+"name": "Monte Sant'Angelo",
+"lat": 41.7053,
+"lon": 15.96068,
+"pop": 12482
+},
+{
+"name": "Baronissi",
+"lat": 40.74817,
+"lon": 14.7738,
+"pop": 12383
+},
+{
+"name": "Piano di Sorrento",
+"lat": 40.62806,
+"lon": 14.41729,
+"pop": 12317
+},
+{
+"name": "Teverola",
+"lat": 40.99561,
+"lon": 14.20763,
+"pop": 12175
+},
+{
+"name": "Sant'Arpino",
+"lat": 40.95716,
+"lon": 14.25075,
+"pop": 12028
+},
+{
+"name": "Solofra",
+"lat": 40.83343,
+"lon": 14.83705,
+"pop": 11886
+},
+{
+"name": "Pollena Trocchia",
+"lat": 40.85134,
+"lon": 14.37911,
+"pop": 11880
+},
+{
+"name": "San Prisco",
+"lat": 41.08592,
+"lon": 14.27675,
+"pop": 11869
+},
+{
+"name": "Policoro",
+"lat": 40.2128,
+"lon": 16.67795,
+"pop": 11810
+},
+{
+"name": "Sala Consilina",
+"lat": 40.40134,
+"lon": 15.5914,
+"pop": 11734
+},
+{
+"name": "Crispano",
+"lat": 40.95263,
+"lon": 14.28572,
+"pop": 11579
+},
+{
+"name": "Sant'Agata de'Goti",
+"lat": 41.08932,
+"lon": 14.49743,
+"pop": 11558
+},
+{
+"name": "Zagarolo",
+"lat": 41.84159,
+"lon": 12.8154,
+"pop": 11509
+},
+{
+"name": "Margherita di Savoia",
+"lat": 41.37174,
+"lon": 16.15275,
+"pop": 11488
+},
+{
+"name": "Mercato San Severino",
+"lat": 40.78468,
+"lon": 14.75369,
+"pop": 11473
+},
+{
+"name": "Fiano Romano",
+"lat": 42.15538,
+"lon": 12.59467,
+"pop": 11417
+},
+{
+"name": "Venosa",
+"lat": 40.96283,
+"lon": 15.81285,
+"pop": 11328
+},
+{
+"name": "Vieste",
+"lat": 41.88209,
+"lon": 16.17139,
+"pop": 11227
+},
+{
+"name": "Piedimonte Matese",
+"lat": 41.35082,
+"lon": 14.36803,
+"pop": 11220
+},
+{
+"name": "Pontecagnano",
+"lat": 40.64448,
+"lon": 14.87628,
+"pop": 11211
+},
+{
+"name": "Santa Maria La Carità",
+"lat": 40.71611,
+"lon": 14.50984,
+"pop": 11210
+},
+{
+"name": "Calvizzano",
+"lat": 40.90782,
+"lon": 14.18581,
+"pop": 11194
+},
+{
+"name": "Giffoni Valle Piana",
+"lat": 40.71811,
+"lon": 14.94235,
+"pop": 10992
+},
+{
+"name": "Parete",
+"lat": 40.95891,
+"lon": 14.16193,
+"pop": 10989
+},
+{
+"name": "Bellizzi",
+"lat": 40.61981,
+"lon": 14.94685,
+"pop": 10811
+},
+{
+"name": "Isola del Liri",
+"lat": 41.68678,
+"lon": 13.59679,
+"pop": 10805
+},
+{
+"name": "Artena",
+"lat": 41.74126,
+"lon": 12.90667,
+"pop": 10805
+},
+{
+"name": "Bernalda",
+"lat": 40.41261,
+"lon": 16.68919,
+"pop": 10763
+},
+{
+"name": "San Gennaro Vesuviano",
+"lat": 40.86226,
+"lon": 14.52414,
+"pop": 10684
+},
+{
+"name": "Gricignano di Aversa",
+"lat": 40.97973,
+"lon": 14.23087,
+"pop": 10559
+},
+{
+"name": "Macerata Campania",
+"lat": 41.06327,
+"lon": 14.2775,
+"pop": 10558
+},
+{
+"name": "San Cesareo",
+"lat": 41.82113,
+"lon": 12.80447,
+"pop": 10529
+},
+{
+"name": "Montesarchio",
+"lat": 41.06227,
+"lon": 14.64096,
+"pop": 10516
+},
+{
+"name": "Boscotrecase",
+"lat": 40.77296,
+"lon": 14.46185,
+"pop": 10331
+},
+{
+"name": "Alatri",
+"lat": 41.73187,
+"lon": 13.3412,
+"pop": 10308
+},
+{
+"name": "Procida",
+"lat": 40.75636,
+"lon": 14.01457,
+"pop": 10228
+},
+{
+"name": "Massa Lubrense",
+"lat": 40.60937,
+"lon": 14.37202,
+"pop": 10192
+},
+{
+"name": "Cervinara",
+"lat": 41.02042,
+"lon": 14.61444,
+"pop": 10150
+},
+{
+"name": "Villa Literno",
+"lat": 41.00942,
+"lon": 14.07612,
+"pop": 10027
+},
+{
+"name": "Priverno",
+"lat": 41.47047,
+"lon": 13.17867,
+"pop": 10005
+},
+{
+"name": "Casaluce",
+"lat": 40.99785,
+"lon": 14.19671,
+"pop": 9969
+},
+{
+"name": "Celano",
+"lat": 42.08077,
+"lon": 13.517,
+"pop": 9966
+},
+{
+"name": "Siano",
+"lat": 40.80207,
+"lon": 14.69334,
+"pop": 9855
+},
+{
+"name": "Ariano Irpino-Martiri",
+"lat": 41.16024,
+"lon": 15.10625,
+"pop": 9779
+},
+{
+"name": "Capodrise",
+"lat": 41.04268,
+"lon": 14.30607,
+"pop": 9654
+},
+{
+"name": "Sambuceto",
+"lat": 42.42168,
+"lon": 14.18747,
+"pop": 9596
+},
+{
+"name": "Trescine",
+"lat": 41.02256,
+"lon": 14.62039,
+"pop": 9509
+},
+{
+"name": "San Marzano sul Sarno",
+"lat": 40.77801,
+"lon": 14.58006,
+"pop": 9449
+},
+{
+"name": "Venafro",
+"lat": 41.48275,
+"lon": 14.04773,
+"pop": 9384
+},
+{
+"name": "Fiuggi",
+"lat": 41.7978,
+"lon": 13.22386,
+"pop": 9325
+},
+{
+"name": "San Valentino Torio",
+"lat": 40.79109,
+"lon": 14.60333,
+"pop": 9300
+},
+{
+"name": "Minervino Murge",
+"lat": 41.08264,
+"lon": 16.07861,
+"pop": 9242
+},
+{
+"name": "Anagni",
+"lat": 41.7435,
+"lon": 13.15542,
+"pop": 9206
+},
+{
+"name": "Montescaglioso",
+"lat": 40.55024,
+"lon": 16.66541,
+"pop": 9205
+},
+{
+"name": "Monteforte Irpino",
+"lat": 40.90246,
+"lon": 14.744,
+"pop": 9189
+},
+{
+"name": "San Sebastiano al Vesuvio",
+"lat": 40.84344,
+"lon": 14.36428,
+"pop": 9167
+},
+{
+"name": "Barano d'Ischia",
+"lat": 40.71472,
+"lon": 13.92522,
+"pop": 9044
+},
+{
+"name": "Rocca Priora",
+"lat": 41.76585,
+"lon": 12.76577,
+"pop": 9034
+},
+{
+"name": "Atripalda",
+"lat": 40.91867,
+"lon": 14.82721,
+"pop": 8974
+},
+{
+"name": "Ferrandina",
+"lat": 40.50084,
+"lon": 16.45258,
+"pop": 8718
+},
+{
+"name": "San Giorgio del Sannio",
+"lat": 41.06844,
+"lon": 14.85322,
+"pop": 8579
+},
+{
+"name": "Cesa",
+"lat": 40.96287,
+"lon": 14.23081,
+"pop": 8496
+},
+{
+"name": "Frignano",
+"lat": 40.99811,
+"lon": 14.17913,
+"pop": 8487
+},
+{
+"name": "Mercato",
+"lat": 40.71612,
+"lon": 14.9401,
+"pop": 8473
+},
+{
+"name": "Trecase",
+"lat": 40.76941,
+"lon": 14.43773,
+"pop": 8446
+},
+{
+"name": "Itri",
+"lat": 41.29034,
+"lon": 13.53,
+"pop": 8360
+},
+{
+"name": "Cave",
+"lat": 41.81682,
+"lon": 12.94055,
+"pop": 8210
+},
+{
+"name": "Succivo",
+"lat": 40.96801,
+"lon": 14.25563,
+"pop": 8148
+},
+{
+"name": "Casapulla",
+"lat": 41.07665,
+"lon": 14.28927,
+"pop": 8113
+},
+{
+"name": "Casamicciola Terme",
+"lat": 40.74661,
+"lon": 13.91202,
+"pop": 8011
+},
+{
+"name": "Pontecorvo",
+"lat": 41.45861,
+"lon": 13.66618,
+"pop": 7994
+},
+{
+"name": "Montecorvino Rovella",
+"lat": 40.6918,
+"lon": 14.97862,
+"pop": 7972
+},
+{
+"name": "Montecorvino Pugliano",
+"lat": 40.67921,
+"lon": 14.94475,
+"pop": 7811
+},
+{
+"name": "Sant'Agnello",
+"lat": 40.62942,
+"lon": 14.39957,
+"pop": 7674
+},
+{
+"name": "Striano",
+"lat": 40.81543,
+"lon": 14.57534,
+"pop": 7639
+},
+{
+"name": "Meta",
+"lat": 40.64081,
+"lon": 14.41582,
+"pop": 7598
+},
+{
+"name": "Sant'Egidio del Monte Albino",
+"lat": 40.73871,
+"lon": 14.59454,
+"pop": 7564
+},
+{
+"name": "Recale",
+"lat": 41.05702,
+"lon": 14.3027,
+"pop": 7553
+},
+{
+"name": "Montalbano Jonico",
+"lat": 40.28591,
+"lon": 16.5696,
+"pop": 7427
+},
+{
+"name": "Mercogliano",
+"lat": 40.92157,
+"lon": 14.74491,
+"pop": 7392
+},
+{
+"name": "Portico di Caserta",
+"lat": 41.05562,
+"lon": 14.28022,
+"pop": 7381
+},
+{
+"name": "Avella",
+"lat": 40.95995,
+"lon": 14.60087,
+"pop": 7372
+},
+{
+"name": "Agerola",
+"lat": 40.63771,
+"lon": 14.53884,
+"pop": 7348
+},
+{
+"name": "Cagnano Varano",
+"lat": 41.82832,
+"lon": 15.77203,
+"pop": 7309
+},
+{
+"name": "Airola",
+"lat": 41.05871,
+"lon": 14.55924,
+"pop": 7305
+},
+{
+"name": "Vico del Gargano",
+"lat": 41.89661,
+"lon": 15.95682,
+"pop": 7284
+},
+{
+"name": "Pianillo",
+"lat": 40.63416,
+"lon": 14.54922,
+"pop": 7253
+},
+{
+"name": "Montella",
+"lat": 40.84372,
+"lon": 15.01785,
+"pop": 7199
+},
+{
+"name": "Castello di Cisterna",
+"lat": 40.91594,
+"lon": 14.41117,
+"pop": 7187
+},
+{
+"name": "Sparanise",
+"lat": 41.18788,
+"lon": 14.09628,
+"pop": 7175
+},
+{
+"name": "Cimitile",
+"lat": 40.94231,
+"lon": 14.52558,
+"pop": 7084
+},
+{
+"name": "Curti",
+"lat": 41.07616,
+"lon": 14.28039,
+"pop": 7073
+},
+{
+"name": "Pratola Peligna",
+"lat": 42.09701,
+"lon": 13.87467,
+"pop": 7043
+},
+{
+"name": "Serino",
+"lat": 40.85481,
+"lon": 14.87224,
+"pop": 7041
+},
+{
+"name": "Castel San Giorgio",
+"lat": 40.78198,
+"lon": 14.7009,
+"pop": 7038
+},
+{
+"name": "Vallo della Lucania",
+"lat": 40.22786,
+"lon": 15.26635,
+"pop": 6899
+},
+{
+"name": "Carinaro",
+"lat": 40.98291,
+"lon": 14.21963,
+"pop": 6875
+},
+{
+"name": "Roccarainola",
+"lat": 40.9725,
+"lon": 14.54283,
+"pop": 6821
+},
+{
+"name": "Monte Porzio Catone",
+"lat": 41.81585,
+"lon": 12.71432,
+"pop": 6821
+},
+{
+"name": "Riano",
+"lat": 42.09347,
+"lon": 12.51462,
+"pop": 6784
+},
+{
+"name": "Capri",
+"lat": 40.55073,
+"lon": 14.24263,
+"pop": 6770
+},
+{
+"name": "Sapri",
+"lat": 40.07464,
+"lon": 15.63212,
+"pop": 6716
+},
+{
+"name": "Segni",
+"lat": 41.68893,
+"lon": 13.01934,
+"pop": 6713
+},
+{
+"name": "Troia",
+"lat": 41.36428,
+"lon": 15.3173,
+"pop": 6614
+},
+{
+"name": "Spinazzola",
+"lat": 40.96399,
+"lon": 16.09111,
+"pop": 6613
+},
+{
+"name": "Vitulazio",
+"lat": 41.16302,
+"lon": 14.21341,
+"pop": 6550
+},
+{
+"name": "Carapelle",
+"lat": 41.36365,
+"lon": 15.69384,
+"pop": 6524
+},
+{
+"name": "Mariglianella",
+"lat": 40.92962,
+"lon": 14.43703,
+"pop": 6509
+},
+{
+"name": "San Felice Circeo",
+"lat": 41.23716,
+"lon": 13.09416,
+"pop": 6497
+},
+{
+"name": "Lanuvio",
+"lat": 41.67297,
+"lon": 12.69403,
+"pop": 6467
+},
+{
+"name": "Morlupo",
+"lat": 42.15002,
+"lon": 12.50306,
+"pop": 6424
+},
+{
+"name": "Pontinia",
+"lat": 41.41097,
+"lon": 13.04259,
+"pop": 6407
+},
+{
+"name": "Marcellina",
+"lat": 42.02436,
+"lon": 12.80445,
+"pop": 6406
+},
+{
+"name": "Anacapri",
+"lat": 40.5517,
+"lon": 14.21225,
+"pop": 6403
+},
+{
+"name": "Olevano sul Tusciano",
+"lat": 40.65721,
+"lon": 15.02305,
+"pop": 6399
+},
+{
+"name": "Cori",
+"lat": 41.64358,
+"lon": 12.91121,
+"pop": 6376
+},
+{
+"name": "Roccapiemonte",
+"lat": 40.76009,
+"lon": 14.69089,
+"pop": 6363
+},
+{
+"name": "San Marco Evangelista",
+"lat": 41.03702,
+"lon": 14.33979,
+"pop": 6296
+},
+{
+"name": "Casapesenna",
+"lat": 40.99151,
+"lon": 14.13613,
+"pop": 6295
+},
+{
+"name": "Senise",
+"lat": 40.14616,
+"lon": 16.28867,
+"pop": 6243
+},
+{
+"name": "Sala",
+"lat": 40.85536,
+"lon": 14.87343,
+"pop": 6237
+},
+{
+"name": "Trasacco",
+"lat": 41.95742,
+"lon": 13.5327,
+"pop": 6144
+},
+{
+"name": "San Vitaliano",
+"lat": 40.92442,
+"lon": 14.47463,
+"pop": 6072
+},
+{
+"name": "Palombara Sabina",
+"lat": 42.06909,
+"lon": 12.76684,
+"pop": 6044
+},
+{
+"name": "Castel Madama",
+"lat": 41.9735,
+"lon": 12.86782,
+"pop": 6037
+},
+{
+"name": "Subiaco",
+"lat": 41.92619,
+"lon": 13.08906,
+"pop": 6025
+},
+{
+"name": "Pisticci",
+"lat": 40.39017,
+"lon": 16.55919,
+"pop": 6019
+},
+{
+"name": "Bojano",
+"lat": 41.4853,
+"lon": 14.47075,
+"pop": 6014
+},
+{
+"name": "Penne",
+"lat": 42.45474,
+"lon": 13.92754,
+"pop": 5985
+},
+{
+"name": "Lesina",
+"lat": 41.86125,
+"lon": 15.35322,
+"pop": 5954
+},
+{
+"name": "San Paolo di Civitate",
+"lat": 41.73893,
+"lon": 15.2608,
+"pop": 5898
+},
+{
+"name": "Castel di Sangro",
+"lat": 41.78392,
+"lon": 14.10653,
+"pop": 5891
+},
+{
+"name": "Pimonte",
+"lat": 40.67361,
+"lon": 14.50984,
+"pop": 5884
+},
+{
+"name": "Zuni",
+"lat": 41.21722,
+"lon": 14.13082,
+"pop": 5856
+},
+{
+"name": "Atri",
+"lat": 42.57642,
+"lon": 13.98899,
+"pop": 5854
+},
+{
+"name": "Villa di Briano",
+"lat": 41.00001,
+"lon": 14.16073,
+"pop": 5824
+},
+{
+"name": "Monte Compatri",
+"lat": 41.80892,
+"lon": 12.73778,
+"pop": 5821
+},
+{
+"name": "Pignataro Maggiore",
+"lat": 41.19006,
+"lon": 14.16978,
+"pop": 5783
+},
+{
+"name": "Avigliano",
+"lat": 40.73291,
+"lon": 15.72004,
+"pop": 5774
+},
+{
+"name": "Cellole",
+"lat": 41.20338,
+"lon": 13.85332,
+"pop": 5765
+},
+{
+"name": "Paliano",
+"lat": 41.77975,
+"lon": 13.07661,
+"pop": 5748
+},
+{
+"name": "Ceprano",
+"lat": 41.54572,
+"lon": 13.51473,
+"pop": 5740
+},
+{
+"name": "Genzano di Lucania",
+"lat": 40.84589,
+"lon": 16.03124,
+"pop": 5736
+},
+{
+"name": "Mattinata",
+"lat": 41.71112,
+"lon": 16.05087,
+"pop": 5727
+},
+{
+"name": "Luco dei Marsi",
+"lat": 41.95925,
+"lon": 13.47349,
+"pop": 5675
+},
+{
+"name": "Olevano Romano",
+"lat": 41.85869,
+"lon": 13.03601,
+"pop": 5614
+},
+{
+"name": "Lettere",
+"lat": 40.70491,
+"lon": 14.54494,
+"pop": 5605
+},
+{
+"name": "Massa di Somma",
+"lat": 40.84551,
+"lon": 14.37513,
+"pop": 5573
+},
+{
+"name": "Capena",
+"lat": 42.14247,
+"lon": 12.54513,
+"pop": 5542
+},
+{
+"name": "Ascoli Satriano",
+"lat": 41.20365,
+"lon": 15.56646,
+"pop": 5518
+},
+{
+"name": "Montenero di Bisaccia",
+"lat": 41.96437,
+"lon": 14.78103,
+"pop": 5508
+},
+{
+"name": "Calvi Risorta",
+"lat": 41.21598,
+"lon": 14.13092,
+"pop": 5499
+},
+{
+"name": "Popoli",
+"lat": 42.16866,
+"lon": 13.82997,
+"pop": 5394
+},
+{
+"name": "Grazzanise",
+"lat": 41.0897,
+"lon": 14.09878,
+"pop": 5378
+},
+{
+"name": "Bracigliano",
+"lat": 40.8188,
+"lon": 14.70772,
+"pop": 5375
+},
+{
+"name": "Grassano",
+"lat": 40.63457,
+"lon": 16.27792,
+"pop": 5363
+},
+{
+"name": "Grottaminarda",
+"lat": 41.06972,
+"lon": 15.05894,
+"pop": 5355
+},
+{
+"name": "Arienzo",
+"lat": 41.02734,
+"lon": 14.4977,
+"pop": 5333
+},
+{
+"name": "Mugnano del Cardinale",
+"lat": 40.94248,
+"lon": 14.6361,
+"pop": 5312
+},
+{
+"name": "Camposano",
+"lat": 40.95242,
+"lon": 14.52991,
+"pop": 5309
+},
+{
+"name": "Narni",
+"lat": 42.51956,
+"lon": 12.52758,
+"pop": 5279
+},
+{
+"name": "Sessa Aurunca",
+"lat": 41.23987,
+"lon": 13.92966,
+"pop": 5269
+},
+{
+"name": "Maiori",
+"lat": 40.64848,
+"lon": 14.6407,
+"pop": 5268
+},
+{
+"name": "Polla",
+"lat": 40.51433,
+"lon": 15.49715,
+"pop": 5182
+},
+{
+"name": "Larino",
+"lat": 41.80449,
+"lon": 14.91843,
+"pop": 5164
+},
+{
+"name": "Teano",
+"lat": 41.25132,
+"lon": 14.06652,
+"pop": 5154
+},
+{
+"name": "Stornara",
+"lat": 41.28672,
+"lon": 15.77003,
+"pop": 5144
+},
+{
+"name": "Telese Terme",
+"lat": 41.21752,
+"lon": 14.52681,
+"pop": 5120
+},
+{
+"name": "Montorio al Vomano",
+"lat": 42.58123,
+"lon": 13.63715,
+"pop": 5107
+},
+{
+"name": "Pineto",
+"lat": 42.60879,
+"lon": 14.06639,
+"pop": 5096
+},
+{
+"name": "Lagonegro",
+"lat": 40.12785,
+"lon": 15.76212,
+"pop": 5056
+},
+{
+"name": "Casalbordino-Miracoli",
+"lat": 42.15354,
+"lon": 14.59912,
+"pop": 5028
+},
+{
+"name": "Stornarella",
+"lat": 41.25591,
+"lon": 15.73023,
+"pop": 4992
+},
+{
+"name": "Amalfi",
+"lat": 40.6349,
+"lon": 14.60238,
+"pop": 4933
+},
+{
+"name": "San Tammaro",
+"lat": 41.07588,
+"lon": 14.23105,
+"pop": 4925
+},
+{
+"name": "Palazzo San Gervasio",
+"lat": 40.93156,
+"lon": 15.98149,
+"pop": 4917
+},
+{
+"name": "Irsina",
+"lat": 40.75015,
+"lon": 16.23816,
+"pop": 4888
+},
+{
+"name": "Lioni",
+"lat": 40.88083,
+"lon": 15.18335,
+"pop": 4847
+},
+{
+"name": "Guglionesi",
+"lat": 41.92093,
+"lon": 14.916,
+"pop": 4844
+},
+{
+"name": "Capistrello",
+"lat": 41.97223,
+"lon": 13.39616,
+"pop": 4795
+},
+{
+"name": "Guardiagrele",
+"lat": 42.19406,
+"lon": 14.21939,
+"pop": 4789
+},
+{
+"name": "Tricarico",
+"lat": 40.61458,
+"lon": 16.14259,
+"pop": 4771
+},
+{
+"name": "Piano",
+"lat": 40.8205,
+"lon": 14.76005,
+"pop": 4745
+},
+{
+"name": "Bellona",
+"lat": 41.16052,
+"lon": 14.23313,
+"pop": 4727
+},
+{
+"name": "Baiano",
+"lat": 40.95142,
+"lon": 14.6165,
+"pop": 4726
+},
+{
+"name": "Santa Croce di Magliano",
+"lat": 41.71223,
+"lon": 14.98732,
+"pop": 4683
+},
+{
+"name": "Guardia Sanframondi",
+"lat": 41.2564,
+"lon": 14.59851,
+"pop": 4671
+},
+{
+"name": "Lauria",
+"lat": 40.04702,
+"lon": 15.83812,
+"pop": 4660
+},
+{
+"name": "Tagliacozzo",
+"lat": 42.06933,
+"lon": 13.25469,
+"pop": 4637
+},
+{
+"name": "Genazzano",
+"lat": 41.82807,
+"lon": 12.97196,
+"pop": 4599
+},
+{
+"name": "Visciano",
+"lat": 40.9238,
+"lon": 14.58237,
+"pop": 4550
+},
+{
+"name": "Campomarino",
+"lat": 41.95692,
+"lon": 15.03546,
+"pop": 4538
+},
+{
+"name": "Stigliano",
+"lat": 40.40237,
+"lon": 16.22983,
+"pop": 4520
+},
+{
+"name": "Carpineto Romano",
+"lat": 41.6047,
+"lon": 13.0841,
+"pop": 4483
+},
+{
+"name": "Supino",
+"lat": 41.62135,
+"lon": 13.23452,
+"pop": 4482
+},
+{
+"name": "San Bartolomeo in Galdo",
+"lat": 41.41595,
+"lon": 15.01709,
+"pop": 4465
+},
+{
+"name": "Atessa",
+"lat": 42.07018,
+"lon": 14.45049,
+"pop": 4410
+},
+{
+"name": "Labico",
+"lat": 41.7926,
+"lon": 12.87127,
+"pop": 4408
+},
+{
+"name": "Piazza-Tralia-Pendolo",
+"lat": 40.67351,
+"lon": 14.50455,
+"pop": 4378
+},
+{
+"name": "Tursi",
+"lat": 40.24651,
+"lon": 16.4714,
+"pop": 4377
+},
+{
+"name": "Calitri",
+"lat": 40.92569,
+"lon": 15.40393,
+"pop": 4348
+},
+{
+"name": "Mosciano Sant'Angelo",
+"lat": 42.747,
+"lon": 13.88891,
+"pop": 4318
+},
+{
+"name": "San Martino in Pensilis",
+"lat": 41.87814,
+"lon": 15.01824,
+"pop": 4293
+},
+{
+"name": "Tito",
+"lat": 40.5837,
+"lon": 15.67621,
+"pop": 4237
+},
+{
+"name": "Piazza Roma",
+"lat": 40.70434,
+"lon": 14.543,
+"pop": 4232
+},
+{
+"name": "Sant'Elia Fiumerapido",
+"lat": 41.53304,
+"lon": 13.86268,
+"pop": 4218
+},
+{
+"name": "Scisciano",
+"lat": 40.90663,
+"lon": 14.47451,
+"pop": 4209
+},
+{
+"name": "Scanzano Jonico",
+"lat": 40.25085,
+"lon": 16.69824,
+"pop": 4154
+},
+{
+"name": "Cervaro",
+"lat": 41.48278,
+"lon": 13.90218,
+"pop": 4141
+},
+{
+"name": "Lacco Ameno",
+"lat": 40.74901,
+"lon": 13.88718,
+"pop": 4083
+},
+{
+"name": "Rapolla",
+"lat": 40.97499,
+"lon": 15.67201,
+"pop": 3989
+},
+{
+"name": "Castel Morrone",
+"lat": 41.12102,
+"lon": 14.35473,
+"pop": 3988
+},
+{
+"name": "Agnone",
+"lat": 41.81043,
+"lon": 14.37524,
+"pop": 3978
+},
+{
+"name": "Pomarico",
+"lat": 40.52804,
+"lon": 16.52708,
+"pop": 3930
+},
+{
+"name": "Loreto Aprutino",
+"lat": 42.43104,
+"lon": 13.98057,
+"pop": 3930
+},
+{
+"name": "San Benedetto dei Marsi",
+"lat": 42.0076,
+"lon": 13.62381,
+"pop": 3896
+},
+{
+"name": "Pietramelara",
+"lat": 41.27086,
+"lon": 14.18711,
+"pop": 3894
+},
+{
+"name": "Vietri sul Mare",
+"lat": 40.6702,
+"lon": 14.72661,
+"pop": 3852
+},
+{
+"name": "Montelibretti",
+"lat": 42.13553,
+"lon": 12.73868,
+"pop": 3824
+},
+{
+"name": "Carpino",
+"lat": 41.8445,
+"lon": 15.85712,
+"pop": 3802
+},
+{
+"name": "Santa Maria",
+"lat": 40.29782,
+"lon": 14.95214,
+"pop": 3784
+},
+{
+"name": "Riccia",
+"lat": 41.48314,
+"lon": 14.83181,
+"pop": 3784
+},
+{
+"name": "Gallicano nel Lazio",
+"lat": 41.86433,
+"lon": 12.83543,
+"pop": 3776
+},
+{
+"name": "Castelnuovo di Porto",
+"lat": 42.1228,
+"lon": 12.51043,
+"pop": 3760
+},
+{
+"name": "Aquino",
+"lat": 41.49388,
+"lon": 13.7052,
+"pop": 3735
+},
+{
+"name": "Balsorano",
+"lat": 41.80982,
+"lon": 13.5598,
+"pop": 3705
+},
+{
+"name": "Casola di Napoli",
+"lat": 40.6978,
+"lon": 14.53006,
+"pop": 3699
+},
+{
+"name": "Castel Gandolfo",
+"lat": 41.74875,
+"lon": 12.64975,
+"pop": 3694
+},
+{
+"name": "Spoltore",
+"lat": 42.45501,
+"lon": 14.13988,
+"pop": 3693
+},
+{
+"name": "Cupello",
+"lat": 42.06936,
+"lon": 14.67054,
+"pop": 3670
+},
+{
+"name": "Deliceto",
+"lat": 41.22289,
+"lon": 15.38447,
+"pop": 3660
+},
+{
+"name": "Serracapriola",
+"lat": 41.80912,
+"lon": 15.16098,
+"pop": 3652
+},
+{
+"name": "Fossacesia",
+"lat": 42.24198,
+"lon": 14.48339,
+"pop": 3644
+},
+{
+"name": "Falciano del Massico",
+"lat": 41.16271,
+"lon": 13.94812,
+"pop": 3640
+},
+{
+"name": "Oppido Lucano",
+"lat": 40.76174,
+"lon": 15.98818,
+"pop": 3624
+},
+{
+"name": "Colonna",
+"lat": 41.83454,
+"lon": 12.75495,
+"pop": 3620
+},
+{
+"name": "Vicovaro",
+"lat": 42.01924,
+"lon": 12.90001,
+"pop": 3617
+},
+{
+"name": "Carsoli",
+"lat": 42.09882,
+"lon": 13.08856,
+"pop": 3617
+},
+{
+"name": "Pignola",
+"lat": 40.57412,
+"lon": 15.78295,
+"pop": 3599
+},
+{
+"name": "Sperone",
+"lat": 40.95251,
+"lon": 14.60524,
+"pop": 3599
+},
+{
+"name": "Muro Lucano",
+"lat": 40.75379,
+"lon": 15.48808,
+"pop": 3598
+},
+{
+"name": "Annunziata",
+"lat": 41.121,
+"lon": 14.36518,
+"pop": 3596
+},
+{
+"name": "Ischitella",
+"lat": 41.90434,
+"lon": 15.89945,
+"pop": 3531
+},
+{
+"name": "Orsogna",
+"lat": 42.22344,
+"lon": 14.28085,
+"pop": 3499
+},
+{
+"name": "Pescina",
+"lat": 42.02351,
+"lon": 13.65116,
+"pop": 3492
+},
+{
+"name": "Monte San Biagio",
+"lat": 41.3536,
+"lon": 13.35184,
+"pop": 3481
+},
+{
+"name": "Alife",
+"lat": 41.32612,
+"lon": 14.33403,
+"pop": 3477
+},
+{
+"name": "Norma",
+"lat": 41.58643,
+"lon": 12.97073,
+"pop": 3473
+},
+{
+"name": "San Paolo Bel Sito",
+"lat": 40.91354,
+"lon": 14.54862,
+"pop": 3422
+},
+{
+"name": "Pizzoli",
+"lat": 42.43603,
+"lon": 13.29886,
+"pop": 3413
+},
+{
+"name": "Moliterno",
+"lat": 40.24394,
+"lon": 15.86544,
+"pop": 3412
+},
+{
+"name": "Cappelle sul Tavo",
+"lat": 42.47709,
+"lon": 14.10735,
+"pop": 3406
+},
+{
+"name": "Forino",
+"lat": 40.85829,
+"lon": 14.73254,
+"pop": 3401
+},
+{
+"name": "Piglio",
+"lat": 41.83006,
+"lon": 13.1333,
+"pop": 3399
+},
+{
+"name": "Peschici",
+"lat": 41.94521,
+"lon": 16.01612,
+"pop": 3396
+},
+{
+"name": "San Gregorio Magno",
+"lat": 40.65992,
+"lon": 15.39914,
+"pop": 3383
+},
+{
+"name": "San Gemini",
+"lat": 42.61378,
+"lon": 12.54528,
+"pop": 3375
+},
+{
+"name": "Tolve",
+"lat": 40.69422,
+"lon": 16.01627,
+"pop": 3361
+},
+{
+"name": "Sonnino",
+"lat": 41.41673,
+"lon": 13.24592,
+"pop": 3350
+},
+{
+"name": "Poggio Mirteto",
+"lat": 42.26763,
+"lon": 12.68837,
+"pop": 3343
+},
+{
+"name": "San Vito Romano",
+"lat": 41.88001,
+"lon": 12.97793,
+"pop": 3337
+},
+{
+"name": "Bovino",
+"lat": 41.24916,
+"lon": 15.33948,
+"pop": 3335
+},
+{
+"name": "Picerno",
+"lat": 40.63975,
+"lon": 15.64232,
+"pop": 3330
+},
+{
+"name": "Altavilla Irpina",
+"lat": 41.00619,
+"lon": 14.78093,
+"pop": 3302
+},
+{
+"name": "Castel Frentano",
+"lat": 42.19875,
+"lon": 14.35643,
+"pop": 3220
+},
+{
+"name": "Zapponeta",
+"lat": 41.4571,
+"lon": 15.95615,
+"pop": 3206
+},
+{
+"name": "Torre de' Passeri",
+"lat": 42.24324,
+"lon": 13.9333,
+"pop": 3174
+},
+{
+"name": "Acquasparta",
+"lat": 42.68915,
+"lon": 12.54275,
+"pop": 3161
+},
+{
+"name": "Magliano De'Marsi",
+"lat": 42.09153,
+"lon": 13.36379,
+"pop": 3144
+},
+{
+"name": "Volturara Irpina",
+"lat": 40.88293,
+"lon": 14.91801,
+"pop": 3135
+},
+{
+"name": "Cepagatti",
+"lat": 42.36506,
+"lon": 14.07424,
+"pop": 3131
+},
+{
+"name": "Tollo",
+"lat": 42.34542,
+"lon": 14.3236,
+"pop": 3093
+},
+{
+"name": "Alvignano",
+"lat": 41.24427,
+"lon": 14.33671,
+"pop": 3067
+},
+{
+"name": "Rodi Garganico",
+"lat": 41.92745,
+"lon": 15.88217,
+"pop": 3055
+},
+{
+"name": "Lettomanoppello",
+"lat": 42.24336,
+"lon": 14.03843,
+"pop": 3019
+},
+{
+"name": "Rotondi",
+"lat": 41.03293,
+"lon": 14.59548,
+"pop": 3009
+},
+{
+"name": "Sperlonga",
+"lat": 41.25897,
+"lon": 13.43302,
+"pop": 3008
+},
+{
+"name": "Casamarciano",
+"lat": 40.93191,
+"lon": 14.55324,
+"pop": 2998
+},
+{
+"name": "Solopaca",
+"lat": 41.19535,
+"lon": 14.54767,
+"pop": 2993
+},
+{
+"name": "Vairano-Patenora",
+"lat": 41.33702,
+"lon": 14.13112,
+"pop": 2963
+},
+{
+"name": "Bagnoli Irpino",
+"lat": 40.83103,
+"lon": 15.07173,
+"pop": 2953
+},
+{
+"name": "Pianella",
+"lat": 42.39918,
+"lon": 14.04781,
+"pop": 2946
+},
+{
+"name": "Torino di Sangro",
+"lat": 42.191,
+"lon": 14.54272,
+"pop": 2923
+},
+{
+"name": "Atella",
+"lat": 40.87855,
+"lon": 15.65226,
+"pop": 2896
+},
+{
+"name": "Sirignano",
+"lat": 40.94969,
+"lon": 14.62935,
+"pop": 2878
+},
+{
+"name": "Acerno",
+"lat": 40.73771,
+"lon": 15.05695,
+"pop": 2872
+},
+{
+"name": "Petacciato",
+"lat": 42.00827,
+"lon": 14.86026,
+"pop": 2858
+},
+{
+"name": "Lenola",
+"lat": 41.40485,
+"lon": 13.45934,
+"pop": 2855
+},
+{
+"name": "Sant'Oreste",
+"lat": 42.23298,
+"lon": 12.51507,
+"pop": 2830
+},
+{
+"name": "Lauro",
+"lat": 40.87972,
+"lon": 14.63013,
+"pop": 2830
+},
+{
+"name": "Minori",
+"lat": 40.6503,
+"lon": 14.62684,
+"pop": 2822
+},
+{
+"name": "Campagna",
+"lat": 40.66661,
+"lon": 15.10638,
+"pop": 2782
+},
+{
+"name": "Paterno",
+"lat": 40.37507,
+"lon": 15.7351,
+"pop": 2778
+},
+{
+"name": "Torchiati",
+"lat": 40.81837,
+"lon": 14.80165,
+"pop": 2762
+},
+{
+"name": "Paglieta",
+"lat": 42.16139,
+"lon": 14.50306,
+"pop": 2758
+},
+{
+"name": "Poggio Imperiale",
+"lat": 41.82503,
+"lon": 15.3668,
+"pop": 2750
+},
+{
+"name": "Sant'Arsenio",
+"lat": 40.47109,
+"lon": 15.48401,
+"pop": 2731
+},
+{
+"name": "Brienza",
+"lat": 40.47751,
+"lon": 15.62927,
+"pop": 2731
+},
+{
+"name": "Raiano",
+"lat": 42.10158,
+"lon": 13.81386,
+"pop": 2726
+},
+{
+"name": "Francavilla in Sinni",
+"lat": 40.08142,
+"lon": 16.20417,
+"pop": 2690
+},
+{
+"name": "Padula",
+"lat": 40.33901,
+"lon": 15.65634,
+"pop": 2688
+},
+{
+"name": "Civitella Roveto",
+"lat": 41.91329,
+"lon": 13.42396,
+"pop": 2687
+},
+{
+"name": "Roccadaspide",
+"lat": 40.42333,
+"lon": 15.19118,
+"pop": 2686
+},
+{
+"name": "Buccino",
+"lat": 40.6367,
+"lon": 15.38116,
+"pop": 2686
+},
+{
+"name": "Castelforte",
+"lat": 41.29392,
+"lon": 13.83061,
+"pop": 2676
+},
+{
+"name": "Caiazzo",
+"lat": 41.18435,
+"lon": 14.35946,
+"pop": 2669
+},
+{
+"name": "Limatola",
+"lat": 41.14012,
+"lon": 14.39437,
+"pop": 2668
+},
+{
+"name": "Barile",
+"lat": 40.94327,
+"lon": 15.67167,
+"pop": 2665
+},
+{
+"name": "Notaresco",
+"lat": 42.65742,
+"lon": 13.89491,
+"pop": 2656
+},
+{
+"name": "Ordona",
+"lat": 41.31501,
+"lon": 15.62832,
+"pop": 2654
+},
+{
+"name": "San Martino Valle Caudina",
+"lat": 41.02764,
+"lon": 14.66446,
+"pop": 2650
+},
+{
+"name": "Pietramontecorvino",
+"lat": 41.54228,
+"lon": 15.12894,
+"pop": 2615
+},
+{
+"name": "Scerni",
+"lat": 42.10418,
+"lon": 14.57428,
+"pop": 2608
+},
+{
+"name": "Salandra",
+"lat": 40.52668,
+"lon": 16.32037,
+"pop": 2598
+},
+{
+"name": "Pastorano",
+"lat": 41.18082,
+"lon": 14.19823,
+"pop": 2586
+},
+{
+"name": "Foglianise",
+"lat": 41.16127,
+"lon": 14.67112,
+"pop": 2573
+},
+{
+"name": "Ururi",
+"lat": 41.81518,
+"lon": 15.01611,
+"pop": 2565
+},
+{
+"name": "Portocannone",
+"lat": 41.91441,
+"lon": 15.00845,
+"pop": 2549
+},
+{
+"name": "Venticano",
+"lat": 41.04722,
+"lon": 14.91194,
+"pop": 2547
+},
+{
+"name": "Bella",
+"lat": 40.76059,
+"lon": 15.54101,
+"pop": 2539
+},
+{
+"name": "Scafa",
+"lat": 42.26575,
+"lon": 13.99665,
+"pop": 2536
+},
+{
+"name": "Collefontana-Fontana Liri Inferiore",
+"lat": 41.61166,
+"lon": 13.54945,
+"pop": 2532
+},
+{
+"name": "Orsara di Puglia",
+"lat": 41.28163,
+"lon": 15.26765,
+"pop": 2522
+},
+{
+"name": "Antrodoco",
+"lat": 42.41498,
+"lon": 13.07673,
+"pop": 2517
+},
+{
+"name": "Tufino",
+"lat": 40.95586,
+"lon": 14.56568,
+"pop": 2514
+},
+{
+"name": "Piedimonte San Germano",
+"lat": 41.49796,
+"lon": 13.75017,
+"pop": 2513
+},
+{
+"name": "Montemiletto",
+"lat": 41.01168,
+"lon": 14.90034,
+"pop": 2495
+},
+{
+"name": "Roccagorga",
+"lat": 41.52511,
+"lon": 13.1551,
+"pop": 2477
+},
+{
+"name": "San Cipriano Picentino",
+"lat": 40.72008,
+"lon": 14.87195,
+"pop": 2475
+},
+{
+"name": "Casoli",
+"lat": 42.1138,
+"lon": 14.28995,
+"pop": 2466
+},
+{
+"name": "Corleto Perticara",
+"lat": 40.38214,
+"lon": 16.03917,
+"pop": 2459
+},
+{
+"name": "Città Sant'Angelo",
+"lat": 42.51254,
+"lon": 14.06203,
+"pop": 2451
+},
+{
+"name": "Biccari",
+"lat": 41.39736,
+"lon": 15.19644,
+"pop": 2443
+},
+{
+"name": "Pietragalla",
+"lat": 40.74572,
+"lon": 15.87398,
+"pop": 2439
+},
+{
+"name": "Sant'Arcangelo",
+"lat": 40.24852,
+"lon": 16.27046,
+"pop": 2432
+},
+{
+"name": "Bussi sul Tirino",
+"lat": 42.21321,
+"lon": 13.82511,
+"pop": 2432
+},
+{
+"name": "Veroli",
+"lat": 41.69433,
+"lon": 13.41664,
+"pop": 2419
+},
+{
+"name": "Cittaducale",
+"lat": 42.38664,
+"lon": 12.95497,
+"pop": 2411
+},
+{
+"name": "Viggiano",
+"lat": 40.34213,
+"lon": 15.89964,
+"pop": 2397
+},
+{
+"name": "Santa Maria la Fossa",
+"lat": 41.09171,
+"lon": 14.12822,
+"pop": 2397
+},
+{
+"name": "Tramutola",
+"lat": 40.31858,
+"lon": 15.78753,
+"pop": 2388
+},
+{
+"name": "Moiano",
+"lat": 41.07968,
+"lon": 14.54431,
+"pop": 2387
+},
+{
+"name": "Moricone",
+"lat": 42.11661,
+"lon": 12.77234,
+"pop": 2383
+},
+{
+"name": "Mirabella Eclano",
+"lat": 41.04496,
+"lon": 15.00022,
+"pop": 2375
+},
+{
+"name": "Vallecorsa",
+"lat": 41.44351,
+"lon": 13.40634,
+"pop": 2353
+},
+{
+"name": "Miglionico",
+"lat": 40.56763,
+"lon": 16.49964,
+"pop": 2342
+},
+{
+"name": "Tocco da Casauria",
+"lat": 42.21203,
+"lon": 13.91547,
+"pop": 2338
+},
+{
+"name": "Roccamonfina",
+"lat": 41.28683,
+"lon": 13.97905,
+"pop": 2338
+},
+{
+"name": "Positano",
+"lat": 40.62829,
+"lon": 14.48427,
+"pop": 2334
+},
+{
+"name": "Stroncone",
+"lat": 42.51196,
+"lon": 12.6477,
+"pop": 2332
+},
+{
+"name": "Castelliri",
+"lat": 41.67764,
+"lon": 13.53978,
+"pop": 2300
+},
+{
+"name": "Capriglia Irpina",
+"lat": 40.96032,
+"lon": 14.77724,
+"pop": 2281
+},
+{
+"name": "Poggio Moiano",
+"lat": 42.20411,
+"lon": 12.88136,
+"pop": 2279
+},
+{
+"name": "Prata di Principato Ultra",
+"lat": 40.98626,
+"lon": 14.83803,
+"pop": 2273
+},
+{
+"name": "Accadia",
+"lat": 41.15768,
+"lon": 15.331,
+"pop": 2262
+},
+{
+"name": "Sanza",
+"lat": 40.24389,
+"lon": 15.55416,
+"pop": 2247
+},
+{
+"name": "Contigliano",
+"lat": 42.41058,
+"lon": 12.77202,
+"pop": 2230
+},
+{
+"name": "Pescasseroli",
+"lat": 41.80343,
+"lon": 13.78707,
+"pop": 2224
+},
+{
+"name": "Amorosi",
+"lat": 41.20273,
+"lon": 14.46598,
+"pop": 2218
+},
+{
+"name": "Acerenza",
+"lat": 40.79386,
+"lon": 15.93808,
+"pop": 2214
+},
+{
+"name": "Pietravairano",
+"lat": 41.32522,
+"lon": 14.16592,
+"pop": 2201
+},
+{
+"name": "Frasso Telesino",
+"lat": 41.15682,
+"lon": 14.52783,
+"pop": 2199
+},
+{
+"name": "Candela",
+"lat": 41.13601,
+"lon": 15.51537,
+"pop": 2197
+},
+{
+"name": "Oriolo",
+"lat": 40.0532,
+"lon": 16.44663,
+"pop": 2192
+},
+{
+"name": "Valle di Maddaloni",
+"lat": 41.07946,
+"lon": 14.41788,
+"pop": 2188
+},
+{
+"name": "Montecalvo Irpino",
+"lat": 41.19616,
+"lon": 15.03446,
+"pop": 2187
+},
+{
+"name": "San Salvatore Telesino",
+"lat": 41.23537,
+"lon": 14.49832,
+"pop": 2184
+},
+{
+"name": "Grottole",
+"lat": 40.60333,
+"lon": 16.37831,
+"pop": 2174
+},
+{
+"name": "Isola del Gran Sasso d'Italia",
+"lat": 42.50324,
+"lon": 13.65721,
+"pop": 2162
+},
+{
+"name": "Arce",
+"lat": 41.57787,
+"lon": 13.58571,
+"pop": 2154
+},
+{
+"name": "Pratola Serra",
+"lat": 40.98655,
+"lon": 14.85149,
+"pop": 2146
+},
+{
+"name": "Sant'Angelo dei Lombardi",
+"lat": 40.92937,
+"lon": 15.17535,
+"pop": 2104
+},
+{
+"name": "Teggiano-Macchiaroli",
+"lat": 40.37921,
+"lon": 15.54046,
+"pop": 2103
+},
+{
+"name": "Gioia dei Marsi",
+"lat": 41.95697,
+"lon": 13.69057,
+"pop": 2099
+},
+{
+"name": "Praiano",
+"lat": 40.61213,
+"lon": 14.52461,
+"pop": 2087
+},
+{
+"name": "Colletorto",
+"lat": 41.66165,
+"lon": 14.96773,
+"pop": 2087
+},
+{
+"name": "Serre",
+"lat": 40.58251,
+"lon": 15.18555,
+"pop": 2075
+},
+{
+"name": "San Giorgio a Liri",
+"lat": 41.40584,
+"lon": 13.75979,
+"pop": 2069
+},
+{
+"name": "Sassano",
+"lat": 40.3403,
+"lon": 15.56555,
+"pop": 2067
+},
+{
+"name": "Latronico",
+"lat": 40.08909,
+"lon": 16.00947,
+"pop": 2063
+},
+{
+"name": "Oliveto Citra",
+"lat": 40.69039,
+"lon": 15.23346,
+"pop": 2051
+},
+{
+"name": "Corbara",
+"lat": 40.72278,
+"lon": 14.59187,
+"pop": 2045
+},
+{
+"name": "Contrada",
+"lat": 40.86811,
+"lon": 14.77747,
+"pop": 2041
+},
+{
+"name": "Casacalenda",
+"lat": 41.73824,
+"lon": 14.84734,
+"pop": 2041
+},
+{
+"name": "Montorio Romano",
+"lat": 42.13738,
+"lon": 12.80404,
+"pop": 2035
+},
+{
+"name": "Cetara",
+"lat": 40.64756,
+"lon": 14.70091,
+"pop": 2034
+},
+{
+"name": "San Marco dei Cavoti",
+"lat": 41.30881,
+"lon": 14.87924,
+"pop": 2025
+},
+{
+"name": "Novi Velia",
+"lat": 40.22262,
+"lon": 15.286,
+"pop": 2013
+},
+{
+"name": "Buonabitacolo",
+"lat": 40.26855,
+"lon": 15.62119,
+"pop": 2013
+},
+{
+"name": "San Vito Chietino",
+"lat": 42.29014,
+"lon": 14.4427,
+"pop": 2009
+},
+{
+"name": "Fontanarosa",
+"lat": 41.01812,
+"lon": 15.02055,
+"pop": 2008
+},
+{
+"name": "Gesualdo",
+"lat": 41.00554,
+"lon": 15.07262,
+"pop": 2004
+},
+{
+"name": "Castel San Lorenzo",
+"lat": 40.41979,
+"lon": 15.22523,
+"pop": 2001
+},
+{
+"name": "San Mango Piemonte",
+"lat": 40.70024,
+"lon": 14.83919,
+"pop": 2000
+},
+{
+"name": "Cerreto Sannita",
+"lat": 41.28296,
+"lon": 14.56147,
+"pop": 1998
+},
+{
+"name": "Balsorano Nuovo",
+"lat": 41.80881,
+"lon": 13.56069,
+"pop": 1992
+},
+{
+"name": "Poli",
+"lat": 41.88913,
+"lon": 12.89037,
+"pop": 1987
+},
+{
+"name": "Baselice",
+"lat": 41.39296,
+"lon": 14.97363,
+"pop": 1982
+},
+{
+"name": "Rignano Garganico",
+"lat": 41.67934,
+"lon": 15.58835,
+"pop": 1972
+},
+{
+"name": "Vitulano",
+"lat": 41.17419,
+"lon": 14.64821,
+"pop": 1970
+},
+{
+"name": "Carbonara di Nola",
+"lat": 40.87441,
+"lon": 14.57884,
+"pop": 1960
+},
+{
+"name": "San Polo dei Cavalieri",
+"lat": 42.01037,
+"lon": 12.83989,
+"pop": 1953
+},
+{
+"name": "Cervino",
+"lat": 41.04001,
+"lon": 14.42403,
+"pop": 1942
+},
+{
+"name": "Sant'Angelo Romano",
+"lat": 42.0357,
+"lon": 12.71342,
+"pop": 1931
+},
+{
+"name": "Bellegra",
+"lat": 41.88166,
+"lon": 13.02861,
+"pop": 1929
+},
+{
+"name": "Accettura",
+"lat": 40.49102,
+"lon": 16.15798,
+"pop": 1926
+},
+{
+"name": "Taurasi",
+"lat": 41.0108,
+"lon": 14.9598,
+"pop": 1913
+},
+{
+"name": "Scanno",
+"lat": 41.90442,
+"lon": 13.87961,
+"pop": 1900
+},
+{
+"name": "San Giovanni A Piro",
+"lat": 40.0515,
+"lon": 15.4462,
+"pop": 1897
+},
+{
+"name": "Castelluccio Inferiore",
+"lat": 40.00151,
+"lon": 15.98149,
+"pop": 1896
+},
+{
+"name": "Quadrelle",
+"lat": 40.94851,
+"lon": 14.63934,
+"pop": 1893
+},
+{
+"name": "Castelluccio dei Sauri",
+"lat": 41.3046,
+"lon": 15.47561,
+"pop": 1890
+},
+{
+"name": "Collecorvino",
+"lat": 42.46024,
+"lon": 14.01564,
+"pop": 1887
+},
+{
+"name": "Arpaia",
+"lat": 41.03678,
+"lon": 14.55175,
+"pop": 1886
+},
+{
+"name": "Gissi",
+"lat": 42.01803,
+"lon": 14.54484,
+"pop": 1881
+},
+{
+"name": "Aiello del Sabato",
+"lat": 40.88847,
+"lon": 14.82123,
+"pop": 1881
+},
+{
+"name": "Montefalcione",
+"lat": 40.96173,
+"lon": 14.88312,
+"pop": 1876
+},
+{
+"name": "Rocchetta Sant'Antonio",
+"lat": 41.10326,
+"lon": 15.45993,
+"pop": 1870
+},
+{
+"name": "Paduli",
+"lat": 41.16793,
+"lon": 14.88688,
+"pop": 1870
+},
+{
+"name": "Mignano Monte Lungo",
+"lat": 41.40592,
+"lon": 13.98552,
+"pop": 1870
+},
+{
+"name": "Vietri di Potenza",
+"lat": 40.60027,
+"lon": 15.50787,
+"pop": 1869
+},
+{
+"name": "Ripa Teatina",
+"lat": 42.36603,
+"lon": 14.24441,
+"pop": 1867
+},
+{
+"name": "Laurenzana",
+"lat": 40.45908,
+"lon": 15.97075,
+"pop": 1865
+},
+{
+"name": "Contursi Terme",
+"lat": 40.65026,
+"lon": 15.24163,
+"pop": 1865
+},
+{
+"name": "Lacedonia",
+"lat": 41.05022,
+"lon": 15.42169,
+"pop": 1862
+},
+{
+"name": "Pescopagano",
+"lat": 40.83494,
+"lon": 15.39946,
+"pop": 1851
+},
+{
+"name": "Sturno",
+"lat": 41.02217,
+"lon": 15.11248,
+"pop": 1834
+},
+{
+"name": "San Lorenzo Maggiore",
+"lat": 41.24885,
+"lon": 14.62438,
+"pop": 1834
+},
+{
+"name": "Ponza",
+"lat": 40.89541,
+"lon": 12.95889,
+"pop": 1831
+},
+{
+"name": "Forenza",
+"lat": 40.86041,
+"lon": 15.85457,
+"pop": 1831
+},
+{
+"name": "Capaccio",
+"lat": 40.42435,
+"lon": 15.07981,
+"pop": 1827
+},
+{
+"name": "Calvello",
+"lat": 40.47482,
+"lon": 15.85092,
+"pop": 1827
+},
+{
+"name": "Trivento",
+"lat": 41.77004,
+"lon": 14.54613,
+"pop": 1804
+},
+{
+"name": "Nusco",
+"lat": 40.8882,
+"lon": 15.09185,
+"pop": 1783
+},
+{
+"name": "Pozzilli",
+"lat": 41.51142,
+"lon": 14.06252,
+"pop": 1778
+},
+{
+"name": "Durazzano",
+"lat": 41.06286,
+"lon": 14.44947,
+"pop": 1772
+},
+{
+"name": "Sant'Agata di Puglia",
+"lat": 41.15127,
+"lon": 15.37968,
+"pop": 1769
+},
+{
+"name": "Ripi",
+"lat": 41.61366,
+"lon": 13.424,
+"pop": 1769
+},
+{
+"name": "Vallata",
+"lat": 41.04019,
+"lon": 15.25383,
+"pop": 1760
+},
+{
+"name": "Ortucchio",
+"lat": 41.95525,
+"lon": 13.64651,
+"pop": 1757
+},
+{
+"name": "Camigliano",
+"lat": 41.18116,
+"lon": 14.20978,
+"pop": 1752
+},
+{
+"name": "Ripalimosani",
+"lat": 41.61064,
+"lon": 14.66306,
+"pop": 1731
+},
+{
+"name": "Quindici",
+"lat": 40.86497,
+"lon": 14.64663,
+"pop": 1731
+},
+{
+"name": "Miglianico",
+"lat": 42.35773,
+"lon": 14.29179,
+"pop": 1731
+},
+{
+"name": "Lecce Nei Marsi",
+"lat": 41.93436,
+"lon": 13.6843,
+"pop": 1730
+},
+{
+"name": "San Demetrio Ne' Vestini",
+"lat": 42.28963,
+"lon": 13.55519,
+"pop": 1728
+},
+{
+"name": "Paternopoli",
+"lat": 40.97268,
+"lon": 15.03242,
+"pop": 1724
+},
+{
+"name": "Riardo",
+"lat": 41.26197,
+"lon": 14.15045,
+"pop": 1717
+},
+{
+"name": "Ponte",
+"lat": 41.21554,
+"lon": 14.69826,
+"pop": 1717
+},
+{
+"name": "Montelanico",
+"lat": 41.65069,
+"lon": 13.04027,
+"pop": 1715
+},
+{
+"name": "Vinchiaturo",
+"lat": 41.49282,
+"lon": 14.592,
+"pop": 1705
+},
+{
+"name": "Ariano",
+"lat": 40.65668,
+"lon": 15.02481,
+"pop": 1704
+},
+{
+"name": "Bucchianico",
+"lat": 42.30368,
+"lon": 14.18377,
+"pop": 1702
+},
+{
+"name": "Serrara Fontana",
+"lat": 40.71475,
+"lon": 13.89593,
+"pop": 1697
+},
+{
+"name": "Satriano di Lucania",
+"lat": 40.54296,
+"lon": 15.64024,
+"pop": 1697
+},
+{
+"name": "Aquilonia",
+"lat": 40.98688,
+"lon": 15.4751,
+"pop": 1695
+},
+{
+"name": "Celenza Valfortore",
+"lat": 41.56048,
+"lon": 14.97898,
+"pop": 1691
+},
+{
+"name": "Ogliastro Cilento",
+"lat": 40.35113,
+"lon": 15.04638,
+"pop": 1690
+},
+{
+"name": "Calabritto",
+"lat": 40.78342,
+"lon": 15.22285,
+"pop": 1688
+},
+{
+"name": "Montemilone",
+"lat": 41.02742,
+"lon": 15.96661,
+"pop": 1685
+},
+{
+"name": "Liveri",
+"lat": 40.90406,
+"lon": 14.56536,
+"pop": 1679
+},
+{
+"name": "Pannarano",
+"lat": 41.01082,
+"lon": 14.70293,
+"pop": 1671
+},
+{
+"name": "Castelvetere sul Calore",
+"lat": 40.9298,
+"lon": 14.9864,
+"pop": 1671
+},
+{
+"name": "Casalincontrada",
+"lat": 42.29744,
+"lon": 14.13511,
+"pop": 1662
+},
+{
+"name": "Cesinali",
+"lat": 40.89711,
+"lon": 14.82774,
+"pop": 1657
+},
+{
+"name": "Rofrano",
+"lat": 40.21277,
+"lon": 15.42848,
+"pop": 1655
+},
+{
+"name": "Montefalcone di Val Fortore",
+"lat": 41.3243,
+"lon": 15.00898,
+"pop": 1650
+},
+{
+"name": "Castiglione Messer Marino",
+"lat": 41.86833,
+"lon": 14.44996,
+"pop": 1650
+},
+{
+"name": "San Mauro Forte",
+"lat": 40.48333,
+"lon": 16.25155,
+"pop": 1648
+},
+{
+"name": "Marzano di Nola",
+"lat": 40.90141,
+"lon": 14.58359,
+"pop": 1647
+},
+{
+"name": "Volturino",
+"lat": 41.47723,
+"lon": 15.12424,
+"pop": 1645
+},
+{
+"name": "Monteodorisio",
+"lat": 42.08485,
+"lon": 14.65386,
+"pop": 1632
+},
+{
+"name": "Maenza",
+"lat": 41.52402,
+"lon": 13.18344,
+"pop": 1627
+},
+{
+"name": "Moschiano",
+"lat": 40.87311,
+"lon": 14.65594,
+"pop": 1627
+},
+{
+"name": "Casalvecchio di Puglia",
+"lat": 41.5947,
+"lon": 15.10999,
+"pop": 1625
+},
+{
+"name": "Acuto",
+"lat": 41.79107,
+"lon": 13.17446,
+"pop": 1624
+},
+{
+"name": "Sant'Elia a Pianisi",
+"lat": 41.62043,
+"lon": 14.87523,
+"pop": 1623
+},
+{
+"name": "Cerchio",
+"lat": 42.06357,
+"lon": 13.60006,
+"pop": 1621
+},
+{
+"name": "Morcone",
+"lat": 41.34269,
+"lon": 14.66889,
+"pop": 1619
+},
+{
+"name": "Caselle in Pittari",
+"lat": 40.17319,
+"lon": 15.54311,
+"pop": 1617
+},
+{
+"name": "Amaseno",
+"lat": 41.46705,
+"lon": 13.33457,
+"pop": 1616
+},
+{
+"name": "Moio della Civitella-Pellare",
+"lat": 40.2471,
+"lon": 15.26886,
+"pop": 1611
+},
+{
+"name": "Maschito",
+"lat": 40.90892,
+"lon": 15.82946,
+"pop": 1611
+},
+{
+"name": "Sant'Andrea di Conza",
+"lat": 40.84482,
+"lon": 15.36965,
+"pop": 1608
+},
+{
+"name": "San Leucio del Sannio-Cavuoti",
+"lat": 41.07442,
+"lon": 14.75744,
+"pop": 1606
+},
+{
+"name": "Monte San Giacomo",
+"lat": 40.34411,
+"lon": 15.54221,
+"pop": 1606
+},
+{
+"name": "Castelmauro",
+"lat": 41.82846,
+"lon": 14.71066,
+"pop": 1605
+},
+{
+"name": "Taurano",
+"lat": 40.88444,
+"lon": 14.63427,
+"pop": 1600
+},
+{
+"name": "Marsico Nuovo",
+"lat": 40.42359,
+"lon": 15.73462,
+"pop": 1574
+},
+{
+"name": "Ruoti",
+"lat": 40.7166,
+"lon": 15.68369,
+"pop": 1572
+},
+{
+"name": "Calvanico",
+"lat": 40.77616,
+"lon": 14.82697,
+"pop": 1570
+},
+{
+"name": "Montesano sulla Marcellana",
+"lat": 40.2761,
+"lon": 15.7039,
+"pop": 1569
+},
+{
+"name": "Auletta",
+"lat": 40.56116,
+"lon": 15.42313,
+"pop": 1567
+},
+{
+"name": "Pietrelcina",
+"lat": 41.19942,
+"lon": 14.84414,
+"pop": 1566
+},
+{
+"name": "Cascia",
+"lat": 42.7179,
+"lon": 13.01697,
+"pop": 1555
+},
+{
+"name": "Palata",
+"lat": 41.8879,
+"lon": 14.78778,
+"pop": 1552
+},
+{
+"name": "Cautano",
+"lat": 41.15009,
+"lon": 14.64425,
+"pop": 1552
+},
+{
+"name": "Forano",
+"lat": 42.29768,
+"lon": 12.59469,
+"pop": 1544
+},
+{
+"name": "Mirabello Sannitico",
+"lat": 41.51628,
+"lon": 14.67315,
+"pop": 1538
+},
+{
+"name": "Arpino",
+"lat": 41.64705,
+"lon": 13.61155,
+"pop": 1535
+},
+{
+"name": "Vaglio Basilicata",
+"lat": 40.66643,
+"lon": 15.91434,
+"pop": 1534
+},
+{
+"name": "Pago del Vallo di Lauro",
+"lat": 40.89721,
+"lon": 14.60764,
+"pop": 1525
+},
+{
+"name": "Ravello",
+"lat": 40.64932,
+"lon": 14.61167,
+"pop": 1523
+},
+{
+"name": "Arrone",
+"lat": 42.58266,
+"lon": 12.76714,
+"pop": 1520
+},
+{
+"name": "Paolisi",
+"lat": 41.03731,
+"lon": 14.57918,
+"pop": 1519
+},
+{
+"name": "Campanarello",
+"lat": 41.04717,
+"lon": 14.91418,
+"pop": 1513
+},
+{
+"name": "Caggiano",
+"lat": 40.5624,
+"lon": 15.49629,
+"pop": 1512
+},
+{
+"name": "Ripacandida",
+"lat": 40.91256,
+"lon": 15.72597,
+"pop": 1508
+},
+{
+"name": "Broccostella",
+"lat": 41.69972,
+"lon": 13.63531,
+"pop": 1507
+},
+{
+"name": "Fara San Martino",
+"lat": 42.09248,
+"lon": 14.20896,
+"pop": 1506
+},
+{
+"name": "Chieuti",
+"lat": 41.84486,
+"lon": 15.16681,
+"pop": 1504
+},
+{
+"name": "Bucciano",
+"lat": 41.07756,
+"lon": 14.56898,
+"pop": 1503
+},
+{
+"name": "Capitignano",
+"lat": 40.71851,
+"lon": 14.90465,
+"pop": 1502
+},
+{
+"name": "Arsoli",
+"lat": 42.04158,
+"lon": 13.01606,
+"pop": 1497
+},
+{
+"name": "San Giorgio",
+"lat": 41.27065,
+"lon": 14.31278,
+"pop": 1496
+},
+{
+"name": "Trentinara",
+"lat": 40.39998,
+"lon": 15.11545,
+"pop": 1491
+},
+{
+"name": "Albanella",
+"lat": 40.47943,
+"lon": 15.11454,
+"pop": 1488
+},
+{
+"name": "Sgurgola",
+"lat": 41.66897,
+"lon": 13.15009,
+"pop": 1485
+},
+{
+"name": "Montefalcone nel Sannio",
+"lat": 41.86663,
+"lon": 14.63823,
+"pop": 1480
+},
+{
+"name": "Roccasecca",
+"lat": 41.55132,
+"lon": 13.66711,
+"pop": 1479
+},
+{
+"name": "Rotondella",
+"lat": 40.17136,
+"lon": 16.52491,
+"pop": 1467
+},
+{
+"name": "San Chirico Nuovo",
+"lat": 40.67764,
+"lon": 16.07892,
+"pop": 1463
+},
+{
+"name": "Frosolone",
+"lat": 41.60006,
+"lon": 14.44578,
+"pop": 1451
+},
+{
+"name": "Scurcola Marsicana",
+"lat": 42.06313,
+"lon": 13.33919,
+"pop": 1449
+},
+{
+"name": "Andretta-Mattinella",
+"lat": 40.93742,
+"lon": 15.32485,
+"pop": 1435
+},
+{
+"name": "Chiusano di San Domenico",
+"lat": 40.93312,
+"lon": 14.91634,
+"pop": 1434
+},
+{
+"name": "Spinoso",
+"lat": 40.26921,
+"lon": 15.96658,
+"pop": 1429
+},
+{
+"name": "Castelvenere",
+"lat": 41.23445,
+"lon": 14.5475,
+"pop": 1429
+},
+{
+"name": "Montecilfone",
+"lat": 41.90163,
+"lon": 14.8368,
+"pop": 1423
+},
+{
+"name": "Frisa",
+"lat": 42.26572,
+"lon": 14.37625,
+"pop": 1423
+},
+{
+"name": "Castelnuovo della Daunia",
+"lat": 41.58139,
+"lon": 15.11796,
+"pop": 1412
+},
+{
+"name": "Colliano",
+"lat": 40.72293,
+"lon": 15.28969,
+"pop": 1408
+},
+{
+"name": "Casalnuovo Monterotaro",
+"lat": 41.61942,
+"lon": 15.10411,
+"pop": 1407
+},
+{
+"name": "Torre Orsaia",
+"lat": 40.13277,
+"lon": 15.4725,
+"pop": 1405
+},
+{
+"name": "Bonefro",
+"lat": 41.70507,
+"lon": 14.93439,
+"pop": 1404
+},
+{
+"name": "Valsinni",
+"lat": 40.17098,
+"lon": 16.44388,
+"pop": 1400
+},
+{
+"name": "Santa Lucia di Serino",
+"lat": 40.87042,
+"lon": 14.87594,
+"pop": 1399
+},
+{
+"name": "Altavilla Silentina",
+"lat": 40.53012,
+"lon": 15.13153,
+"pop": 1397
+},
+{
+"name": "Piana di Monte Verna",
+"lat": 41.16712,
+"lon": 14.33373,
+"pop": 1386
+},
+{
+"name": "Banzi",
+"lat": 40.86063,
+"lon": 16.00976,
+"pop": 1381
+},
+{
+"name": "Monteflavio",
+"lat": 42.10935,
+"lon": 12.83076,
+"pop": 1374
+},
+{
+"name": "Trecchina",
+"lat": 40.02611,
+"lon": 15.77585,
+"pop": 1373
+},
+{
+"name": "Scandriglia",
+"lat": 42.16128,
+"lon": 12.84096,
+"pop": 1373
+},
+{
+"name": "Roviano",
+"lat": 42.02643,
+"lon": 12.9939,
+"pop": 1370
+},
+{
+"name": "Poggiorsini",
+"lat": 40.91403,
+"lon": 16.25605,
+"pop": 1367
+},
+{
+"name": "Pesche",
+"lat": 41.60552,
+"lon": 14.2762,
+"pop": 1363
+},
+{
+"name": "Castello del Matese",
+"lat": 41.36672,
+"lon": 14.37773,
+"pop": 1363
+},
+{
+"name": "Flumeri",
+"lat": 41.07623,
+"lon": 15.15072,
+"pop": 1354
+},
+{
+"name": "Fumone",
+"lat": 41.73461,
+"lon": 13.27015,
+"pop": 1342
+},
+{
+"name": "Centola",
+"lat": 40.0698,
+"lon": 15.31191,
+"pop": 1334
+},
+{
+"name": "Buonalbergo",
+"lat": 41.22236,
+"lon": 14.97799,
+"pop": 1332
+},
+{
+"name": "San Giovanni Incarico",
+"lat": 41.50001,
+"lon": 13.55864,
+"pop": 1321
+},
+{
+"name": "Affile",
+"lat": 41.88435,
+"lon": 13.09853,
+"pop": 1320
+},
+{
+"name": "Tornareccio",
+"lat": 42.03763,
+"lon": 14.41525,
+"pop": 1317
+},
+{
+"name": "Collelongo",
+"lat": 41.88659,
+"lon": 13.5838,
+"pop": 1313
+},
+{
+"name": "Cancellara",
+"lat": 40.73068,
+"lon": 15.9247,
+"pop": 1312
+},
+{
+"name": "Sicignano degli Alburni",
+"lat": 40.55882,
+"lon": 15.3056,
+"pop": 1310
+},
+{
+"name": "Jelsi",
+"lat": 41.51704,
+"lon": 14.7979,
+"pop": 1310
+},
+{
+"name": "Palena",
+"lat": 41.98353,
+"lon": 14.13696,
+"pop": 1308
+},
+{
+"name": "Balvano",
+"lat": 40.64953,
+"lon": 15.51345,
+"pop": 1306
+},
+{
+"name": "San Michele di Serino",
+"lat": 40.87562,
+"lon": 14.85464,
+"pop": 1305
+},
+{
+"name": "Ospedaletto d'Alpinolo",
+"lat": 40.93906,
+"lon": 14.74652,
+"pop": 1300
+},
+{
+"name": "Anzi",
+"lat": 40.51662,
+"lon": 15.92457,
+"pop": 1299
+},
+{
+"name": "Piaggine",
+"lat": 40.34498,
+"lon": 15.37777,
+"pop": 1298
+},
+{
+"name": "Coreno Ausonio",
+"lat": 41.34735,
+"lon": 13.77648,
+"pop": 1289
+},
+{
+"name": "Santa Maria Imbaro",
+"lat": 42.21999,
+"lon": 14.45027,
+"pop": 1287
+},
+{
+"name": "Molinara",
+"lat": 41.29728,
+"lon": 14.90867,
+"pop": 1284
+},
+{
+"name": "Castelluccio Valmaggiore",
+"lat": 41.3429,
+"lon": 15.19944,
+"pop": 1284
+},
+{
+"name": "Cantalupo in Sabina",
+"lat": 42.30689,
+"lon": 12.64513,
+"pop": 1284
+},
+{
+"name": "Ferentillo",
+"lat": 42.62027,
+"lon": 12.78726,
+"pop": 1272
+},
+{
+"name": "Pietracatella",
+"lat": 41.58064,
+"lon": 14.87298,
+"pop": 1261
+},
+{
+"name": "Fara Filiorum Petri",
+"lat": 42.24152,
+"lon": 14.18026,
+"pop": 1260
+},
+{
+"name": "Rapino",
+"lat": 42.20931,
+"lon": 14.18493,
+"pop": 1258
+},
+{
+"name": "Camerota",
+"lat": 40.03262,
+"lon": 15.37048,
+"pop": 1258
+},
+{
+"name": "San Donato Val di Comino",
+"lat": 41.70726,
+"lon": 13.8122,
+"pop": 1256
+},
+{
+"name": "Albano di Lucania",
+"lat": 40.58614,
+"lon": 16.03712,
+"pop": 1254
+},
+{
+"name": "Barisciano",
+"lat": 42.32465,
+"lon": 13.59036,
+"pop": 1250
+},
+{
+"name": "Castelsaraceno",
+"lat": 40.16213,
+"lon": 15.99281,
+"pop": 1247
+},
+{
+"name": "Casalbore",
+"lat": 41.23373,
+"lon": 15.00752,
+"pop": 1247
+},
+{
+"name": "Bonito",
+"lat": 41.09857,
+"lon": 15.00071,
+"pop": 1245
+},
+{
+"name": "Pellezzano",
+"lat": 40.72521,
+"lon": 14.75744,
+"pop": 1243
+},
+{
+"name": "San Giorgio Lucano",
+"lat": 40.11132,
+"lon": 16.3893,
+"pop": 1241
+},
+{
+"name": "Gambatesa",
+"lat": 41.50861,
+"lon": 14.9124,
+"pop": 1241
+},
+{
+"name": "Pago Veiano",
+"lat": 41.24243,
+"lon": 14.86497,
+"pop": 1231
+},
+{
+"name": "Villa Santa Maria",
+"lat": 41.9513,
+"lon": 14.35148,
+"pop": 1229
+},
+{
+"name": "Roccaraso",
+"lat": 41.84872,
+"lon": 14.07846,
+"pop": 1218
+},
+{
+"name": "Montopoli in Sabina",
+"lat": 42.24593,
+"lon": 12.69208,
+"pop": 1216
+},
+{
+"name": "Castiglione del Genovesi",
+"lat": 40.72367,
+"lon": 14.84796,
+"pop": 1216
+},
+{
+"name": "Civitella San Paolo",
+"lat": 42.19935,
+"lon": 12.57455,
+"pop": 1214
+},
+{
+"name": "Carife",
+"lat": 41.02667,
+"lon": 15.21044,
+"pop": 1214
+},
+{
+"name": "Manocalzati",
+"lat": 40.94151,
+"lon": 14.84767,
+"pop": 1211
+},
+{
+"name": "Abriola",
+"lat": 40.50748,
+"lon": 15.8131,
+"pop": 1210
+},
+{
+"name": "Colobraro",
+"lat": 40.18841,
+"lon": 16.4248,
+"pop": 1209
+},
+{
+"name": "Colle Sannita",
+"lat": 41.36374,
+"lon": 14.8345,
+"pop": 1204
+},
+{
+"name": "Dugenta",
+"lat": 41.13468,
+"lon": 14.45353,
+"pop": 1201
+},
+{
+"name": "San Giorgio la Molara",
+"lat": 41.27667,
+"lon": 14.93099,
+"pop": 1199
+},
+{
+"name": "Laviano",
+"lat": 40.78619,
+"lon": 15.30791,
+"pop": 1199
+},
+{
+"name": "Ascea",
+"lat": 40.14082,
+"lon": 15.18583,
+"pop": 1199
+},
+{
+"name": "Castel di Sasso",
+"lat": 41.192,
+"lon": 14.279,
+"pop": 1199
+},
+{
+"name": "Carinola",
+"lat": 41.18775,
+"lon": 13.9824,
+"pop": 1198
+},
+{
+"name": "Capriati A Volturno",
+"lat": 41.46801,
+"lon": 14.14602,
+"pop": 1195
+},
+{
+"name": "Ricigliano",
+"lat": 40.66803,
+"lon": 15.4779,
+"pop": 1191
+},
+{
+"name": "Chiaromonte",
+"lat": 40.12323,
+"lon": 16.2144,
+"pop": 1191
+},
+{
+"name": "Petina",
+"lat": 40.53211,
+"lon": 15.37346,
+"pop": 1178
+},
+{
+"name": "Lama dei Peligni",
+"lat": 42.04214,
+"lon": 14.18678,
+"pop": 1163
+},
+{
+"name": "Cerreto Laziale",
+"lat": 41.94332,
+"lon": 12.98169,
+"pop": 1163
+},
+{
+"name": "Guarcino",
+"lat": 41.79917,
+"lon": 13.31439,
+"pop": 1157
+},
+{
+"name": "Nemi",
+"lat": 41.72185,
+"lon": 12.71809,
+"pop": 1156
+},
+{
+"name": "Nazzano",
+"lat": 42.23018,
+"lon": 12.5944,
+"pop": 1156
+},
+{
+"name": "Pacentro",
+"lat": 42.05043,
+"lon": 13.99151,
+"pop": 1149
+},
+{
+"name": "Montemurro",
+"lat": 40.29765,
+"lon": 15.99182,
+"pop": 1149
+},
+{
+"name": "Roseto Valfortore",
+"lat": 41.37544,
+"lon": 15.09824,
+"pop": 1145
+},
+{
+"name": "Baia",
+"lat": 41.30366,
+"lon": 14.25016,
+"pop": 1145
+},
+{
+"name": "Roccanova",
+"lat": 40.2125,
+"lon": 16.20429,
+"pop": 1142
+},
+{
+"name": "Scala",
+"lat": 40.65665,
+"lon": 14.60761,
+"pop": 1139
+},
+{
+"name": "Caposele",
+"lat": 40.81553,
+"lon": 15.22337,
+"pop": 1139
+},
+{
+"name": "San Fele",
+"lat": 40.81647,
+"lon": 15.54043,
+"pop": 1137
+},
+{
+"name": "San Potito Sannitico",
+"lat": 41.33698,
+"lon": 14.39185,
+"pop": 1136
+},
+{
+"name": "Carpinone",
+"lat": 41.59003,
+"lon": 14.32436,
+"pop": 1131
+},
+{
+"name": "Pesco Sannita",
+"lat": 41.23273,
+"lon": 14.81122,
+"pop": 1125
+},
+{
+"name": "Lapio",
+"lat": 40.98293,
+"lon": 14.9465,
+"pop": 1124
+},
+{
+"name": "Grumento Nova",
+"lat": 40.28281,
+"lon": 15.88877,
+"pop": 1124
+},
+{
+"name": "Torrecuso",
+"lat": 41.18582,
+"lon": 14.68126,
+"pop": 1121
+},
+{
+"name": "Formicola",
+"lat": 41.21084,
+"lon": 14.23462,
+"pop": 1119
+},
+{
+"name": "Luogosano",
+"lat": 40.98643,
+"lon": 14.99206,
+"pop": 1118
+},
+{
+"name": "Leonessa",
+"lat": 42.56855,
+"lon": 12.95996,
+"pop": 1118
+},
+{
+"name": "San Pietro al Tanagro",
+"lat": 40.45488,
+"lon": 15.48692,
+"pop": 1117
+},
+{
+"name": "Ciciliano",
+"lat": 41.9599,
+"lon": 12.94163,
+"pop": 1117
+},
+{
+"name": "Guardialfiera",
+"lat": 41.80423,
+"lon": 14.79293,
+"pop": 1115
+},
+{
+"name": "Stimigliano",
+"lat": 42.30103,
+"lon": 12.56337,
+"pop": 1114
+},
+{
+"name": "Bonea",
+"lat": 41.07312,
+"lon": 14.61683,
+"pop": 1114
+},
+{
+"name": "Apollosa",
+"lat": 41.09156,
+"lon": 14.69625,
+"pop": 1114
+},
+{
+"name": "San Gregorio da Sassola",
+"lat": 41.91881,
+"lon": 12.87447,
+"pop": 1108
+},
+{
+"name": "Villamagna",
+"lat": 42.32984,
+"lon": 14.23689,
+"pop": 1107
+},
+{
+"name": "Celle di Bulgheria",
+"lat": 40.0954,
+"lon": 15.40324,
+"pop": 1105
+},
+{
+"name": "Arcinazzo Romano",
+"lat": 41.87972,
+"lon": 13.11439,
+"pop": 1105
+},
+{
+"name": "Villanova del Battista",
+"lat": 41.11897,
+"lon": 15.15839,
+"pop": 1102
+},
+{
+"name": "Castelfranci",
+"lat": 40.93066,
+"lon": 15.04331,
+"pop": 1102
+},
+{
+"name": "San Chirico Raparo",
+"lat": 40.19242,
+"lon": 16.07618,
+"pop": 1101
+},
+{
+"name": "Petrella Tifernina",
+"lat": 41.69135,
+"lon": 14.69751,
+"pop": 1097
+},
+{
+"name": "Alfano",
+"lat": 40.17687,
+"lon": 15.4245,
+"pop": 1097
+},
+{
+"name": "Sarconi",
+"lat": 40.248,
+"lon": 15.88837,
+"pop": 1090
+},
+{
+"name": "Rocchetta a Volturno",
+"lat": 41.62582,
+"lon": 14.08902,
+"pop": 1083
+},
+{
+"name": "Fragneto Monforte",
+"lat": 41.24634,
+"lon": 14.76342,
+"pop": 1083
+},
+{
+"name": "Rocca di Mezzo",
+"lat": 42.20441,
+"lon": 13.5184,
+"pop": 1082
+},
+{
+"name": "Montagano",
+"lat": 41.64538,
+"lon": 14.67405,
+"pop": 1081
+},
+{
+"name": "Postiglione",
+"lat": 40.55901,
+"lon": 15.23236,
+"pop": 1080
+},
+{
+"name": "Atena Lucana",
+"lat": 40.45464,
+"lon": 15.55633,
+"pop": 1080
+},
+{
+"name": "San Marco la Catola",
+"lat": 41.52483,
+"lon": 15.00594,
+"pop": 1077
+},
+{
+"name": "Toro",
+"lat": 41.57313,
+"lon": 14.76183,
+"pop": 1072
+},
+{
+"name": "Rotello",
+"lat": 41.74776,
+"lon": 15.00608,
+"pop": 1072
+},
+{
+"name": "Teora",
+"lat": 40.85282,
+"lon": 15.25335,
+"pop": 1067
+},
+{
+"name": "Sermoneta",
+"lat": 41.54919,
+"lon": 12.98481,
+"pop": 1066
+},
+{
+"name": "Busso",
+"lat": 41.55413,
+"lon": 14.56103,
+"pop": 1066
+},
+{
+"name": "Campodipietra",
+"lat": 41.5574,
+"lon": 14.74445,
+"pop": 1062
+},
+{
+"name": "Montemarano",
+"lat": 40.91414,
+"lon": 14.99766,
+"pop": 1060
+},
+{
+"name": "Castellafiume",
+"lat": 41.98913,
+"lon": 13.3344,
+"pop": 1059
+},
+{
+"name": "Laurino",
+"lat": 40.33915,
+"lon": 15.3381,
+"pop": 1056
+},
+{
+"name": "San Potito Ultra",
+"lat": 40.92796,
+"lon": 14.87124,
+"pop": 1055
+},
+{
+"name": "Pescocostanzo",
+"lat": 41.88722,
+"lon": 14.06614,
+"pop": 1055
+},
+{
+"name": "Agosta",
+"lat": 41.98133,
+"lon": 13.03499,
+"pop": 1054
+},
+{
+"name": "Monteroduni",
+"lat": 41.5224,
+"lon": 14.17641,
+"pop": 1049
+},
+{
+"name": "Gerano",
+"lat": 41.93474,
+"lon": 12.99034,
+"pop": 1049
+},
+{
+"name": "Torricella",
+"lat": 42.65904,
+"lon": 13.65719,
+"pop": 1046
+},
+{
+"name": "San Valentino in Abruzzo Citeriore",
+"lat": 42.23304,
+"lon": 13.98561,
+"pop": 1046
+},
+{
+"name": "Pontelandolfo",
+"lat": 41.29231,
+"lon": 14.68956,
+"pop": 1046
+},
+{
+"name": "Amatrice",
+"lat": 42.62664,
+"lon": 13.29509,
+"pop": 1046
+},
+{
+"name": "Caramanico Terme",
+"lat": 42.15593,
+"lon": 14.0048,
+"pop": 1042
+},
+{
+"name": "Pugliano",
+"lat": 40.67876,
+"lon": 14.94543,
+"pop": 1039
+},
+{
+"name": "Poggio Picenze",
+"lat": 42.32061,
+"lon": 13.54036,
+"pop": 1036
+},
+{
+"name": "Gorgoglione",
+"lat": 40.39532,
+"lon": 16.14456,
+"pop": 1033
+},
+{
+"name": "Domicella",
+"lat": 40.88019,
+"lon": 14.58716,
+"pop": 1032
+},
+{
+"name": "Casalbuono",
+"lat": 40.21425,
+"lon": 15.68717,
+"pop": 1026
+},
+{
+"name": "Candida",
+"lat": 40.94148,
+"lon": 14.8723,
+"pop": 1026
+},
+{
+"name": "Episcopia",
+"lat": 40.07481,
+"lon": 16.09818,
+"pop": 1024
+},
+{
+"name": "Moscufo",
+"lat": 42.42713,
+"lon": 14.05434,
+"pop": 1020
+},
+{
+"name": "Carlantino",
+"lat": 41.59388,
+"lon": 14.97681,
+"pop": 1020
+},
+{
+"name": "Castelpoto",
+"lat": 41.14066,
+"lon": 14.70069,
+"pop": 1016
+},
+{
+"name": "Gessopalena",
+"lat": 42.05521,
+"lon": 14.27367,
+"pop": 1013
+},
+{
+"name": "San Giuliano di Puglia",
+"lat": 41.68796,
+"lon": 14.96231,
+"pop": 1011
+},
+{
+"name": "Foiano di Val Fortore",
+"lat": 41.35283,
+"lon": 14.97635,
+"pop": 1010
+},
+{
+"name": "Cusano Mutri",
+"lat": 41.33624,
+"lon": 14.51013,
+"pop": 1010
+},
+{
+"name": "Castelcivita",
+"lat": 40.49367,
+"lon": 15.23354,
+"pop": 1007
+},
+{
+"name": "Nova Siri",
+"lat": 40.14823,
+"lon": 16.53976,
+"pop": 998
+},
+{
+"name": "Grottola",
+"lat": 41.31708,
+"lon": 14.04121,
+"pop": 995
+},
+{
+"name": "Villa Santa Lucia",
+"lat": 41.51217,
+"lon": 13.76929,
+"pop": 994
+},
+{
+"name": "Alvito",
+"lat": 41.69002,
+"lon": 13.74795,
+"pop": 988
+},
+{
+"name": "Sant'Apollinare",
+"lat": 41.40176,
+"lon": 13.82992,
+"pop": 984
+},
+{
+"name": "Bellante",
+"lat": 42.74421,
+"lon": 13.80234,
+"pop": 984
+},
+{
+"name": "Mafalda",
+"lat": 41.94308,
+"lon": 14.7161,
+"pop": 981
+},
+{
+"name": "Scampitella",
+"lat": 41.09252,
+"lon": 15.29995,
+"pop": 977
+},
+{
+"name": "Cannalonga",
+"lat": 40.24461,
+"lon": 15.29325,
+"pop": 973
+},
+{
+"name": "Valle Agricola",
+"lat": 41.42477,
+"lon": 14.25584,
+"pop": 971
+},
+{
+"name": "Grottolella",
+"lat": 40.97144,
+"lon": 14.78894,
+"pop": 971
+},
+{
+"name": "Cercemaggiore",
+"lat": 41.4613,
+"lon": 14.72402,
+"pop": 968
+},
+{
+"name": "Castelnuovo di Conza",
+"lat": 40.82062,
+"lon": 15.31875,
+"pop": 966
+},
+{
+"name": "Castelvecchio Subequo",
+"lat": 42.12881,
+"lon": 13.72868,
+"pop": 964
+},
+{
+"name": "Torricella Peligna",
+"lat": 42.02397,
+"lon": 14.25854,
+"pop": 961
+},
+{
+"name": "Pietrapertosa",
+"lat": 40.51731,
+"lon": 16.06244,
+"pop": 961
+},
+{
+"name": "Miranda",
+"lat": 41.64434,
+"lon": 14.24643,
+"pop": 961
+},
+{
+"name": "Campoli Appennino",
+"lat": 41.73539,
+"lon": 13.68326,
+"pop": 961
+},
+{
+"name": "Spigno Saturnia Inferiore",
+"lat": 41.31146,
+"lon": 13.73685,
+"pop": 954
+},
+{
+"name": "Garaguso",
+"lat": 40.54866,
+"lon": 16.22827,
+"pop": 951
+},
+{
+"name": "Montefredane",
+"lat": 40.95978,
+"lon": 14.81374,
+"pop": 948
+},
+{
+"name": "Carovilli",
+"lat": 41.71348,
+"lon": 14.29403,
+"pop": 947
+},
+{
+"name": "San Giacomo degli Schiavoni",
+"lat": 41.96234,
+"lon": 14.94481,
+"pop": 944
+},
+{
+"name": "Lucoli",
+"lat": 42.29093,
+"lon": 13.33799,
+"pop": 944
+},
+{
+"name": "Torrevecchia",
+"lat": 42.38274,
+"lon": 14.21331,
+"pop": 942
+},
+{
+"name": "Ponzano Romano",
+"lat": 42.25693,
+"lon": 12.57047,
+"pop": 942
+},
+{
+"name": "Collarmele",
+"lat": 42.06031,
+"lon": 13.6267,
+"pop": 941
+},
+{
+"name": "Corfinio",
+"lat": 42.12149,
+"lon": 13.8394,
+"pop": 940
+},
+{
+"name": "San Vittore del Lazio",
+"lat": 41.46212,
+"lon": 13.93367,
+"pop": 939
+},
+{
+"name": "Introdacqua",
+"lat": 42.00968,
+"lon": 13.89779,
+"pop": 939
+},
+{
+"name": "San Sossio Baronia",
+"lat": 41.07081,
+"lon": 15.20122,
+"pop": 938
+},
+{
+"name": "Prata Sannita Centro",
+"lat": 41.43282,
+"lon": 14.20272,
+"pop": 937
+},
+{
+"name": "Villavallelonga",
+"lat": 41.87104,
+"lon": 13.62098,
+"pop": 936
+},
+{
+"name": "Licenza",
+"lat": 42.07413,
+"lon": 12.90008,
+"pop": 935
+},
+{
+"name": "Circello",
+"lat": 41.35455,
+"lon": 14.8091,
+"pop": 935
+},
+{
+"name": "Ausonia",
+"lat": 41.35808,
+"lon": 13.74983,
+"pop": 932
+},
+{
+"name": "Oratino",
+"lat": 41.58598,
+"lon": 14.59463,
+"pop": 931
+},
+{
+"name": "Sepino",
+"lat": 41.40782,
+"lon": 14.61938,
+"pop": 925
+},
+{
+"name": "Celenza sul Trigno",
+"lat": 41.87198,
+"lon": 14.57893,
+"pop": 924
+},
+{
+"name": "Torre Caietani",
+"lat": 41.78672,
+"lon": 13.2652,
+"pop": 923
+},
+{
+"name": "Bassiano",
+"lat": 41.55154,
+"lon": 13.02732,
+"pop": 922
+},
+{
+"name": "Ruvo del Monte",
+"lat": 40.84951,
+"lon": 15.54217,
+"pop": 920
+},
+{
+"name": "Anzano di Puglia",
+"lat": 41.12162,
+"lon": 15.28688,
+"pop": 919
+},
+{
+"name": "Boville Ernica",
+"lat": 41.64252,
+"lon": 13.4727,
+"pop": 918
+},
+{
+"name": "Bisaccia",
+"lat": 41.00923,
+"lon": 15.37699,
+"pop": 918
+},
+{
+"name": "Sambuci",
+"lat": 41.98536,
+"lon": 12.93817,
+"pop": 916
+},
+{
+"name": "Furci",
+"lat": 42.00746,
+"lon": 14.58802,
+"pop": 916
+},
+{
+"name": "Melito Irpino",
+"lat": 41.10312,
+"lon": 15.05235,
+"pop": 915
+},
+{
+"name": "Prignano Cilento",
+"lat": 40.33335,
+"lon": 15.06739,
+"pop": 914
+},
+{
+"name": "Roccamandolfi",
+"lat": 41.49583,
+"lon": 14.35217,
+"pop": 913
+},
+{
+"name": "Ovindoli",
+"lat": 42.13765,
+"lon": 13.51603,
+"pop": 911
+},
+{
+"name": "Villa Latina",
+"lat": 41.61522,
+"lon": 13.83591,
+"pop": 909
+},
+{
+"name": "Giuliano Teatino",
+"lat": 42.3122,
+"lon": 14.28082,
+"pop": 908
+},
+{
+"name": "Nerola",
+"lat": 42.16011,
+"lon": 12.78529,
+"pop": 906
+},
+{
+"name": "Vibonati",
+"lat": 40.09921,
+"lon": 15.58357,
+"pop": 904
+},
+{
+"name": "Monteleone di Puglia",
+"lat": 41.16711,
+"lon": 15.25822,
+"pop": 903
+},
+{
+"name": "Esperia",
+"lat": 41.38237,
+"lon": 13.68491,
+"pop": 903
+},
+{
+"name": "Giuliano di Roma",
+"lat": 41.53933,
+"lon": 13.28028,
+"pop": 900
+},
+{
+"name": "San Gregorio Matese",
+"lat": 41.38556,
+"lon": 14.37217,
+"pop": 899
+},
+{
+"name": "Canosa Sannita",
+"lat": 42.29629,
+"lon": 14.30514,
+"pop": 899
+},
+{
+"name": "Vittorito",
+"lat": 42.12703,
+"lon": 13.8167,
+"pop": 898
+},
+{
+"name": "Manoppello",
+"lat": 42.25918,
+"lon": 14.06024,
+"pop": 889
+},
+{
+"name": "Futani",
+"lat": 40.15156,
+"lon": 15.32366,
+"pop": 889
+},
+{
+"name": "Rocca Santo Stefano",
+"lat": 41.91052,
+"lon": 13.02379,
+"pop": 889
+},
+{
+"name": "Torrice",
+"lat": 41.63374,
+"lon": 13.40375,
+"pop": 888
+},
+{
+"name": "Mozzagrogna",
+"lat": 42.21267,
+"lon": 14.44258,
+"pop": 888
+},
+{
+"name": "Atrani",
+"lat": 40.63617,
+"lon": 14.60933,
+"pop": 887
+},
+{
+"name": "Anticoli Corrado",
+"lat": 42.00801,
+"lon": 12.99049,
+"pop": 886
+},
+{
+"name": "Castelvetere in Val Fortore",
+"lat": 41.44257,
+"lon": 14.94118,
+"pop": 885
+},
+{
+"name": "San Clemente",
+"lat": 41.34027,
+"lon": 13.95597,
+"pop": 883
+},
+{
+"name": "Atina",
+"lat": 41.62004,
+"lon": 13.79905,
+"pop": 883
+},
+{
+"name": "Rionero Sannitico",
+"lat": 41.71219,
+"lon": 14.13917,
+"pop": 879
+},
+{
+"name": "Pofi",
+"lat": 41.56542,
+"lon": 13.4146,
+"pop": 879
+},
+{
+"name": "Castelnuovo Parano",
+"lat": 41.37912,
+"lon": 13.75621,
+"pop": 876
+},
+{
+"name": "Sant'Angelo d'Alife",
+"lat": 41.36119,
+"lon": 14.26125,
+"pop": 874
+},
+{
+"name": "Capracotta",
+"lat": 41.83326,
+"lon": 14.26581,
+"pop": 872
+},
+{
+"name": "Castrocielo",
+"lat": 41.52736,
+"lon": 13.69588,
+"pop": 871
+},
+{
+"name": "Alberona",
+"lat": 41.43225,
+"lon": 15.12304,
+"pop": 871
+},
+{
+"name": "Borgo Velino",
+"lat": 42.40508,
+"lon": 13.0565,
+"pop": 867
+},
+{
+"name": "Castel Baronia",
+"lat": 41.04832,
+"lon": 15.18884,
+"pop": 861
+},
+{
+"name": "Panni",
+"lat": 41.22082,
+"lon": 15.2756,
+"pop": 858
+},
+{
+"name": "Pescolanciano",
+"lat": 41.67972,
+"lon": 14.33658,
+"pop": 857
+},
+{
+"name": "Campoli del Monte Taburno",
+"lat": 41.13074,
+"lon": 14.64649,
+"pop": 857
+},
+{
+"name": "Bellosguardo",
+"lat": 40.42222,
+"lon": 15.31219,
+"pop": 853
+},
+{
+"name": "Torella dei Lombardi",
+"lat": 40.93731,
+"lon": 15.10784,
+"pop": 852
+},
+{
+"name": "Trevi nel Lazio",
+"lat": 41.86258,
+"lon": 13.24793,
+"pop": 851
+},
+{
+"name": "Poggio Bustone",
+"lat": 42.5033,
+"lon": 12.88524,
+"pop": 847
+},
+{
+"name": "Tufara",
+"lat": 41.48203,
+"lon": 14.94654,
+"pop": 845
+},
+{
+"name": "Melizzano",
+"lat": 41.16181,
+"lon": 14.50554,
+"pop": 843
+},
+{
+"name": "Macchia d'Isernia",
+"lat": 41.56057,
+"lon": 14.17015,
+"pop": 841
+},
+{
+"name": "Campomaggiore",
+"lat": 40.5659,
+"lon": 16.0725,
+"pop": 840
+},
+{
+"name": "Quadri",
+"lat": 41.92402,
+"lon": 14.28768,
+"pop": 839
+},
+{
+"name": "Montegiordano",
+"lat": 40.04301,
+"lon": 16.53439,
+"pop": 835
+},
+{
+"name": "Savignano Irpino",
+"lat": 41.22698,
+"lon": 15.17933,
+"pop": 829
+},
+{
+"name": "Gallicchio",
+"lat": 40.29232,
+"lon": 16.13561,
+"pop": 829
+},
+{
+"name": "Posta Fibreno",
+"lat": 41.69189,
+"lon": 13.68013,
+"pop": 828
+},
+{
+"name": "Calvi",
+"lat": 41.07162,
+"lon": 14.86524,
+"pop": 827
+},
+{
+"name": "Campo di Giove",
+"lat": 42.01013,
+"lon": 14.03941,
+"pop": 825
+},
+{
+"name": "Borgorose",
+"lat": 42.19077,
+"lon": 13.23282,
+"pop": 824
+},
+{
+"name": "San Pietro Infine",
+"lat": 41.44552,
+"lon": 13.96029,
+"pop": 823
+},
+{
+"name": "Pollutri",
+"lat": 42.13784,
+"lon": 14.59172,
+"pop": 823
+},
+{
+"name": "Noepoli",
+"lat": 40.08705,
+"lon": 16.32834,
+"pop": 823
+},
+{
+"name": "Roccagloriosa",
+"lat": 40.10628,
+"lon": 15.43642,
+"pop": 816
+},
+{
+"name": "Roscigno",
+"lat": 40.39997,
+"lon": 15.34585,
+"pop": 815
+},
+{
+"name": "Gavignano",
+"lat": 41.69891,
+"lon": 13.05032,
+"pop": 815
+},
+{
+"name": "Gioia Sannitica",
+"lat": 41.29965,
+"lon": 14.44381,
+"pop": 814
+},
+{
+"name": "Furore",
+"lat": 40.62061,
+"lon": 14.54904,
+"pop": 810
+},
+{
+"name": "Vico nel Lazio",
+"lat": 41.77822,
+"lon": 13.34279,
+"pop": 809
+},
+{
+"name": "Pietrastornina",
+"lat": 40.99535,
+"lon": 14.71833,
+"pop": 807
+},
+{
+"name": "Aquara",
+"lat": 40.44391,
+"lon": 15.25386,
+"pop": 803
+},
+{
+"name": "Montazzoli",
+"lat": 41.94887,
+"lon": 14.43069,
+"pop": 800
+},
+{
+"name": "Rocca Imperiale",
+"lat": 40.11014,
+"lon": 16.57822,
+"pop": 799
+},
+{
+"name": "Presenzano",
+"lat": 41.37823,
+"lon": 14.09162,
+"pop": 799
+},
+{
+"name": "Sant'Angelo le Fratte",
+"lat": 40.5449,
+"lon": 15.56156,
+"pop": 796
+},
+{
+"name": "Felitto",
+"lat": 40.37351,
+"lon": 15.24306,
+"pop": 795
+},
+{
+"name": "San Nazzaro",
+"lat": 41.05172,
+"lon": 14.85724,
+"pop": 791
+},
+{
+"name": "Monteverde",
+"lat": 40.99858,
+"lon": 15.53361,
+"pop": 790
+},
+{
+"name": "Montano Antilia",
+"lat": 40.16264,
+"lon": 15.36315,
+"pop": 790
+},
+{
+"name": "Casacanditella",
+"lat": 42.24643,
+"lon": 14.2004,
+"pop": 789
+},
+{
+"name": "Poggio Nativo",
+"lat": 42.21783,
+"lon": 12.79691,
+"pop": 786
+},
+{
+"name": "Marano Equo",
+"lat": 41.99535,
+"lon": 13.01501,
+"pop": 785
+},
+{
+"name": "Alfedena",
+"lat": 41.73545,
+"lon": 14.035,
+"pop": 785
+},
+{
+"name": "San Buono",
+"lat": 41.9814,
+"lon": 14.56818,
+"pop": 783
+},
+{
+"name": "Bugnara",
+"lat": 42.02383,
+"lon": 13.86141,
+"pop": 776
+},
+{
+"name": "Sant'Eusanio del Sangro",
+"lat": 42.16908,
+"lon": 14.32776,
+"pop": 775
+},
+{
+"name": "Pisoniano",
+"lat": 41.90816,
+"lon": 12.95794,
+"pop": 772
+},
+{
+"name": "Canna",
+"lat": 40.09484,
+"lon": 16.50378,
+"pop": 771
+},
+{
+"name": "Sant'Elena Irpina",
+"lat": 41.03741,
+"lon": 14.88931,
+"pop": 770
+},
+{
+"name": "Valva",
+"lat": 40.73871,
+"lon": 15.26805,
+"pop": 769
+},
+{
+"name": "Fragneto L'Abate",
+"lat": 41.2558,
+"lon": 14.78382,
+"pop": 769
+},
+{
+"name": "Motta Montecorvino",
+"lat": 41.50743,
+"lon": 15.11414,
+"pop": 768
+},
+{
+"name": "Comiziano",
+"lat": 40.95163,
+"lon": 14.55124,
+"pop": 765
+},
+{
+"name": "Summonte",
+"lat": 40.94874,
+"lon": 14.74458,
+"pop": 763
+},
+{
+"name": "Fresagrandinaria",
+"lat": 41.979,
+"lon": 14.66211,
+"pop": 763
+},
+{
+"name": "Ailano",
+"lat": 41.39001,
+"lon": 14.20536,
+"pop": 763
+},
+{
+"name": "Gallo Matese",
+"lat": 41.46452,
+"lon": 14.22502,
+"pop": 761
+},
+{
+"name": "Aliano",
+"lat": 40.31359,
+"lon": 16.22984,
+"pop": 761
+},
+{
+"name": "Salento",
+"lat": 40.24913,
+"lon": 15.18938,
+"pop": 760
+},
+{
+"name": "San Lorenzello",
+"lat": 41.27602,
+"lon": 14.54173,
+"pop": 759
+},
+{
+"name": "Zungoli",
+"lat": 41.12766,
+"lon": 15.20255,
+"pop": 757
+},
+{
+"name": "Alanno",
+"lat": 42.29552,
+"lon": 13.97084,
+"pop": 754
+},
+{
+"name": "Santi Cosma e Damiano",
+"lat": 41.30091,
+"lon": 13.81565,
+"pop": 753
+},
+{
+"name": "Colli a Volturno",
+"lat": 41.60039,
+"lon": 14.10301,
+"pop": 751
+},
+{
+"name": "Pisciotta",
+"lat": 40.1089,
+"lon": 15.23456,
+"pop": 750
+},
+{
+"name": "Laurito",
+"lat": 40.16915,
+"lon": 15.40741,
+"pop": 744
+},
+{
+"name": "Catignano",
+"lat": 42.34697,
+"lon": 13.9519,
+"pop": 743
+},
+{
+"name": "Castelgrande",
+"lat": 40.78639,
+"lon": 15.43109,
+"pop": 741
+},
+{
+"name": "Roccasecca dei Volsci",
+"lat": 41.47852,
+"lon": 13.2128,
+"pop": 740
+},
+{
+"name": "Roccavivara",
+"lat": 41.83336,
+"lon": 14.60013,
+"pop": 739
+},
+{
+"name": "Rivello",
+"lat": 40.07821,
+"lon": 15.75798,
+"pop": 738
+},
+{
+"name": "Castelmezzano",
+"lat": 40.52832,
+"lon": 16.04585,
+"pop": 737
+},
+{
+"name": "San Nicola Manfredi",
+"lat": 41.0751,
+"lon": 14.8243,
+"pop": 735
+},
+{
+"name": "Villagrande",
+"lat": 42.29533,
+"lon": 13.29999,
+"pop": 734
+},
+{
+"name": "Villamaina",
+"lat": 40.97144,
+"lon": 15.08855,
+"pop": 733
+},
+{
+"name": "Faicchio",
+"lat": 41.27816,
+"lon": 14.4774,
+"pop": 733
+},
+{
+"name": "Roccaspinalveti-Santa Giusta",
+"lat": 41.94233,
+"lon": 14.47092,
+"pop": 732
+},
+{
+"name": "Tavenna",
+"lat": 41.90898,
+"lon": 14.76176,
+"pop": 731
+},
+{
+"name": "Castelfranco in Miscano",
+"lat": 41.30072,
+"lon": 15.08607,
+"pop": 731
+},
+{
+"name": "San Severino Lucano",
+"lat": 40.02021,
+"lon": 16.1386,
+"pop": 730
+},
+{
+"name": "Riofreddo",
+"lat": 42.05875,
+"lon": 12.99661,
+"pop": 730
+},
+{
+"name": "Filiano",
+"lat": 40.81042,
+"lon": 15.70984,
+"pop": 730
+},
+{
+"name": "Monteleone Sabino",
+"lat": 42.23267,
+"lon": 12.85828,
+"pop": 729
+},
+{
+"name": "Limiti di Greccio",
+"lat": 42.45329,
+"lon": 12.76955,
+"pop": 726
+},
+{
+"name": "Canistro Inferiore",
+"lat": 41.94101,
+"lon": 13.41194,
+"pop": 726
+},
+{
+"name": "Toffia",
+"lat": 42.213,
+"lon": 12.755,
+"pop": 724
+},
+{
+"name": "Roiate",
+"lat": 41.87332,
+"lon": 13.06627,
+"pop": 724
+},
+{
+"name": "Barrea",
+"lat": 41.75543,
+"lon": 13.99095,
+"pop": 722
+},
+{
+"name": "Sant'Angelo All'Esca",
+"lat": 41.00662,
+"lon": 14.99305,
+"pop": 721
+},
+{
+"name": "Casape",
+"lat": 41.90702,
+"lon": 12.88579,
+"pop": 719
+},
+{
+"name": "Sant'Angelo A Fasanella",
+"lat": 40.45724,
+"lon": 15.34091,
+"pop": 716
+},
+{
+"name": "Sessano del Molise",
+"lat": 41.63926,
+"lon": 14.32779,
+"pop": 711
+},
+{
+"name": "San Lupo",
+"lat": 41.26148,
+"lon": 14.63528,
+"pop": 709
+},
+{
+"name": "Fisciano",
+"lat": 40.77175,
+"lon": 14.79454,
+"pop": 709
+},
+{
+"name": "Ginestra",
+"lat": 40.93092,
+"lon": 15.73497,
+"pop": 707
+},
+{
+"name": "Fontegreca",
+"lat": 41.45653,
+"lon": 14.18385,
+"pop": 707
+},
+{
+"name": "Cersosimo",
+"lat": 40.04703,
+"lon": 16.35059,
+"pop": 706
+},
+{
+"name": "Pico",
+"lat": 41.45025,
+"lon": 13.55894,
+"pop": 704
+},
+{
+"name": "Cicerale",
+"lat": 40.34404,
+"lon": 15.12959,
+"pop": 704
+},
+{
+"name": "San Rocco",
+"lat": 42.24294,
+"lon": 14.12891,
+"pop": 703
+},
+{
+"name": "Casaletto Spartano",
+"lat": 40.15134,
+"lon": 15.62058,
+"pop": 703
+},
+{
+"name": "Montaquila",
+"lat": 41.56502,
+"lon": 14.11333,
+"pop": 702
+},
+{
+"name": "Sasso di Castalda",
+"lat": 40.48525,
+"lon": 15.67569,
+"pop": 701
+},
+{
+"name": "Capestrano",
+"lat": 42.26807,
+"lon": 13.76779,
+"pop": 698
+},
+{
+"name": "Liscia",
+"lat": 41.95524,
+"lon": 14.55532,
+"pop": 697
+},
+{
+"name": "Monte San Giovanni Campano",
+"lat": 41.6431,
+"lon": 13.51088,
+"pop": 696
+},
+{
+"name": "Gioi",
+"lat": 40.2897,
+"lon": 15.21806,
+"pop": 696
+},
+{
+"name": "Rocca di Botte",
+"lat": 42.03102,
+"lon": 13.07185,
+"pop": 695
+},
+{
+"name": "Nuova Conza della Campania",
+"lat": 40.8586,
+"lon": 15.33645,
+"pop": 695
+},
+{
+"name": "Fornelli",
+"lat": 41.60678,
+"lon": 14.14041,
+"pop": 694
+},
+{
+"name": "Pereto",
+"lat": 42.05821,
+"lon": 13.10231,
+"pop": 693
+},
+{
+"name": "Lucito",
+"lat": 41.73193,
+"lon": 14.68723,
+"pop": 693
+},
+{
+"name": "Tufo",
+"lat": 41.01262,
+"lon": 14.81784,
+"pop": 691
+},
+{
+"name": "Torraca",
+"lat": 40.11099,
+"lon": 15.63632,
+"pop": 688
+},
+{
+"name": "Basciano",
+"lat": 42.59639,
+"lon": 13.73561,
+"pop": 688
+},
+{
+"name": "Poggiofiorito",
+"lat": 42.25414,
+"lon": 14.32082,
+"pop": 687
+},
+{
+"name": "Frigento",
+"lat": 41.01103,
+"lon": 15.10026,
+"pop": 684
+},
+{
+"name": "Baranello",
+"lat": 41.52722,
+"lon": 14.558,
+"pop": 684
+},
+{
+"name": "Prezza",
+"lat": 42.05789,
+"lon": 13.83592,
+"pop": 683
+},
+{
+"name": "Carbone",
+"lat": 40.14227,
+"lon": 16.08846,
+"pop": 683
+},
+{
+"name": "Paupisi",
+"lat": 41.19662,
+"lon": 14.66457,
+"pop": 682
+},
+{
+"name": "Bomba",
+"lat": 42.03343,
+"lon": 14.36656,
+"pop": 682
+},
+{
+"name": "Castelluccio Superiore",
+"lat": 40.01003,
+"lon": 15.97184,
+"pop": 681
+},
+{
+"name": "Tocco Caudio",
+"lat": 41.12587,
+"lon": 14.63422,
+"pop": 677
+},
+{
+"name": "Castronuovo di Sant'Andrea",
+"lat": 40.18903,
+"lon": 16.18559,
+"pop": 676
+},
+{
+"name": "Palmoli",
+"lat": 41.93944,
+"lon": 14.58142,
+"pop": 676
+},
+{
+"name": "Reino",
+"lat": 41.29219,
+"lon": 14.82347,
+"pop": 672
+},
+{
+"name": "San Rufo",
+"lat": 40.43451,
+"lon": 15.46366,
+"pop": 670
+},
+{
+"name": "Limosano",
+"lat": 41.67554,
+"lon": 14.6223,
+"pop": 669
+},
+{
+"name": "San Nicola Baronia",
+"lat": 41.05808,
+"lon": 15.20006,
+"pop": 668
+},
+{
+"name": "Brindisi Montagna",
+"lat": 40.60952,
+"lon": 15.93977,
+"pop": 668
+},
+{
+"name": "Controne",
+"lat": 40.51018,
+"lon": 15.20404,
+"pop": 666
+},
+{
+"name": "Rocca San Giovanni",
+"lat": 42.24604,
+"lon": 14.46162,
+"pop": 666
+},
+{
+"name": "Rutino",
+"lat": 40.30072,
+"lon": 15.07328,
+"pop": 663
+},
+{
+"name": "Rapone",
+"lat": 40.8471,
+"lon": 15.49818,
+"pop": 663
+},
+{
+"name": "Montefusco",
+"lat": 41.03691,
+"lon": 14.85498,
+"pop": 659
+},
+{
+"name": "Torrebruna",
+"lat": 41.86742,
+"lon": 14.54148,
+"pop": 658
+},
+{
+"name": "Serrone",
+"lat": 41.84212,
+"lon": 13.09519,
+"pop": 658
+},
+{
+"name": "Casal Velino",
+"lat": 40.19034,
+"lon": 15.11137,
+"pop": 655
+},
+{
+"name": "Giano Vetusto",
+"lat": 41.20272,
+"lon": 14.19342,
+"pop": 653
+},
+{
+"name": "Villetta Barrea",
+"lat": 41.77646,
+"lon": 13.93892,
+"pop": 652
+},
+{
+"name": "Pescosolido",
+"lat": 41.74864,
+"lon": 13.6569,
+"pop": 652
+},
+{
+"name": "Salza Irpina",
+"lat": 40.91893,
+"lon": 14.88996,
+"pop": 651
+},
+{
+"name": "Civitanova del Sannio",
+"lat": 41.66829,
+"lon": 14.40285,
+"pop": 650
+},
+{
+"name": "Vallesaccarda",
+"lat": 41.06312,
+"lon": 15.25205,
+"pop": 650
+},
+{
+"name": "Rivisondoli",
+"lat": 41.87023,
+"lon": 14.06671,
+"pop": 647
+},
+{
+"name": "San Mango sul Calore",
+"lat": 40.9589,
+"lon": 14.97251,
+"pop": 644
+},
+{
+"name": "Treglio",
+"lat": 42.26184,
+"lon": 14.42315,
+"pop": 642
+},
+{
+"name": "Torella del Sannio",
+"lat": 41.63878,
+"lon": 14.52031,
+"pop": 642
+},
+{
+"name": "Capriglia",
+"lat": 40.95972,
+"lon": 14.7782,
+"pop": 642
+},
+{
+"name": "Ferrazzano",
+"lat": 41.53033,
+"lon": 14.67223,
+"pop": 638
+},
+{
+"name": "Poggio Catino",
+"lat": 42.2942,
+"lon": 12.69838,
+"pop": 637
+},
+{
+"name": "Faeto",
+"lat": 41.32489,
+"lon": 15.16045,
+"pop": 636
+},
+{
+"name": "Cineto Romano",
+"lat": 42.05014,
+"lon": 12.9608,
+"pop": 636
+},
+{
+"name": "Picciano",
+"lat": 42.47525,
+"lon": 13.9899,
+"pop": 635
+},
+{
+"name": "Mandela",
+"lat": 42.02795,
+"lon": 12.92089,
+"pop": 635
+},
+{
+"name": "Morolo",
+"lat": 41.63838,
+"lon": 13.19809,
+"pop": 634
+},
+{
+"name": "Collevecchio",
+"lat": 42.33368,
+"lon": 12.55329,
+"pop": 632
+},
+{
+"name": "Raviscanina",
+"lat": 41.3709,
+"lon": 14.24335,
+"pop": 629
+},
+{
+"name": "Campolieto",
+"lat": 41.63336,
+"lon": 14.76694,
+"pop": 629
+},
+{
+"name": "Marsicovetere",
+"lat": 40.37591,
+"lon": 15.82569,
+"pop": 628
+},
+{
+"name": "Pignataro Interamna",
+"lat": 41.43922,
+"lon": 13.78621,
+"pop": 626
+},
+{
+"name": "Trivigno",
+"lat": 40.58015,
+"lon": 15.98857,
+"pop": 625
+},
+{
+"name": "Campochiaro",
+"lat": 41.44827,
+"lon": 14.50828,
+"pop": 625
+},
+{
+"name": "Calciano",
+"lat": 40.58802,
+"lon": 16.19238,
+"pop": 624
+},
+{
+"name": "Selci",
+"lat": 42.30293,
+"lon": 12.62135,
+"pop": 623
+},
+{
+"name": "Corleto Monforte",
+"lat": 40.43756,
+"lon": 15.38013,
+"pop": 623
+},
+{
+"name": "Arielli",
+"lat": 42.26003,
+"lon": 14.31004,
+"pop": 623
+},
+{
+"name": "Sant'Ambrogio sul Garigliano",
+"lat": 41.39423,
+"lon": 13.86891,
+"pop": 622
+},
+{
+"name": "Carunchio",
+"lat": 41.91761,
+"lon": 14.52683,
+"pop": 622
+},
+{
+"name": "Rosciano",
+"lat": 42.32227,
+"lon": 14.04555,
+"pop": 620
+},
+{
+"name": "Orria",
+"lat": 40.29971,
+"lon": 15.17116,
+"pop": 617
+},
+{
+"name": "Scoppito",
+"lat": 42.36948,
+"lon": 13.25936,
+"pop": 616
+},
+{
+"name": "Nemoli",
+"lat": 40.06765,
+"lon": 15.79962,
+"pop": 615
+},
+{
+"name": "Forchia",
+"lat": 41.03144,
+"lon": 14.53573,
+"pop": 615
+},
+{
+"name": "Cermignano",
+"lat": 42.59131,
+"lon": 13.7954,
+"pop": 614
+},
+{
+"name": "Casperia",
+"lat": 42.33869,
+"lon": 12.67017,
+"pop": 613
+},
+{
+"name": "Ceraso",
+"lat": 40.1943,
+"lon": 15.25606,
+"pop": 612
+},
+{
+"name": "Castelnuovo di Farfa",
+"lat": 42.23193,
+"lon": 12.74308,
+"pop": 612
+},
+{
+"name": "San Giuliano del Sannio",
+"lat": 41.45752,
+"lon": 14.64169,
+"pop": 610
+},
+{
+"name": "Santa Paolina",
+"lat": 41.02202,
+"lon": 14.8463,
+"pop": 608
+},
+{
+"name": "Rocchetta Nuova",
+"lat": 41.62375,
+"lon": 14.08574,
+"pop": 608
+},
+{
+"name": "Ateleta",
+"lat": 41.85435,
+"lon": 14.19806,
+"pop": 606
+},
+{
+"name": "Cellino Attanasio",
+"lat": 42.58574,
+"lon": 13.8605,
+"pop": 605
+},
+{
+"name": "Castel Campagnano",
+"lat": 41.1824,
+"lon": 14.453,
+"pop": 604
+},
+{
+"name": "Puglianello",
+"lat": 41.22179,
+"lon": 14.45023,
+"pop": 603
+},
+{
+"name": "Aielli",
+"lat": 42.08146,
+"lon": 13.59113,
+"pop": 600
+},
+{
+"name": "Santa Croce del Sannio",
+"lat": 41.38793,
+"lon": 14.73229,
+"pop": 599
+},
+{
+"name": "Pescorocchiano",
+"lat": 42.20623,
+"lon": 13.14715,
+"pop": 599
+},
+{
+"name": "Massa d'Albe-Corona",
+"lat": 42.10723,
+"lon": 13.39429,
+"pop": 599
+},
+{
+"name": "Matrice",
+"lat": 41.61878,
+"lon": 14.70977,
+"pop": 597
+},
+{
+"name": "Goriano Sicoli",
+"lat": 42.08011,
+"lon": 13.77459,
+"pop": 597
+},
+{
+"name": "Conca dei Marini",
+"lat": 40.61754,
+"lon": 14.57311,
+"pop": 597
+},
+{
+"name": "Acquaviva Collecroce",
+"lat": 41.86624,
+"lon": 14.74733,
+"pop": 594
+},
+{
+"name": "Morino",
+"lat": 41.86442,
+"lon": 13.457,
+"pop": 594
+},
+{
+"name": "Bagnoli del Trigno",
+"lat": 41.70217,
+"lon": 14.45861,
+"pop": 590
+},
+{
+"name": "Armento",
+"lat": 40.3066,
+"lon": 16.0655,
+"pop": 588
+},
+{
+"name": "Pozzillo",
+"lat": 41.20337,
+"lon": 14.1953,
+"pop": 587
+},
+{
+"name": "Ottati",
+"lat": 40.46291,
+"lon": 15.31526,
+"pop": 586
+},
+{
+"name": "Villalago",
+"lat": 41.93514,
+"lon": 13.83868,
+"pop": 581
+},
+{
+"name": "Lentella",
+"lat": 41.99576,
+"lon": 14.67692,
+"pop": 580
+},
+{
+"name": "Archi",
+"lat": 42.09135,
+"lon": 14.3827,
+"pop": 580
+},
+{
+"name": "San Felice del Molise",
+"lat": 41.89,
+"lon": 14.70088,
+"pop": 579
+},
+{
+"name": "Bisenti",
+"lat": 42.52883,
+"lon": 13.7995,
+"pop": 577
+},
+{
+"name": "Sant'Angelo A Cupolo",
+"lat": 41.06912,
+"lon": 14.80374,
+"pop": 577
+},
+{
+"name": "Castellino del Biferno",
+"lat": 41.7016,
+"lon": 14.73179,
+"pop": 576
+},
+{
+"name": "Santa Lucia",
+"lat": 41.30409,
+"lon": 14.07937,
+"pop": 575
+},
+{
+"name": "Montereale",
+"lat": 42.52332,
+"lon": 13.24585,
+"pop": 574
+},
+{
+"name": "Teana",
+"lat": 40.12586,
+"lon": 16.15281,
+"pop": 573
+},
+{
+"name": "Morra de Sanctis",
+"lat": 40.92902,
+"lon": 15.24285,
+"pop": 573
+},
+{
+"name": "Montefranco",
+"lat": 42.59835,
+"lon": 12.76376,
+"pop": 573
+},
+{
+"name": "Fardella",
+"lat": 40.11381,
+"lon": 16.16978,
+"pop": 572
+},
+{
+"name": "Prossedi",
+"lat": 41.51674,
+"lon": 13.261,
+"pop": 571
+},
+{
+"name": "Bivio Mortola",
+"lat": 41.39557,
+"lon": 13.89663,
+"pop": 567
+},
+{
+"name": "Sant'Angelo A Scala",
+"lat": 40.97465,
+"lon": 14.74041,
+"pop": 566
+},
+{
+"name": "Roccacasale",
+"lat": 42.12249,
+"lon": 13.88758,
+"pop": 566
+},
+{
+"name": "Colledara",
+"lat": 42.53918,
+"lon": 13.67556,
+"pop": 564
+},
+{
+"name": "Strangolagalli",
+"lat": 41.59992,
+"lon": 13.49228,
+"pop": 561
+},
+{
+"name": "Guardia Perticara",
+"lat": 40.36167,
+"lon": 16.09845,
+"pop": 559
+},
+{
+"name": "Torrita Tiberina",
+"lat": 42.23821,
+"lon": 12.61633,
+"pop": 558
+},
+{
+"name": "Sante Marie",
+"lat": 42.10369,
+"lon": 13.20163,
+"pop": 558
+},
+{
+"name": "Macchia Valfortore",
+"lat": 41.59487,
+"lon": 14.91238,
+"pop": 557
+},
+{
+"name": "Montenero Val Cocchiara",
+"lat": 41.71683,
+"lon": 14.06941,
+"pop": 554
+},
+{
+"name": "Palombaro",
+"lat": 42.12323,
+"lon": 14.22989,
+"pop": 549
+},
+{
+"name": "Greci",
+"lat": 41.25182,
+"lon": 15.16915,
+"pop": 549
+},
+{
+"name": "Baragiano",
+"lat": 40.68001,
+"lon": 15.59398,
+"pop": 549
+},
+{
+"name": "Senerchia",
+"lat": 40.74133,
+"lon": 15.20502,
+"pop": 548
+},
+{
+"name": "Calvi dell'Umbria",
+"lat": 42.40421,
+"lon": 12.56771,
+"pop": 548
+},
+{
+"name": "Santo Stefano del Sole",
+"lat": 40.89414,
+"lon": 14.86674,
+"pop": 547
+},
+{
+"name": "Pratella",
+"lat": 41.40579,
+"lon": 14.17913,
+"pop": 547
+},
+{
+"name": "Pretoro",
+"lat": 42.21923,
+"lon": 14.14248,
+"pop": 546
+},
+{
+"name": "Fossa",
+"lat": 42.29273,
+"lon": 13.48779,
+"pop": 546
+},
+{
+"name": "Collepardo",
+"lat": 41.76417,
+"lon": 13.36846,
+"pop": 544
+},
+{
+"name": "Coldragone",
+"lat": 41.55458,
+"lon": 13.60399,
+"pop": 544
+},
+{
+"name": "Casalanguida",
+"lat": 42.03752,
+"lon": 14.49613,
+"pop": 543
+},
+{
+"name": "San Martino d'Agri",
+"lat": 40.23913,
+"lon": 16.05216,
+"pop": 542
+},
+{
+"name": "Pietrabbondante",
+"lat": 41.74527,
+"lon": 14.3848,
+"pop": 542
+},
+{
+"name": "Vicalvi",
+"lat": 41.67809,
+"lon": 13.70813,
+"pop": 539
+},
+{
+"name": "Cuccaro Vetere",
+"lat": 40.16404,
+"lon": 15.30677,
+"pop": 539
+},
+{
+"name": "Parolise",
+"lat": 40.93045,
+"lon": 14.88172,
+"pop": 538
+},
+{
+"name": "Letino",
+"lat": 41.45302,
+"lon": 14.25542,
+"pop": 538
+},
+{
+"name": "Savoia di Lucania",
+"lat": 40.56949,
+"lon": 15.55132,
+"pop": 537
+},
+{
+"name": "Filetto",
+"lat": 42.22931,
+"lon": 14.24501,
+"pop": 537
+},
+{
+"name": "San Costantino Albanese",
+"lat": 40.03679,
+"lon": 16.30475,
+"pop": 534
+},
+{
+"name": "Poggio Sannita",
+"lat": 41.77939,
+"lon": 14.41485,
+"pop": 534
+},
+{
+"name": "Roccabascerana",
+"lat": 41.01842,
+"lon": 14.71684,
+"pop": 534
+},
+{
+"name": "Borbona",
+"lat": 42.50939,
+"lon": 13.13206,
+"pop": 533
+},
+{
+"name": "Roccasicura",
+"lat": 41.69676,
+"lon": 14.23065,
+"pop": 531
+},
+{
+"name": "Ventotene",
+"lat": 40.79404,
+"lon": 13.42777,
+"pop": 530
+},
+{
+"name": "Sesto Campano",
+"lat": 41.42042,
+"lon": 14.07782,
+"pop": 528
+},
+{
+"name": "Torricella in Sabina",
+"lat": 42.26252,
+"lon": 12.8717,
+"pop": 526
+},
+{
+"name": "Carpineto Sinello",
+"lat": 42.01044,
+"lon": 14.50418,
+"pop": 526
+},
+{
+"name": "Forlì del Sannio",
+"lat": 41.69593,
+"lon": 14.17952,
+"pop": 525
+},
+{
+"name": "Colli sul Velino",
+"lat": 42.49828,
+"lon": 12.78153,
+"pop": 524
+},
+{
+"name": "Sant'Agapito",
+"lat": 41.54372,
+"lon": 14.22204,
+"pop": 523
+},
+{
+"name": "Missanello",
+"lat": 40.28311,
+"lon": 16.1665,
+"pop": 523
+},
+{
+"name": "Crecchio",
+"lat": 42.29778,
+"lon": 14.32656,
+"pop": 523
+},
+{
+"name": "Stio",
+"lat": 40.3102,
+"lon": 15.25153,
+"pop": 522
+},
+{
+"name": "Centro Urbano",
+"lat": 40.81986,
+"lon": 15.31953,
+"pop": 522
+},
+{
+"name": "San Michele",
+"lat": 40.62023,
+"lon": 14.55018,
+"pop": 521
+},
+{
+"name": "Campolattaro",
+"lat": 41.28693,
+"lon": 14.73043,
+"pop": 517
+},
+{
+"name": "Torchiara",
+"lat": 40.32162,
+"lon": 15.0537,
+"pop": 516
+},
+{
+"name": "Sant'Andrea del Garigliano",
+"lat": 41.36868,
+"lon": 13.84198,
+"pop": 516
+},
+{
+"name": "Filettino",
+"lat": 41.89131,
+"lon": 13.32531,
+"pop": 516
+},
+{
+"name": "Pettorano sul Gizio",
+"lat": 41.97326,
+"lon": 13.96001,
+"pop": 515
+},
+{
+"name": "Colle San Magno",
+"lat": 41.55019,
+"lon": 13.69485,
+"pop": 513
+},
+{
+"name": "Monteforte Cilento",
+"lat": 40.36481,
+"lon": 15.19486,
+"pop": 512
+},
+{
+"name": "Colledimezzo",
+"lat": 41.98606,
+"lon": 14.3869,
+"pop": 512
+},
+{
+"name": "Casalduni",
+"lat": 41.2608,
+"lon": 14.69532,
+"pop": 512
+},
+{
+"name": "Torre le Nocelle",
+"lat": 41.02312,
+"lon": 14.90934,
+"pop": 511
+},
+{
+"name": "Colle d'Anchise",
+"lat": 41.50986,
+"lon": 14.51873,
+"pop": 508
+},
+{
+"name": "Francolise",
+"lat": 41.18501,
+"lon": 14.05672,
+"pop": 507
+},
+{
+"name": "Lupara",
+"lat": 41.76141,
+"lon": 14.7339,
+"pop": 503
+},
+{
+"name": "San Martino sulla Marrucina",
+"lat": 42.22419,
+"lon": 14.21577,
+"pop": 501
+},
+{
+"name": "Ceppaloni",
+"lat": 41.04523,
+"lon": 14.76102,
+"pop": 500
+},
+{
+"name": "Villalfonsina",
+"lat": 42.16038,
+"lon": 14.56932,
+"pop": 498
+},
+{
+"name": "Farindola",
+"lat": 42.44292,
+"lon": 13.82137,
+"pop": 498
+},
+{
+"name": "Cantalice",
+"lat": 42.46458,
+"lon": 12.90461,
+"pop": 497
+},
+{
+"name": "Belmonte del Sannio",
+"lat": 41.82352,
+"lon": 14.42333,
+"pop": 491
+},
+{
+"name": "Filacciano",
+"lat": 42.25445,
+"lon": 12.5988,
+"pop": 490
+},
+{
+"name": "Vastogirardi",
+"lat": 41.7746,
+"lon": 14.25844,
+"pop": 488
+},
+{
+"name": "San Pietro Avellana",
+"lat": 41.78886,
+"lon": 14.18323,
+"pop": 488
+},
+{
+"name": "Cassano Irpino",
+"lat": 40.87042,
+"lon": 15.02595,
+"pop": 483
+},
+{
+"name": "Ari",
+"lat": 42.28967,
+"lon": 14.25856,
+"pop": 482
+},
+{
+"name": "Castel Sant'Angelo",
+"lat": 42.39373,
+"lon": 13.02738,
+"pop": 480
+},
+{
+"name": "Arpaise",
+"lat": 41.02977,
+"lon": 14.74387,
+"pop": 474
+},
+{
+"name": "Santomenna",
+"lat": 40.80685,
+"lon": 15.32639,
+"pop": 473
+},
+{
+"name": "Oliveto Lucano",
+"lat": 40.53554,
+"lon": 16.18547,
+"pop": 473
+},
+{
+"name": "Gorga",
+"lat": 41.65468,
+"lon": 13.10663,
+"pop": 472
+},
+{
+"name": "Patrica",
+"lat": 41.59085,
+"lon": 13.24363,
+"pop": 471
+},
+{
+"name": "Morrone del Sannio",
+"lat": 41.71107,
+"lon": 14.78087,
+"pop": 471
+},
+{
+"name": "Torri in Sabina",
+"lat": 42.35057,
+"lon": 12.64157,
+"pop": 470
+},
+{
+"name": "Nocciano",
+"lat": 42.33366,
+"lon": 13.98571,
+"pop": 470
+},
+{
+"name": "Perito",
+"lat": 40.29854,
+"lon": 15.14746,
+"pop": 468
+},
+{
+"name": "Ginestra degli Schiavoni",
+"lat": 41.27992,
+"lon": 15.04374,
+"pop": 468
+},
+{
+"name": "Santa Marina",
+"lat": 40.1052,
+"lon": 15.54153,
+"pop": 467
+},
+{
+"name": "Macchiagodena",
+"lat": 41.55899,
+"lon": 14.41049,
+"pop": 464
+},
+{
+"name": "Tufillo",
+"lat": 41.91685,
+"lon": 14.62558,
+"pop": 462
+},
+{
+"name": "Liberi",
+"lat": 41.22648,
+"lon": 14.28985,
+"pop": 460
+},
+{
+"name": "Castropignano",
+"lat": 41.61788,
+"lon": 14.55856,
+"pop": 457
+},
+{
+"name": "Civitella Casanova",
+"lat": 42.36391,
+"lon": 13.88514,
+"pop": 456
+},
+{
+"name": "Castilenti",
+"lat": 42.53334,
+"lon": 13.9171,
+"pop": 456
+},
+{
+"name": "Altino",
+"lat": 42.09954,
+"lon": 14.33267,
+"pop": 456
+},
+{
+"name": "Acquaviva d'Isernia",
+"lat": 41.67132,
+"lon": 14.1477,
+"pop": 455
+},
+{
+"name": "Ofena",
+"lat": 42.32536,
+"lon": 13.75864,
+"pop": 454
+},
+{
+"name": "Montemitro",
+"lat": 41.88813,
+"lon": 14.64666,
+"pop": 454
+},
+{
+"name": "Salvitelle",
+"lat": 40.59064,
+"lon": 15.4576,
+"pop": 453
+},
+{
+"name": "Guardiaregia",
+"lat": 41.43436,
+"lon": 14.54344,
+"pop": 453
+},
+{
+"name": "Villa Santo Stefano",
+"lat": 41.51683,
+"lon": 13.31046,
+"pop": 451
+},
+{
+"name": "Perano",
+"lat": 42.1046,
+"lon": 14.39581,
+"pop": 451
+},
+{
+"name": "Civitaquana",
+"lat": 42.32578,
+"lon": 13.90012,
+"pop": 450
+},
+{
+"name": "Castel del Monte",
+"lat": 42.36544,
+"lon": 13.72592,
+"pop": 447
+},
+{
+"name": "Pertosa",
+"lat": 40.54346,
+"lon": 15.45009,
+"pop": 446
+},
+{
+"name": "Pastena",
+"lat": 41.46842,
+"lon": 13.49111,
+"pop": 445
+},
+{
+"name": "Civitacampomarano",
+"lat": 41.78032,
+"lon": 14.68919,
+"pop": 443
+},
+{
+"name": "Castelpagano",
+"lat": 41.40177,
+"lon": 14.80711,
+"pop": 440
+},
+{
+"name": "Monacilioni",
+"lat": 41.61077,
+"lon": 14.81,
+"pop": 437
+},
+{
+"name": "Castiglione Messer Raimondo",
+"lat": 42.53194,
+"lon": 13.87953,
+"pop": 436
+},
+{
+"name": "Capitignano",
+"lat": 42.52041,
+"lon": 13.30122,
+"pop": 436
+},
+{
+"name": "Sorbo Serpico",
+"lat": 40.91685,
+"lon": 14.88709,
+"pop": 435
+},
+{
+"name": "Castel San Vincenzo",
+"lat": 41.65543,
+"lon": 14.06178,
+"pop": 433
+},
+{
+"name": "Guilmi",
+"lat": 41.99653,
+"lon": 14.47882,
+"pop": 432
+},
+{
+"name": "San Mauro la Bruca",
+"lat": 40.12246,
+"lon": 15.29109,
+"pop": 430
+},
+{
+"name": "San Giovanni in Galdo",
+"lat": 41.5911,
+"lon": 14.75202,
+"pop": 429
+},
+{
+"name": "Ripabottoni",
+"lat": 41.68996,
+"lon": 14.80866,
+"pop": 427
+},
+{
+"name": "Omignano",
+"lat": 40.24932,
+"lon": 15.08406,
+"pop": 424
+},
+{
+"name": "Montenerodomo",
+"lat": 41.97682,
+"lon": 14.25177,
+"pop": 424
+},
+{
+"name": "Canzano",
+"lat": 42.64564,
+"lon": 13.8041,
+"pop": 424
+},
+{
+"name": "Volturara Appula",
+"lat": 41.49603,
+"lon": 15.05224,
+"pop": 421
+},
+{
+"name": "Fossalto",
+"lat": 41.67293,
+"lon": 14.54573,
+"pop": 419
+},
+{
+"name": "Perdifumo",
+"lat": 40.26694,
+"lon": 15.01652,
+"pop": 418
+},
+{
+"name": "Oricola",
+"lat": 42.04922,
+"lon": 13.03939,
+"pop": 417
+},
+{
+"name": "Cugnoli",
+"lat": 42.30692,
+"lon": 13.9349,
+"pop": 416
+},
+{
+"name": "Pizzoferrato",
+"lat": 41.92244,
+"lon": 14.23632,
+"pop": 415
+},
+{
+"name": "Campli",
+"lat": 42.72679,
+"lon": 13.68692,
+"pop": 415
+},
+{
+"name": "Sassinoro",
+"lat": 41.37472,
+"lon": 14.66453,
+"pop": 414
+},
+{
+"name": "Montorio Nei Frentani",
+"lat": 41.75884,
+"lon": 14.93314,
+"pop": 413
+},
+{
+"name": "Castel San Pietro Romano",
+"lat": 41.84572,
+"lon": 12.89489,
+"pop": 411
+},
+{
+"name": "Vallemaio",
+"lat": 41.36628,
+"lon": 13.80839,
+"pop": 409
+},
+{
+"name": "Orvinio",
+"lat": 42.13039,
+"lon": 12.93762,
+"pop": 409
+},
+{
+"name": "Camerata Nuova",
+"lat": 42.018,
+"lon": 13.1097,
+"pop": 405
+},
+{
+"name": "Molina Aterno",
+"lat": 42.14903,
+"lon": 13.7354,
+"pop": 401
+},
+{
+"name": "Gildone",
+"lat": 41.50901,
+"lon": 14.7402,
+"pop": 400
+},
+{
+"name": "Taranta Peligna",
+"lat": 42.02052,
+"lon": 14.17103,
+"pop": 399
+},
+{
+"name": "Giungano",
+"lat": 40.3945,
+"lon": 15.10792,
+"pop": 399
+},
+{
+"name": "Castellalto",
+"lat": 42.67705,
+"lon": 13.82101,
+"pop": 397
+},
+{
+"name": "Fraine",
+"lat": 41.90624,
+"lon": 14.48788,
+"pop": 396
+},
+{
+"name": "Santopadre",
+"lat": 41.60193,
+"lon": 13.63548,
+"pop": 395
+},
+{
+"name": "Rocca Massima",
+"lat": 41.67907,
+"lon": 12.92116,
+"pop": 392
+},
+{
+"name": "Campora",
+"lat": 40.30541,
+"lon": 15.29236,
+"pop": 392
+},
+{
+"name": "San Mauro Cilento",
+"lat": 40.22628,
+"lon": 15.04476,
+"pop": 391
+},
+{
+"name": "Pollica",
+"lat": 40.1907,
+"lon": 15.05716,
+"pop": 390
+},
+{
+"name": "Longano",
+"lat": 41.52199,
+"lon": 14.24665,
+"pop": 390
+},
+{
+"name": "Tortorella",
+"lat": 40.14236,
+"lon": 15.60625,
+"pop": 388
+},
+{
+"name": "Casaprota",
+"lat": 42.25177,
+"lon": 12.80428,
+"pop": 388
+},
+{
+"name": "Roccamorice",
+"lat": 42.21274,
+"lon": 14.02531,
+"pop": 388
+},
+{
+"name": "Casalvieri",
+"lat": 41.63329,
+"lon": 13.71363,
+"pop": 386
+},
+{
+"name": "Barete",
+"lat": 42.45009,
+"lon": 13.28061,
+"pop": 386
+},
+{
+"name": "Secinaro",
+"lat": 42.15062,
+"lon": 13.68145,
+"pop": 383
+},
+{
+"name": "Poggio San Lorenzo",
+"lat": 42.25174,
+"lon": 12.84343,
+"pop": 382
+},
+{
+"name": "Montaguto",
+"lat": 41.24873,
+"lon": 15.24845,
+"pop": 380
+},
+{
+"name": "Roccascalegna",
+"lat": 42.06212,
+"lon": 14.30802,
+"pop": 378
+},
+{
+"name": "Dogliola",
+"lat": 41.94238,
+"lon": 14.63507,
+"pop": 378
+},
+{
+"name": "Navelli",
+"lat": 42.23721,
+"lon": 13.72961,
+"pop": 376
+},
+{
+"name": "Serramonacesca",
+"lat": 42.24795,
+"lon": 14.09297,
+"pop": 372
+},
+{
+"name": "Villa Sant'Angelo",
+"lat": 42.27043,
+"lon": 13.5371,
+"pop": 372
+},
+{
+"name": "Jenne",
+"lat": 41.88882,
+"lon": 13.16959,
+"pop": 371
+},
+{
+"name": "Guardia Lombardi",
+"lat": 40.95177,
+"lon": 15.20878,
+"pop": 370
+},
+{
+"name": "Sant'Angelo del Pesco",
+"lat": 41.88193,
+"lon": 14.25354,
+"pop": 368
+},
+{
+"name": "Colle di Tora",
+"lat": 42.20809,
+"lon": 12.94746,
+"pop": 367
+},
+{
+"name": "Isole Tremiti",
+"lat": 42.12085,
+"lon": 15.50424,
+"pop": 367
+},
+{
+"name": "Elice",
+"lat": 42.52279,
+"lon": 13.97071,
+"pop": 366
+},
+{
+"name": "Lettopalena",
+"lat": 42.00251,
+"lon": 14.15652,
+"pop": 362
+},
+{
+"name": "Sessa Cilento",
+"lat": 40.2592,
+"lon": 15.07576,
+"pop": 360
+},
+{
+"name": "Montelongo",
+"lat": 41.73705,
+"lon": 14.95034,
+"pop": 360
+},
+{
+"name": "Casalciprano",
+"lat": 41.58037,
+"lon": 14.52835,
+"pop": 360
+},
+{
+"name": "Rocca San Felice",
+"lat": 40.95014,
+"lon": 15.16656,
+"pop": 358
+},
+{
+"name": "Castro dei Volsci",
+"lat": 41.50822,
+"lon": 13.4063,
+"pop": 358
+},
+{
+"name": "Trevico",
+"lat": 41.04808,
+"lon": 15.23292,
+"pop": 356
+},
+{
+"name": "Borrello",
+"lat": 41.9173,
+"lon": 14.30535,
+"pop": 355
+},
+{
+"name": "Vallerotonda",
+"lat": 41.55135,
+"lon": 13.91372,
+"pop": 354
+},
+{
+"name": "Nerito",
+"lat": 42.54763,
+"lon": 13.47759,
+"pop": 354
+},
+{
+"name": "Stella Cilento",
+"lat": 40.2318,
+"lon": 15.09286,
+"pop": 353
+},
+{
+"name": "Pettoranello del Molise",
+"lat": 41.57331,
+"lon": 14.27839,
+"pop": 351
+},
+{
+"name": "Pennapiedimonte",
+"lat": 42.15563,
+"lon": 14.19432,
+"pop": 350
+},
+{
+"name": "Collalto Sabino",
+"lat": 42.13522,
+"lon": 13.04841,
+"pop": 349
+},
+{
+"name": "Castelguidone",
+"lat": 41.82258,
+"lon": 14.52286,
+"pop": 349
+},
+{
+"name": "Castelbottaccio",
+"lat": 41.75329,
+"lon": 14.70616,
+"pop": 349
+},
+{
+"name": "Viticuso",
+"lat": 41.52475,
+"lon": 13.97027,
+"pop": 348
+},
+{
+"name": "Nocara",
+"lat": 40.09941,
+"lon": 16.48189,
+"pop": 348
+},
+{
+"name": "Anversa degli Abruzzi",
+"lat": 41.99478,
+"lon": 13.80379,
+"pop": 347
+},
+{
+"name": "Polvica",
+"lat": 40.69484,
+"lon": 14.64019,
+"pop": 346
+},
+{
+"name": "San Pio delle Camere",
+"lat": 42.28423,
+"lon": 13.6557,
+"pop": 345
+},
+{
+"name": "Campodimele",
+"lat": 41.38822,
+"lon": 13.53081,
+"pop": 338
+},
+{
+"name": "Morro d'Oro",
+"lat": 42.66291,
+"lon": 13.92129,
+"pop": 335
+},
+{
+"name": "Pietraroja",
+"lat": 41.34782,
+"lon": 14.54963,
+"pop": 335
+},
+{
+"name": "Montebuono",
+"lat": 42.3677,
+"lon": 12.59721,
+"pop": 333
+},
+{
+"name": "Salcito",
+"lat": 41.7464,
+"lon": 14.51085,
+"pop": 332
+},
+{
+"name": "Sacco",
+"lat": 40.37671,
+"lon": 15.37783,
+"pop": 331
+},
+{
+"name": "Prata d'Ansidonia",
+"lat": 42.27793,
+"lon": 13.6083,
+"pop": 330
+},
+{
+"name": "Cagnano Amiterno",
+"lat": 42.45744,
+"lon": 13.22789,
+"pop": 330
+},
+{
+"name": "Cirigliano",
+"lat": 40.39376,
+"lon": 16.17194,
+"pop": 329
+},
+{
+"name": "Castel di Ieri",
+"lat": 42.11353,
+"lon": 13.742,
+"pop": 329
+},
+{
+"name": "San Massimo",
+"lat": 41.49292,
+"lon": 14.41023,
+"pop": 328
+},
+{
+"name": "Cercepiccola",
+"lat": 41.45982,
+"lon": 14.66487,
+"pop": 328
+},
+{
+"name": "Vacri",
+"lat": 42.29764,
+"lon": 14.22901,
+"pop": 327
+},
+{
+"name": "Arnara",
+"lat": 41.58452,
+"lon": 13.3884,
+"pop": 326
+},
+{
+"name": "Montebello di Bertona",
+"lat": 42.41686,
+"lon": 13.87119,
+"pop": 324
+},
+{
+"name": "Fontecchio",
+"lat": 42.23027,
+"lon": 13.60613,
+"pop": 323
+},
+{
+"name": "Belmonte Castello",
+"lat": 41.57742,
+"lon": 13.81581,
+"pop": 323
+},
+{
+"name": "Rocca di Cambio",
+"lat": 42.23755,
+"lon": 13.48906,
+"pop": 320
+},
+{
+"name": "Sant'Arcangelo Trimonte",
+"lat": 41.16901,
+"lon": 14.93883,
+"pop": 319
+},
+{
+"name": "Calvera",
+"lat": 40.14871,
+"lon": 16.14362,
+"pop": 319
+},
+{
+"name": "Penna Sant'Andrea",
+"lat": 42.59403,
+"lon": 13.77215,
+"pop": 318
+},
+{
+"name": "Ruviano",
+"lat": 41.21063,
+"lon": 14.40983,
+"pop": 317
+},
+{
+"name": "Gallo",
+"lat": 41.46499,
+"lon": 14.22519,
+"pop": 314
+},
+{
+"name": "Salle",
+"lat": 42.17756,
+"lon": 13.96091,
+"pop": 311
+},
+{
+"name": "Castel del Giudice",
+"lat": 41.85488,
+"lon": 14.23155,
+"pop": 308
+},
+{
+"name": "Sant'Angelo Limosano",
+"lat": 41.69266,
+"lon": 14.60346,
+"pop": 307
+},
+{
+"name": "Vallepietra",
+"lat": 41.92552,
+"lon": 13.23127,
+"pop": 306
+},
+{
+"name": "Quasano",
+"lat": 40.96724,
+"lon": 16.57354,
+"pop": 305
+},
+{
+"name": "Cairano",
+"lat": 40.89552,
+"lon": 15.37069,
+"pop": 305
+},
+{
+"name": "Picinisco",
+"lat": 41.64568,
+"lon": 13.86791,
+"pop": 304
+},
+{
+"name": "Roccaromana",
+"lat": 41.2736,
+"lon": 14.2219,
+"pop": 302
+},
+{
+"name": "Civitaluparella",
+"lat": 41.9449,
+"lon": 14.30135,
+"pop": 302
+},
+{
+"name": "Pizzone",
+"lat": 41.67332,
+"lon": 14.03666,
+"pop": 301
+},
+{
+"name": "Roccantica",
+"lat": 42.32073,
+"lon": 12.69398,
+"pop": 300
+},
+{
+"name": "Civitella Alfedena",
+"lat": 41.76533,
+"lon": 13.94271,
+"pop": 300
+},
+{
+"name": "San Martino Sannita",
+"lat": 41.06546,
+"lon": 14.83492,
+"pop": 298
+},
+{
+"name": "Cerro al Volturno",
+"lat": 41.65418,
+"lon": 14.10321,
+"pop": 297
+},
+{
+"name": "Montecorice",
+"lat": 40.23444,
+"lon": 14.98504,
+"pop": 296
+},
+{
+"name": "Concerviano",
+"lat": 42.32214,
+"lon": 12.98534,
+"pop": 296
+},
+{
+"name": "Canterano",
+"lat": 41.94322,
+"lon": 13.03809,
+"pop": 295
+},
+{
+"name": "Torrioni",
+"lat": 41.0341,
+"lon": 14.81351,
+"pop": 294
+},
+{
+"name": "Opi",
+"lat": 41.77838,
+"lon": 13.82932,
+"pop": 293
+},
+{
+"name": "Spinete",
+"lat": 41.54431,
+"lon": 14.48743,
+"pop": 288
+},
+{
+"name": "Tora",
+"lat": 41.33987,
+"lon": 14.02399,
+"pop": 286
+},
+{
+"name": "San Paolo Albanese",
+"lat": 40.03567,
+"lon": 16.33498,
+"pop": 285
+},
+{
+"name": "Fara in Sabina",
+"lat": 42.20807,
+"lon": 12.7296,
+"pop": 284
+},
+{
+"name": "Duronia",
+"lat": 41.65786,
+"lon": 14.46015,
+"pop": 284
+},
+{
+"name": "Tossicia",
+"lat": 42.54472,
+"lon": 13.64595,
+"pop": 283
+},
+{
+"name": "Pescopennataro",
+"lat": 41.87777,
+"lon": 14.29398,
+"pop": 281
+},
+{
+"name": "Castiglione a Casauria",
+"lat": 42.23601,
+"lon": 13.89832,
+"pop": 281
+},
+{
+"name": "Cansano",
+"lat": 42.0035,
+"lon": 14.01341,
+"pop": 281
+},
+{
+"name": "Roccagiovine",
+"lat": 42.05069,
+"lon": 12.89925,
+"pop": 280
+},
+{
+"name": "Valle dell'Angelo",
+"lat": 40.34381,
+"lon": 15.36846,
+"pop": 278
+},
+{
+"name": "Salisano",
+"lat": 42.25947,
+"lon": 12.74774,
+"pop": 278
+},
+{
+"name": "Pietranico",
+"lat": 42.27565,
+"lon": 13.91077,
+"pop": 277
+},
+{
+"name": "Percile",
+"lat": 42.09497,
+"lon": 12.91048,
+"pop": 277
+},
+{
+"name": "Morigerati",
+"lat": 40.14056,
+"lon": 15.55508,
+"pop": 277
+},
+{
+"name": "Monteleone di Spoleto",
+"lat": 42.65046,
+"lon": 12.95158,
+"pop": 275
+},
+{
+"name": "Sant'Eufemia a Maiella",
+"lat": 42.12613,
+"lon": 14.02651,
+"pop": 274
+},
+{
+"name": "Nespolo",
+"lat": 42.15671,
+"lon": 13.06938,
+"pop": 274
+},
+{
+"name": "Scheggino",
+"lat": 42.71304,
+"lon": 12.83007,
+"pop": 273
+},
+{
+"name": "Castelli",
+"lat": 42.48476,
+"lon": 13.71201,
+"pop": 271
+},
+{
+"name": "Conca Casale",
+"lat": 41.49512,
+"lon": 14.00682,
+"pop": 269
+},
+{
+"name": "Sant'Anatolia di Narco",
+"lat": 42.73319,
+"lon": 12.83576,
+"pop": 268
+},
+{
+"name": "Lustra",
+"lat": 40.2883,
+"lon": 15.06826,
+"pop": 268
+},
+{
+"name": "Terelle",
+"lat": 41.55212,
+"lon": 13.77841,
+"pop": 266
+},
+{
+"name": "Pontelatone",
+"lat": 41.1946,
+"lon": 14.24814,
+"pop": 263
+},
+{
+"name": "Pennadomo",
+"lat": 42.00394,
+"lon": 14.32338,
+"pop": 263
+},
+{
+"name": "Chiauci",
+"lat": 41.67791,
+"lon": 14.38393,
+"pop": 263
+},
+{
+"name": "Petrella Salto",
+"lat": 42.29405,
+"lon": 13.06794,
+"pop": 260
+},
+{
+"name": "Schiavi di Abruzzo",
+"lat": 41.81311,
+"lon": 14.48655,
+"pop": 259
+},
+{
+"name": "Civitella Messer Raimondo",
+"lat": 42.08893,
+"lon": 14.21701,
+"pop": 257
+},
+{
+"name": "Rocchetta",
+"lat": 41.23716,
+"lon": 14.15765,
+"pop": 255
+},
+{
+"name": "Gagliano Aterno",
+"lat": 42.12598,
+"lon": 13.70023,
+"pop": 255
+},
+{
+"name": "Valle Castellana",
+"lat": 42.73614,
+"lon": 13.49709,
+"pop": 254
+},
+{
+"name": "San Panfilo d'Ocre",
+"lat": 42.28616,
+"lon": 13.47518,
+"pop": 254
+},
+{
+"name": "Castel di Tora",
+"lat": 42.21392,
+"lon": 12.97073,
+"pop": 254
+},
+{
+"name": "Trivigliano",
+"lat": 41.77572,
+"lon": 13.2723,
+"pop": 254
+},
+{
+"name": "Ariola",
+"lat": 40.62795,
+"lon": 15.43453,
+"pop": 254
+},
+{
+"name": "Castelnuovo Cilento",
+"lat": 40.21846,
+"lon": 15.17802,
+"pop": 251
+},
+{
+"name": "Arsita",
+"lat": 42.50266,
+"lon": 13.78516,
+"pop": 250
+},
+{
+"name": "San Biase",
+"lat": 41.71526,
+"lon": 14.59049,
+"pop": 247
+},
+{
+"name": "Petruro Irpino",
+"lat": 41.03192,
+"lon": 14.79754,
+"pop": 247
+},
+{
+"name": "Chianche",
+"lat": 41.04632,
+"lon": 14.78904,
+"pop": 246
+},
+{
+"name": "Santa Maria del Molise",
+"lat": 41.55285,
+"lon": 14.36762,
+"pop": 245
+},
+{
+"name": "Campotosto",
+"lat": 42.55884,
+"lon": 13.36799,
+"pop": 244
+},
+{
+"name": "Cappadocia",
+"lat": 42.00755,
+"lon": 13.27806,
+"pop": 243
+},
+{
+"name": "Scapoli",
+"lat": 41.61447,
+"lon": 14.05929,
+"pop": 242
+},
+{
+"name": "Conca della Campania",
+"lat": 41.33174,
+"lon": 13.99142,
+"pop": 242
+},
+{
+"name": "Fontechiari",
+"lat": 41.66788,
+"lon": 13.67504,
+"pop": 241
+},
+{
+"name": "Vallinfreda",
+"lat": 42.08485,
+"lon": 12.99595,
+"pop": 239
+},
+{
+"name": "Turania",
+"lat": 42.13517,
+"lon": 13.00983,
+"pop": 239
+},
+{
+"name": "Colledimacine",
+"lat": 42.0037,
+"lon": 14.20079,
+"pop": 237
+},
+{
+"name": "Sant'Elena Sannita",
+"lat": 41.57525,
+"lon": 14.4707,
+"pop": 236
+},
+{
+"name": "Posta",
+"lat": 42.52562,
+"lon": 13.09723,
+"pop": 235
+},
+{
+"name": "Collepietro",
+"lat": 42.22089,
+"lon": 13.78101,
+"pop": 235
+},
+{
+"name": "Pozzaglia Sabina",
+"lat": 42.15863,
+"lon": 12.96428,
+"pop": 233
+},
+{
+"name": "Villa Celiera",
+"lat": 42.38184,
+"lon": 13.8586,
+"pop": 231
+},
+{
+"name": "Spigno Saturnia Superiore",
+"lat": 41.31425,
+"lon": 13.70888,
+"pop": 231
+},
+{
+"name": "Gallinaro",
+"lat": 41.65502,
+"lon": 13.79799,
+"pop": 231
+},
+{
+"name": "Palomonte",
+"lat": 40.66251,
+"lon": 15.29186,
+"pop": 230
+},
+{
+"name": "Ciorlano",
+"lat": 41.45022,
+"lon": 14.15832,
+"pop": 229
+},
+{
+"name": "Rivodutri",
+"lat": 42.51684,
+"lon": 12.85595,
+"pop": 228
+},
+{
+"name": "Montefino",
+"lat": 42.54551,
+"lon": 13.88479,
+"pop": 228
+},
+{
+"name": "Bolognano",
+"lat": 42.21814,
+"lon": 13.96011,
+"pop": 227
+},
+{
+"name": "Civita d'Antino",
+"lat": 41.88629,
+"lon": 13.47215,
+"pop": 224
+},
+{
+"name": "Vivaro Romano",
+"lat": 42.10095,
+"lon": 13.00589,
+"pop": 223
+},
+{
+"name": "Frasso Sabino",
+"lat": 42.22927,
+"lon": 12.80658,
+"pop": 223
+},
+{
+"name": "Sant'Eusanio Forconese",
+"lat": 42.28951,
+"lon": 13.52425,
+"pop": 220
+},
+{
+"name": "Acquafondata",
+"lat": 41.54282,
+"lon": 13.95281,
+"pop": 219
+},
+{
+"name": "Capranica Prenestina",
+"lat": 41.86285,
+"lon": 12.95077,
+"pop": 215
+},
+{
+"name": "Magliano Vetere",
+"lat": 40.34701,
+"lon": 15.23666,
+"pop": 214
+},
+{
+"name": "Fano Adriano",
+"lat": 42.5523,
+"lon": 13.53764,
+"pop": 214
+},
+{
+"name": "San Vincenzo Valle Roveto",
+"lat": 41.84452,
+"lon": 13.53566,
+"pop": 213
+},
+{
+"name": "Pescosansonesco Nuovo",
+"lat": 42.25524,
+"lon": 13.8848,
+"pop": 213
+},
+{
+"name": "Scontrone",
+"lat": 41.74681,
+"lon": 14.0388,
+"pop": 212
+},
+{
+"name": "Rosello",
+"lat": 41.90116,
+"lon": 14.34919,
+"pop": 212
+},
+{
+"name": "Turrivalignani",
+"lat": 42.26296,
+"lon": 14.02852,
+"pop": 211
+},
+{
+"name": "San Giovanni Lipioni",
+"lat": 41.84383,
+"lon": 14.56271,
+"pop": 210
+},
+{
+"name": "Filignano",
+"lat": 41.54578,
+"lon": 14.05757,
+"pop": 209
+},
+{
+"name": "Casali",
+"lat": 41.37812,
+"lon": 13.75479,
+"pop": 209
+},
+{
+"name": "Mompeo",
+"lat": 42.2478,
+"lon": 12.7513,
+"pop": 208
+},
+{
+"name": "Cantalupo nel Sannio",
+"lat": 41.52182,
+"lon": 14.39292,
+"pop": 208
+},
+{
+"name": "Polino",
+"lat": 42.58423,
+"lon": 12.84437,
+"pop": 207
+},
+{
+"name": "Ortona dei Marsi",
+"lat": 41.9982,
+"lon": 13.72909,
+"pop": 205
+},
+{
+"name": "Serramezzana",
+"lat": 40.2446,
+"lon": 15.03246,
+"pop": 204
+},
+{
+"name": "Cervara di Roma",
+"lat": 41.98822,
+"lon": 13.06799,
+"pop": 202
+},
+{
+"name": "Settefrati",
+"lat": 41.67045,
+"lon": 13.8507,
+"pop": 201
+},
+{
+"name": "Rocca di Cave",
+"lat": 41.84589,
+"lon": 12.94509,
+"pop": 200
+},
+{
+"name": "Castelvecchio Calvisio",
+"lat": 42.31134,
+"lon": 13.6872,
+"pop": 198
+},
+{
+"name": "Accumoli",
+"lat": 42.69476,
+"lon": 13.24761,
+"pop": 198
+},
+{
+"name": "Caporciano",
+"lat": 42.25001,
+"lon": 13.67455,
+"pop": 197
+},
+{
+"name": "Abbateggio",
+"lat": 42.22421,
+"lon": 14.01001,
+"pop": 196
+},
+{
+"name": "Monteferrante",
+"lat": 41.95396,
+"lon": 14.38856,
+"pop": 190
+},
+{
+"name": "Cocullo",
+"lat": 42.03283,
+"lon": 13.775,
+"pop": 186
+},
+{
+"name": "Tarano",
+"lat": 42.35593,
+"lon": 12.59497,
+"pop": 185
+},
+{
+"name": "Falvaterra",
+"lat": 41.50438,
+"lon": 13.52341,
+"pop": 185
+},
+{
+"name": "Fiamignano",
+"lat": 42.26546,
+"lon": 13.12413,
+"pop": 184
+},
+{
+"name": "Rocca Pia",
+"lat": 41.93429,
+"lon": 13.97726,
+"pop": 183
+},
+{
+"name": "Paganico Sabino",
+"lat": 42.18963,
+"lon": 12.99689,
+"pop": 180
+},
+{
+"name": "Rocca Canterano",
+"lat": 41.95652,
+"lon": 13.02179,
+"pop": 179
+},
+{
+"name": "Laureana Cilento",
+"lat": 40.3011,
+"lon": 15.03876,
+"pop": 177
+},
+{
+"name": "Celle di San Vito",
+"lat": 41.32593,
+"lon": 15.18104,
+"pop": 176
+},
+{
+"name": "Carpineto della Nora",
+"lat": 42.33365,
+"lon": 13.86062,
+"pop": 175
+},
+{
+"name": "Bisegna",
+"lat": 41.92113,
+"lon": 13.7576,
+"pop": 173
+},
+{
+"name": "Pietracupa",
+"lat": 41.68253,
+"lon": 14.51933,
+"pop": 170
+},
+{
+"name": "Belmonte in Sabina",
+"lat": 42.31482,
+"lon": 12.89178,
+"pop": 170
+},
+{
+"name": "Molise",
+"lat": 41.63147,
+"lon": 14.49252,
+"pop": 167
+},
+{
+"name": "Collegiove",
+"lat": 42.17506,
+"lon": 13.03844,
+"pop": 167
+},
+{
+"name": "Pietracamela",
+"lat": 42.52344,
+"lon": 13.55431,
+"pop": 162
+},
+{
+"name": "Fallo",
+"lat": 41.93833,
+"lon": 14.32362,
+"pop": 162
+},
+{
+"name": "San Polo Matese",
+"lat": 41.45932,
+"lon": 14.49343,
+"pop": 160
+},
+{
+"name": "Villa Santa Lucia degli Abruzzi",
+"lat": 42.33286,
+"lon": 13.77792,
+"pop": 159
+},
+{
+"name": "Roio del Sangro",
+"lat": 41.91153,
+"lon": 14.37382,
+"pop": 158
+},
+{
+"name": "Cittareale",
+"lat": 42.61624,
+"lon": 13.15788,
+"pop": 158
+},
+{
+"name": "Rocca d'Arce",
+"lat": 41.58712,
+"lon": 13.58511,
+"pop": 157
+},
+{
+"name": "Cottanello",
+"lat": 42.40811,
+"lon": 12.68592,
+"pop": 154
+},
+{
+"name": "Pietraferrazzana",
+"lat": 41.96943,
+"lon": 14.37451,
+"pop": 152
+},
+{
+"name": "Vicoli",
+"lat": 42.34095,
+"lon": 13.89688,
+"pop": 148
+},
+{
+"name": "Configni",
+"lat": 42.42543,
+"lon": 12.64431,
+"pop": 148
+},
+{
+"name": "Provvidenti",
+"lat": 41.71795,
+"lon": 14.82349,
+"pop": 147
+},
+{
+"name": "San Benedetto in Perillis",
+"lat": 42.18377,
+"lon": 13.76996,
+"pop": 145
+},
+{
+"name": "Acciano",
+"lat": 42.17677,
+"lon": 13.71783,
+"pop": 143
+},
+{
+"name": "Labro",
+"lat": 42.52603,
+"lon": 12.80068,
+"pop": 142
+},
+{
+"name": "Ascrea",
+"lat": 42.19763,
+"lon": 12.99457,
+"pop": 142
+},
+{
+"name": "Tione degli Abruzzi",
+"lat": 42.20393,
+"lon": 13.6357,
+"pop": 140
+},
+{
+"name": "Rocca Sinibalda",
+"lat": 42.27215,
+"lon": 12.92469,
+"pop": 136
+},
+{
+"name": "Calascio",
+"lat": 42.32595,
+"lon": 13.69699,
+"pop": 136
+},
+{
+"name": "Imposte",
+"lat": 42.68634,
+"lon": 13.52829,
+"pop": 136
+},
+{
+"name": "Cortino",
+"lat": 42.62186,
+"lon": 13.50774,
+"pop": 133
+},
+{
+"name": "Ispani",
+"lat": 40.0873,
+"lon": 15.55827,
+"pop": 131
+},
+{
+"name": "Montenero Sabino",
+"lat": 42.28123,
+"lon": 12.81358,
+"pop": 131
+},
+{
+"name": "Vacone",
+"lat": 42.381,
+"lon": 12.64504,
+"pop": 128
+},
+{
+"name": "Castelpizzuto",
+"lat": 41.52128,
+"lon": 14.29205,
+"pop": 128
+},
+{
+"name": "San Biagio Saracinisco",
+"lat": 41.61322,
+"lon": 13.92758,
+"pop": 126
+},
+{
+"name": "Marcetelli",
+"lat": 42.22663,
+"lon": 13.04589,
+"pop": 126
+},
+{
+"name": "Monte San Giovanni in Sabina",
+"lat": 42.32703,
+"lon": 12.77858,
+"pop": 125
+},
+{
+"name": "Micigliano",
+"lat": 42.45203,
+"lon": 13.05318,
+"pop": 125
+},
+{
+"name": "Santo Stefano di Sessanio",
+"lat": 42.34339,
+"lon": 13.64477,
+"pop": 118
+},
+{
+"name": "Montebello sul Sangro",
+"lat": 41.98663,
+"lon": 14.32402,
+"pop": 118
+},
+{
+"name": "Castelpetroso",
+"lat": 41.56027,
+"lon": 14.34637,
+"pop": 118
+},
+{
+"name": "Gamberale",
+"lat": 41.90529,
+"lon": 14.20845,
+"pop": 112
+},
+{
+"name": "Castelverrino",
+"lat": 41.76713,
+"lon": 14.39756,
+"pop": 111
+},
+{
+"name": "Varco Sabino",
+"lat": 42.24016,
+"lon": 13.02052,
+"pop": 110
+},
+{
+"name": "Brittoli",
+"lat": 42.31518,
+"lon": 13.86026,
+"pop": 109
+},
+{
+"name": "Montelapiano",
+"lat": 41.96267,
+"lon": 14.34212,
+"pop": 107
+},
+{
+"name": "Casalattico",
+"lat": 41.62213,
+"lon": 13.72563,
+"pop": 106
+},
+{
+"name": "Castel Castagna",
+"lat": 42.54294,
+"lon": 13.7164,
+"pop": 103
+},
+{
+"name": "Longone Sabino",
+"lat": 42.2726,
+"lon": 12.96653,
+"pop": 102
+},
+{
+"name": "Carapelle Calvisio",
+"lat": 42.29908,
+"lon": 13.68643,
+"pop": 95
+},
+{
+"name": "Saracinesco",
+"lat": 42.00332,
+"lon": 12.95329,
+"pop": 88
+},
+{
+"name": "Poggiodomo",
+"lat": 42.71237,
+"lon": 12.93251,
+"pop": 81
+},
+{
+"name": "Montasola",
+"lat": 42.38495,
+"lon": 12.68127,
+"pop": 79
+},
+{
+"name": "Craco-Sant'Angelo",
+"lat": 40.37992,
+"lon": 16.43708,
+"pop": 73
+},
+{
+"name": "Morro Reatino",
+"lat": 42.52226,
+"lon": 12.83449,
+"pop": 63
+},
+{
+"name": "Galluccio",
+"lat": 41.35232,
+"lon": 13.95372,
+"pop": 52
+},
+{
+"name": "Vallecupa",
+"lat": 42.25366,
+"lon": 13.57467,
+"pop": 42
+},
+{
+"name": "Apice Vecchio",
+"lat": 41.12012,
+"lon": 14.93104,
+"pop": 37
+},
+{
+"name": "Crognaleto",
+"lat": 42.58771,
+"lon": 13.4889,
+"pop": 28
+},
+{
+"name": "Corvara",
+"lat": 42.27511,
+"lon": 13.87363,
+"pop": 15
+},
+{
+"name": "Scalo Romagnano al Monte",
+"lat": 40.61031,
+"lon": 15.44768,
+"pop": 11
+},
+{
+"name": "Cancello ed Arnone",
+"lat": 41.07301,
+"lon": 14.02714,
+"pop": 0
+}
+]
+}

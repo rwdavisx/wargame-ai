@@ -139,8 +139,11 @@ function alliedShortfall(s: GameState): number {
  * the Allies must take ground from the start to keep pace with the benchmarks, and the Germans trade ground for time:
  * they hold and strike back where the odds are good, harder when the Allies have run ahead of the benchmark.
  */
+/** Whether the game is in a landing battle: all of Salerno '43, the grand campaign's September. */
+const landingBattle = (s: GameState) => RULES.landings && s.turn <= RULES.landingBattleTurns;
+
 export function aggressionFor(s: GameState, side: Side): number {
-  if (RULES.invasionGame) {
+  if (landingBattle(s)) {
     if (side === 'German') {
       const base = s.turn <= 3 ? 0.65 : s.turn <= 8 ? 0.8 : s.turn <= 11 ? 0.4 : 0.2;
       // With the Allies short of the benchmark, keep pressing: the next push may end it.
@@ -149,8 +152,6 @@ export function aggressionFor(s: GameState, side: Side): number {
     const base = s.turn <= 4 ? 0.3 : s.turn <= 9 ? 0.5 : 0.75;
     return Math.min(0.9, base + 0.08 * Math.min(4, alliedShortfall(s)));
   }
-  // The grand campaign's landing turns: the Germans go for the beachhead before it is built up.
-  if (RULES.landings && side === 'German' && s.turn <= 4) return 0.7;
   const m = alliedMargin(s);
   if (side === 'German') return Math.max(0.15, Math.min(TUNING.germanMax, TUNING.germanBase + TUNING.germanPerVp * m));
   return Math.max(0.45, Math.min(0.9, TUNING.alliedBase + TUNING.alliedPerVp * -m));
@@ -336,7 +337,7 @@ function riskDelta(s: GameState, ctx: Ctx, u: UnitState, from: HexId | null, to:
 /** Change in the victory points we stand to lose by leaving or holding towns the enemy can walk into. */
 function pointsDelta(s: GameState, ctx: Ctx, u: UnitState, from: HexId | null, to: HexId): number {
   // The Germans counterattacking a beachhead leave towns behind them; they garrison once they go over to the defensive.
-  if (def(u.id).asu || !ctx.tm || (RULES.invasionGame && ctx.side === 'German' && ctx.aggression >= 0.5)) return 0;
+  if (def(u.id).asu || !ctx.tm || (landingBattle(s) && ctx.side === 'German' && ctx.aggression >= 0.5)) return 0;
   let delta = 0;
   if (from && from !== to && !ownAt(s, from, ctx.side).some((id) => id !== u.id && !def(id).asu)) delta += openPoints(s, ctx, from);
   if (!ownAt(s, to, ctx.side).some((id) => id !== u.id && !def(id).asu)) delta -= openPoints(s, ctx, to);

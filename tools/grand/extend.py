@@ -25,12 +25,16 @@ import mtn  # noqa: E402
 
 ROOT = __file__.rsplit('/tools/', 1)[0]
 HERE = os.path.dirname(__file__)
-# The area added: the Adriatic front and its hinterland, north of the Italy '43 map's east half and east of both maps.
-COLS = range(30, 67)
-ROWS = range(0, 51)
+# The areas added, as (columns, rows): the Adriatic front and its hinterland, north of the Italy '43 map's east half and
+# east of both maps; Apulia and Basilicata south of it (Potenza, Melfi, Cerignola: the Eighth Army's approach); and
+# Lazio north of the Italy '43 map (Littoria, Frosinone, Sora: the roads to Rome).
+REGIONS = [(range(30, 67), range(0, 51)), (range(47, 67), range(51, 70)), (range(5, 30), range(0, 15))]
 SEA_MARGIN = 3          # sea hexes kept off the new coast
-MINOR_KM2 = 90.0        # catchment at which a stream is a river on the map (the Moro, a small river, drains ~80 km2)
-MAJOR_KM2 = 900.0       # and a major river (Sangro, Trigno, Biferno, Fortore)
+# Catchments at which a stream is a river on the map, and a major river: set so the drawn sectors have about the
+# printed maps' density of each (some 30 river hexsides and 7 major ones per 100 land hexes).
+MINOR_KM2 = 220.0
+MAJOR_KM2 = 1200.0
+PASS_SHARE = 3          # per cent of the mountain hexsides that are passes
 
 
 def hid(c, r):
@@ -160,8 +164,9 @@ def main():
 
     # 1. Hexes: land or sea, clear or hill.
     stats, land, sea = {}, set(), set()
-    for c in COLS:
-        for r in ROWS:
+    cells = sorted({(c, r) for cols, rows in REGIONS for c in cols for r in rows})
+    for c, r in cells:
+        if True:
             h = hid(c, r)
             if h in old:
                 continue
@@ -195,6 +200,7 @@ def main():
     mm = rep['mountainModel']
     sides = {}
     seen = set()
+    crest = {}
     for h in land:
         c, r = int(h[:2]), int(h[2:])
         for n in nbrs(c, r):
@@ -209,14 +215,28 @@ def main():
             p = 1 / (1 + math.exp(-(((f - np.array(mm['mu'])) / np.array(mm['sd'])) @ np.array(mm['w']) + mm['b'])))
             if p >= mm['countThreshold']:
                 sides[k] = {'mountain': True}
-    print(f'{len(sides)} mountain hexsides')
+                crest[k] = f[4]
+    # Passes: the lowest saddles across the ranges (the printed maps mark about one mountain hexside in thirty as a
+    # pass, never one a road takes).
+    for k in sorted(crest, key=crest.get)[:max(1, len(crest) * PASS_SHARE // 100)]:
+        sides[k]['pass'] = True
+    print(f'{len(sides)} mountain hexsides, {sum(1 for v in sides.values() if v.get("pass"))} passes')
 
-    # 3. Rivers from the ground, over the new area and a margin.
+    # 3. Rivers from the ground, over each new area and a margin.
+    river_edges = {}
+    for cols, rows in REGIONS:
+        here = [h for h in land if int(h[:2]) in cols and int(h[2:]) in rows]
+        if here:
+            trace_rivers(dem, here, river_edges)
+    finish(hexes, sides, grand, river_edges)
+
+
+def trace_rivers(dem, land, river_edges):
     lats, lons = [], []
     for h in land:
         la, lo = plane_to_ll(*hex_xy(int(h[:2]), int(h[2:])))
         lats.append(la); lons.append(lo)
-    lat0, lat1, lon0, lon1 = min(lats) - 0.25, max(lats) + 0.25, min(lons) - 0.3, max(lons) + 0.2
+    lat0, lat1, lon0, lon1 = min(lats) - 0.3, max(lats) + 0.3, min(lons) - 0.35, max(lons) + 0.3
     z, xs, ys = raster(dem, lat0, lat1, lon0, lon1)
     print('raster', z.shape)
     filled, down, acc = flow(z)
@@ -224,7 +244,6 @@ def main():
     km2 = acc * cell_km2
     # Walk each river from where its catchment first passes MINOR_KM2 down to the sea, snapping to hex vertices.
     H, W = z.shape
-    river_edges = {}
     starts = [(j, i) for j in range(H) for i in range(W) if km2[j, i] >= MINOR_KM2 and z[j, i] > 0 and
               not any(0 <= j + dj < H and 0 <= i + di < W and (down[j + dj, i + di] == (j, i)).all() and km2[j + dj, i + di] >= MINOR_KM2
                       for dj in (-1, 0, 1) for di in (-1, 0, 1) if dj or di)]
@@ -252,6 +271,9 @@ def main():
                     major = km2[pj, pi] >= MAJOR_KM2
                     river_edges[k] = river_edges.get(k, False) or major
             prev = v
+
+
+def finish(hexes, sides, grand, river_edges):
     n_new = 0
     for k, major in river_edges.items():
         parts = k.split('-')

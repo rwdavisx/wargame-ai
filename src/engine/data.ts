@@ -105,6 +105,12 @@ function buildRules(r: any) {
   landingPoints: (r.landingPoints ?? { costBySp: [], perTurn: 0 }) as { costBySp: number[]; perTurn: number },
   /** `freeFlipOnRolls`: weather rolls that ready one Nebelwerfer and the heavy howitzer for free (Italy '43, 23.3.3). */
   weather: r.weather as { track: WeatherBox[]; advanceByRoll: Record<string, number>; wraps: boolean; freeFlipOnRolls?: number[] },
+  /** A weather track by season: from `fromTurn` on, `track` replaces the one above (the grand campaign plays Salerno
+   * '43's daily track in September and Italy '43's from October). The marker keeps its box letter. */
+  weatherSeasons: (r.weatherSeasons ?? []) as { fromTurn: number; track: WeatherBox[] }[],
+  /** The turns of a game with landings fought as Salerno '43's landing battle (the AI's posture): all of Salerno
+   * '43, September in the grand campaign. */
+  landingBattleTurns: (r.landingBattleTurns ?? (r.invasion && r.system !== 'italy43' ? 999 : 0)) as number,
   /** Salerno '43's own system: its amphibious rules with its daily scale (the 8th Army's arrival from the south, the
    * 16th Panzer Division's withdrawal, the north-edge VPs) and its versions of the shared rules. The grand campaign
    * plays Italy '43's rules with Salerno's landings (`landings`), so it is not one. */
@@ -122,6 +128,8 @@ function buildRules(r: any) {
   benchmarks: Object.fromEntries(Object.entries(r.victory.benchmarks).map(([k, v]) => [Number(k), v as number])) as Record<number, number>,
   automaticMargin: (r.victory.automatic?.alliedMargin ?? 5) as number,
   automaticAlliedVp: (r.victory.automatic?.alliedVp ?? 20) as number,
+  /** The first turn on which the benchmark can end the game (the grand campaign fights out September's landing battle). */
+  automaticFromTurn: (r.victory.automatic?.fromTurn ?? 1) as number,
   replacementSchedule: Object.fromEntries(Object.entries(r.replacements.schedule).map(([k, v]) => [Number(k), v])) as Record<
     number,
     Partial<Record<'German' | 'BR' | 'US' | 'FR' | 'IT', Partial<Record<'inf' | 'armor' | 'special', number>>>>
@@ -129,12 +137,27 @@ function buildRules(r: any) {
   /** Italy '43: the dates each turn covers ("Oct 1-2"); Salerno '43 has a turn a day from 9 September. */
   turnDates: (r.turns?.dates ?? null) as Record<string, string> | null,
   /** Which support markers the game has (Salerno '43: US and British air and naval, German air). */
-  supportMarkers: (r.weather.track.some((b: WeatherBox) => b.naval.includes('AL'))
-    ? ['US-air', 'BR-air', 'AL-naval'] : ['US-air', 'BR-air', 'US-naval', 'BR-naval', 'GE-air']) as string[],
+  supportMarkers: markersOf(r.weather.track),
   turnNotes: Object.fromEntries(Object.entries(r.turnNotes).map(([k, v]) => [Number(k), v as string])) as Record<number, string>,
   };
 }
 export type Rules = ReturnType<typeof buildRules>;
+
+function markersOf(track: WeatherBox[]): string[] {
+  return track.some((b) => b.naval.includes('AL')) ? ['US-air', 'BR-air', 'AL-naval'] : ['US-air', 'BR-air', 'US-naval', 'BR-naval', 'GE-air'];
+}
+
+/** The weather track in force on `turn`. */
+export function weatherTrack(turn: number): WeatherBox[] {
+  let track = RULES.weather.track;
+  for (const s of RULES.weatherSeasons) if (turn >= s.fromTurn) track = s.track;
+  return track;
+}
+
+/** The support markers in play on `turn`. */
+export function supportMarkersFor(turn: number): string[] {
+  return RULES.weatherSeasons.length ? markersOf(weatherTrack(turn)) : RULES.supportMarkers;
+}
 
 // ------------------------------------------------------------------ units
 
