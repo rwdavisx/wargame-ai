@@ -10,7 +10,7 @@ import { alliedVp, applyAction, benchmark, entryReach, landingHexes, landingsLef
 import { distance, neighbors, sideKey, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove, entryModes, legalDestinations, type Reach } from '../engine/movement';
 import { nextRandom } from '../engine/rng';
-import { supplyChecker, beachheadHexes } from '../engine/supply';
+import { supplyChecker, beachheadHexes, salernoPortHex } from '../engine/supply';
 import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
 import { canStack, def, goodOrder, isElite, isLowQuality, nationGroup, sideOf, stackPoints, stepsRemaining, unitsAt, values } from '../engine/units';
 import { fortLevel, fortOptions } from '../engine/forts';
@@ -109,6 +109,10 @@ export const TUNING = {
   gunCare: 2,
   /** Update the enemy's reach after each of our moves rather than trace it all again (same result, faster). */
   incremental: 1,
+  /** Cost of a gun standing with no combat unit of ours where the enemy can strike next turn. */
+  gunAlone: 3,
+  /** Cost per hex of a gun's distance from our nearest combat unit (a gun far from the fighting comes up to it). */
+  gunDrift: 0.3,
 };
 
 let vpMemo = { key: '', seq: 0, margin: 0 };
@@ -177,6 +181,8 @@ interface Ctx {
   unguarded: [HexId, number][];
   /** Hexes from `h` to the nearest enemy combat unit. */
   enemyDist: (h: HexId) => number;
+  /** Hexes from `h` to the nearest of our combat units. */
+  friendDist: (h: HexId) => number;
 }
 
 function objectives(s: GameState, side: Side, aggression: number): HexId[] {
@@ -268,7 +274,10 @@ function positional(s: GameState, ctx: Ctx, u: UnitState, h: HexId): number {
     for (const f of ctx.front) if (distance(f, h) <= range) dfn++;
     score += 0.7 * Math.min(3, off) + 0.45 * Math.min(4, dfn);
     if (!off && !dfn) score -= Math.min(6, ne) * 0.5; // drift toward the front
+    if (TUNING.gunDrift) score -= TUNING.gunDrift * Math.min(12, ctx.friendDist(h));
     if (ne <= 1) score -= 3;
+    // A gun on its own is a point for any enemy column that can reach it.
+    if (TUNING.gunAlone && threat(ctx, s, h) > 0 && !ownAt(s, h, ctx.side).some((id) => id !== u.id && !def(id).asu)) score -= TUNING.gunAlone;
     return score;
   }
   const dist = ctx.objective.get(h) ?? 30;
@@ -597,6 +606,15 @@ export function chooseDefense(s: GameState): Action {
   return { type: 'defend', choice: 'retreat' };
 }
 
+/** Whether moving `id` off its hex (with the units in `going`) would leave our artillery there with no combat unit:
+ * guns cannot move again before the enemy's turn, and a gun on its own is a point for the taking. */
+function strandsGuns(s: GameState, id: string, going: string[]): boolean {
+  const w = s.units[id].where;
+  if (w.kind !== 'map') return false;
+  const left = ownAt(s, w.hex, sideOf(s.units[id])).filter((x) => x !== id && !going.includes(x));
+  return left.some((x) => def(x).asu) && !left.some((x) => !def(x).asu && def(x).cat !== 'bh');
+}
+
 /** Expected value of a breakthrough attack on `target` by the group in state `s`. */
 function breakthroughScore(s: GameState, target: HexId, aggression: number): number {
   const odds = computeOdds(s, breakthroughPlan(s, target));
@@ -616,7 +634,7 @@ function planBreakthrough(s: GameState, aggression: number): Action | null {
     .filter((id) => s.units[id]?.where.kind === 'map' && pa.maxByUnit[id] >= 2 && advanceDestinations(s, pa, id).has(pa.vacated))
     .sort((a, b) => values(s.units[b]).attack - values(s.units[a]).attack);
   const group: string[] = [];
-  for (const id of ids) if (canStack(s, pa.vacated, [...group, id])) group.push(id);
+  for (const id of ids) if (canStack(s, pa.vacated, [...group, id]) && !strandsGuns(s, id, group)) group.push(id);
   if (!group.length) return null;
   const a: Action = { type: 'btStart', unitIds: group, form: 'vacated' };
   let trial: GameState;
@@ -663,6 +681,7 @@ function chooseAdvance(s: GameState): Action {
   const chosen: string[] = [];
   for (const id of cands) {
     if (chosen.length >= want) break;
+    if (strandsGuns(s, id, chosen)) continue;
     if (stackPoints([...unitsAt(s, pa.vacated).map((u) => u.id), ...chosen, id], s) > RULES.stackingLimit) continue;
     const t = threatAt(s, pa.vacated, side);
     const dd = defenseAt(s, pa.vacated, side, s.units[id]) + chosen.reduce((a, x) => a + values(s.units[x]).defense, 0);
@@ -687,6 +706,7 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
   let enemyDist: Map<HexId, number> | null = null;
   let objMemo: { key: string; field: Map<HexId, number> } | null = null;
   let enemyDistOf: (h: HexId) => number = () => 99;
+  let friendMemo: { seq: number; field: Map<HexId, number> } | null = null;
   const reset = (s: GameState) => {
     const k = `${s.turn}|${s.activeSide}|${s.phase}`;
     if (k !== memoKey) {
@@ -698,6 +718,7 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
       supply = null;
       enemyDist = null;
       objMemo = null;
+      friendMemo = null;
     }
   };
 
@@ -741,6 +762,13 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
       noise: noiseFn(s, skill.noise),
       ...frontOf(s, side),
       shift: skill.reach ? 1 : 0,
+      friendDist: (h: HexId) => {
+        if (friendMemo?.seq !== s.seq) {
+          const own = Object.values(s.units).filter((x) => x.where.kind === 'map' && sideOf(x) === side && !def(x.id).asu && def(x.id).cat !== 'bh');
+          friendMemo = { seq: s.seq, field: distanceField(own.map((x) => (x.where as { hex: HexId }).hex), 12) };
+        }
+        return friendMemo.field.get(h) ?? 12;
+      },
       // Only those the enemy could walk into next turn were none of ours in the way.
       unguarded: vpHexes()
         .filter((h) => (s.control[h] ?? 'German') === side && (!openTm || openTm.walkCount.get(h)) && !ownAt(s, h, side).some((id) => !def(id).asu))
@@ -774,11 +802,12 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
     // Each beach's assault is rolled first, one beach at a time (24.2).
     const left = landingsLeft(s);
     if (left.length) return { type: 'landBeach', beach: left[0] };
-    const cdos = ['BR-2Cdo', 'BR-41Cdo'].filter((id) => s.units[id].where.kind === 'map' && s.units[id].tacHexes === 1 && !s.units[id].stopped &&
-      neighbors((s.units[id].where as { hex: HexId }).hex).includes('2707'));
-    if (cdos.length && !considered.has('cdo') && unitsAt(s, '2707').some((u) => sideOf(u) === 'German')) {
+    const salerno = salernoPortHex();
+    const cdos = ['BR-2Cdo', 'BR-41Cdo'].filter((id) => s.units[id]?.where.kind === 'map' && s.units[id].tacHexes === 1 && !s.units[id].stopped &&
+      neighbors((s.units[id].where as { hex: HexId }).hex).includes(salerno));
+    if (cdos.length && !considered.has('cdo') && unitsAt(s, salerno).some((u) => sideOf(u) === 'German')) {
       considered.add('cdo');
-      const a: Action = { type: 'attack', target: '2707', attackers: cdos };
+      const a: Action = { type: 'attack', target: salerno, attackers: cdos };
       if (isLegal(s, a)) return a;
     }
     return moveUnits(s, makeCtx(s));

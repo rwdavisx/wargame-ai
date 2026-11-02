@@ -1,6 +1,8 @@
 import { afterAll, describe, expect, it } from 'vitest';
 import { loadGameData, MAP, RULES, SCENARIOS, UNIT_DEFS, scenarioSetup } from '../src/engine/data';
-import { actingSide, applyAction, entryReach, newGame } from '../src/engine/game';
+import { actingSide, applyAction, entryReach, landingHexes, navalDestinations, newGame } from '../src/engine/game';
+import { fortOptions } from '../src/engine/forts';
+import { usablePorts } from '../src/engine/supply';
 import { isLand, sideOf, stackPoints, unitsAt } from '../src/engine/units';
 import type { Action, GameState, Side } from '../src/engine/types';
 import { createHeuristicAi } from '../src/ai/heuristic';
@@ -65,6 +67,125 @@ describe('grand campaign', () => {
     s.units[id].where = { kind: 'pending', turn: 2, at: 'Naples' };
     for (let k = 0; k < 5000 && !(s.turn === 2 && s.activeSide === 'Allied' && s.phase === 'movement'); k++) applyAction(s, { type: 'endPhase' } as Action);
     expect(s.units[id].where.kind).toBe('reserve');
+  });
+});
+
+/** Where a rebuilt unit came back: itself, or the Remnant standing in for it (20.3.4). */
+function cameBack(s: GameState, id: string) {
+  return Object.values(s.units).find((u) => u.represents === id)?.where ?? s.units[id].where;
+}
+
+/** A grand campaign position with no German unit on the map, at `phase` of `side`'s turn `turn`. */
+function emptied(turn: number, side: Side, phase: GameState['phase']): GameState {
+  loadGameData('grand43', GRAND_DATA);
+  const s = newGame('campaign', 7);
+  for (const u of Object.values(s.units)) if (sideOf(u) === 'German' && u.where.kind === 'map') u.where = { kind: 'removed', reason: 'test' };
+  s.turn = turn;
+  s.activeSide = side;
+  s.phase = phase;
+  return s;
+}
+
+describe('grand campaign rules where the two games meet', () => {
+  afterAll(() => loadGameData('salerno43', SALERNO_DATA));
+
+  it('brings rebuilt German units back at the north entry areas, from where they can enter', () => {
+    const s = emptied(30, 'German', 'initial');
+    s.units['GE-I-115'].where = { kind: 'eliminated' };
+    s.replacements.German.inf = 1;
+    applyAction(s, { type: 'replace', unitId: 'GE-I-115' });
+    const w = cameBack(s, 'GE-I-115');
+    expect(w.kind).toBe('entry');
+    expect((w as { area: string }).area.split('/').every((a) => MAP.entryAreas[a]?.side === 'north')).toBe(true);
+    s.phase = 'movement';
+    s.units['GE-I-115'].repl = false;
+    expect(entryReach(s, 'GE-I-115', 'normal').size).toBeGreaterThan(0);
+  });
+
+  it('brings rebuilt Eighth Army units back at the entry areas the Allies hold, the Fifth Army\'s in the Floating Reserve', () => {
+    const s = emptied(30, 'Allied', 'initial');
+    for (const a of Object.keys(RULES.entryOpens)) s.control[a] = 'Allied';
+    for (const id of ['BR-17', 'BR-139-46']) s.units[id].where = { kind: 'eliminated' };
+    s.replacements.BR.inf = 2;
+    applyAction(s, { type: 'replace', unitId: 'BR-17' });
+    applyAction(s, { type: 'replace', unitId: 'BR-139-46' });
+    const w = cameBack(s, 'BR-17');
+    expect(w.kind).toBe('entry');
+    expect((w as { area: string }).area.split('/').every((a) => s.control[a] === 'Allied' && MAP.entryAreas[a].side !== 'north')).toBe(true);
+    expect(cameBack(s, 'BR-139-46').kind).toBe('reserve');
+  });
+
+  it('keeps the Floating Reserve and naval moves on their own coast', () => {
+    const s = emptied(30, 'Allied', 'movement');
+    for (const h of ['5922', '5506', '2749']) s.control[h] = 'Allied';
+    s.portsAtStart = usablePorts(s);
+    expect(s.portsAtStart).toEqual(expect.arrayContaining(['5922', '5506', '2749']));
+    s.units['BR-139-46'].where = { kind: 'reserve' };
+    const land = landingHexes(s, 'BR-139-46');
+    expect(land).toContain('2749');
+    expect(land).not.toContain('5922');
+    expect(land).not.toContain('5506');
+    s.units['BR-5Recce'].where = { kind: 'map', hex: '5922' };
+    const fromTermoli = navalDestinations(s, 'BR-5Recce').map((d) => d.to);
+    expect(fromTermoli).toContain('5506');
+    expect(fromTermoli).not.toContain('2749');
+    expect(fromTermoli).not.toContain('reserve');
+    s.units['BR-5Recce'].where = { kind: 'map', hex: '2749' };
+    const fromSalerno = navalDestinations(s, 'BR-5Recce').map((d) => d.to);
+    expect(fromSalerno).toContain('reserve');
+    expect(fromSalerno).not.toContain('5922');
+  });
+
+  it('lets any Allied unit use the roads from Bari once they are Allied', () => {
+    const s = emptied(20, 'Allied', 'movement');
+    for (const a of Object.keys(RULES.entryOpens)) s.control[a] = 'Allied';
+    s.units['BR-17'].where = { kind: 'entry', area: 'A4' };
+    applyAction(s, { type: 'changeArea', unitId: 'BR-17', area: 'A5' });
+    expect(s.units['BR-17'].where).toEqual({ kind: 'entry', area: 'A5' });
+  });
+
+  it('places units due in Naples only in a Naples hex the Allies hold and the Germans are not in', () => {
+    const s = emptied(26, 'Allied', 'victory');
+    const id = Object.keys(UNIT_DEFS).find((u) => scenarioSetup('campaign')[u]?.arrive?.at === 'Naples')!;
+    for (const u of Object.values(s.units)) if (u.where.kind === 'pending') u.where = { kind: 'removed', reason: 'test' };
+    s.units[id].where = { kind: 'pending', turn: 27, at: 'Naples' };
+    // The Allies hold the port hex 2038; the Germans still stand in the city hex 2138 and hold the other port.
+    s.control['2038'] = 'Allied';
+    s.units['BR-139-46'].where = { kind: 'map', hex: '2038' };
+    s.control['2138'] = 'Allied';
+    s.units['GE-215'].where = { kind: 'map', hex: '2138' };
+    s.control['2139'] = 'German';
+    applyAction(s, { type: 'endPhase' });
+    for (let k = 0; k < 50 && !(s.activeSide === 'Allied' && s.phase === 'movement'); k++) applyAction(s, { type: 'endPhase' });
+    expect(s.units[id].where).toEqual({ kind: 'map', hex: '2038' });
+  });
+
+  it('has no 8th Army sector to abandon', () => {
+    const s = emptied(20, 'German', 'initial');
+    expect(() => applyAction(s, { type: 'abandon8th' })).toThrow();
+  });
+
+  it('starts the fortifications on Italy \'43\'s first turn, not in September', () => {
+    const s = emptied(22, 'German', 'initial');
+    expect(fortOptions(s)).toEqual([]);
+    s.turn = 23;
+    expect(fortOptions(s).length).toBeGreaterThan(0);
+  });
+});
+
+describe('rebuilt units in Italy \'43', () => {
+  afterAll(() => loadGameData('salerno43', SALERNO_DATA));
+  it('brings the Allies back at their entry areas: the game has no Floating Reserve', () => {
+    loadGameData('italy43', ITALY_DATA);
+    const s = newGame('campaign', 5);
+    s.activeSide = 'Allied';
+    s.phase = 'initial';
+    s.units['BR-139-46'].where = { kind: 'eliminated' };
+    s.replacements.BR.inf = 1;
+    applyAction(s, { type: 'replace', unitId: 'BR-139-46' });
+    const w = cameBack(s, 'BR-139-46');
+    expect(w.kind).toBe('entry');
+    expect((w as { area: string }).area.split('/').sort()).toEqual(['S1', 'S2']);
   });
 });
 

@@ -1,5 +1,5 @@
 import {
-  GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START, scenarioMarkers, scenarioSetup, weatherTrack,
+  GAME_ID, MAP, RULES, SCENARIOS, STARTING_SP, UNIT_DEFS, WITHDRAWAL, BATTLESHIPS_TURN, OPTIONAL_START, scenarioMarkers, scenarioSetup, setupsOf, weatherTrack,
   type UnitEvent, type UnitSetup,
 } from './data';
 import { applyFortStep, buildNeedsRoll, fortLevel, fortOptions, razeFort, startingForts } from './forts';
@@ -14,7 +14,9 @@ import {
   breakthroughAttack, breakthroughDrop, breakthroughMove, endBreakthrough, finishBreakthroughCombat, groupUnits, startBreakthrough,
 } from './breakthrough';
 import { rollD6 } from './rng';
-import { areaFriendly, beachheadHexes, losTo, salernoPortHex, salernoPortOpen, supplyChecker, usablePorts, SOUTH_EDGE_ALLIED_TURN } from './supply';
+import {
+  areaFriendly, beachheadHexes, losTo, onReserveSea, sameSea, salernoPortHex, salernoPortOpen, supplyChecker, usablePorts, SOUTH_EDGE_ALLIED_TURN,
+} from './supply';
 import type { Action, CombatReport, GameOptions, GameState, LogEntry, LogKind, MoveMode, Phase, ReplPool, ReplType, Side, UnitState } from './types';
 import {
   canStack, def, goodOrder, isElite, isLand, isLowQuality, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, unitsAt, values,
@@ -468,7 +470,8 @@ function doInitial(s: GameState): void {
       }
       if (!RULES.invasionGame && (at === 'Naples' || at.startsWith('hex:'))) {
         // Placed straight on the map: in a Naples city hex (21.1.2), or in the hex the card names (267/94 in Formia).
-        const hex = at === 'Naples' ? arrivalHex(s, u, MAP_CITY_HEXES('Naples')) : at.slice(4);
+        const open = naplesOpen(s, side);
+        const hex = at === 'Naples' ? arrivalHex(s, u, open.length ? open : MAP_CITY_HEXES('Naples')) : at.slice(4);
         u.where = { kind: 'map', hex };
         const key = at === 'Naples' ? 'Naples' : place(hex);
         arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
@@ -533,12 +536,14 @@ const poolName = (p: ReplPool) => POOL_NAMES[p];
  * landings, where it is not theirs from the start), or the enemy in the hex its card names. */
 function arrivalBlocked(s: GameState, u: UnitState, at: string): boolean {
   const side = sideOf(u);
-  const enemyIn = (h: HexId) => unitsAt(s, h).some((x) => sideOf(x) !== side);
-  if (at === 'Naples') {
-    if (!RULES.landings) return false;
-    return !MAP_CITY_HEXES('Naples').some((h) => s.control[h] === 'Allied' && !enemyIn(h));
-  }
-  return enemyIn(at.slice(4)) || s.control[at.slice(4)] === other(side);
+  if (at === 'Naples') return RULES.landings && !naplesOpen(s, side).length;
+  return unitsAt(s, at.slice(4)).some((x) => sideOf(x) !== side) || s.control[at.slice(4)] === other(side);
+}
+
+/** The Naples hexes `side`'s arrivals may be placed in: none with the enemy in it, and in a game with landings (where
+ * the city has to be taken first) only those the side holds. */
+function naplesOpen(s: GameState, side: Side): HexId[] {
+  return MAP_CITY_HEXES('Naples').filter((h) => !unitsAt(s, h).some((x) => sideOf(x) !== side) && (!RULES.landings || s.control[h] === side));
 }
 
 /** Every north entry area, as a choice ("G1/G2/G3"). */
@@ -970,10 +975,11 @@ export function landingHexes(s: GameState, unitId: string): HexId[] {
     if (s.phase !== 'movement' || u.stopped || u.repl) return []; // replacement units may not use naval transport (20.4)
     // The Turn 1 follow-up wave may use any open beach or friendly port, like any seaborne reinforcement (24.4.2);
     // landing on the other nation's beachhead disrupts the unit (18.4.2).
+    // The Floating Reserve lies off the beaches: it lands on their sea only (not the grand campaign's Adriatic ports).
     const hexes = [...landingBeaches(s), ...(s.portsAtStart ?? [])];
     const cost = lpCost(unitId);
     if (cost > s.landingPoints) return [];
-    return [...new Set(hexes)].filter((h) => occ.get(h) !== 'German' && receiveMode(s, h, cost) !== null);
+    return [...new Set(hexes)].filter((h) => occ.get(h) !== 'German' && receiveMode(s, h, cost) !== null && onReserveSea(h));
   }
   if (u.where.kind === 'entry' && (u.where.area === 'airdrop' || u.where.area === 'airdrop509')) {
     const bonds = bondsOf(s, 'German');
@@ -1024,11 +1030,13 @@ export function navalDestinations(s: GameState, unitId: string): { to: HexId | '
   if (!terminal(from)) return [];
   const cost = lpCost(unitId);
   if ((s.portMode ?? {})[from] === 'in' || (s.portUse[from] ?? 0) + cost > landingCapacity(s, from)) return [];
-  const out: { to: HexId | 'reserve'; twoTurn: boolean }[] = [{ to: 'reserve', twoTurn: false }];
+  // Only along the coast it is on: the Floating Reserve is off the beaches, and the grand campaign's two coasts are
+  // days apart by sea.
+  const out: { to: HexId | 'reserve'; twoTurn: boolean }[] = onReserveSea(from) ? [{ to: 'reserve', twoTurn: false }] : [];
   if ((s.navalLp ?? 0) + cost > 3) return out;
   const occ = occupancy(s);
   for (const h of new Set([...bh, ...ports])) {
-    if (h === from || occ.get(h) === 'German') continue;
+    if (h === from || occ.get(h) === 'German' || !sameSea(from, h)) continue;
     const mode = receiveMode(s, h, cost);
     if (mode) out.push({ to: h, twoTurn: mode === 'twoTurn' });
   }
@@ -1275,7 +1283,9 @@ export function applyAction(s: GameState, a: Action): void {
       if (side === 'Allied') {
         need(a.area === 'N1' || a.area === 'N2' ? !def(u.id).army8 : areaFriendly(s, a.area, 'Allied') || (target.side === 'east' && !!def(u.id).army8),
           'Allied units may not enter that entry area.');
-        if (target.side === 'east') need(def(u.id).army8, 'Only 8th Army units may use the east entry areas.');
+        // Salerno '43's east edge is the 8th Army's, and Italy '43's east areas lie in its zone; the grand campaign's
+        // are the Eighth Army's roads from Bari, open to any Allied unit once they are Allied.
+        if (target.side === 'east' && (sector8Map() || a.area in RULES.eighthArmyZone)) need(def(u.id).army8, 'Only 8th Army units may use the east entry areas.');
       } else need(areaFriendly(s, a.area, 'German'), 'That entry area is in Allied hands.');
       if (u.where.kind === 'map') {
         need(target.hexes.includes(u.where.hex), 'Unit must be on an edge hex of that entry area.');
@@ -1510,6 +1520,7 @@ export function applyAction(s: GameState, a: Action): void {
       return;
     }
     case 'abandon8th': {
+      need(RULES.invasionGame, 'Only Salerno \'43 has an 8th Army sector to abandon.');
       need(s.activeSide === 'German' && s.turn >= 16 && !s.abandoned8th && !s.abandon8thDeclared, 'Only the German player may do this, from turn 16.');
       need(INPUT_PHASES.includes(s.phase) && !s.pendingAdvance && !s.breakthrough, 'Not now.');
       s.abandon8thDeclared = true;
@@ -1517,6 +1528,26 @@ export function applyAction(s: GameState, a: Action): void {
       return;
     }
   }
+}
+
+/** Whether a unit comes to the front over land, through the entry areas, rather than by sea: the Germans, Salerno
+ * '43's 8th Army, every Allied unit in a game without landings (Italy '43), and in the grand campaign the Allied
+ * units its cards bring in through an entry area (the Eighth Army). The others return to the Floating Reserve. */
+export function comesOverland(unitId: string): boolean {
+  const d = def(unitId);
+  if (d.side !== 'Allied' || d.army8 || !RULES.landings) return true;
+  if (RULES.invasionGame) return false;
+  return setupsOf(unitId).some((st) => !!st.arrive && st.arrive.at.split('/').some((a) => !!MAP.entryAreas[a]));
+}
+
+/** The entry areas a rebuilt unit comes back in when the player names none (20.3.1), as a choice: Salerno '43's map
+ * edges; otherwise the German north areas, or the areas the Allies hold (not Italy '43's 8th Army zone). Empty when
+ * the Allies hold none yet. */
+function returnArea(s: GameState, side: Side): string {
+  if (RULES.invasionGame) return side === 'German' ? 'N' : 'S';
+  const areas = Object.entries(MAP.entryAreas).filter(([a, ea]) =>
+    side === 'German' ? ea.side === 'north' : ea.side !== 'north' && areaFriendly(s, a, side) && !(a in RULES.eighthArmyZone));
+  return areas.map(([a]) => a).join('/');
 }
 
 function applyReplacement(s: GameState, u: UnitState, to?: HexId): void {
@@ -1554,12 +1585,13 @@ function applyReplacement(s: GameState, u: UnitState, to?: HexId): void {
   }
   need(u.where.kind === 'eliminated' && !u.where.permanent, 'Only reduced or eliminated units can be replaced.');
   need(d.cat !== 'bh' && !d.isRemnant, 'Beachhead units and remnants cannot return.');
-  const fifthArmy = side === 'Allied' && !d.army8;
+  const bySea = !comesOverland(u.id);
   let dest: UnitState['where'];
   if (!to) {
-    dest = fifthArmy ? { kind: 'reserve' } : { kind: 'entry', area: side === 'German' ? 'N' : 'S' };
+    const area = bySea ? '' : returnArea(s, side);
+    dest = area ? { kind: 'entry', area } : { kind: 'reserve' };
   } else if (MAP.entryAreas[to]) {
-    need(!fifthArmy, '5th Army units return to the Floating Reserve or to an ASU hex.');
+    need(!bySea, '5th Army units return to the Floating Reserve or to an ASU hex.');
     need(areaFriendly(s, to, side) && (side === 'German' || MAP.entryAreas[to].side !== 'north'), `${to} is not a friendly Entry Area.`);
     dest = { kind: 'entry', area: to };
   } else {
