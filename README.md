@@ -42,7 +42,10 @@ On a touch screen:
 - **Tap** a unit to select it and see its details.
 - **Tap a highlighted hex** to preview the route, then **tap it again** (or **Move here**) to carry out the move or advance. Cancel, or tap elsewhere, to back out.
 - **Tap an enemy hex** to see the attack and its odds, then **tap it again** (or **Attack!**) to attack.
-- The action bar along the bottom holds everything for the current step. **Details** opens the full orders sheet (replacements, artillery, choosing attackers); **▾ Close** lowers it again.
+- The action bar along the bottom holds everything for the current step, each button named underneath, with the seal that ends the phase at its right. **Orders** opens the full orders sheet (replacements, artillery, choosing attackers); **▾ Close** lowers it again.
+- **Tap the readouts** in the top bar (victory points, weather) for what they mean: the benchmark, the weather's effects, supply and support. The menu (☰) holds Settings, the rules, saving and loading.
+- Ending a phase with units still waiting offers **Hold all**: they stand where they are, and the phase can end.
+- During the computer's turn, **Hurry** plays the rest of it quickly (its attacks on your units still stop on the battle panel).
 
 ### With friends, online
 
