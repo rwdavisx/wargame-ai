@@ -120,7 +120,7 @@ Open from the title screen or the top bar: who commands each side, the computer'
 
 - **Built-in AI** (`src/ai/heuristic.ts`, `src/ai/reach.ts`, `src/ai/evaluate.ts`): it works out where every enemy unit could move and attack next turn, following terrain, roads and zones of control rather than just distance. That includes the road marches an enemy could make to walk into an undefended town. Every move is weighed by the risk it adds or removes across the whole position against the ground it gains. The risk counts expected step losses and the victory points at stake: artillery, beach groups and towns. So it:
   - garrisons the towns the enemy could walk into, and places its units so their zones of control close the routes to the rest;
-  - keeps its guns behind a screen and moves them last, once the line has settled;
+  - keeps its guns behind a screen and moves them last, once the line has settled, brings guns left far behind up to its troops, and does not leave a gun on its own where the enemy can strike (nor advance the last combat unit away from one after combat);
   - prefers defensive ground the enemy can only attack across rivers and mountain ridges, and its forts;
   - goes for the enemy's exposed artillery and beach groups.
 

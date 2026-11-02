@@ -1517,6 +1517,7 @@ export function applyAction(s: GameState, a: Action): void {
       return;
     }
     case 'abandon8th': {
+      need(RULES.invasionGame, 'Only Salerno \'43 has an 8th Army sector to abandon.');
       need(s.activeSide === 'German' && s.turn >= 16 && !s.abandoned8th && !s.abandon8thDeclared, 'Only the German player may do this, from turn 16.');
       need(INPUT_PHASES.includes(s.phase) && !s.pendingAdvance && !s.breakthrough, 'Not now.');
       s.abandon8thDeclared = true;

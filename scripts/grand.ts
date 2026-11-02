@@ -1,10 +1,11 @@
 // The grand campaign played AI against AI, with a line per turn: npx vite-node scripts/grand.ts [scenario] [seed] [lastTurn]
-// (GAME=italy43 or salerno43 plays one of the printed games instead).
+// (GAME=italy43 or salerno43 plays one of the printed games instead). TUNE, TUNE_A and TUNE_G (JSON) change the AI's
+// weights (TUNING in src/ai/heuristic.ts) for both sides, the Allies or the Germans.
 import { loadGameData, MAP, RULES } from '../src/engine/data';
 import { actingSide, alliedVp, applyAction, benchmark, newGame } from '../src/engine/game';
 import type { Action, GameState, Side } from '../src/engine/types';
-import { sideOf } from '../src/engine/units';
-import { createHeuristicAi } from '../src/ai/heuristic';
+import { def, sideOf } from '../src/engine/units';
+import { createHeuristicAi, TUNING } from '../src/ai/heuristic';
 import { GRAND_DATA } from '../src/games/grand43/data';
 import { ITALY_DATA } from '../src/games/italy43/data';
 import { SALERNO_DATA } from '../src/games/salerno43/data';
@@ -15,7 +16,11 @@ loadGameData(game, game === 'italy43' ? ITALY_DATA : game === 'salerno43' ? SALE
 // NOAUTO=1: play to the last turn whatever the benchmark says (for balancing).
 if (process.env.NOAUTO) (RULES as { automaticMargin: number }).automaticMargin = 999;
 const s: GameState = newGame(scenario, Number(seed));
-const ai: Record<Side, ReturnType<typeof createHeuristicAi>> = { Allied: createHeuristicAi('elite'), German: createHeuristicAi('elite') };
+const weights = (side: string) => ({ ...TUNING, ...JSON.parse(process.env.TUNE ?? '{}'), ...JSON.parse(process.env[`TUNE_${side}`] ?? '{}') });
+const tuned = (w: typeof TUNING, p: ReturnType<typeof createHeuristicAi>) => ({ nextAction: (st: GameState) => (Object.assign(TUNING, w), p.nextAction(st)) });
+const ai: Record<Side, { nextAction(s: GameState): unknown }> = {
+  Allied: tuned(weights('A'), createHeuristicAi('elite')), German: tuned(weights('G'), createHeuristicAi('elite')),
+};
 const illegal: string[] = [];
 let k = 0;
 let turn = s.turn;
@@ -49,4 +54,6 @@ while (s.phase !== 'gameOver' && k++ < 200000 && s.turn <= Number(stop)) {
 }
 line();
 console.log(s.winner, s.victoryNote ?? '');
+const lostGuns = (side: Side) => Object.values(s.units).filter((u) => u.where.kind === 'eliminated' && sideOf(u) === side && def(u.id).asu).length;
+console.log(`guns lost: German ${lostGuns('German')}, Allied ${lostGuns('Allied')}`);
 if (process.env.LOG) for (const e of s.log.slice(-Number(process.env.LOG))) console.log(`  ${e.text}`);

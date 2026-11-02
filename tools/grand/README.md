@@ -88,6 +88,14 @@ Allies hold, 12 landing points a day. Naples is a port once taken; until then un
 September the weather is Salerno '43's daily track (`weatherSeasons`), from October Italy '43's, and Salerno's
 landing-day movement rules apply on day 1.
 
+Where the two games meet: the Floating Reserve lies off the beaches and lands only on their sea, and naval movement
+keeps to one sea (the engine joins the map's bodies of sea hexes that come within a few hexes of each other: the
+Gulfs of Gaeta, Naples and Salerno are one sea, the Adriatic another), so Termoli, Ortona and Pescara serve only units
+already on that coast. The German engineers start building on Italy '43's first turn, 1 October
+(`rules.fortifications.fromTurn`), at its pace of a step a turn. Rebuilt units come back as in Italy '43: the
+Germans at the north entry areas, the Eighth Army (the Allied units its cards bring in through an entry area) at the
+entry areas the Allies hold, the Fifth Army in the Floating Reserve.
+
 Entry areas: G1-G5 on the north edge are German (the Appia, the Casilina, the Tiburtina at Avezzano, the SS 17 from
 L'Aquila and the Via Adriatica); Italy '43's units due at its N3 (the Sora road) come at G3, at its N4 (the Castel di
 Sangro road) at G4. A1-A7 on the south and east edges are German until the Eighth Army comes up (`rules.entryOpens`:

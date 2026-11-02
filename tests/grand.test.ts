@@ -144,6 +144,11 @@ describe('grand campaign rules where the two games meet', () => {
     expect(s.units['BR-17'].where).toEqual({ kind: 'entry', area: 'A5' });
   });
 
+  it('has no 8th Army sector to abandon', () => {
+    const s = emptied(20, 'German', 'initial');
+    expect(() => applyAction(s, { type: 'abandon8th' })).toThrow();
+  });
+
   it('starts the fortifications on Italy \'43\'s first turn, not in September', () => {
     const s = emptied(22, 'German', 'initial');
     expect(fortOptions(s)).toEqual([]);
