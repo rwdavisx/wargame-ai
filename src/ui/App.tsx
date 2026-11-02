@@ -14,6 +14,7 @@ import { SettingsModal } from './SettingsModal';
 import { initMusic, setMusic } from './music';
 import { setSound } from './sound';
 import { autosave, hasAutosave, loadAutosave, loadSettings, saveSettings, type Settings } from './storage';
+import { turnLabel } from '../engine/words';
 
 type Screen = 'loading' | 'title' | 'new' | 'lobby' | 'briefing' | 'game';
 
@@ -143,6 +144,10 @@ export default function App() {
   const localSide = settings.controllers.Allied === 'human' && settings.controllers.German !== 'human' ? 'Allied'
     : settings.controllers.German === 'human' && settings.controllers.Allied !== 'human' ? 'German' : null;
   const humanSide = net ? (net.head?.seats[net.me] ?? null) : localSide;
+  // What Continue goes back to: the scenario, the day and who commands what.
+  const who = settings.controllers.Allied === 'human' && settings.controllers.German === 'human' ? 'two players'
+    : localSide ? `as the ${localSide === 'Allied' ? 'Allies' : 'Germans'}` : 'watching';
+  const continueNote = canContinue ? `${SCENARIOS[game.scenarioId]?.name ?? ''} · ${turnLabel(game.turn).toLowerCase()} · ${who}` : undefined;
 
   if (!terrain || screen === 'loading') {
     return (
@@ -156,12 +161,17 @@ export default function App() {
     <>
       <TokenDefs />
       {screen === 'title' && (
-        <TitleScreen terrain={terrain} gameId={gameId} onChooseGame={chooseGame} canContinue={canContinue} onContinue={() => setScreen('game')} onNew={() => setScreen('new')} onOnline={() => setScreen('lobby')}
+        <TitleScreen terrain={terrain} gameId={gameId} onChooseGame={chooseGame} canContinue={canContinue} continueNote={continueNote} onContinue={() => setScreen('game')} onNew={() => setScreen('new')} onOnline={() => setScreen('lobby')}
           onSettings={() => setModal('settings')} onHowTo={() => setModal('howto')} />
       )}
-      {screen === 'new' && <NewGameScreen terrain={terrain} settings={settings} setSettings={setSettings} onStart={startNew} onBack={() => setScreen('title')} />}
+      {screen === 'new' && <NewGameScreen terrain={terrain} settings={settings} setSettings={setSettings} onStart={startNew} onBack={() => {
+        // Back from a briefing and then from here: Continue goes back to the saved game, not the one not begun.
+        setGame(loadAutosave() ?? freshGame());
+        setScreen('title');
+      }} />}
       {screen === 'lobby' && <NetLobby terrain={terrain} aiLevel={settings.aiLevel} alerts={settings.turnAlerts !== false} onEnter={enterNet} onBack={() => setScreen('title')} />}
-      {screen === 'briefing' && <BriefingScreen terrain={terrain} game={net?.game ?? game} side={humanSide} onBegin={() => setScreen('game')} />}
+      {screen === 'briefing' && <BriefingScreen terrain={terrain} game={net?.game ?? game} side={humanSide} onBegin={() => setScreen('game')}
+        onBack={net ? undefined : () => setScreen('new')} />}
       {screen === 'game' && (
         <GameScreen
           game={net?.game ?? game}
