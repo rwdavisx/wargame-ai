@@ -31,6 +31,7 @@ import type { NetLink } from '../net/session';
 import { StatusDot, useToast } from '@astryxdesign/core';
 import { movementAllowance } from '../engine/movement';
 import { turnDate } from '../engine/words';
+import './mobile-play.css';
 
 const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
@@ -95,6 +96,8 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const [hover, setHover] = useState<HexId | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [paused, setPaused] = useState(false);
+  // The player asked the computer to hurry through the rest of its turn (no pause between actions, quick animations).
+  const [hurry, setHurry] = useState(false);
   const [aiStatus, setAiStatus] = useState<string>('');
   const [editorOn, setEditorOn] = useState(false);
   const [tab, setTab] = useState('play');
@@ -223,6 +226,13 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
   const halted = battleHold || (showLanding && !humanTurn); // the computer's landings play out on the panel before it moves on
 
   // ---------------------------------------------------------------- AI players
+  // Hurrying lasts until the player has the game again.
+  useEffect(() => {
+    if (humanTurn) setHurry(false);
+  }, [humanTurn]);
+  const aiDelay = hurry ? 0 : settings.aiDelayMs;
+  // The map plays the computer's moves quickly while it hurries (and sizes its pauses to match).
+  const mapSettings = useMemo(() => (hurry ? { ...settings, animSpeed: Math.min(settings.animSpeed, 0.35) } : settings), [settings, hurry]);
   const aiRef = useRef<Record<string, AiPlayer>>({});
   const aiFor = useCallback(
     (side: Side): AiPlayer => {
@@ -304,12 +314,12 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           setToast(`AI error: ${(e as Error).message}`);
         }
       }
-    }, settings.aiDelayMs + Math.max(0, busyUntil.current - Date.now()));
+    }, aiDelay + Math.max(0, busyUntil.current - Date.now()));
     return () => {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [game, acting, humanTurn, remoteTurn, halted, settings.aiDelayMs, aiFor, setGame, net, incoming.length]);
+  }, [game, acting, humanTurn, remoteTurn, halted, aiDelay, aiFor, setGame, net, incoming.length]);
 
   // Online: play out the other players' actions as they arrive, at the computer's pace (at once when a co-op
   // partner moves during this player's own turn). An attack on this player's units waits on the battle panel.
@@ -325,9 +335,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         return;
       }
       takeRemote(a);
-    }, partner ? 0 : settings.aiDelayMs + Math.max(0, busyUntil.current - Date.now()));
+    }, partner ? 0 : aiDelay + Math.max(0, busyUntil.current - Date.now()));
     return () => clearTimeout(timer);
-  }, [game, net, incoming, battleHold, showLanding, controller, settings.aiDelayMs]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [game, net, incoming, battleHold, showLanding, controller, aiDelay]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Clear transient selection when the phase or side changes.
   const phaseKey = `${game.turn}|${game.activeSide}|${game.phase}`;
@@ -796,10 +806,11 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     : ordersLeft ? `${ordersLeft} waiting` : `End ${game.phase === 'invasion' ? 'invasion' : game.phase === 'movement' ? 'move' : game.phase}`;
   const endPhase = () => {
     if (ordersLeft) {
-      // The phase ends only once every unit that can act has acted or been told to hold or sleep.
+      // The phase ends only once every unit that can act has acted or been told to hold or sleep. The bar says so,
+      // and offers to hold every unit still waiting in one go.
       selectNext(waitingOrders);
-      const one = ordersLeft === 1;
-      setToast(`${ordersLeft} unit${one ? '' : 's'} still ${one ? 'needs' : 'need'} orders: ${game.phase === 'combat' ? (one ? 'attack with it' : 'attack with them') : (one ? 'move it' : 'move them')}, or give ${one ? 'it' : 'each'} Hold (H) or Sleep (F).`);
+      setOrdersWarn(true);
+      sfx.click();
       return;
     }
     const checks = !endArmed && !game.breakthrough && !game.pendingAdvance && settings.endChecks !== false ? endChecklist(game, acting) : [];
@@ -815,6 +826,34 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
     dispatch({ type: 'endPhase' });
   };
   useEffect(() => setEndArmed(false), [phaseKey, game.seq]);
+  // End pressed while units still wait for orders: the bar lists the choices until they are given or the phase ends.
+  const [ordersWarn, setOrdersWarn] = useState(false);
+  useEffect(() => setOrdersWarn(false), [phaseKey]);
+  /** Every unit still waiting for orders this phase stands where it is (Hold), as one step. */
+  const holdAll = () => {
+    if (net && net.incoming.length) return setToast('Catching up with the other player…');
+    let g = game;
+    let n = 0;
+    for (const u of waitingOrders) {
+      const a: Action = { type: 'hold', unitId: u.id };
+      let next: GameState;
+      try {
+        next = withAction(g, a);
+      } catch {
+        continue;
+      }
+      if (net && !net.push(a, g, next)) break;
+      g = next;
+      n++;
+    }
+    if (!n) return;
+    if (!net) setGame(g);
+    setHistory([]);
+    setSelectedUnit(null);
+    setSelectedHex(null);
+    setOrdersWarn(false);
+    sfx.click();
+  };
 
   // Hold (this phase) or Sleep (until woken) for the selected unit, then on to the next one waiting.
   const giveOrder = (type: 'hold' | 'sleep' | 'wake') => {
@@ -839,10 +878,12 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
       if (game.phase === 'movement' || game.phase === 'invasion') {
         modes = why ? [] : game.phase === 'invasion' ? ['tactical'] : allowedModes(game, mineSel);
         const r = confirmHex && reach?.get(confirmHex);
+        // What to do next, in the words of the input in hand: a blue hex is where it can go.
+        const go = reach && [...reach.keys()].some((h) => h !== hexOf(mineSel)) ? ` · ${touch ? 'tap' : 'pick'} a blue hex` : '';
         unitNote = why ? `Can't move: ${why}`
-          : `${mineSel.mpSpent === null ? 'Ready' : moveLeft(game, mineSel) ? `${moveLeft(game, mineSel)} left` : `${+mineSel.mpSpent.toFixed(1)} MP used`}${r ? '' : ''}`;
+          : `${mineSel.mpSpent === null ? 'Ready' : moveLeft(game, mineSel) ? `${moveLeft(game, mineSel)} left` : `${+mineSel.mpSpent.toFixed(1)} MP used`}${r ? '' : go}`;
       } else if (game.phase === 'combat') {
-        unitNote = targets.length ? 'Pick a red hex' : 'No enemy in reach';
+        unitNote = targets.length ? `${touch ? 'Tap' : 'Pick'} a red hex to attack` : 'No enemy in reach';
       } else unitNote = `${def(mineSel.id).formation} · ${def(mineSel.id).cat}`;
     } else if (mineSel.where.kind === 'reserve' || mineSel.where.kind === 'followUp' || mineSel.where.kind === 'atSea') {
       unitNote = `Lands for ${lpCost(mineSel.id)} LP · ${game.landingPoints} left`;
@@ -996,6 +1037,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
 
   // Online: who the game is waiting on.
   const remoteNote = net && remoteTurn ? (incoming.length ? `${cap(net.who(acting))} is moving…` : `Waiting for ${net.who(acting)}…`) : '';
+  // While the computer plays: its latest action this turn, as a running line under the bar's title.
+  const lastLog = game.log[game.log.length - 1];
+  const aiTicker = !humanTurn && lastLog && lastLog.turn === game.turn ? lastLog.text : '';
   const cardUnit = selUnit ?? (selectedHex ? unitsAt(game, selectedHex)[0] ?? null : null);
   const showDefense = viewerOpen;
 
@@ -1005,7 +1049,7 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         state={heldMap ?? game}
         terrain={terrain}
         version={mapVersion}
-        settings={settings}
+        settings={mapSettings}
         highlights={viewerOpen ? NO_HIGHLIGHTS : highlights}
         selectedHex={viewerOpen ? null : selectedHex}
         selectedUnitId={selectedUnit}
@@ -1038,9 +1082,10 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
         acting={acting}
         touch={touch}
         rightClick={rightClick}
-        aiStatus={remoteNote || aiStatus}
+        aiStatus={remoteNote || aiStatus || aiTicker}
         paused={paused}
         setPaused={setPaused}
+        hurry={!humanTurn && !remoteTurn && game.phase !== 'gameOver' ? { on: hurry, set: setHurry } : null}
         confirm={confirm}
         onConfirm={() => confirmHex && onHexClick(confirmHex)}
         onCancelConfirm={() => setConfirmHex(null)}
@@ -1070,6 +1115,9 @@ export function GameScreen({ game, setGame, settings, setSettings, terrain, mapV
           warn: endWarn || (endChecks.length ? 'Before this phase ends:' : ''),
           checks: endArmed ? endChecks : [],
           onCheck: (h) => { focusOn(h); qol.pulse(h); },
+          waiting: ordersWarn && ordersLeft ? {
+            count: ordersLeft, combat: game.phase === 'combat', onHoldAll: holdAll, onNext: () => selectNext(waitingOrders), onDismiss: () => setOrdersWarn(false),
+          } : null,
         } : null}
       />
       <aside className={`command gilt${panelOpen ? '' : ' closed'}`}>

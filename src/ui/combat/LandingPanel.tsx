@@ -145,15 +145,24 @@ export function LandingPanel({ game, dispatch, speed, onHold, onFocus, onFootpri
     };
   }, []);
 
+  // The beach being rolled scrolls into view in the list (on a phone the list shows only a beach or two), and the
+  // panel folds down to its buttons to look at the map.
+  const [folded, setFolded] = useState(false);
+  useEffect(() => {
+    dockRef.current?.querySelector('.land-row.on')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [current]);
+
   const cur = current ? beaches.find((b) => b.name === current) : null;
   const curRes = cur && rolls[cur.name] ? RULES.invasion[invasionColumn(cur.name)][rolls[cur.name] - 1] : null;
 
   return (
-    <div ref={dockRef} className="cbx-dock att-allied landing-dock">
+    <div ref={dockRef} className={`cbx-dock att-allied landing-dock${folded ? ' folded' : ''}`}>
       <div className="cbx" role="dialog" aria-modal="false" aria-label="The landings">
         <header className="cbx-head">
           <div className="cbx-kicker">D-Day · 9 September 1943 · Invasion table (24.2)</div>
           <h2 className="cbx-title">{spectator ? 'The Allies land' : 'The landings'}</h2>
+          <Button label={folded ? '▴ Beaches' : '▾ Map'} size="sm" className="cbx-fold land-fold" aria-expanded={!folded} onClick={() => setFolded((f) => !f)}
+            tooltip={folded ? 'Show the beaches' : 'Fold the panel to see the map'} />
         </header>
         <div className="land-die">
           <Die3D value={cur ? rolls[cur.name] ?? null : null} throwKey={throwKey} size={64} speed={speed} onLanded={landed} />

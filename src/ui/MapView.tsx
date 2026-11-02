@@ -637,8 +637,10 @@ export function MapView(props: MapViewProps) {
     // `?focus=2504` in the page address starts the view on that hex (handy for checking the map art).
     const focus = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('focus') : null;
     const [cx, cy] = center(focus && MAP.hexes[focus] ? focus : homeHex(state));
-    // Phones start closer in so the counters are big enough to tap.
-    const w = typeof window !== 'undefined' && window.innerWidth < 820 ? 440 : 1040;
+    // Phones (upright or sideways) start closer in, at about 0.92 screen pixels to the map unit, so a hex is some 48
+    // pixels across and its counters are big enough to tap.
+    const phone = typeof window !== 'undefined' && window.matchMedia('(max-width: 820px), (max-height: 520px)').matches;
+    const w = phone ? Math.max(330, Math.min(1040, Math.round(window.innerWidth / 0.92))) : 1040;
     return { x: cx - w / 2, y: cy - (w * 0.63) / 2, w, h: w * 0.63 };
   });
   // `vb` is the view the map is drawn for; `vbRef` the one on screen. While the camera moves, the drawn layers (with a

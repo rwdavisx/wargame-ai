@@ -33,6 +33,8 @@ export interface ActionBarProps {
   aiStatus: string;
   paused: boolean;
   setPaused: (b: boolean) => void;
+  /** While the computer plays: hurry it through the rest of its turn. */
+  hurry: { on: boolean; set: (b: boolean) => void } | null;
 
   /** A destination tapped once on a touch screen, waiting for confirmation. */
   confirm: { title: string; button: string } | null;
@@ -86,7 +88,11 @@ export interface ActionBarProps {
   canUndo: boolean;
   onUndo: () => void;
   /** `checks`: things to look at before the phase ends, shown (and each jumped to) while End is armed. */
-  end: { label: string; armed: boolean; warn: string; onClick: () => void; checks?: { text: string; hex: HexId }[]; onCheck?: (hex: HexId) => void } | null;
+  end: {
+    label: string; armed: boolean; warn: string; onClick: () => void; checks?: { text: string; hex: HexId }[]; onCheck?: (hex: HexId) => void;
+    /** End was pressed while units still wait for orders: hold them all, or go to the next one. */
+    waiting?: { count: number; combat: boolean; onHoldAll: () => void; onNext: () => void; onDismiss: () => void } | null;
+  } | null;
 }
 
 function oddsText(o: OddsInfo): string {
@@ -148,6 +154,8 @@ export function ActionBar(p: ActionBarProps) {
         <Prompt title={g.phase === 'gameOver' ? 'Battle over' : `${p.acting} ${g.pendingDefense ? 'deciding' : 'moving'}`} sub={p.aiStatus || undefined} />
         {g.phase !== 'gameOver' && (
           <div className="cmd-buttons">
+            {p.hurry && <Medal icon="next" label="Hurry" active={p.hurry.on} tip={[p.hurry.on ? 'Back to the usual pace' : 'Play the rest of this turn quickly']}
+              onClick={() => p.hurry?.set(!p.hurry.on)} />}
             <Medal icon={p.paused ? 'play' : 'pause'} label={p.paused ? 'Resume' : 'Pause'} active={p.paused} onClick={() => p.setPaused(!p.paused)} />
             <Medal icon="log" label="Log" active={p.detailsOpen} onClick={p.onDetails} />
           </div>
@@ -204,6 +212,7 @@ export function ActionBar(p: ActionBarProps) {
         </Prompt>
         <div className="cmd-buttons">
           <Medal icon="close" label="Cancel" keyHint={key('Esc')} onClick={p.onCancelAttack} />
+          {p.next && p.next.count > 1 && a.kind !== 'breakthrough' && <Medal icon="next" label={p.next.label} badge={p.next.count} keyHint={key('N')} onClick={p.next.onClick} />}
           {g.phase !== 'invasion' && <Medal icon="army" label="Units" onClick={p.onDetails} />}
         </div>
         <div className="cmd-seal">
@@ -249,6 +258,7 @@ export function ActionBar(p: ActionBarProps) {
                   <Medal key={m} icon={MODE_ICON[m]} label={MODE_LABEL[m]} size="sm" active={p.moveMode === m} keyHint={key(String(i + 1))} tip={[MODE_HINT[m]]}
                     onClick={() => p.setMoveMode(m)} />
                 ))}
+                {p.touch && <span className="cmd-mode-name">{MODE_LABEL[p.moveMode]}</span>}
               </div>
             )}
           </Prompt>
@@ -275,8 +285,26 @@ export function ActionBar(p: ActionBarProps) {
       </>
     );
   }
+  const w = p.end?.waiting;
   return (
-    <div ref={ref} className={`cmd gilt${p.humanTurn ? '' : ' waiting'}`}>
+    <div ref={ref} className={`cmd gilt${p.humanTurn ? '' : ' waiting'}${p.confirm ? ' confirming' : ''}`}>
+      {w && (
+        <div className="cmd-warn cmd-orders" role="status">
+          <div className="cmd-warn-head">
+            <Ico name="warning" size={16} />
+            <span>{w.count} unit{w.count === 1 ? '' : 's'} still {w.count === 1 ? 'needs' : 'need'} orders</span>
+            <button className="cmd-warn-x" aria-label="Dismiss" onClick={w.onDismiss}><Ico name="close" size={14} /></button>
+          </div>
+          <div className="cmd-warn-sub">
+            {w.combat ? 'Attack with each, or let it stand: ' : 'Move each, or keep it where it is: '}
+            Hold stands still this phase, Sleep until woken.
+          </div>
+          <div className="cmd-warn-acts">
+            <button className="cmd-act primary" onClick={w.onHoldAll}><Ico name="pin" size={16} />Hold {w.count === 1 ? 'it' : `all ${w.count}`}</button>
+            {w.count > 1 && <button className="cmd-act" onClick={w.onNext}><Ico name="next" size={16} />Next waiting</button>}
+          </div>
+        </div>
+      )}
       {p.end?.armed && (p.end.warn || !!p.end.checks?.length) && (
         <div className="cmd-warn">
           <div className="cmd-warn-head"><Ico name="warning" size={16} />{p.end.warn}</div>

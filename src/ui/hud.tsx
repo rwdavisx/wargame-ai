@@ -66,8 +66,21 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
   const over = game.phase === 'gameOver';
   const who = over ? 'Battle over' : humanTurn ? (acting !== game.activeSide ? `${acting} decides` : 'Your orders') : aiStatus || 'Enemy moving';
   const wIcon = weatherIcon(wb);
+  // The readouts open a panel that spells them out: on a touch screen there are no tooltips, and on a phone some
+  // readouts are hidden to keep the bar to one line.
+  const [details, setDetails] = useState(false);
+  const toggle = () => setDetails((d) => !d);
+  const opener = { role: 'button', tabIndex: 0, 'aria-expanded': details, 'aria-controls': 'hud-details', onClick: toggle,
+    onKeyDown: (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } } } as const;
+  const support = supportMarkersFor(game.turn).map((k) => {
+    const [nation, kind] = k.split('-');
+    // Italy '43's one naval marker shows as ready for both armies until it is used (9.6).
+    const on = nation === 'AL' ? ready('US-naval') || ready('BR-naval') : ready(k);
+    const name = nation === 'AL' ? 'Allied' : nation === 'GE' ? 'German' : nation;
+    return { k, nation, kind, on, name };
+  });
   return (
-    <header className="hud-top">
+    <header className={`hud-top${details ? ' details-open' : ''}`}>
       <div className="hud-side">
         <Tip title={`${game.activeSide} turn`} lines={[who]} pos="below">
           <div className={`hud-emblem ${game.activeSide === 'Allied' ? 'allied' : 'german'}`}>
@@ -80,7 +93,7 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
         </div>
       </div>
       <div className="hud-sep" />
-      <div className="hud-res">
+      <div className="hud-res" aria-label="Victory points, weather and supply: details" {...opener}>
         <Tip title="Victory points" pos="below" lines={bm !== null
           ? [`Allied ${vp} · benchmark ${bm}`, `Allies win at ${hi} (or 20)`, `Germans win at ${lo}`]
           : [`Allied ${vp}`, `Benchmarks from ${turnLabel(firstBenchmarkTurn()).toLowerCase()}`]}>
@@ -101,17 +114,11 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
           <span className="stat hud-supply"><Ico name="supply" size={20} /><b><span className="a">{game.supplyPoints.Allied}</span><span>·</span><span className="g">{game.supplyPoints.German}</span></b></span>
         </Tip>
         <div className="hud-support">
-          {supportMarkersFor(game.turn).map((k) => {
-            const [nation, kind] = k.split('-');
-            // Italy '43's one naval marker shows as ready for both armies until it is used (9.6).
-            const on = nation === 'AL' ? ready('US-naval') || ready('BR-naval') : ready(k);
-            const name = nation === 'AL' ? 'Allied' : nation === 'GE' ? 'German' : nation;
-            return (
-              <Tip key={k} title={`${name} ${kind === 'air' ? 'air support' : 'naval gunfire'}`} lines={[on ? 'Ready' : 'Used or grounded']} pos="below">
-                <span className={`sup ${kind}${on ? ' ready' : ''}`}><Ico name={kind === 'air' ? 'plane' : 'ship'} size={18} /><em>{nation === 'AL' ? 'ALL' : nation}</em></span>
-              </Tip>
-            );
-          })}
+          {support.map(({ k, nation, kind, on, name }) => (
+            <Tip key={k} title={`${name} ${kind === 'air' ? 'air support' : 'naval gunfire'}`} lines={[on ? 'Ready' : 'Used or grounded']} pos="below">
+              <span className={`sup ${kind}${on ? ' ready' : ''}`}><Ico name={kind === 'air' ? 'plane' : 'ship'} size={18} /><em>{nation === 'AL' ? 'ALL' : nation}</em></span>
+            </Tip>
+          ))}
           {game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0 && (
             <Tip title="Valiant & Warspite" lines={[`${game.support.battleships} bombardment${game.support.battleships > 1 ? 's' : ''} left`]} pos="below">
               <span className="sup ready naval"><Ico name="battleship" size={18} /><em>×{game.support.battleships}</em></span>
@@ -130,7 +137,7 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
         ))}
       </div>
       <Tip title={turnLabel(game.turn)} lines={[`${game.lastTurn - game.turn} turn${game.lastTurn - game.turn === 1 ? '' : 's'} after this one`]} pos="below">
-        <div className="hud-date">
+        <div className="hud-date" aria-label="Date and turn: details" {...opener}>
           <b>{DATE(game.turn)}</b>
           <small><Ico name="hourglass" size={12} />Turn {game.turn} / {game.lastTurn}</small>
         </div>
@@ -142,6 +149,46 @@ export function TopBar({ game, settings, setSettings, humanTurn, acting, onMenu,
         <Medal icon="menu" label="Menu" keyHint="Esc" size="sm" pos="below" onClick={onMenu} />
       </div>
       <Meander />
+      {details && (
+        <>
+          <button className="hud-details-shade" aria-label="Close the details" onClick={() => setDetails(false)} />
+          <section id="hud-details" className="hud-details gilt" aria-label="The situation">
+            <header className="hd-head">
+              <div>
+                <b>{over ? 'Battle over' : `${game.activeSide} turn`}</b>
+                <small>{DATE(game.turn)} · {turnLabel(game.turn)} of {game.lastTurn}{over ? '' : ` · ${PHASE_NAME[game.phase] ?? game.phase}`}</small>
+              </div>
+              <button className="hd-close" aria-label="Close the details" onClick={() => setDetails(false)}><Ico name="close" size={18} /></button>
+            </header>
+            {!over && (
+              <ol className="hd-phases" aria-label="Phases">
+                {phases.map((ph, i) => (
+                  <li key={ph} className={game.phase === ph ? 'on' : i < at ? 'done' : ''} aria-current={game.phase === ph ? 'step' : undefined}>
+                    <Ico name={PHASE_ICON[ph]} size={16} /><span>{PHASE_NAME[ph]}</span>
+                  </li>
+                ))}
+              </ol>
+            )}
+            <dl className="hd-list">
+              <div><dt><Ico name="laurel" size={16} />Victory points</dt>
+                <dd>{bm !== null ? <>Allied {vp} against a benchmark of {bm}. The Allies win at {hi} (or 20), the Germans at {lo}.</> : <>Allied {vp}. Benchmarks begin on {turnLabel(firstBenchmarkTurn()).toLowerCase()}.</>}</dd></div>
+              <div><dt><Ico name={wIcon} size={16} />Weather · {wb.name}</dt><dd>{weatherLines(wb).join('. ')}.</dd></div>
+              <div><dt><Ico name="supply" size={16} />Supply points</dt><dd>Allied {game.supplyPoints.Allied} · German {game.supplyPoints.German}, spent to ready artillery.</dd></div>
+              {support.length > 0 && (
+                <div><dt><Ico name="plane" size={16} />Support</dt>
+                  <dd className="hd-support">
+                    {support.map(({ k, kind, on, name }) => (
+                      <span key={k} className={on ? 'ready' : ''}><Ico name={kind === 'air' ? 'plane' : 'ship'} size={14} />{name} {kind === 'air' ? 'air' : 'naval'}: {on ? 'ready' : 'used'}</span>
+                    ))}
+                    {game.turn >= BATTLESHIPS_TURN && game.support.battleships > 0 && (
+                      <span className="ready"><Ico name="battleship" size={14} />Valiant & Warspite: {game.support.battleships} left</span>
+                    )}
+                  </dd></div>
+              )}
+            </dl>
+          </section>
+        </>
+      )}
     </header>
   );
 }
