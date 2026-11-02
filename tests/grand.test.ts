@@ -144,6 +144,22 @@ describe('grand campaign rules where the two games meet', () => {
     expect(s.units['BR-17'].where).toEqual({ kind: 'entry', area: 'A5' });
   });
 
+  it('places units due in Naples only in a Naples hex the Allies hold and the Germans are not in', () => {
+    const s = emptied(26, 'Allied', 'victory');
+    const id = Object.keys(UNIT_DEFS).find((u) => scenarioSetup('campaign')[u]?.arrive?.at === 'Naples')!;
+    for (const u of Object.values(s.units)) if (u.where.kind === 'pending') u.where = { kind: 'removed', reason: 'test' };
+    s.units[id].where = { kind: 'pending', turn: 27, at: 'Naples' };
+    // The Allies hold the port hex 2038; the Germans still stand in the city hex 2138 and hold the other port.
+    s.control['2038'] = 'Allied';
+    s.units['BR-139-46'].where = { kind: 'map', hex: '2038' };
+    s.control['2138'] = 'Allied';
+    s.units['GE-215'].where = { kind: 'map', hex: '2138' };
+    s.control['2139'] = 'German';
+    applyAction(s, { type: 'endPhase' });
+    for (let k = 0; k < 50 && !(s.activeSide === 'Allied' && s.phase === 'movement'); k++) applyAction(s, { type: 'endPhase' });
+    expect(s.units[id].where).toEqual({ kind: 'map', hex: '2038' });
+  });
+
   it('has no 8th Army sector to abandon', () => {
     const s = emptied(20, 'German', 'initial');
     expect(() => applyAction(s, { type: 'abandon8th' })).toThrow();

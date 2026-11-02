@@ -470,7 +470,8 @@ function doInitial(s: GameState): void {
       }
       if (!RULES.invasionGame && (at === 'Naples' || at.startsWith('hex:'))) {
         // Placed straight on the map: in a Naples city hex (21.1.2), or in the hex the card names (267/94 in Formia).
-        const hex = at === 'Naples' ? arrivalHex(s, u, MAP_CITY_HEXES('Naples')) : at.slice(4);
+        const open = naplesOpen(s, side);
+        const hex = at === 'Naples' ? arrivalHex(s, u, open.length ? open : MAP_CITY_HEXES('Naples')) : at.slice(4);
         u.where = { kind: 'map', hex };
         const key = at === 'Naples' ? 'Naples' : place(hex);
         arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
@@ -535,12 +536,14 @@ const poolName = (p: ReplPool) => POOL_NAMES[p];
  * landings, where it is not theirs from the start), or the enemy in the hex its card names. */
 function arrivalBlocked(s: GameState, u: UnitState, at: string): boolean {
   const side = sideOf(u);
-  const enemyIn = (h: HexId) => unitsAt(s, h).some((x) => sideOf(x) !== side);
-  if (at === 'Naples') {
-    if (!RULES.landings) return false;
-    return !MAP_CITY_HEXES('Naples').some((h) => s.control[h] === 'Allied' && !enemyIn(h));
-  }
-  return enemyIn(at.slice(4)) || s.control[at.slice(4)] === other(side);
+  if (at === 'Naples') return RULES.landings && !naplesOpen(s, side).length;
+  return unitsAt(s, at.slice(4)).some((x) => sideOf(x) !== side) || s.control[at.slice(4)] === other(side);
+}
+
+/** The Naples hexes `side`'s arrivals may be placed in: none with the enemy in it, and in a game with landings (where
+ * the city has to be taken first) only those the side holds. */
+function naplesOpen(s: GameState, side: Side): HexId[] {
+  return MAP_CITY_HEXES('Naples').filter((h) => !unitsAt(s, h).some((x) => sideOf(x) !== side) && (!RULES.landings || s.control[h] === side));
 }
 
 /** Every north entry area, as a choice ("G1/G2/G3"). */
