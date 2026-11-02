@@ -7,6 +7,8 @@ import { addMusicFiles, musicState, next as nextTrack, removeMusicTrack, subscri
 import { setSound, sfx } from './sound';
 import type { Controller, MouseControls, Settings } from './storage';
 import { SectionLabel } from './astryx/kit';
+import { usePhone } from './usePhone';
+import { TOUCH_ONLY } from './screens';
 
 interface Props {
   settings: Settings;
@@ -26,17 +28,19 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
   const set = (patch: Partial<Settings>) => setSettings({ ...s, ...patch });
   const setCtl = (side: Side, c: Controller) => set({ controllers: { ...s.controllers, [side]: c } });
   const close = (open: boolean) => !open && onClose();
+  // A phone or tablet with no mouse: the mouse's settings mean nothing there.
+  const touch = usePhone(TOUCH_ONLY);
   return (
     <Dialog isOpen onOpenChange={close} width={980} maxHeight="88dvh" className="settings">
       <DialogHeader title="Settings" onOpenChange={close} />
       <div className="settings-grid">
         {online ? (
-          <section>
+          <section className="set-commanders">
             <SectionLabel>Commanders</SectionLabel>
             <Text color="secondary" display="block">An online game: the seats taken in the lobby decide who commands each side, and the host chose the computer's skill.</Text>
           </section>
         ) : (
-          <VStack gap={3} as="section">
+          <VStack gap={3} as="section" className="set-commanders">
             <SectionLabel>Commanders</SectionLabel>
             {(['Allied', 'German'] as const).map((side) => (
               <Selector key={side} label={side} width="100%" value={s.controllers[side]} onChange={(v) => setCtl(side, v as Controller)}
@@ -50,7 +54,7 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
               options={opts([['claude-opus-5-5', 'Claude Opus 5.5'], ['claude-sonnet-5-5', 'Claude Sonnet 5.5'], ['claude-haiku-5-5', 'Claude Haiku 5.5']])} />
           </VStack>
         )}
-        <VStack gap={3} as="section">
+        <VStack gap={3} as="section" className="set-pace">
           <SectionLabel>Pace</SectionLabel>
           <Slider label="Computer speed" min={0} max={1500} step={50} value={1500 - s.aiDelayMs} onChange={(v: number) => set({ aiDelayMs: 1500 - v })}
             formatValue={(v) => (v < 500 ? 'Slow' : v < 1100 ? 'Normal' : 'Fast')} width="100%" />
@@ -66,7 +70,7 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
               onChange={(v) => set({ defensiveAir: { ...s.defensiveAir, [side]: v as 'auto' | 'always' | 'never' } })} />
           ))}
         </VStack>
-        <VStack gap={3} as="section">
+        <VStack gap={3} as="section" className="set-display">
           <SectionLabel>Display</SectionLabel>
           <Switch label="Hex grid" value={s.showGrid} onChange={(v) => set({ showGrid: v })} />
           <Switch label="Place names" value={s.showLabels} onChange={(v) => set({ showLabels: v })} />
@@ -74,9 +78,13 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
           <Switch label="Check before ending a phase" description="Overstacks, units out of supply, open objectives, good attacks not taken."
             value={s.endChecks !== false} onChange={(v) => set({ endChecks: v })} />
           <Switch label="Turn alerts in online games" description="Buzz and chime when it is your move." value={s.turnAlerts !== false} onChange={(v) => set({ turnAlerts: v })} />
-          <SectionLabel>Controls</SectionLabel>
-          <Selector label="Mouse controls" width="100%" value={s.mouseControls} onChange={(v) => set({ mouseControls: v as MouseControls })}
-            options={opts([['rts', 'Right-click to move and attack'], ['classic', 'Left-click does everything']])} />
+          {!touch && (
+            <>
+              <SectionLabel>Controls</SectionLabel>
+              <Selector label="Mouse controls" width="100%" value={s.mouseControls} onChange={(v) => set({ mouseControls: v as MouseControls })}
+                options={opts([['rts', 'Right-click to move and attack'], ['classic', 'Left-click does everything']])} />
+            </>
+          )}
           <SectionLabel>Sound</SectionLabel>
           <Switch label="Sound effects" value={s.sound} onChange={(v) => { set({ sound: v }); setSound(v, s.volume); if (v) sfx.select(); }} />
           <Slider label="Volume" min={0} max={1} step={0.05} value={s.volume} width="100%" formatValue={(v) => `${Math.round(v * 100)}%`}

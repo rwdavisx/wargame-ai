@@ -1,7 +1,7 @@
 // Play with friends: the games open on this shared page, hosting a new one and taking a seat in one.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { DIFFICULTIES, type Difficulty } from '../ai/heuristic';
-import { SCENARIOS } from '../engine/data';
+import { GAME_ID, SCENARIOS } from '../engine/data';
 import type { GameOptions, Side } from '../engine/types';
 import { loadCaps, type Caps } from '../net/caps';
 import { claimSeat, createGame, deleteGame, freeSides, humanSides, NetSession, seatedOn, type NetHead, type NetMode } from '../net/session';
@@ -221,9 +221,12 @@ export function NetLobby({ terrain, aiLevel, alerts, onEnter, onBack }: Props) {
 
   return shell(
     <>
-      <Text display="block" className="net-how">
-        Host a game here, then share this page with your friends: in its <b>Share</b> menu on claude.ai invite each of them by email as an <b>Editor</b> (with no public link). They open the same page on their phone, tap <b>Play with friends</b> and take the free seat. Moves reach the other phone within a moment, and everyone can leave and come back later.
-      </Text>
+      <ol className="net-how net-steps">
+        <li><b>Host a new game</b> below and choose your side.</li>
+        <li>Share this page: in its <b>Share</b> menu on claude.ai, invite each friend by email as an <b>Editor</b> (no public link).</li>
+        <li>They open the same page on their phone, tap <b>Play with friends</b> and take the free seat.</li>
+      </ol>
+      <Text display="block" color="secondary" className="net-how-more">Moves reach the other phone within a moment, and everyone can leave and come back later.</Text>
       {!writable && <Banner status="warning" title="You can watch games on this page" description="To play you need Editor access: ask the page's owner to invite you as an Editor." collapsible={false} />}
       {!platformName && callsignField}
       <HStack hAlign="between" vAlign="center" className="net-head-row">
@@ -304,7 +307,7 @@ function HostForm({ aiLevel, callsignField, ready, onBack, onCreate, busy }: {
       <div className="cards">
         {(['Allied', 'German'] as const).map((sd) => (
           <ChoiceCard key={sd} selected={side === sd} onSelect={() => setSide(sd)} icon={<SideBadge side={sd} />} title={sd === 'Allied' ? 'The Allies' : 'The Germans'}
-            text={sd === 'Allied' ? 'Fifth Army: land, take Salerno and the plain, break out for Naples.' : 'Tenth Army: counterattack the beachhead, then hold the hills and the roads north.'} />
+            text={gameInfo(GAME_ID).roles?.[sd]} />
         ))}
       </div>
       {mode === 'coop' && <DifficultyCards value={level} onChange={setLevel} />}

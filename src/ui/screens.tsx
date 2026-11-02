@@ -15,6 +15,10 @@ import { GAMES, gameInfo } from '../games';
 import { SectionLabel } from './astryx/kit';
 import { Ico } from './icons';
 import { MenuButton, Tip } from './chrome';
+import { usePhone } from './usePhone';
+
+/** A touch screen with no mouse: the screens explain taps, not clicks and keys. */
+export const TOUCH_ONLY = '(hover: none) and (pointer: coarse)';
 
 /** A side's emblem for a choice card. */
 export const SideBadge = ({ side }: { side: Side }) => (
@@ -28,6 +32,8 @@ export const Pips = ({ n }: { n: number }) => (
 );
 
 export function LoadingScreen({ progress, label }: { progress: number; label: string }) {
+  // A first visit paints the map on this device (the grand campaign's takes a while); later visits read it back.
+  const painting = progress > 0 && progress < 1;
   return (
     <div className="screen loading">
       <Ico name="laurel" size={64} className="load-laurel" />
@@ -38,6 +44,7 @@ export function LoadingScreen({ progress, label }: { progress: number; label: st
         <i style={{ width: `${Math.round(progress * 100)}%` }} />
       </div>
       <div className="load-label">{label}…</div>
+      {painting && <div className="load-note">The map is drawn once on this device{GAME_ID === 'grand43' ? ', which can take a minute for the grand campaign' : ''}; after that it opens at once.</div>}
     </div>
   );
 }
@@ -51,8 +58,8 @@ function Backdrop({ terrain }: { terrain: TerrainImage }) {
   );
 }
 
-export function TitleScreen({ terrain, gameId, onChooseGame, canContinue, onContinue, onNew, onOnline, onSettings, onHowTo }: {
-  terrain: TerrainImage; gameId: string; onChooseGame: (id: string) => void; canContinue: boolean; onContinue: () => void; onNew: () => void;
+export function TitleScreen({ terrain, gameId, onChooseGame, canContinue, continueNote, onContinue, onNew, onOnline, onSettings, onHowTo }: {
+  terrain: TerrainImage; gameId: string; onChooseGame: (id: string) => void; canContinue: boolean; continueNote?: string; onContinue: () => void; onNew: () => void;
   onOnline: () => void; onSettings: () => void; onHowTo: () => void;
 }) {
   const click = (f: () => void) => () => {
@@ -94,6 +101,7 @@ export function TitleScreen({ terrain, gameId, onChooseGame, canContinue, onCont
         ) : (
           <nav className="main-menu" aria-label="Main menu">
             {canContinue && <MenuButton icon="play" label="Continue" primary onClick={click(onContinue)} />}
+            {canContinue && continueNote && <div className="continue-note">{continueNote}</div>}
             <MenuButton icon="flag" label="New operation" primary={!canContinue} onClick={click(onNew)} />
             <MenuButton icon="globe" label="Play with friends" onClick={click(onOnline)} />
             <MenuButton icon="book" label="How to play" onClick={click(onHowTo)} />
@@ -169,6 +177,7 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
                 <Tile key={r.id} selected={role === r.id} onSelect={() => setRole(r.id)} icon={r.icon} title={r.title} aria={r.aria} tip={r.text} />
               ))}
             </div>
+            <TouchNote>{roles.find((r) => r.id === role)?.text}</TouchNote>
             {role !== 'hotseat' && (
               <>
                 <SectionLabel>Opponent</SectionLabel>
@@ -176,6 +185,7 @@ export function NewGameScreen({ terrain, settings, setSettings, onStart, onBack 
                   <Tile selected={opponent === 'heuristic'} onSelect={() => setOpponent('heuristic')} icon={<Ico name="radio" size={24} />} title="Built-in AI" aria="Built-in AI" tip="Plays on this device" />
                   <Tile selected={opponent === 'claude'} onSelect={() => setOpponent('claude')} icon={<Ico name="quill" size={24} />} title="Claude" aria="Claude" tip="Needs an Anthropic API key" />
                 </div>
+                <TouchNote>{opponent === 'claude' ? 'Claude plays the other side through your own Anthropic API key, typed below.' : 'The computer opponent built into the game plays on this device.'}</TouchNote>
                 {opponent === 'heuristic' && <DifficultyCards value={settings.aiLevel} onChange={(k) => setSettings({ ...settings, aiLevel: k })} />}
                 {opponent === 'claude' && (
                   <TextInput type="password" label="Anthropic API key" isLabelHidden placeholder="Anthropic API key (sk-ant-…)" value={settings.claudeApiKey}
@@ -218,8 +228,14 @@ export function ScenarioCards({ scenario, setScenario }: { scenario: string; set
           );
         })}
       </div>
+      <TouchNote>{SCENARIOS[scenario]?.description}</TouchNote>
     </>
   );
+}
+
+/** What a hover tooltip says on a desktop, written out under a choice on a touch screen (see mobile-flow.css). */
+export function TouchNote({ children }: { children: React.ReactNode }) {
+  return children ? <p className="touch-note">{children}</p> : null;
 }
 
 /** The computer's skill, as four tiles of one to four stars. */
@@ -232,6 +248,7 @@ export function DifficultyCards({ value, onChange }: { value: string; onChange: 
           <Tile key={d.key} selected={value === d.key} onSelect={() => onChange(d.key)} icon={<Pips n={i} />} title={d.label} aria={d.label} tip={d.note} />
         ))}
       </div>
+      <TouchNote>{DIFFICULTIES.find((d) => d.key === value)?.note}</TouchNote>
     </>
   );
 }
@@ -249,13 +266,20 @@ function RuleToggle({ icon, label, tip, on, set }: { icon: string; label: string
 
 /** The opening (D-Day or the tournament start) and the optional rules. */
 export function StartAndRules({ options, setOptions }: { options: GameOptions; setOptions: (o: GameOptions) => void }) {
-  const dis = <RuleToggle icon="retreat" label="Disengagement" tip="Units next to the enemy may roll to pull back one hex in the combat phase"
+  const DIS = 'Units next to the enemy may roll to pull back one hex in the combat phase';
+  const RECON = 'Reconnaissance units shrug off the step loss of a D1 or DS when alone';
+  const PORT = 'Ports can only supply a limited number of units';
+  const dis = <RuleToggle icon="retreat" label="Disengagement" tip={DIS}
     on={options.disengagement !== false} set={(v) => setOptions({ ...options, disengagement: v })} />;
+  const notes = (rules: [string, string][]) => (
+    <ul className="touch-note rule-notes">{rules.map(([k, t]) => <li key={k}><b>{k}:</b> {t}.</li>)}</ul>
+  );
   if (!RULES.invasionGame) {
     return (
       <>
         <SectionLabel>Optional rules</SectionLabel>
         <div className="rule-toggles">{dis}</div>
+        {notes([['Disengagement', DIS]])}
       </>
     );
   }
@@ -268,14 +292,16 @@ export function StartAndRules({ options, setOptions }: { options: GameOptions; s
         <Tile selected={!!options.optionalStart} onSelect={() => setOptions({ ...options, optionalStart: true })} icon={<Ico name="boot" size={24} />}
           title="Ashore" aria="Allies already ashore" tip="Tournament start: no landing rolls, the Germans move first" />
       </div>
+      <TouchNote>{options.optionalStart ? 'Tournament start: no landing rolls, the Germans move first.' : 'The Allies roll the Invasion table for each beach.'}</TouchNote>
       <SectionLabel>Optional rules</SectionLabel>
       <div className="rule-toggles">
         {dis}
-        <RuleToggle icon="eye" label="Recon" tip="Reconnaissance units shrug off the step loss of a D1 or DS when alone"
+        <RuleToggle icon="eye" label="Recon" tip={RECON}
           on={!!options.recon} set={(v) => setOptions({ ...options, recon: v })} />
-        <RuleToggle icon="ship" label="Port supply" tip="Ports can only supply a limited number of units"
+        <RuleToggle icon="ship" label="Port supply" tip={PORT}
           on={!!options.limitedPortSupply} set={(v) => setOptions({ ...options, limitedPortSupply: v })} />
       </div>
+      {notes([['Disengagement', DIS], ['Recon', RECON], ['Port supply', PORT]])}
     </>
   );
 }
@@ -289,13 +315,26 @@ const CONTROLS: [string, string, string][] = [
   ['zoomIn', 'Wheel', 'Zoom'],
   ['menu', 'Esc', 'Menu'],
 ];
+/** The same on a touch screen. */
+const TOUCH_CONTROLS: [string, string, string][] = [
+  ['target', 'Tap', 'Select'],
+  ['advance', 'Tap twice', 'Move · attack'],
+  ['hourglass', 'Hourglass', 'End phase'],
+  ['next', 'Next', 'Next unit'],
+  ['zoomIn', 'Pinch · drag', 'Zoom · pan'],
+  ['menu', '☰', 'Menu'],
+];
 
-export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: TerrainImage; game: GameState; side: Side | null; onBegin: () => void }) {
+export function BriefingScreen({ terrain, game, side, onBegin, onBack }: {
+  terrain: TerrainImage; game: GameState; side: Side | null; onBegin: () => void; onBack?: () => void;
+}) {
   const b = gameInfo(GAME_ID).brief![side ?? 'Allied'];
+  const touch = usePhone(TOUCH_ONLY);
   return (
     <div className="screen briefing">
       <Backdrop terrain={terrain} />
       <div className="dispatch">
+        <div className="dispatch-body">
         <div className="seal" aria-hidden><Ico name="laurel" size={34} /></div>
         <div className="dispatch-head">
           <span className="dispatch-from">{b.title}</span>
@@ -304,10 +343,12 @@ export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: Terr
         {b.text[0] && <p className="dispatch-lede">{b.text[0]}</p>}
         <h3><Ico name="flag" size={16} />Objectives</h3>
         <ul className="dispatch-goals">{b.goals(game.scenarioId).map((g) => <li key={g}><Ico name="laurel" size={14} /><span>{g}</span></li>)}</ul>
-        <div className="dispatch-keys">
-          {CONTROLS.map(([icon, key, what]) => <span key={key}><Ico name={icon} size={14} /><kbd>{key}</kbd>{what}</span>)}
+        <div className={`dispatch-keys${touch ? ' touch' : ''}`}>
+          {(touch ? TOUCH_CONTROLS : CONTROLS).map(([icon, key, what]) => <span key={key}><Ico name={icon} size={14} /><kbd>{key}</kbd>{what}</span>)}
+        </div>
         </div>
         <div className="dispatch-foot">
+          {onBack && <button className="text-btn" onClick={onBack}><Ico name="chevronLeft" size={16} />Back</button>}
           <button className="seal-btn" onClick={() => { sfx.select(); onBegin(); }}>Begin<Ico name="chevronRight" size={18} /></button>
         </div>
       </div>
@@ -317,10 +358,23 @@ export function BriefingScreen({ terrain, game, side, onBegin }: { terrain: Terr
 
 export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; onClose: () => void }) {
   const rts = mouse !== 'classic';
+  const touch = usePhone(TOUCH_ONLY);
   return (
     <Dialog isOpen onOpenChange={(o) => !o && onClose()} width={1040} maxHeight="88dvh" className="howto">
       <DialogHeader title="How to play" onOpenChange={(o) => !o && onClose()} />
         <div className="howto-grid">
+          {touch && (
+            <section className="howto-first">
+              <SectionLabel>Your first orders</SectionLabel>
+              <ol>
+                <li>New operation → To the briefing → Begin: a scenario, your side and a computer opponent are already chosen, so you can start at once.</li>
+                <li>Tap one of your units. Blue hexes are where it can go; tap one to see the route, tap it again to move.</li>
+                <li>Red hexes are enemies in reach: tap one to see the odds, tap it again (or Attack!) to attack.</li>
+                <li>When you are done, tap the hourglass at the bottom right to end the phase. The program skips phases with nothing to decide.</li>
+                <li>Lost? ☰ at the top right opens the menu (Rules, Settings, Main menu); your game is saved as you play.</li>
+              </ol>
+            </section>
+          )}
           <section>
             <SectionLabel>The day</SectionLabel>
             <p>Each turn is one day: weather, then the German player turn, then the Allied player turn, then the victory check. A player turn runs through initial, movement, combat, recovery and supply phases; the program skips phases with nothing to decide.</p>
@@ -335,6 +389,16 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
           </section>
           <section>
             <SectionLabel>Controls</SectionLabel>
+            {touch ? (
+              <ul>
+                <li>Tap a unit to select it; tap it again to cycle through a stack</li>
+                <li>Tap a highlighted hex once to preview the move or attack, twice to carry it out</li>
+                <li>Drag to pan, pinch to zoom; the round buttons on the left zoom, frame the whole map and open the map modes</li>
+                <li>Hold keeps a unit still this phase; Sleep keeps it put turn after turn until woken or the enemy comes next to it. A phase ends only when every unit that can move (or attack, in combat) has done so or holds or sleeps.</li>
+                <li>Enemy threat map mode: where the enemy can strike next turn · select an enemy unit to see its reach · the first tap of End lists anything to check before the phase ends</li>
+                <li>Orders (the quill at the bottom) opens the panel with the orders for the phase, your forces, the log and the rules tables</li>
+              </ul>
+            ) : (
             <ul>
               {rts ? (
                 <>
@@ -358,6 +422,7 @@ export function HowToPlay({ mouse = 'rts', onClose }: { mouse?: MouseControls; o
               <li>Map bar (on the minimap, or the layers button): map modes and what the map shows · M / Shift+M: next / previous map mode</li>
               <li>Enemy threat map mode: where the enemy can strike next turn · select an enemy unit to see its reach · the first press of End lists anything to check before the phase ends</li>
             </ul>
+            )}
             <SectionLabel>Winning</SectionLabel>
             <p>The Allies score VP for objective hexes they hold in supply and must keep up with a rising daily benchmark. The top bar shows Allied VP against the benchmark.</p>
           </section>

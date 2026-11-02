@@ -21,6 +21,8 @@ import './ui/theme.css';
 import './ui/log.css';
 import './ui/qol.css';
 import './ui/italia.css';
+// The screens around the game on phones; last, so its phone rules win over the shared sheets above.
+import './ui/mobile-flow.css';
 
 applyMapOverrides();
 
