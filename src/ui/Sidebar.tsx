@@ -6,7 +6,7 @@ import { Medal, Tip } from './chrome';
 import { BATTLESHIPS_TURN, MAP, RULES } from '../engine/data';
 import { fortOptions, fortsInPlay } from '../engine/forts';
 import { columnLabel, inNavalRange, mafOptions, parseCell, readyAsusFor, type OddsInfo } from '../engine/combat';
-import { applyAction, landingHexes, lpCost, navalDestinations, replPool } from '../engine/game';
+import { applyAction, comesOverland, landingHexes, lpCost, navalDestinations, replPool } from '../engine/game';
 import { neighbors, sideKey, type HexId } from '../engine/hex';
 import { cannotMove } from '../engine/movement';
 import { breakthroughTargets, groupUnits } from '../engine/breakthrough';
@@ -333,8 +333,8 @@ function ReplaceRow(p: Props & { u: UnitState }) {
       (def(x.id).cat === 'corpsAsu' || (def(x.id).cat === 'divAsu' && def(x.id).division === d.division)))
     .map((x) => (x.where as { hex: HexId }).hex))]
     .filter((h) => sc.inSupply(h) && !neighbors(h).some((n) => unitsAt(g, n).some((x) => sideOf(x) !== side)));
-  const offmap = side === 'German' ? 'north edge' : d.army8 ? 'south edge' : 'floating reserve';
-  const areas = side === 'German' || d.army8
+  const offmap = side === 'German' ? 'north edge' : d.army8 ? 'south edge' : comesOverland(u.id) ? 'entry area' : 'floating reserve';
+  const areas = comesOverland(u.id)
     ? Object.entries(MAP.entryAreas).filter(([n, ea]) => areaFriendly(g, n, side) && (side === 'German' || ea.side !== 'north')).map(([n]) => n)
     : [];
   return (

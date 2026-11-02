@@ -117,6 +117,8 @@ function buildRules(r: any) {
   invasionGame: !!r.invasion && r.system !== 'italy43',
   /** Landings from the sea: the invasion phase, beachheads, the Floating Reserve, naval movement and landing points. */
   landings: !!r.invasion,
+  /** The first turn the German engineers may work on fortifications (the grand campaign: Italy '43's first turn). */
+  fortsFromTurn: (r.fortifications?.fromTurn ?? 1) as number,
   /** The turn each entry area passes to the Allies (the grand campaign's Eighth Army coming up from the south). */
   entryOpens: (r.entryOpens ?? {}) as Record<string, number>,
   /** The turn each 8th Army zone section passes to the Allies (Italy '43, 5.8.1). */
@@ -320,6 +322,11 @@ let SETUP_MARKERS: Record<string, SetupMarkers>;
 /** The markers `scenarioId`'s set-up cards place; empty when they give none. */
 export function scenarioMarkers(scenarioId: string): SetupMarkers {
   return SETUP_MARKERS[SCENARIOS[scenarioId]?.setup ?? DEFAULT_SETUP] ?? {};
+}
+
+/** Every scenario's set-up of a unit. */
+export function setupsOf(unitId: string): UnitSetup[] {
+  return Object.values(SETUPS).map((table) => table[unitId]).filter((st): st is UnitSetup => !!st);
 }
 
 /** The set-up of every unit in `scenarioId`. */

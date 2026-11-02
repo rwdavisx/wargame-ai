@@ -1,7 +1,7 @@
 // Fortifications (Italy '43, 18.0): markers the German player builds, one step a turn, in his Initial Phase. A fort
 // is placed on its "under construction" side and later completed; a completed Level 1 fort can be upgraded to Level 2
 // the same way. Only completed forts have any effect.
-import { MAP, SCENARIOS, scenarioMarkers } from './data';
+import { MAP, RULES, SCENARIOS, scenarioMarkers } from './data';
 import { neighbors, type HexId } from './hex';
 import { supplyChecker } from './supply';
 import type { GameState, Side } from './types';
@@ -67,9 +67,11 @@ function onOrBehindGustav(hex: HexId): boolean {
   return Number(hex.slice(2)) <= rowsByCol.get(nearest)!;
 }
 
-/** The building steps the German player may take this phase (18.1). */
+/** The building steps the German player may take this phase (18.1). The grand campaign's engineers start on Italy
+ * '43's first turn: one step a day in September would build the lines at three times Italy '43's pace. */
 export function fortOptions(s: GameState): { hex: HexId; op: FortOp }[] {
   if (!fortsInPlay(s) || s.activeSide !== 'German' || s.phase !== 'initial' || s.fortBuiltTurn === s.turn) return [];
+  if (s.turn < RULES.fortsFromTurn) return [];
   const sc = supplyChecker(s, 'German');
   const ezoc = zocOf(s, 'Allied');
   const ok = (h: HexId) =>

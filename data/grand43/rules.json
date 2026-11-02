@@ -1392,5 +1392,8 @@
   "A5": 13,
   "A6": 14,
   "A7": 15
+ },
+ "fortifications": {
+  "fromTurn": 23
  }
 }

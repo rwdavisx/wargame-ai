@@ -10,7 +10,7 @@ import { alliedVp, applyAction, benchmark, entryReach, landingHexes, landingsLef
 import { distance, neighbors, sideKey, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove, entryModes, legalDestinations, type Reach } from '../engine/movement';
 import { nextRandom } from '../engine/rng';
-import { supplyChecker, beachheadHexes } from '../engine/supply';
+import { supplyChecker, beachheadHexes, salernoPortHex } from '../engine/supply';
 import type { Action, GameState, MoveMode, Side, UnitState } from '../engine/types';
 import { canStack, def, goodOrder, isElite, isLowQuality, nationGroup, sideOf, stackPoints, stepsRemaining, unitsAt, values } from '../engine/units';
 import { fortLevel, fortOptions } from '../engine/forts';
@@ -774,11 +774,12 @@ export function createHeuristicAi(level: Difficulty = 'veteran'): AiPlayer {
     // Each beach's assault is rolled first, one beach at a time (24.2).
     const left = landingsLeft(s);
     if (left.length) return { type: 'landBeach', beach: left[0] };
-    const cdos = ['BR-2Cdo', 'BR-41Cdo'].filter((id) => s.units[id].where.kind === 'map' && s.units[id].tacHexes === 1 && !s.units[id].stopped &&
-      neighbors((s.units[id].where as { hex: HexId }).hex).includes('2707'));
-    if (cdos.length && !considered.has('cdo') && unitsAt(s, '2707').some((u) => sideOf(u) === 'German')) {
+    const salerno = salernoPortHex();
+    const cdos = ['BR-2Cdo', 'BR-41Cdo'].filter((id) => s.units[id]?.where.kind === 'map' && s.units[id].tacHexes === 1 && !s.units[id].stopped &&
+      neighbors((s.units[id].where as { hex: HexId }).hex).includes(salerno));
+    if (cdos.length && !considered.has('cdo') && unitsAt(s, salerno).some((u) => sideOf(u) === 'German')) {
       considered.add('cdo');
-      const a: Action = { type: 'attack', target: '2707', attackers: cdos };
+      const a: Action = { type: 'attack', target: salerno, attackers: cdos };
       if (isLegal(s, a)) return a;
     }
     return moveUnits(s, makeCtx(s));

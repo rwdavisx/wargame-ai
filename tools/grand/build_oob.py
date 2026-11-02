@@ -744,6 +744,8 @@ rules['eighthArmyZone'] = {}
 # Entry areas that pass to the Allies as the Eighth Army comes up: Salerno '43's day 11 on the south edge, the roads
 # from Taranto and Bari as the front reached Potenza (20 Sept) and the Ofanto (21-23 Sept).
 rules['entryOpens'] = {'A1': 11, 'A2': 11, 'A3': 11, 'A4': 12, 'A5': 13, 'A6': 14, 'A7': 15}
+# Fortifications are built from Italy '43's first turn (1 October), at its pace of a step a turn.
+rules['fortifications'] = {'fromTurn': ita_gt(1)}
 # Replacements: Salerno '43's daily schedule for September, Italy '43's from October; the
 # Eighth Army adds a British infantry step every third turn.
 sched = {}

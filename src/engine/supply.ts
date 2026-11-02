@@ -1,5 +1,5 @@
 // Lines of Supply (LOS) and Lines of Communication (LOC).
-import { MAP, RULES } from './data';
+import { MAP, RULES, onGameData } from './data';
 import { distance, neighbors, sideKey, type HexId } from './hex';
 import type { GameState, Side } from './types';
 import { def, isLand, occupancy, other, sideOf } from './units';
@@ -169,4 +169,64 @@ export function salernoPortOpen(s: GameState): boolean {
     if (u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, port) <= (RULES.supply.salernoPortOpenRadius ?? 0)) return false;
   }
   return true;
+}
+
+// ------------------------------------------------------------------ seas
+
+/** Sea hexes this close count as one sea: a gulf the map's frame or a headland cuts off from the next (the Gulfs of
+ * Gaeta, Naples and Salerno), but not two coasts of the peninsula. */
+const SEA_JOIN = 8;
+let seaCache: Map<HexId, number> | null = null;
+onGameData(() => (seaCache = null));
+
+/** Each sea hex's sea: connected bodies of sea hexes, joined where two come within SEA_JOIN hexes of each other. */
+function seas(): Map<HexId, number> {
+  if (seaCache) return seaCache;
+  const body = new Map<HexId, number>();
+  const bodies: HexId[][] = [];
+  for (const h of Object.keys(MAP.hexes)) {
+    if (MAP.hexes[h].terrain !== 'sea' || body.has(h)) continue;
+    const k = bodies.length;
+    const hexes: HexId[] = [h];
+    body.set(h, k);
+    for (let i = 0; i < hexes.length; i++) {
+      for (const n of neighbors(hexes[i])) if (MAP.hexes[n]?.terrain === 'sea' && !body.has(n)) { body.set(n, k); hexes.push(n); }
+    }
+    bodies.push(hexes);
+  }
+  const root = bodies.map((_, i) => i);
+  const find = (i: number): number => (root[i] === i ? i : (root[i] = find(root[i])));
+  for (let a = 0; a < bodies.length; a++) {
+    for (let b = a + 1; b < bodies.length; b++) {
+      if (find(a) === find(b)) continue;
+      if (bodies[a].some((x) => bodies[b].some((y) => distance(x, y) <= SEA_JOIN))) root[find(b)] = find(a);
+    }
+  }
+  seaCache = new Map([...body].map(([h, k]) => [h, find(k)]));
+  return seaCache;
+}
+
+/** The sea a coastal hex (a port or a beach) lies on, or -1 if none touches it. */
+export function seaOf(hex: HexId): number {
+  const all = seas();
+  let best = -1;
+  for (const n of neighbors(hex)) {
+    const k = all.get(n);
+    if (k !== undefined && (best < 0 || k < best)) best = k;
+  }
+  return best;
+}
+
+/** Whether a coastal hex lies on the sea the Floating Reserve sails: the landing beaches'. */
+export function onReserveSea(hex: HexId): boolean {
+  const b = Object.values(MAP.beaches)[0];
+  return !b || sameSea(b.hex, hex);
+}
+
+/** Whether ships can sail between two coastal hexes within a turn: they lie on the same sea (the grand campaign's
+ * Tyrrhenian and Adriatic coasts are days apart by the Strait of Messina). A hex no sea touches is not held back. */
+export function sameSea(a: HexId, b: HexId): boolean {
+  const x = seaOf(a);
+  const y = seaOf(b);
+  return x < 0 || y < 0 || x === y;
 }
