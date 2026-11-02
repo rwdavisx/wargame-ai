@@ -1,0 +1,4033 @@
+{
+ "_note": "German AOK 10 order of battle 9 Sep-31 Dec 1943 for the grand campaign. Compiled from Molony vol. V and Blumenson (archive.org full text), CMH 100-8 and Wikipedia. Coordinates from Wikipedia town articles unless coordSource says otherwise. suggestedValues for NEW counters are by analogy with existing Salerno 43 / Italy 43 counters, not from any rulebook. Units marked \"uncertain\" say why. type \"formation\" entries track a whole division where battalion detail is lacking.",
+ "sources": {
+  "Molony V": "Molony et al., The Mediterranean and Middle East vol. V (HMSO 1973), https://archive.org/details/mediterranean-middle-east-vol-5 (page numbers from running heads in the OCR text)",
+  "Blumenson": "Blumenson, Salerno to Cassino (CMH 1969), https://archive.org/details/SalernoToCassino",
+  "CMH 100-8": "From the Volturno to the Winter Line (CMH Pub 100-8), https://archive.org/details/TheVolturnoToTheWinterLine"
+ },
+ "units": [
+  {
+   "id": "GE-AOK10",
+   "name": "AOK 10 (10th Army)",
+   "formation": "OB Sued / Army Group C",
+   "type": "HQ",
+   "size": "army",
+   "suggestedValues": "no counter (HQ)",
+   "positions": [],
+   "source": "Molony V p.266; Molony V p.334; Molony V p.432; Molony V p.448",
+   "notes": "von Vietinghoff (Hube acting 20-28 Sep; Lemelsen 5 Nov-28 Dec). Fighting troops 60,443 on 1 Oct (Molony V p.432); ~60,000 assigned strength 1 Oct (Blumenson p.190).",
+   "existingCounters": [],
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-14Pz",
+   "existingCounters": [
+    "salerno43:GE-14Pz",
+    "italy43:GE-14Pz"
+   ],
+   "name": "XIV Panzer Corps (corps artillery)",
+   "formation": "AOK 10",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "suggestedValues": "existing 0-1-5 (range 5 in italy43)",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Naples",
+     "lat": 40.8358,
+     "lon": 14.2486,
+     "source": "Molony V p.267 (corps formations at Gaeta/Naples/Salerno; HQ location not given)",
+     "coordSource": "https://en.wikipedia.org/wiki/Naples",
+     "uncertain": true,
+     "why": "HQ location not stated; placed at the corps centre"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Cassino",
+     "lat": 41.49,
+     "lon": 13.8332,
+     "source": "Molony V p.448 (sector Castel di Sangro-sea)",
+     "coordSource": "https://en.wikipedia.org/wiki/Cassino",
+     "uncertain": true,
+     "why": "HQ location not stated"
+    }
+   ],
+   "source": "Molony V p.267; Molony V p.448; Molony V p.449",
+   "notes": "Hube; Balck acting 2 Sep-end Oct; von Senger from 28 Oct (Molony V p.267, Molony V p.448). 2 Nov: 173 field guns, 48 assault guns, four werfer batteries, 134 7.5-cm Pak (Molony V p.449).",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-76Pz",
+   "existingCounters": [
+    "salerno43:GE-76Pz"
+   ],
+   "name": "LXXVI Panzer Corps (corps artillery)",
+   "formation": "AOK 10",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "suggestedValues": "existing 0-1-5 (Salerno); same counter carries on to the Adriatic",
+   "positions": [
+    {
+     "date": "1943-09-11",
+     "place": "Eboli",
+     "lat": 40.6163,
+     "lon": 15.0549,
+     "source": "Molony V p.291 (takes over south of Mt Giovi-Giffoni line from noon 11 Sep)",
+     "coordSource": "https://en.wikipedia.org/wiki/Eboli",
+     "uncertain": true,
+     "why": "HQ location not stated"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Larino",
+     "lat": 41.8,
+     "lon": 14.917,
+     "source": "Molony V p.434",
+     "coordSource": "https://en.wikipedia.org/wiki/Larino",
+     "uncertain": true,
+     "why": "HQ location not stated; corps front Adriatic-mountains"
+    },
+    {
+     "date": "1943-11-04",
+     "place": "Lanciano",
+     "lat": 42.233,
+     "lon": 14.383,
+     "source": "Molony V p.457",
+     "coordSource": "https://en.wikipedia.org/wiki/Lanciano",
+     "uncertain": true,
+     "why": "HQ location not stated"
+    }
+   ],
+   "source": "Molony V p.291; Molony V p.457; Molony V p.484",
+   "notes": "Herr. 4 Nov: 98 le.FH, 35 s.FH, 18 10-cm guns, 110 Pak (Molony V p.457). End Nov total artillery 70-75 guns (Molony V p.484).",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-71NW",
+   "existingCounters": [
+    "salerno43:GE-71NW",
+    "italy43:GE-71NW"
+   ],
+   "name": "71st Werfer Regiment",
+   "formation": "XIV Pz Corps",
+   "type": "nebelwerfer",
+   "size": "III",
+   "suggestedValues": "existing 0-1-5 (range 3)",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Baronissi",
+     "lat": 40.7462,
+     "lon": 14.7705,
+     "source": "Molony V p.294 (Stroh group, road S. Severino-Baronissi-Salerno)",
+     "coordSource": "https://en.wikipedia.org/wiki/Baronissi"
+    },
+    {
+     "date": "1943-09-15",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.316 fn (2nd and 3rd batteries supporting Schmalz)",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.316",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-56NW",
+   "existingCounters": [
+    "italy43:GE-56NW"
+   ],
+   "name": "56th Werfer Regiment",
+   "formation": "XIV Pz Corps",
+   "type": "nebelwerfer",
+   "size": "III",
+   "suggestedValues": "existing 0-1-5",
+   "positions": [],
+   "source": "italy43 OOB only (arrives T13, 1-3 Nov); not found in Molony/Blumenson",
+   "uncertain": true,
+   "why": "no narrative source found for its location",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-242",
+   "existingCounters": [
+    "italy43:GE-242"
+   ],
+   "name": "242nd Sturmgeschuetz Abteilung",
+   "formation": "independent (Wikipedia lists it with 90 PG Div)",
+   "type": "tank (assault gun)",
+   "size": "II",
+   "suggestedValues": "existing 2-2-5",
+   "positions": [],
+   "source": "https://en.wikipedia.org/wiki/90th_Light_Infantry_Division_(Wehrmacht) (OOB: 242nd StuG Bn; \"initially only one company, from October 1943 full battalion\")",
+   "uncertain": true,
+   "why": "italy43 brings it on the west (T17, 13-15 Nov); Wikipedia ties it to 90 PG; no location in Molony/Blumenson",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-16-AA",
+   "existingCounters": [
+    "salerno43:GE-KGDor"
+   ],
+   "name": "16 Pz Recon Bn (KG Doernemann)",
+   "formation": "16 Pz Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "existing 4-4-6/2-2-6",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Baronissi",
+     "lat": 40.7462,
+     "lon": 14.7705,
+     "source": "Molony V p.268 (group Doernemann between Salerno and Baronissi)",
+     "coordSource": "https://en.wikipedia.org/wiki/Baronissi"
+    },
+    {
+     "date": "1943-09-19",
+     "place": "Caserta",
+     "lat": 41.067,
+     "lon": 14.333,
+     "source": "Molony V p.339 (reverted to XIV Pz Corps 19 Sep, interim positions N and SW of Caserta by 22 Sep)",
+     "coordSource": "https://en.wikipedia.org/wiki/Caserta"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Campobasso",
+     "lat": 41.5603,
+     "lon": 14.6617,
+     "source": "Molony V p.434 fn (arrived Campobasso ahead of the division)",
+     "coordSource": "https://en.wikipedia.org/wiki/Campobasso"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-I-64",
+   "existingCounters": [
+    "salerno43:GE-I64"
+   ],
+   "name": "I/64 PG Regt",
+   "formation": "16 Pz Div",
+   "type": "pg",
+   "size": "II",
+   "suggestedValues": "existing 2-3-5",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Pontecagnano Faiano",
+     "lat": 40.6442,
+     "lon": 14.8769,
+     "source": "Molony V p.268 (group Stempel: Pontecagnano-Montecorvino-Battipaglia)",
+     "coordSource": "https://en.wikipedia.org/wiki/Pontecagnano_Faiano"
+    },
+    {
+     "date": "1943-10-04",
+     "place": "Petacciato",
+     "lat": 42.0108,
+     "lon": 14.8614,
+     "source": "Molony V p.435 (Stempel group: I/64 + I/16 Art)",
+     "coordSource": "https://en.wikipedia.org/wiki/Petacciato"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.717,
+     "source": "Molony V p.460 (64th PG Regt two bns defend S. Salvo)",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Salvo"
+    },
+    {
+     "date": "1943-11-17",
+     "place": "Perano",
+     "lat": 42.1,
+     "lon": 14.4,
+     "source": "Molony V p.486 (part of 64th PG Regt)",
+     "coordSource": "https://en.wikipedia.org/wiki/Perano"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-II-64",
+   "existingCounters": [
+    "salerno43:GE-II64",
+    "italy43:GE-II-64"
+   ],
+   "name": "II/64 PG Regt",
+   "formation": "16 Pz Div",
+   "type": "pg",
+   "size": "II",
+   "suggestedValues": "existing 3-3-5",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Montecorvino Rovella",
+     "lat": 40.6959,
+     "lon": 14.9754,
+     "source": "Molony V p.268 (group Stempel)",
+     "coordSource": "https://en.wikipedia.org/wiki/Montecorvino_Rovella"
+    },
+    {
+     "date": "1943-09-13",
+     "place": "Bellizzi",
+     "lat": 40.617,
+     "lon": 14.95,
+     "source": "Molony V p.310 (2/64 probing in the S. Lucia area)",
+     "coordSource": "https://en.wikipedia.org/wiki/Bellizzi",
+     "uncertain": true,
+     "why": "S. Lucia not geolocated; Bellizzi nearby"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Capua",
+     "lat": 41.1056,
+     "lon": 14.2139,
+     "source": "Blumenson p.156 (division sent to the Volturno to prepare defences near Capua)",
+     "coordSource": "https://en.wikipedia.org/wiki/Capua",
+     "uncertain": true,
+     "why": "battalion position inferred from the division"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony V p.434 fn (2/64 to join Stempel later)",
+     "coordSource": "https://en.wikipedia.org/wiki/Termoli",
+     "uncertain": true,
+     "why": "arrival date not stated"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.717,
+     "source": "Molony V p.460",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Salvo"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-I-79",
+   "existingCounters": [
+    "salerno43:GE-I79"
+   ],
+   "name": "I/79 PG Regt",
+   "formation": "16 Pz Div",
+   "type": "pg",
+   "size": "II",
+   "suggestedValues": "existing 2-3-5",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Albanella",
+     "lat": 40.483,
+     "lon": 15.117,
+     "source": "Molony V p.268 (group von Doering: Albanella-Rutino)",
+     "coordSource": "https://en.wikipedia.org/wiki/Albanella"
+    },
+    {
+     "date": "1943-10-04",
+     "place": "San Giacomo degli Schiavoni",
+     "lat": 41.9633,
+     "lon": 14.9458,
+     "source": "Molony V p.435 (von Doering group, 79th PG two bns + III/16 Art)",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Giacomo_degli_Schiavoni"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "Cupello",
+     "lat": 42.067,
+     "lon": 14.667,
+     "source": "Molony V p.460 (79th PG on west flank behind the Treste)",
+     "coordSource": "https://en.wikipedia.org/wiki/Cupello",
+     "uncertain": true,
+     "why": "Treste stream not geolocated; Cupello nearby"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-II-79",
+   "existingCounters": [
+    "salerno43:GE-II79"
+   ],
+   "name": "II/79 PG Regt",
+   "formation": "16 Pz Div",
+   "type": "pg",
+   "size": "II",
+   "suggestedValues": "existing 2-3-5",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Rutino",
+     "lat": 40.3,
+     "lon": 15.067,
+     "source": "Molony V p.268",
+     "coordSource": "https://en.wikipedia.org/wiki/Rutino"
+    },
+    {
+     "date": "1943-10-04",
+     "place": "San Giacomo degli Schiavoni",
+     "lat": 41.9633,
+     "lon": 14.9458,
+     "source": "Molony V p.435",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Giacomo_degli_Schiavoni"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "Cupello",
+     "lat": 42.067,
+     "lon": 14.667,
+     "source": "Molony V p.460",
+     "coordSource": "https://en.wikipedia.org/wiki/Cupello",
+     "uncertain": true,
+     "why": "as I/79"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-II-2Pz",
+   "existingCounters": [
+    "salerno43:GE-IIa2",
+    "salerno43:GE-IIb2"
+   ],
+   "name": "II/2 Panzer Regt (Pz IV)",
+   "formation": "16 Pz Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "existing 5-4-5 + 3-2-5; by 4 Nov only 6 Pz IV + 5 command tanks fit (Molony p.457): suggest one reduced 3-2-5 counter on the Adriatic",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Persano",
+     "lat": 40.5822,
+     "lon": 15.1847,
+     "source": "Molony V p.268 (group von Holtey, reserve, 2/2 Pz less two companies; two companies with von Doering)",
+     "coordSource": "https://en.wikipedia.org/wiki/Persano"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony V p.436 (three companies, c.20 Pz IV, under Stenckhoff)",
+     "coordSource": "https://en.wikipedia.org/wiki/Termoli"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.717,
+     "source": "Molony V p.460 (2/2 Pz in mobile reserve)",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Salvo"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461; tanks 8 Sep: 7 Pz III, 12 Pz 38, 87 Pz IV (p.267)",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-III-2Pz",
+   "existingCounters": [
+    "salerno43:GE-III2"
+   ],
+   "name": "III/2 Panzer Regt (assault guns)",
+   "formation": "16 Pz Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "existing 2-2-5; 9 assault guns fit on 4 Nov (p.457)",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Battipaglia",
+     "lat": 40.617,
+     "lon": 14.983,
+     "source": "Molony V p.268 fn (3/2 Pz assault guns split between Doernemann and Stempel)",
+     "coordSource": "https://en.wikipedia.org/wiki/Battipaglia"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "Vasto",
+     "lat": 42.1167,
+     "lon": 14.7069,
+     "source": "Molony V p.460 (3/2 Pz assault guns protecting the coast from Vasto northwards)",
+     "coordSource": "https://en.wikipedia.org/wiki/Vasto"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-16Art",
+   "existingCounters": [
+    "salerno43:GE-16Art"
+   ],
+   "name": "16 Pz Div artillery (16 Art Regt)",
+   "formation": "16 Pz Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "suggestedValues": "existing 0-1-5",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Battipaglia",
+     "lat": 40.617,
+     "lon": 14.983,
+     "source": "Molony V p.268 fn (18 SP + 20 towed le.FH, 4 10-cm guns)",
+     "coordSource": "https://en.wikipedia.org/wiki/Battipaglia",
+     "uncertain": true,
+     "why": "batteries split among groups"
+    },
+    {
+     "date": "1943-10-04",
+     "place": "Petacciato",
+     "lat": 42.0108,
+     "lon": 14.8614,
+     "source": "Molony V p.434 fn (I/16 with Stempel, II/16 with Stenckhoff, III/16 with von Doering)",
+     "coordSource": "https://en.wikipedia.org/wiki/Petacciato"
+    }
+   ],
+   "source": "Molony V p.267-268; Molony V p.434-436; Molony V p.457-461",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "on map at Salerno"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn from the Adriatic front for the Eastern Front, beginning c.13 Nov (Molony V p.478); still in line at Perano 17 Nov (p.486)"
+   }
+  },
+  {
+   "id": "GE-HG-AA",
+   "existingCounters": [
+    "salerno43:GE-HGAA",
+    "italy43:GE-HG"
+   ],
+   "name": "HG Recon Bn",
+   "formation": "HG Pz Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "existing 2-2-6 (salerno) / 3-3-6 (italy43)",
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Chiunzi Pass",
+     "lat": 40.65,
+     "lon": 14.65,
+     "source": "Molony V p.292",
+     "coordSource": "approximate: pass is c.5 km N of Maiori; Maiori coordinates used; proxy = Wikipedia coordinates of Maiori (https://en.wikipedia.org/wiki/Maiori)"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Grazzanise",
+     "lat": 41.083,
+     "lon": 14.1,
+     "source": "Molony V p.442 diagram (with 15 PG, coast to Brezza)",
+     "coordSource": "https://en.wikipedia.org/wiki/Grazzanise",
+     "uncertain": true,
+     "why": "rotated diagram, partly legible"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-517",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Naples area (N edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-II-1HG",
+   "existingCounters": [
+    "salerno43:GE-I1HG",
+    "italy43:GE-II-1HG"
+   ],
+   "name": "II/1 HG PG Regt",
+   "formation": "HG Pz Div",
+   "type": "pg",
+   "size": "II",
+   "suggestedValues": "existing 3-3-5",
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Cava de' Tirreni",
+     "lat": 40.7,
+     "lon": 14.7,
+     "source": "Molony V p.292",
+     "coordSource": "https://en.wikipedia.org/wiki/Cava_de%27_Tirreni"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.449 fn (2/1 HG engaged while division refits at Frosinone)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)",
+     "uncertain": true,
+     "why": "sector not stated; placed at Camino where it fought 3 Dec"
+    },
+    {
+     "date": "1943-12-03",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.517 (2/1 HG reinforces 104 PG on Camino)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-517",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Naples area (N edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-I-2HG",
+   "existingCounters": [
+    "salerno43:GE-I2HG",
+    "italy43:GE-I-2HG"
+   ],
+   "name": "I/2 HG PG Regt",
+   "formation": "HG Pz Div",
+   "type": "pg",
+   "size": "II",
+   "suggestedValues": "existing 4-4-5",
+   "positions": [
+    {
+     "date": "1943-11-05",
+     "place": "Mignano Monte Lungo",
+     "lat": 41.4,
+     "lon": 13.983,
+     "source": "Molony V p.448 (1/2 HG reinforced 3 PG Div, triangle Mt Rotondo-Mt Cesima-Mignano)",
+     "coordSource": "https://en.wikipedia.org/wiki/Mignano_Monte_Lungo"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.517",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-517",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Naples area (N edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-HG-Pz",
+   "existingCounters": [
+    "salerno43:GE-HGI",
+    "italy43:GE-HG-I-II"
+   ],
+   "name": "HG Panzer Regt (I+II)",
+   "formation": "HG Pz Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "existing 5-4-5 / reduced 3-2-5",
+   "positions": [
+    {
+     "date": "1943-09-15",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.316 fn (Schmalz armoured group; tank regt 11 Pz III, 28 Pz IV, 2 Pz 38 on 15 Sep)",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Frosinone",
+     "lat": 41.633,
+     "lon": 13.35,
+     "source": "Molony V p.449 fn (division refitting at Frosinone)",
+     "coordSource": "https://en.wikipedia.org/wiki/Frosinone"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-517",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Naples area (N edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-HG-III",
+   "existingCounters": [
+    "salerno43:GE-HGIII",
+    "italy43:GE-HG-III"
+   ],
+   "name": "III/HG Pz Regt (assault guns)",
+   "formation": "HG Pz Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "existing 2-2-5; 49 assault guns in the regiment 15 Sep (p.316)",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Mercato San Severino",
+     "lat": 40.783,
+     "lon": 14.75,
+     "source": "Molony V p.294 (3 Bn assault guns, Haas group)",
+     "coordSource": "https://en.wikipedia.org/wiki/Mercato_San_Severino"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-517",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Naples area (N edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-HG-Art",
+   "existingCounters": [
+    "salerno43:GE-HGArt",
+    "italy43:GE-HG-ASU"
+   ],
+   "name": "HG Div artillery",
+   "formation": "HG Pz Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "suggestedValues": "existing 0-1-5",
+   "positions": [
+    {
+     "date": "1943-11-05",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.449 fn (divisional artillery engaged)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)",
+     "uncertain": true,
+     "why": "location not stated"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-517",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Naples area (N edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-HG-Div",
+   "existingCounters": [],
+   "name": "HG Division (whole)",
+   "formation": "HG Pz Div",
+   "type": "formation",
+   "size": "XX",
+   "suggestedValues": "n/a",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Naples",
+     "lat": 40.8358,
+     "lon": 14.2486,
+     "source": "Molony V p.267",
+     "coordSource": "https://en.wikipedia.org/wiki/Naples"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Capua",
+     "lat": 41.1056,
+     "lon": 14.2139,
+     "source": "Molony V p.442 diagram (Brezza to Piana di Caiazzo)",
+     "coordSource": "https://en.wikipedia.org/wiki/Capua",
+     "uncertain": true,
+     "why": "rotated diagram"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Caiazzo",
+     "lat": 41.1778,
+     "lon": 14.3639,
+     "source": "Blumenson p.190 (centre, front of c.16 miles almost to Caiazzo)",
+     "coordSource": "https://en.wikipedia.org/wiki/Caiazzo"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Frosinone",
+     "lat": 41.633,
+     "lon": 13.35,
+     "source": "Molony V p.449 fn (refitting except 2/1, 1/2 HG and artillery)",
+     "coordSource": "https://en.wikipedia.org/wiki/Frosinone"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "Cassino",
+     "lat": 41.49,
+     "lon": 13.8332,
+     "source": "Molony V p.516 (AOK 10 reserve, part in line, part building Gustav)",
+     "coordSource": "https://en.wikipedia.org/wiki/Cassino"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-517; Blumenson p.144 (c.1,000 casualties at Salerno)",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Naples area (N edge of Salerno map)"
+   },
+   "notes": "Infantry fighting strength 4,691 on a 55 km front, late Sep (Molony p.341 fn). Col. von Corvin (2 HG PG Regt) supervised Gustav construction (p.480).",
+   "leaves": {}
+  },
+  {
+   "id": "GE-129",
+   "existingCounters": [
+    "salerno43:GE-129",
+    "italy43:GE-I-129",
+    "italy43:GE-II-129",
+    "italy43:GE-III-129",
+    "salerno43:GE-REM129"
+   ],
+   "name": "129 PG Regt (3 bns)",
+   "formation": "15 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "existing 6-9-5 regiment (salerno) or three 2-3-5 bns (italy43)",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Baronissi",
+     "lat": 40.7462,
+     "lon": 14.7705,
+     "source": "Molony V p.294 (Stroh group: 129 PG, 215 Pz Abt, under HG)",
+     "coordSource": "https://en.wikipedia.org/wiki/Baronissi"
+    },
+    {
+     "date": "1943-09-15",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.316 fn (1 and 2/129 Schmalz infantry; 3/129 armoured group)",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Castel Volturno",
+     "lat": 41.05,
+     "lon": 13.917,
+     "source": "Molony V p.442 diagram (15 PG coast to Brezza: 129 PG 3 bns)",
+     "coordSource": "https://en.wikipedia.org/wiki/Castel_Volturno",
+     "uncertain": true,
+     "why": "rotated diagram"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.449 (129 PG in line, right-centre Mignano-Castelforte)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.517 (Calabritto basin; allowed to withdraw 6 Dec)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-518",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Gulf of Gaeta / N edge of Salerno map"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-104",
+   "existingCounters": [
+    "italy43:GE-104"
+   ],
+   "name": "104 PG Regt (3 bns)",
+   "formation": "15 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "existing 6-9-5",
+   "positions": [
+    {
+     "date": "1943-11-05",
+     "place": "Pontecorvo",
+     "lat": 41.45,
+     "lon": 13.667,
+     "source": "Molony V p.449 fn (corps reserve at Pontecorvo and Pignataro)",
+     "coordSource": "https://en.wikipedia.org/wiki/Pontecorvo"
+    },
+    {
+     "date": "1943-11-08",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.452 (2/104 reinforced 7 Nov, 1/104 on 9 Nov)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    },
+    {
+     "date": "1943-12-03",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.517 (1 and 3/104 + 115 Recce Bn hold the crests; 2/104 added 3 Dec)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-518",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Gulf of Gaeta / N edge of Salerno map"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-115",
+   "existingCounters": [
+    "salerno43:GE-III115",
+    "italy43:GE-I-115",
+    "italy43:GE-III-115"
+   ],
+   "name": "115 PG Regt",
+   "formation": "15 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "existing bn counters 2-3-5",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Mercato San Severino",
+     "lat": 40.783,
+     "lon": 14.75,
+     "source": "Molony V p.294 (2/115 and 3/115 with Haas group, HG)",
+     "coordSource": "https://en.wikipedia.org/wiki/Mercato_San_Severino"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Castel Volturno",
+     "lat": 41.05,
+     "lon": 13.917,
+     "source": "Molony V p.442 diagram (115 PG 2 bns)",
+     "coordSource": "https://en.wikipedia.org/wiki/Castel_Volturno",
+     "uncertain": true,
+     "why": "rotated diagram"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-518",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Gulf of Gaeta / N edge of Salerno map"
+   },
+   "notes": "Molony p.375: an infantry battalion of 15 PG was in Corsica on 8 Sep.",
+   "leaves": {}
+  },
+  {
+   "id": "GE-215",
+   "existingCounters": [
+    "salerno43:GE-215",
+    "italy43:GE-215"
+   ],
+   "name": "215 Panzer Abteilung",
+   "formation": "15 PG Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "existing 2-2-5 (salerno) / 4-3-5 (italy43)",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Baronissi",
+     "lat": 40.7462,
+     "lon": 14.7705,
+     "source": "Molony V p.294",
+     "coordSource": "https://en.wikipedia.org/wiki/Baronissi"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-518",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Gulf of Gaeta / N edge of Salerno map"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-33",
+   "existingCounters": [
+    "italy43:GE-33"
+   ],
+   "name": "15 PG recon bn (italy43 \"33/15PG\"; Molony calls it 115th Reconnaissance Bn)",
+   "formation": "15 PG Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "existing 3-3-6",
+   "positions": [
+    {
+     "date": "1943-12-03",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.517",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-518",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Gulf of Gaeta / N edge of Salerno map"
+   },
+   "uncertain": true,
+   "why": "battalion number differs between game counter (33) and Molony (115)",
+   "leaves": {}
+  },
+  {
+   "id": "GE-15PG-ASU",
+   "existingCounters": [
+    "italy43:GE-15PG-ASU"
+   ],
+   "name": "15 PG Div artillery (33 Art Regt)",
+   "formation": "15 PG Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "suggestedValues": "existing 0-1-5",
+   "positions": [
+    {
+     "date": "1943-10-11",
+     "place": "Grazzanise",
+     "lat": 41.083,
+     "lon": 14.1,
+     "source": "Molony V p.442 diagram (33 Art Regt less one battery)",
+     "coordSource": "https://en.wikipedia.org/wiki/Grazzanise",
+     "uncertain": true,
+     "why": "rotated diagram"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-518",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Gulf of Gaeta / N edge of Salerno map"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-15PG-Div",
+   "existingCounters": [],
+   "name": "15 PG Division (whole)",
+   "formation": "15 PG Div",
+   "type": "formation",
+   "size": "XX",
+   "suggestedValues": "n/a",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Gaeta",
+     "lat": 41.217,
+     "lon": 13.567,
+     "source": "Molony V p.267 (Gulf of Gaeta)",
+     "coordSource": "https://en.wikipedia.org/wiki/Gaeta"
+    },
+    {
+     "date": "1943-09-18",
+     "place": "Castellammare di Stabia",
+     "lat": 40.6947,
+     "lon": 14.4803,
+     "source": "Molony V p.339",
+     "coordSource": "https://en.wikipedia.org/wiki/Castellammare_di_Stabia"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Castel Volturno",
+     "lat": 41.05,
+     "lon": 13.917,
+     "source": "Blumenson p.190 (mouth of Volturno to E of Grazzanise, ~12 miles, one regt in line)",
+     "coordSource": "https://en.wikipedia.org/wiki/Castel_Volturno"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Mignano Monte Lungo",
+     "lat": 41.4,
+     "lon": 13.983,
+     "source": "Molony V p.447-449",
+     "coordSource": "https://en.wikipedia.org/wiki/Mignano_Monte_Lungo"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "Monte Camino",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.516 (fighting strength 6,660; Maggiore-La Difensa-Camino)",
+     "coordSource": "approximate: Camino massif lies E of Rocca d'Evandro; proxy = Wikipedia coordinates of Rocca d'Evandro (https://en.wikipedia.org/wiki/Rocca_d%27Evandro)"
+    },
+    {
+     "date": "1943-12-08",
+     "place": "Rocca d'Evandro",
+     "lat": 41.383,
+     "lon": 13.883,
+     "source": "Molony V p.518 (authorised to withdraw 8 Dec; casualties 974 in 2nd Camino battle)",
+     "coordSource": "https://en.wikipedia.org/wiki/Rocca_d%27Evandro"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.449; Molony V p.516-518",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Gulf of Gaeta / N edge of Salerno map"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-29",
+   "existingCounters": [
+    "salerno43:GE-II29",
+    "italy43:GE-I-29",
+    "italy43:GE-29"
+   ],
+   "name": "29 PG Regt",
+   "formation": "3 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "existing",
+   "positions": [
+    {
+     "date": "1943-09-13",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.294 (Moldenhauer group: 1/29 PG, 103 Recce, 103 Pz Abt, 2/67)",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    },
+    {
+     "date": "1943-09-24",
+     "place": "Minturno",
+     "lat": 41.267,
+     "lon": 13.75,
+     "source": "Molony V p.339 (Battle Group Moeller assembles near Minturno with two bns 29 PG)",
+     "coordSource": "https://en.wikipedia.org/wiki/Minturno"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Caiazzo",
+     "lat": 41.1778,
+     "lon": 14.3639,
+     "source": "Molony V p.442 diagram",
+     "coordSource": "https://en.wikipedia.org/wiki/Caiazzo",
+     "uncertain": true,
+     "why": "rotated diagram"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.442; Molony V p.448; Molony V p.477",
+   "enters": {
+    "date": "1943-09-13",
+    "where": "from Rome area (N edge)"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn beginning c.13 Nov (Molony V p.477); italy43 removes it T18/T21"
+   }
+  },
+  {
+   "id": "GE-8",
+   "existingCounters": [
+    "italy43:GE-I-8",
+    "italy43:GE-II-8",
+    "italy43:GE-III-8"
+   ],
+   "name": "8 PG Regt",
+   "formation": "3 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "existing bns 2-3-5",
+   "positions": [
+    {
+     "date": "1943-10-11",
+     "place": "Amorosi",
+     "lat": 41.2,
+     "lon": 14.467,
+     "source": "Molony V p.442 diagram (1/8 PG)",
+     "coordSource": "https://en.wikipedia.org/wiki/Amorosi",
+     "uncertain": true,
+     "why": "rotated diagram"
+    },
+    {
+     "date": "1943-10-27",
+     "place": "Pratella",
+     "lat": 41.367,
+     "lon": 14.25,
+     "source": "CMH 100-8 p.76-77 (elements of 8 PG Regt hold Hill 235 near Pratella/Lete river vs 34 US Div, 26-27 Oct)",
+     "coordSource": "approximate: Pratella lies c.5 km N of Raviscanina; proxy = Wikipedia coordinates of Raviscanina (https://en.wikipedia.org/wiki/Raviscanina)"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.442; Molony V p.448; Molony V p.477",
+   "enters": {
+    "date": "1943-09-13",
+    "where": "from Rome area (N edge)"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn beginning c.13 Nov (Molony V p.477); italy43 removes it T18/T21"
+   }
+  },
+  {
+   "id": "GE-103",
+   "existingCounters": [
+    "salerno43:GE-103",
+    "italy43:GE-103Pz",
+    "italy43:GE-103"
+   ],
+   "name": "103 Pz Abt (assault guns) and 103 Recce Bn",
+   "formation": "3 PG Div",
+   "type": "tank/recon",
+   "size": "II",
+   "suggestedValues": "existing",
+   "positions": [
+    {
+     "date": "1943-09-13",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.294",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Caiazzo",
+     "lat": 41.1778,
+     "lon": 14.3639,
+     "source": "Molony V p.442 diagram",
+     "coordSource": "https://en.wikipedia.org/wiki/Caiazzo",
+     "uncertain": true,
+     "why": "rotated diagram"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.442; Molony V p.448; Molony V p.477",
+   "enters": {
+    "date": "1943-09-13",
+    "where": "from Rome area (N edge)"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn beginning c.13 Nov (Molony V p.477); italy43 removes it T18/T21"
+   }
+  },
+  {
+   "id": "GE-3PG-Div",
+   "existingCounters": [
+    "italy43:GE-3PG-ASU"
+   ],
+   "name": "3 PG Division (whole)",
+   "formation": "3 PG Div",
+   "type": "formation",
+   "size": "XX",
+   "suggestedValues": "n/a",
+   "positions": [
+    {
+     "date": "1943-10-11",
+     "place": "Caiazzo",
+     "lat": 41.1778,
+     "lon": 14.3639,
+     "source": "Blumenson p.190 (Caiazzo to Monte Acero, ~10 miles)",
+     "coordSource": "https://en.wikipedia.org/wiki/Caiazzo"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Mignano Monte Lungo",
+     "lat": 41.4,
+     "lon": 13.983,
+     "source": "Molony V p.448 (triangle Mt Rotondo-Mt Cesima-Mignano)",
+     "coordSource": "https://en.wikipedia.org/wiki/Mignano_Monte_Lungo"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.442; Molony V p.448; Molony V p.477",
+   "enters": {
+    "date": "1943-09-13",
+    "where": "from Rome area (N edge)"
+   },
+   "leaves": {
+    "date": "1943-11-13",
+    "where": "withdrawn beginning c.13 Nov (Molony V p.477); italy43 removes it T18/T21"
+   },
+   "notes": "On 9 Sep near Rome under Fliegerkorps XI, off the grand map (Molony p.267). Elements fought at Salerno from 13 Sep; rest arrived on the Volturno from c.10 Oct (Blumenson p.191). III/6 FJ (2 FJ Div) reinforced it early Nov (Molony p.448)."
+  },
+  {
+   "id": "GE-15-29",
+   "existingCounters": [
+    "salerno43:GE-I15",
+    "salerno43:GE-II15",
+    "salerno43:GE-III15",
+    "italy43:GE-15"
+   ],
+   "name": "15 PG Regt (Ulich)",
+   "formation": "29 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "existing (salerno bns 2-3-5; italy43 regt 6-9-5)",
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Altavilla Silentina",
+     "lat": 40.533,
+     "lon": 15.133,
+     "source": "Molony V p.294 (Ulich group: Altavilla-Albanella-Controne)",
+     "coordSource": "https://en.wikipedia.org/wiki/Altavilla_Silentina"
+    },
+    {
+     "date": "1943-09-15",
+     "place": "Controne",
+     "lat": 40.5,
+     "lon": 15.2,
+     "source": "Molony V p.316 (division defensive on Persano-Altavilla-Controne)",
+     "coordSource": "https://en.wikipedia.org/wiki/Controne"
+    },
+    {
+     "date": "1943-09-20",
+     "place": "Teora",
+     "lat": 40.8522,
+     "lon": 15.2539,
+     "source": "Molony V p.339 (division withdrawing via Contursi towards Teora)",
+     "coordSource": "https://en.wikipedia.org/wiki/Teora"
+    },
+    {
+     "date": "1943-10-12",
+     "place": "Campobasso",
+     "lat": 41.5603,
+     "lon": 14.6617,
+     "source": "Molony V p.437 (part of 29 PG engaged vs Canadians on Highway 17)",
+     "coordSource": "https://en.wikipedia.org/wiki/Campobasso",
+     "uncertain": true,
+     "why": "which regiment not stated"
+    },
+    {
+     "date": "1943-11-13",
+     "place": "San Pietro Infine",
+     "lat": 41.45,
+     "lon": 13.967,
+     "source": "Molony V p.454 (two leading bns counter-attack at Vallecupa 13 Nov)",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Pietro_Infine",
+     "uncertain": true,
+     "why": "which regiment not stated"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "San Pietro Infine",
+     "lat": 41.45,
+     "lon": 13.967,
+     "source": "Molony V p.515-516 (Mt Corno-Mt Sambucaro-S. Pietro-Mt Lungo)",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Pietro_Infine"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.437; Molony V p.454; Molony V p.515-520",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Calabria (S/E edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-71-29",
+   "existingCounters": [
+    "salerno43:GE-71",
+    "salerno43:GE-I71",
+    "italy43:GE-71"
+   ],
+   "name": "71 PG Regt (Krueger)",
+   "formation": "29 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "existing 4-6-5 (salerno) / 6-9-5 (italy43)",
+   "positions": [
+    {
+     "date": "1943-09-11",
+     "place": "Eboli",
+     "lat": 40.6163,
+     "lon": 15.0549,
+     "source": "Molony V p.294 (Krueger group, area Eboli)",
+     "coordSource": "https://en.wikipedia.org/wiki/Eboli"
+    },
+    {
+     "date": "1943-09-13",
+     "place": "Persano",
+     "lat": 40.5822,
+     "lon": 15.1847,
+     "source": "Molony V p.308 (71 PG attacks along track to Persano)",
+     "coordSource": "https://en.wikipedia.org/wiki/Persano"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "Monte Sammucro",
+     "lat": 41.45,
+     "lon": 13.967,
+     "source": "Molony V p.515 (division Mt Corno-Sambucaro)",
+     "coordSource": "approximate: mountain rises just N/NE of San Pietro Infine; proxy = Wikipedia coordinates of San Pietro Infine (https://en.wikipedia.org/wiki/San_Pietro_Infine)",
+     "uncertain": true,
+     "why": "regimental sector not stated"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.437; Molony V p.454; Molony V p.515-520",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Calabria (S/E edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-129Pz",
+   "existingCounters": [
+    "salerno43:GE-129Pz",
+    "italy43:GE-129Pz"
+   ],
+   "name": "129 Panzer Abteilung",
+   "formation": "29 PG Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "existing 2-2-5 / 3-2-5",
+   "positions": [],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.437; Molony V p.454; Molony V p.515-520",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Calabria (S/E edge of Salerno map)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-29-Recce",
+   "existingCounters": [
+    "salerno43:GE-29AA",
+    "salerno43:GE-26AA",
+    "italy43:GE-129"
+   ],
+   "name": "Recce bns: 29 PG and 26 Pz had swapped recce bns (26 Recce with 29 PG; 129 Recce with 26 Pz)",
+   "formation": "29 PG Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "existing 3-3-6",
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Altavilla Silentina",
+     "lat": 40.533,
+     "lon": 15.133,
+     "source": "Molony V p.294 (26 Recce Bn in Ulich group)",
+     "coordSource": "https://en.wikipedia.org/wiki/Altavilla_Silentina"
+    },
+    {
+     "date": "1943-09-12",
+     "place": "Polla",
+     "lat": 40.515,
+     "lon": 15.496,
+     "source": "Molony V p.294 (129 Recce Bn with 26 Pz, Polla-Sala Consilina)",
+     "coordSource": "repo towns.py (approximate)"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.437; Molony V p.454; Molony V p.515-520",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Calabria (S/E edge of Salerno map)"
+   },
+   "uncertain": true,
+   "why": "Molony p.293 fn says the two divisions swapped recce bns for Calabria; the game counters may label them by parent division",
+   "leaves": {}
+  },
+  {
+   "id": "GE-29PG-Div",
+   "existingCounters": [
+    "salerno43:GE-29Art",
+    "italy43:GE-29PG-ASU"
+   ],
+   "name": "29 PG Division (whole) / artillery",
+   "formation": "29 PG Div",
+   "type": "formation",
+   "size": "XX",
+   "suggestedValues": "existing ASU 0-1-5",
+   "positions": [
+    {
+     "date": "1943-09-17",
+     "place": "Contursi Terme",
+     "lat": 40.633,
+     "lon": 15.233,
+     "source": "Molony V p.339",
+     "coordSource": "https://en.wikipedia.org/wiki/Contursi_Terme"
+    },
+    {
+     "date": "1943-09-26",
+     "place": "Teora",
+     "lat": 40.8522,
+     "lon": 15.2539,
+     "source": "Molony V p.342",
+     "coordSource": "https://en.wikipedia.org/wiki/Teora"
+    },
+    {
+     "date": "1943-10-12",
+     "place": "Campobasso",
+     "lat": 41.5603,
+     "lon": 14.6617,
+     "source": "Molony V p.437",
+     "coordSource": "https://en.wikipedia.org/wiki/Campobasso",
+     "uncertain": true,
+     "why": "only \"part of\" the division"
+    },
+    {
+     "date": "1943-11-04",
+     "place": "Frosinone",
+     "lat": 41.633,
+     "lon": 13.35,
+     "source": "Molony V p.477 (withdrawn from 76 Pz Corps c.4 Nov; OB Sued reserve S of Rome, Blumenson p.233)",
+     "coordSource": "https://en.wikipedia.org/wiki/Frosinone",
+     "uncertain": true,
+     "why": "location \"south of Rome\" only"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "San Pietro Infine",
+     "lat": 41.45,
+     "lon": 13.967,
+     "source": "Molony V p.515 (fighting strength 7,460)",
+     "coordSource": "https://en.wikipedia.org/wiki/San_Pietro_Infine"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.339; Molony V p.437; Molony V p.454; Molony V p.515-520",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "from Calabria (S/E edge of Salerno map)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "began to leave the line at end of year (Molony V p.520)"
+   },
+   "notes": "Infantry fighting strength 2,225 on a 44 km front, late Sep (Molony p.341 fn)."
+  },
+  {
+   "id": "GE-9-26",
+   "existingCounters": [
+    "salerno43:GE-I9",
+    "salerno43:GE-II9",
+    "italy43:GE-I-9",
+    "italy43:GE-II-9"
+   ],
+   "name": "9 PG Regt (von Mandelsloh)",
+   "formation": "26 Pz Div",
+   "type": "pg",
+   "size": "III",
+   "suggestedValues": "existing bns 3-3-5 / 2-3-5",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Polla",
+     "lat": 40.515,
+     "lon": 15.496,
+     "source": "Molony V p.294 (2/9 PG, Polla-Sala Consilina)",
+     "coordSource": "repo towns.py (approximate)"
+    },
+    {
+     "date": "1943-09-14",
+     "place": "Eboli",
+     "lat": 40.6163,
+     "lon": 15.0549,
+     "source": "Molony V p.315",
+     "coordSource": "https://en.wikipedia.org/wiki/Eboli"
+    },
+    {
+     "date": "1943-09-16",
+     "place": "Bellizzi",
+     "lat": 40.617,
+     "lon": 14.95,
+     "source": "Molony V p.321 (two bns attack towards Bellizzi)",
+     "coordSource": "https://en.wikipedia.org/wiki/Bellizzi"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Faicchio",
+     "lat": 41.283,
+     "lon": 14.483,
+     "source": "Molony V p.442 diagram (Viebig group incl. 2/9 PG, Mt Acero)",
+     "coordSource": "https://en.wikipedia.org/wiki/Faicchio",
+     "uncertain": true,
+     "why": "rotated diagram"
+    },
+    {
+     "date": "1943-11-06",
+     "place": "Venafro",
+     "lat": 41.4844,
+     "lon": 14.0458,
+     "source": "Molony V p.448 (9 PG Regt to 3 PG sector 6 Nov)",
+     "coordSource": "https://en.wikipedia.org/wiki/Venafro"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.496 (1/9 PG in Klemme group)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.499 (2/9 PG grievously mauled)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.319; Molony V p.442; Molony V p.448; Molony V p.477-478; Molony V p.489-501",
+   "enters": {
+    "date": "1943-09-12",
+    "where": "from Calabria via Polla-Sala Consilina (SE edge)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-67-26",
+   "existingCounters": [
+    "salerno43:GE-I67",
+    "salerno43:GE-II67",
+    "italy43:GE-I-67",
+    "italy43:GE-II-67"
+   ],
+   "name": "67 PG Regt (von Usedom)",
+   "formation": "26 Pz Div",
+   "type": "pg",
+   "size": "III",
+   "suggestedValues": "existing bns 2-3-5",
+   "positions": [
+    {
+     "date": "1943-09-13",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.294 (2/67 detached to 3 PG Moldenhauer group)",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    },
+    {
+     "date": "1943-09-22",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.339 (2/67 still under HG)",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    },
+    {
+     "date": "1943-10-08",
+     "place": "Gambatesa",
+     "lat": 41.5,
+     "lon": 14.917,
+     "source": "Molony V p.437 (2/67 replaces Heilmann group vs Canadians)",
+     "coordSource": "https://en.wikipedia.org/wiki/Gambatesa",
+     "uncertain": true,
+     "why": "exact place not stated"
+    },
+    {
+     "date": "1943-11-29",
+     "place": "Lanciano",
+     "lat": 42.233,
+     "lon": 14.383,
+     "source": "Molony V p.490 (mobile reserve, could not reach battlefield by day)",
+     "coordSource": "https://en.wikipedia.org/wiki/Lanciano"
+    },
+    {
+     "date": "1943-11-30",
+     "place": "Arielli",
+     "lat": 42.267,
+     "lon": 14.3,
+     "source": "Molony V p.491 (two bns reach Arielli-Miglianico)",
+     "coordSource": "https://en.wikipedia.org/wiki/Arielli"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.319; Molony V p.442; Molony V p.448; Molony V p.477-478; Molony V p.489-501",
+   "enters": {
+    "date": "1943-09-12",
+    "where": "from Calabria via Polla-Sala Consilina (SE edge)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-26Pz-Tk",
+   "existingCounters": [
+    "salerno43:GE-826"
+   ],
+   "name": "II/26 Panzer Regt",
+   "formation": "26 Pz Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "NEW in italy43 terms: by analogy with HG I+II and 16 Pz IIa/2 (5-4-5); 4 Nov fit: 28 Pz III, 42 Pz IV, 8 command, 12 flame, 21 StuG (Molony p.457)",
+   "positions": [
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony V p.489 (a company: 5 Pz IV, 5 flame-throwers, 6 Italian SP guns)",
+     "coordSource": "https://en.wikipedia.org/wiki/Mozzagrogna"
+    },
+    {
+     "date": "1943-11-30",
+     "place": "Arielli",
+     "lat": 42.267,
+     "lon": 14.3,
+     "source": "Molony V p.491 (2/26 Pz with von Usedom reserve)",
+     "coordSource": "https://en.wikipedia.org/wiki/Arielli"
+    },
+    {
+     "date": "1943-12-07",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.498 fn (6 and 8 Coys 26 Pz Regt)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.319; Molony V p.442; Molony V p.448; Molony V p.477-478; Molony V p.489-501",
+   "enters": {
+    "date": "1943-09-12",
+    "where": "from Calabria via Polla-Sala Consilina (SE edge)"
+   },
+   "uncertain": true,
+   "why": "Molony p.293 fn: until 16 Sep the division had no tanks (one tank bn not in Italy, the other with 3 PG near Rome)",
+   "leaves": {}
+  },
+  {
+   "id": "GE-26-Recce",
+   "existingCounters": [
+    "italy43:GE-26"
+   ],
+   "name": "26 Recce Bn (Klemme)",
+   "formation": "26 Pz Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "existing 3-3-6",
+   "positions": [
+    {
+     "date": "1943-12-02",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.496 (26 Recce Bn sent into Orsogna)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.319; Molony V p.442; Molony V p.448; Molony V p.477-478; Molony V p.489-501",
+   "enters": {
+    "date": "1943-09-12",
+    "where": "from Calabria via Polla-Sala Consilina (SE edge)"
+   },
+   "leaves": {}
+  },
+  {
+   "id": "GE-26Pz-Div",
+   "existingCounters": [
+    "salerno43:GE-26Art",
+    "italy43:GE-26Pz-ASU"
+   ],
+   "name": "26 Pz Division (whole) / artillery (93 Art Regt)",
+   "formation": "26 Pz Div",
+   "type": "formation",
+   "size": "XX",
+   "suggestedValues": "existing ASU 0-1-5",
+   "positions": [
+    {
+     "date": "1943-09-17",
+     "place": "Acerno",
+     "lat": 40.733,
+     "lon": 15.05,
+     "source": "Molony V p.339 (withdrawing via Acerno towards Avellino and Montemarano)",
+     "coordSource": "https://en.wikipedia.org/wiki/Acerno"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Faicchio",
+     "lat": 41.283,
+     "lon": 14.483,
+     "source": "Molony V p.438 (Viebig group on the extreme left of XIV Pz Corps); Blumenson p.190 (26 Pz recce bn on Monte Acero)",
+     "coordSource": "https://en.wikipedia.org/wiki/Faicchio"
+    },
+    {
+     "date": "1943-10-15",
+     "place": "Vinchiaturo",
+     "lat": 41.5,
+     "lon": 14.583,
+     "source": "CMH 100-8 p.83 fn (moved into 8th Army area two days after 13 Oct)",
+     "coordSource": "https://en.wikipedia.org/wiki/Vinchiaturo",
+     "uncertain": true,
+     "why": "destination not named; placed on Highway 17"
+    },
+    {
+     "date": "1943-11-01",
+     "place": "Isernia",
+     "lat": 41.6028,
+     "lon": 14.2397,
+     "source": "Molony V p.457 (withdrawing on axis Vinchiaturo-Isernia)",
+     "coordSource": "https://en.wikipedia.org/wiki/Isernia"
+    },
+    {
+     "date": "1943-11-08",
+     "place": "Venafro",
+     "lat": 41.4844,
+     "lon": 14.0458,
+     "source": "Molony V p.448 (almost whole division with 3 PG, 8 Nov); CMH 100-8 p.98 (left flank strengthened with 26 Pz on 9 Nov)",
+     "coordSource": "https://en.wikipedia.org/wiki/Venafro"
+    },
+    {
+     "date": "1943-11-26",
+     "place": "Lanciano",
+     "lat": 42.233,
+     "lon": 14.383,
+     "source": "Molony V p.477 (returned to 76 Pz Corps 26 Nov)",
+     "coordSource": "https://en.wikipedia.org/wiki/Lanciano"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.500 (boundary with 90 PG through Frisa)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    },
+    {
+     "date": "1943-12-25",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "https://en.wikipedia.org/wiki/Bernhardt_Line (held Orsogna vs NZ Div)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    }
+   ],
+   "source": "Molony V p.294; Molony V p.319; Molony V p.442; Molony V p.448; Molony V p.477-478; Molony V p.489-501",
+   "enters": {
+    "date": "1943-09-12",
+    "where": "from Calabria via Polla-Sala Consilina (SE edge)"
+   },
+   "notes": "Late Sep infantry fighting strength 3,232 on a 34 km front (p.341 fn); 4 Nov fighting strength printed \"53390\" in the OCR (p.457), probably 5,390 - uncertain. At Salerno controlled only one regiment and was in action two days (Blumenson p.144).",
+   "leaves": {}
+  },
+  {
+   "id": "GE-I-1FJ",
+   "existingCounters": [],
+   "name": "I/1 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "NEW: 2-2-3 by analogy with existing FJ bns",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Altamura",
+     "lat": 40.817,
+     "lon": 16.55,
+     "source": "Molony V p.243",
+     "coordSource": "https://en.wikipedia.org/wiki/Altamura"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Larino",
+     "lat": 41.8,
+     "lon": 14.917,
+     "source": "Molony V p.434 (Schulz group, 1 FJ Regt, at Larino)",
+     "coordSource": "https://en.wikipedia.org/wiki/Larino"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-II-1FJ",
+   "existingCounters": [
+    "salerno43:GE-II1FJ"
+   ],
+   "name": "II/1 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "existing 2-2-3",
+   "positions": [
+    {
+     "date": "1943-09-15",
+     "place": "Potenza",
+     "lat": 40.633,
+     "lon": 15.8,
+     "source": "Molony V p.319 fn (2/1 FJ set off for Salerno 15 Sep; not in action)",
+     "coordSource": "https://en.wikipedia.org/wiki/Potenza",
+     "uncertain": true,
+     "why": "route obscure"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony V p.434 (2nd Bn about five miles from Termoli)",
+     "coordSource": "https://en.wikipedia.org/wiki/Termoli"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.496 (in Klemme group)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    },
+    {
+     "date": "1943-12-11",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.502 (moved to Ortona by 11 Dec)",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    },
+    {
+     "date": "1943-12-23",
+     "place": "Villa Grande",
+     "lat": 42.333,
+     "lon": 14.317,
+     "source": "Molony V p.506",
+     "coordSource": "approximate: frazione of Ortona c.4 km E of Tollo; proxy = Wikipedia coordinates of Tollo (https://en.wikipedia.org/wiki/Tollo)"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-III-1FJ",
+   "existingCounters": [
+    "salerno43:GE-III1FJ",
+    "italy43:GE-III-1FJ"
+   ],
+   "name": "III/1 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "existing 2-2-3",
+   "positions": [
+    {
+     "date": "1943-09-09",
+     "place": "Naples",
+     "lat": 40.8358,
+     "lon": 14.2486,
+     "source": "Molony V p.243 fn (with HG near Naples)",
+     "coordSource": "https://en.wikipedia.org/wiki/Naples"
+    },
+    {
+     "date": "1943-09-12",
+     "place": "Chiunzi Pass",
+     "lat": 40.65,
+     "lon": 14.65,
+     "source": "Molony V p.294 (Becker group, road Chiunzi-Maiori)",
+     "coordSource": "approximate: pass is c.5 km N of Maiori; Maiori coordinates used; proxy = Wikipedia coordinates of Maiori (https://en.wikipedia.org/wiki/Maiori)"
+    },
+    {
+     "date": "1943-09-22",
+     "place": "Salerno",
+     "lat": 40.6806,
+     "lon": 14.7594,
+     "source": "Molony V p.339 (under HG)",
+     "coordSource": "https://en.wikipedia.org/wiki/Salerno"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "notes": "italy43 removes it T3 (5-6 Oct): presumably rejoins the division on the Adriatic - not stated in sources read.",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-I-3FJ",
+   "existingCounters": [
+    "salerno43:GE-I3FJ"
+   ],
+   "name": "I/3 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "existing 2-2-3",
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Battipaglia",
+     "lat": 40.617,
+     "lon": 14.983,
+     "source": "Molony V p.291 (via 29 PG; into action at Battipaglia under 16 Pz)",
+     "coordSource": "https://en.wikipedia.org/wiki/Battipaglia"
+    },
+    {
+     "date": "1943-12-23",
+     "place": "Villa Grande",
+     "lat": 42.333,
+     "lon": 14.317,
+     "source": "Molony V p.506",
+     "coordSource": "approximate: frazione of Ortona c.4 km E of Tollo; proxy = Wikipedia coordinates of Tollo (https://en.wikipedia.org/wiki/Tollo)"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-II-3FJ",
+   "existingCounters": [],
+   "name": "II/3 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "NEW: 2-2-3",
+   "positions": [
+    {
+     "date": "1943-09-15",
+     "place": "Potenza",
+     "lat": 40.633,
+     "lon": 15.8,
+     "source": "Molony V p.319 fn",
+     "coordSource": "https://en.wikipedia.org/wiki/Potenza",
+     "uncertain": true,
+     "why": "route obscure"
+    },
+    {
+     "date": "1943-11-02",
+     "place": "Tufillo",
+     "lat": 41.917,
+     "lon": 14.617,
+     "source": "Molony V p.459 (greater part of 3 FJ Regt holds Tufillo)",
+     "coordSource": "https://en.wikipedia.org/wiki/Tufillo"
+    },
+    {
+     "date": "1943-12-11",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.502",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    },
+    {
+     "date": "1943-12-21",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.507",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-III-3FJ",
+   "existingCounters": [],
+   "name": "III/3 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "NEW: 2-2-3",
+   "positions": [
+    {
+     "date": "1943-11-02",
+     "place": "Tufillo",
+     "lat": 41.917,
+     "lon": 14.617,
+     "source": "Molony V p.459",
+     "coordSource": "https://en.wikipedia.org/wiki/Tufillo"
+    },
+    {
+     "date": "1943-12-11",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.502",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    },
+    {
+     "date": "1943-12-21",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.507",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-I-4FJ",
+   "existingCounters": [
+    "salerno43:GE-I4FJ"
+   ],
+   "name": "I/4 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "existing 2-2-3",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Polla",
+     "lat": 40.515,
+     "lon": 15.496,
+     "source": "Molony V p.294 (1 and 3/4 FJ with 26 Pz)",
+     "coordSource": "repo towns.py (approximate)"
+    },
+    {
+     "date": "1943-12-23",
+     "place": "Villa Grande",
+     "lat": 42.333,
+     "lon": 14.317,
+     "source": "Molony V p.506 (two bns of 4 FJ)",
+     "coordSource": "approximate: frazione of Ortona c.4 km E of Tollo; proxy = Wikipedia coordinates of Tollo (https://en.wikipedia.org/wiki/Tollo)",
+     "uncertain": true,
+     "why": "which two bns not stated"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-II-4FJ",
+   "existingCounters": [],
+   "name": "II/4 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "NEW: 2-2-3",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Altamura",
+     "lat": 40.817,
+     "lon": 16.55,
+     "source": "Molony V p.243 fn (a bn of 4 FJ in Apulia)",
+     "coordSource": "https://en.wikipedia.org/wiki/Altamura",
+     "uncertain": true,
+     "why": "bn number not stated"
+    },
+    {
+     "date": "1943-12-21",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.507",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-III-4FJ",
+   "existingCounters": [
+    "salerno43:GE-III4FJ"
+   ],
+   "name": "III/4 FJ Regt",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "existing 2-2-3",
+   "positions": [
+    {
+     "date": "1943-09-16",
+     "place": "Bellizzi",
+     "lat": 40.617,
+     "lon": 14.95,
+     "source": "Molony V p.321 (one bn of 4 FJ attacks towards Fosso/S. Lucia)",
+     "coordSource": "https://en.wikipedia.org/wiki/Bellizzi",
+     "uncertain": true,
+     "why": "bn number not stated"
+    },
+    {
+     "date": "1943-12-07",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.498 fn (part of 3/4 FJ on the ridge-wall)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-1FJ-ASU",
+   "existingCounters": [],
+   "name": "1 FJ Div artillery",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "NEW: 0-1-5 divAsu by analogy (all division ASUs are 0-1-5)",
+   "positions": [],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-KG-Rau",
+   "existingCounters": [],
+   "name": "KG Rau (FJ engineer platoon, flak, transport; c.400)",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "NEW: 1-1-3 one-step, by analogy (smaller than a 2-2-3 bn)",
+   "positions": [
+    {
+     "date": "1943-10-03",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony V p.434 (scattered by the landing 3 Oct)",
+     "coordSource": "https://en.wikipedia.org/wiki/Termoli"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507; https://en.wikipedia.org/wiki/Battle_of_Termoli",
+   "leaves": {
+    "date": "1943-10-03",
+    "where": "scattered at Termoli"
+   },
+   "enters": {}
+  },
+  {
+   "id": "GE-1FJ-Div",
+   "existingCounters": [],
+   "name": "1 FJ Division (whole)",
+   "formation": "1 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "n/a",
+   "positions": [
+    {
+     "date": "1943-09-12",
+     "place": "Altamura",
+     "lat": 40.817,
+     "lon": 16.55,
+     "source": "Molony V p.243",
+     "coordSource": "https://en.wikipedia.org/wiki/Altamura"
+    },
+    {
+     "date": "1943-09-20",
+     "place": "Potenza",
+     "lat": 40.633,
+     "lon": 15.8,
+     "source": "Molony V p.344 (line Potenza-Altamura)",
+     "coordSource": "https://en.wikipedia.org/wiki/Potenza"
+    },
+    {
+     "date": "1943-09-27",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Molony V p.345 (W and N of Foggia, night 26/27 Sep)",
+     "coordSource": "https://en.wikipedia.org/wiki/Foggia"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Larino",
+     "lat": 41.8,
+     "lon": 14.917,
+     "source": "Molony V p.434 (astride Highway 17 and at Larino)",
+     "coordSource": "https://en.wikipedia.org/wiki/Larino"
+    },
+    {
+     "date": "1943-11-01",
+     "place": "Castiglione Messer Marino",
+     "lat": 41.867,
+     "lon": 14.45,
+     "source": "Molony V p.457 (centre, Tufillo-Castiglione)",
+     "coordSource": "https://en.wikipedia.org/wiki/Castiglione_Messer_Marino"
+    },
+    {
+     "date": "1943-11-21",
+     "place": "Pietransieri",
+     "lat": 41.8467,
+     "lon": 14.1189,
+     "source": "https://en.wikipedia.org/wiki/1st_Parachute_Division_(Germany) (massacre by 1 FJ Regt members, Pietransieri/Roccaraso)",
+     "coordSource": "https://en.wikipedia.org/wiki/Pietransieri"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.502 (whole division to coastal sector)",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    },
+    {
+     "date": "1943-12-28",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.506 (withdraws to Tesoro stream-Torre Mucchia)",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.243 fn; Molony V p.345; Molony V p.434-437; Molony V p.457-460; Molony V p.502-507",
+   "notes": "~8,000 men vs 8th Army in Sep (Blumenson p.155); infantry 2,000, late Sep (Molony p.341 fn); fighting strength 4,424 on 4 Nov (p.457).",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-145",
+   "existingCounters": [],
+   "name": "Gren Regt 145 (3 bns)",
+   "formation": "65 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "NEW: 3-5-3 lowQuality, by analogy with 94/305 ID regiments; green troops",
+   "positions": [
+    {
+     "date": "1943-11-04",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony V p.457 (coastal sector, parts forward Casoli-Fossacesia)",
+     "coordSource": "https://en.wikipedia.org/wiki/Fossacesia"
+    },
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony V p.489-490 (2/145 written off)",
+     "coordSource": "https://en.wikipedia.org/wiki/Mozzagrogna"
+    },
+    {
+     "date": "1943-11-30",
+     "place": "Lanciano",
+     "lat": 42.233,
+     "lon": 14.383,
+     "source": "Molony V p.491 (whole regiment a write-off)",
+     "coordSource": "https://en.wikipedia.org/wiki/Lanciano"
+    }
+   ],
+   "source": "Molony V p.432 fn; Molony V p.457; Molony V p.484-491; Molony V p.500 fn; https://en.wikipedia.org/wiki/65th_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-10-15",
+    "where": "assembling near Pescara by mid-Oct (Molony p.432 fn); trains bombed near Pescara 11 Oct (p.465)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "relieved by 334 ID in last days of 1943 (Wikipedia)"
+   }
+  },
+  {
+   "id": "GE-146",
+   "existingCounters": [],
+   "name": "Gren Regt 146 (3 bns)",
+   "formation": "65 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "NEW: 3-5-3 lowQuality",
+   "positions": [
+    {
+     "date": "1943-11-04",
+     "place": "Casoli",
+     "lat": 42.117,
+     "lon": 14.283,
+     "source": "Molony V p.457",
+     "coordSource": "https://en.wikipedia.org/wiki/Casoli"
+    },
+    {
+     "date": "1943-12-07",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony V p.498 fn (2/146 on the ridge-wall)",
+     "coordSource": "https://en.wikipedia.org/wiki/Orsogna"
+    }
+   ],
+   "source": "Molony V p.432 fn; Molony V p.457; Molony V p.484-491; Molony V p.500 fn; https://en.wikipedia.org/wiki/65th_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-10-15",
+    "where": "assembling near Pescara by mid-Oct (Molony p.432 fn); trains bombed near Pescara 11 Oct (p.465)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "relieved by 334 ID in last days of 1943 (Wikipedia)"
+   }
+  },
+  {
+   "id": "GE-65-ASU",
+   "existingCounters": [],
+   "name": "Art Regt 165 / division ASU",
+   "formation": "65 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "NEW: 0-1-5 divAsu; artillery = seven troops end Nov (Molony p.484); 52 7.5-cm Pak",
+   "positions": [
+    {
+     "date": "1943-11-27",
+     "place": "Lanciano",
+     "lat": 42.233,
+     "lon": 14.383,
+     "source": "Molony V p.484",
+     "coordSource": "https://en.wikipedia.org/wiki/Lanciano",
+     "uncertain": true,
+     "why": "location not stated"
+    }
+   ],
+   "source": "Molony V p.432 fn; Molony V p.457; Molony V p.484-491; Molony V p.500 fn; https://en.wikipedia.org/wiki/65th_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-10-15",
+    "where": "assembling near Pescara by mid-Oct (Molony p.432 fn); trains bombed near Pescara 11 Oct (p.465)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "relieved by 334 ID in last days of 1943 (Wikipedia)"
+   }
+  },
+  {
+   "id": "GE-65-Div",
+   "existingCounters": [],
+   "name": "65 Infantry Division (whole)",
+   "formation": "65 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "n/a",
+   "positions": [
+    {
+     "date": "1943-11-27",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony V p.484 (coast road to just W of Guardiagrele)",
+     "coordSource": "https://en.wikipedia.org/wiki/Fossacesia"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Casoli",
+     "lat": 42.117,
+     "lon": 14.283,
+     "source": "Molony V p.500 fn (narrow sector in rear of Casoli-Orsogna)",
+     "coordSource": "https://en.wikipedia.org/wiki/Casoli"
+    }
+   ],
+   "source": "Molony V p.432 fn; Molony V p.457; Molony V p.484-491; Molony V p.500 fn; https://en.wikipedia.org/wiki/65th_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-10-15",
+    "where": "assembling near Pescara by mid-Oct (Molony p.432 fn); trains bombed near Pescara 11 Oct (p.465)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "relieved by 334 ID in last days of 1943 (Wikipedia)"
+   },
+   "notes": "Fighting strength 6,552 on 4 Nov (p.457). von Ziehlberg wounded 28 Nov; Baade then Pfeifer (p.484 fn). Westphal: \"to all intents and purposes no longer existed\" (Blumenson p.258)."
+  },
+  {
+   "id": "GE-361",
+   "existingCounters": [],
+   "name": "361 PG Regt (2 bns available)",
+   "formation": "90 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "NEW: 4-6-5 by analogy with Salerno 71 PG Rgt (-)",
+   "positions": [
+    {
+     "date": "1943-11-27",
+     "place": "Miglianico",
+     "lat": 42.3583,
+     "lon": 14.2917,
+     "source": "Molony V p.484 (Villa Grande, Miglianico, S. Giovanni Teatino)",
+     "coordSource": "https://en.wikipedia.org/wiki/Miglianico"
+    },
+    {
+     "date": "1943-11-30",
+     "place": "Lanciano",
+     "lat": 42.233,
+     "lon": 14.383,
+     "source": "Molony V p.491 (two bns reduced to strength of one)",
+     "coordSource": "https://en.wikipedia.org/wiki/Lanciano"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.503 (a bn in the Gully defence)",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.375; Molony V p.484; Molony V p.491; Molony V p.500-503; https://en.wikipedia.org/wiki/90th_Light_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-11-27",
+    "where": "361 PG already at Villa Grande-Miglianico before the Sangro battle; rest from Ancona to Pescara 29 Nov-3 Dec (Molony p.478, 491)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "moved south of Rome late Dec (Wikipedia)"
+   }
+  },
+  {
+   "id": "GE-200",
+   "existingCounters": [],
+   "name": "200 PG Regt (3 bns)",
+   "formation": "90 PG Div",
+   "type": "motorized",
+   "size": "III",
+   "suggestedValues": "NEW: 6-9-5 by analogy with 104/15PG and 15/29PG",
+   "positions": [
+    {
+     "date": "1943-12-03",
+     "place": "San Leonardo",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.501 (faces Canadians on the Moro)",
+     "coordSource": "approximate: frazione c.5 km S of Ortona; proxy = Wikipedia coordinates of Ortona (https://en.wikipedia.org/wiki/Ortona)"
+    },
+    {
+     "date": "1943-12-06",
+     "place": "San Leonardo",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.501 (counter-attacks at Villa Rogatti/S. Leonardo)",
+     "coordSource": "approximate: frazione c.5 km S of Ortona; proxy = Wikipedia coordinates of Ortona (https://en.wikipedia.org/wiki/Ortona)"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.503 (battered, in the Gully)",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.375; Molony V p.484; Molony V p.491; Molony V p.500-503; https://en.wikipedia.org/wiki/90th_Light_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-11-27",
+    "where": "361 PG already at Villa Grande-Miglianico before the Sangro battle; rest from Ancona to Pescara 29 Nov-3 Dec (Molony p.478, 491)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "moved south of Rome late Dec (Wikipedia)"
+   }
+  },
+  {
+   "id": "GE-190Pz",
+   "existingCounters": [],
+   "name": "190 Panzer Abteilung (StuG, Pz III/IV)",
+   "formation": "90 PG Div",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "NEW: 3-2-5 by analogy with 129 Pz Abt / 103 Pz Abt",
+   "positions": [
+    {
+     "date": "1943-12-15",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.503",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.375; Molony V p.484; Molony V p.491; Molony V p.500-503; https://en.wikipedia.org/wiki/90th_Light_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-11-27",
+    "where": "361 PG already at Villa Grande-Miglianico before the Sangro battle; rest from Ancona to Pescara 29 Nov-3 Dec (Molony p.478, 491)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "moved south of Rome late Dec (Wikipedia)"
+   }
+  },
+  {
+   "id": "GE-90Pio",
+   "existingCounters": [],
+   "name": "90 Engineer Bn",
+   "formation": "90 PG Div",
+   "type": "engineer",
+   "size": "II",
+   "suggestedValues": "NEW: 1-2-5 by analogy with existing engineer (1-2-3) but motorized",
+   "positions": [
+    {
+     "date": "1943-12-15",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony V p.503",
+     "coordSource": "https://en.wikipedia.org/wiki/Ortona"
+    }
+   ],
+   "source": "Molony V p.375; Molony V p.484; Molony V p.491; Molony V p.500-503; https://en.wikipedia.org/wiki/90th_Light_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-11-27",
+    "where": "361 PG already at Villa Grande-Miglianico before the Sangro battle; rest from Ancona to Pescara 29 Nov-3 Dec (Molony p.478, 491)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "moved south of Rome late Dec (Wikipedia)"
+   },
+   "uncertain": true,
+   "why": "value by analogy only"
+  },
+  {
+   "id": "GE-90-ASU",
+   "existingCounters": [],
+   "name": "90 PG Div artillery (190 Art Regt)",
+   "formation": "90 PG Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "suggestedValues": "NEW: 0-1-5",
+   "positions": [],
+   "source": "Molony V p.375; Molony V p.484; Molony V p.491; Molony V p.500-503; https://en.wikipedia.org/wiki/90th_Light_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-11-27",
+    "where": "361 PG already at Villa Grande-Miglianico before the Sangro battle; rest from Ancona to Pescara 29 Nov-3 Dec (Molony p.478, 491)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "moved south of Rome late Dec (Wikipedia)"
+   }
+  },
+  {
+   "id": "GE-90-Div",
+   "existingCounters": [],
+   "name": "90 PG Division (whole)",
+   "formation": "90 PG Div",
+   "type": "formation",
+   "size": "XX",
+   "suggestedValues": "n/a",
+   "positions": [
+    {
+     "date": "1943-09-19",
+     "place": "Gatteo a Mare",
+     "lat": null,
+     "lon": null,
+     "source": "Corsica by 19 Sep (Molony p.375); then Pisa, Gatteo a Mare (Wikipedia) - off map",
+     "coordSource": "coordinates not found",
+     "uncertain": true,
+     "why": "off the grand map; no coordinates used"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Frisa",
+     "lat": 42.233,
+     "lon": 14.383,
+     "source": "Molony V p.500 (relieves 65 ID; boundary with 26 Pz through Frisa)",
+     "coordSource": "approximate: comune c.6 km N of Lanciano; proxy = Wikipedia coordinates of Lanciano (https://en.wikipedia.org/wiki/Lanciano)"
+    }
+   ],
+   "source": "Molony V p.375; Molony V p.484; Molony V p.491; Molony V p.500-503; https://en.wikipedia.org/wiki/90th_Light_Infantry_Division_(Wehrmacht)",
+   "enters": {
+    "date": "1943-11-27",
+    "where": "361 PG already at Villa Grande-Miglianico before the Sangro battle; rest from Ancona to Pescara 29 Nov-3 Dec (Molony p.478, 491)"
+   },
+   "leaves": {
+    "date": "1943-12-31",
+    "where": "moved south of Rome late Dec (Wikipedia)"
+   },
+   "notes": "Kesselring ordered it to the Adriatic 21 Nov (Blumenson p.258). Lungershausen, then Baade from 12 Dec (Molony p.500 fn)."
+  },
+  {
+   "id": "GE-754",
+   "name": "Gren Regt 754",
+   "formation": "334 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "NEW: 3-5-3 by analogy with 94/305 ID; 754 and 755 lost their III bns in Sep (Wikipedia), so a 2-bn regiment - consider 2-3-3",
+   "positions": [],
+   "enters": {
+    "date": "1943-12-18",
+    "where": "began to arrive c.18 Dec under 76 Pz Corps (Molony p.478)"
+   },
+   "source": "Molony V p.478; https://en.wikipedia.org/wiki/334th_Infantry_Division_(Wehrmacht)",
+   "uncertain": true,
+   "why": "arrival sector not stated; Wikipedia: relieved 65 ID at end of year, early 1944 between Orsogna and Guardiagrele",
+   "existingCounters": [],
+   "leaves": {}
+  },
+  {
+   "id": "GE-755",
+   "name": "Gren Regt 755",
+   "formation": "334 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "NEW: 3-5-3 by analogy with 94/305 ID; 754 and 755 lost their III bns in Sep (Wikipedia), so a 2-bn regiment - consider 2-3-3",
+   "positions": [],
+   "enters": {
+    "date": "1943-12-18",
+    "where": "began to arrive c.18 Dec under 76 Pz Corps (Molony p.478)"
+   },
+   "source": "Molony V p.478; https://en.wikipedia.org/wiki/334th_Infantry_Division_(Wehrmacht)",
+   "uncertain": true,
+   "why": "arrival sector not stated; Wikipedia: relieved 65 ID at end of year, early 1944 between Orsogna and Guardiagrele",
+   "existingCounters": [],
+   "leaves": {}
+  },
+  {
+   "id": "GE-756",
+   "name": "Gren Regt 756",
+   "formation": "334 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "NEW: 3-5-3 by analogy with 94/305 ID; 754 and 755 lost their III bns in Sep (Wikipedia), so a 2-bn regiment - consider 2-3-3",
+   "positions": [],
+   "enters": {
+    "date": "1943-12-18",
+    "where": "began to arrive c.18 Dec under 76 Pz Corps (Molony p.478)"
+   },
+   "source": "Molony V p.478; https://en.wikipedia.org/wiki/334th_Infantry_Division_(Wehrmacht)",
+   "uncertain": true,
+   "why": "arrival sector not stated; Wikipedia: relieved 65 ID at end of year, early 1944 between Orsogna and Guardiagrele",
+   "existingCounters": [],
+   "leaves": {}
+  },
+  {
+   "id": "GE-334-ASU",
+   "name": "334 Inf Div artillery",
+   "formation": "334 Inf Div",
+   "type": "divAsu",
+   "size": "[III]",
+   "suggestedValues": "NEW: 0-1-5",
+   "positions": [],
+   "enters": {
+    "date": "1943-12-18"
+   },
+   "source": "Molony V p.478",
+   "uncertain": true,
+   "why": "as regiments",
+   "existingCounters": [],
+   "leaves": {}
+  },
+  {
+   "id": "GE-305",
+   "existingCounters": [
+    "italy43:GE-577",
+    "italy43:GE-578",
+    "italy43:GE-305F",
+    "italy43:GE-305-ASU"
+   ],
+   "name": "305 Infantry Division",
+   "formation": "305 Inf Div",
+   "type": "infantry",
+   "size": "XX",
+   "suggestedValues": "existing 3-5-3 regts; NEW GE-576 (3-5-3) needed - the third regiment is not in italy43",
+   "positions": [
+    {
+     "date": "1943-10-15",
+     "place": "Cassino",
+     "lat": 41.49,
+     "lon": 13.8332,
+     "source": "Molony V p.432 fn (assembling near Cassino mid-Oct)",
+     "coordSource": "https://en.wikipedia.org/wiki/Cassino"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Alfedena",
+     "lat": 41.7372,
+     "lon": 14.0394,
+     "source": "Molony V p.448 (three regimental areas: Alfedena, Cerasuolo, Filignano-Montaquila)",
+     "coordSource": "https://en.wikipedia.org/wiki/Alfedena"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Cerasuolo",
+     "lat": 41.5453,
+     "lon": 14.0566,
+     "source": "Molony V p.448",
+     "coordSource": "approximate: frazione of Filignano; proxy = Wikipedia coordinates of Filignano (https://en.wikipedia.org/wiki/Filignano)"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Montaquila",
+     "lat": 41.567,
+     "lon": 14.117,
+     "source": "Molony V p.448",
+     "coordSource": "https://en.wikipedia.org/wiki/Montaquila"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "Castel di Sangro",
+     "lat": 41.7833,
+     "lon": 14.1,
+     "source": "Molony V p.515 (fighting strength 6,700; approaches from Isernia/Colli to Castel di Sangro, Alfedena, Atina)",
+     "coordSource": "https://en.wikipedia.org/wiki/Castel_di_Sangro"
+    },
+    {
+     "date": "1943-12-17",
+     "place": "Cerasuolo",
+     "lat": 41.5453,
+     "lon": 14.0566,
+     "source": "Molony V p.519 (Mt La Rocca-Cerasuolo-Mt Pantano vs 2 Moroccan Div)",
+     "coordSource": "approximate: frazione of Filignano; proxy = Wikipedia coordinates of Filignano (https://en.wikipedia.org/wiki/Filignano)"
+    }
+   ],
+   "source": "Molony V p.448; Molony V p.515; Molony V p.519-520; Blumenson p.224",
+   "notes": "Blumenson p.224 lists 305 ID under LXXVI Pz Corps in early Nov; Molony puts it in 14 Pz Corps; mid-Dec it formed Korpsgruppe Hauck between the corps (Molony p.502).",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-576",
+   "name": "Gren Regt 576 (305 ID)",
+   "formation": "305 Inf Div",
+   "type": "infantry",
+   "size": "III",
+   "suggestedValues": "NEW: 3-5-3 by analogy with 577/578",
+   "positions": [
+    {
+     "date": "1943-11-05",
+     "place": "Alfedena",
+     "lat": 41.7372,
+     "lon": 14.0394,
+     "source": "Molony V p.448",
+     "coordSource": "https://en.wikipedia.org/wiki/Alfedena",
+     "uncertain": true,
+     "why": "which regiment held which area is not stated"
+    }
+   ],
+   "source": "Molony V p.448 (three regimental areas)",
+   "uncertain": true,
+   "why": "regiment number from general knowledge of the 305 ID organisation; not stated in sources read",
+   "existingCounters": [],
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-94",
+   "existingCounters": [
+    "italy43:GE-267",
+    "italy43:GE-274",
+    "italy43:GE-276",
+    "italy43:GE-94Fus",
+    "italy43:GE-94-ASU"
+   ],
+   "name": "94 Infantry Division",
+   "formation": "94 Inf Div",
+   "type": "infantry",
+   "size": "XX",
+   "suggestedValues": "existing",
+   "positions": [
+    {
+     "date": "1943-11-05",
+     "place": "Minturno",
+     "lat": 41.267,
+     "lon": 13.75,
+     "source": "Molony V p.449 (right sector, Castelforte-Minturno-coast)",
+     "coordSource": "https://en.wikipedia.org/wiki/Minturno"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "Castelforte",
+     "lat": 41.3,
+     "lon": 13.833,
+     "source": "Molony V p.516 (fighting strength 7,430; Mt Fuga slopes along the Garigliano to the sea)",
+     "coordSource": "https://en.wikipedia.org/wiki/Castelforte"
+    }
+   ],
+   "source": "Molony V p.448-449; Molony V p.516; Blumenson p.224",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-44",
+   "existingCounters": [
+    "italy43:GE-131",
+    "italy43:GE-132",
+    "italy43:GE-134",
+    "italy43:GE-44Fus",
+    "italy43:GE-44-ASU"
+   ],
+   "name": "44 Infantry Division (HuD)",
+   "formation": "44 Inf Div",
+   "type": "infantry",
+   "size": "XX",
+   "suggestedValues": "existing 4-7-3",
+   "positions": [
+    {
+     "date": "1943-12-09",
+     "place": "Filignano",
+     "lat": 41.5453,
+     "lon": 14.0566,
+     "source": "Molony V p.515 (road Venafro-Filignano)",
+     "coordSource": "https://en.wikipedia.org/wiki/Filignano"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Lagone",
+     "lat": 41.5453,
+     "lon": 14.0566,
+     "source": "Molony V p.519",
+     "coordSource": "approximate; proxy = Wikipedia coordinates of Filignano (https://en.wikipedia.org/wiki/Filignano)"
+    }
+   ],
+   "enters": {
+    "date": "1943-11-29",
+    "where": "arriving 29 Nov-14 Dec (Molony p.477)"
+   },
+   "source": "Molony V p.477; Molony V p.515; Molony V p.519; Blumenson p.258",
+   "leaves": {}
+  },
+  {
+   "id": "GE-5Geb",
+   "existingCounters": [
+    "italy43:GE-100",
+    "italy43:GE-85",
+    "italy43:GE-5Geb-ASU"
+   ],
+   "name": "5 Mountain Division",
+   "formation": "5 Geb Div",
+   "type": "mountain",
+   "size": "XX",
+   "suggestedValues": "existing 5-7-3",
+   "positions": [
+    {
+     "date": "1943-12-19",
+     "place": "Atina",
+     "lat": 41.62,
+     "lon": 13.799,
+     "source": "Molony V p.519 (leading troops due in Rome 19 Dec; sent to von Senger's northern flank)",
+     "coordSource": "repo towns.py (approximate)",
+     "uncertain": true,
+     "why": "destination sector not named"
+    }
+   ],
+   "enters": {
+    "date": "1943-12-17",
+    "where": "began to arrive c.17 Dec (Molony p.477)"
+   },
+   "source": "Molony V p.477; Molony V p.519",
+   "leaves": {}
+  },
+  {
+   "id": "GE-III-6FJ",
+   "existingCounters": [
+    "italy43:GE-III-6FJ"
+   ],
+   "name": "III/6 FJ Regt (2 FJ Div)",
+   "formation": "2 FJ Div",
+   "type": "airborne",
+   "size": "II",
+   "suggestedValues": "existing 2-2-3",
+   "positions": [
+    {
+     "date": "1943-11-05",
+     "place": "Mignano Monte Lungo",
+     "lat": 41.4,
+     "lon": 13.983,
+     "source": "Molony V p.448",
+     "coordSource": "https://en.wikipedia.org/wiki/Mignano_Monte_Lungo"
+    }
+   ],
+   "source": "Molony V p.448",
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-SS-RFSS",
+   "name": "Sturmbrigade Reichsfuehrer SS",
+   "formation": "independent",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "not needed: Teramo is north of the grand map",
+   "positions": [
+    {
+     "date": "1943-10-15",
+     "place": "Teramo",
+     "lat": 42.6591,
+     "lon": 13.7022,
+     "source": "Molony V p.437 fn (moved to Teramo, Oct/early Nov)",
+     "coordSource": "https://en.wikipedia.org/wiki/Teramo"
+    }
+   ],
+   "source": "Molony V p.375; Molony V p.437 fn",
+   "uncertain": true,
+   "why": "footnote partly lost in OCR; role on the coast only",
+   "existingCounters": [],
+   "enters": {},
+   "leaves": {}
+  },
+  {
+   "id": "GE-IT-SP",
+   "name": "Italian SP guns in 26 Pz Div",
+   "formation": "26 Pz Div",
+   "type": "tank",
+   "size": "-",
+   "suggestedValues": "no separate counter: six guns at Mozzagrogna 28 Nov (Molony p.489)",
+   "positions": [
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony V p.489",
+     "coordSource": "https://en.wikipedia.org/wiki/Mozzagrogna"
+    }
+   ],
+   "source": "Molony V p.489",
+   "notes": "Only Italian equipment in German service found in the sources; no Italian units in German service found for AOK 10 in this period.",
+   "existingCounters": [],
+   "enters": {},
+   "leaves": {}
+  }
+ ],
+ "lines": [
+  {
+   "name": "Kesselring barrier position 1 (Salerno-Potenza-Cerignola)",
+   "dates": "planned 15 Sep",
+   "places": [
+    "Salerno",
+    "Potenza",
+    "Cerignola"
+   ],
+   "points": [
+    [
+     40.6806,
+     14.7594
+    ],
+    [
+     40.633,
+     15.8
+    ],
+    [
+     41.267,
+     15.9
+    ]
+   ],
+   "source": "Molony V p.319"
+  },
+  {
+   "name": "Balck line (14 Pz Corps)",
+   "dates": "18-28 Sep",
+   "places": [
+    "Castellammare di Stabia",
+    "Corbara",
+    "Nocera Inferiore",
+    "Cava de' Tirreni",
+    "Mt Stella"
+   ],
+   "points": [
+    [
+     40.6947,
+     14.4803
+    ],
+    [
+     40.717,
+     14.6
+    ],
+    [
+     40.75,
+     14.633
+    ],
+    [
+     40.7,
+     14.7
+    ],
+    [
+     40.7462,
+     14.7705
+    ]
+   ],
+   "source": "Molony V p.339"
+  },
+  {
+   "name": "Line O",
+   "dates": "to be held to at least 30 Sep",
+   "places": [
+    "Salerno",
+    "Bovino",
+    "Manfredonia"
+   ],
+   "points": [
+    [
+     40.6806,
+     14.7594
+    ],
+    [
+     41.25,
+     15.35
+    ],
+    [
+     41.633,
+     15.917
+    ]
+   ],
+   "source": "Molony V p.334"
+  },
+  {
+   "name": "Anton position (14 Pz Corps)",
+   "dates": "from night 27/28 Sep",
+   "places": [
+    "Torre del Greco",
+    "Monteforte Irpino"
+   ],
+   "points": [
+    [
+     40.783,
+     14.367
+    ],
+    [
+     40.8928,
+     14.7194
+    ]
+   ],
+   "source": "Molony V p.341-342"
+  },
+  {
+   "name": "Viktor (Volturno-Calore-Biferno; Lines A and A.1)",
+   "dates": "held to at least 15 Oct; west 3/4-16 Oct; east to 6 Oct (Termoli)",
+   "places": [
+    "Castel Volturno",
+    "Grazzanise",
+    "Capua",
+    "Caiazzo",
+    "Amorosi",
+    "Benevento",
+    "Vinchiaturo",
+    "Campobasso",
+    "Larino",
+    "Termoli"
+   ],
+   "points": [
+    [
+     41.05,
+     13.917
+    ],
+    [
+     41.083,
+     14.1
+    ],
+    [
+     41.1056,
+     14.2139
+    ],
+    [
+     41.1778,
+     14.3639
+    ],
+    [
+     41.2,
+     14.467
+    ],
+    [
+     41.133,
+     14.783
+    ],
+    [
+     41.5,
+     14.583
+    ],
+    [
+     41.5603,
+     14.6617
+    ],
+    [
+     41.8,
+     14.917
+    ],
+    [
+     42.0,
+     14.983
+    ]
+   ],
+   "source": "Molony V p.334; Molony V p.429",
+   "note": "Molony: Volturno, Calore and Biferno rivers, Castel Volturno to Termoli. Inland points (Benevento-Campobasso) follow the Calore/Biferno only roughly.",
+   "uncertain": true,
+   "why": "interior course interpolated between named rivers"
+  },
+  {
+   "name": "Titerno / Raviscanina-Mondragone (14 Pz Corps intermediate)",
+   "dates": "14-24 Oct",
+   "places": [
+    "Raviscanina",
+    "Pietravairano",
+    "Teano",
+    "Mondragone"
+   ],
+   "points": [
+    [
+     41.367,
+     14.25
+    ],
+    [
+     41.333,
+     14.167
+    ],
+    [
+     41.25,
+     14.067
+    ],
+    [
+     41.1,
+     13.883
+    ]
+   ],
+   "source": "Molony V p.445",
+   "uncertain": true,
+   "why": "only the two end points (Raviscanina, Mondragone) are stated; Teano/Pietravairano added from the Barbara description"
+  },
+  {
+   "name": "Barbara (west)",
+   "dates": "late Oct-early Nov (broken c.4 Nov)",
+   "places": [
+    "Mondragone",
+    "Mt Massico",
+    "Teano",
+    "Presenzano",
+    "Pietravairano",
+    "Colli a Volturno",
+    "Sessano del Molise"
+   ],
+   "points": [
+    [
+     41.1,
+     13.883
+    ],
+    [
+     41.1308,
+     14.0008
+    ],
+    [
+     41.25,
+     14.067
+    ],
+    [
+     41.383,
+     14.083
+    ],
+    [
+     41.333,
+     14.167
+    ],
+    [
+     41.6,
+     14.1
+    ],
+    [
+     41.633,
+     14.333
+    ]
+   ],
+   "source": "Molony V p.429; Blumenson p.207-208"
+  },
+  {
+   "name": "Barbara (east, Trigno)",
+   "dates": "sanctioned 11 Oct; 27 Oct-4 Nov",
+   "places": [
+    "Sessano del Molise",
+    "Forlì del Sannio",
+    "Celenza sul Trigno",
+    "Lentella",
+    "San Salvo",
+    "Trigno mouth"
+   ],
+   "points": [
+    [
+     41.633,
+     14.333
+    ],
+    [
+     41.7,
+     14.183
+    ],
+    [
+     41.867,
+     14.567
+    ],
+    [
+     42.0,
+     14.683
+    ],
+    [
+     42.05,
+     14.717
+    ],
+    [
+     42.063,
+     14.7968
+    ]
+   ],
+   "source": "Molony V p.429; Molony V p.457"
+  },
+  {
+   "name": "Trigno depth positions",
+   "dates": "early Nov",
+   "places": [
+    "Vasto",
+    "Cupello",
+    "Furci",
+    "Carunchio",
+    "Forlì del Sannio"
+   ],
+   "points": [
+    [
+     42.1167,
+     14.7069
+    ],
+    [
+     42.067,
+     14.667
+    ],
+    [
+     42.0,
+     14.583
+    ],
+    [
+     41.917,
+     14.533
+    ],
+    [
+     41.7,
+     14.183
+    ]
+   ],
+   "source": "Molony V p.457"
+  },
+  {
+   "name": "Advanced Sangro line",
+   "dates": "c.4-27 Nov",
+   "places": [
+    "Mozzagrogna",
+    "Tornareccio",
+    "Roccascalegna",
+    "Torricella Peligna",
+    "Gamberale",
+    "Castel di Sangro"
+   ],
+   "points": [
+    [
+     42.2114,
+     14.4458
+    ],
+    [
+     42.033,
+     14.417
+    ],
+    [
+     42.0625,
+     14.305
+    ],
+    [
+     42.017,
+     14.267
+    ],
+    [
+     41.9,
+     14.217
+    ],
+    [
+     41.7833,
+     14.1
+    ]
+   ],
+   "source": "Molony V p.457"
+  },
+  {
+   "name": "Bernhardt / Reinhard (west)",
+   "dates": "from 1 Nov (Kesselring wanted fortifications ready 1 Nov)",
+   "places": [
+    "Garigliano mouth",
+    "Minturno",
+    "Castelforte",
+    "Monte Camino",
+    "Mignano Monte Lungo",
+    "Monte Sammucro",
+    "Venafro",
+    "Montaquila",
+    "Alfedena",
+    "Castel di Sangro"
+   ],
+   "points": [
+    [
+     41.2229,
+     13.7617
+    ],
+    [
+     41.267,
+     13.75
+    ],
+    [
+     41.3,
+     13.833
+    ],
+    [
+     41.383,
+     13.883
+    ],
+    [
+     41.4,
+     13.983
+    ],
+    [
+     41.45,
+     13.967
+    ],
+    [
+     41.4844,
+     14.0458
+    ],
+    [
+     41.567,
+     14.117
+    ],
+    [
+     41.7372,
+     14.0394
+    ],
+    [
+     41.7833,
+     14.1
+    ]
+   ],
+   "source": "Molony V p.430; Molony V p.447; Blumenson p.207, 223-224",
+   "note": "Molony p.447: sectors Castel di Sangro-Montaquila-Roccaravindola; Pozzilli-Mt S. Croce/Corno-Ceppagna-Cannavinelle-Rotondo-Lungo-Cesima; Mignano-Castelforte (Maggiore, Camino, Difensa, Fuga); Castelforte-Minturno-coast."
+  },
+  {
+   "name": "Bernhardt east / Sangro line (76 Pz Corps \"Siegfried\")",
+   "dates": "Nov; broken 27 Nov-1 Dec",
+   "places": [
+    "Fossacesia",
+    "Mozzagrogna",
+    "Casoli",
+    "Pescocostanzo",
+    "Alfedena",
+    "Castelnuovo al Volturno"
+   ],
+   "points": [
+    [
+     42.25,
+     14.483
+    ],
+    [
+     42.2114,
+     14.4458
+    ],
+    [
+     42.117,
+     14.283
+    ],
+    [
+     41.8872,
+     14.0664
+    ],
+    [
+     41.7372,
+     14.0394
+    ],
+    [
+     41.617,
+     14.083
+    ]
+   ],
+   "source": "Molony V p.430; Molony V p.457; Molony V p.484",
+   "note": "Molony p.430: crossing the Maiella it ran about three miles north of the Sangro to the coast at Fossacesia; main defences on the Li Colli ridge (p.484)."
+  },
+  {
+   "name": "14 Pz Corps left withdrawn",
+   "dates": "from 10 Nov",
+   "places": [
+    "Colle Rotondo",
+    "Lagone",
+    "Cerasuolo",
+    "Mt La Rocca"
+   ],
+   "points": [
+    [
+     41.5453,
+     14.0566
+    ],
+    [
+     41.5453,
+     14.0566
+    ],
+    [
+     41.5453,
+     14.0566
+    ]
+   ],
+   "source": "Molony V p.454",
+   "unplaced": [
+    "Colle Rotondo"
+   ],
+   "uncertain": true,
+   "why": "Colle Rotondo not geolocated"
+  },
+  {
+   "name": "Herr delay line",
+   "dates": "30 Nov-c.3 Dec",
+   "places": [
+    "San Vito Chietino",
+    "Lanciano",
+    "Castel Frentano"
+   ],
+   "points": [
+    [
+     42.3,
+     14.45
+    ],
+    [
+     42.233,
+     14.383
+    ],
+    [
+     42.2,
+     14.35
+    ]
+   ],
+   "source": "Molony V p.491"
+  },
+  {
+   "name": "Ortona-Orsogna-Guardiagrele position (Moro front)",
+   "dates": "from c.1 Dec",
+   "places": [
+    "Ortona",
+    "Villa Grande",
+    "Arielli",
+    "Orsogna",
+    "Melone",
+    "Guardiagrele"
+   ],
+   "points": [
+    [
+     42.35,
+     14.4
+    ],
+    [
+     42.333,
+     14.317
+    ],
+    [
+     42.267,
+     14.3
+    ],
+    [
+     42.217,
+     14.283
+    ],
+    [
+     42.2,
+     14.217
+    ],
+    [
+     42.2,
+     14.217
+    ]
+   ],
+   "source": "Molony V p.491; Molony V p.494"
+  },
+  {
+   "name": "West of Garigliano/Peccia (proposed 6 Dec)",
+   "dates": "6-9 Dec",
+   "places": [
+    "Sant'Ambrogio sul Garigliano",
+    "Rocca d'Evandro",
+    "Monte Lungo"
+   ],
+   "points": [
+    [
+     41.383,
+     13.867
+    ],
+    [
+     41.383,
+     13.883
+    ],
+    [
+     41.4,
+     13.983
+    ]
+   ],
+   "source": "Molony V p.518",
+   "uncertain": true,
+   "why": "Cesano and Rocca d'Evandro station not geolocated"
+  },
+  {
+   "name": "Taverna-S. Vittore-Viticuso-Monna Casale",
+   "dates": "from 16-17 Dec",
+   "places": [
+    "Taverna",
+    "San Vittore del Lazio",
+    "Viticuso",
+    "Monna Casale"
+   ],
+   "points": [
+    [
+     41.467,
+     13.933
+    ],
+    [
+     41.467,
+     13.933
+    ],
+    [
+     41.533,
+     13.967
+    ],
+    [
+     41.533,
+     13.967
+    ]
+   ],
+   "source": "Molony V p.520"
+  },
+  {
+   "name": "Gustav (G1-Gustav-G4)",
+   "dates": "work from 10 Nov; whole complex named Gustav by 14 Nov",
+   "places": [
+    "Garigliano mouth",
+    "Mt Valle Martina",
+    "Sant'Ambrogio sul Garigliano",
+    "Cassino",
+    "Monte Cassino",
+    "San Biagio Saracinisco",
+    "Alfedena"
+   ],
+   "points": [
+    [
+     41.2229,
+     13.7617
+    ],
+    [
+     41.3,
+     13.833
+    ],
+    [
+     41.383,
+     13.867
+    ],
+    [
+     41.49,
+     13.8332
+    ],
+    [
+     41.49,
+     13.8139
+    ],
+    [
+     41.617,
+     13.933
+    ],
+    [
+     41.7372,
+     14.0394
+    ]
+   ],
+   "source": "Molony V p.430; Molony V p.479-480"
+  },
+  {
+   "name": "Senger / Hitler line (Cassino position, rear switch)",
+   "dates": "ordered mid-Nov; AOK 10 siting 26 Nov",
+   "places": [
+    "Terracina",
+    "Fondi",
+    "Pontecorvo",
+    "Aquino",
+    "Piedimonte San Germano",
+    "Monte Cairo"
+   ],
+   "points": [
+    [
+     41.283,
+     13.25
+    ],
+    [
+     41.35,
+     13.417
+    ],
+    [
+     41.45,
+     13.667
+    ],
+    [
+     41.493,
+     13.703
+    ],
+    [
+     41.5,
+     13.733
+    ],
+    [
+     41.542,
+     13.76
+    ]
+   ],
+   "source": "Molony V p.430; Molony V p.480"
+  },
+  {
+   "name": "Shorter front ahead of Foro (planned 24 Dec)",
+   "dates": "24-28 Dec",
+   "places": [
+    "Torre Mucchia",
+    "Villa Grande"
+   ],
+   "points": [
+    [
+     42.35,
+     14.4
+    ],
+    [
+     42.333,
+     14.317
+    ]
+   ],
+   "source": "Molony V p.506",
+   "uncertain": true,
+   "why": "Villa S. Tomasso not geolocated"
+  },
+  {
+   "name": "Tesoro stream line",
+   "dates": "from 27/28 Dec",
+   "places": [
+    "Torre Mucchia",
+    "Villa Grande",
+    "Crecchio",
+    "Orsogna"
+   ],
+   "points": [
+    [
+     42.35,
+     14.4
+    ],
+    [
+     42.333,
+     14.317
+    ],
+    [
+     42.3,
+     14.333
+    ],
+    [
+     42.217,
+     14.283
+    ]
+   ],
+   "source": "Molony V p.506"
+  },
+  {
+   "name": "Foro line",
+   "dates": "planned Dec (sanctioned 16 Dec as withdrawal goal; not used until May 1944)",
+   "places": [
+    "Torre di Foro",
+    "Villamagna",
+    "Pretoro"
+   ],
+   "points": [
+    [
+     42.4011,
+     14.3275
+    ],
+    [
+     42.333,
+     14.233
+    ],
+    [
+     42.217,
+     14.133
+    ]
+   ],
+   "source": "Molony V p.430; Molony V p.503"
+  }
+ ],
+ "events": [
+  {
+   "date": "1943-09-09",
+   "event": "Landings at Salerno; 16 Pz Div in four battle groups 3-6 miles inland (Doernemann, Stempel, von Holtey, von Doering).",
+   "source": "Molony V p.267-268"
+  },
+  {
+   "date": "1943-09-11",
+   "event": "LXXVI Pz Corps takes control south of Mt Giovi-Giffoni from noon; 14 Pz Corps north of it.",
+   "source": "Molony V p.291"
+  },
+  {
+   "date": "1943-09-13",
+   "event": "Main German counter-attack against the gap between the Allied corps (Sele-Calore).",
+   "source": "Molony V p.308-310"
+  },
+  {
+   "date": "1943-09-16",
+   "event": "Last attacks (26 Pz, Schmalz); von Vietinghoff proposes breaking off; Kesselring agrees 17 Sep.",
+   "source": "Molony V p.324"
+  },
+  {
+   "date": "1943-09-17",
+   "event": "29 PG begins to disengage; 26 Pz follows c.19 Sep; withdrawal orders 18 Sep.",
+   "source": "Blumenson p.156; Molony V p.324"
+  },
+  {
+   "date": "1943-09-27",
+   "event": "1 FJ Div takes positions W and N of Foggia; Foggia occupied by 8th Army.",
+   "source": "Molony V p.345"
+  },
+  {
+   "date": "1943-10-01",
+   "event": "Naples entered; Germans keep no troops S of Naples after night 30 Sep/1 Oct.",
+   "source": "Molony V p.342"
+  },
+  {
+   "date": "1943-10-02",
+   "event": "Kesselring orders 16 Pz Div from 14 Pz Corps to Campobasso (parts ordered east evening 1 Oct); Blumenson has the move starting morning 4 Oct.",
+   "source": "Molony V p.434; Blumenson p.191",
+   "uncertain": true,
+   "why": "sources differ on start of move"
+  },
+  {
+   "date": "1943-10-03",
+   "event": "Termoli landing; KG Rau scattered; 16 Pz counter-attacks 4-6 Oct; Herr sanctions withdrawal 6 Oct 16:35. 16 Pz casualties 573.",
+   "source": "Molony V p.434-436"
+  },
+  {
+   "date": "1943-10-04",
+   "event": "Hitler directive: delaying only as far as Gaeta-Ortona line, which is to be held.",
+   "source": "Molony V p.378"
+  },
+  {
+   "date": "1943-10-11",
+   "event": "von Vietinghoff sanctions 76 Pz Corps withdrawal to its Barbara line portion; 65 ID trains bombed near Pescara.",
+   "source": "Molony V p.457; Molony V p.465"
+  },
+  {
+   "date": "1943-10-13",
+   "event": "Fifth Army crosses the Volturno; 14 Pz Corps step-by-step withdrawal 14-24 Oct to Raviscanina-Mondragone.",
+   "source": "Molony V p.443-445"
+  },
+  {
+   "date": "1943-10-28",
+   "event": "von Senger replaces Hube at 14 Pz Corps.",
+   "source": "Molony V p.448"
+  },
+  {
+   "date": "1943-11-03",
+   "event": "Trigno: S. Salvo lost; Sieckenius begins withdrawal to the Advanced Sangro line via Scerni/Atessa.",
+   "source": "Molony V p.460-461"
+  },
+  {
+   "date": "1943-11-05",
+   "event": "Lemelsen takes over AOK 10 (to 28 Dec).",
+   "source": "Molony V p.448; Blumenson p.224"
+  },
+  {
+   "date": "1943-11-08",
+   "event": "Most of 26 Pz Div in 14 Pz Corps sector (9 PG from 6 Nov).",
+   "source": "Molony V p.448"
+  },
+  {
+   "date": "1943-11-11",
+   "event": "29 PG ordered from S of Rome to 14 Pz Corps to relieve 3 PG.",
+   "source": "Molony V p.454"
+  },
+  {
+   "date": "1943-11-13",
+   "event": "16 Pz and 3 PG withdrawal begins (c.); Clark pauses the offensive.",
+   "source": "Molony V p.454; Molony V p.477-478"
+  },
+  {
+   "date": "1943-11-21",
+   "event": "Kesselring takes over OB Suedwest / Army Group C; orders 90 PG to the Adriatic.",
+   "source": "Molony V p.379; Blumenson p.258"
+  },
+  {
+   "date": "1943-11-26",
+   "event": "26 Pz returns to 76 Pz Corps.",
+   "source": "Molony V p.477"
+  },
+  {
+   "date": "1943-11-28",
+   "event": "Sangro: Mozzagrogna; von Ziehlberg (65 ID) wounded; 29 Nov S. Maria lost; 30 Nov Fossacesia lost; 145 Gren Regt written off.",
+   "source": "Molony V p.489-491"
+  },
+  {
+   "date": "1943-12-01",
+   "event": "Second Camino battle 1-9 Dec; 15 PG authorised to withdraw 8 Dec.",
+   "source": "Molony V p.517-518"
+  },
+  {
+   "date": "1943-12-03",
+   "event": "90 PG relief of 65 ID almost complete; 65 ID to narrow sector behind Casoli-Orsogna.",
+   "source": "Molony V p.500"
+  },
+  {
+   "date": "1943-12-15",
+   "event": "Decision to move whole 1 FJ Div to coastal sector; Korpsgruppe Hauck formed between the corps.",
+   "source": "Molony V p.502"
+  },
+  {
+   "date": "1943-12-16",
+   "event": "AOK 10 sanctions step-by-step withdrawal to the Foro line; 14 Pz Corps abandons Bernhardt sector of 44 ID/29 PG.",
+   "source": "Molony V p.503; Molony V p.520"
+  },
+  {
+   "date": "1943-12-18",
+   "event": "334 ID begins to arrive (c.); 5 Mountain Div c.17 Dec.",
+   "source": "Molony V p.477-478"
+  },
+  {
+   "date": "1943-12-21",
+   "event": "Ortona street fighting begins (to 28 Dec), defended by II/3, III/3 and II/4 FJ.",
+   "source": "Molony V p.507"
+  },
+  {
+   "date": "1943-12-27",
+   "event": "Lemelsen approves withdrawal from Ortona; Tesoro stream line.",
+   "source": "Molony V p.506"
+  },
+  {
+   "date": "1943-12-31",
+   "event": "AOK 10 casualties in December 13,362; 76 Pz Corps 2,051 on 1-10 Dec.",
+   "source": "Molony V p.509 fn"
+  }
+ ],
+ "losses": [
+  {
+   "period": "9-16/18 Sep (Salerno)",
+   "who": "AOK 10",
+   "value": "840 killed, 2,002 wounded, 630 missing (3,472); 70 tanks, 21 assault guns lost",
+   "source": "Molony V p.325"
+  },
+  {
+   "period": "Salerno",
+   "who": "HG / 16 Pz",
+   "value": "c.1,000 / c.1,300 casualties",
+   "source": "Blumenson p.144"
+  },
+  {
+   "period": "4-6 Oct (Termoli)",
+   "who": "16 Pz",
+   "value": "573 casualties (126 casualties + 108 sick in first two days)",
+   "source": "Molony V p.436"
+  },
+  {
+   "period": "October",
+   "who": "76 Pz Corps",
+   "value": "2,884 casualties",
+   "source": "Molony V p.457 fn"
+  },
+  {
+   "period": "last 3 weeks Oct",
+   "who": "14 Pz Corps",
+   "value": "over 3,500 incl. 914 sick; divisions averaged c.2,100 front-line infantry",
+   "source": "Molony V p.447"
+  },
+  {
+   "period": "11 Oct-10 Nov",
+   "who": "14 Pz Corps",
+   "value": "6,500 incl. 1,886 sick",
+   "source": "Molony V p.454"
+  },
+  {
+   "period": "November",
+   "who": "76 Pz Corps",
+   "value": "345 k, 788 w, 1,379 m (2,512); 21-30 Nov 1,859",
+   "source": "Molony V p.491 fn"
+  },
+  {
+   "period": "1-9 Dec (Camino)",
+   "who": "15 PG",
+   "value": "974",
+   "source": "Molony V p.519"
+  },
+  {
+   "period": "1-10 Dec",
+   "who": "76 Pz Corps",
+   "value": "2,051",
+   "source": "Molony V p.509 fn"
+  },
+  {
+   "period": "December",
+   "who": "AOK 10",
+   "value": "13,362",
+   "source": "Molony V p.509 fn"
+  }
+ ],
+ "strengths": [
+  {
+   "date": "1943-08-31",
+   "unit": "16 Pz / 15 PG / HG",
+   "value": "15,000 / 12,300 / 15,700 men",
+   "source": "Molony V p.267 fn"
+  },
+  {
+   "date": "1943-09-24",
+   "unit": "infantry fighting strength",
+   "value": "HG 4,691 (55 km front); 26 Pz 3,232 (34 km); 29 PG 2,225 (44 km); 1 FJ 2,000",
+   "source": "Molony V p.341 fn"
+  },
+  {
+   "date": "1943-10-01",
+   "unit": "AOK 10",
+   "value": "60,443 fighting troops",
+   "source": "Molony V p.432 fn"
+  },
+  {
+   "date": "1943-11-04",
+   "unit": "76 Pz Corps fighting strengths",
+   "value": "16 Pz 4,598; 1 FJ 4,424; 26 Pz \"53390\" (OCR; probably 5,390); 65 ID 6,552",
+   "source": "Molony V p.457 fn",
+   "uncertain": true
+  },
+  {
+   "date": "1943-11-04",
+   "unit": "fit AFVs",
+   "value": "16 Pz: 6 Pz IV, 5 cmd, 9 StuG. 26 Pz: 28 Pz III, 42 Pz IV, 8 cmd, 12 flame, 21 StuG",
+   "source": "Molony V p.457 fn"
+  },
+  {
+   "date": "1943-11-10",
+   "unit": "14 Pz Corps infantry",
+   "value": "6,354",
+   "source": "Molony V p.453 fn"
+  },
+  {
+   "date": "1943-12-09",
+   "unit": "14 Pz Corps fighting strengths",
+   "value": "305 ID 6,700; 29 PG 7,460; 15 PG 6,660; 94 ID 7,430; 44 ID unknown",
+   "source": "Molony V p.515-516"
+  }
+ ]
+}

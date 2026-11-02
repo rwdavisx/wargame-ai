@@ -1,0 +1,279 @@
+== salerno43 (129 counters). Fields: id, name, side, formation, category, size, attack-defense-move, steps/back, arrival/setup (grand-map hex where placed on the map).
+GE-III1FJ | III/1 FJ | German GE | 1 FJ | airborne  | 2-2-3 back none | hex 2243 
+GE-KGDor | KG Dörnemann | German GE | 16 Pz | recon  | 4-4-6 back 2-2-6 | hex 2947 
+GE-I64 | I/64 PG | German GE | 16 Pz | pg  | 2-3-5 back 1-2-5 | hex 2951 
+GE-II64 | II/64 PG | German GE | 16 Pz | pg  | 3-3-5 back 1-2-5 | hex 3053 
+GE-III2 | III/2 Pz | German GE | 16 Pz | tank  | 2-2-5 back none | hex 3053 
+GE-IIa2 | IIa/2 Pz | German GE | 16 Pz | tank  | 5-4-5 back 3-2-5 | hex 3055 
+GE-I79 | I/79 PG | German GE | 16 Pz | pg  | 2-3-5 back 1-2-5 | hex 2858 
+GE-IIb2 | IIb/2 Pz | German GE | 16 Pz | tank  | 3-2-5 back none | hex 2858 
+GE-II79 | II/79 PG | German GE | 16 Pz | pg  | 2-3-5 back 1-2-5 | hex 2660 
+GE-16Art | 16 Pz Div ASU | German GE | 16 Pz | divAsu  | 0-1-5 back none | hex 3254 
+GE-GarA | Garrison A | German GE | Coastal | garrison  | 0-0-5 back none | hex 2465 
+GE-GarC | Garrison C | German GE | Coastal | garrison  | 0-0-0 back none | hex 2749 
+GE-GarD | Garrison D | German GE | Coastal | garrison  | 0-0-0 back none | hex 3244 
+GE-GarE | Garrison E | German GE | Coastal | garrison  | 0-0-3 back none | hex 1945 
+GE-GarF | Garrison F | German GE | Coastal | garrison  | 0-0-0 back none | hex 2459 
+GE-REM129 | 129/15 PG Remnant | German GE | 15 PG | motorized  | 1-3-5 back none | {"remnant": true} 
+GE-HGAA | HG Recon | German GE | HG | recon  | 2-2-6 back none |  {"turn": 1, "at": "N"}
+GE-I3FJ | I/3 FJ | German GE | 1 FJ | airborne  | 2-2-3 back none |  {"turn": 1, "at": "S"}
+GE-III115 | III/115 PG | German GE | 15 PG | motorized  | 2-3-5 back 1-2-5 |  {"turn": 2, "at": "N"}
+GE-HGIII | III/HG Pz | German GE | HG | tank  | 2-2-5 back none |  {"turn": 2, "at": "N"}
+GE-I1HG | II/1 HG | German GE | HG | pg  | 3-3-5 back 1-2-5 |  {"turn": 2, "at": "N"}
+GE-HGArt | HG Div ASU | German GE | HG | divAsu  | 0-1-5 back none |  {"turn": 2, "at": "N"}
+GE-I15 | I/15 PG | German GE | 29 PG | pg  | 2-3-5 back 1-2-5 |  {"turn": 2, "at": "S"}
+GE-III15 | III/15 PG | German GE | 29 PG | pg  | 2-3-5 back 1-2-5 |  {"turn": 2, "at": "S"}
+GE-29Art | 29 PG Div ASU | German GE | 29 PG | divAsu  | 0-1-5 back none |  {"turn": 2, "at": "S"}
+GE-76Pz | LXXVI Pz Corps ASU | German GE | LXXVI Pz | corpsAsu  | 0-1-5 back none |  {"turn": 2, "at": "S"}
+GE-GarB | Garrison B | German GE | Coastal | garrison  | 0-0-5 back none |  {"turn": 2, "at": "S"}
+GE-129 | 129 PG Rgt | German GE | 15 PG | motorized  | 6-9-5 back 4-6-5 |  {"turn": 3, "at": "N"}
+GE-215 | 215 Pz Abt | German GE | 15 PG | tank  | 2-2-5 back none |  {"turn": 3, "at": "N"}
+GE-71NW | 71 Nebelwerfer | German GE | XIV Pz | nebelwerfer  | 0-1-5 back none |  {"turn": 3, "at": "N"}
+GE-14Pz | XIV Pz Corps ASU | German GE | XIV Pz | corpsAsu  | 0-1-5 back none |  {"turn": 3, "at": "N"}
+GE-71 | 71 PG Rgt (-) | German GE | 29 PG | pg  | 4-6-5 back 2-4-5 |  {"turn": 3, "at": "S"}
+GE-26AA | 26 Pz Recon | German GE | 26 Pz | recon  | 3-3-6 back 1-2-6 |  {"turn": 3, "at": "S"}
+GE-HGI | I+II/HG Pz | German GE | HG | tank  | 5-4-5 back 3-2-5 |  {"turn": 4, "at": "N", "reduced": true}
+GE-129Pz | 129 Pz Abt | German GE | 29 PG | tank  | 2-2-5 back none |  {"turn": 4, "at": "S"}
+GE-II15 | II/15 PG | German GE | 29 PG | pg  | 2-3-5 back 1-2-5 |  {"turn": 4, "at": "S"}
+GE-29AA | 29 PG Recon | German GE | 29 PG | recon  | 3-3-6 back 1-2-6 |  {"turn": 5, "at": "S"}
+GE-I71 | I/71 PG | German GE | 29 PG | pg  | 2-3-5 back 1-2-5 |  {"turn": 5, "at": "S"}
+GE-II9 | II/9 PG | German GE | 26 Pz | pg  | 2-3-5 back 1-2-5 |  {"turn": 5, "at": "S"}
+GE-I9 | I/9 PG | German GE | 26 Pz | pg  | 3-3-5 back 1-2-5 |  {"turn": 5, "at": "S"}
+GE-I4FJ | I/4 FJ | German GE | 1 FJ | airborne  | 2-2-3 back none |  {"turn": 5, "at": "S"}
+GE-III4FJ | III/4 FJ | German GE | 1 FJ | airborne  | 2-2-3 back none |  {"turn": 5, "at": "S"}
+GE-II29 | II/29 PG | German GE | 3 PG | motorized  | 2-3-5 back 1-2-5 |  {"turn": 6, "at": "N"}
+GE-103 | 103 Pz Abt | German GE | 3 PG | tank  | 2-2-5 back none |  {"turn": 6, "at": "N"}
+GE-I67 | I/67 PG | German GE | 26 Pz | pg  | 2-3-5 back 1-2-5 |  {"turn": 10, "at": "S"}
+GE-26Art | 26 Pz Div ASU | German GE | 26 Pz | divAsu  | 0-1-5 back none |  {"turn": 6, "at": "S"}
+GE-826 | 8/26 Pz | German GE | 26 Pz | tank  | 2-1-5 back none |  {"turn": 7, "at": "N"}
+GE-II1FJ | II/1 FJ | German GE | 1 FJ | airborne  | 2-2-3 back none |  {"turn": 9, "at": "E"}
+GE-II67 | II/67 PG | German GE | 26 Pz | pg  | 2-3-5 back 1-2-5 |  {"turn": 6, "at": "N"}
+GE-I2HG | I/2 HG | German GE | HG | pg  | 4-4-5 back 2-2-5 |  {"turn": 13, "at": "N"}
+US-1Rgr | 1 Ranger Bn | Allied US | Darby's Rangers | ranger  | 2-2-3 back none | {"beach": "Maiori"} 
+US-3Rgr | 3 Ranger Bn | Allied US | Darby's Rangers | ranger  | 2-2-3 back none | {"beach": "Maiori"} 
+US-4Rgr | 4 Ranger Bn | Allied US | Darby's Rangers | ranger  | 2-2-3 back none | {"beach": "Maiori"} 
+BR-2Cdo | 2 Commando | Allied BR | Commando Bde | ranger  | 2-2-3 back none | {"beach": "Vietri"} 
+BR-41Cdo | 41 RM Commando | Allied BR | Commando Bde | ranger  | 2-2-3 back none | {"beach": "Vietri"} 
+BR-128 | 128 Bde (-) | Allied BR | 46 Div | infantry  | 3-5-3 back 1-3-3 | {"beach": "Uncle"} 
+BR-5H | 5 Hampshires | Allied BR | 46 Div | infantry  | 2-2-3 back none | {"beach": "Uncle"} 
+BR-40RTR | 40 RTR | Allied BR | 23 Armd Bde | tank  | 3-2-5 back none | {"beach": "Uncle"} 
+BR-BH35 | 35 Beach Group | Allied BR | X Corps | bh  | 0-2-0 back none | {"beach": "Uncle"} 
+BR-169 | 169 Bde (-) | Allied BR | 56 Div | infantry  | 3-5-3 back 1-3-3 | {"beach": "Sugar"} 
+BR-2-5Q | 2/6 Queen's | Allied BR | 56 Div | infantry  | 2-2-3 back none | {"beach": "Sugar"} 
+BR-167 | 167 Bde (-) | Allied BR | 56 Div | infantry  | 3-5-3 back 1-3-3 | {"beach": "Roger"} 
+BR-7OB | 7 Ox & Bucks | Allied BR | 56 Div | infantry  | 2-2-3 back none | {"beach": "Roger"} 
+BR-Greys | Royal Scots Greys | Allied BR | X Corps | tank  | 3-2-5 back none | {"beach": "Roger"} 
+BR-BH21 | 21 Beach Group | Allied BR | X Corps | bh  | 0-2-0 back none | {"beach": "Roger"} 
+US-142 | 142 RCT (-) | Allied US | 36 Inf Div | infantry  | 4-4-3 back 1-3-3 | {"beach": "Red"} 
+US-1-142 | 1/142 | Allied US | 36 Inf Div | infantry  | 2-2-3 back none | {"beach": "Red"} 
+US-BH531R | 531 Shore Rgt (Red) | Allied US | VI Corps | bh  | 0-2-0 back none | {"beach": "Red"} 
+US-141 | 141 RCT (-) | Allied US | 36 Inf Div | infantry  | 4-4-3 back 1-3-3 | {"beach": "Blue"} 
+US-2-141 | 2/141 | Allied US | 36 Inf Div | infantry  | 2-2-3 back none | {"beach": "Blue"} 
+US-BH531B | 531 Shore Rgt (Blue) | Allied US | VI Corps | bh  | 0-2-0 back none | {"beach": "Blue"} 
+BR-138 | 138 Bde | Allied BR | 46 Div | infantry  | 5-7-3 back 3-5-3 | {"followUp": "X"} 
+BR-201G | 201 Gds Bde | Allied BR | 56 Div | infantry  | 5-7-3 back 3-5-3 | {"followUp": "X"} 
+US-143 | 143 RCT | Allied US | 36 Inf Div | infantry  | 6-6-3 back 4-4-3 | {"followUp": "VI"} 
+US-36Art | 36 Div ASU | Allied US | 36 Inf Div | divAsu  | 0-1-5 back none | {"followUp": "VI"} 
+US-191 | 191 Tank Bn | Allied US | VI Corps | tank  | 3-2-5 back none | {"followUp": "VI"} 
+US-645 | 645 TD Bn | Allied US | VI Corps | tank  | 2-2-5 back none | {"followUp": "VI"} 
+US-VIArt | VI Corps ASU | Allied US | VI Corps | corpsAsu  | 0-1-5 back none |  {"turn": 2, "at": "reserve"}
+US-179 | 179 RCT | Allied US | 45 Inf Div | infantry  | 6-6-3 back 4-4-3 |  {"turn": 2, "at": "reserve"}
+US-157 | 157 RCT (-) | Allied US | 45 Inf Div | infantry  | 4-4-3 back 1-3-3 |  {"turn": 2, "at": "reserve"}
+US-45Art | 45 Div ASU | Allied US | 45 Inf Div | divAsu  | 0-1-5 back none |  {"turn": 2, "at": "reserve"}
+US-3-531 | 3/531 Engineers | Allied US | VI Corps | engineer  | 1-2-3 back none |  {"turn": 2, "at": "reserve"}
+US-601 | 601 TD Bn | Allied US | VI Corps | tank  | 2-2-5 back none |  {"turn": 2, "at": "reserve"}
+US-751 | 751 Tank Bn | Allied US | VI Corps | tank  | 3-2-5 back none |  {"turn": 2, "at": "reserve"}
+US-753 | 753 Tank Bn | Allied US | VI Corps | tank  | 3-2-5 back none |  {"turn": 2, "at": "reserve"}
+BR-XArt | X Corps ASU | Allied BR | X Corps | corpsAsu  | 0-1-5 back none |  {"turn": 2, "at": "reserve"}
+BR-139 | 139 Bde | Allied BR | 46 Div | infantry  | 5-7-3 back 3-5-3 |  {"turn": 2, "at": "reserve"}
+BR-46Art | 46 Div ASU | Allied BR | 46 Div | divAsu  | 0-1-5 back none |  {"turn": 2, "at": "reserve"}
+BR-56Art | 56 Div ASU | Allied BR | 56 Div | divAsu  | 0-1-5 back none |  {"turn": 2, "at": "reserve"}
+US-REM-A | US Remnant A | Allied US | Remnant | infantry  | 1-3-3 back none | {"remnant": true} 
+US-REM-B | US Remnant B | Allied US | Remnant | infantry  | 1-3-3 back none | {"remnant": true} 
+US-REM-C | US Remnant C | Allied US | Remnant | infantry  | 1-3-3 back none | {"remnant": true} 
+US-REM-82 | 82 Abn Remnant | Allied US | 82 Abn Div | airborne  | 1-3-3 back none | {"remnant": true} 
+BR-REM-A | CW Remnant A | Allied BR | Remnant | infantry  | 1-3-3 back none | {"remnant": true} 
+BR-REM-B | CW Remnant B | Allied BR | Remnant | infantry  | 1-3-3 back none | {"remnant": true} 
+BR-REM-C | CW Remnant C | Allied BR | Remnant | infantry  | 1-3-3 back none | {"remnant": true} 
+BR-REM-22 | 22/7A Remnant | Allied BR | 7 Armd Div | tank  | 3-2-5 back none | {"remnant": true} 
+US-636 | 636 TD Bn | Allied US | VI Corps | tank  | 2-2-5 back none |  {"turn": 5, "at": "reserve"}
+US-504 | 504 PIR (-) | Allied US | 82 Abn Div | airborne  | 3-4-3 back 1-3-3 |  {"turn": 5, "at": "airdrop"}
+US-180 | 180 RCT | Allied US | 45 Inf Div | infantry  | 6-6-3 back 4-4-3 |  {"turn": 6, "at": "reserve"}
+US-505 | 505 PIR | Allied US | 82 Abn Div | airborne  | 5-6-3 back 3-4-3 |  {"turn": 6, "at": "airdrop"}
+US-2-509 | 2/509 PIB | Allied US | 82 Abn Div | airborne  | 2-2-3 back none |  {"turn": 6, "at": "airdrop509"}
+US-2-157 | 2/157 | Allied US | 45 Inf Div | infantry  | 2-2-3 back none |  {"turn": 7, "at": "reserve"}
+BR-131 | 131 Bde | Allied BR | 7 Armd Div | motorized  | 5-7-5 back 3-5-5 |  {"turn": 7, "at": "reserve"}
+US-325 | 325 GIR | Allied US | 82 Abn Div | glider  | 5-6-3 back 3-4-3 |  {"turn": 8, "at": "reserve"}
+US-3-504 | 3/504 | Allied US | 82 Abn Div | airborne  | 2-2-3 back none |  {"turn": 8, "at": "reserve"}
+BR-5RTR | 5 RTR | Allied BR | 7 Armd Div | tank  | 3-2-5 back none |  {"turn": 8, "at": "reserve"}
+US-756 | 756 Tank Bn | Allied US | VI Corps | tank  | 3-2-5 back none |  {"turn": 9, "at": "reserve"}
+BR-11H | 11 Hussars | Allied BR | 7 Armd Div | recon  | 2-2-6 back none |  {"turn": 9, "at": "reserve"}
+US-30 | 30 Inf Rgt | Allied US | 3 Inf Div | infantry  | 6-7-3 back 4-5-3 |  {"turn": 10, "at": "reserve"}
+BR-7AArt | 7 Armd Div ASU | Allied BR | 7 Armd Div | divAsu  | 0-1-5 back none |  {"turn": 10, "at": "reserve"}
+BR-22 | 22 Armd Bde (-) | Allied BR | 7 Armd Div | tank  | 8-6-5 back 5-4-5 |  {"turn": 11, "at": "reserve"}
+BR-17 | 17 Bde | Allied BR | 5 Div | infantry  | 5-7-3 back 3-5-3 |  {"turn": 11, "at": "S1"}
+CN-1 | 1 Cdn Bde | Allied CN | 1 CN Div | infantry  | 6-7-3 back 4-5-3 |  {"turn": 11, "at": "S3"}
+CN-3 | 3 Cdn Bde | Allied CN | 1 CN Div | infantry  | 6-7-3 back 4-5-3 |  {"turn": 11, "at": "S3"}
+CN-14 | 14 CN Tank Rgt | Allied CN | 1 CN Armd Bde | tank  | 3-2-5 back none |  {"turn": 11, "at": "S3"}
+US-7 | 7 Inf Rgt | Allied US | 3 Inf Div | infantry  | 6-7-3 back 4-5-3 |  {"turn": 12, "at": "reserve"}
+CN-11 | 11 CN Tank Rgt | Allied CN | 1 CN Armd Bde | tank  | 3-2-5 back none |  {"turn": 12, "at": "S2"}
+BR-15 | 15 Bde | Allied BR | 5 Div | infantry  | 5-7-3 back 3-5-3 |  {"turn": 12, "at": "S2"}
+BR-13 | 13 Bde | Allied BR | 5 Div | infantry  | 5-7-3 back 3-5-3 |  {"turn": 12, "at": "S2"}
+CN-2 | 2 Cdn Bde | Allied CN | 1 CN Div | infantry  | 6-7-3 back 4-5-3 |  {"turn": 12, "at": "S3"}
+US-3Art | 3 Div ASU | Allied US | 3 Inf Div | divAsu  | 0-1-5 back none |  {"turn": 13, "at": "reserve"}
+US-15 | 15 Inf Rgt | Allied US | 3 Inf Div | infantry  | 6-7-3 back 4-5-3 |  {"turn": 13, "at": "reserve"}
+US-133 | 133 Inf Rgt (-) | Allied US | 34 Inf Div | infantry  | 4-4-3 back 1-3-3 |  {"turn": 14, "at": "reserve"}
+US-100 | 100 Inf Bn | Allied US | 34 Inf Div | infantry  | 2-2-3 back none |  {"turn": 14, "at": "reserve"}
+BR-KDG | 1 King's Dragoon Gds | Allied BR | X Corps | recon  | 2-2-6 back none |  {"turn": 16, "at": "reserve"}
+US-135 | 135 Inf Rgt | Allied US | 34 Inf Div | infantry  | 6-6-3 back 4-4-3 |  {"turn": 18, "at": "reserve"}
+US-168 | 168 Inf Rgt | Allied US | 34 Inf Div | infantry  | 6-6-3 back 4-4-3 |  {"turn": 19, "at": "reserve"}
+US-34Art | 34 Div ASU | Allied US | 34 Inf Div | divAsu  | 0-1-5 back none |  {"turn": 20, "at": "reserve"}
+== italy43 (148 counters). Fields: id, name, side, formation, category, size, attack-defense-move, steps/back, arrival/setup (grand-map hex where placed on the map).
+GE-I-115 | I/115/15PG | German GE | 15 PG | motorized II | 2-3-5 back 1-2-5 | hex 1836 
+GE-III-115 | III/115/15PG | German GE | 15 PG | motorized II | 2-3-5 back 1-2-5 | hex 2739 
+GE-I-129 | I/129/15PG | German GE | 15 PG | motorized II | 2-3-5 back 1-2-5 | hex 1829 
+GE-II-129 | II/129/15PG | German GE | 15 PG | motorized II | 2-3-5 back 1-2-5 | hex 2029 
+GE-III-129 | III/129/15PG | German GE | 15 PG | motorized II | 2-3-5 back 1-2-5 | hex 2130 
+GE-104 | 104/15PG | German GE | 15 PG | motorized III | 6-9-5 back 4-6-5 | hex 2224 
+GE-33 | 33/15PG | German GE | 15 PG | recon II | 3-3-6 back 1-2-6 | hex 1720 
+GE-215 | 15 PG 215 | German GE | 15 PG | tank II | 4-3-5 back 2-2-5 | hex 2226 
+GE-15PG-ASU | 15 PG Div | German GE | 15 PG | divAsu [III] | 0-1-5 back none | hex 2325 
+GE-Reggio | Reggio | German GE | independent | motorized II | 1-2-5 back none | hex 2032 
+GE-242 | 242 | German GE | independent | tank II | 2-2-5 back none |  {"turn": 17, "at": "N1/N2/N3"}
+GE-103Pz | 3 PG 103 | German GE | 3 PG | tank II | 3-2-5 back none | hex 2720 
+GE-103 | 103/3PG | German GE | 3 PG | recon II | 3-3-6 back 1-2-6 | hex 2137 
+GE-I-29 | I/29/3PG | German GE | 3 PG | motorized II | 2-3-5 back 1-2-5 | hex 2720 
+GE-29 | 29/3PG | German GE | 3 PG | motorized III(-) | 4-6-5 back 2-3-5 |  {"turn": 3, "at": "N1/N2/N3"}
+GE-I-8 | I/8/3PG | German GE | 3 PG | motorized II | 2-3-5 back 1-2-5 |  {"turn": 5, "at": "N1/N2/N3"}
+GE-II-8 | II/8/3PG | German GE | 3 PG | motorized II | 2-3-5 back 1-2-5 |  {"turn": 7, "at": "N1/N2/N3"}
+GE-III-8 | III/8/3PG | German GE | 3 PG | motorized II | 2-3-5 back 1-2-5 |  {"turn": 11, "at": "N1/N2/N3"}
+GE-3PG-ASU | 3 PG Div | German GE | 3 PG | divAsu [III] | 0-1-5 back none |  {"turn": 7, "at": "N1/N2/N3"}
+GE-26 | 26/26Pz | German GE | 26 Pz | recon II | 3-3-6 back 1-2-6 | hex 3138 
+GE-I-67 | I/67/26Pz | German GE | 26 Pz | motorized II | 2-3-5 back 1-2-5 | hex 3339 
+GE-II-67 | II/67/26Pz | German GE | 26 Pz | motorized II | 2-3-5 back 1-2-5 |  {"turn": 14, "at": "N4"}
+GE-I-9 | I/9/26Pz | German GE | 26 Pz | pg II | 3-3-5 back 1-2-5 | hex 3539 
+GE-II-9 | II/9/26Pz | German GE | 26 Pz | motorized II | 2-3-5 back 1-2-5 | hex 3539 
+GE-26Pz-ASU | 26 Pz Div | German GE | 26 Pz | divAsu [III] | 0-1-5 back none | hex 3339 
+GE-HG | HG/HG | German GE | HG | recon II | 3-3-6 back 1-2-6 | hex 2338 
+GE-I-2HG | I/2/HG | German GE | HG | pg II | 4-4-5 back 2-2-5 | hex 2539 
+GE-II-1HG | II/1/HG | German GE | HG | motorized II | 3-3-5 back 1-2-5 | hex 2739 
+GE-HG-I-II | HG I+II | German GE | HG | tank II | 5-4-5 back 3-2-5 | hex 2539 
+GE-HG-III | HG III | German GE | HG | tank II | 2-2-5 back none | hex 2739 
+GE-HG-ASU | HG Div | German GE | HG | divAsu [III] | 0-1-5 back none | hex 2636 
+GE-III-1FJ | III/1/1FJ | German GE | 1 FJ | airborne II | 2-2-3 back none | hex 2338 
+GE-III-6FJ | III/6/2FJ | German GE | 2 FJ | airborne II | 2-2-3 back none |  {"turn": 13, "at": "N1/N2/N3"}
+GE-II-64 | II/64/16Pz | German GE | 16 Pz | pg II | 3-3-5 back 1-2-5 | hex 2939 
+GE-129 | 129/29PG | German GE | 29 PG | recon II | 3-3-6 back 1-2-6 | hex 3739 
+GE-129Pz | 29 PG 129 | German GE | 29 PG | tank II | 3-2-5 back none |  {"turn": 18, "at": "N2"}
+GE-71 | 71/29PG | German GE | 29 PG | motorized III | 6-9-5 back 4-6-5 |  {"turn": 17, "at": "N2", "reduced": true}
+GE-15 | 15/29PG | German GE | 29 PG | motorized III | 6-9-5 back 4-6-5 |  {"turn": 17, "at": "N2"}
+GE-29PG-ASU | 29 PG Div | German GE | 29 PG | divAsu [III] | 0-1-5 back none |  {"turn": 18, "at": "N2"}
+GE-577 | 577/305 | German GE | 305 | infantry III | 3-5-3 back 1-3-3 |  {"turn": 9, "at": "N3"}
+GE-578 | 578/305 | German GE | 305 | infantry III | 3-5-3 back 1-3-3 |  {"turn": 14, "at": "N3"}
+GE-305F | 305F/305 | German GE | 305 | infantry II | 2-2-3 back none |  {"turn": 12, "at": "N4"}
+GE-305-ASU | 305 Div | German GE | 305 | divAsu [III] | 0-1-5 back none |  {"turn": 9, "at": "N3"}
+GE-267 | 267/94 | German GE | 94 | infantry III | 3-5-3 back 1-3-3 |  {"turn": 12, "at": "hex:1706"}
+GE-274 | 274/94 | German GE | 94 | infantry III | 3-5-3 back 1-3-3 |  {"turn": 11, "at": "N1/N2/N3"}
+GE-276 | 276/94 | German GE | 94 | infantry III | 3-5-3 back 1-3-3 |  {"turn": 13, "at": "N1/N2/N3"}
+GE-94Fus | 94Fus/94 | German GE | 94 | infantry II | 2-2-3 back none |  {"turn": 16, "at": "N1/N2/N3"}
+GE-94-ASU | 94 Div | German GE | 94 | divAsu [III] | 0-1-5 back none |  {"turn": 13, "at": "N1/N2/N3"}
+GE-131 | 131/44 | German GE | 44 | infantry III | 4-7-3 back 2-5-3 |  {"turn": 19, "at": "N1/N2/N3"}
+GE-132 | 132/44 | German GE | 44 | infantry III | 4-7-3 back 2-5-3 |  {"turn": 27, "at": "N1/N2/N3"}
+GE-134 | 134/44 | German GE | 44 | infantry III | 4-7-3 back 2-5-3 |  {"turn": 22, "at": "N1/N2/N3"}
+GE-44Fus | 44Fus/44 | German GE | 44 | infantry II | 2-2-3 back none |  {"turn": 28, "at": "N1/N2/N3"}
+GE-44-ASU | 44 Div | German GE | 44 | divAsu [III] | 0-1-5 back none |  {"turn": 25, "at": "N1/N2/N3"}
+GE-100 | 100/5Geb | German GE | 5 Geb | mountain III | 5-7-3 back 3-5-3 |  {"turn": 29, "at": "N1/N2/N3"}
+GE-85 | 85/5Geb | German GE | 5 Geb | mountain III | 5-7-3 back 3-5-3 |  {"turn": 30, "at": "N1/N2/N3"}
+GE-5Geb-ASU | 5 Geb Div | German GE | 5 Geb | divAsu [III] | 0-1-5 back none |  {"turn": 29, "at": "N1/N2/N3"}
+GE-14Pz | 14 Pz Corps | German GE | XIV Pz Corps | corpsAsu XXX | 0-1-5 back none | hex 2634 
+GE-71NW | 71 | German GE | independent | nebelwerfer III | 0-1-5 back none | hex 2636 
+GE-56NW | 56 | German GE | independent | nebelwerfer III | 0-1-5 back none |  {"turn": 13, "at": "N1/N2/N3"}
+GE-REM-A | REM A | German GE | independent | infantry  | 1-3-3 back none | {"remnant": true} 
+GE-REM-B | REM B | German GE | independent | infantry  | 1-3-3 back none | {"remnant": true} 
+GE-REM-C | REM C | German GE | independent | infantry  | 1-3-3 back none | {"remnant": true} 
+GE-REM-D | REM D | German GE | independent | infantry  | 1-3-3 back none | {"remnant": true} 
+GE-REM-E | REM E | German GE | independent | motorized  | 1-3-5 back none | {"remnant": true} 
+US-504-82 | 504/82 | Allied US | 82 Abn | airborne III | 5-6-3 back 3-4-3 | hex 2139 
+US-505-82 | 505/82 | Allied US | 82 Abn | airborne III | 5-6-3 back 3-4-3 | hex 2038 
+US-325G-82 | 325G/82 | Allied US | 82 Abn | glider III | 5-6-3 back 3-4-3 | hex 2138 
+BR-40RTR | 40RTR | Allied BR | 23 Arm Bde | tank II | 3-2-5 back none | hex 2238 
+BR-RSG | RSG | Allied BR | 23 Arm Bde | tank II | 3-2-5 back none | hex 2238 
+BR-11K-23A | 11K/23A | Allied BR | 23 Arm Bde | motorized II | 2-2-5 back none |  {"turn": 17, "at": "S1/S2"}
+BR-1KDG | 1 KDG | Allied BR | Independent | recon II | 2-2-6 back none | hex 2238 
+BR-131-7A | 131/7A | Allied BR | 7 Arm Div | motorized X | 5-7-5 back 3-5-5 | hex 2540 
+BR-11H-7A | 11H/7A | Allied BR | 7 Arm Div | recon II | 2-2-6 back none | hex 2540 
+BR-22-7A | 22/7A | Allied BR | 7 Arm Div | tank X | 11-8-5 back 8-6-5 | hex 2541 
+BR-7ADivASU | 7 Arm Div | Allied BR | 7 Arm Div | divAsu [X] | 0-1-5 back none |  {"turn": 2, "at": "S1"}
+BR-128-46 | 128/46 | Allied BR | 46 Div | infantry X | 5-7-3 back 3-5-3 |  {"turn": 1, "at": "S1", "reduced": true}
+BR-138-46 | 138/46 | Allied BR | 46 Div | infantry X | 5-7-3 back 3-5-3 |  {"turn": 1, "at": "S1"}
+BR-139-46 | 139/46 | Allied BR | 46 Div | infantry X | 5-7-3 back 3-5-3 |  {"turn": 1, "at": "S1", "reduced": true}
+BR-46DivASU | 46 Div | Allied BR | 46 Div | divAsu [X] | 0-1-5 back none |  {"turn": 2, "at": "S1"}
+BR-167-56 | 167/56 | Allied BR | 56 Div | infantry X | 5-7-3 back 3-5-3 |  {"turn": 1, "at": "S1", "reduced": true}
+BR-168-56 | 168/56 | Allied BR | 56 Div | infantry X | 5-7-3 back 3-5-3 |  {"turn": 5, "at": "Naples"}
+BR-169-56 | 169/56 | Allied BR | 56 Div | infantry X | 5-7-3 back 3-5-3 | hex 2741 
+BR-201G-56 | 201G/56 | Allied BR | 56 Div | infantry X | 5-7-3 back 3-5-3 | hex 2741 
+BR-56DivASU | 56 Div | Allied BR | 56 Div | divAsu [X] | 0-1-5 back none |  {"turn": 2, "at": "S1"}
+BR-10CorpsASU | 10 Corps | Allied BR | 10 Corps | corpsAsu XXX | 0-1-5 back none |  {"turn": 3, "at": "S1"}
+BR-9Cmdo | 9 Cmdo | Allied BR | Independent | ranger II | 2-2-3 back none |  {"turn": 31, "at": "Naples"}
+US-15-3 | 15/3 | Allied US | 3 Div | infantry III | 6-7-3 back 4-5-3 | hex 2940 
+US-30-3 | 30/3 | Allied US | 3 Div | infantry III | 6-7-3 back 4-5-3 | hex 2940 
+US-7-3 | 7/3 | Allied US | 3 Div | infantry III | 6-7-3 back 4-5-3 | hex 3040 
+US-751 | 751 | Allied US | 3 Div | tank II | 3-2-5 back none | hex 2940 
+US-601 | 601 | Allied US | 3 Div | tank II | 2-2-5 back none | hex 3040 
+US-3DivASU | 3 Div | Allied US | 3 Div | divAsu [III] | 0-1-5 back none |  {"turn": 2, "at": "S2"}
+US-133-34 | 133/34 | Allied US | 34 Div | infantry III(-) | 4-4-3 back 1-3-3 | hex 3640 
+US-135-34 | 135/34 | Allied US | 34 Div | infantry III | 6-6-3 back 4-4-3 |  {"turn": 4, "at": "S2"}
+US-168-34 | 168/34 | Allied US | 34 Div | infantry III | 6-6-3 back 4-4-3 |  {"turn": 4, "at": "S2"}
+US-100-34 | 100/34 | Allied US | 34 Div | infantry II | 2-2-3 back none |  {"turn": 2, "at": "S2"}
+US-34DivASU | 34 Div | Allied US | 34 Div | divAsu [III] | 0-1-5 back none |  {"turn": 4, "at": "S2"}
+US-776 | 776 | Allied US | 34 Div | tank II | 2-2-5 back none |  {"turn": 4, "at": "S2"}
+US-760 | 760 | Allied US | 34 Div | tank II | 3-2-5 back none |  {"turn": 12, "at": "Naples"}
+US-141-36 | 141/36 | Allied US | 36 Div | infantry III | 6-6-3 back 4-4-3 |  {"turn": 18, "at": "S1/S2"}
+US-142-36 | 142/36 | Allied US | 36 Div | infantry III | 6-6-3 back 4-4-3 |  {"turn": 17, "at": "S1/S2"}
+US-143-36 | 143/36 | Allied US | 36 Div | infantry III | 6-6-3 back 4-4-3 |  {"turn": 17, "at": "S1/S2"}
+US-753 | 753 | Allied US | 36 Div | tank II | 3-2-5 back none |  {"turn": 17, "at": "S1/S2"}
+US-636 | 636 | Allied US | 36 Div | tank II | 2-2-5 back none |  {"turn": 17, "at": "S1/S2"}
+US-36DivASU | 36 Div | Allied US | 36 Div | divAsu [III] | 0-1-5 back none |  {"turn": 18, "at": "S1/S2"}
+US-157-45 | 157/45 | Allied US | 45 Div | infantry III | 6-6-3 back 4-4-3 | hex 3740 
+US-179-45 | 179/45 | Allied US | 45 Div | infantry III | 6-6-3 back 4-4-3 |  {"turn": 2, "at": "S2", "reduced": true}
+US-180-45 | 180/45 | Allied US | 45 Div | infantry III | 6-6-3 back 4-4-3 |  {"turn": 2, "at": "S2"}
+US-645 | 645 | Allied US | 45 Div | tank II | 2-2-5 back none |  {"turn": 2, "at": "S2"}
+US-755 | 755 | Allied US | 45 Div | tank II | 3-2-5 back none |  {"turn": 13, "at": "Naples"}
+US-45DivASU | 45 Div | Allied US | 45 Div | divAsu [III] | 0-1-5 back none |  {"turn": 2, "at": "S2"}
+US-6-1A | 6/1A | Allied US | 1 Arm Div | pg III | 6-7-5 back 4-5-5 |  {"turn": 13, "at": "Naples"}
+US-1ADivASU | 1 Arm Div | Allied US | 1 Arm Div | divAsu [III] | 0-1-5 back none |  {"turn": 13, "at": "Naples"}
+US-191 | 191 | Allied US | Independent | tank II | 3-2-5 back none | hex 3740 
+US-756 | 756 | Allied US | Independent | tank II | 2-2-5 back none |  {"turn": 2, "at": "S2"}
+US-91 | 91 | Allied US | Independent | recon II | 2-2-6 back none |  {"turn": 9, "at": "Naples"}
+US-VICorpsASU | VI Corps | Allied US | VI Corps | corpsAsu XXX | 0-1-5 back none |  {"turn": 3, "at": "S1"}
+US-IICorpsASU | II Corps | Allied US | II Corps | corpsAsu XXX | 0-1-5 back none |  {"turn": 17, "at": "Naples"}
+US-M1 | M1 | Allied US | Independent | heavyHowitzer II(+) | 0-1-5 back none |  {"turn": 18, "at": "Naples"}
+US-1Rgr | 1 Rgr | Allied US | Darby's Rangers | ranger II | 2-2-3 back none |  {"turn": 14, "at": "Naples"}
+US-3Rgr | 3 Rgr | Allied US | Darby's Rangers | ranger II | 2-2-3 back none |  {"turn": 20, "at": "Naples"}
+US-4Rgr | 4 Rgr | Allied US | Darby's Rangers | ranger II | 2-2-3 back none |  {"turn": 12, "at": "Naples"}
+US-2-509 | 2/509 | Allied US | Independent | airborne II | 2-2-3 back none |  {"turn": 15, "at": "Naples"}
+US-1SSF | 1 SSF | Allied US | Independent | ranger X | 5-5-3 back 2-3-3 |  {"turn": 19, "at": "Naples"}
+FR-4-2M | 4/2M | Allied FR | 2M Div | mountain III | 5-6-3 back 3-4-3 |  {"turn": 23, "at": "Naples"}
+FR-5-2M | 5/2M | Allied FR | 2M Div | mountain III | 5-6-3 back 3-4-3 |  {"turn": 23, "at": "Naples"}
+FR-8-2M | 8/2M | Allied FR | 2M Div | mountain III | 5-6-3 back 3-4-3 |  {"turn": 23, "at": "Naples"}
+FR-4MG-2M | 4MG/2M | Allied FR | 2M Div | mountain III | 5-6-3 back 3-4-3 |  {"turn": 23, "at": "Naples"}
+FR-2MDivASU | 2M Div | Allied FR | 2M Div | divAsu [III] | 0-1-5 back none |  {"turn": 23, "at": "Naples"}
+IT-1Mtr | I Mtr | Allied IT | I Mtr | motorized X | 4-5-5 back 2-3-5 |  {"turn": 24, "at": "S1"}
+BR-REM-A | REM (British) A | Allied BR | Independent | infantry  | 1-3-3 back none | {"remnant": true} 
+BR-REM-B | REM (British) B | Allied BR | Independent | infantry  | 1-3-3 back none | {"remnant": true} 
+BR-REM-C | REM (British) C | Allied BR | Independent | infantry  | 1-3-3 back none | {"remnant": true} 
+BR-REM-22-7A | 22/7A REM | Allied BR | 7 Arm Div | tank  | 5-3-5 back none | {"remnant": true} 
+US-REM-A | REM (US) A | Allied US | Independent | infantry  | 1-3-3 back none | {"remnant": true} 
+US-REM-B | REM (US) B | Allied US | Independent | infantry  | 1-3-3 back none | {"remnant": true} 
+US-REM-C | REM (US) C | Allied US | Independent | infantry  | 1-3-3 back none | {"remnant": true} 
+US-REM-82 | 82 REM | Allied US | 82 Abn | airborne  | 1-3-3 back none | {"remnant": true} 
+FR-REM-A | REM (French) A | Allied FR | 2M Div | infantry  | 1-3-3 back none | {"remnant": true} 
+FR-REM-B | REM (French) B | Allied FR | 2M Div | infantry  | 1-3-3 back none | {"remnant": true} 
+GE-REM-A-M | REM A (motorized) | German GE | Independent | motorized  | 1-3-5 back none | {"remnant": true} 
+GE-REM-B-M | REM B (motorized) | German GE | Independent | motorized  | 1-3-5 back none | {"remnant": true} 
+GE-REM-C-M | REM C (motorized) | German GE | Independent | motorized  | 1-3-5 back none | {"remnant": true} 
+GE-REM-D-M | REM D (motorized) | German GE | Independent | motorized  | 1-3-5 back none | {"remnant": true} 
+BR-REM-A-M | REM (British) A, 7th Armoured | Allied BR | 7 Arm Div | motorized  | 1-3-5 back none | {"remnant": true} 
+BR-REM-B-M | REM (British) B, 7th Armoured | Allied BR | 7 Arm Div | motorized  | 1-3-5 back none | {"remnant": true} 
+BR-REM-C-M | REM (British) C, 7th Armoured | Allied BR | 7 Arm Div | motorized  | 1-3-5 back none | {"remnant": true} 
+US-REM-6-1A | 6/1A REM | Allied US | 1 Arm Div | pg  | 1-3-5 back none | {"remnant": true} 

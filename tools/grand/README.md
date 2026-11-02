@@ -24,9 +24,29 @@ The grand map keeps Italy's convention and moves every row 14 down (`ROW_SHIFT`)
 for the Adriatic front: on the fitted grid Ortona lies at about row −8, Pescara −13, Termoli at column 59, Foggia at
 column 58, row 28 (all before the shift).
 
+## The Adriatic extension (data/grand43/extension.json)
+
+No printed map covers the Eighth Army's front, so it is drawn from the ground, in the printed maps' own manner:
+
+- `geo.py`: the grid on the ground (the fit above) and elevation from the public Terrarium tiles (AWS open data).
+- `calibrate.py`: for every printed land hex, the spread of heights inside it; a hex is hill where the 90th less the
+  10th percentile is over 70 m, which reproduces the designers' clear/hill choice on 92% of the 1,291 printed land hexes.
+- `mtn.py`: a small logistic model of the printed maps' mountain hexsides (height of the ground between the hexes,
+  the hexes' heights and roughness), at the threshold that gives the printed maps' own density of them; it agrees
+  with the designers on 61% of their mountain hexsides (they are partly a judgement of where the massifs are).
+- `extend.py`: columns 30–66, rows 0–50 where the printed maps have no hex: 1,161 land hexes, the sea within 3 hexes
+  of the new coast, mountain hexsides, and rivers traced from the ground (water run downhill over a filled surface, a
+  river from 90 km² of catchment, a major river from 900 km²), snapped onto the hex edges nearest their course. The
+  Sangro, Trigno, Biferno, Fortore and Pescara come out at their real mouths.
+- `extend_places.py` with `wiki_places.py`: 110 towns at their English Wikipedia positions (Palena, Quadri, Palata
+  and Riccia by hand, to about a kilometre, their articles having no readable coordinates), the larger ones cities;
+  the main roads of 1943 (the Via Adriatica, the two arms of the SS 17, the SS 87 and SS 90, and the lateral roads
+  that mattered: the Sangro and Trigno valleys, Ortona–Orsogna, Lanciano–Casoli–Roccaraso, Isernia–Agnone–Vasto),
+  routed hex by hex through the towns they ran through. Routes are reconstructions, to be checked against period maps.
+- `render_check.py` draws the whole map for checking by eye.
+
 ## Still to do on the map
 
-- The Adriatic extension (columns ~41 to ~66, rows 0 to ~45): new hexes from elevation and map data.
 - Salerno '43 has one kind of river and Italy '43 two (major rivers only crossed as a first hex): Salerno's rivers are
   minor for now; the Sele and the Calore may deserve major.
 - Entry areas carry their game as a prefix (IE1, SE2, …); the ones on the old inner edges go once the extension is in.

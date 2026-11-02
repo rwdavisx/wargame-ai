@@ -1,0 +1,1428 @@
+{
+ "continuity": [
+  {
+   "salernoId": "US-1Rgr",
+   "italyId": "US-1Rgr",
+   "name": "1st Ranger Bn",
+   "salernoValues": "2-2-3",
+   "italyValues": "2-2-3",
+   "note": "Same values. Salerno: lands Maiori D-Day; Italy: arrives Naples T14 (Nov 4-6), removed T20. Historically with the 82nd into Naples 2 Oct, recommitted at Venafro 8-10 Nov (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) pp.165, 231; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.52)."
+  },
+  {
+   "salernoId": "US-3Rgr",
+   "italyId": "US-3Rgr",
+   "name": "3rd Ranger Bn",
+   "salernoValues": "2-2-3",
+   "italyValues": "2-2-3",
+   "note": "Same values. Italy arrives Naples T20 (Nov 22-24), removed T27; historically at San Pietro 29 Nov and Hill 950 7-13 Dec (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.273; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) pp.66-67)."
+  },
+  {
+   "salernoId": "US-4Rgr",
+   "italyId": "US-4Rgr",
+   "name": "4th Ranger Bn",
+   "salernoValues": "2-2-3",
+   "italyValues": "2-2-3",
+   "note": "Same values. Italy arrives Naples T12 (Oct 29-31), removed T22; historically crossed the Volturno 3 Nov to Cannavinelle Hill (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.222; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.51)."
+  },
+  {
+   "salernoId": "BR-128+BR-5H",
+   "italyId": "BR-128-46",
+   "name": "128th Brigade, 46th Div",
+   "salernoValues": "3-5-3/1-3-3 + 2-2-3",
+   "italyValues": "5-7-3/3-5-3",
+   "note": "Salerno splits the brigade: 128 Bde(-) 3-5-3 + 5th Hampshires 2-2-3 = Italy 5-7-3 (back 3-5-3). Combine when both are on the map (or keep the split until the Italy phase)."
+  },
+  {
+   "salernoId": "BR-138",
+   "italyId": "BR-138-46",
+   "name": "138th Brigade, 46th Div",
+   "salernoValues": "5-7-3/3-5-3",
+   "italyValues": "5-7-3/3-5-3",
+   "note": "Identical counter. Landed 9 Sept from 7 a.m. (Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.278-280)."
+  },
+  {
+   "salernoId": "BR-139",
+   "italyId": "BR-139-46",
+   "name": "139th Brigade, 46th Div",
+   "salernoValues": "5-7-3/3-5-3",
+   "italyValues": "5-7-3/3-5-3",
+   "note": "Identical counter. Landed night 9/10 Sept (Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.280); Salerno T2."
+  },
+  {
+   "salernoId": "BR-46Art",
+   "italyId": "BR-46DivASU",
+   "name": "46th Div ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same 0-1-5."
+  },
+  {
+   "salernoId": "BR-167+BR-7OB",
+   "italyId": "BR-167-56",
+   "name": "167th Brigade, 56th Div",
+   "salernoValues": "3-5-3/1-3-3 + 2-2-3",
+   "italyValues": "5-7-3/3-5-3",
+   "note": "167 Bde(-) 3-5-3 + 7th Ox & Bucks 2-2-3 = Italy 5-7-3."
+  },
+  {
+   "salernoId": "BR-169+BR-2-5Q",
+   "italyId": "BR-169-56",
+   "name": "169th (Queen's) Brigade, 56th Div",
+   "salernoValues": "3-5-3/1-3-3 + 2-2-3",
+   "italyValues": "5-7-3/3-5-3",
+   "note": "169 Bde(-) 3-5-3 + 2/6th Queen's 2-2-3 = Italy 5-7-3. Note the Salerno id BR-2-5Q is named 2/6 Queen's."
+  },
+  {
+   "salernoId": "BR-201G",
+   "italyId": "BR-201G-56",
+   "name": "201st Guards Brigade, 56th Div",
+   "salernoValues": "5-7-3/3-5-3",
+   "italyValues": "5-7-3/3-5-3",
+   "note": "Identical counter. Landed 9 Sept 7.15 a.m. in reserve (Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.278). Wikipedia 56th Div lists it \"left 17 September 1943\" (Joslen) yet it fought on Camino with 56 Div in Nov (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.52); treat as 56 Div throughout.",
+   "uncertain": true
+  },
+  {
+   "salernoId": "BR-56Art",
+   "italyId": "BR-56DivASU",
+   "name": "56th Div ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same 0-1-5."
+  },
+  {
+   "salernoId": "BR-40RTR",
+   "italyId": "BR-40RTR",
+   "name": "40th RTR, 23rd Armd Bde",
+   "salernoValues": "3-2-5",
+   "italyValues": "3-2-5",
+   "note": "Same 3-2-5. The only 23 Armd Bde tank unit in the assault (https://en.wikipedia.org/wiki/23rd_Armoured_Brigade_(United_Kingdom))."
+  },
+  {
+   "salernoId": "BR-Greys",
+   "italyId": "BR-RSG",
+   "name": "Royal Scots Greys",
+   "salernoValues": "3-2-5",
+   "italyValues": "3-2-5",
+   "note": "Same 3-2-5. Salerno formation \"X Corps\" (affiliated to 56 Div, earmarked for 23 Armd Bde: Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.276); Italy formation \"23 Arm Bde\". Use 23 Armd Bde."
+  },
+  {
+   "salernoId": "BR-KDG",
+   "italyId": "BR-1KDG",
+   "name": "1st King's Dragoon Guards",
+   "salernoValues": "2-2-6",
+   "italyValues": "2-2-6",
+   "note": "Same 2-2-6 recon. Salerno: X Corps, arrives T16 (24 Sept); Italy: Independent, at start 2224 (Naples). A Sqn reached central Naples 09:30 1 Oct (Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.343; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.87)."
+  },
+  {
+   "salernoId": "BR-XArt",
+   "italyId": "BR-10CorpsASU",
+   "name": "X Corps ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same 0-1-5 (Italy range 5)."
+  },
+  {
+   "salernoId": "BR-131",
+   "italyId": "BR-131-7A",
+   "name": "131st (Queen's) Lorried Infantry Brigade, 7th Armd Div",
+   "salernoValues": "5-7-5/3-5-5",
+   "italyValues": "5-7-5/3-5-5",
+   "note": "Identical 5-7-5. Expected ashore 15 Sept (Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.301)."
+  },
+  {
+   "salernoId": "BR-22+BR-5RTR",
+   "italyId": "BR-22-7A",
+   "name": "22nd Armoured Brigade, 7th Armd Div",
+   "salernoValues": "8-6-5/5-4-5 + 3-2-5",
+   "italyValues": "11-8-5/8-6-5",
+   "note": "22 Armd Bde(-) 8-6-5 + 5 RTR 3-2-5 = Italy 11-8-5 (whose back is 8-6-5). Remnant differs: Salerno BR-REM-22 3-2-5 vs Italy BR-REM-22-7A 5-3-5."
+  },
+  {
+   "salernoId": "BR-11H",
+   "italyId": "BR-11H-7A",
+   "name": "11th Hussars, 7th Armd Div",
+   "salernoValues": "2-2-6",
+   "italyValues": "2-2-6",
+   "note": "Same 2-2-6. Italy removes it T13 (Nov 1-3), ahead of the rest of the division."
+  },
+  {
+   "salernoId": "BR-7AArt",
+   "italyId": "BR-7ADivASU",
+   "name": "7th Armd Div ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same 0-1-5."
+  },
+  {
+   "salernoId": "US-141+US-2-141",
+   "italyId": "US-141-36",
+   "name": "141st Infantry, 36th Div",
+   "salernoValues": "4-4-3/1-3-3 + 2-2-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "141 RCT(-) 4-4-3 + 2/141 2-2-3 = Italy 6-6-3. Italy: returns T18 (Nov 16-18)."
+  },
+  {
+   "salernoId": "US-142+US-1-142",
+   "italyId": "US-142-36",
+   "name": "142nd Infantry, 36th Div",
+   "salernoValues": "4-4-3/1-3-3 + 2-2-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "142 RCT(-) 4-4-3 + 1/142 2-2-3 = Italy 6-6-3 (Italy back estimated). Italy: returns T17."
+  },
+  {
+   "salernoId": "US-143",
+   "italyId": "US-143-36",
+   "name": "143rd Infantry, 36th Div",
+   "salernoValues": "6-6-3/4-4-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "Identical 6-6-3. Italy: returns T17."
+  },
+  {
+   "salernoId": "US-36Art",
+   "italyId": "US-36DivASU",
+   "name": "36th Div ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same. Italy: returns T18."
+  },
+  {
+   "salernoId": "US-179",
+   "italyId": "US-179-45",
+   "name": "179th Infantry, 45th Div",
+   "salernoValues": "6-6-3/4-4-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "Identical 6-6-3. Landed 10 Sept (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.99). Italy: enters T2 reduced from S2 (in the grand game it is already on the map)."
+  },
+  {
+   "salernoId": "US-157+US-2-157",
+   "italyId": "US-157-45",
+   "name": "157th Infantry, 45th Div",
+   "salernoValues": "4-4-3/1-3-3 + 2-2-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "157 RCT(-) 4-4-3 + 2/157 2-2-3 = Italy 6-6-3. Two battalions landed 10 Sept, the third on 15 Sept (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.100). Blumenson names the late one the 1st Bn, but 1/157 fought at the Tobacco Factory 11-13 Sept (Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) pp.46, 57, 62) - the game's 2/157 is consistent with that.",
+   "uncertain": true
+  },
+  {
+   "salernoId": "US-180",
+   "italyId": "US-180-45",
+   "name": "180th Infantry, 45th Div",
+   "salernoValues": "6-6-3/4-4-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "Identical 6-6-3. Landed early 14 Sept (Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.72)."
+  },
+  {
+   "salernoId": "US-45Art",
+   "italyId": "US-45DivASU",
+   "name": "45th Div ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same."
+  },
+  {
+   "salernoId": "US-30",
+   "italyId": "US-30-3",
+   "name": "30th Infantry, 3rd Div",
+   "salernoValues": "6-7-3/4-5-3",
+   "italyValues": "6-7-3/4-5-3",
+   "note": "Identical 6-7-3."
+  },
+  {
+   "salernoId": "US-7",
+   "italyId": "US-7-3",
+   "name": "7th Infantry, 3rd Div",
+   "salernoValues": "6-7-3/4-5-3",
+   "italyValues": "6-7-3/4-5-3",
+   "note": "Identical 6-7-3."
+  },
+  {
+   "salernoId": "US-15",
+   "italyId": "US-15-3",
+   "name": "15th Infantry, 3rd Div",
+   "salernoValues": "6-7-3/4-5-3",
+   "italyValues": "6-7-3/4-5-3",
+   "note": "Identical 6-7-3."
+  },
+  {
+   "salernoId": "US-3Art",
+   "italyId": "US-3DivASU",
+   "name": "3rd Div ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same."
+  },
+  {
+   "salernoId": "US-133",
+   "italyId": "US-133-34",
+   "name": "133rd Infantry (-), 34th Div",
+   "salernoValues": "4-4-3/1-3-3",
+   "italyValues": "4-4-3/1-3-3",
+   "note": "Identical 4-4-3 (the 2nd Bn stayed in Algiers; the 100th Bn replaced it: Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.162)."
+  },
+  {
+   "salernoId": "US-100",
+   "italyId": "US-100-34",
+   "name": "100th Infantry Bn (Nisei)",
+   "salernoValues": "2-2-3",
+   "italyValues": "2-2-3",
+   "note": "Identical 2-2-3 (Italy elite)."
+  },
+  {
+   "salernoId": "US-135",
+   "italyId": "US-135-34",
+   "name": "135th Infantry, 34th Div",
+   "salernoValues": "6-6-3/4-4-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "Identical 6-6-3. Italy T4 arrival S2 is the same counter continuing."
+  },
+  {
+   "salernoId": "US-168",
+   "italyId": "US-168-34",
+   "name": "168th Infantry, 34th Div",
+   "salernoValues": "6-6-3/4-4-3",
+   "italyValues": "6-6-3/4-4-3",
+   "note": "Identical 6-6-3."
+  },
+  {
+   "salernoId": "US-34Art",
+   "italyId": "US-34DivASU",
+   "name": "34th Div ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same."
+  },
+  {
+   "salernoId": "US-504+US-3-504",
+   "italyId": "US-504-82",
+   "name": "504th Parachute Infantry, 82nd Abn",
+   "salernoValues": "3-4-3/1-3-3 + 2-2-3",
+   "italyValues": "5-6-3/3-4-3",
+   "note": "504 PIR(-) 3-4-3 + 3/504 2-2-3 = Italy 5-6-3. Stays in Italy when the 82nd leaves (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.186). Italy: Naples garrison, released T11."
+  },
+  {
+   "salernoId": "US-505",
+   "italyId": "US-505-82",
+   "name": "505th Parachute Infantry, 82nd Abn",
+   "salernoValues": "5-6-3/3-4-3",
+   "italyValues": "5-6-3/3-4-3",
+   "note": "Identical 5-6-3. Italy: Naples garrison, removed T19 (Nov 19-21)."
+  },
+  {
+   "salernoId": "US-325",
+   "italyId": "US-325G-82",
+   "name": "325th Glider Infantry, 82nd Abn",
+   "salernoValues": "5-6-3/3-4-3",
+   "italyValues": "5-6-3/3-4-3",
+   "note": "Identical 5-6-3. Italy: Naples garrison, removed T19. Co. G held Ischia (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.164)."
+  },
+  {
+   "salernoId": "US-2-509",
+   "italyId": "US-2-509",
+   "name": "2nd Bn, 509th Parachute Infantry",
+   "salernoValues": "2-2-3",
+   "italyValues": "2-2-3",
+   "note": "Same 2-2-3. Salerno formation 82 Abn (attached), Italy Independent. Italy: arrives Naples T15, removed T28."
+  },
+  {
+   "salernoId": "US-191",
+   "italyId": "US-191",
+   "name": "191st Tank Bn",
+   "salernoValues": "3-2-5",
+   "italyValues": "3-2-5",
+   "note": "Same 3-2-5; VI Corps vs Independent."
+  },
+  {
+   "salernoId": "US-645",
+   "italyId": "US-645",
+   "name": "645th TD Bn",
+   "salernoValues": "2-2-5",
+   "italyValues": "2-2-5",
+   "note": "Same 2-2-5; VI Corps vs 45 Div."
+  },
+  {
+   "salernoId": "US-601",
+   "italyId": "US-601",
+   "name": "601st TD Bn",
+   "salernoValues": "2-2-5",
+   "italyValues": "2-2-5",
+   "note": "Same 2-2-5; VI Corps vs 3 Div."
+  },
+  {
+   "salernoId": "US-751",
+   "italyId": "US-751",
+   "name": "751st Tank Bn",
+   "salernoValues": "3-2-5",
+   "italyValues": "3-2-5",
+   "note": "Same 3-2-5; VI Corps vs 3 Div. (Blumenson index lists it as \"751st Tank Destroyer Battalion\" p.197 - a slip.)"
+  },
+  {
+   "salernoId": "US-753",
+   "italyId": "US-753",
+   "name": "753rd Tank Bn",
+   "salernoValues": "3-2-5",
+   "italyValues": "3-2-5",
+   "note": "Same 3-2-5; VI Corps vs 36 Div."
+  },
+  {
+   "salernoId": "US-636",
+   "italyId": "US-636",
+   "name": "636th TD Bn",
+   "salernoValues": "2-2-5",
+   "italyValues": "2-2-5",
+   "note": "Same 2-2-5; VI Corps vs 36 Div."
+  },
+  {
+   "salernoId": "US-756",
+   "italyId": "US-756",
+   "name": "756th Tank Bn",
+   "salernoValues": "3-2-5",
+   "italyValues": "2-2-5",
+   "note": "VALUES DIFFER: Salerno 3-2-5, Italy 2-2-5 (tank rating 2). Pick one.",
+   "uncertain": true
+  },
+  {
+   "salernoId": "US-VIArt",
+   "italyId": "US-VICorpsASU",
+   "name": "VI Corps ASU",
+   "salernoValues": "0-1-5",
+   "italyValues": "0-1-5",
+   "note": "Same 0-1-5 (Italy range 5)."
+  },
+  {
+   "salernoId": "US-REM-A",
+   "italyId": "US-REM-A",
+   "name": "Remnant US-REM-A",
+   "salernoValues": "1-3-3",
+   "italyValues": "1-3-3",
+   "note": "Same 1-3-3 remnant; one shared pool."
+  },
+  {
+   "salernoId": "US-REM-B",
+   "italyId": "US-REM-B",
+   "name": "Remnant US-REM-B",
+   "salernoValues": "1-3-3",
+   "italyValues": "1-3-3",
+   "note": "Same 1-3-3 remnant; one shared pool."
+  },
+  {
+   "salernoId": "US-REM-C",
+   "italyId": "US-REM-C",
+   "name": "Remnant US-REM-C",
+   "salernoValues": "1-3-3",
+   "italyValues": "1-3-3",
+   "note": "Same 1-3-3 remnant; one shared pool."
+  },
+  {
+   "salernoId": "US-REM-82",
+   "italyId": "US-REM-82",
+   "name": "Remnant US-REM-82",
+   "salernoValues": "1-3-3",
+   "italyValues": "1-3-3",
+   "note": "Same 1-3-3 remnant; one shared pool."
+  },
+  {
+   "salernoId": "BR-REM-A",
+   "italyId": "BR-REM-A",
+   "name": "Remnant BR-REM-A",
+   "salernoValues": "1-3-3",
+   "italyValues": "1-3-3",
+   "note": "Same 1-3-3 remnant; one shared pool."
+  },
+  {
+   "salernoId": "BR-REM-B",
+   "italyId": "BR-REM-B",
+   "name": "Remnant BR-REM-B",
+   "salernoValues": "1-3-3",
+   "italyValues": "1-3-3",
+   "note": "Same 1-3-3 remnant; one shared pool."
+  },
+  {
+   "salernoId": "BR-REM-C",
+   "italyId": "BR-REM-C",
+   "name": "Remnant BR-REM-C",
+   "salernoValues": "1-3-3",
+   "italyValues": "1-3-3",
+   "note": "Same 1-3-3 remnant; one shared pool."
+  },
+  {
+   "salernoId": "BR-REM-22",
+   "italyId": "BR-REM-22-7A",
+   "name": "22 Armd Bde remnant",
+   "salernoValues": "3-2-5",
+   "italyValues": "5-3-5",
+   "note": "VALUES DIFFER: Salerno 3-2-5, Italy 5-3-5.",
+   "uncertain": true
+  }
+ ],
+ "onlySalerno": [
+  {
+   "salernoId": "BR-2Cdo",
+   "name": "No. 2 Commando",
+   "note": "Landed Vietri 9 Sept; relieved 18 Sept and withdrawn to Sicily (https://en.wikipedia.org/wiki/No._2_Commando). Remove at GT5 (17-18 Sept)."
+  },
+  {
+   "salernoId": "BR-41Cdo",
+   "name": "No. 41 (Royal Marine) Commando",
+   "note": "As No. 2 Commando: relieved 18 Sept, withdrawn to Sicily (https://en.wikipedia.org/wiki/No._2_Commando)."
+  },
+  {
+   "salernoId": "BR-5H",
+   "name": "5th Hampshires",
+   "note": "Merges into BR-128-46."
+  },
+  {
+   "salernoId": "BR-7OB",
+   "name": "7th Ox & Bucks",
+   "note": "Merges into BR-167-56."
+  },
+  {
+   "salernoId": "BR-2-5Q",
+   "name": "2/6th Queen's",
+   "note": "Merges into BR-169-56."
+  },
+  {
+   "salernoId": "BR-5RTR",
+   "name": "5th RTR",
+   "note": "Merges into BR-22-7A."
+  },
+  {
+   "salernoId": "US-1-142",
+   "name": "1/142nd Infantry",
+   "note": "Merges into US-142-36."
+  },
+  {
+   "salernoId": "US-2-141",
+   "name": "2/141st Infantry",
+   "note": "Merges into US-141-36."
+  },
+  {
+   "salernoId": "US-2-157",
+   "name": "2/157th Infantry",
+   "note": "Merges into US-157-45."
+  },
+  {
+   "salernoId": "US-3-504",
+   "name": "3/504th Parachute Infantry",
+   "note": "Merges into US-504-82."
+  },
+  {
+   "salernoId": "US-3-531",
+   "name": "3rd Bn, 531st Engineer Shore Regt",
+   "note": "Beach engineers. Remove when the beaches close: American unloading at the Salerno beaches stopped 14 Oct (GT18) (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.35)."
+  },
+  {
+   "salernoId": "US-BH531R",
+   "name": "531 Shore Rgt beachhead (Red)",
+   "note": "Beachhead marker; remove with the beaches (14 Oct)."
+  },
+  {
+   "salernoId": "US-BH531B",
+   "name": "531 Shore Rgt beachhead (Blue)",
+   "note": "As above."
+  },
+  {
+   "salernoId": "BR-BH35",
+   "name": "35 Beach Group",
+   "note": "Beachhead marker; X Corps still unloaded at Salerno in mid-Oct (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.35); remove when Naples supply rules start."
+  },
+  {
+   "salernoId": "BR-BH21",
+   "name": "21 Beach Group",
+   "note": "As above."
+  },
+  {
+   "salernoId": "BR-13",
+   "name": "13th Brigade, 5th Div (Eighth Army)",
+   "note": "Not Fifth Army. Eighth Army enters from the south (Salerno T11/T12); hand to the Adriatic/Eighth Army OOB."
+  },
+  {
+   "salernoId": "BR-15",
+   "name": "15th Brigade, 5th Div (Eighth Army)",
+   "note": "As above."
+  },
+  {
+   "salernoId": "BR-17",
+   "name": "17th Brigade, 5th Div (Eighth Army)",
+   "note": "As above."
+  },
+  {
+   "salernoId": "CN-1",
+   "name": "1st Canadian Brigade",
+   "note": "Eighth Army; Adriatic OOB."
+  },
+  {
+   "salernoId": "CN-2",
+   "name": "2nd Canadian Brigade",
+   "note": "Eighth Army; Adriatic OOB."
+  },
+  {
+   "salernoId": "CN-3",
+   "name": "3rd Canadian Brigade",
+   "note": "Eighth Army; Adriatic OOB."
+  },
+  {
+   "salernoId": "CN-11",
+   "name": "11th Canadian Tank Regt",
+   "note": "Eighth Army; Adriatic OOB."
+  },
+  {
+   "salernoId": "CN-14",
+   "name": "14th Canadian Tank Regt",
+   "note": "Eighth Army; Adriatic OOB."
+  }
+ ],
+ "onlyItaly": [
+  {
+   "italyId": "BR-168-56",
+   "name": "168/56 (56 Div)",
+   "values": "5-7-3/3-5-3",
+   "note": "168th (London) Brigade, back to 56th Div. Italy: arrives Naples T5 (Oct 9-10). Rejoined 56 Div 17 Oct 1943 per Joslen as quoted on https://en.wikipedia.org/wiki/56th_(London)_Infantry_Division.",
+   "uncertain": true
+  },
+  {
+   "italyId": "BR-11K-23A",
+   "name": "11K/23A (23 Arm Bde)",
+   "values": "2-2-5",
+   "note": "11th Bn KRRC, 23 Armd Bde motor battalion (in 23 Armd Bde OOB: Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.477). Italy T17 at S1/S2; arrival date not checked.",
+   "uncertain": true
+  },
+  {
+   "italyId": "BR-9Cmdo",
+   "name": "9 Cmdo (Independent)",
+   "values": "2-2-3",
+   "note": "No. 9 Commando. Italy: arrives Naples T31 (Dec 25-28). Raid north of the Garigliano mouth (Op. Partridge) night 29/30 Dec (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.71; https://en.wikipedia.org/wiki/No._9_Commando)."
+  },
+  {
+   "italyId": "US-6-1A",
+   "name": "6/1A (1 Arm Div)",
+   "values": "6-7-5/4-5-5",
+   "note": "6th Armored Infantry, 1st Armored Div. Italy T13 Naples. The 1st Armored began arriving at Naples 28 Oct (https://en.wikipedia.org/wiki/1st_Armored_Division_(United_States)) / mid-Nov (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.53); under Fifth Army 15 Nov (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.251); 6th Armd Inf went into the line about 31 Dec (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.71)."
+  },
+  {
+   "italyId": "US-1ADivASU",
+   "name": "1 Arm Div (1 Arm Div)",
+   "values": "0-1-5",
+   "note": "1st Armored Div ASU; as 6/1A."
+  },
+  {
+   "italyId": "US-776",
+   "name": "776 (34 Div)",
+   "values": "2-2-5",
+   "note": "776th TD Bn (34 Div). Italy T4 at S2; date not checked.",
+   "uncertain": true
+  },
+  {
+   "italyId": "US-760",
+   "name": "760 (34 Div)",
+   "values": "3-2-5",
+   "note": "760th Tank Bn (34 Div). Italy T12 Naples; date not checked.",
+   "uncertain": true
+  },
+  {
+   "italyId": "US-755",
+   "name": "755 (45 Div)",
+   "values": "3-2-5",
+   "note": "755th Tank Bn (45 Div). Italy T13 Naples; date not checked.",
+   "uncertain": true
+  },
+  {
+   "italyId": "US-91",
+   "name": "91 (Independent)",
+   "values": "2-2-6",
+   "note": "91st Cavalry Recon Sqn. Italy T9 Naples; date not checked.",
+   "uncertain": true
+  },
+  {
+   "italyId": "US-IICorpsASU",
+   "name": "II Corps (II Corps)",
+   "values": "0-1-5",
+   "note": "II Corps (Keyes). Took over the Mignano sector 18 Nov (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.251); Italy T17 (Nov 13-15)."
+  },
+  {
+   "italyId": "US-M1",
+   "name": "M1 (Independent)",
+   "values": "0-1-5",
+   "note": "Heavy (8-inch) howitzer. Two 8-inch battalions first used in the last two weeks of Nov (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.256); Italy T18."
+  },
+  {
+   "italyId": "US-1SSF",
+   "name": "1 SSF (Independent)",
+   "values": "5-5-3/2-3-3",
+   "note": "1st Special Service Force. Reached Naples 17 Nov (https://en.wikipedia.org/wiki/First_Special_Service_Force); attached to II Corps 23 Nov (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.255); Monte la Difensa 2-3 Dec (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.64). Italy T19."
+  },
+  {
+   "italyId": "FR-4-2M",
+   "name": "4/2M (2M Div)",
+   "values": "5-6-3/3-4-3",
+   "note": "4e RTM, 2e DIM. 2nd Moroccan Div began unloading at Naples 20 Nov (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.254, checked on the page image); relieved the 34th Div 8-13 Dec (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.71). Italy T23."
+  },
+  {
+   "italyId": "FR-5-2M",
+   "name": "5/2M (2M Div)",
+   "values": "5-6-3/3-4-3",
+   "note": "5e RTM, 2e DIM; as above."
+  },
+  {
+   "italyId": "FR-8-2M",
+   "name": "8/2M (2M Div)",
+   "values": "5-6-3/3-4-3",
+   "note": "8e RTM, 2e DIM; as above."
+  },
+  {
+   "italyId": "FR-4MG-2M",
+   "name": "4MG/2M (2M Div)",
+   "values": "5-6-3/3-4-3",
+   "note": "4e Groupe de Tabors Marocains (goumiers) with 2e DIM (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.77 n.4); as above."
+  },
+  {
+   "italyId": "FR-2MDivASU",
+   "name": "2M Div (2M Div)",
+   "values": "0-1-5",
+   "note": "2e DIM ASU; as above."
+  },
+  {
+   "italyId": "IT-1Mtr",
+   "name": "I Mtr (I Mtr)",
+   "values": "4-5-5/2-3-5",
+   "note": "1st Italian Motorized Group. Under Fifth Army 31 Oct, training at Avellino and Limatola (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.53); bivouac near Capua 22 Nov (Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.253); Monte Lungo 7-8 and 16 Dec (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) pp.67, 70). Italy T24 at S1. (https://en.wikipedia.org/wiki/Italian_Co-belligerent_Army gives a 27 Nov formation date, which disagrees.)",
+   "uncertain": true
+  },
+  {
+   "italyId": "BR-REM-A-M",
+   "name": "REM (British) A, 7th Armoured (7 Arm Div)",
+   "values": "1-3-5",
+   "note": "7th Armd motorized remnant (twin of BR-REM-A)."
+  },
+  {
+   "italyId": "BR-REM-B-M",
+   "name": "REM (British) B, 7th Armoured (7 Arm Div)",
+   "values": "1-3-5",
+   "note": "7th Armd motorized remnant."
+  },
+  {
+   "italyId": "BR-REM-C-M",
+   "name": "REM (British) C, 7th Armoured (7 Arm Div)",
+   "values": "1-3-5",
+   "note": "7th Armd motorized remnant."
+  },
+  {
+   "italyId": "US-REM-6-1A",
+   "name": "6/1A REM (1 Arm Div)",
+   "values": "1-3-5",
+   "note": "6th Armd Inf remnant."
+  },
+  {
+   "italyId": "FR-REM-A",
+   "name": "REM (French) A (2M Div)",
+   "values": "1-3-3",
+   "note": "French remnant."
+  },
+  {
+   "italyId": "FR-REM-B",
+   "name": "REM (French) B (2M Div)",
+   "values": "1-3-3",
+   "note": "French remnant."
+  }
+ ],
+ "arrivals": [
+  {
+   "unit": "US Ranger Force (1st, 3rd, 4th Ranger Bns)",
+   "date": "1943-09-09",
+   "where": "Maiori",
+   "lat": 40.65,
+   "lon": 14.65,
+   "source": "Molony p.258 (plan); https://en.wikipedia.org/wiki/Maiori",
+   "salernoTurn": 1,
+   "grandTurn": 1
+  },
+  {
+   "unit": "No. 2 and No. 41 (RM) Commandos",
+   "date": "1943-09-09",
+   "where": "Vietri sul Mare",
+   "lat": 40.6667,
+   "lon": 14.7333,
+   "source": "https://en.wikipedia.org/wiki/No._2_Commando",
+   "salernoTurn": 1,
+   "grandTurn": 1
+  },
+  {
+   "unit": "46th Div: 128 Bde, 40 RTR (D-Day); 138 Bde from 7 a.m.; 139 Bde night 9/10",
+   "date": "1943-09-09",
+   "where": "Pontecagnano Faiano (46 Div beaches between Salerno and the Tusciano; approximate)",
+   "lat": 40.6442,
+   "lon": 14.8769,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) pp.278-280",
+   "salernoTurn": "1-2",
+   "grandTurn": 1,
+   "uncertain": true
+  },
+  {
+   "unit": "56th Div: 167 and 169 Bdes, Royal Scots Greys; 201 Gds Bde from 7.15 a.m.",
+   "date": "1943-09-09",
+   "where": "Battipaglia (56 Div beaches either side of the Tusciano mouth, west of the town; approximate)",
+   "lat": 40.6167,
+   "lon": 14.9833,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) pp.276-278",
+   "grandTurn": 1,
+   "uncertain": true
+  },
+  {
+   "unit": "36th Div: 141, 142 RCTs; 143 RCT (reserve) landed 06:40-08:00",
+   "date": "1943-09-09",
+   "where": "Paestum",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.280; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.8",
+   "grandTurn": 1
+  },
+  {
+   "unit": "45th Div: 179th Infantry",
+   "date": "1943-09-10",
+   "where": "Paestum (assembly area on the coastal highway north of Paestum)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.99",
+   "salernoTurn": 2,
+   "grandTurn": 1
+  },
+  {
+   "unit": "45th Div: 157th Infantry (2 battalions)",
+   "date": "1943-09-10",
+   "where": "Paestum",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.100",
+   "salernoTurn": 2,
+   "grandTurn": 1
+  },
+  {
+   "unit": "504th PIR (1st and 2nd Bns), parachute drop inside the beachhead",
+   "date": "1943-09-13",
+   "where": "Paestum (drop zone near Paestum; night 13/14 Sept)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.67; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.124",
+   "salernoTurn": 5,
+   "grandTurn": 3
+  },
+  {
+   "unit": "180th Infantry, 45th Div",
+   "date": "1943-09-14",
+   "where": "Paestum (landed early 14 Sept; reserve near Monte Soprano)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.72",
+   "salernoTurn": 6,
+   "grandTurn": 3
+  },
+  {
+   "unit": "505th PIR, parachute drop",
+   "date": "1943-09-14",
+   "where": "Paestum (south of Paestum, night 14/15 Sept)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.29; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.72",
+   "salernoTurn": 6,
+   "grandTurn": 3
+  },
+  {
+   "unit": "2nd Bn 509th PIR, parachute drop behind German lines",
+   "date": "1943-09-14",
+   "where": "Avellino (night 14/15 Sept)",
+   "lat": 40.9167,
+   "lon": 14.7889,
+   "source": "Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.72; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.131",
+   "salernoTurn": 6,
+   "grandTurn": 3
+  },
+  {
+   "unit": "7th Armoured Division begins landing (131 Bde first; landing complete 23 Sept)",
+   "date": "1943-09-14",
+   "where": "Salerno (X Corps beaches)",
+   "lat": 40.6806,
+   "lon": 14.7594,
+   "source": "Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.72 and Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.29 (14 Sept); Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.333 and https://en.wikipedia.org/wiki/7th_Armoured_Division_(United_Kingdom) (15 Sept)",
+   "salernoTurn": "7-11",
+   "grandTurn": "3-8",
+   "uncertain": true
+  },
+  {
+   "unit": "325th Glider Infantry + 3rd Bn 504th PIR, by LCI from Licata",
+   "date": "1943-09-15",
+   "where": "Paestum (US beaches)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.72; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.29; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.122 says the regiment sailed 15 Sept, so 15/16 Sept",
+   "salernoTurn": 8,
+   "grandTurn": 4,
+   "uncertain": true
+  },
+  {
+   "unit": "Third battalion of 157th Infantry",
+   "date": "1943-09-15",
+   "where": "Paestum",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.100 (calls it the 1st Bn - see continuity note)",
+   "salernoTurn": 7,
+   "grandTurn": 4,
+   "uncertain": true
+  },
+  {
+   "unit": "3rd Infantry Division (30th Inf first; 7th, 15th following)",
+   "date": "1943-09-18",
+   "where": "Paestum (US beaches; assembly north of the Sele)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.81; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.137; https://en.wikipedia.org/wiki/3rd_Infantry_Division_(United_States)",
+   "salernoTurn": "10-13",
+   "grandTurn": "5-7"
+  },
+  {
+   "unit": "82nd Airborne Division HQ (air-landed)",
+   "date": "1943-09-18",
+   "where": "Paestum",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.137",
+   "grandTurn": 5
+  },
+  {
+   "unit": "Co. G, 325th GIR occupies Ischia",
+   "date": "1943-09-18",
+   "where": "Ischia",
+   "lat": 40.7312,
+   "lon": 13.8957,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) pp.137, 164",
+   "grandTurn": 5,
+   "uncertain": true
+  },
+  {
+   "unit": "34th Infantry Division begins landing (133rd + 100th Bn first)",
+   "date": "1943-09-21",
+   "where": "Paestum",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.87; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.35 (at the beaches rather than Naples)",
+   "salernoTurn": 14,
+   "grandTurn": 7
+  },
+  {
+   "unit": "34th Div remainder (135th, 168th Infantry)",
+   "date": "1943-09-25",
+   "where": "Paestum",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "https://en.wikipedia.org/wiki/34th_Infantry_Division_(United_States) (\"the rest of the division followed on 25 September\")",
+   "salernoTurn": "18-19",
+   "grandTurn": "9-10",
+   "uncertain": true
+  },
+  {
+   "unit": "1st King's Dragoon Guards",
+   "date": "1943-09-24",
+   "where": "Salerno",
+   "lat": 40.6806,
+   "lon": 14.7594,
+   "source": "https://en.wikipedia.org/wiki/1st_King%27s_Dragoon_Guards (landed at Salerno, Sept 1943; day not given); game date only",
+   "salernoTurn": 16,
+   "grandTurn": 8,
+   "uncertain": true
+  },
+  {
+   "unit": "168th (London) Brigade rejoins 56th Div",
+   "date": "1943-10-17",
+   "where": "Naples (Italy game entry)",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "https://en.wikipedia.org/wiki/56th_(London)_Infantry_Division (Joslen: detached 8 Apr - 17 Oct 1943)",
+   "italyTurn": 5,
+   "grandTurn": 19,
+   "uncertain": true
+  },
+  {
+   "unit": "1st Armored Division (6th Armd Inf, CCB etc.) arriving",
+   "date": "1943-10-28",
+   "where": "Naples",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "https://en.wikipedia.org/wiki/1st_Armored_Division_(United_States) (28 Oct); Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.53 (mid-Nov); Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.251 (Fifth Army control 15 Nov)",
+   "italyTurn": 13,
+   "grandTurn": 22,
+   "uncertain": true
+  },
+  {
+   "unit": "1st Italian Motorized Group under Fifth Army",
+   "date": "1943-10-31",
+   "where": "Limatola (training at Avellino and Limatola)",
+   "lat": 41.15,
+   "lon": 14.4,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.53",
+   "italyTurn": 24,
+   "grandTurn": 23
+  },
+  {
+   "unit": "4th Ranger Bn recommitted, crosses the Volturno",
+   "date": "1943-11-03",
+   "where": "Venafro (Cannavinelle Hill, east of Highway 6)",
+   "lat": 41.4844,
+   "lon": 14.0458,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.222; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.51",
+   "italyTurn": 12,
+   "grandTurn": 24
+  },
+  {
+   "unit": "1st Ranger Bn recommitted",
+   "date": "1943-11-08",
+   "where": "Venafro (Monte Corno, relieved 1/180th 10 Nov)",
+   "lat": 41.4844,
+   "lon": 14.0458,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.231; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.52",
+   "italyTurn": 14,
+   "grandTurn": 26
+  },
+  {
+   "unit": "2nd Bn 509th PIR recommitted (saddle of Mt Santa Croce)",
+   "date": "1943-11-11",
+   "where": "Venafro",
+   "lat": 41.4844,
+   "lon": 14.0458,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.52",
+   "italyTurn": 15,
+   "grandTurn": 27
+  },
+  {
+   "unit": "36th Division returns to the line (relieves 3rd Div)",
+   "date": "1943-11-16",
+   "where": "Mignano Monte Lungo",
+   "lat": 41.4,
+   "lon": 13.9833,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.251; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.60",
+   "italyTurn": "17-18",
+   "grandTurn": 29
+  },
+  {
+   "unit": "First Special Service Force reaches Naples",
+   "date": "1943-11-17",
+   "where": "Naples",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "https://en.wikipedia.org/wiki/First_Special_Service_Force; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.255 (latter half of Nov; attached II Corps 23 Nov)",
+   "italyTurn": 19,
+   "grandTurn": 29
+  },
+  {
+   "unit": "II Corps HQ takes over 36th and 3rd Divs",
+   "date": "1943-11-18",
+   "where": "Mignano Monte Lungo",
+   "lat": 41.4,
+   "lon": 13.9833,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.251",
+   "italyTurn": 17,
+   "grandTurn": 29
+  },
+  {
+   "unit": "2nd Moroccan Infantry Division starts to debark",
+   "date": "1943-11-20",
+   "where": "Naples",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.254; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.53 (\"end of November\")",
+   "italyTurn": 23,
+   "grandTurn": 30
+  },
+  {
+   "unit": "French Expeditionary Corps HQ (Juin) arrives by air",
+   "date": "1943-11-25",
+   "where": "Naples",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.254",
+   "grandTurn": 32
+  },
+  {
+   "unit": "1st Italian Motorized Group moves to bivouac",
+   "date": "1943-11-22",
+   "where": "Capua",
+   "lat": 41.1056,
+   "lon": 14.2139,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.253",
+   "grandTurn": 31
+  },
+  {
+   "unit": "3rd Ranger Bn at San Pietro",
+   "date": "1943-11-29",
+   "where": "San Pietro Infine",
+   "lat": 41.45,
+   "lon": 13.9667,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.273",
+   "italyTurn": 20,
+   "grandTurn": 33
+  },
+  {
+   "unit": "2nd Moroccan Div relieves the 34th Div (in command 10 Dec)",
+   "date": "1943-12-08",
+   "where": "Colli a Volturno (VI Corps right; Scapoli-Pantano sector)",
+   "lat": 41.6,
+   "lon": 14.1,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.71; https://en.wikipedia.org/wiki/2nd_Moroccan_Infantry_Division",
+   "grandTurn": "36-38",
+   "uncertain": true
+  },
+  {
+   "unit": "No. 9 Commando, Operation Partridge raid",
+   "date": "1943-12-29",
+   "where": "Garigliano (mouth)",
+   "lat": 41.2229,
+   "lon": 13.7617,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.71; https://en.wikipedia.org/wiki/No._9_Commando",
+   "italyTurn": 31,
+   "grandTurn": 43
+  }
+ ],
+ "withdrawals": [
+  {
+   "unit": "No. 2 and No. 41 (RM) Commandos",
+   "date": "1943-09-18",
+   "where": "Salerno (relieved; withdrawn to Sicily)",
+   "lat": 40.6806,
+   "lon": 14.7594,
+   "source": "https://en.wikipedia.org/wiki/No._2_Commando",
+   "grandTurn": 5
+  },
+  {
+   "unit": "36th Division into Army reserve (refit); 3rd Div replaces it in VI Corps",
+   "date": "1943-09-20",
+   "where": "Paestum (guarding the Salerno beaches)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.33; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.81",
+   "grandTurn": 6,
+   "note": "Not a withdrawal from the game: the division rests near the beaches until mid-Nov; Italy brings it back T17-18."
+  },
+  {
+   "unit": "82nd Airborne Division (less 504th PIR) leaves for the UK",
+   "date": "1943-11-18",
+   "where": "Naples",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.53 (\"middle of November\"); Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.186 (only the 504th remained); sailing 18 Nov and arrival Belfast 9 Dec per airborne-museum.org timeline (web search, not fetched)",
+   "italyTurn": 19,
+   "grandTurn": 29,
+   "uncertain": true
+  },
+  {
+   "unit": "7th Armoured Division withdrawn for Overlord",
+   "date": "1943-11-14",
+   "where": "Naples",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.475 (\"beginning 14th November\"); Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.251 (off the Fifth Army troop list 15 Nov); left Italy late Dec (https://en.wikipedia.org/wiki/7th_Armoured_Division_(United_Kingdom))",
+   "italyTurn": "13 (11H), 17 (rest)",
+   "grandTurn": 28
+  },
+  {
+   "unit": "3rd Infantry Division out of the line to rest",
+   "date": "1943-11-17",
+   "where": "Mignano Monte Lungo",
+   "lat": 41.4,
+   "lon": 13.9833,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.251",
+   "italyTurn": 19,
+   "grandTurn": 29,
+   "note": "Historically stays in Fifth Army reserve and goes to Anzio in Jan 1944."
+  },
+  {
+   "unit": "Ranger battalions withdrawn (Anzio preparation)",
+   "date": "1943-12-15",
+   "where": "Venafro",
+   "lat": 41.4844,
+   "lon": 14.0458,
+   "source": "Italy '43 removal turns only (1st T20, 4th T22, 3rd T27); 504th relieved the Rangers on Hill 950 by mid-Dec (Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.69)",
+   "uncertain": true
+  },
+  {
+   "unit": "2nd Bn 509th PIR (redesignated 509th PIB 10 Dec)",
+   "date": "1943-12-10",
+   "where": "Venafro",
+   "lat": 41.4844,
+   "lon": 14.0458,
+   "source": "https://en.wikipedia.org/wiki/509th_Infantry_Regiment; Italy '43 removes it T28 (Dec 16-18)",
+   "italyTurn": 28,
+   "grandTurn": 37,
+   "uncertain": true
+  },
+  {
+   "unit": "34th Division relieved by 2nd Moroccan Div (returns ~29 Dec to relieve the 36th)",
+   "date": "1943-12-08",
+   "where": "Colli a Volturno",
+   "lat": 41.6,
+   "lon": 14.1,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.71",
+   "grandTurn": "36-38",
+   "note": "Italy '43 does not model this rest.",
+   "uncertain": true
+  }
+ ],
+ "positions1Oct": [
+  {
+   "unit": "82nd Airborne Div (504, 505, 325 less Co. G)",
+   "place": "Naples (entered 1 Oct; two bns of 505 had reached Torre Annunziata with 23 Armd Bde on 30 Sept)",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.165 (1 Oct); Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.88 (2 Oct); Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.343; https://en.wikipedia.org/wiki/504th_Infantry_Regiment",
+   "italySetup": "Naples garrison hexes 2125/2024/2124"
+  },
+  {
+   "unit": "Co. G, 325th GIR",
+   "place": "Ischia",
+   "lat": 40.7312,
+   "lon": 13.8957,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.164",
+   "italySetup": "not on the counters"
+  },
+  {
+   "unit": "23rd Armoured Bde (40 RTR, Royal Scots Greys) and 1st KDG",
+   "place": "Naples (KDG A Sqn in central Naples 09:30 1 Oct; brigade then skirted the city east and north towards the Volturno)",
+   "lat": 40.8358,
+   "lon": 14.2486,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.343; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.87; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.165",
+   "italySetup": "hex 2224 (Casoria, NE edge of Naples)"
+  },
+  {
+   "unit": "7th Armoured Div (131 Bde, 22 Armd Bde, 11th Hussars)",
+   "place": "Somma Vesuviana (skirting Vesuvius to the east and north towards Capua)",
+   "lat": 40.8725,
+   "lon": 14.4369,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.165; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.87",
+   "italySetup": "131 + 11H hex 2526 (Somma Vesuviana), 22 Armd Bde hex 2527 (Ottaviano)",
+   "uncertain": true
+  },
+  {
+   "unit": "46th Div (128, 138, 139 Bdes)",
+   "place": "Nocera Inferiore (had taken the Camerelle gap 28 Sept; followed 7th Armd onto the Naples plain)",
+   "lat": 40.75,
+   "lon": 14.6333,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.343; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.163",
+   "italySetup": "enters T1 from S1 (128, 139 reduced)",
+   "uncertain": true
+  },
+  {
+   "unit": "56th Div (167, 169, 201 Gds Bdes)",
+   "place": "Mercato San Severino (took S. Severino and Castel S. Giorgio 28 Sept; sent north after Avellino fell 30 Sept; met US 3rd Div 2 Oct)",
+   "lat": 40.7833,
+   "lon": 14.75,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.343; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) pp.165-166",
+   "italySetup": "169 + 201G hex 2727 (Nola); 167 enters T1 reduced",
+   "uncertain": true
+  },
+  {
+   "unit": "3rd Infantry Div (7, 15, 30 Inf; 751 Tk, 601 TD)",
+   "place": "Avellino (took it 30 Sept, then turned west towards X Corps)",
+   "lat": 40.9167,
+   "lon": 14.7889,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.162; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.87; Molony, The Mediterranean and Middle East vol. V (HMSO 1973, archive.org mediterranean-middle-east-vol-5) p.343",
+   "italySetup": "hexes 2926/3026 (Avella)"
+  },
+  {
+   "unit": "133rd Infantry + 100th Bn (34th Div)",
+   "place": "Altavilla Irpina (cutting the Avellino-Benevento road north of Highway 7; 3/133 entered Benevento 23:30 2 Oct)",
+   "lat": 41.0081,
+   "lon": 14.7822,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.162; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.89",
+   "italySetup": "133 at hex 3626 (near Altavilla Irpina); 100th enters T2",
+   "uncertain": true
+  },
+  {
+   "unit": "34th Div remainder (135th, 168th Infantry)",
+   "place": "Paestum (landed from 25 Sept; marched to Montesarchio in the first week of Oct)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "https://en.wikipedia.org/wiki/34th_Infantry_Division_(United_States); Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.166",
+   "italySetup": "enter T4 from S2",
+   "uncertain": true
+  },
+  {
+   "unit": "45th Infantry Div (157, 179, 180; 191 Tk, 645 TD, 756 Tk)",
+   "place": "Montemarano (VI Corps line Avellino-Montemarano-Teora; sent against Benevento; 45th Recon Troop in Benevento 12:10 2 Oct)",
+   "lat": 40.9161,
+   "lon": 14.9983,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.35; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.162; Salerno: American Operations from the Beaches to the Volturno (CMH Pub 100-7, archive.org Salerno_139) p.89",
+   "italySetup": "157 + 191 hex 3726 (Benevento); 179 (reduced), 180, 645, 756 enter T2 from S2",
+   "uncertain": true
+  },
+  {
+   "unit": "36th Infantry Div (141, 142, 143; 753 Tk, 636 TD)",
+   "place": "Paestum (Army reserve guarding the Salerno beaches; one regiment readied for a possible landing at Torre Annunziata)",
+   "lat": 40.4222,
+   "lon": 15.0053,
+   "source": "Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.33; Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.164",
+   "italySetup": "off map; returns T17-18"
+  },
+  {
+   "unit": "Ranger Force (1st, 3rd, 4th Bns)",
+   "place": "Castellammare di Stabia (under the 82nd on the Sorrento ridge; entered Naples 2 Oct)",
+   "lat": 40.6947,
+   "lon": 14.4803,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) p.165; Starr, From Salerno to the Alps: a History of the Fifth Army (1948, archive.org FromSalernoToTheAlps) p.35",
+   "italySetup": "off map; return T12/T14/T20 at Naples",
+   "uncertain": true
+  },
+  {
+   "unit": "2nd Bn 509th PIR",
+   "place": "Avellino (scattered after the 14/15 Sept drop; parties filtered back)",
+   "lat": 40.9167,
+   "lon": 14.7889,
+   "source": "Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) pp.131-132",
+   "italySetup": "off map; returns T15 at Naples",
+   "uncertain": true
+  },
+  {
+   "unit": "VI Corps HQ / X Corps HQ",
+   "place": "Avellino (VI Corps) / Salerno (X Corps)",
+   "lat": 40.9167,
+   "lon": 14.7889,
+   "source": "general: Blumenson, Salerno to Cassino (CMH 1969, archive.org SalernoToCassino) pp.162-165",
+   "italySetup": "corps ASUs enter T3 from S1",
+   "uncertain": true
+  }
+ ],
+ "turnMapping": "grandTurn in arrivals/withdrawals is the grand turn containing the HISTORICAL date; salernoTurn/italyTurn are the games' own schedules. Use 2-day turns from 9 Sept to 10 Oct, then Italy '43's own track. Grand turn GT1 = 9-10 Sept, GT2 = 11-12 ... GT11 = 29-30 Sept, GT12 = Italy T1 (Oct 1-2) ... GT16 = Italy T5 (Oct 9-10, the last 2-day turn), GT17 = Italy T6 (Oct 11-13) ... GT43 = Italy T32 (Dec 29-31). So GT = ceil(SalernoTurn / 2) for September and GT = ItalyTurn + 11 from October: 43 turns. Italy's 1-10 Oct are already 2-day turns, so the turn length changes only once, at 11 Oct. Both games play German then Allied, so an arrival dated on either day of a 2-day turn enters in that turn's Allied phase. A unit dated on the turn's second day (e.g. the 180th, 505th and 2/509 on 14 Sept, in GT3) then arrives at most one day early; to avoid that, delay odd-turn Salerno arrivals by a turn (no more than one day late). Night drops (504th 13/14 Sept; 505th and 2/509 14/15 Sept) both fall in GT3 (13-14 Sept). Salerno schedule -> GT: T2 (45th Div 179/157, corps troops) GT1; T5 (504) GT3; T6 (180, 505, 2/509) GT3; T7 (2/157, 131 Bde) GT4; T8 (325, 3/504, 5 RTR; Avalanche scenario ends) GT4; T9 (756, 11H) GT5; T10 (30th Inf, 7AD ASU) GT5; T11 (22 Armd Bde; Eighth Army arrives at the south edge) GT6; T12 (7th Inf) GT6; T13 (15th Inf, 3 Div ASU) GT7; T14 (133rd, 100th; 16 Pz withdrawal) GT7; T16 (KDG) GT8; T18 (135th) GT9; T19 (168th) GT10; T20 (34 Div ASU) GT10; T22 (30 Sept) GT11. From GT12 on, Italy's 'arrive T1/T2/T4 at S1/S2' entries for the 46th Div, 167 Bde, 45th Div (179, 180, 645, 756), 100th Bn, 34th Div (135, 168, 34 ASU) and the 3 Div/7AD/46/56/corps ASUs are not reinforcements: they are the Salerno counters already on the joined map. Ignore them and keep the units where they stand. The genuinely new Italy arrivals keep their turns (+11): 168 Bde GT16, 91 Recon GT20, 4 Rgr GT23 (return), 760 GT23, 1 Armd/6 AIR + 755 GT24, 1 Rgr GT25, 2/509 GT26, II Corps + 11 KRRC + 36 Div GT28-29, M1 GT29, 1 SSF GT30, 3 Rgr GT31, 2 DIM GT34, I Mtr GT35, 9 Cdo GT42. Rangers, 2/509 and the 36th Div are on the map in September, but Italy '43 has them off it on 1 Oct. Either withdraw them to a 'refit' holding box at the historical date (Rangers 2 Oct after entering Naples; 36th to Army reserve from 20 Sept, GT6) and bring them back on their Italy turns, or leave them on the map as frozen until those turns. Italy's 1 Oct at-start hexes are a useful check on where the Salerno counters should be by GT11 (see positions1Oct), not a set-up to impose.",
+ "germanContinuity": [
+  {
+   "salernoId": "GE-III1FJ",
+   "italyId": "GE-III-1FJ",
+   "note": "same 2-2-3"
+  },
+  {
+   "salernoId": "GE-II64",
+   "italyId": "GE-II-64",
+   "note": "16 Pz battalion that Italy keeps; same 3-3-5; rest of 16 Pz leaves (Salerno T14 withdrawal)"
+  },
+  {
+   "salernoId": "GE-III115",
+   "italyId": "GE-III-115",
+   "note": "Italy shows reduced side only"
+  },
+  {
+   "salernoId": "GE-129",
+   "italyId": "GE-I-129+GE-II-129+GE-III-129",
+   "note": "6-9-5 regiment = three 2-3-5 battalions"
+  },
+  {
+   "salernoId": "GE-215",
+   "italyId": "GE-215",
+   "note": "VALUES DIFFER 2-2-5 vs 4-3-5"
+  },
+  {
+   "salernoId": "GE-HGAA",
+   "italyId": "GE-HG",
+   "note": "HG recon; 2-2-6 one-step vs 3-3-6/1-2-6"
+  },
+  {
+   "salernoId": "GE-HGIII",
+   "italyId": "GE-HG-III",
+   "note": "same"
+  },
+  {
+   "salernoId": "GE-I1HG",
+   "italyId": "GE-II-1HG",
+   "note": "Salerno id says I1HG, name II/1 HG"
+  },
+  {
+   "salernoId": "GE-I2HG",
+   "italyId": "GE-I-2HG",
+   "note": "same 4-4-5"
+  },
+  {
+   "salernoId": "GE-HGI",
+   "italyId": "GE-HG-I-II",
+   "note": "same"
+  },
+  {
+   "salernoId": "GE-HGArt",
+   "italyId": "GE-HG-ASU",
+   "note": "same"
+  },
+  {
+   "salernoId": "GE-I15+GE-II15+GE-III15",
+   "italyId": "GE-15",
+   "note": "three 2-3-5 bns = 6-9-5 regiment (29 PG)"
+  },
+  {
+   "salernoId": "GE-71+GE-I71",
+   "italyId": "GE-71",
+   "note": "4-6-5 + 2-3-5 = 6-9-5; Italy brings it in reduced T17"
+  },
+  {
+   "salernoId": "GE-129Pz",
+   "italyId": "GE-129Pz",
+   "note": "VALUES DIFFER 2-2-5 vs 3-2-5"
+  },
+  {
+   "salernoId": "GE-29AA",
+   "italyId": "GE-129",
+   "note": "29 PG recon (Abt 129), same 3-3-6"
+  },
+  {
+   "salernoId": "GE-29Art",
+   "italyId": "GE-29PG-ASU",
+   "note": "same"
+  },
+  {
+   "salernoId": "GE-26AA",
+   "italyId": "GE-26",
+   "note": "26 Pz recon, same"
+  },
+  {
+   "salernoId": "GE-I9",
+   "italyId": "GE-I-9",
+   "note": ""
+  },
+  {
+   "salernoId": "GE-II9",
+   "italyId": "GE-II-9",
+   "note": ""
+  },
+  {
+   "salernoId": "GE-I67",
+   "italyId": "GE-I-67",
+   "note": ""
+  },
+  {
+   "salernoId": "GE-II67",
+   "italyId": "GE-II-67",
+   "note": ""
+  },
+  {
+   "salernoId": "GE-26Art",
+   "italyId": "GE-26Pz-ASU",
+   "note": ""
+  },
+  {
+   "salernoId": "GE-II29",
+   "italyId": "GE-29 (29/3PG III(-)) or GE-I-29",
+   "note": "3 PG battalion; Italy splits I/29 + 29(-)",
+   "uncertain": true
+  },
+  {
+   "salernoId": "GE-103",
+   "italyId": "GE-103Pz",
+   "note": "103 Pz Abt tank; VALUES DIFFER 2-2-5 vs 3-2-5 (Italy GE-103 is the 103 recon bn, a different unit)"
+  },
+  {
+   "salernoId": "GE-71NW",
+   "italyId": "GE-71NW",
+   "note": "same"
+  },
+  {
+   "salernoId": "GE-14Pz",
+   "italyId": "GE-14Pz",
+   "note": "XIV Pz Corps ASU"
+  },
+  {
+   "salernoId": "GE-826, GE-76Pz, 1 FJ (I/3, I/4, III/4, II/1), 16 Pz (except II/64), garrisons, GE-REM129",
+   "italyId": "",
+   "note": "Salerno-only (Adriatic front or gone)"
+  }
+ ]
+}
