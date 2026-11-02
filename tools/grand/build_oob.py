@@ -144,7 +144,9 @@ SAL2G = {
 # Salerno's off-map codes on the grand map.
 SAL_AREA = {'N': 'G1/G2/G3', 'S': 'A1/A2/A3', 'S1': 'A1', 'S2': 'A2', 'S3': 'A3', 'E': 'A4/A5', 'E1': 'A4/A5', 'E2': 'A4/A5', 'E3': 'A4/A5',
             'E4': 'A4/A5', 'E5': 'A4/A5'}
-ITA_AREA = {'N1/N2/N3': 'G1/G2/G3', 'N1': 'G1', 'N2': 'G2', 'N3': 'G3', 'N4': 'G3', 'Naples': 'Naples', 'S1': 'Naples', 'S2': 'Naples',
+# Italy '43's N3 is the road from Sora into the Val di Comino (G3, from Avezzano); N4 the road from Castel di Sangro
+# (G4, down the SS 17 from Popoli and Sulmona).
+ITA_AREA = {'N1/N2/N3': 'G1/G2/G3', 'N1': 'G1', 'N2': 'G2', 'N3': 'G3', 'N4': 'G4', 'Naples': 'Naples', 'S1': 'Naples', 'S2': 'Naples',
             'S1/S2': 'Naples'}
 
 # German formations Salerno '43 brings in from its north edge, placed where they stood on 9 September (around Naples
@@ -214,6 +216,11 @@ def sal_setup(su):
 
 
 ITALY_WINTER = set()
+# Italy '43 counters its 1 November cards hold off the map (removed, or arriving at its north edge later) because on
+# that day they were on the Adriatic front, which the grand map shows: the 26th Panzer Division between the Trigno and
+# Isernia (it came west on 4-5 November and went back east at the end of the month), II/64 with the 16th Panzer on the
+# Trigno, III/1 FJ with its division.
+ON_ADRIATIC_1NOV = {'GE-I-9', 'GE-II-9', 'GE-I-67', 'GE-II-67', 'GE-26Pz-ASU', 'GE-26', 'GE-II-64', 'GE-III-1FJ'}
 # ---- Counters both games have, and Italy '43's own.
 for iu in ITA['units']:
     gid = iu['id']
@@ -295,6 +302,13 @@ for iu in ITA['units']:
             e['at'] = ITA_AREA.get(e['at'], e['at'])
     if gid.startswith('GE-305') or gid in ('GE-577', 'GE-578'):
         wst['events'] = [e for e in wst.get('events', []) if e['kind'] != 'remove']
+    if gid in ON_ADRIATIC_1NOV:
+        # Off Italy '43's map on 1 November because they stood on the Adriatic front: on the grand map they are placed
+        # with their divisions below (their state on the card kept), and stay.
+        wst = {k: v for k, v in wst.items() if k in ('reduced', 'fired')}
+    if gid == 'GE-II-64':
+        # The 16th Panzer Division's other counters leave with it in November (below); Salerno '43 has this one too.
+        camp['events'] = [{'turn': gt('1943-11-17'), 'kind': 'remove'}]
     if wst.get('start', {}).get('hex'):
         ITALY_WINTER.add(gid)
     add(u, camp, wst)
@@ -537,10 +551,12 @@ FALLBACK = {
     'Independent': (41.90, 14.90), '1 Abn Div': (41.46, 15.54),
 }
 # Arrivals still to come on 1 November keep their turn; earlier units with no place take their formation's.
+PLACED = set()   # placed here from the research, not from a printed card
 for gid, u in UNITS.items():
     w = SETUP['winter'][gid]
-    if w:
+    if w.get('start') or w.get('arrive'):
         continue
+    flags = dict(w)
     c = SETUP['campaign'][gid]
     if c.get('start', {}).get('remnant'):
         SETUP['winter'][gid] = {'start': {'remnant': True}}
@@ -564,20 +580,24 @@ for gid, u in UNITS.items():
         mate = next((SETUP['winter'][g]['start']['hex'] for g, v in UNITS.items() if g != gid and v['formation'] == u['formation']
                      and SETUP['winter'][g].get('start', {}).get('hex')), None)
         if not ll and mate:
-            SETUP['winter'][gid] = {'start': {'hex': mate}}
+            SETUP['winter'][gid] = {**flags, 'start': {'hex': mate}}
+            PLACED.add(gid)
             continue
         if not ll:
             raise SystemExit(f'no 1 November place for {gid} ({u["formation"]})')
-    w = {'start': {'hex': ll_to_hex(*ll)}}
+    w = {**flags, 'start': {'hex': ll_to_hex(*ll)}}
     w['events'] = [e for e in c.get('events', []) if e['turn'] > WINTER]
     if not w['events']:
         del w['events']
     SETUP['winter'][gid] = w
+    PLACED.add(gid)
 
 
-def spread(table, limit=6):
+def spread(table, limit=6, soft=(), soft_limit=3):
     """Keep every set-up hex on land, within stacking and clear of the enemy: crowded units move to the nearest hex
-    with room on their own side of the line (Germans north, the Allies south)."""
+    with room on their own side of the line (Germans north, the Allies south). Units in `soft`, placed from a
+    division's position rather than a printed card, stand at most soft_limit stacking points to a hex, so a division
+    holds a front rather than one hex."""
     land = lambda h: h in MAP['hexes'] and MAP['hexes'][h]['terrain'] != 'sea'
     stack, side_at = {}, {}
     order = sorted(table, key=lambda g: (UNITS[g]['side'] != 'German', g))
@@ -588,8 +608,9 @@ def spread(table, limit=6):
             continue
         side = UNITS[gid]['side']
         sp = UNITS[gid]['sp']
-        ok = lambda x: land(x) and stack.get(x, 0) + sp <= limit and side_at.get(x, side) == side and not any(
-            side_at.get(n, side) != side for n in nbr_ids(x)) if side == 'Allied' else land(x) and stack.get(x, 0) + sp <= limit and side_at.get(x, side) == side
+        cap = min(limit, max(soft_limit, sp)) if gid in soft else limit
+        ok = lambda x: land(x) and stack.get(x, 0) + sp <= cap and side_at.get(x, side) == side and not any(
+            side_at.get(n, side) != side for n in nbr_ids(x)) if side == 'Allied' else land(x) and stack.get(x, 0) + sp <= cap and side_at.get(x, side) == side
         if not ok(h):
             ring, seen = [h], {h}
             found = None
@@ -634,7 +655,7 @@ def keep_sides_of_front(table, points):
 
 TRIGNO = next(f for f in EIGHTH['frontLines'] if f['date'] == '1943-10-28')['points'] + [[41.593, 14.233]]
 keep_sides_of_front(SETUP['winter'], TRIGNO)
-spread(SETUP['winter'])
+spread(SETUP['winter'], soft=PLACED)
 spread(SETUP['campaign'])
 
 # ------------------------------------------------------------------ oob.json
@@ -771,19 +792,26 @@ notes = {
     11: 'The Eighth Army arrives from Calabria at the south edge.',
     12: 'Historically: the Fifth and Eighth Armies join near Auletta; Potenza falls (20 Sept). The 36th Division goes into army reserve.',
     19: 'Historically: Foggia falls to the Eighth Army (27 Sept).',
-    23: 'Historically: Naples falls on 1 October.',
-    25: 'Historically: the commandos land at Termoli (3 October).',
+    gt('1943-10-01'): 'Historically: Naples falls on 1 October.',
+    gt('1943-10-03'): 'Historically: the commandos land at Termoli (3 October); the 16th Panzer Division counter-attacks there until the 6th.',
     ita_gt(5): 'The Race for Naples and Foggia ends.',
-    WINTER: 'The Winter Line begins.',
+    gt('1943-10-14'): 'Historically: the Canadians take Campobasso (14 October).',
+    WINTER: 'The Winter Line begins. Historically: the Eighth Army attacks across the Trigno and takes San Salvo (3 November).',
+    gt('1943-11-27'): 'Historically: the Eighth Army\'s main attack across the Sangro (27-28 November).',
+    gt('1943-12-06'): 'Historically: the Canadians cross the Moro (6-9 December).',
+    gt('1943-12-21'): 'Historically: the battle for Ortona begins (21 December); the town is cleared on the 28th.',
     LAST: 'The campaign ends.',
 }
 for k, v in ITA_R['turnNotes'].items():
     t = ita_gt(int(k))
     if 'Entry area' in v or 'Scenario' in v:
         continue
+    if notes.get(t, '').startswith('Historically:') and v.startswith('Historically: '):
+        v = 'Also: ' + v[len('Historically: '):]
     notes[t] = (notes.get(t, '') + ' ' + v).strip()
 for k, v in rules['naplesSupplyBonus'].items():
-    notes[int(k)] = (notes.get(int(k), '') + f' Naples: +{v} Allied supply while the Allies hold it.').strip()
+    if 'Naples' not in notes.get(int(k), ''):
+        notes[int(k)] = (notes.get(int(k), '') + f' Naples: +{v} Allied supply while the Allies hold it.').strip()
 rules['turnNotes'] = {str(k): notes[k] for k in sorted(notes)}
 rules['supply'] = {**ITA_R['supply'], 'salernoPortOpenRadius': SAL_R['supply']['salernoPortOpenRadius']}
 json.dump(rules, open(f'{ROOT}/data/grand43/rules.json', 'w'), indent=1, ensure_ascii=False)
