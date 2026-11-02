@@ -5,8 +5,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 from geo import ll_to_hex
 ROOT = __file__.rsplit('/tools/', 1)[0]
 OUT = sys.argv[1] if len(sys.argv) > 1 else '/tmp/claude-0/-home-user-wargame-ai/8548fbb5-83de-52aa-88db-9501bd2b1675/scratchpad/net/ax/grand-ext.png'
-m = json.load(open(f'{ROOT}/data/grand43/map.json'))
-ext = json.load(open(f'{ROOT}/data/grand43/extension.json')) if os.path.exists(f'{ROOT}/data/grand43/extension.json') else {'hexes': {}, 'hexsides': {}}
+MERGED = os.environ.get('MERGED') == '1'
+m = json.load(open(f'{ROOT}/data/grand43/map.json' if MERGED else f'{ROOT}/data/grand43/parts/stitched.json'))
+ext = {'hexes': {}, 'hexsides': {}} if MERGED else json.load(open(f'{ROOT}/data/grand43/parts/extension.json'))
 hexes = {**m['hexes'], **{h: d for h, d in ext['hexes'].items() if h not in m['hexes']}}
 sides = {**m['hexsides'], **ext['hexsides']}
 S = 9
@@ -46,4 +47,14 @@ except Exception:
 for n, ll in places.items():
     h = ll_to_hex(*ll); cx, cy = ctr(h)
     d.ellipse([cx - 4, cy - 4, cx + 4, cy + 4], outline=(200, 0, 0), width=2); d.text((cx + 6, cy - 6), n, fill=(120, 0, 0), font=f)
+if MERGED:
+    for h, x in hexes.items():
+        if x.get('vp'):
+            cx, cy = ctr(h); d.text((cx - 3, cy - 5), str(x['vp']), fill=(255, 255, 255), font=f)
+        if x.get('gustav') or x.get('bernhard'):
+            cx, cy = ctr(h); d.rectangle([cx - 3, cy + 2, cx + 3, cy + 6], fill=(200, 0, 0) if x.get('gustav') else (0, 0, 0))
+    for name, ea in m['entryAreas'].items():
+        for h in ea['hexes']:
+            cx, cy = ctr(h); d.ellipse([cx - 6, cy - 6, cx + 6, cy + 6], outline=(0, 160, 0) if name[0] == 'A' else (160, 0, 160), width=3)
+        cx, cy = ctr(ea['hexes'][0]); d.text((cx + 8, cy + 4), name, fill=(0, 0, 0), font=f)
 im.save(OUT); print(OUT, im.size)

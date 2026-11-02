@@ -199,7 +199,21 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
       }
     }
     const boundaryPaths = chainSegments(boundary).map((l) => smoothPath(l, 0.3));
-    return { grid, rivers, bigRivers, lakes, majors, minors, passes, boundaryPaths, gustav, bernhard, zonePaths, sectionPaths, sections };
+    // The ground painted beyond the playable hexes (the grand campaign): veiled, with the map's edge drawn along it.
+    const beyond = new Set<string>();
+    const bd = MAP.meta?.backdrop ?? '';
+    for (let i = 0; i + 5 <= bd.length; i += 5) if (bd[i + 4] !== 's') beyond.add(bd.slice(i, i + 4));
+    const offmap = [...beyond].map((h) => `M${corners(h).map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L')}Z`).join('');
+    const rim: [Pt, Pt][] = [];
+    for (const [h, d] of Object.entries(MAP.hexes)) {
+      if (d.terrain === 'sea') continue;
+      for (const n of neighbors(h)) {
+        const e = beyond.has(n) ? edge(h, n) : null;
+        if (e) rim.push(e);
+      }
+    }
+    const edgePaths = chainSegments(rim).map((l) => smoothPath(l, 0.2));
+    return { offmap, edgePaths, grid, rivers, bigRivers, lakes, majors, minors, passes, boundaryPaths, gustav, bernhard, zonePaths, sectionPaths, sections };
   }, []);
   // A city of several hexes (Naples) is named once, under its first hex.
   const named = new Set<string>();
@@ -220,6 +234,8 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
   };
   return (
     <g pointerEvents="none">
+      {data.offmap && <path d={data.offmap} fill="rgba(52,38,24,0.22)" stroke="none" />}
+      {data.edgePaths.map((d, i) => <path key={`edge${i}`} d={d} fill="none" stroke="rgba(74,52,34,0.8)" strokeWidth={1.6} strokeDasharray="10 4 2 4" />)}
       {showGrid && <path d={data.grid} fill="none" stroke="rgba(64,46,30,0.24)" strokeWidth={0.6} />}
       <g fill="none" strokeLinecap="round" strokeLinejoin="round">
         {/* Rivers inked in Prussian blue over a wash of water colour, like the coast. */}
@@ -256,7 +272,7 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
           <path d="M-2.4,-2.6 Q-0.6,0 -2.4,2.6 M2.4,-2.6 Q0.6,0 2.4,2.6" stroke="#f1e6c8" strokeWidth={1} fill="none" />
         </g>
       ))}
-      {(MAP.meta?.seaLabels ?? []).map(([h, text, size]) => <g key={text}>{seaLabel(h, text, size)}</g>)}
+      {(MAP.meta?.seaLabels ?? []).map(([h, text, size]) => <g key={`${h}${text}`}>{seaLabel(h, text, size)}</g>)}
       {showLabels &&
         places.map(([h, d]) => {
           const [x, y] = center(h);

@@ -1,4 +1,4 @@
-"""Towns, cities and roads for the Adriatic extension (data/grand43/extension.json, written by extend.py first).
+"""Towns, cities and roads for the Adriatic extension (data/grand43/parts/extension.json, written by extend.py first).
 
 Towns are placed at their Wikipedia positions (wiki_places.py); the larger ones are cities. Roads: the main roads of
 1943 (the national roads of the period), each given as the towns it ran through, routed hex by hex along the cheapest
@@ -85,8 +85,8 @@ def side_key(a, b):
 
 
 def main():
-    ext = json.load(open(f'{ROOT}/data/grand43/extension.json'))
-    grand = json.load(open(f'{ROOT}/data/grand43/map.json'))
+    ext = json.load(open(f'{ROOT}/data/grand43/parts/extension.json'))
+    grand = json.load(open(f'{ROOT}/data/grand43/parts/stitched.json'))
     hexes = {**grand['hexes'], **ext['hexes']}
     sides = {**grand['hexsides'], **ext['hexsides']}
     titles = {name: (t or name) for name, t, _ in TOWNS}
@@ -177,7 +177,7 @@ def main():
                     ext['hexsides'].setdefault(k, {})['road'] = kind
                     made += 1
     print(f'{len(at)} towns placed, {made} road hexsides')
-    json.dump(ext, open(f'{ROOT}/data/grand43/extension.json', 'w'), indent=1, ensure_ascii=False)
+    json.dump(ext, open(f'{ROOT}/data/grand43/parts/extension.json', 'w'), indent=1, ensure_ascii=False)
 
 
 if __name__ == '__main__':

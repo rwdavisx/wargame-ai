@@ -13,10 +13,11 @@ import italyRules from '../data/italy43/rules.json';
 afterAll(() => loadGameData('salerno43', SALERNO_DATA));
 
 describe('the game registry', () => {
-  it('lists Salerno and Italy, both playable', () => {
-    expect(GAMES.map((g) => g.id)).toEqual(['salerno43', 'italy43']);
+  it('lists Salerno, Italy and the grand campaign, all playable', () => {
+    expect(GAMES.map((g) => g.id)).toEqual(['salerno43', 'italy43', 'grand43']);
     expect(playable('salerno43')).toBe(true);
     expect(playable('italy43')).toBe(true);
+    expect(playable('grand43')).toBe(true);
     expect(gameInfo('nonsense').id).toBe('salerno43');
   });
 

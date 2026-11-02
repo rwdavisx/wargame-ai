@@ -4,6 +4,8 @@ A browser version of GMT Games' **Salerno '43** and **Italy '43** for owners of 
 
 Italy '43 (October to December 1943: across the Volturno to the Bernhard and Gustav Lines) runs on the same engine: its map, counters, set-up cards and tables are transcribed into `data/italy43`, and its own rules (two-dice Determined Defense, fortifications, the 8th Army zone, scheduled withdrawals, Operational Movement, rivers by class) switch on from its data. Not yet in: the optional rules other than Disengagement (Major Assault, Half Effectiveness, Pontoon Bridges) and the heavy howitzer's re-roll.
 
+**Salerno to Ortona**, the third choice on the home screen, is a grand campaign joining the two: both printed maps on one grid, carried east across the Apennines to the Adriatic (Pescara, Ortona, the Sangro, Termoli, Foggia), 9 September to 31 December 1943 in 43 turns of two or three days. It plays Italy '43's rules with Salerno '43's landing rules for the September landings (the Invasion table, beachheads, the Floating Reserve and landing points, the 82nd Airborne's drops). Both games' counters carry on as one order of battle with the Eighth Army and the German divisions neither game has (the 1st Parachute Division's battalions, the 65th, 90th Panzergrenadier and 334th Divisions, the 78th, 8th Indian and 2nd New Zealand Divisions, the 1st Airborne), each arriving and leaving on its 1943 date; one VP total counts both fronts against the pace of 1943. Scenarios: the **Grand Campaign**, the **Race for Naples and Foggia** (9 September to 10 October) and **The Winter Line** (1 November to 31 December, from Italy '43's Bernhard Line set-up in the west and the Trigno front in the east). The Adriatic sector is not a printed map: it is drawn from elevation data in the printed maps' own manner, and its roads and the new counters' values are reconstructions. How it was built, and how far to trust each part: `tools/grand/README.md`.
+
 This is a personal play aid. It contains no GMT artwork or rulebook text. The map is an original rendering of hex data transcribed from photos of the owner's map, the tables and set-up come from the owner's player aids, and the rules are implemented in the program's own code. You need your own copy of the game for the rulebook and counters.
 
 ![Opening Allied turn](docs/game.png)
@@ -172,7 +174,7 @@ The interface is built with [Astryx](https://astryx.atmeta.com/), Meta's open-so
 ## Project layout
 
 ```
-data/<game>/   each game's map.json (transcribed map), rules.json (tables), oob.json (counters): salerno43, italy43 (in preparation)
+data/<game>/   each game's map.json (transcribed map), rules.json (tables), oob.json (counters): salerno43, italy43, grand43 (built by tools/grand)
 src/engine/    rules engine: hex grid, movement, ZOC bonds, combat, breakthroughs, retreats, supply, phases, victory
 src/games/     the game registry: the games the system plays, picked on the home screen; each game's data module
 src/ai/        built-in heuristic AI, Claude AI, self-play
@@ -196,7 +198,8 @@ src/ui/        React UI
   sound.ts         synthesized sound effects (WebAudio)
   theme.css        base styles and layouts
   dev/Gallery.tsx  every counter on one page, dev builds only (open /#gallery)
-scripts/       command-line self-play and game logs
+scripts/       command-line self-play and game logs (grand.ts: the grand campaign AI against AI, a line a turn)
+tools/grand/   the grand campaign's map, order of battle, research and turn track (see its README)
 tests/         vitest tests for the engine and the AI
 tools/map-transcription/   Python scripts used to turn the photos into map.json
 tools/italy-oob/           Italy '43 set-up card transcriptions and build.py, which turns them into data/italy43/oob.json

@@ -59,7 +59,7 @@ def best_threshold(values, labels):
 
 def main():
     dem = Dem(10)
-    m = json.load(open(f'{ROOT}/data/grand43/map.json'))
+    m = json.load(open(f'{ROOT}/data/grand43/parts/stitched.json'))
     land = {h: d for h, d in m['hexes'].items() if d['terrain'] in ('clear', 'hill')}
     hs = {}
     for i, (h, d) in enumerate(land.items()):

@@ -105,9 +105,14 @@ function buildRules(r: any) {
   landingPoints: (r.landingPoints ?? { costBySp: [], perTurn: 0 }) as { costBySp: number[]; perTurn: number },
   /** `freeFlipOnRolls`: weather rolls that ready one Nebelwerfer and the heavy howitzer for free (Italy '43, 23.3.3). */
   weather: r.weather as { track: WeatherBox[]; advanceByRoll: Record<string, number>; wraps: boolean; freeFlipOnRolls?: number[] },
-  /** Salerno '43's amphibious rules: the invasion turn, beachheads, ports and naval movement, the 8th Army's arrival
-   * from the south, the 16th Panzer Division's withdrawal and the north-edge VPs. */
-  invasionGame: !!r.invasion,
+  /** Salerno '43's own system: its amphibious rules with its daily scale (the 8th Army's arrival from the south, the
+   * 16th Panzer Division's withdrawal, the north-edge VPs) and its versions of the shared rules. The grand campaign
+   * plays Italy '43's rules with Salerno's landings (`landings`), so it is not one. */
+  invasionGame: !!r.invasion && r.system !== 'italy43',
+  /** Landings from the sea: the invasion phase, beachheads, the Floating Reserve, naval movement and landing points. */
+  landings: !!r.invasion,
+  /** The turn each entry area passes to the Allies (the grand campaign's Eighth Army coming up from the south). */
+  entryOpens: (r.entryOpens ?? {}) as Record<string, number>,
   /** The turn each 8th Army zone section passes to the Allies (Italy '43, 5.8.1). */
   eighthArmyZone: (r.eighthArmyZone ?? {}) as Record<string, number>,
   /** Extra Allied supply points each turn from the turn given while the Allies hold Naples (Italy '43, 23.3.2). */

@@ -1,4 +1,4 @@
-"""Joins the Italy '43 and Salerno '43 maps into one grid for the grand campaign (data/grand43/map.json).
+"""Joins the Italy '43 and Salerno '43 maps into one grid for the grand campaign (data/grand43/parts/stitched.json).
 
 The two printed maps share their scale and orientation and meet edge to edge: fitted to the ground (fit.py), Salerno
 falls on Italy's grid with no column offset and its rows 27.5 lower, so Salerno hex (c, r) is Italy (c, r + 28) in an
@@ -12,7 +12,7 @@ import json
 import os
 
 ROOT = __file__.rsplit('/tools/', 1)[0]
-OUT = f'{ROOT}/data/grand43'
+OUT = f'{ROOT}/data/grand43/parts'
 ROW_SHIFT = 14
 
 
@@ -94,7 +94,7 @@ def main():
         'offmapLinks': [],
     }
     os.makedirs(OUT, exist_ok=True)
-    json.dump(out, open(f'{OUT}/map.json', 'w'), indent=1, ensure_ascii=False)
+    json.dump(out, open(f'{OUT}/stitched.json', 'w'), indent=1, ensure_ascii=False)
     ids = {'italy43': {h: from_italy(h) for h in it['hexes']}, 'salerno43': {h: from_salerno(h) for h in sa['hexes']}, 'rowShift': ROW_SHIFT}
     json.dump(ids, open(f'{ROOT}/tools/grand/ids.json', 'w'), indent=0)
     print(f'{len(hexes)} hexes ({sum(1 for o in origin.values() if o == "italy43")} Italy, {sum(1 for o in origin.values() if o == "salerno43")} Salerno), '

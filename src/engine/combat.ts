@@ -84,6 +84,8 @@ const halve = (n: number) => Math.ceil(n / 2);
 
 /** Entry areas an off-map unit stands in (an edge code such as 'N' covers several). */
 export function entryAreasOf(area: string): string[] {
+  // A choice of areas ("N1/N2/N3"): the unit may come on from any of them.
+  if (area.includes('/')) return area.split('/');
   if (area === 'N') return ['N1', 'N2'];
   if (area === 'S') return ['S1', 'S2', 'S3'];
   if (area === 'E') return ['E1', 'E2', 'E3', 'E4', 'E5'];

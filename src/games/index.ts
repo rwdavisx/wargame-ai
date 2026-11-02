@@ -3,8 +3,10 @@
 import { GAME_ID, loadGameData } from '../engine/data';
 import { ITALY_DATA } from './italy43/data';
 import { SALERNO_DATA } from './salerno43/data';
+import { GRAND_DATA } from './grand43/data';
 import { ITALY_BRIEF, ITALY_ROLES } from './italy43/brief';
 import { SALERNO_BRIEF, SALERNO_ROLES } from './salerno43/brief';
+import { GRAND_BRIEF, GRAND_ROLES } from './grand43/brief';
 import type { Briefing, GameData } from './types';
 
 export interface GameInfo {
@@ -52,6 +54,18 @@ export const GAMES: GameInfo[] = [
     data: ITALY_DATA,
     roles: ITALY_ROLES,
     brief: ITALY_BRIEF,
+  },
+  {
+    id: 'grand43',
+    title: 'SALERNO TO ORTONA',
+    name: 'Salerno to Ortona',
+    kicker: "THE GRAND CAMPAIGN · SALERNO '43 AND ITALY '43 JOINED",
+    dates: '9 SEPTEMBER – 31 DECEMBER 1943',
+    blurb: 'Both games on one map carried across to the Adriatic: the landings, Naples and Foggia, and the Winter Line on both coasts.',
+    status: 'ready',
+    data: GRAND_DATA,
+    roles: GRAND_ROLES,
+    brief: GRAND_BRIEF,
   },
 ];
 

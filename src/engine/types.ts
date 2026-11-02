@@ -74,7 +74,14 @@ export interface Beach {
 
 export interface MapData {
   /** `home`: where the view starts when no Allied unit is on the map yet; `seaLabels`: [hex, text, size]. */
-  meta?: { evenColumnsDown?: boolean; home?: HexId; seaLabels?: [HexId, string, number][] };
+  meta?: {
+    evenColumnsDown?: boolean; home?: HexId; seaLabels?: [HexId, string, number][];
+    /** The landing rules' fixed places, where a map other than Salerno '43's has them: the port of Salerno, the
+     * airfield whose loss grounds German air support, the mined ports and the beach usable for landings on turn 1. */
+    salernoPort?: HexId; germanAirfield?: HexId; minedPorts?: HexId[]; landingBeach?: string;
+    /** Ground beyond the playable hexes, for the painter only: "CCRRt" entries, t = c(lear), h(ill) or s(ea). */
+    backdrop?: string;
+  };
   hexes: Record<HexId, HexData>;
   hexsides: Record<string, HexsideData>;
   entryAreas: Record<string, EntryArea>;

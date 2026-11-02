@@ -14,7 +14,7 @@ import {
   breakthroughAttack, breakthroughDrop, breakthroughMove, endBreakthrough, finishBreakthroughCombat, groupUnits, startBreakthrough,
 } from './breakthrough';
 import { rollD6 } from './rng';
-import { areaFriendly, beachheadHexes, losTo, salernoPortOpen, supplyChecker, usablePorts, SOUTH_EDGE_ALLIED_TURN } from './supply';
+import { areaFriendly, beachheadHexes, losTo, salernoPortHex, salernoPortOpen, supplyChecker, usablePorts, SOUTH_EDGE_ALLIED_TURN } from './supply';
 import type { Action, CombatReport, GameOptions, GameState, LogEntry, LogKind, MoveMode, Phase, ReplPool, ReplType, Side, UnitState } from './types';
 import {
   canStack, def, goodOrder, isElite, isLand, isLowQuality, occupancy, other, recordTrail, sideOf, stackPoints, stepsRemaining, unitsAt, values,
@@ -117,22 +117,25 @@ export function newGame(scenarioId: string, seed = Date.now() % 2147483647, opti
       crossedMountain: false, hexesMoved: 0, attacked: false, retreatedThisPhase: false, autoDs: false,
     };
   }
-  const invasion = RULES.invasionGame;
-  const control = invasion ? salernoControl() : startingControl(units);
+  // A scenario that opens with assault waves offshore starts with the Invasion phase (Salerno '43, the grand campaign).
+  const invasion = RULES.landings && Object.values(units).some((u) => u.where.kind === 'landing');
+  const control = invasion ? salernoControl() : startingControl(units, sc.firstTurn ?? 1);
   const box = RULES.weather.track.findIndex((b) => b.box === marks.weather);
   const s: GameState = {
     gameId: GAME_ID, scenarioId, turn: sc.firstTurn ?? 1, lastTurn: sc.lastTurn, phase: invasion ? 'invasion' : 'initial',
     activeSide: invasion ? 'Allied' : 'German', weather: Math.max(0, box),
     supplyPoints: { ...(marks.supplyPoints ?? STARTING_SP) },
-    support: { ready: invasion ? ['US-air', 'US-naval', 'BR-air', 'BR-naval'] : [], battleships: 0 },
+    support: { ready: invasion && RULES.invasionGame ? ['US-air', 'US-naval', 'BR-air', 'BR-naval'] : [], battleships: 0 },
     units, control, cityBattle: {},
-    forts: invasion ? undefined : startingForts(scenarioId),
+    forts: RULES.invasionGame ? undefined : startingForts(scenarioId),
     replacements: emptyPools(),
     landingPoints: RULES.landingPoints.perTurn, portUse: {}, trucksUsed: 0,
     pendingDefense: null, pendingAdvance: null, breakthrough: null, autoDsQueue: [], combats: [], log: [], rng: seed >>> 0,
     winner: null, northVp: {}, abandoned8th: false, seq: 0, options: { ...options },
   };
   if (rolls) s.forcedRolls = [...rolls];
+  // The grand campaign's landing day takes its support from the set-up's weather, like Italy '43's turns.
+  if (invasion && !RULES.invasionGame) readySupport(s);
   if (!invasion) {
     // The set-up cards stand for the turn's Weather Phase: play opens with the German player turn (S1-S3).
     if (!marks.support?.used) readySupport(s);
@@ -168,7 +171,7 @@ function salernoControl(): Record<string, Side> {
 /** Italy '43: control is plain from the set-up (16.3.4): each city and VP hex belongs to the side whose units are
  * nearest (the Germans on a tie). The south-edge entry areas are Allied, the east ones German until the 8th Army
  * takes them over (5.8.1). */
-function startingControl(units: Record<string, UnitState>): Record<string, Side> {
+function startingControl(units: Record<string, UnitState>, firstTurn: number): Record<string, Side> {
   const placed = Object.values(units).filter((u) => u.where.kind === 'map').map((u) => ({ hex: (u.where as { hex: HexId }).hex, side: sideOf(u) }));
   const control: Record<string, Side> = {};
   for (const [h, d] of Object.entries(MAP.hexes)) {
@@ -184,7 +187,11 @@ function startingControl(units: Record<string, UnitState>): Record<string, Side>
     }
     control[h] = side;
   }
-  for (const [a, ea] of Object.entries(MAP.entryAreas)) if (ea.side !== 'north') control[a] = ea.side === 'south' ? 'Allied' : 'German';
+  for (const [a, ea] of Object.entries(MAP.entryAreas)) {
+    if (ea.side === 'north') continue;
+    const opens = RULES.entryOpens[a];
+    control[a] = opens !== undefined ? (opens <= firstTurn ? 'Allied' : 'German') : ea.side === 'south' ? 'Allied' : 'German';
+  }
   return control;
 }
 
@@ -369,8 +376,9 @@ function readySupport(s: GameState): void {
     if (wb.naval.includes(n) || wb.naval.includes('AL')) ready.push(`${n}-naval`);
   }
   if (wb.air.includes('GE')) {
-    const alliedField = s.control['2811'] === 'Allied' &&
-      !Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2811') <= 3);
+    const field = MAP.meta?.germanAirfield ?? '2811';
+    const alliedField = s.control[field] === 'Allied' &&
+      !Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, field) <= 3);
     if (!alliedField) ready.push('GE-air');
   }
   s.support.ready = ready;
@@ -441,6 +449,7 @@ function doInitial(s: GameState): void {
     log(s, `The British 8th Army arrives from the south: the south map edge now belongs to the Allies.${notes.length ? ` ${say(notes)}` : ''}`, 'reinforcement', { important: true });
   }
   if (side === 'German') eighthArmyAdvance(s);
+  if (side === 'German') openEntryAreas(s);
   const forfeit = scheduledEvents(s, side);
   const arrivals = new Map<string, string[]>();
   for (const u of Object.values(s.units)) {
@@ -448,6 +457,15 @@ function doInitial(s: GameState): void {
     if (u.where.kind === 'pending' && u.where.turn <= s.turn) {
       const at = u.where.at;
       if (scenarioSetup(s.scenarioId)[u.id]?.arrive?.reduced && u.stepsLost === 0) u.stepsLost = 1; // enters on its reduced side (set-up card)
+      const blocked = !RULES.invasionGame && (at === 'Naples' || at.startsWith('hex:')) && arrivalBlocked(s, u, at);
+      if (blocked) {
+        // The grand campaign: Naples not yet in Allied hands, or the enemy in the hex the card names. Allied units come
+        // by sea to the Floating Reserve; German ones by the roads from the north.
+        u.where = side === 'Allied' ? { kind: 'reserve' } : { kind: 'entry', area: northAreas() };
+        const key = side === 'Allied' ? 'reserve' : northAreas();
+        arrivals.set(key, [...(arrivals.get(key) ?? []), u.id]);
+        continue;
+      }
       if (!RULES.invasionGame && (at === 'Naples' || at.startsWith('hex:'))) {
         // Placed straight on the map: in a Naples city hex (21.1.2), or in the hex the card names (267/94 in Formia).
         const hex = at === 'Naples' ? arrivalHex(s, u, MAP_CITY_HEXES('Naples')) : at.slice(4);
@@ -511,6 +529,41 @@ const POOL_NAMES: Record<ReplPool, string> = { German: 'German', BR: 'British an
 const poolName = (p: ReplPool) => POOL_NAMES[p];
 
 /** The hexes of a city by name (Naples has three). */
+/** Whether a unit due straight onto the map cannot be placed there: Naples not held by the Allies (in a game with
+ * landings, where it is not theirs from the start), or the enemy in the hex its card names. */
+function arrivalBlocked(s: GameState, u: UnitState, at: string): boolean {
+  const side = sideOf(u);
+  const enemyIn = (h: HexId) => unitsAt(s, h).some((x) => sideOf(x) !== side);
+  if (at === 'Naples') {
+    if (!RULES.landings) return false;
+    return !MAP_CITY_HEXES('Naples').some((h) => s.control[h] === 'Allied' && !enemyIn(h));
+  }
+  return enemyIn(at.slice(4)) || s.control[at.slice(4)] === other(side);
+}
+
+/** Every north entry area, as a choice ("G1/G2/G3"). */
+function northAreas(): string {
+  return Object.entries(MAP.entryAreas).filter(([, ea]) => ea.side === 'north').map(([a]) => a).join('/');
+}
+
+/** Entry areas passing to the Allies this turn as their armies come up from the south (the grand campaign). German
+ * units still waiting in an area that is now wholly the enemy's are lost. */
+function openEntryAreas(s: GameState): void {
+  const opened = Object.entries(RULES.entryOpens).filter(([a, t]) => t === s.turn && MAP.entryAreas[a] && s.control[a] !== 'Allied').map(([a]) => a);
+  if (!opened.length) return;
+  for (const a of opened) s.control[a] = 'Allied';
+  const notes: string[] = [];
+  for (const u of Object.values(s.units)) {
+    if (sideOf(u) !== 'German') continue;
+    const area = u.where.kind === 'entry' ? u.where.area : u.where.kind === 'pending' ? u.where.at : null;
+    if (!area || !areaOfEdge(area).every((a) => MAP.entryAreas[a] && s.control[a] === 'Allied')) continue;
+    if (u.where.kind === 'entry') eliminate(s, u, notes);
+    else if (u.where.kind === 'pending') u.where = { kind: 'pending', turn: u.where.turn, at: northAreas() };
+  }
+  log(s, `The Eighth Army comes up from the south: ${opened.map((a) => areaName(a)).join(', ')} now ${opened.length > 1 ? 'belong' : 'belongs'} to the Allies.` +
+    (notes.length ? ` ${say(notes)}` : ''), 'reinforcement', { important: true });
+}
+
 function MAP_CITY_HEXES(name: string): HexId[] {
   return Object.entries(MAP.hexes).filter(([, d]) => d.city === name).map(([h]) => h);
 }
@@ -865,15 +918,17 @@ export function lpCost(id: string): number {
 /** BH hexes (and Sugar beach on turn 1) usable for landings. */
 function landingBeaches(s: GameState): HexId[] {
   const out = beachheadHexes(s);
-  if (s.turn === 1 && !unitsAt(s, MAP.beaches.Sugar.hex).some((u) => sideOf(u) === 'German')) out.push(MAP.beaches.Sugar.hex);
+  const sugar = MAP.beaches[MAP.meta?.landingBeach ?? 'Sugar'];
+  if (s.turn === 1 && sugar && !unitsAt(s, sugar.hex).some((u) => sideOf(u) === 'German')) out.push(sugar.hex);
   return out;
 }
 
 export function landingCapacity(s: GameState, hex: HexId): number {
   const d = MAP.hexes[hex];
-  if (beachheadHexes(s).includes(hex) || (s.turn === 1 && hex === MAP.beaches.Sugar.hex)) return 3;
+  if (beachheadHexes(s).includes(hex) || (s.turn === 1 && hex === MAP.beaches[MAP.meta?.landingBeach ?? 'Sugar']?.hex)) return 3;
   if (d.port) {
-    if (hex === '2707' && Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2707') <= 2)) return 1;
+    const port = salernoPortHex();
+    if (hex === port && Object.values(s.units).some((u) => u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, port) <= 2)) return 1;
     return d.port.capacity;
   }
   return 0;
@@ -1042,6 +1097,7 @@ const MODE_TEXT: Record<MoveMode, string> = {
 const AREA_LINKS: [string, string][] = [['N1', 'N2'], ['E5', 'E4'], ['E4', 'E3'], ['E3', 'E2'], ['E2', 'E1'], ['E1', 'S3'], ['S3', 'S2'], ['S2', 'S1']];
 
 function areaOfEdge(area: string): string[] {
+  if (area.includes('/')) return area.split('/');
   if (area === 'N') return ['N1', 'N2'];
   if (area === 'S') return ['S1', 'S2', 'S3'];
   if (area === 'E') return ['E1', 'E2', 'E3', 'E4', 'E5'];
@@ -1218,7 +1274,8 @@ export function applyAction(s: GameState, a: Action): void {
       } else {
         need(u.where.kind === 'entry', 'Unit must be on the map or in an entry area.');
         const from = u.where.area;
-        const linked = AREA_LINKS.some(([x, y]) => areaOfEdge(from).some((f) => (f === x && y === a.area) || (f === y && x === a.area)));
+        const links: [string, string][] = MAP.offmapLinks.length ? MAP.offmapLinks.map((l) => [l.from, l.to]) : AREA_LINKS;
+        const linked = links.some(([x, y]) => areaOfEdge(from).some((f) => (f === x && y === a.area) || (f === y && x === a.area)));
         need(linked, `${a.area} is not next to ${from}.`);
         if (from.startsWith('N') && a.area.startsWith('N')) need(side === 'German', 'Only German units move between N1 and N2.');
       }
@@ -1354,7 +1411,7 @@ export function applyAction(s: GameState, a: Action): void {
       if (s.phase === 'invasion') {
         need(a.attackers.every((id) => def(id).formation === 'Commando Bde' && s.units[id].tacHexes === 1 && !s.units[id].stopped),
           'On the invasion turn only Commandos with an advance left may attack (Salerno).');
-        need(a.target === '2707', 'The invasion breakthrough may only target Salerno.');
+        need(a.target === salernoPortHex(), 'The invasion breakthrough may only target Salerno.');
         need(!a.air && !a.naval && !a.asus?.length, 'No support in the invasion breakthrough.');
       }
       const rep = resolveAttack(s, a);

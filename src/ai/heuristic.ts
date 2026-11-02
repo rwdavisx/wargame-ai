@@ -149,6 +149,8 @@ export function aggressionFor(s: GameState, side: Side): number {
     const base = s.turn <= 4 ? 0.3 : s.turn <= 9 ? 0.5 : 0.75;
     return Math.min(0.9, base + 0.08 * Math.min(4, alliedShortfall(s)));
   }
+  // The grand campaign's landing turns: the Germans go for the beachhead before it is built up.
+  if (RULES.landings && side === 'German' && s.turn <= 4) return 0.7;
   const m = alliedMargin(s);
   if (side === 'German') return Math.max(0.15, Math.min(TUNING.germanMax, TUNING.germanBase + TUNING.germanPerVp * m));
   return Math.max(0.45, Math.min(0.9, TUNING.alliedBase + TUNING.alliedPerVp * -m));
@@ -183,7 +185,7 @@ function objectives(s: GameState, side: Side, aggression: number): HexId[] {
     if ((s.control[h] ?? 'German') !== side) out.push(h);
     else if (aggression < 0.5) out.push(h);
   }
-  if (RULES.invasionGame && side === 'German' && aggression >= 0.5) out.push(...beachheadHexes(s));
+  if (RULES.landings && side === 'German' && aggression >= 0.5) out.push(...beachheadHexes(s));
   // Enemy artillery is worth a point each: go for it.
   for (const u of Object.values(s.units)) {
     if (u.where.kind === 'map' && sideOf(u) !== side && def(u.id).asu) out.push(u.where.hex);

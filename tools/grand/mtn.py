@@ -30,7 +30,7 @@ def fit(X, y, steps=6000, lr=0.2, pos_weight=1.0):
 
 if __name__ == '__main__':
     dem = Dem(10)
-    m = json.load(open(f'{ROOT}/data/grand43/map.json'))
+    m = json.load(open(f'{ROOT}/data/grand43/parts/stitched.json'))
     cal = json.load(open('calibration.json'))
     land = {h for h, d in m['hexes'].items() if d['terrain'] in ('clear', 'hill')}
     X, y, seen = [], [], set()

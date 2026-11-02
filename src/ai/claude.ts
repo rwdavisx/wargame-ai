@@ -7,7 +7,7 @@
 // rules. Anything Claude does not cover (the invasion and initial phases,
 // Determined Defense, advances, errors) falls back to the built-in AI.
 import Anthropic from '@anthropic-ai/sdk';
-import { MAP } from '../engine/data';
+import { GAME_ID, MAP, RULES } from '../engine/data';
 import { alliedVp, applyAction, benchmark, currentWeather, entryReach, landingHexes } from '../engine/game';
 import { distance, neighbors, type HexId } from '../engine/hex';
 import { allowedModes, cannotMove, entryModes, legalDestinations } from '../engine/movement';
@@ -23,9 +23,18 @@ export interface ClaudeAiOptions {
   onStatus?: (s: string) => void;
 }
 
-const SYSTEM = `You command one side in a digital adaptation of the board wargame "Salerno '43" (Operation Avalanche, the Allied landings at Salerno, September 1943).
-Each game turn is one day. Hexes use four-digit ids CCRR (column, row); columns run west to east, rows north to south.
-Victory: the Allies score victory points for the VP hexes they hold in supply, plus bonuses for pushing into the north entry areas toward Naples; from turn 4 they must keep pace with a rising benchmark or lose automatically. Eliminated airborne units and artillery cost the owner points. The Germans try to contain the beachhead, retake VP hexes and stall the Allies.
+const GAME_TEXT: Record<string, string> = {
+  salerno43: `the board wargame "Salerno '43" (Operation Avalanche, the Allied landings at Salerno, September 1943). Each game turn is one day.
+Victory: the Allies score victory points for the VP hexes they hold in supply, plus bonuses for pushing into the north entry areas toward Naples; from turn 4 they must keep pace with a rising benchmark or lose automatically.`,
+  italy43: `the board wargame "Italy '43" (the Fifth Army's advance from the Volturno to the Gustav Line, October to December 1943). Each game turn is two or three days.
+Victory: the Allies score victory points for the VP hexes they hold in supply and must keep pace with a rising benchmark or lose automatically.`,
+  grand43: `a grand campaign joining the board wargames "Salerno '43" and "Italy '43" on one map carried across to the Adriatic: the Salerno landings, Naples and the Foggia airfields, then the Winter Line on both coasts, September to December 1943. Each game turn is two or three days.
+Victory: the Allies score victory points for the VP hexes they hold in supply on both fronts together and must keep pace with a rising benchmark or lose automatically.`,
+};
+
+const system = () => `You command one side in a digital adaptation of ${GAME_TEXT[GAME_ID] ?? GAME_TEXT.salerno43}
+Hexes use four-digit ids CCRR (column, row).
+Eliminated airborne units and artillery cost the owner points. The Germans try to contain the Allies, retake VP hexes and stall them.
 Movement: clear and road hexes are cheap; hills and marsh are slow, especially for vehicles. Mountain hexsides stop vehicles except on roads or passes. Entering an enemy zone of control stops a unit; two friendly units two hexes apart bond the hex between them against enemy movement and supply.
 Combat: one division (the Main Assault Force) attacks at full strength and everything else is halved. Infantry defending in hills, marsh or cities doubles. Tanks, elite units, air, naval gunfire and artillery shift the odds. A defender told to retreat may try a Determined Defense roll to hold instead.
 Supply: units cut off from their sources may be isolated and lose steps. The US and Commonwealth forces do not attack together.
@@ -46,7 +55,7 @@ function whereText(s: GameState, id: string): string {
 function sitrep(s: GameState, side: Side): string {
   const wb = currentWeather(s);
   const lines: string[] = [];
-  lines.push(`Turn ${s.turn} of ${s.lastTurn} (${8 + s.turn} Sept 1943). You are ${side}. Phase: ${s.phase}.`);
+  lines.push(`Turn ${s.turn} of ${s.lastTurn} (${RULES.turnDates?.[String(s.turn)] ?? `${8 + s.turn} Sept`} 1943). You are ${side}. Phase: ${s.phase}.`);
   const bm = benchmark(s.turn);
   lines.push(`Weather: ${wb.name}. Allied VP ${alliedVp(s)}${bm !== null ? `, benchmark ${bm}` : ''}. Supply points: ${s.supplyPoints[side]}.`);
   lines.push(`Ready support: ${s.support.ready.join(', ') || 'none'}${s.support.battleships ? `; battleship uses left ${s.support.battleships}` : ''}.`);
@@ -182,7 +191,7 @@ export function createClaudeAi(opts: ClaudeAiOptions): AiPlayer {
       max_tokens: 16000,
       betas: ['server-side-fallback-2026-07-01'],
       fallbacks: 'default',
-      system: SYSTEM,
+      system: system(),
       output_config: { effort: 'medium', format: { type: 'json_schema', schema: schema as Record<string, unknown> } },
       messages: [{ role: 'user', content: prompt }],
     } as Anthropic.Beta.MessageCreateParamsNonStreaming);

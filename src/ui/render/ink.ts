@@ -35,7 +35,16 @@ export interface InkFields {
   paint: Float32Array;
   /** Field space (patches.ts) at a map point. */
   fieldAt: (x: number, y: number) => Pt;
+  /** When the sheet is painted in pieces (a large map): the whole sheet's bounds, for the frame, and whether this
+   * piece draws the compass rose, within `core` (the part of the piece that is kept). */
+  frame?: Bounds;
+  compass?: boolean;
+  core?: Bounds;
 }
+
+/** The first point of a grid of spacing `step` at or after `v`: the pen's patterns lie on one grid in map units, so
+ * pieces of a sheet painted apart meet without a seam. */
+const gridFrom = (v: number, step: number) => Math.ceil(v / step - 1e-9) * step;
 
 type Ctx = CanvasRenderingContext2D;
 
@@ -140,8 +149,8 @@ function drawWaves(ctx: Ctx, f: InkFields) {
   ctx.lineCap = 'round';
   ctx.beginPath();
   const step = 34;
-  for (let y = f.b.y + step / 2; y < f.b.y + f.b.h; y += step) {
-    for (let x = f.b.x + step / 2; x < f.b.x + f.b.w; x += step) {
+  for (let y = gridFrom(f.b.y + step / 2, step); y < f.b.y + f.b.h; y += step) {
+    for (let x = gridFrom(f.b.x + step / 2, step); x < f.b.x + f.b.w; x += step) {
       const px = x + (r() - 0.5) * step;
       const py = y + (r() - 0.5) * step;
       const keep = r();
@@ -179,8 +188,8 @@ function drawHachures(ctx: Ctx, f: InkFields) {
   };
   const DH = 0.032; // the contour interval, in the relief's own units
   const step = 1.9;
-  for (let gy = 2; gy < H - 2; gy += step) {
-    for (let gx = 2; gx < W - 2; gx += step) {
+  for (let gy = gridFrom(b.y + 2, step) - b.y; gy < H - 2; gy += step) {
+    for (let gx = gridFrom(b.x + 2, step) - b.x; gx < W - 2; gx += step) {
       const x = gx + (r() - 0.5) * step * 0.8;
       const y = gy + (r() - 0.5) * step * 0.8;
       const gate = r();
@@ -388,8 +397,8 @@ function drawVegetation(ctx: Ctx, f: InkFields) {
   const ok = (i: number) => f.land[i] > 0.97 && f.town[i] < 0.12 && f.marsh[i] < 0.3 && f.paint[i] > 0.45 && f.beach[i] < 0.3;
   // Woods: a crowd of crowns where the woods wash lies, a few strays in the open.
   const step = 2.9;
-  for (let y = f.b.y + 2; y < f.b.y + f.b.h - 2; y += step) {
-    for (let x = f.b.x + 2; x < f.b.x + f.b.w - 2; x += step) {
+  for (let y = gridFrom(f.b.y + 2, step); y < f.b.y + f.b.h - 2; y += step) {
+    for (let x = gridFrom(f.b.x + 2, step); x < f.b.x + f.b.w - 2; x += step) {
       const tx = x + (r() - 0.5) * step * 1.1;
       const ty = y + (r() - 0.5) * step * 1.1;
       const gate = r();
@@ -422,8 +431,8 @@ function drawVegetation(ctx: Ctx, f: InkFields) {
     }
   }
   const rc = rng('cypress');
-  for (let y = f.b.y; y < f.b.y + f.b.h; y += 23) {
-    for (let x = f.b.x; x < f.b.x + f.b.w; x += 23) {
+  for (let y = gridFrom(f.b.y, 23); y < f.b.y + f.b.h; y += 23) {
+    for (let x = gridFrom(f.b.x, 23); x < f.b.x + f.b.w; x += 23) {
       const tx = x + (rc() - 0.5) * 20;
       const ty = y + (rc() - 0.5) * 20;
       const g = rc();
@@ -509,8 +518,8 @@ function drawMarsh(ctx: Ctx, f: InkFields) {
   const water: number[] = [];
   const reeds: number[] = [];
   const step = 6.5;
-  for (let y = f.b.y; y < f.b.y + f.b.h; y += step * 0.8) {
-    for (let x = f.b.x; x < f.b.x + f.b.w; x += step) {
+  for (let y = gridFrom(f.b.y, step * 0.8); y < f.b.y + f.b.h; y += step * 0.8) {
+    for (let x = gridFrom(f.b.x, step); x < f.b.x + f.b.w; x += step) {
       const px = x + (r() - 0.5) * step * 0.8 + ((y / step) % 2) * step * 0.5;
       const py = y + (r() - 0.5) * step * 0.5;
       const g = r();
@@ -552,8 +561,8 @@ function drawSand(ctx: Ctx, f: InkFields) {
   ctx.fillStyle = `rgba(${SEPIA},0.32)`;
   ctx.beginPath();
   const step = 1.5;
-  for (let y = f.b.y; y < f.b.y + f.b.h; y += step) {
-    for (let x = f.b.x; x < f.b.x + f.b.w; x += step) {
+  for (let y = gridFrom(f.b.y, step); y < f.b.y + f.b.h; y += step) {
+    for (let x = gridFrom(f.b.x, step); x < f.b.x + f.b.w; x += step) {
       const i = Math.round(y - f.b.y) * f.W + Math.round(x - f.b.x);
       const s = f.beach[i];
       if (!(s > 0.25) || f.paint[i] < 0.5) continue;
@@ -669,13 +678,15 @@ function drawSettlements(ctx: Ctx) {
 
 /** A compass rose in the open sea, as on an old chart. */
 function drawCompass(ctx: Ctx, f: InkFields) {
+  if (f.compass === false) return;
   // In the widest stretch of open water inside the painting, clear of the sea's printed names.
+  const c = f.core ?? f.b;
   const avoid = (MAP.meta?.seaLabels ?? []).map(([h]) => center(h));
   let best: Pt | null = null;
   let bestScore = -Infinity;
   const rings = [24, 48, 72, 96, 120];
-  for (let y = f.b.y + 90; y < f.b.y + f.b.h - 90; y += 12) {
-    for (let x = f.b.x + 90; x < f.b.x + f.b.w - 90; x += 12) {
+  for (let y = Math.max(f.b.y, c.y) + 90; y < Math.min(f.b.y + f.b.h, c.y + c.h) - 90; y += 12) {
+    for (let x = Math.max(f.b.x, c.x) + 90; x < Math.min(f.b.x + f.b.w, c.x + c.w) - 90; x += 12) {
       if (at(f, f.open, x, y) < 0.8) continue;
       let clear = 140;
       for (const d of rings) {
@@ -752,7 +763,7 @@ function drawCompass(ctx: Ctx, f: InkFields) {
 
 /** The sheet's ruled border: a heavy outer line and a fine inner one. */
 function drawFrame(ctx: Ctx, f: InkFields) {
-  const { b } = f;
+  const b = f.frame ?? f.b;
   ctx.strokeStyle = `rgba(${SEPIA},0.85)`;
   ctx.lineWidth = 1.8;
   ctx.strokeRect(b.x + 14, b.y + 14, b.w - 28, b.h - 28);

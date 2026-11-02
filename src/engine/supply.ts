@@ -6,7 +6,9 @@ import { def, isLand, occupancy, other, sideOf } from './units';
 import { blockedByBond, bondsOf, zocOf } from './zoc';
 
 export const SOUTH_EDGE_ALLIED_TURN = 11;
-const MINED_PORTS = new Set(['1803', '2202']);
+/** Salerno '43's fixed places (its own hex numbers), or the map's. */
+export const salernoPortHex = (): HexId => MAP.meta?.salernoPort ?? '2707';
+const minedPorts = (): HexId[] => MAP.meta?.minedPorts ?? ['1803', '2202'];
 
 export function areaFriendly(s: GameState, area: string, side: Side): boolean {
   const ea = MAP.entryAreas[area];
@@ -23,10 +25,11 @@ export function beachheadHexes(s: GameState): HexId[] {
 }
 
 export function usablePorts(s: GameState): HexId[] {
+  const mined = minedPorts();
   const gz = zocOf(s, 'German');
   const occ = occupancy(s);
   return Object.entries(MAP.hexes)
-    .filter(([h, d]) => d.port && !MINED_PORTS.has(h) && s.control[h] === 'Allied' && occ.get(h) !== 'German' && (occ.get(h) === 'Allied' || !gz.has(h)))
+    .filter(([h, d]) => d.port && !mined.includes(h) && s.control[h] === 'Allied' && occ.get(h) !== 'German' && (occ.get(h) === 'Allied' || !gz.has(h)))
     .map(([h]) => h);
 }
 
@@ -160,9 +163,10 @@ export function losTo(s: GameState, side: Side, hex: HexId, targets: HexId[]): b
 }
 
 export function salernoPortOpen(s: GameState): boolean {
-  if (s.control['2707'] !== 'Allied') return false;
+  const port = salernoPortHex();
+  if (s.control[port] !== 'Allied') return false;
   for (const u of Object.values(s.units)) {
-    if (u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, '2707') <= (RULES.supply.salernoPortOpenRadius ?? 0)) return false;
+    if (u.where.kind === 'map' && sideOf(u) === 'German' && distance(u.where.hex, port) <= (RULES.supply.salernoPortOpenRadius ?? 0)) return false;
   }
   return true;
 }

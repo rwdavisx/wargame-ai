@@ -167,10 +167,21 @@ const SHADOW = pig([150, 146, 170]);
 
 // ------------------------------------------------------------------ main
 
-const RENDER_VERSION = 13;
+const RENDER_VERSION = 14;
+
+/** Field pixels above which a map is painted in pieces: the painter keeps some thirty full-size fields at once, and a
+ * map four times the printed ones' area (the grand campaign) would want gigabytes for them in one go. */
+const MAX_PIECE = 3.6e6;
+/** Overlap round each piece, in map units: past the widest blur, so the pieces agree where they meet. */
+const PIECE_MARGIN = 330;
+
+/** Final pixels per map unit for a map: a large map is kept to the printed maps' image size. */
+function sheetScale(b: Bounds): number {
+  return b.w * b.h > MAX_PIECE ? 1 : SCALE;
+}
 
 function mapHash(): string {
-  const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides]);
+  const s = JSON.stringify([RENDER_VERSION, SCALE, MAP.hexes, MAP.hexsides, MAP.meta?.backdrop ?? '']);
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
   return `${GAME_ID}:${(h >>> 0).toString(36)}`;
@@ -253,7 +264,8 @@ export async function renderTerrain(onProgress?: (fraction: number, label: strin
       /* unreadable cache entry: paint again */
     }
   }
-  const result = await paintTerrain(onProgress);
+  const full = mapBounds(90);
+  const result = full.w * full.h > MAX_PIECE ? await paintInPieces(full, onProgress) : await paintTerrain(onProgress);
   // Cache a compressed copy so the next start is instant; skip quietly if the browser cannot.
   try {
     const blob = await new Promise<Blob | null>((res) => result.canvas.toBlob(res, 'image/jpeg', 0.9));
@@ -266,12 +278,72 @@ export async function renderTerrain(onProgress?: (fraction: number, label: strin
   return finish(result.canvas, result.bounds, result.effects);
 }
 
-async function paintTerrain(onProgress?: (fraction: number, label: string) => void): Promise<{ canvas: HTMLCanvasElement; bounds: Bounds; effects: HTMLCanvasElement }> {
+/** A large map, painted a piece at a time (each with a margin the next piece also paints) and joined into one sheet. */
+async function paintInPieces(full: Bounds, onProgress?: (fraction: number, label: string) => void) {
+  const scale = sheetScale(full);
+  const side = Math.ceil(Math.sqrt((full.w * full.h) / (MAX_PIECE * 0.55)));
+  const nx = Math.max(1, Math.round(side * Math.sqrt(full.w / full.h)));
+  const ny = Math.max(1, Math.ceil(side * side / nx));
+  const sheet = makeCanvas(Math.round(full.w * scale), Math.round(full.h * scale));
+  const sctx = sheet.getContext('2d')!;
+  const effects = makeCanvas(Math.ceil(full.w / 2), Math.ceil(full.h / 2));
+  const ectx = effects.getContext('2d')!;
+  // The compass goes in the piece with the most open sea.
+  const seaIn = (c: Bounds) => Object.entries(MAP.hexes).filter(([h, d]) => {
+    const [x, y] = center(h);
+    return d.terrain === 'sea' && x >= c.x && x < c.x + c.w && y >= c.y && y < c.y + c.h;
+  }).length;
+  const cores: Bounds[] = [];
+  for (let j = 0; j < ny; j++) {
+    for (let i = 0; i < nx; i++) {
+      // Cores on even map units, so each piece's pixels fall on the sheet's.
+      const x0 = full.x + Math.round((full.w * i) / nx / 2) * 2;
+      const x1 = i === nx - 1 ? full.x + full.w : full.x + Math.round((full.w * (i + 1)) / nx / 2) * 2;
+      const y0 = full.y + Math.round((full.h * j) / ny / 2) * 2;
+      const y1 = j === ny - 1 ? full.y + full.h : full.y + Math.round((full.h * (j + 1)) / ny / 2) * 2;
+      cores.push({ x: x0, y: y0, w: x1 - x0, h: y1 - y0 });
+    }
+  }
+  const compassPiece = cores.reduce((a, c) => (seaIn(c) > seaIn(a) ? c : a));
+  for (const [k, core] of cores.entries()) {
+    const x0 = Math.max(full.x, core.x - PIECE_MARGIN);
+    const y0 = Math.max(full.y, core.y - PIECE_MARGIN);
+    const x1 = Math.min(full.x + full.w, core.x + core.w + PIECE_MARGIN);
+    const y1 = Math.min(full.y + full.h, core.y + core.h + PIECE_MARGIN);
+    const b = { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+    const piece = await paintTerrain((f, label) => onProgress?.((k + f) / cores.length, label), {
+      b, scale, frame: full, compass: core === compassPiece, core, texture: false,
+    });
+    const sx = (core.x - b.x) * scale;
+    const sy = (core.y - b.y) * scale;
+    sctx.drawImage(piece.canvas, sx, sy, core.w * scale, core.h * scale, (core.x - full.x) * scale, (core.y - full.y) * scale, core.w * scale, core.h * scale);
+    ectx.drawImage(piece.effects, (core.x - b.x) / 2, (core.y - b.y) / 2, core.w / 2, core.h / 2, (core.x - full.x) / 2, (core.y - full.y) / 2, core.w / 2, core.h / 2);
+    piece.canvas.width = piece.canvas.height = 0;
+  }
+  paperTexture(sctx, sheet.width, sheet.height, 0.14);
+  onProgress?.(1, 'Ready');
+  return { canvas: sheet, bounds: full, effects };
+}
+
+interface PaintOptions {
+  /** The part of the map to paint, its sheet's pixels per map unit, and when it is one piece of a larger sheet: the
+   * sheet's bounds (for the frame), whether this piece has the compass (within `core`), and no paper grain (the joined
+   * sheet gets it once). */
+  b: Bounds;
+  scale: number;
+  frame?: Bounds;
+  compass?: boolean;
+  core?: Bounds;
+  texture?: boolean;
+}
+
+async function paintTerrain(onProgress?: (fraction: number, label: string) => void, opts?: PaintOptions): Promise<{ canvas: HTMLCanvasElement; bounds: Bounds; effects: HTMLCanvasElement }> {
   const report = async (f: number, label: string) => {
     onProgress?.(f, label);
     await tick();
   };
-  const b = mapBounds(90);
+  const b = opts?.b ?? mapBounds(90);
+  const SCALE = opts?.scale ?? sheetScale(b);
   const W = b.w;
   const H = b.h;
   const hexes = Object.entries(MAP.hexes);
@@ -292,7 +364,11 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   // The water spreads from the sea hexes through the gap, but not through a gap hex beside inland land (so it cannot
   // run round the frame along a row of missing edge hexes); those beside the water it reaches are coast, and water.
   const inland = (h: string) => !!MAP.hexes[h] && MAP.hexes[h].terrain !== 'sea' && !MAP.hexes[h].coast && !MAP.hexes[h].shore;
-  const gap = (h: string) => !MAP.hexes[h] && inFrame(h);
+  // Ground the map gives beyond its playable hexes (the grand campaign's), painted like any hex but not played on.
+  const backdrop = new Map<string, HexData['terrain']>();
+  const bd = MAP.meta?.backdrop ?? '';
+  for (let i = 0; i + 5 <= bd.length; i += 5) backdrop.set(bd.slice(i, i + 4), ({ c: 'clear', h: 'hill', s: 'sea' } as const)[bd[i + 4] as 'c' | 'h' | 's']);
+  const gap = (h: string) => !MAP.hexes[h] && !backdrop.has(h) && inFrame(h);
   const openWater = new Set<string>();
   const queue: string[] = [];
   const reach = (n: string) => {
@@ -307,6 +383,11 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
     for (let r = Math.max(0, r0 - 3); r <= r1 + 3; r++) {
       const id = hexId(c, r);
       if (MAP.hexes[id]) continue;
+      const ground = backdrop.get(id);
+      if (ground) {
+        extended.push([id, { terrain: ground }]);
+        continue;
+      }
       if (openWater.has(id)) {
         extended.push([id, { terrain: 'sea' }]);
         continue;
@@ -375,6 +456,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const inside0 = rasterize(b, (ctx) => {
     for (const [h] of hexes) (hexPath(ctx, h, 1), ctx.fill());
     for (const h of openWater) (hexPath(ctx, h, 1), ctx.fill());
+    for (const h of backdrop.keys()) (hexPath(ctx, h, 1), ctx.fill());
   });
   const hill0 = rasterize(b, (ctx) => {
     for (const [h, d] of extended) if (d.terrain === 'hill') (hexPath(ctx, h, 1), ctx.fill());
@@ -768,7 +850,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   ctx.setTransform(SCALE, 0, 0, SCALE, -b.x * SCALE, -b.y * SCALE);
   const fields: InkFields = {
     b, W, H, land: landF, coast, water, height: heightS, shade, hill: hillW, mtn: mtnW, marsh: marshW,
-    woods, town, beach, open, paint, fieldAt,
+    woods, town, beach, open, paint, fieldAt, frame: opts?.frame, compass: opts?.compass, core: opts?.core,
   };
   let f0 = 0.8;
   await drawInk(ctx, fields, async (label) => {
@@ -777,7 +859,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   });
   ctx.restore();
   // The shader's paper already has its tooth; the overlay then only adds a little grain to the ink.
-  paperTexture(ctx, out.width, out.height, gpu ? 0.14 : 0.3);
+  if (opts?.texture !== false) paperTexture(ctx, out.width, out.height, gpu ? 0.14 : 0.3);
 
   await report(1, 'Ready');
   // A small map for the animated layer: land, water field and painted area, half a pixel per map unit.
