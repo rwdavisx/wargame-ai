@@ -148,6 +148,12 @@
   .game .landing-dock.folded .cbx-title { font-size: 18px; }
 
 }
+@media (max-width: 430px) and (min-height: 521px) {
+  /* Ordinary phones: all six buttons and their names fit beside the seal without scrolling. */
+  .game .cmd-buttons .medal.md { width: 42px; height: 42px; }
+  .game .cmd-row > .cmd-buttons { gap: 6px; }
+  .game .cmd .cmd-buttons .medal::after { max-width: 50px; font-size: 10.5px; }
+}
 @media (max-width: 380px) and (min-height: 521px) {
   /* The narrowest phones: six buttons and the seal still fit on one row. */
   .game .cmd-buttons .medal.md { width: 40px; height: 40px; }
