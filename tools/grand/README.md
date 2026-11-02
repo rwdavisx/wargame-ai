@@ -114,10 +114,10 @@ it is held to the game's own pace as well: the median of AI-against-AI campaigns
 `pace_ai.json`), taken as the least that pace reaches from each turn on, less one, and never below 1943's. The game's
 Allies run ahead of 1943 because they move through an emptier south than the real one (no demolitions, no supply
 limits) and score for the German guns they catch. From 11 October six VP above the benchmark wins at once and six
-below loses. A scenario is won on its last turn's benchmark: 34 VP for the Race (turn 27, 10 October), 55 for the
-Campaign and the Winter Line (turn 54). In the six calibration campaigns the Allies ended on 55-57, in two Winter
-Lines on 54. After the map review (fewer major rivers on the Adriatic, the Pescara valley road) three campaigns ended
-on 58-60 and two Winter Lines on 56 and 49; `pace_ai.json` is not yet redone for them.
+below loses. A scenario is won on its last turn's benchmark: 33 VP for the Race (turn 27, 10 October), 56 for the
+Campaign and the Winter Line (turn 54). `pace_ai.json` comes from twelve campaigns on the reviewed map with the AI that
+keeps its guns with its troops: they ended on 53-60 (median 57) and one on 68, and stood on 22-39 on 10 October (the
+Race's last turn: five of the twelve reached 33). Four Winter Lines ended on 53, 54, 57 and 59.
 
 ## Counters
 
