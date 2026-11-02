@@ -1,0 +1,4362 @@
+{
+ "_note": "Eighth Army research for the grand campaign (3 Sep - 31 Dec 1943). Narrative and sources: eighth-army.md. suggestedValues are BY ANALOGY with existing Salerno 43 / Italy 43 counters, not from any rulebook. Coordinates: Wikipedia article coordinates; entries flagged uncertain where a hamlet had none and a position was estimated.",
+ "units": [
+  {
+   "id": "BR-8ArmyHQ",
+   "name": "Eighth Army HQ",
+   "nation": "UK",
+   "formation": "Eighth Army",
+   "type": "hq",
+   "size": "XXXX",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "1943-12-30",
+    "note": "Montgomery handed over to Leese on 30 Dec (Molony p.509-510); HQ stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-24",
+     "place": "Lucera",
+     "lat": 41.5,
+     "lon": 15.333,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.456n",
+     "note": "Main HQ 8th Army near Lucera; Rear HQ at Mottola near Taranto (layout laid out 1-24 Oct)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5",
+   "notInGame": true
+  },
+  {
+   "id": "BR-13CorpsASU",
+   "name": "XIII Corps ASU",
+   "nation": "UK",
+   "formation": "XIII Corps",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "suggestedValues": "0-1-5 range 4 (by analogy with X Corps ASU)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.233-235"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays in area; HQ took over the Orsogna sector (NZ and 5 Div) on 15 Dec"
+   },
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Catanzaro",
+     "lat": 38.9,
+     "lon": 16.6,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.244",
+     "note": "main bodies halted on the line Catanzaro-Nicastro"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Potenza",
+     "lat": 40.6333,
+     "lon": 15.8,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.229",
+     "note": "Cdn Div at Potenza, 5 Div at Auletta"
+    },
+    {
+     "date": "1943-09-30",
+     "place": "Canosa di Puglia",
+     "lat": 41.2167,
+     "lon": 16.0667,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346",
+     "note": "ordered to concentrate in Barletta-Bari-Gravina-Canosa by 30 Sep"
+    },
+    {
+     "date": "1943-10-14",
+     "place": "Campobasso",
+     "lat": 41.5603,
+     "lon": 14.6617,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.250",
+     "note": "FMC No.112 Campobasso; railhead Lucera (Molony p.455)"
+    },
+    {
+     "date": "1943-11-04",
+     "place": "Isernia",
+     "lat": 41.6028,
+     "lon": 14.2397,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458"
+    },
+    {
+     "date": "1943-11-24",
+     "place": "Carovilli",
+     "lat": 41.717,
+     "lon": 14.3,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.278-284",
+     "note": "upper Sangro diversion",
+     "uncertain": true,
+     "why": "HQ location not given; Carovilli is the 3 Cdn Bde base"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Castel Frentano",
+     "lat": 42.2,
+     "lon": 14.35,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.497",
+     "note": "takes over NZ Div and 5 Div between Orsogna and the 5 Corps left",
+     "uncertain": true,
+     "why": "HQ location not given"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.233-235, 344-346, 454-458, 497; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org",
+   "artillery": "Baytown: 6th AGRA and 2nd AA Bde under 13 Corps, 5th AGRA and 30 Corps artillery in support, 630 guns (Molony p.234-235). From 9 Oct: 6th AGRA (Molony p.454). 24 Nov upper Sangro: 75th Medium, 78th and 165th Field Regts under 13 Corps (Nicholson p.284n)."
+  },
+  {
+   "id": "BR-5CorpsASU",
+   "name": "V Corps ASU",
+   "nation": "UK",
+   "formation": "V Corps",
+   "type": "corpsAsu",
+   "size": "XXX",
+   "suggestedValues": "0-1-5 range 4 (by analogy with X Corps ASU)",
+   "enters": {
+    "date": "1943-09-17",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays (replaced by HQ 1 Cdn Corps on 31 Jan 1944, Molony p.594)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-18",
+     "place": "Taranto",
+     "lat": 40.4711,
+     "lon": 17.2431,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223",
+     "note": "assumed command in the Taranto area 18 Sep"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Taranto",
+     "lat": 40.4711,
+     "lon": 17.2431,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433",
+     "note": "in reserve in the Taranto area guarding 13 Corps left; railhead Trani"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Larino",
+     "lat": 41.8,
+     "lon": 14.917,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.455",
+     "note": "takes the right sector coast-Larino; FMCs Termoli and Larino"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458-461",
+     "note": "Trigno battle"
+    },
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.488-490",
+     "note": "Sangro battle"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.595",
+     "note": "5 Corps = 1 Cdn Div + 8 Ind Div on the right, 31 Dec"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5",
+   "artillery": "From 9 Oct 1st AGRA (Molony p.454). Sangro: 1st AGRA and 6th AGRA (51st, 66th, 70th, 80th Medium); 78 Div 17th, 57th, 98th, 132nd, 138th Field; 8 Ind Div 52nd, 53rd, 166th and one more Field Regt (Molony p.490n, OCR garbled). 26 Nov Eighth Army field artillery: 22 field and 7 medium regiments, 690 guns (Molony p.482n)."
+  },
+  {
+   "id": "CN-1",
+   "name": "1st Canadian Infantry Brigade",
+   "nation": "CA",
+   "formation": "1 Cdn Inf Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "6-7-3, back 4-5-3 (existing Salerno counter CN-1)",
+   "subunits": "The Royal Canadian Regiment; The Hastings and Prince Edward Regiment; 48th Highlanders of Canada (Molony p.117n, 500n)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Catanzaro",
+     "lat": 38.9,
+     "lon": 16.6,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.221",
+     "note": "RCR with the Princess Louise reach Catanzaro"
+    },
+    {
+     "date": "1943-09-17",
+     "place": "Spezzano Albanese",
+     "lat": 39.6667,
+     "lon": 16.3167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223"
+    },
+    {
+     "date": "1943-09-20",
+     "place": "Scanzano Jonico",
+     "lat": 40.25,
+     "lon": 16.7,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.225, 228-229",
+     "note": "firm base between the Agri and Basento guarding the right flank, to end Sep"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Lucera",
+     "lat": 41.5,
+     "lon": 15.333,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.235-236",
+     "note": "advanced guard (RCR, Calgary tanks, PLDG) leaves Lucera"
+    },
+    {
+     "date": "1943-10-02",
+     "place": "Motta Montecorvino",
+     "lat": 41.5,
+     "lon": 15.1167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.236-238",
+     "note": "Motta taken night 1-2 Oct; ridge by 3 Oct"
+    },
+    {
+     "date": "1943-10-04",
+     "place": "San Marco la Catola",
+     "lat": 41.583,
+     "lon": 14.967,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.239"
+    },
+    {
+     "date": "1943-10-06",
+     "place": "Celenza Valfortore",
+     "lat": 41.567,
+     "lon": 14.983,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.240",
+     "note": "Mt Miano reached; relieved on the main axis by 3 Bde"
+    },
+    {
+     "date": "1943-10-14",
+     "place": "Campobasso",
+     "lat": 41.5603,
+     "lon": 14.6617,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.248; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "Campobasso occupied 14 Oct"
+    },
+    {
+     "date": "1943-10-20",
+     "place": "Oratino",
+     "lat": 41.5833,
+     "lon": 14.5833,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.256-257",
+     "note": "Busso 19 Oct, Oratino and San Stefano 20 Oct"
+    },
+    {
+     "date": "1943-10-27",
+     "place": "Torella del Sannio",
+     "lat": 41.6333,
+     "lon": 14.5167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.261-263; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "heights between Molise and Torella cleared by 27 Oct"
+    },
+    {
+     "date": "1943-11-04",
+     "place": "Duronia",
+     "lat": 41.6667,
+     "lon": 14.4667,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263",
+     "note": "RCR to Duronia; 48th Highlanders at Pietracupa; Hastings at Frosolone 29 Oct"
+    },
+    {
+     "date": "1943-12-01",
+     "place": "Petacciato",
+     "lat": 42.0108,
+     "lon": 14.8614,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.288",
+     "note": "leaves Campobasso for staging area round San Salvo/Petacciato"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.500; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.294",
+     "note": "relieves 38 Bde; Hastings take over the seaward flank"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "San Leonardo (Ortona)",
+     "lat": 42.3,
+     "lon": 14.38,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.501-502",
+     "note": "RCR and 48th across the Moro; San Leonardo taken 9 Dec (with 2 Bde)",
+     "uncertain": true,
+     "why": "coordinate approx.: hamlet on the Moro ~4 km SW of Ortona; no Wikipedia coordinate"
+    },
+    {
+     "date": "1943-12-19",
+     "place": "Cider crossroads",
+     "lat": 42.322,
+     "lon": 14.383,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.316-320",
+     "note": "Operation Morning Glory, 18-19 Dec",
+     "uncertain": true,
+     "why": "coordinate approx.: junction of old Highway 16 and the Ortona-Orsogna road, ~3 km SW of Ortona (Molony p.501, 503)"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "San Nicola/San Tommaso",
+     "lat": 42.36,
+     "lon": 14.365,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.506-507; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.333-338",
+     "note": "48th Highlanders take San Nicola and San Tommaso 31 Dec",
+     "uncertain": true,
+     "why": "coordinate approx.: hamlets between the forks of the Riccio, ~1.5 miles inland (Nicholson p.333-334)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117, 233-246, 344-346, 433-437, 454-458, 482-507; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org ch. VII-XI"
+  },
+  {
+   "id": "CN-2",
+   "name": "2nd Canadian Infantry Brigade",
+   "nation": "CA",
+   "formation": "1 Cdn Inf Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "6-7-3, back 4-5-3 (existing Salerno counter CN-2)",
+   "subunits": "Princess Patricia's Canadian Light Infantry; The Seaforth Highlanders of Canada; The Loyal Edmonton Regiment",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-09-08",
+     "place": "Cittanova",
+     "lat": 38.35,
+     "lon": 16.0833,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.242"
+    },
+    {
+     "date": "1943-09-17",
+     "place": "Cassano allo Ionio",
+     "lat": 39.783,
+     "lon": 16.317,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Potenza",
+     "lat": 40.6333,
+     "lon": 15.8,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.228",
+     "note": "covers the north-west approaches to Potenza"
+    },
+    {
+     "date": "1943-09-27",
+     "place": "Melfi",
+     "lat": 41,
+     "lon": 15.65,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.231-232",
+     "note": "PPCLI patrols: Lagopesole/Atella 22-23 Sep, Rionero 26 Sep, Melfi 27 Sep"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "Foiano di Val Fortore",
+     "lat": 41.35,
+     "lon": 14.9833,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.240, 245",
+     "note": "left-flank route through Castelfranco and Montefalcone; Edmonton raid on Baselice 5 Oct"
+    },
+    {
+     "date": "1943-10-09",
+     "place": "Castelpagano",
+     "lat": 41.4,
+     "lon": 14.8,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.246"
+    },
+    {
+     "date": "1943-10-12",
+     "place": "Santa Croce del Sannio",
+     "lat": 41.383,
+     "lon": 14.717,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.246"
+    },
+    {
+     "date": "1943-10-15",
+     "place": "Vinchiaturo",
+     "lat": 41.5,
+     "lon": 14.5833,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.249; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "La Rocca 14 Oct, Vinchiaturo road fork 15 Oct"
+    },
+    {
+     "date": "1943-10-18",
+     "place": "Baranello",
+     "lat": 41.5333,
+     "lon": 14.55,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.256-257",
+     "note": "Seaforth take Baranello 17 Oct, briefly withdraw"
+    },
+    {
+     "date": "1943-10-24",
+     "place": "Spinete",
+     "lat": 41.55,
+     "lon": 14.4833,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.259-261; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "Colle d'Anchise (Edmontons) and Spinete (PPCLI) 23-24 Oct"
+    },
+    {
+     "date": "1943-10-28",
+     "place": "Campobasso",
+     "lat": 41.5603,
+     "lon": 14.6617,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263-264",
+     "note": "relieved by a 5 Div brigade 27-28 Oct; rest",
+     "uncertain": true,
+     "why": "exact rest location not stated"
+    },
+    {
+     "date": "1943-12-01",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.288-289",
+     "note": "left Campobasso 30 Nov; crossed the Sangro late 1 Dec and relieved 11 Bde south of Fossacesia"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Sant'Apollinare Chietino",
+     "lat": 42.29,
+     "lon": 14.4,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.500",
+     "uncertain": true,
+     "why": "coordinate approx.: village between San Vito and the Moro (Molony p.500); Wikipedia page had no coordinate"
+    },
+    {
+     "date": "1943-12-06",
+     "place": "Villa Rogatti",
+     "lat": 42.29,
+     "lon": 14.35,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.501",
+     "note": "PPCLI at Villa Rogatti, Seaforth at San Leonardo (both back on own bank by evening)",
+     "uncertain": true,
+     "why": "coordinate approx.: west of San Leonardo on the Moro (Molony p.501); no Wikipedia coordinate"
+    },
+    {
+     "date": "1943-12-10",
+     "place": "Cider crossroads",
+     "lat": 42.322,
+     "lon": 14.383,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.503",
+     "note": "Edmontons reach the Gully 10 Dec",
+     "uncertain": true,
+     "why": "coordinate approx.: junction of old Highway 16 and the Ortona-Orsogna road, ~3 km SW of Ortona (Molony p.501, 503)"
+    },
+    {
+     "date": "1943-12-21",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.507; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.323-333",
+     "note": "Edmontons enter Ortona 21 Dec; Seaforth 23 Dec; PPCLI 27 Dec"
+    },
+    {
+     "date": "1943-12-28",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.507",
+     "note": "Ortona cleared 28 Dec"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117, 233-246, 344-346, 433-437, 454-458, 482-507; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org ch. VII-XI"
+  },
+  {
+   "id": "CN-3",
+   "name": "3rd Canadian Infantry Brigade",
+   "nation": "CA",
+   "formation": "1 Cdn Inf Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "6-7-3, back 4-5-3 (existing Salerno counter CN-3)",
+   "subunits": "Royal 22e Regiment; The Carleton and York Regiment; The West Nova Scotia Regiment",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-09-03",
+     "place": "Reggio Calabria",
+     "lat": 38.1114,
+     "lon": 15.6619,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234",
+     "note": "assault landing between Reggio's northern suburbs and the Torbido"
+    },
+    {
+     "date": "1943-09-10",
+     "place": "Catanzaro",
+     "lat": 38.9,
+     "lon": 16.6,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.221",
+     "note": "lifted by landing craft to Marina di Catanzaro"
+    },
+    {
+     "date": "1943-09-17",
+     "place": "Villapiana",
+     "lat": 39.85,
+     "lon": 16.45,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223"
+    },
+    {
+     "date": "1943-09-18",
+     "place": "Corleto Perticara",
+     "lat": 40.383,
+     "lon": 16.05,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.226",
+     "note": "\"Boforce\" (West Novas + Calgary sqn)"
+    },
+    {
+     "date": "1943-09-20",
+     "place": "Potenza",
+     "lat": 40.6333,
+     "lon": 15.8,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.227; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.344",
+     "note": "Potenza taken 20 Sep"
+    },
+    {
+     "date": "1943-09-24",
+     "place": "Spinazzola",
+     "lat": 40.9667,
+     "lon": 16.0833,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232",
+     "note": "R22eR find Spinazzola clear"
+    },
+    {
+     "date": "1943-10-07",
+     "place": "Gambatesa",
+     "lat": 41.5,
+     "lon": 14.9167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.241-242; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.437",
+     "note": "Gambatesa taken 7-8 Oct"
+    },
+    {
+     "date": "1943-10-11",
+     "place": "Jelsi",
+     "lat": 41.517,
+     "lon": 14.8,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.243-244",
+     "note": "Jelsi, Mt Verdone, Gildone 9-12 Oct"
+    },
+    {
+     "date": "1943-10-21",
+     "place": "Campochiaro",
+     "lat": 41.45,
+     "lon": 14.5167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.257-258",
+     "note": "Guardiaregia 18 Oct, Campochiaro 21 Oct (C&Y)"
+    },
+    {
+     "date": "1943-10-24",
+     "place": "Bojano",
+     "lat": 41.483,
+     "lon": 14.467,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.258; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "Boiano 24 Oct; relieved by British bde 27 Oct"
+    },
+    {
+     "date": "1943-11-16",
+     "place": "Carovilli",
+     "lat": 41.717,
+     "lon": 14.3,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.278-279",
+     "note": "brigade HQ Carovilli; tac div HQ Pescolanciano"
+    },
+    {
+     "date": "1943-11-20",
+     "place": "San Pietro Avellana",
+     "lat": 41.783,
+     "lon": 14.167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.280-281; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485",
+     "note": "Vastogirardi 17-18 Nov; patrols across the Sangro between Sant'Angelo and Ateleta"
+    },
+    {
+     "date": "1943-11-24",
+     "place": "Point 1009",
+     "lat": 41.79,
+     "lon": 14.13,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.282-285",
+     "note": "Point 1009 attack 23-24 Nov; Castel di Sangro attack called off",
+     "uncertain": true,
+     "why": "coordinate approx.: height near Castel di Sangro, east bank of the Sangro (Nicholson p.282-285)"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.500",
+     "note": "trying to cross the flooded Sangro"
+    },
+    {
+     "date": "1943-12-14",
+     "place": "Casa Berardi",
+     "lat": 42.318,
+     "lon": 14.365,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.504-505",
+     "note": "C&Y frontal attacks 13 and 15 Dec; R22eR take Casa Berardi 14 Dec",
+     "uncertain": true,
+     "why": "coordinate approx.: western end of the Gully ridge on the Ortona-Orsogna road (Molony p.503)"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Torre Mucchia",
+     "lat": 42.378,
+     "lon": 14.385,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.336-337; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.507",
+     "note": "attacking along the coast from 29 Dec; Point 59 not taken until 4 Jan",
+     "uncertain": true,
+     "why": "line on 31 Dec short of Torre Mucchia; coordinate approx.: coast NW of Ortona east of the Riccio mouth (Molony p.507; Wikipedia Moro River campaign)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117, 233-246, 344-346, 433-437, 454-458, 482-507; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org ch. VII-XI"
+  },
+  {
+   "id": "CN-4PLDG",
+   "name": "4th Princess Louise Dragoon Guards",
+   "nation": "CA",
+   "formation": "1 Cdn Inf Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "2-2-6 (by analogy with 11 Hussars / 1 KDG)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.225n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-09-11",
+     "place": "Crotone",
+     "lat": 39.0833,
+     "lon": 17.1167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222"
+    },
+    {
+     "date": "1943-09-19",
+     "place": "Scanzano Jonico",
+     "lat": 40.25,
+     "lon": 16.7,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.229",
+     "note": "raid at Miglionico 19 Sep"
+    },
+    {
+     "date": "1943-09-27",
+     "place": "Melfi",
+     "lat": 41,
+     "lon": 15.65,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232",
+     "note": "Spinazzola 25 Sep, Canosa, Melfi 27 Sep"
+    },
+    {
+     "date": "1943-10-08",
+     "place": "Colletorto",
+     "lat": 41.6667,
+     "lon": 14.9667,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.242"
+    },
+    {
+     "date": "1943-11-08",
+     "place": "Carovilli",
+     "lat": 41.717,
+     "lon": 14.3,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.264, 278",
+     "note": "covering the whole gap between 5 Div and 8 Ind Div (Montagano-Petrella area)"
+    }
+   ],
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org"
+  },
+  {
+   "id": "CN-1DivASU",
+   "name": "1st Canadian Division ASU",
+   "nation": "CA",
+   "formation": "1 Cdn Inf Div",
+   "type": "divAsu",
+   "size": "XX",
+   "suggestedValues": "0-1-5 range 4 (by analogy with other division ASUs)",
+   "subunits": "1st Field Regt RCHA; 2nd and 3rd Field Regts RCA; 1st A/Tk Regt; 2nd LAA Regt; Saskatoon Light Infantry (MG)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-14",
+     "place": "Campobasso",
+     "lat": 41.5603,
+     "lon": 14.6617,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.250"
+    },
+    {
+     "date": "1943-12-08",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.501n"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117n; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org"
+  },
+  {
+   "id": "CN-11",
+   "name": "11th Armoured Regiment (Ontario Regiment)",
+   "nation": "CA",
+   "formation": "1 Cdn Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (existing Salerno counter CN-11)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-09-30",
+     "place": "Belvedere Marittimo",
+     "lat": 39.6167,
+     "lon": 15.8667,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232",
+     "note": "supported 5 Div in Calabria; tanks waiting at Scalea for shipment",
+     "uncertain": true,
+     "why": "Scalea not geocoded; nearest coded town"
+    },
+    {
+     "date": "1943-10-18",
+     "place": "Baranello",
+     "lat": 41.5333,
+     "lon": 14.55,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.257"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.288",
+     "note": "on the Sangro ridge with brigade HQ"
+    },
+    {
+     "date": "1943-12-10",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.306",
+     "note": "with the Hastings on the coast road 2,500 yd from Ortona"
+    },
+    {
+     "date": "1943-12-14",
+     "place": "Casa Berardi",
+     "lat": 42.318,
+     "lon": 14.365,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.504-505",
+     "uncertain": true,
+     "why": "coordinate approx.: western end of the Gully ridge on the Ortona-Orsogna road (Molony p.503)"
+    },
+    {
+     "date": "1943-12-26",
+     "place": "San Nicola/San Tommaso",
+     "lat": 42.36,
+     "lon": 14.365,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.334-336",
+     "uncertain": true,
+     "why": "coordinate approx.: hamlets between the forks of the Riccio, ~1.5 miles inland (Nicholson p.333-334)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117n, 436, 482n, 500n; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 253-255, 276, 288-290, 298, 317"
+  },
+  {
+   "id": "CN-12",
+   "name": "12th Armoured Regiment (Three Rivers Regiment)",
+   "nation": "CA",
+   "formation": "1 Cdn Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy with CN-11/CN-14)",
+   "enters": {
+    "date": "1943-10-05",
+    "where": "Campomarino",
+    "lat": 41.95,
+    "lon": 15.0333,
+    "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 253"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-06",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.253-255; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "two squadrons by forced march on 5 Oct, third on 6 Oct"
+    },
+    {
+     "date": "1943-11-04",
+     "place": "Isernia",
+     "lat": 41.6028,
+     "lon": 14.2397,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.317",
+     "note": "supported 5 Div in the advance to Isernia"
+    },
+    {
+     "date": "1943-11-20",
+     "place": "Vinchiaturo",
+     "lat": 41.5,
+     "lon": 14.5833,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.317",
+     "note": "rested at Vinchiaturo in Nov; listed with 5 Div at the Sangro (Molony p.482n)"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.317",
+     "note": "rejoins 1 Cdn Armd Bde 15 Dec",
+     "uncertain": true,
+     "why": "exact place not stated"
+    },
+    {
+     "date": "1943-12-19",
+     "place": "Cider crossroads",
+     "lat": 42.322,
+     "lon": 14.383,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505",
+     "uncertain": true,
+     "why": "coordinate approx.: junction of old Highway 16 and the Ortona-Orsogna road, ~3 km SW of Ortona (Molony p.501, 503)"
+    },
+    {
+     "date": "1943-12-21",
+     "place": "Ortona",
+     "lat": 42.35,
+     "lon": 14.4,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.507"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117n, 436, 482n, 500n; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 253-255, 276, 288-290, 298, 317"
+  },
+  {
+   "id": "CN-14",
+   "name": "14th Armoured Regiment (Calgary Regiment)",
+   "nation": "CA",
+   "formation": "1 Cdn Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (existing Salerno counter CN-14)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-09-20",
+     "place": "Potenza",
+     "lat": 40.6333,
+     "lon": 15.8,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.225-227",
+     "note": "one squadron with Boforce; rest with 1 Bde at Scanzano"
+    },
+    {
+     "date": "1943-10-02",
+     "place": "Motta Montecorvino",
+     "lat": 41.5,
+     "lon": 15.1167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.238"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Lanciano",
+     "lat": 42.2333,
+     "lon": 14.3833,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.288-290",
+     "note": "crossed the Sangro 1 Dec under 8 Ind Div; Lanciano 2-3 Dec, Frisa 4 Dec"
+    },
+    {
+     "date": "1943-12-09",
+     "place": "San Leonardo (Ortona)",
+     "lat": 42.3,
+     "lon": 14.38,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.502",
+     "note": "lost 27 of 51 tanks",
+     "uncertain": true,
+     "why": "coordinate approx.: hamlet on the Moro ~4 km SW of Ortona; no Wikipedia coordinate"
+    },
+    {
+     "date": "1943-12-10",
+     "place": "Cider crossroads",
+     "lat": 42.322,
+     "lon": 14.383,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.503",
+     "uncertain": true,
+     "why": "coordinate approx.: junction of old Highway 16 and the Ortona-Orsogna road, ~3 km SW of Ortona (Molony p.501, 503)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.117n, 436, 482n, 500n; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 253-255, 276, 288-290, 298, 317"
+  },
+  {
+   "id": "BR-13",
+   "name": "13th Infantry Brigade",
+   "nation": "UK",
+   "formation": "5 Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (existing Salerno counter BR-13)",
+   "subunits": "2nd Cameronians; 2nd Royal Inniskilling Fusiliers; 2nd Wiltshires",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "1944-01-11",
+    "note": "whole division leaves Eighth Army 5-11 Jan 1944 for X Corps, Fifth Army (Molony p.595n)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-03",
+     "place": "Reggio Calabria",
+     "lat": 38.1114,
+     "lon": 15.6619,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234",
+     "note": "assault, right-hand beach of 5 Div"
+    },
+    {
+     "date": "1943-11-04",
+     "place": "Isernia",
+     "lat": 41.6028,
+     "lon": 14.2397,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263",
+     "note": "patrols of 13 Bde enter Isernia 4 Nov"
+    },
+    {
+     "date": "1943-12-28",
+     "place": "Casoli",
+     "lat": 42.1167,
+     "lon": 14.2833,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "relieves 2 Para Bde in the Aventino sector incl. Casoli 27-28 Dec"
+    },
+    {
+     "date": "1943-09-10",
+     "place": "Lamezia Terme",
+     "lat": 38.9667,
+     "lon": 16.3,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.220",
+     "note": "division: leading elements at Nicastro late 10 Sep",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-09-16",
+     "place": "Sapri",
+     "lat": 40.067,
+     "lon": 15.633,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.246-247; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223",
+     "note": "division: a brigade at Sapri; recce regt meets US 36 Div at Vallo",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Auletta",
+     "lat": 40.5611,
+     "lon": 15.4244,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.344",
+     "note": "division reaches Auletta 21 Sep (contact with Cdns near Brienza 20 Sep)",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Potenza",
+     "lat": 40.6333,
+     "lon": 15.8,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433",
+     "note": "division at Potenza in 5 Corps; to move to Foggia 4 Oct",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-28",
+     "place": "Bojano",
+     "lat": 41.483,
+     "lon": 14.467,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "division relieves Cdns at Boiano and Spinete 27-28 Oct, one brigade each side of the Isernia road",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-23",
+     "place": "Alfedena",
+     "lat": 41.7372,
+     "lon": 14.0394,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.284",
+     "note": "division: Mt Civitalta, attack on Alfedena 22 Nov, Alfedena cleared early 23 Nov",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-16",
+     "place": "Poggiofiorito",
+     "lat": 42.25,
+     "lon": 14.317,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.133; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.322; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505",
+     "note": "division in line on NZ right night 15-16 Dec; Poggiofiorito entered 17 Dec; Arielli attack 23-24 Dec failed",
+     "uncertain": true,
+     "why": "division-level position"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.233-246, 344-346, 433, 454, 458, 482n, 485, 497, 505, 595; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.220-232, 259, 263, 284-285, 322, 338; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119, 133, 150"
+  },
+  {
+   "id": "BR-15",
+   "name": "15th Infantry Brigade",
+   "nation": "UK",
+   "formation": "5 Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (existing Salerno counter BR-15)",
+   "subunits": "1st Green Howards; 1st KOYLI; 1st York and Lancaster",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "1944-01-11",
+    "note": "whole division leaves Eighth Army 5-11 Jan 1944 for X Corps, Fifth Army (Molony p.595n)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-04",
+     "place": "Reggio Calabria",
+     "lat": 38.1114,
+     "lon": 15.6619,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.240",
+     "note": "follow-up, then along Highway 18"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Poggiofiorito",
+     "lat": 42.25,
+     "lon": 14.317,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "Poggiofiorito sector, on NZ right"
+    },
+    {
+     "date": "1943-09-10",
+     "place": "Lamezia Terme",
+     "lat": 38.9667,
+     "lon": 16.3,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.220",
+     "note": "division: leading elements at Nicastro late 10 Sep",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-09-16",
+     "place": "Sapri",
+     "lat": 40.067,
+     "lon": 15.633,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.246-247; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223",
+     "note": "division: a brigade at Sapri; recce regt meets US 36 Div at Vallo",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Auletta",
+     "lat": 40.5611,
+     "lon": 15.4244,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.344",
+     "note": "division reaches Auletta 21 Sep (contact with Cdns near Brienza 20 Sep)",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Potenza",
+     "lat": 40.6333,
+     "lon": 15.8,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433",
+     "note": "division at Potenza in 5 Corps; to move to Foggia 4 Oct",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-28",
+     "place": "Bojano",
+     "lat": 41.483,
+     "lon": 14.467,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "division relieves Cdns at Boiano and Spinete 27-28 Oct, one brigade each side of the Isernia road",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-23",
+     "place": "Alfedena",
+     "lat": 41.7372,
+     "lon": 14.0394,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.284",
+     "note": "division: Mt Civitalta, attack on Alfedena 22 Nov, Alfedena cleared early 23 Nov",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-16",
+     "place": "Poggiofiorito",
+     "lat": 42.25,
+     "lon": 14.317,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.133; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.322; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505",
+     "note": "division in line on NZ right night 15-16 Dec; Poggiofiorito entered 17 Dec; Arielli attack 23-24 Dec failed",
+     "uncertain": true,
+     "why": "division-level position"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.233-246, 344-346, 433, 454, 458, 482n, 485, 497, 505, 595; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.220-232, 259, 263, 284-285, 322, 338; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119, 133, 150"
+  },
+  {
+   "id": "BR-17",
+   "name": "17th Infantry Brigade",
+   "nation": "UK",
+   "formation": "5 Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (existing Salerno counter BR-17)",
+   "subunits": "2nd Royal Scots Fusiliers; 2nd Northamptons; 6th Seaforth",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "1944-01-11",
+    "note": "whole division leaves Eighth Army 5-11 Jan 1944 for X Corps, Fifth Army (Molony p.595n)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-03",
+     "place": "Reggio Calabria",
+     "lat": 38.1114,
+     "lon": 15.6619,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234",
+     "note": "assault, left-hand beach of 5 Div"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Poggiofiorito",
+     "lat": 42.25,
+     "lon": 14.317,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119-133; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.497",
+     "note": "under NZ command from 12 Dec, investing Poggiofiorito; back to 5 Div 16 Dec"
+    },
+    {
+     "date": "1943-09-10",
+     "place": "Lamezia Terme",
+     "lat": 38.9667,
+     "lon": 16.3,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.220",
+     "note": "division: leading elements at Nicastro late 10 Sep",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-09-16",
+     "place": "Sapri",
+     "lat": 40.067,
+     "lon": 15.633,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.246-247; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223",
+     "note": "division: a brigade at Sapri; recce regt meets US 36 Div at Vallo",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Auletta",
+     "lat": 40.5611,
+     "lon": 15.4244,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.344",
+     "note": "division reaches Auletta 21 Sep (contact with Cdns near Brienza 20 Sep)",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Potenza",
+     "lat": 40.6333,
+     "lon": 15.8,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433",
+     "note": "division at Potenza in 5 Corps; to move to Foggia 4 Oct",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-28",
+     "place": "Bojano",
+     "lat": 41.483,
+     "lon": 14.467,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "division relieves Cdns at Boiano and Spinete 27-28 Oct, one brigade each side of the Isernia road",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-23",
+     "place": "Alfedena",
+     "lat": 41.7372,
+     "lon": 14.0394,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.284",
+     "note": "division: Mt Civitalta, attack on Alfedena 22 Nov, Alfedena cleared early 23 Nov",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-16",
+     "place": "Poggiofiorito",
+     "lat": 42.25,
+     "lon": 14.317,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.133; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.322; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505",
+     "note": "division in line on NZ right night 15-16 Dec; Poggiofiorito entered 17 Dec; Arielli attack 23-24 Dec failed",
+     "uncertain": true,
+     "why": "division-level position"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.233-246, 344-346, 433, 454, 458, 482n, 485, 497, 505, 595; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.220-232, 259, 263, 284-285, 322, 338; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119, 133, 150"
+  },
+  {
+   "id": "BR-5Recce",
+   "name": "5th Reconnaissance Regiment",
+   "nation": "UK",
+   "formation": "5 Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "2-2-6 (by analogy)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234n"
+   },
+   "leaves": {
+    "date": "1944-01-11",
+    "note": "with 5 Div"
+   },
+   "positions": [
+    {
+     "date": "1943-09-16",
+     "place": "Sapri",
+     "lat": 40.067,
+     "lon": 15.633,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.246-247",
+     "note": "met US 36 Div patrols at Vallo",
+     "uncertain": true,
+     "why": "Vallo not geocoded"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5"
+  },
+  {
+   "id": "BR-5DivASU",
+   "name": "5th Division ASU",
+   "nation": "UK",
+   "formation": "5 Div",
+   "type": "divAsu",
+   "size": "XX",
+   "suggestedValues": "0-1-5 range 4 (by analogy)",
+   "subunits": "91st, 92nd, 156th Field Regts RA; 52nd A/Tk Regt; 18th LAA Regt; 7th Cheshire (MG)",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234n"
+   },
+   "leaves": {
+    "date": "1944-01-11",
+    "note": "with 5 Div"
+   },
+   "positions": [],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234n"
+  },
+  {
+   "id": "BR-11-78",
+   "name": "11th Infantry Brigade",
+   "nation": "UK",
+   "formation": "78 Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (by analogy with British brigades)",
+   "subunits": "2nd Lancashire Fusiliers; 1st East Surreys; 5th Northamptons (Molony p.433n)",
+   "enters": {
+    "date": "1943-09-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-01",
+     "place": "Serracapriola",
+     "lat": 41.8,
+     "lon": 15.167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "overland with 4 Armd Bde towards Termoli via Serracapriola"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.435; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252",
+     "note": "2 LF lead; crosses the Biferno in penny packets 3 Oct, holds the bridgehead with SS Bde"
+    },
+    {
+     "date": "1943-10-08",
+     "place": "Larino",
+     "lat": 41.8,
+     "lon": 14.917,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "division pushes to Larino 7-8 Oct",
+     "uncertain": true,
+     "why": "brigade at Larino inferred: Tiger Triumphs says 17 Ind Bde relieved \"a British brigade\" there 18 Oct"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.460-461",
+     "note": "attacks San Salvo railway station"
+    },
+    {
+     "date": "1943-11-07",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485",
+     "note": "reaches Paglieta and Mt Calvo 7 Nov"
+    },
+    {
+     "date": "1943-11-22",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485-486",
+     "note": "bridgehead east of Fossacesia by 22 Nov"
+    },
+    {
+     "date": "1943-12-01",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.289",
+     "note": "relieved south of Fossacesia by 2 Cdn Bde late 1 Dec"
+    },
+    {
+     "date": "1943-09-27",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232",
+     "note": "division passes through Foggia to the northern edge of the plain",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-27",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "narrow Trigno bridgehead (11 Bde coast, 38 Bde inland)",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-09",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461, 485",
+     "note": "division on the Sangro between Paglieta and Mt Calvo",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.289",
+     "note": "command of the coastal sector passes to 1 Cdn Div 2 Dec",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Castel di Sangro",
+     "lat": 41.7833,
+     "lon": 14.1,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.497; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119",
+     "note": "relieves 5 Div in the mountain sector (upper Sangro)",
+     "uncertain": true,
+     "why": "sources say only \"in the mountains\"; Castel di Sangro/Alfedena is where 5 Div had been"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Castel di Sangro",
+     "lat": 41.7833,
+     "lon": 14.1,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.595; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "in 13 Corps (left) on 31 Dec; early Jan extends right to the Casoli area",
+     "uncertain": true,
+     "why": "exact sector not given"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.152n, 345-346, 433-436, 455-461, 482n, 485-490, 494, 497, 500, 595; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 252-255, 289, 294; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119, 150"
+  },
+  {
+   "id": "BR-36-78",
+   "name": "36th Infantry Brigade",
+   "nation": "UK",
+   "formation": "78 Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (by analogy)",
+   "subunits": "6th Royal West Kent; 5th Buffs; 8th Argyll and Sutherland Highlanders",
+   "enters": {
+    "date": "1943-09-24",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-04",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.435",
+     "note": "lands at Termoli by sea night 3-4 Oct"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "San Giacomo degli Schiavoni",
+     "lat": 41.9633,
+     "lon": 14.9458,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.435-436",
+     "note": "Argylls at San Giacomo/Valentino brickworks; RWK and Buffs on the Coccia ridge; pushed back"
+    },
+    {
+     "date": "1943-11-03",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.460-461",
+     "note": "with 6 Innisks takes San Salvo and the Buonanotte canal; Vineyard Hill night 3-4 Nov"
+    },
+    {
+     "date": "1943-11-22",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "bridgehead west of Fossacesia by 22 Nov"
+    },
+    {
+     "date": "1943-09-27",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232",
+     "note": "division passes through Foggia to the northern edge of the plain",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-27",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "narrow Trigno bridgehead (11 Bde coast, 38 Bde inland)",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-09",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461, 485",
+     "note": "division on the Sangro between Paglieta and Mt Calvo",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.289",
+     "note": "command of the coastal sector passes to 1 Cdn Div 2 Dec",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Castel di Sangro",
+     "lat": 41.7833,
+     "lon": 14.1,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.497; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119",
+     "note": "relieves 5 Div in the mountain sector (upper Sangro)",
+     "uncertain": true,
+     "why": "sources say only \"in the mountains\"; Castel di Sangro/Alfedena is where 5 Div had been"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Castel di Sangro",
+     "lat": 41.7833,
+     "lon": 14.1,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.595; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "in 13 Corps (left) on 31 Dec; early Jan extends right to the Casoli area",
+     "uncertain": true,
+     "why": "exact sector not given"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.152n, 345-346, 433-436, 455-461, 482n, 485-490, 494, 497, 500, 595; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 252-255, 289, 294; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119, 150"
+  },
+  {
+   "id": "BR-38-78",
+   "name": "38th (Irish) Infantry Brigade",
+   "nation": "UK",
+   "formation": "78 Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (by analogy)",
+   "subunits": "6th Royal Inniskilling Fusiliers; 1st Royal Irish Fusiliers; 2nd London Irish Rifles",
+   "enters": {
+    "date": "1943-09-25",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-05",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "lands at Termoli by sea evening 5 Oct"
+    },
+    {
+     "date": "1943-10-06",
+     "place": "San Giacomo degli Schiavoni",
+     "lat": 41.9633,
+     "lon": 14.9458,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.254-255",
+     "note": "RIrF and 6 Innisks take San Giacomo; LIR clear west of Termoli to the Sinarca"
+    },
+    {
+     "date": "1943-10-27",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "inland half of the Trigno bridgehead; attack on San Salvo night 27-28 Oct called off"
+    },
+    {
+     "date": "1943-11-29",
+     "place": "Santa Maria Imbaro",
+     "lat": 42.217,
+     "lon": 14.45,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489",
+     "note": "crossed the Sangro 27 Nov; 6 Innisks + 3 CLY clear S. Maria 29 Nov"
+    },
+    {
+     "date": "1943-11-30",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.490",
+     "note": "LIR into Fossacesia, RIrF to the sea"
+    },
+    {
+     "date": "1943-12-01",
+     "place": "Rocca San Giovanni",
+     "lat": 42.25,
+     "lon": 14.467,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.490",
+     "note": "LIR and 6 Innisks take Rocca 1 Dec"
+    },
+    {
+     "date": "1943-12-03",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.500",
+     "note": "with 4 Armd Bde, under Cdn command"
+    },
+    {
+     "date": "1943-12-04",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.289",
+     "note": "on the ridge between the Feltrino and the Moro; relieved by 1 Cdn Bde evening 5 Dec (Nicholson p.294)"
+    },
+    {
+     "date": "1943-09-27",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232",
+     "note": "division passes through Foggia to the northern edge of the plain",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-10-27",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "narrow Trigno bridgehead (11 Bde coast, 38 Bde inland)",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-09",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461, 485",
+     "note": "division on the Sangro between Paglieta and Mt Calvo",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.289",
+     "note": "command of the coastal sector passes to 1 Cdn Div 2 Dec",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Castel di Sangro",
+     "lat": 41.7833,
+     "lon": 14.1,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.497; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119",
+     "note": "relieves 5 Div in the mountain sector (upper Sangro)",
+     "uncertain": true,
+     "why": "sources say only \"in the mountains\"; Castel di Sangro/Alfedena is where 5 Div had been"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Castel di Sangro",
+     "lat": 41.7833,
+     "lon": 14.1,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.595; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "in 13 Corps (left) on 31 Dec; early Jan extends right to the Casoli area",
+     "uncertain": true,
+     "why": "exact sector not given"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.152n, 345-346, 433-436, 455-461, 482n, 485-490, 494, 497, 500, 595; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 252-255, 289, 294; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.119, 150"
+  },
+  {
+   "id": "BR-56Recce",
+   "name": "56th Reconnaissance Regiment",
+   "nation": "UK",
+   "formation": "78 Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "2-2-6 (by analogy)",
+   "enters": {
+    "date": "1943-09-25",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.152n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-01",
+     "place": "Serracapriola",
+     "lat": 41.8,
+     "lon": 15.167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.434n",
+     "note": "listed with 4 Armd Bde in the Termoli overland force",
+     "uncertain": true,
+     "why": "placement inferred from footnote"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5"
+  },
+  {
+   "id": "BR-78DivASU",
+   "name": "78th Division ASU",
+   "nation": "UK",
+   "formation": "78 Div",
+   "type": "divAsu",
+   "size": "XX",
+   "suggestedValues": "0-1-5 range 4 (by analogy)",
+   "subunits": "17th, 132nd, 138th Field Regts RA; 64th A/Tk Regt; 49th LAA Regt; 1st Kensingtons (MG)",
+   "enters": {
+    "date": "1943-09-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.152n"
+  },
+  {
+   "id": "IN-17",
+   "name": "17th Indian Infantry Brigade",
+   "nation": "IN",
+   "formation": "8 Ind Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (by analogy with British brigades; Molony p.456 calls the division \"mountain-trained\")",
+   "subunits": "1st Royal Fusiliers; 1/12th Frontier Force Regiment; 1/5th Royal Gurkha Rifles",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346 (\"arriving from 23rd September\", Taranto and Brindisi); Tiger Triumphs ch.2 says six liners entered Taranto at dawn on \"September 1?th\" (OCR unreadable)"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-01",
+     "place": "Brindisi",
+     "lat": 40.6333,
+     "lon": 17.9333,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "division disembarking at Brindisi"
+    },
+    {
+     "date": "1943-10-18",
+     "place": "Larino",
+     "lat": 41.8,
+     "lon": 14.917,
+     "source": "The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+     "note": "relieves a British brigade at Larino"
+    },
+    {
+     "date": "1943-11-04",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461",
+     "note": "moving on Gissi; at Gissi 9 Nov"
+    },
+    {
+     "date": "1943-11-18",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "side-step to Paglieta 14-18 Nov"
+    },
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489-490",
+     "note": "1/12 FFR, 1/5 RGR, 1 RF take and retake Mozzagrogna 27-29 Nov"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Villa Grande (Ortona)",
+     "lat": 42.33,
+     "lon": 14.345,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.595",
+     "note": "division between 1 Cdn Div and 5 Div on 31 Dec",
+     "uncertain": true,
+     "why": "brigade place not given; coordinate approx.: hamlet between the Moro and Tollo, half-way to Tollo (Tiger Triumphs)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346, 433, 454n, 456, 458-461, 482n, 485-490, 500, 502, 505-506; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46-63; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.322, 338"
+  },
+  {
+   "id": "IN-19",
+   "name": "19th Indian Infantry Brigade",
+   "nation": "IN",
+   "formation": "8 Ind Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (by analogy)",
+   "subunits": "1/5th Essex; 3/8th Punjab Regiment; 6/13th Frontier Force Rifles",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346 (\"arriving from 23rd September\", Taranto and Brindisi); Tiger Triumphs ch.2 says six liners entered Taranto at dawn on \"September 1?th\" (OCR unreadable)"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-27",
+     "place": "Montemitro",
+     "lat": 41.8833,
+     "lon": 14.65,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458",
+     "note": "closes up to the Trigno at Montemitro and Montefalcone"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Tufillo",
+     "lat": 41.9167,
+     "lon": 14.6167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.459-460",
+     "note": "Tufillo and Mt Farano taken 5 Nov after fighting from 2 Nov"
+    },
+    {
+     "date": "1943-11-09",
+     "place": "Atessa",
+     "lat": 42.0667,
+     "lon": 14.45,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461",
+     "note": "south-west of Atessa"
+    },
+    {
+     "date": "1943-11-17",
+     "place": "Perano",
+     "lat": 42.1,
+     "lon": 14.4,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.49-50",
+     "note": "under NZ Div from 14 Nov; Perano 17-18 Nov"
+    },
+    {
+     "date": "1943-11-20",
+     "place": "Archi, Abruzzo",
+     "lat": 42.0833,
+     "lon": 14.3833,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486"
+    },
+    {
+     "date": "1943-11-25",
+     "place": "Altino, Abruzzo",
+     "lat": 42.1,
+     "lon": 14.3333,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.48, 59, 63",
+     "note": "crossed the Sangro night 22-23 Nov; hump between Sangro and Aventino held by 25 Nov; Altino occupied"
+    },
+    {
+     "date": "1943-12-28",
+     "place": "Villa Grande (Ortona)",
+     "lat": 42.33,
+     "lon": 14.345,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.506; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+     "note": "1/5 Essex and 3/8 Punjab fight for Villa Grande 22-27 Dec; occupied 28 Dec",
+     "uncertain": true,
+     "why": "date of return to 8 Ind Div not found; coordinate approx.: hamlet between the Moro and Tollo, half-way to Tollo (Tiger Triumphs)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346, 433, 454n, 456, 458-461, 482n, 485-490, 500, 502, 505-506; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46-63; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.322, 338"
+  },
+  {
+   "id": "IN-21",
+   "name": "21st Indian Infantry Brigade",
+   "nation": "IN",
+   "formation": "8 Ind Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3, back 3-5-3 (by analogy)",
+   "subunits": "5th Royal West Kent; 1/5th Mahratta Light Infantry; 3/15th Punjab Regiment",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346 (\"arriving from 23rd September\", Taranto and Brindisi); Tiger Triumphs ch.2 says six liners entered Taranto at dawn on \"September 1?th\" (OCR unreadable)"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-10-30",
+     "place": "Roccavivara",
+     "lat": 41.8333,
+     "lon": 14.6,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458"
+    },
+    {
+     "date": "1943-11-05",
+     "place": "Celenza sul Trigno",
+     "lat": 41.8667,
+     "lon": 14.5667,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.460"
+    },
+    {
+     "date": "1943-11-09",
+     "place": "Torrebruna",
+     "lat": 41.8667,
+     "lon": 14.5333,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461",
+     "note": "Torrebruna-Castiglione area guarding the left flank"
+    },
+    {
+     "date": "1943-12-03",
+     "place": "Lanciano",
+     "lat": 42.2333,
+     "lon": 14.3833,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.500; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+     "note": "expels the enemy from Lanciano 3 Dec"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Frisa",
+     "lat": 42.267,
+     "lon": 14.367,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.500"
+    },
+    {
+     "date": "1943-12-08",
+     "place": "Villa Rogatti",
+     "lat": 42.29,
+     "lon": 14.35,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.502",
+     "note": "takes over Villa Rogatti 8 Dec; \"Impossible Bridge\"",
+     "uncertain": true,
+     "why": "coordinate approx.: west of San Leonardo on the Moro (Molony p.501); no Wikipedia coordinate"
+    },
+    {
+     "date": "1943-12-14",
+     "place": "Villa Caldari",
+     "lat": 42.305,
+     "lon": 14.335,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+     "note": "division takes Villa Caldari 14 Dec, Villa Jubatti 17 Dec",
+     "uncertain": true,
+     "why": "coordinate approx.: north of the Moro, inland of Villa Rogatti (Molony p.505)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346, 433, 454n, 456, 458-461, 482n, 485-490, 500, 502, 505-506; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46-63; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.322, 338"
+  },
+  {
+   "id": "IN-6Lancers",
+   "name": "6th Lancers (Indian Army)",
+   "nation": "IN",
+   "formation": "8 Ind Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "2-2-6 (by analogy)",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346 (\"arriving from 23rd September\", Taranto and Brindisi); Tiger Triumphs ch.2 says six liners entered Taranto at dawn on \"September 1?th\" (OCR unreadable)"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [
+    {
+     "date": "1943-12-02",
+     "place": "Lanciano",
+     "lat": 42.2333,
+     "lon": 14.3833,
+     "source": "The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+     "note": "road block cutting Lanciano off from the west"
+    }
+   ],
+   "source": "The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.455n"
+  },
+  {
+   "id": "IN-8DivASU",
+   "name": "8th Indian Division ASU",
+   "nation": "IN",
+   "formation": "8 Ind Div",
+   "type": "divAsu",
+   "size": "XX",
+   "suggestedValues": "0-1-5 range 4 (by analogy)",
+   "subunits": "3rd, 52nd, 53rd Field Regts RA; 26th LAA Regt; 4th Mahratta A/Tk Regt; 5th Royal Mahratta MG Bn",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346 (\"arriving from 23rd September\", Taranto and Brindisi); Tiger Triumphs ch.2 says six liners entered Taranto at dawn on \"September 1?th\" (OCR unreadable)"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays"
+   },
+   "positions": [],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.455n"
+  },
+  {
+   "id": "NZ-5",
+   "name": "5th New Zealand Infantry Brigade",
+   "nation": "NZ",
+   "formation": "2 NZ Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "6-7-3, back 4-5-3 (by analogy with the Canadian brigades: veteran, 3 battalions)",
+   "subunits": "21st, 23rd, 28th (Maori) Battalions",
+   "enters": {
+    "date": "1943-10-09",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-38"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "division to Army Group reserve 13-20 Jan 1944 (Molony p.595n)"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-25",
+     "place": "Atessa",
+     "lat": 42.0667,
+     "lon": 14.45,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.48",
+     "note": "both NZ infantry brigades in the line by 25 Nov",
+     "uncertain": true,
+     "why": "sector place approximate"
+    },
+    {
+     "date": "1943-11-29",
+     "place": "Castel Frentano",
+     "lat": 42.2,
+     "lon": 14.35,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489-490",
+     "note": "crossed the Sangro 27-28 Nov; high ground north of the river 29 Nov"
+    },
+    {
+     "date": "1943-12-07",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.498",
+     "note": "23 Bn on Sfasciata, 28 Bn on Pascuccio; 21 Bn holding Castelfrentano"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.499",
+     "note": "21 and 23 Bns gain the road; 18 and 20 Armd Regts strike for Orsogna 15-16 Dec"
+    },
+    {
+     "date": "1943-12-24",
+     "place": "Fontegrande",
+     "lat": 42.23,
+     "lon": 14.29,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.140-147; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.507",
+     "note": "Fontegrande attack 24-25 Dec, first ridge (\"Jittery Ridge\") held",
+     "uncertain": true,
+     "why": "coordinate approx.: plateau north of Orsogna beyond the Ortona road (Phillips p.136; Molony p.506)"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Castel Frentano",
+     "lat": 42.2,
+     "lon": 14.35,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "reserve on Castelfrentano ridge"
+    }
+   ],
+   "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-63, 81-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486, 489-490, 495-500, 507"
+  },
+  {
+   "id": "NZ-6",
+   "name": "6th New Zealand Infantry Brigade",
+   "nation": "NZ",
+   "formation": "2 NZ Div",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "6-7-3, back 4-5-3 (by analogy)",
+   "subunits": "24th, 25th, 26th Battalions",
+   "enters": {
+    "date": "1943-10-09",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-38"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "with division (Molony p.595n)"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-20",
+     "place": "Atessa",
+     "lat": 42.0667,
+     "lon": 14.45,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.54",
+     "note": "into the line night 19-20 Nov",
+     "uncertain": true,
+     "why": "sector place approximate"
+    },
+    {
+     "date": "1943-12-02",
+     "place": "Castel Frentano",
+     "lat": 42.2,
+     "lon": 14.35,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.496",
+     "note": "Castelfrentano entered 2 Dec; 24 Bn on Brecciarola ridge"
+    },
+    {
+     "date": "1943-12-03",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.496",
+     "note": "25 Bn into Orsogna at dawn, repulsed"
+    },
+    {
+     "date": "1943-12-07",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.498",
+     "note": "24 Bn breaks into Orsogna, withdraws"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "Fontegrande-Orsogna sub-sector with 6 Para Bn"
+    }
+   ],
+   "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-63, 81-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486, 489-490, 495-500, 507"
+  },
+  {
+   "id": "NZ-18AR",
+   "name": "18th NZ Armoured Regiment",
+   "nation": "NZ",
+   "formation": "4 NZ Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy with Sherman regiments CN-11/CN-14)",
+   "enters": {
+    "date": "1943-10-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-39"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "with division"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-01",
+     "place": "Castel Frentano",
+     "lat": 42.2,
+     "lon": 14.35,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.80",
+     "note": "up Route 84 to the Guardiagrele road 1 Dec"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.499"
+    }
+   ],
+   "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-63, 81-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486, 489-490, 495-500, 507"
+  },
+  {
+   "id": "NZ-19AR",
+   "name": "19th NZ Armoured Regiment",
+   "nation": "NZ",
+   "formation": "4 NZ Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy with Sherman regiments CN-11/CN-14)",
+   "enters": {
+    "date": "1943-10-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-39"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "with division"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-18",
+     "place": "Perano",
+     "lat": 42.1,
+     "lon": 14.4,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.49",
+     "note": "tank attack on Perano with 3/8 Punjab"
+    }
+   ],
+   "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-63, 81-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486, 489-490, 495-500, 507"
+  },
+  {
+   "id": "NZ-20AR",
+   "name": "20th NZ Armoured Regiment",
+   "nation": "NZ",
+   "formation": "4 NZ Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy with Sherman regiments CN-11/CN-14)",
+   "enters": {
+    "date": "1943-10-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-39"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "with division"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-12-16",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.499-500",
+     "note": "19 tanks thrust towards Orsogna with 28 Bn"
+    }
+   ],
+   "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-63, 81-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486, 489-490, 495-500, 507"
+  },
+  {
+   "id": "NZ-22Mot",
+   "name": "22nd NZ Motor Battalion",
+   "nation": "NZ",
+   "formation": "4 NZ Armd Bde",
+   "type": "motorized",
+   "size": "II",
+   "suggestedValues": "2-2-5 (by analogy with 11K/23A motorized battalion)",
+   "enters": {
+    "date": "1943-10-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-39"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "with division"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-18",
+     "place": "Atessa",
+     "lat": 42.0667,
+     "lon": 14.45,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.49",
+     "note": "vanguard of 4 Armd Bde protecting the Casalanguida-Atessa road"
+    },
+    {
+     "date": "1943-12-03",
+     "place": "Melone",
+     "lat": 42.19,
+     "lon": 14.235,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.496",
+     "note": "held up at Melone",
+     "uncertain": true,
+     "why": "coordinate approx.: road junction \"a mile east of Guardiagrele\" (Phillips p.81)"
+    }
+   ],
+   "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-63, 81-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486, 489-490, 495-500, 507"
+  },
+  {
+   "id": "NZ-DivCav",
+   "name": "NZ Divisional Cavalry Regiment",
+   "nation": "NZ",
+   "formation": "2 NZ Div",
+   "type": "recon",
+   "size": "II",
+   "suggestedValues": "2-2-6 (by analogy)",
+   "enters": {
+    "date": "1943-10-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-39"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "with division"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    },
+    {
+     "date": "1943-11-18",
+     "place": "Atessa",
+     "lat": 42.0667,
+     "lon": 14.45,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.47-49",
+     "note": "protects the left flank"
+    },
+    {
+     "date": "1943-12-31",
+     "place": "Casoli",
+     "lat": 42.1167,
+     "lon": 14.2833,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "two squadrons on the Bianco-Barone flank",
+     "uncertain": true,
+     "why": "Bianco-Barone not geocoded; Casoli nearest"
+    }
+   ],
+   "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-63, 81-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486, 489-490, 495-500, 507"
+  },
+  {
+   "id": "NZ-DivASU",
+   "name": "2nd NZ Division ASU",
+   "nation": "NZ",
+   "formation": "2 NZ Div",
+   "type": "divAsu",
+   "size": "XX",
+   "suggestedValues": "0-1-5 range 4 (by analogy)",
+   "subunits": "4th, 5th, 6th NZ Field Regts; 14th NZ LAA Regt; 27th NZ (MG) Bn; with 6th AGRA attached: 66th and 80th Medium, 11th and 117th Field Regts RA",
+   "enters": {
+    "date": "1943-10-22",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.37-39"
+   },
+   "leaves": {
+    "date": "1944-01-17",
+    "note": "with division"
+   },
+   "positions": [
+    {
+     "date": "1943-11-01",
+     "place": "Lucera west",
+     "lat": 41.5,
+     "lon": 15.3,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.39",
+     "note": "division moves Taranto-Lucera from 1 Nov",
+     "uncertain": true,
+     "why": "division-level position; coordinate approx.: \"farmlands west of Lucera\" (Phillips p.39)"
+    },
+    {
+     "date": "1943-11-14",
+     "place": "Gissi",
+     "lat": 42.017,
+     "lon": 14.55,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.46; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486",
+     "note": "Div HQ south of Gissi 14 Nov; arriving in Scerni",
+     "uncertain": true,
+     "why": "division-level position"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.495n"
+  },
+  {
+   "id": "BR-1ParaBde",
+   "name": "1st Parachute Brigade",
+   "nation": "UK",
+   "formation": "1 Abn Div",
+   "type": "airborne",
+   "size": "X",
+   "suggestedValues": "5-6-3, back 3-4-3 (by analogy with US PIRs); elite",
+   "subunits": "1st, 2nd, 3rd Parachute Battalions",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.243; en.wikipedia.org/wiki/Operation_Slapstick"
+   },
+   "leaves": {
+    "date": "1943-12-01",
+    "note": "division returned to England in December 1943 (Wikipedia 1st Airborne Division); exact sailing date not found"
+   },
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Castellaneta",
+     "lat": 40.6333,
+     "lon": 16.9333,
+     "source": "en.wikipedia.org/wiki/Operation_Slapstick",
+     "note": "division: Massafra, Mottola, Castellaneta 10-12 Sep (Hopkinson killed)",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-13",
+     "place": "Taranto",
+     "lat": 40.4711,
+     "lon": 17.2431,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222",
+     "note": "division: perimeter 20 miles W and NW of Taranto",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-17",
+     "place": "Gioia del Colle",
+     "lat": 40.8,
+     "lon": 16.9333,
+     "source": "en.wikipedia.org/wiki/Operation_Slapstick",
+     "note": "division: 10th and 156th Para Bns reach Gioia 16-17 Sep",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Bari",
+     "lat": 41.1253,
+     "lon": 16.8667,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.229",
+     "note": "division: front from the Basento mouth to Bari",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "division protects the Foggia airfields",
+     "uncertain": true,
+     "why": "Wikipedia says the division was then withdrawn to Taranto; brigades not distinguished"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.242-244, 346, 433; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222-224, 229, 243, 277; en.wikipedia.org/wiki/Operation_Slapstick; en.wikipedia.org/wiki/1st_Airborne_Division_(United_Kingdom)",
+   "uncertain": true,
+   "why": "brigade-by-brigade movements after 1 Oct not in the sources read"
+  },
+  {
+   "id": "BR-4ParaBde",
+   "name": "4th Parachute Brigade (-)",
+   "nation": "UK",
+   "formation": "1 Abn Div",
+   "type": "airborne",
+   "size": "X",
+   "suggestedValues": "3-4-3, one step (by analogy with 504 PIR (-)); elite; only two battalions",
+   "subunits": "10th and 156th Parachute Battalions (third forming in Palestine)",
+   "enters": {
+    "date": "1943-09-09",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "en.wikipedia.org/wiki/Operation_Slapstick"
+   },
+   "leaves": {
+    "date": "1943-12-01",
+    "note": "division returned to England in December 1943 (Wikipedia 1st Airborne Division); exact sailing date not found"
+   },
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Castellaneta",
+     "lat": 40.6333,
+     "lon": 16.9333,
+     "source": "en.wikipedia.org/wiki/Operation_Slapstick",
+     "note": "division: Massafra, Mottola, Castellaneta 10-12 Sep (Hopkinson killed)",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-13",
+     "place": "Taranto",
+     "lat": 40.4711,
+     "lon": 17.2431,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222",
+     "note": "division: perimeter 20 miles W and NW of Taranto",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-17",
+     "place": "Gioia del Colle",
+     "lat": 40.8,
+     "lon": 16.9333,
+     "source": "en.wikipedia.org/wiki/Operation_Slapstick",
+     "note": "division: 10th and 156th Para Bns reach Gioia 16-17 Sep",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Bari",
+     "lat": 41.1253,
+     "lon": 16.8667,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.229",
+     "note": "division: front from the Basento mouth to Bari",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "division protects the Foggia airfields",
+     "uncertain": true,
+     "why": "Wikipedia says the division was then withdrawn to Taranto; brigades not distinguished"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.242-244, 346, 433; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222-224, 229, 243, 277; en.wikipedia.org/wiki/Operation_Slapstick; en.wikipedia.org/wiki/1st_Airborne_Division_(United_Kingdom)",
+   "uncertain": true,
+   "why": "brigade-by-brigade movements after 1 Oct not in the sources read"
+  },
+  {
+   "id": "BR-1ALBde",
+   "name": "1st Airlanding Brigade (-)",
+   "nation": "UK",
+   "formation": "1 Abn Div",
+   "type": "airborne",
+   "size": "X",
+   "suggestedValues": "3-4-3, one step (by analogy); elite; only two battalions",
+   "subunits": "1st Border; 2nd South Staffords (per Wikipedia: \"understrength with only two battalions\")",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "en.wikipedia.org/wiki/Operation_Slapstick (second lift)"
+   },
+   "leaves": {
+    "date": "1943-12-01",
+    "note": "division returned to England in December 1943 (Wikipedia 1st Airborne Division); exact sailing date not found"
+   },
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Castellaneta",
+     "lat": 40.6333,
+     "lon": 16.9333,
+     "source": "en.wikipedia.org/wiki/Operation_Slapstick",
+     "note": "division: Massafra, Mottola, Castellaneta 10-12 Sep (Hopkinson killed)",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-13",
+     "place": "Taranto",
+     "lat": 40.4711,
+     "lon": 17.2431,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222",
+     "note": "division: perimeter 20 miles W and NW of Taranto",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-17",
+     "place": "Gioia del Colle",
+     "lat": 40.8,
+     "lon": 16.9333,
+     "source": "en.wikipedia.org/wiki/Operation_Slapstick",
+     "note": "division: 10th and 156th Para Bns reach Gioia 16-17 Sep",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-09-21",
+     "place": "Bari",
+     "lat": 41.1253,
+     "lon": 16.8667,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.229",
+     "note": "division: front from the Basento mouth to Bari",
+     "uncertain": true,
+     "why": "division-level"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "division protects the Foggia airfields",
+     "uncertain": true,
+     "why": "Wikipedia says the division was then withdrawn to Taranto; brigades not distinguished"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.242-244, 346, 433; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222-224, 229, 243, 277; en.wikipedia.org/wiki/Operation_Slapstick; en.wikipedia.org/wiki/1st_Airborne_Division_(United_Kingdom)",
+   "uncertain": true,
+   "why": "brigade-by-brigade movements after 1 Oct not in the sources read"
+  },
+  {
+   "id": "BR-2ParaBde",
+   "name": "2nd (Independent) Parachute Brigade",
+   "nation": "UK",
+   "formation": "1 Abn Div / independent from Dec",
+   "type": "airborne",
+   "size": "X",
+   "suggestedValues": "5-6-3, back 3-4-3 (by analogy with US PIRs); elite",
+   "subunits": "4th, 5th (Scottish), 6th (Royal Welch) Parachute Battalions; own artillery (8 x 75mm pack, 9 x 6-pdr) per Wikipedia",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "en.wikipedia.org/wiki/Operation_Slapstick; en.wikipedia.org/wiki/2nd_Parachute_Brigade_(United_Kingdom)"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays in Italy as independent brigade group when the division leaves (Wikipedia)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-10",
+     "place": "Taranto",
+     "lat": 40.4711,
+     "lon": 17.2431,
+     "source": "en.wikipedia.org/wiki/2nd_Parachute_Brigade_(United_Kingdom)",
+     "note": "secures the port area"
+    },
+    {
+     "date": "1943-12-05",
+     "place": "Casoli",
+     "lat": 42.1167,
+     "lon": 14.2833,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.105; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.498",
+     "note": "under NZ Div as Army troops; relieves NZ at Casoli evening 5 Dec"
+    },
+    {
+     "date": "1943-12-06",
+     "place": "Melone",
+     "lat": 42.19,
+     "lon": 14.235,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.106",
+     "note": "6 Para Bn relieves 22 NZ Bn facing the Melone road fork",
+     "uncertain": true,
+     "why": "coordinate approx.: road junction \"a mile east of Guardiagrele\" (Phillips p.81)"
+    },
+    {
+     "date": "1943-12-28",
+     "place": "Orsogna",
+     "lat": 42.217,
+     "lon": 14.283,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150",
+     "note": "13 Bde relieves it of the Aventino/Casoli sector 27-28 Dec; 31 Dec: 6 Para Bn Fontegrande-Orsogna, 4 Para Bn Salarola (Melone road fork), a coy 5 Para Bn Bianco-Barone"
+    },
+    {
+     "date": "1944-01-02",
+     "place": "Crecchio",
+     "lat": 42.3,
+     "lon": 14.333,
+     "source": "Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.150, 158",
+     "note": "early Jan moves into the Crecchio-Arielli sector relieving 15 Bde",
+     "uncertain": true,
+     "why": "just after the campaign end"
+    }
+   ],
+   "source": "en.wikipedia.org/wiki/2nd_Parachute_Brigade_(United_Kingdom); Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org"
+  },
+  {
+   "id": "BR-1ALtReg",
+   "name": "1st Airlanding Light Regiment RA",
+   "nation": "UK",
+   "formation": "1 Abn Div",
+   "type": "artillery",
+   "size": "II",
+   "suggestedValues": "support unit; no counter suggested (fold into Cdn Div ASU)",
+   "enters": {
+    "date": "1943-09-10",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "en.wikipedia.org/wiki/Operation_Slapstick"
+   },
+   "leaves": {
+    "date": "1943-12-01",
+    "note": "presumably with the division in Dec"
+   },
+   "positions": [
+    {
+     "date": "1943-10-05",
+     "place": "Gambatesa",
+     "lat": 41.5,
+     "lon": 14.9167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.243",
+     "note": "attached to 1 Cdn Div from 5 Oct for battle experience"
+    },
+    {
+     "date": "1943-11-22",
+     "place": "Capracotta",
+     "lat": 41.833,
+     "lon": 14.267,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.282",
+     "note": "a battery with 3 Cdn Bde on the upper Sangro"
+    }
+   ],
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org",
+   "uncertain": true,
+   "why": "leaving date assumed with the division"
+  },
+  {
+   "id": "BR-3CLY",
+   "name": "3rd County of London Yeomanry (Sharpshooters)",
+   "nation": "UK",
+   "formation": "4 Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy with 40 RTR / Royal Scots Greys)",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays to 31 Dec (brigade later went to the UK for Normandy; date not established here)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-27",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345",
+     "note": "Foggia occupied by a force of 4 Armd Bde 27 Sep",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Serracapriola",
+     "lat": 41.8,
+     "lon": 15.167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "overland with 11 Bde",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-07",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485",
+     "note": "two squadrons join 11 Bde",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489",
+     "note": "124 tanks across the Sangro by evening 28 Nov",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-12-08",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.298",
+     "note": "relieved by 1 Cdn Armd Bde 6 p.m. 8 Dec",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.435-436",
+     "note": "six Shermans cross early 5 Oct; rest after the Bailey bridge 3 p.m."
+    },
+    {
+     "date": "1943-11-22",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486"
+    },
+    {
+     "date": "1943-11-29",
+     "place": "Santa Maria Imbaro",
+     "lat": 42.217,
+     "lon": 14.45,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489"
+    },
+    {
+     "date": "1943-11-30",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.490"
+    },
+    {
+     "date": "1943-12-04",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.500"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346, 433-436, 460, 483n, 485-490, 500; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 289, 292, 298, 317-318; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+   "uncertain": false,
+   "why": "composition at Termoli/Trigno not given; 25 Nov tank state lists 3 CLY, 44 RTR, 50 RTR (Molony p.483n)"
+  },
+  {
+   "id": "BR-44RTR",
+   "name": "44th Royal Tank Regiment",
+   "nation": "UK",
+   "formation": "4 Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy with 40 RTR / Royal Scots Greys)",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays to 31 Dec (brigade later went to the UK for Normandy; date not established here)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-27",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345",
+     "note": "Foggia occupied by a force of 4 Armd Bde 27 Sep",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Serracapriola",
+     "lat": 41.8,
+     "lon": 15.167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "overland with 11 Bde",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-07",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485",
+     "note": "two squadrons join 11 Bde",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489",
+     "note": "124 tanks across the Sangro by evening 28 Nov",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-12-08",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.298",
+     "note": "relieved by 1 Cdn Armd Bde 6 p.m. 8 Dec",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-30",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.490"
+    },
+    {
+     "date": "1943-12-06",
+     "place": "Villa Rogatti",
+     "lat": 42.29,
+     "lon": 14.35,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.292",
+     "note": "supports PPCLI at Villa Rogatti",
+     "uncertain": true,
+     "why": "coordinate approx.: west of San Leonardo on the Moro (Molony p.501); no Wikipedia coordinate"
+    },
+    {
+     "date": "1943-12-15",
+     "place": "San Leonardo (Ortona)",
+     "lat": 42.3,
+     "lon": 14.38,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.298n, 318",
+     "note": "under 1 Cdn Armd Bde 8-15 Dec until Three Rivers returned",
+     "uncertain": true,
+     "why": "coordinate approx.: hamlet on the Moro ~4 km SW of Ortona; no Wikipedia coordinate"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346, 433-436, 460, 483n, 485-490, 500; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 289, 292, 298, 317-318; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+   "uncertain": false,
+   "why": "composition at Termoli/Trigno not given; 25 Nov tank state lists 3 CLY, 44 RTR, 50 RTR (Molony p.483n)"
+  },
+  {
+   "id": "BR-50RTR",
+   "name": "50th Royal Tank Regiment",
+   "nation": "UK",
+   "formation": "4 Armd Bde",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy with 40 RTR / Royal Scots Greys)",
+   "enters": {
+    "date": "1943-09-23",
+    "where": "Taranto",
+    "lat": 40.4711,
+    "lon": 17.2431,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346n"
+   },
+   "leaves": {
+    "date": "",
+    "note": "stays to 31 Dec (brigade later went to the UK for Normandy; date not established here)"
+   },
+   "positions": [
+    {
+     "date": "1943-09-27",
+     "place": "Foggia",
+     "lat": 41.4642,
+     "lon": 15.5461,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345",
+     "note": "Foggia occupied by a force of 4 Armd Bde 27 Sep",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-10-01",
+     "place": "Serracapriola",
+     "lat": 41.8,
+     "lon": 15.167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+     "note": "overland with 11 Bde",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-07",
+     "place": "Paglieta",
+     "lat": 42.1667,
+     "lon": 14.5,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485",
+     "note": "two squadrons join 11 Bde",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-28",
+     "place": "Mozzagrogna",
+     "lat": 42.2114,
+     "lon": 14.4458,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489",
+     "note": "124 tanks across the Sangro by evening 28 Nov",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-12-08",
+     "place": "San Vito Chietino",
+     "lat": 42.3,
+     "lon": 14.45,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.298",
+     "note": "relieved by 1 Cdn Armd Bde 6 p.m. 8 Dec",
+     "uncertain": true,
+     "why": "brigade-level"
+    },
+    {
+     "date": "1943-11-22",
+     "place": "Fossacesia",
+     "lat": 42.25,
+     "lon": 14.483,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486"
+    },
+    {
+     "date": "1943-12-22",
+     "place": "Villa Grande (Ortona)",
+     "lat": 42.33,
+     "lon": 14.345,
+     "source": "The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+     "note": "C Sqn with 1/5 Essex at Villa Grande; with 6/13 FFR towards Tollo",
+     "uncertain": true,
+     "why": "coordinate approx.: hamlet between the Moro and Tollo, half-way to Tollo (Tiger Triumphs)"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345-346, 433-436, 460, 483n, 485-490, 500; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 289, 292, 298, 317-318; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+   "uncertain": true,
+   "why": "composition at Termoli/Trigno not given; 25 Nov tank state lists 3 CLY, 44 RTR, 50 RTR (Molony p.483n)"
+  },
+  {
+   "id": "BR-46RTR",
+   "name": "46th Royal Tank Regiment",
+   "nation": "UK",
+   "formation": "Army tanks (with 78 Div)",
+   "type": "tank",
+   "size": "II",
+   "suggestedValues": "3-2-5 (by analogy)",
+   "enters": {
+    "date": "1943-11-03",
+    "where": "San Salvo",
+    "lat": 42.05,
+    "lon": 14.7167,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.460-461"
+   },
+   "leaves": {
+    "date": "",
+    "note": "not followed"
+   },
+   "positions": [
+    {
+     "date": "1943-11-03",
+     "place": "San Salvo",
+     "lat": 42.05,
+     "lon": 14.7167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.460-461",
+     "note": "two squadrons support 36 Bde at San Salvo, parry 16 Pz counter-attack"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5",
+   "uncertain": true,
+   "why": "parent formation and dates of entry/exit not given in the sources read"
+  },
+  {
+   "id": "BR-3Cdo",
+   "name": "No. 3 Commando",
+   "nation": "UK",
+   "formation": "Special Service Bde (Lt-Col Durnford-Slater)",
+   "type": "commando",
+   "size": "II",
+   "suggestedValues": "2-2-3 elite (by analogy with 2 Commando)",
+   "enters": {
+    "date": "1943-09-28",
+    "where": "Manfredonia",
+    "lat": 41.6333,
+    "lon": 15.9167,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433"
+   },
+   "leaves": {
+    "date": "1943-10-07",
+    "note": "after Termoli; later moves not in the sources read"
+   },
+   "positions": [
+    {
+     "date": "1943-10-02",
+     "place": "Manfredonia",
+     "lat": 41.6333,
+     "lon": 15.9167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252",
+     "note": "sails at midday 2 Oct"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.434-435; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252",
+     "note": "lands 2:15 a.m. 3 Oct, scatters Battle Group Rau, town secured in 6 hours"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "holds the bridgehead NW of Termoli with 11 Bde"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433-436; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252; en.wikipedia.org/wiki/Battle_of_Termoli; en.wikipedia.org/wiki/40_Commando",
+   "uncertain": true,
+   "why": "date of leaving the area not found"
+  },
+  {
+   "id": "BR-40Cdo",
+   "name": "40 (RM) Commando",
+   "nation": "UK",
+   "formation": "Special Service Bde (Lt-Col Durnford-Slater)",
+   "type": "commando",
+   "size": "II",
+   "suggestedValues": "2-2-3 elite (by analogy with 41 RM Commando)",
+   "enters": {
+    "date": "1943-09-28",
+    "where": "Manfredonia",
+    "lat": 41.6333,
+    "lon": 15.9167,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433"
+   },
+   "leaves": {
+    "date": "1943-10-07",
+    "note": "after Termoli; later moves not in the sources read"
+   },
+   "positions": [
+    {
+     "date": "1943-10-02",
+     "place": "Manfredonia",
+     "lat": 41.6333,
+     "lon": 15.9167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252",
+     "note": "sails at midday 2 Oct"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.434-435; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252",
+     "note": "lands 2:15 a.m. 3 Oct, scatters Battle Group Rau, town secured in 6 hours"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "holds the bridgehead NW of Termoli with 11 Bde"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433-436; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252; en.wikipedia.org/wiki/Battle_of_Termoli; en.wikipedia.org/wiki/40_Commando",
+   "uncertain": true,
+   "why": "date of leaving the area not found"
+  },
+  {
+   "id": "BR-1SRS",
+   "name": "1st Special Raiding Squadron",
+   "nation": "UK",
+   "formation": "Special Service Bde (Lt-Col Durnford-Slater)",
+   "type": "commando",
+   "size": "II",
+   "suggestedValues": "1-1-3 or 2-2-3 elite (smaller than a commando; analogy only)",
+   "enters": {
+    "date": "1943-09-28",
+    "where": "Manfredonia",
+    "lat": 41.6333,
+    "lon": 15.9167,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433"
+   },
+   "leaves": {
+    "date": "1943-10-07",
+    "note": "after Termoli; later moves not in the sources read"
+   },
+   "positions": [
+    {
+     "date": "1943-10-02",
+     "place": "Manfredonia",
+     "lat": 41.6333,
+     "lon": 15.9167,
+     "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252",
+     "note": "sails at midday 2 Oct"
+    },
+    {
+     "date": "1943-10-03",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.434-435; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252",
+     "note": "lands 2:15 a.m. 3 Oct, scatters Battle Group Rau, town secured in 6 hours"
+    },
+    {
+     "date": "1943-10-05",
+     "place": "Termoli",
+     "lat": 42.0,
+     "lon": 14.983,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436",
+     "note": "holds the bridgehead NW of Termoli with 11 Bde"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346, 433-436; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252; en.wikipedia.org/wiki/Battle_of_Termoli; en.wikipedia.org/wiki/40_Commando",
+   "uncertain": true,
+   "why": "date of leaving the area not found"
+  },
+  {
+   "id": "BR-231",
+   "name": "231st (Malta) Infantry Brigade",
+   "nation": "UK",
+   "formation": "13 Corps (Baytown)",
+   "type": "infantry",
+   "size": "X",
+   "suggestedValues": "5-7-3 (by analogy) - outside the map area",
+   "subunits": "2nd Devons; 1st Hampshires; 1st Dorsets; 165th Field Regt RA",
+   "enters": {
+    "date": "1943-09-03",
+    "where": "Reggio Calabria",
+    "lat": 38.1114,
+    "lon": 15.6619,
+    "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.234"
+   },
+   "leaves": {
+    "date": "1943-09-10",
+    "note": "not followed beyond Calabria in these sources"
+   },
+   "positions": [
+    {
+     "date": "1943-09-08",
+     "place": "Pizzo, Calabria",
+     "lat": 38.733,
+     "lon": 16.167,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.240-241; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.220",
+     "note": "seaborne hook at Pizzo with 3 Cdo and 40 RM Cdo, ~200 casualties"
+    },
+    {
+     "date": "1943-09-10",
+     "place": "Lamezia Terme",
+     "lat": 38.9667,
+     "lon": 16.3,
+     "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.241",
+     "note": "leads 5 Div towards Nicastro"
+    }
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5",
+   "outsideArea": true
+  }
+ ],
+ "events": [
+  {
+   "date": "1943-09-03",
+   "what": "Operation Baytown: 13 Corps (5 Div, 1 Cdn Div) crosses the Strait of Messina; 630 guns and naval fire support",
+   "where": "Reggio Calabria",
+   "lat": 38.1114,
+   "lon": 15.6619,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.233-236"
+  },
+  {
+   "date": "1943-09-08",
+   "what": "231 Bde, 3 Cdo, 40 RM Cdo land at Pizzo",
+   "where": "Pizzo, Calabria",
+   "lat": 38.733,
+   "lon": 16.167,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.240-241"
+  },
+  {
+   "date": "1943-09-09",
+   "what": "Operation Slapstick: 1st Airborne Division lands unopposed at Taranto from warships",
+   "where": "Taranto",
+   "lat": 40.4711,
+   "lon": 17.2431,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.242-243; en.wikipedia.org/wiki/Operation_Slapstick"
+  },
+  {
+   "date": "1943-09-10",
+   "what": "HMS Abdiel mined in Taranto harbour; 6th Para Bn loses 58 drowned",
+   "where": "Taranto",
+   "lat": 40.4711,
+   "lon": 17.2431,
+   "source": "en.wikipedia.org/wiki/2nd_Parachute_Brigade_(United_Kingdom); en.wikipedia.org/wiki/Operation_Slapstick"
+  },
+  {
+   "date": "1943-09-11",
+   "what": "Bari and Brindisi entered by 1st Airborne Division",
+   "where": "Bari",
+   "lat": 41.1253,
+   "lon": 16.8667,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.243"
+  },
+  {
+   "date": "1943-09-16",
+   "what": "PLDG patrol meets 1st Airborne patrol 40 miles SW of Taranto; 5 Div recce meets US 36 Div at Vallo",
+   "where": "Scanzano Jonico",
+   "lat": 40.25,
+   "lon": 16.7,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.224; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5"
+  },
+  {
+   "date": "1943-09-17",
+   "what": "HQ 5 Corps at Taranto (from 17 Sep; assumes command 18 Sep)",
+   "where": "Taranto",
+   "lat": 40.4711,
+   "lon": 17.2431,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.346; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.223"
+  },
+  {
+   "date": "1943-09-20",
+   "what": "Potenza taken by 3 Cdn Bde (\"Boforce\")",
+   "where": "Potenza",
+   "lat": 40.6333,
+   "lon": 15.8,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.227; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.344"
+  },
+  {
+   "date": "1943-09-22",
+   "what": "Germans breach the Apulian Aqueduct near Atella",
+   "where": "Atella, Basilicata",
+   "lat": 40.867,
+   "lon": 15.65,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.231"
+  },
+  {
+   "date": "1943-09-27",
+   "what": "Foggia occupied by a force of 4 Armd Bde (and 78 Div) after 1 FJ Div withdraws",
+   "where": "Foggia",
+   "lat": 41.4642,
+   "lon": 15.5461,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.345; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232"
+  },
+  {
+   "date": "1943-10-01",
+   "what": "Eighth Army advance on Termoli-Vinchiaturo begins: 1 Cdn Div from Lucera on Highway 17; 11 Bde and 4 Armd Bde via Serracapriola",
+   "where": "Lucera",
+   "lat": 41.5,
+   "lon": 15.333,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433-434; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.235"
+  },
+  {
+   "date": "1943-10-03",
+   "what": "Operation Devon: SS Brigade (3 Cdo, 40 RM Cdo, 1 SRS) lands at Termoli 2:15 a.m.; 11 Bde links up across the Biferno",
+   "where": "Termoli",
+   "lat": 42.0,
+   "lon": 14.983,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.434-435; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.252; en.wikipedia.org/wiki/Battle_of_Termoli"
+  },
+  {
+   "date": "1943-10-04",
+   "what": "36 Bde lands by sea; 16 Pz Div battle groups arrive at Petacciato and San Giacomo",
+   "where": "Termoli",
+   "lat": 42.0,
+   "lon": 14.983,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.435"
+  },
+  {
+   "date": "1943-10-05",
+   "what": "Crisis at Termoli: German tanks push 36 Bde back; Bailey bridge open 3 p.m.; Three Rivers arrive; 38 Bde lands in the evening; US XII ASC fighter-bombers diverted to help DAF",
+   "where": "Termoli",
+   "lat": 42.0,
+   "lon": 14.983,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.435-436"
+  },
+  {
+   "date": "1943-10-06",
+   "what": "British counter-attack; 16 Pz Div withdraws (4:35 p.m.); over 500 casualties each side",
+   "where": "Termoli",
+   "lat": 42.0,
+   "lon": 14.983,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436"
+  },
+  {
+   "date": "1943-10-11",
+   "what": "Army regroups: 5 Corps (78 Div, 8 Ind Div, 4 Armd Bde, 1 AGRA) coast to Larino; 13 Corps (5 Div, 1 Cdn Div, 1 Cdn Tank Bde, 6 AGRA) Larino to the Matese",
+   "where": "Larino",
+   "lat": 41.8,
+   "lon": 14.917,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.454-455"
+  },
+  {
+   "date": "1943-10-14",
+   "what": "Campobasso occupied (Vinchiaturo 15 Oct)",
+   "where": "Campobasso",
+   "lat": 41.5603,
+   "lon": 14.6617,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.248-249"
+  },
+  {
+   "date": "1943-10-11",
+   "what": "Advanced HQ Desert Air Force moves from Minervino to Lucera",
+   "where": "Lucera",
+   "lat": 41.5,
+   "lon": 15.333,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461"
+  },
+  {
+   "date": "1943-10-27",
+   "what": "78 Div gains a narrow Trigno bridgehead",
+   "where": "San Salvo",
+   "lat": 42.05,
+   "lon": 14.7167,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458"
+  },
+  {
+   "date": "1943-11-02",
+   "what": "Trigno battle: 8 Ind Div (19 Bde) attacks Tufillo night 1-2 Nov; best air support of the period 2-3 Nov",
+   "where": "Tufillo",
+   "lat": 41.9167,
+   "lon": 14.6167,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.459"
+  },
+  {
+   "date": "1943-11-03",
+   "what": "78 Div (36 Bde + 6 Innisks, 46 RTR) takes San Salvo; destroyers Queenborough and Raider bombard Vasto to simulate a landing",
+   "where": "San Salvo",
+   "lat": 42.05,
+   "lon": 14.7167,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.460-461"
+  },
+  {
+   "date": "1943-11-04",
+   "what": "13 Bde patrols enter Isernia; Germans withdraw from the Trigno to the Sangro",
+   "where": "Isernia",
+   "lat": 41.6028,
+   "lon": 14.2397,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458-461"
+  },
+  {
+   "date": "1943-11-09",
+   "what": "78 Div reaches the Sangro between Paglieta and Mt Calvo",
+   "where": "Paglieta",
+   "lat": 42.1667,
+   "lon": 14.5,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461"
+  },
+  {
+   "date": "1943-11-14",
+   "what": "NZ Division arriving at Scerni; Montgomery's first Sangro planning conference",
+   "where": "Scerni",
+   "lat": 42.1167,
+   "lon": 14.5667,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.486"
+  },
+  {
+   "date": "1943-11-24",
+   "what": "13 Corps diversion: 3 Cdn Bde artillery demonstration and Point 1009; 5 Div at Alfedena (22-23 Nov)",
+   "where": "Castel di Sangro",
+   "lat": 41.7833,
+   "lon": 14.1,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.284; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485"
+  },
+  {
+   "date": "1943-11-27",
+   "what": "Main Sangro attack begins: 17 Ind Bde and 38 Bde cross; NZ Div crosses night 27-28 Nov",
+   "where": "Mozzagrogna",
+   "lat": 42.2114,
+   "lon": 14.4458,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.489; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.58"
+  },
+  {
+   "date": "1943-11-30",
+   "what": "Fossacesia taken; the Adriatic end of the Bernhardt Line is broken by 1 Dec",
+   "where": "Fossacesia",
+   "lat": 42.25,
+   "lon": 14.483,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.490-491; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.288"
+  },
+  {
+   "date": "1943-12-02",
+   "what": "1 Cdn Div takes over the coastal sector from 78 Div; NZ enter Castelfrentano",
+   "where": "Fossacesia",
+   "lat": 42.25,
+   "lon": 14.483,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.289; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.494-496"
+  },
+  {
+   "date": "1943-12-03",
+   "what": "San Vito and Lanciano taken; 25 NZ Bn repulsed at Orsogna",
+   "where": "Lanciano",
+   "lat": 42.2333,
+   "lon": 14.3833,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.496, 500"
+  },
+  {
+   "date": "1943-12-04",
+   "what": "Sangro spates wreck most bridges",
+   "where": "Fossacesia",
+   "lat": 42.25,
+   "lon": 14.483,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.494; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.290"
+  },
+  {
+   "date": "1943-12-06",
+   "what": "Moro crossings: PPCLI at Villa Rogatti, Seaforth at San Leonardo, Hastings near the coast",
+   "where": "San Leonardo (Ortona)",
+   "lat": 42.3,
+   "lon": 14.38,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.501",
+   "uncertain": true,
+   "why": "coordinate approx.: hamlet on the Moro ~4 km SW of Ortona; no Wikipedia coordinate"
+  },
+  {
+   "date": "1943-12-07",
+   "what": "NZ divisional attack on Orsogna fails",
+   "where": "Orsogna",
+   "lat": 42.217,
+   "lon": 14.283,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.497-499"
+  },
+  {
+   "date": "1943-12-09",
+   "what": "San Leonardo taken; 8 Ind Div builds the \"Impossible Bridge\"; Eighth Army across the Moro along its length",
+   "where": "San Leonardo (Ortona)",
+   "lat": 42.3,
+   "lon": 14.38,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.502",
+   "uncertain": true,
+   "why": "coordinate approx.: hamlet on the Moro ~4 km SW of Ortona; no Wikipedia coordinate"
+  },
+  {
+   "date": "1943-12-14",
+   "what": "Casa Berardi taken by R22eR (Triquet VC)",
+   "where": "Casa Berardi",
+   "lat": 42.318,
+   "lon": 14.365,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505",
+   "uncertain": true,
+   "why": "coordinate approx.: western end of the Gully ridge on the Ortona-Orsogna road (Molony p.503)"
+  },
+  {
+   "date": "1943-12-15",
+   "what": "HQ 13 Corps takes over NZ and 5 Div sector; NZ attack 15-16 Dec gains ground but not Orsogna",
+   "where": "Orsogna",
+   "lat": 42.217,
+   "lon": 14.283,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.497, 499-500"
+  },
+  {
+   "date": "1943-12-19",
+   "what": "Gully and Cider crossroads in Canadian hands",
+   "where": "Cider crossroads",
+   "lat": 42.322,
+   "lon": 14.383,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505",
+   "uncertain": true,
+   "why": "coordinate approx.: junction of old Highway 16 and the Ortona-Orsogna road, ~3 km SW of Ortona (Molony p.501, 503)"
+  },
+  {
+   "date": "1943-12-21",
+   "what": "Battle of Ortona begins (Edmontons, Seaforth, Three Rivers)",
+   "where": "Ortona",
+   "lat": 42.35,
+   "lon": 14.4,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.507"
+  },
+  {
+   "date": "1943-12-22",
+   "what": "19 Ind Bde attacks Villa Grande (to 27 Dec)",
+   "where": "Villa Grande (Ortona)",
+   "lat": 42.33,
+   "lon": 14.345,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.506; The Tiger Triumphs (HMSO/Govt of India 1946), archive.org/details/tigertriumphsitaly, ch. 2-3",
+   "uncertain": true,
+   "why": "coordinate approx.: hamlet between the Moro and Tollo, half-way to Tollo (Tiger Triumphs)"
+  },
+  {
+   "date": "1943-12-23",
+   "what": "13 Corps attack: 5 Div towards Arielli, NZ Fontegrande (23-25 Dec) - no break-through",
+   "where": "Arielli",
+   "lat": 42.267,
+   "lon": 14.3,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.338; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.506-507"
+  },
+  {
+   "date": "1943-12-28",
+   "what": "Ortona cleared; Villa Grande occupied",
+   "where": "Ortona",
+   "lat": 42.35,
+   "lon": 14.4,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.506-507; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.338"
+  },
+  {
+   "date": "1943-12-30",
+   "what": "Montgomery hands Eighth Army to Leese; policy becomes containment",
+   "where": "Lucera",
+   "lat": 41.5,
+   "lon": 15.333,
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.509-510",
+   "uncertain": true,
+   "why": "HQ location on that date not given"
+  },
+  {
+   "date": "1943-12-31",
+   "what": "48th Highlanders take San Nicola and San Tommaso; Freyberg orders \"offensive defence\"; snow on New Year's night",
+   "where": "San Nicola/San Tommaso",
+   "lat": 42.36,
+   "lon": 14.365,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.338; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.149-150",
+   "uncertain": true,
+   "why": "coordinate approx.: hamlets between the forks of the Riccio, ~1.5 miles inland (Nicholson p.333-334)"
+  },
+  {
+   "date": "1944-01-04",
+   "what": "Point 59 near Torre Mucchia taken (campaign end of the Moro/Ortona fighting)",
+   "where": "Torre Mucchia",
+   "lat": 42.378,
+   "lon": 14.385,
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.337; en.wikipedia.org/wiki/Moro_River_campaign",
+   "uncertain": true,
+   "why": "coordinate approx.: coast NW of Ortona east of the Riccio mouth (Molony p.507; Wikipedia Moro River campaign)"
+  }
+ ],
+ "frontLines": [
+  {
+   "date": "1943-09-21",
+   "description": "Allied front Bari-Potenza-Auletta, linked to Fifth Army at Salerno; 1 FJ Div screen Atella-Spinazzola-Barletta from 22 Sep",
+   "placesInOrder": [
+    "Bari",
+    "Altamura",
+    "Potenza",
+    "Auletta"
+   ],
+   "points": [
+    [
+     41.1253,
+     16.8667
+    ],
+    [
+     40.817,
+     16.55
+    ],
+    [
+     40.6333,
+     15.8
+    ],
+    [
+     40.5611,
+     15.4244
+    ]
+   ],
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.229, 231",
+   "uncertain": true,
+   "why": "Altamura is a German-held point on the 1 FJ Div line Potenza-Altamura (Molony p.344), shown only to close the line"
+  },
+  {
+   "date": "1943-10-01",
+   "description": "Eighth Army start line: Lucera (1 Cdn Div) to the northern edge of the Foggia plain and the coast (78 Div, 4 Armd Bde light forces); SS Bde at Manfredonia. German 1 FJ Div holds San Bartolomeo in Galdo to Termoli.",
+   "placesInOrder": [
+    "Lucera",
+    "San Severo",
+    "Foggia plain north edge",
+    "Manfredonia"
+   ],
+   "points": [
+    [
+     41.5,
+     15.333
+    ],
+    [
+     41.683,
+     15.383
+    ],
+    [
+     41.6,
+     15.45
+    ],
+    [
+     41.6333,
+     15.9167
+    ]
+   ],
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.232, 235, 240; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.433",
+   "uncertain": true,
+   "why": "positions of the light forces north of Foggia are not given by place; approximate/missing points: Foggia plain north edge (approx.)"
+  },
+  {
+   "date": "1943-10-08",
+   "description": "After Termoli: 78 Div Termoli-Larino, 1 Cdn Div on the Fortore (Gambatesa, Colletorto)",
+   "placesInOrder": [
+    "Petacciato",
+    "Termoli",
+    "Guglionesi",
+    "Larino",
+    "Colletorto",
+    "Gambatesa",
+    "Foiano di Val Fortore"
+   ],
+   "points": [
+    [
+     42.0108,
+     14.8614
+    ],
+    [
+     42.0,
+     14.983
+    ],
+    [
+     41.9167,
+     14.9167
+    ],
+    [
+     41.8,
+     14.917
+    ],
+    [
+     41.6667,
+     14.9667
+    ],
+    [
+     41.5,
+     14.9167
+    ],
+    [
+     41.35,
+     14.9833
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436-437; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.242-246"
+  },
+  {
+   "date": "1943-10-15",
+   "description": "Termoli-Campobasso-Vinchiaturo lateral held; the Biferno line",
+   "placesInOrder": [
+    "Petacciato",
+    "Termoli",
+    "Larino",
+    "Campobasso",
+    "Vinchiaturo"
+   ],
+   "points": [
+    [
+     42.0108,
+     14.8614
+    ],
+    [
+     42.0,
+     14.983
+    ],
+    [
+     41.8,
+     14.917
+    ],
+    [
+     41.5603,
+     14.6617
+    ],
+    [
+     41.5,
+     14.5833
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436, 454; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.249"
+  },
+  {
+   "date": "1943-10-28",
+   "description": "Trigno bridgehead (78 Div) - Indians on the Trigno - 13 Corps west of the Biferno to the Isernia road",
+   "placesInOrder": [
+    "San Salvo",
+    "Montemitro",
+    "Roccavivara",
+    "Torella del Sannio",
+    "Spinete",
+    "Bojano"
+   ],
+   "points": [
+    [
+     42.05,
+     14.7167
+    ],
+    [
+     41.8833,
+     14.65
+    ],
+    [
+     41.8333,
+     14.6
+    ],
+    [
+     41.6333,
+     14.5167
+    ],
+    [
+     41.55,
+     14.4833
+    ],
+    [
+     41.483,
+     14.467
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.259-263"
+  },
+  {
+   "date": "1943-11-05",
+   "description": "After the Trigno: Vasto area-Tufillo-Celenza; 13 Corps at Isernia; Cdn outposts Duronia/Frosolone",
+   "placesInOrder": [
+    "Vasto",
+    "Cupello",
+    "Tufillo",
+    "Celenza sul Trigno",
+    "Duronia",
+    "Frosolone",
+    "Isernia"
+   ],
+   "points": [
+    [
+     42.1167,
+     14.7069
+    ],
+    [
+     42.067,
+     14.667
+    ],
+    [
+     41.9167,
+     14.6167
+    ],
+    [
+     41.8667,
+     14.5667
+    ],
+    [
+     41.6667,
+     14.4667
+    ],
+    [
+     41.6,
+     14.45
+    ],
+    [
+     41.6028,
+     14.2397
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.458-461; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.263"
+  },
+  {
+   "date": "1943-11-09",
+   "description": "Eighth Army closes on the Sangro: 78 Div Paglieta-Mt Calvo, 8 Ind Div SW of Atessa-Gissi-Torrebruna/Castiglione, PLDG at Carovilli, 13 Corps at Isernia",
+   "placesInOrder": [
+    "Torino di Sangro",
+    "Paglieta",
+    "Atessa",
+    "Gissi",
+    "Torrebruna",
+    "Carovilli",
+    "Isernia"
+   ],
+   "points": [
+    [
+     42.1833,
+     14.5333
+    ],
+    [
+     42.1667,
+     14.5
+    ],
+    [
+     42.0667,
+     14.45
+    ],
+    [
+     42.017,
+     14.55
+    ],
+    [
+     41.8667,
+     14.5333
+    ],
+    [
+     41.717,
+     14.3
+    ],
+    [
+     41.6028,
+     14.2397
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.278"
+  },
+  {
+   "date": "1943-11-25",
+   "description": "Before the main Sangro attack: bridgeheads east and west of Fossacesia; 19 Ind Bde across between Sangro and Aventino (Altino); 13 Corps on the upper Sangro (Castel di Sangro outskirts, Alfedena)",
+   "placesInOrder": [
+    "Fossacesia",
+    "Paglieta",
+    "Perano",
+    "Altino, Abruzzo",
+    "Ateleta",
+    "San Pietro Avellana",
+    "Point 1009",
+    "Alfedena"
+   ],
+   "points": [
+    [
+     42.25,
+     14.483
+    ],
+    [
+     42.1667,
+     14.5
+    ],
+    [
+     42.1,
+     14.4
+    ],
+    [
+     42.1,
+     14.3333
+    ],
+    [
+     41.8564,
+     14.1983
+    ],
+    [
+     41.783,
+     14.167
+    ],
+    [
+     41.79,
+     14.13
+    ],
+    [
+     41.7372,
+     14.0394
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.485-486; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.48, 59; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.280-285",
+   "uncertain": true,
+   "why": "approximate/missing points: Point 1009 (approx.)"
+  },
+  {
+   "date": "1943-12-01",
+   "description": "Bernhardt Line broken at the coast: Fossacesia-Rocca-Mozzagrogna-Castelfrentano approaches; upper Sangro unchanged",
+   "placesInOrder": [
+    "Rocca San Giovanni",
+    "Fossacesia",
+    "Mozzagrogna",
+    "Castel Frentano",
+    "Casoli",
+    "Alfedena"
+   ],
+   "points": [
+    [
+     42.25,
+     14.467
+    ],
+    [
+     42.25,
+     14.483
+    ],
+    [
+     42.2114,
+     14.4458
+    ],
+    [
+     42.2,
+     14.35
+    ],
+    [
+     42.1167,
+     14.2833
+    ],
+    [
+     41.7372,
+     14.0394
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.490-491; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.288"
+  },
+  {
+   "date": "1943-12-09",
+   "description": "Across the Moro: San Leonardo-Villa Rogatti; NZ before Orsogna",
+   "placesInOrder": [
+    "Ortona",
+    "San Leonardo (Ortona)",
+    "Villa Rogatti",
+    "Frisa",
+    "Orsogna",
+    "Melone",
+    "Casoli"
+   ],
+   "points": [
+    [
+     42.35,
+     14.4
+    ],
+    [
+     42.3,
+     14.38
+    ],
+    [
+     42.29,
+     14.35
+    ],
+    [
+     42.267,
+     14.367
+    ],
+    [
+     42.217,
+     14.283
+    ],
+    [
+     42.19,
+     14.235
+    ],
+    [
+     42.1167,
+     14.2833
+    ]
+   ],
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.498-502",
+   "uncertain": true,
+   "why": "approximate/missing points: San Leonardo (Ortona) (approx.), Villa Rogatti (approx.), Melone (approx.)"
+  },
+  {
+   "date": "1943-12-31",
+   "description": "Line on 31 Dec: coast short of Torre Mucchia (3 Cdn Bde) - Ortona - San Nicola/San Tommaso (1 Cdn Bde) - Villa Grande (8 Ind Div) - German-held Crecchio and Arielli - Poggiofiorito (15 Bde) - Fontegrande \"Jittery Ridge\" north of Orsogna (NZ) - German-held Orsogna and Guardiagrele - Melone road fork (Salarola, 4 Para Bn) - Casoli (13 Bde) - 78 Div in the upper Sangro mountains",
+   "placesInOrder": [
+    "Torre Mucchia",
+    "Ortona",
+    "San Nicola/San Tommaso",
+    "Villa Grande (Ortona)",
+    "Poggiofiorito",
+    "Fontegrande",
+    "Melone",
+    "Casoli",
+    "Castel di Sangro"
+   ],
+   "points": [
+    [
+     42.378,
+     14.385
+    ],
+    [
+     42.35,
+     14.4
+    ],
+    [
+     42.36,
+     14.365
+    ],
+    [
+     42.33,
+     14.345
+    ],
+    [
+     42.25,
+     14.317
+    ],
+    [
+     42.23,
+     14.29
+    ],
+    [
+     42.19,
+     14.235
+    ],
+    [
+     42.1167,
+     14.2833
+    ],
+    [
+     41.7833,
+     14.1
+    ]
+   ],
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.336-338; Phillips, Italy vol. I: The Sangro to Cassino (Wellington 1957), NZETC via web.archive.org p.147-150; Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.505-507, 595",
+   "uncertain": true,
+   "why": "Casoli to Castel di Sangro (78 Div) not described by place in the sources read; Wikipedia (Moro River campaign) says 5 Div took Arielli, but Nicholson p.338 says the year ended with Germans still holding Crecchio, Arielli, Orsogna and Guardiagrele; approximate/missing points: Torre Mucchia (approx.), San Nicola/San Tommaso (approx.), Villa Grande (Ortona) (approx.), Fontegrande (approx.), Melone (approx.)"
+  }
+ ],
+ "otherFormations": [
+  {
+   "name": "1st (British) Infantry Division",
+   "note": "in Eighth Army temporarily during December (Molony p.475); arrived from North Africa early Dec; diverted to VI US Corps for Anzio (Molony p.594)",
+   "uncertain": true,
+   "why": "no position in area given"
+  },
+  {
+   "name": "4th Indian Division",
+   "note": "Army troops on 31 Dec; into 13 Corps 13-20 Jan 1944 (Molony p.475, 595)"
+  },
+  {
+   "name": "HQ 5th Canadian Armoured Division",
+   "note": "Army troops 31 Dec; division arriving Naples 8-10 Nov / early Dec (Molony p.455n, 475, 595)"
+  },
+  {
+   "name": "3rd Carpathian Division",
+   "note": "moved to Italy in December 1943; into 13 Corps from 31 Jan 1944 (Molony p.591n, 595)"
+  }
+ ],
+ "airNaval": [
+  {
+   "what": "Desert Air Force (with NATBF light/medium bombers) gave 8th Army direct support; Adv HQ DAF Lucera from 11 Oct; 4 Nov NATAF order of battle: DAF Adv & Rear HQ Lucera area, No. 239 Wing (6 sqn Kittyhawk), No. 244 Wing (4 sqn Spitfire), US 57th and 79th Groups (Kittyhawk, 57th at Amendola), No. 7 SAAF Wing (3 sqn Spitfire, Palata), No. 285 Wing (Tac R/PR, Foggia), NATBF Adv HQ Segezia",
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.461-463"
+  },
+  {
+   "what": "Air support peaks: Termoli 5-6 Oct (US XII ASC diverted to 8th Army; 400+ DAF fighter-bomber sorties 6 Oct); Trigno 2-3 Nov (585 and 616 sorties); Sangro 20-30 Nov day-by-day summary; Moro 8 Dec 108 fighter-bomber + 72 light bomber sorties; Ortona deliberately spared",
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.436, 459n, 492-493, 501, 509"
+  },
+  {
+   "what": "417 (City of Windsor) Sqn RCAF Spitfires patrolled over the Sangro bridges (claims 30 Nov, 3 and 8 Dec)",
+   "source": "Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.288"
+  },
+  {
+   "what": "Naval: Baytown fire support (3 cruisers, 5 destroyers, 3 monitors, gunboats, 20 landing craft); Slapstick by cruisers and a minelayer; Termoli lift from Manfredonia; Trigno feint landing by destroyers Queenborough and Raider; naval demonstration towards Pescara for the Sangro; DUKW supply from Termoli and Vasto",
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.235, 242-243, 460, 485, 488; Nicholson, The Canadians in Italy 1943-1945 (Ottawa 1956), canada.ca PDF via web.archive.org p.222, 252"
+  },
+  {
+   "what": "Air raid on Bari, night 2-3 December 1943 (described in Molony ch. XV)",
+   "source": "Molony, The Mediterranean and Middle East vol. V (HMSO 1973), archive.org/details/mediterranean-middle-east-vol-5 p.522 area, ch. XV",
+   "uncertain": true,
+   "why": "not read in detail"
+  }
+ ]
+}
