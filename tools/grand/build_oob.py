@@ -739,6 +739,16 @@ if os.path.exists(f'{HERE}/pace_ai.json'):
         later = [ai[x] for x in range(t, LAST + 1) if x in ai]
         if later:
             bench[str(t)] = max(bench[str(t)], round(min(later)) - 1)
+def final_target(t):
+    """The VP a scenario ending on turn t needs: the AI-against-AI median there (an even game between equal sides),
+    never below the benchmark."""
+    if os.path.exists(f'{HERE}/pace_ai.json'):
+        med = json.load(open(f'{HERE}/pace_ai.json'))['median'].get(str(t))
+        if med is not None:
+            return max(bench[str(t)], round(med))
+    return bench[str(t)]
+
+
 rules = json.loads(json.dumps(ITA_R))
 rules['system'] = 'italy43'
 rules['landingPoints'] = None
@@ -757,7 +767,7 @@ rules['turns'] = {'campaign': LAST, 'dates': {str(t): label(t) for t in DATES}}
 rules['victory'] = {
     'benchmarks': bench,
     'automatic': {'fromTurn': ita_gt(6), 'alliedMargin': 6, 'alliedVp': 999, 'germanMargin': 6},
-    'scenarioWin': {'campaign': bench[str(LAST)], 'race': bench[str(ita_gt(5))], 'winter': bench[str(LAST)]},
+    'scenarioWin': {'campaign': final_target(LAST), 'race': final_target(ita_gt(5)), 'winter': final_target(LAST)},
     'pace': {h: g for h, g in sorted(held_by.items())},
 }
 rules['naplesSupplyBonus'] = {str(ita_gt(int(k))): v for k, v in ITA_R['naplesSupplyBonus'].items()}
