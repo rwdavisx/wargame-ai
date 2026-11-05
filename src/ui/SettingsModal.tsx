@@ -1,7 +1,7 @@
 // Settings dialog: players, computer opponents, pacing, display and sound.
 import type { Side } from '../engine/types';
 import { useRef, useState, useSyncExternalStore } from 'react';
-import { Button, Collapsible, Dialog, DialogHeader, Icon, IconButton, Selector, Slider, Switch, Text, TextInput, VStack } from '@astryxdesign/core';
+import { Button, Collapsible, Dialog, DialogHeader, Icon, IconButton, Layout, LayoutContent, Selector, Slider, Switch, Text, TextInput, VStack } from '@astryxdesign/core';
 import { DIFFICULTIES } from '../ai/heuristic';
 import { addMusicFiles, musicState, next as nextTrack, removeMusicTrack, subscribeMusic } from './music';
 import { setSound, sfx } from './sound';
@@ -32,8 +32,9 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
   const touch = usePhone(TOUCH_ONLY);
   return (
     <Dialog isOpen onOpenChange={close} width={980} maxHeight="88dvh" className="settings">
-      <DialogHeader title="Settings" onOpenChange={close} />
-      <div className="settings-grid">
+      <Layout header={<DialogHeader title="Settings" onOpenChange={close} />} content={
+        <LayoutContent role="region" label="Settings options" tabIndex={0}>
+          <div className="settings-grid">
         {online ? (
           <section className="set-commanders">
             <SectionLabel>Commanders</SectionLabel>
@@ -98,7 +99,9 @@ export function SettingsModal({ settings: s, setSettings, onClose, inGame, onlin
             </>
           )}
         </VStack>
-      </div>
+          </div>
+        </LayoutContent>
+      } />
     </Dialog>
   );
 }
