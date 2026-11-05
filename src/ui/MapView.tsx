@@ -112,9 +112,17 @@ function homeHex(s: GameState): HexId {
   return pixelToHex(x, y);
 }
 
-const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabels }: { version: number; showGrid: boolean; showLabels: boolean }) {
-  void version;
-  const data = useMemo(() => {
+interface Rect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+/** The map's fixed linework (grid, rivers, roads, the defence lines, boundaries, passes, the veil beyond the playable
+ * hexes) as SVG path data, worked out once per map: drawn into the canvas under the SVG (drawStatic), so the SVG holds
+ * only what changes. */
+function buildStatic() {
     const hexes = Object.entries(MAP.hexes);
     const grid = hexes
       .map(([h]) => {
@@ -214,14 +222,83 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
     }
     const edgePaths = chainSegments(rim).map((l) => smoothPath(l, 0.2));
     return { offmap, edgePaths, grid, rivers, bigRivers, lakes, majors, minors, passes, boundaryPaths, gustav, bernhard, zonePaths, sectionPaths, sections };
-  }, []);
+}
+type StaticData = ReturnType<typeof buildStatic>;
+
+/** The linework as Path2D objects, built once from the same path data. */
+function staticPaths(d: StaticData) {
+  const many = (list: string[]) => list.map((x) => new Path2D(x));
+  const passes = new Path2D();
+  const glyphs = new Path2D();
+  for (const [x, y] of d.passes) {
+    passes.moveTo(x + 4.6, y);
+    passes.arc(x, y, 4.6, 0, Math.PI * 2);
+    glyphs.addPath(new Path2D('M-2.4,-2.6 Q-0.6,0 -2.4,2.6 M2.4,-2.6 Q0.6,0 2.4,2.6'), new DOMMatrix([1, 0, 0, 1, x, y]));
+  }
+  return {
+    offmap: d.offmap ? new Path2D(d.offmap) : null, edges: many(d.edgePaths), grid: new Path2D(d.grid), rivers: many(d.rivers), bigRivers: many(d.bigRivers),
+    lakes: many(d.lakes), zones: many(d.zonePaths), sections: many(d.sectionPaths), gustav: d.gustav ? new Path2D(d.gustav) : null,
+    bernhard: d.bernhard ? new Path2D(d.bernhard) : null, minors: many(d.minors), majors: many(d.majors), boundaries: many(d.boundaryPaths),
+    passes: d.passes.length ? passes : null, glyphs,
+  };
+}
+type StaticPaths = ReturnType<typeof staticPaths>;
+
+/** Draw the fixed linework in map units, as the SVG used to: the canvas redraws it each time the view settles. */
+function drawStatic(ctx: CanvasRenderingContext2D, p: StaticPaths, showGrid: boolean) {
+  ctx.save();
+  const stroke = (list: (Path2D | null)[], color: string, width: number, alpha = 1, dash: number[] = [], cap: CanvasLineCap = 'round') => {
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.setLineDash(dash);
+    ctx.lineCap = cap;
+    for (const x of list) if (x) ctx.stroke(x);
+  };
+  ctx.lineJoin = 'round';
+  if (p.offmap) {
+    ctx.fillStyle = 'rgba(52,38,24,0.22)';
+    ctx.fill(p.offmap);
+  }
+  stroke(p.edges, 'rgba(74,52,34,0.8)', 1.6, 1, [10, 4, 2, 4], 'butt');
+  if (showGrid) stroke([p.grid], 'rgba(64,46,30,0.24)', 0.6, 1, [], 'butt');
+  // Rivers inked in Prussian blue over a wash of water colour, like the coast.
+  stroke(p.rivers, '#22446a', 4, 0.88);
+  stroke(p.rivers, '#79aed0', 2.5);
+  stroke(p.bigRivers, '#1c3b5e', 6.8, 0.9);
+  stroke(p.bigRivers, '#79aed0', 4.6);
+  stroke(p.bigRivers, '#a9cfe4', 1, 0.7);
+  stroke(p.lakes, '#5e95bf', 9, 0.95);
+  stroke(p.zones, '#1c1c18', 2.2, 0.75, [9, 5], 'butt');
+  stroke(p.sections, '#f4efe0', 1.6, 0.85, [5, 4], 'butt');
+  stroke([p.gustav], '#a3271b', 2.4, 1, [6, 4]);
+  stroke([p.bernhard], '#151510', 2.6, 1, [0.1, 5]);
+  // Roads in the engraver's manner: a pair of sepia lines, the major roads filled in red ochre.
+  stroke(p.minors, 'rgba(74,52,34,0.72)', 2.4);
+  stroke(p.minors, '#efe2c0', 1.1);
+  stroke(p.majors, 'rgba(66,44,28,0.9)', 4.4);
+  stroke(p.majors, '#cf7a52', 2.6);
+  stroke(p.majors, '#e9a57c', 0.8, 0.8);
+  stroke(p.boundaries, '#f3cf4a', 1.8, 0.75, [7, 4], 'butt');
+  if (p.passes) {
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = 'rgba(25,22,16,0.75)';
+    ctx.fill(p.passes);
+    stroke([p.glyphs], '#f1e6c8', 1, 1, [], 'butt');
+  }
+  ctx.restore();
+}
+
+/** The names on the map, near the view only (`view`: the drawn area); the linework is in the canvas. */
+const StaticLabels = memo(function StaticLabels({ data, showLabels, view }: { data: StaticData; showLabels: boolean; view: Rect }) {
+  const near = (x: number, y: number) => x > view.x - 4 * R && x < view.x + view.w + 4 * R && y > view.y - 2 * R && y < view.y + view.h + 2 * R;
   // A city of several hexes (Naples) is named once, under its first hex.
   const named = new Set<string>();
-  const places = Object.entries(MAP.hexes).filter(([, d]) => {
+  const places = Object.entries(MAP.hexes).filter(([h, d]) => {
     const n = d.city ?? d.town;
     if (!n || (d.city && named.has(n))) return false;
     named.add(n);
-    return true;
+    return near(...center(h));
   });
   const seaLabel = (h: string, text: string, size: number) => {
     if (!MAP.hexes[h]) return null;
@@ -234,43 +311,10 @@ const StaticOverlay = memo(function StaticOverlay({ version, showGrid, showLabel
   };
   return (
     <g pointerEvents="none">
-      {data.offmap && <path d={data.offmap} fill="rgba(52,38,24,0.22)" stroke="none" />}
-      {data.edgePaths.map((d, i) => <path key={`edge${i}`} d={d} fill="none" stroke="rgba(74,52,34,0.8)" strokeWidth={1.6} strokeDasharray="10 4 2 4" />)}
-      {showGrid && <path d={data.grid} fill="none" stroke="rgba(64,46,30,0.24)" strokeWidth={0.6} />}
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        {/* Rivers inked in Prussian blue over a wash of water colour, like the coast. */}
-        {data.rivers.map((d, i) => <path key={`rc${i}`} d={d} stroke="#22446a" strokeWidth={4} opacity={0.88} />)}
-        {data.rivers.map((d, i) => <path key={`rw${i}`} d={d} stroke="#79aed0" strokeWidth={2.5} />)}
-        {data.bigRivers.map((d, i) => <path key={`Rc${i}`} d={d} stroke="#1c3b5e" strokeWidth={6.8} opacity={0.9} />)}
-        {data.bigRivers.map((d, i) => <path key={`Rw${i}`} d={d} stroke="#79aed0" strokeWidth={4.6} />)}
-        {data.bigRivers.map((d, i) => <path key={`Rh${i}`} d={d} stroke="#a9cfe4" strokeWidth={1} opacity={0.7} />)}
-        {data.lakes.map((d, i) => <path key={`lk${i}`} d={d} stroke="#5e95bf" strokeWidth={9} opacity={0.95} />)}
-      </g>
-      {data.zonePaths.map((d, i) => <path key={`z${i}`} d={d} fill="none" stroke="#1c1c18" strokeWidth={2.2} strokeDasharray="9 5" opacity={0.75} />)}
-      {data.sectionPaths.map((d, i) => <path key={`zs${i}`} d={d} fill="none" stroke="#f4efe0" strokeWidth={1.6} strokeDasharray="5 4" opacity={0.85} />)}
       {data.sections.map((z) => (
         <text key={z.name} x={z.x} y={z.y} className="sea-label" fontSize={13} textAnchor="middle" opacity={0.75}>
           {`8TH ARMY · ${z.name}`}
         </text>
-      ))}
-      {data.gustav && <path d={data.gustav} fill="none" stroke="#a3271b" strokeWidth={2.4} strokeDasharray="6 4" strokeLinecap="round" />}
-      {data.bernhard && <path d={data.bernhard} fill="none" stroke="#151510" strokeWidth={2.6} strokeDasharray="0.1 5" strokeLinecap="round" />}
-      <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-        {/* Roads in the engraver's manner: a pair of sepia lines, the major roads filled in red ochre. */}
-        {data.minors.map((d, i) => <path key={`mc${i}`} d={d} stroke="rgba(74,52,34,0.72)" strokeWidth={2.4} />)}
-        {data.minors.map((d, i) => <path key={`mf${i}`} d={d} stroke="#efe2c0" strokeWidth={1.1} />)}
-        {data.majors.map((d, i) => <path key={`Mc${i}`} d={d} stroke="rgba(66,44,28,0.9)" strokeWidth={4.4} />)}
-        {data.majors.map((d, i) => <path key={`Mf${i}`} d={d} stroke="#cf7a52" strokeWidth={2.6} />)}
-        {data.majors.map((d, i) => <path key={`Ml${i}`} d={d} stroke="#e9a57c" strokeWidth={0.8} opacity={0.8} />)}
-      </g>
-      {data.boundaryPaths.map((d, i) => (
-        <path key={`b${i}`} d={d} fill="none" stroke="#f3cf4a" strokeWidth={1.8} strokeDasharray="7 4" opacity={0.75} />
-      ))}
-      {data.passes.map(([x, y], i) => (
-        <g key={`p${i}`} transform={`translate(${x} ${y})`}>
-          <circle r={4.6} fill="rgba(25,22,16,0.75)" />
-          <path d="M-2.4,-2.6 Q-0.6,0 -2.4,2.6 M2.4,-2.6 Q0.6,0 2.4,2.6" stroke="#f1e6c8" strokeWidth={1} fill="none" />
-        </g>
       ))}
       {(MAP.meta?.seaLabels ?? []).map(([h, text, size]) => <g key={`${h}${text}`}>{seaLabel(h, text, size)}</g>)}
       {showLabels &&
@@ -307,12 +351,14 @@ function HexIds({ view }: { view: { x: number; y: number; w: number; h: number }
   );
 }
 
-const Markers = memo(function Markers({ state }: { state: GameState }) {
+const Markers = memo(function Markers({ state, view }: { state: GameState; view: Rect }) {
   return (
     <g pointerEvents="none">
       {Object.entries(MAP.hexes).map(([h, d]) => {
         if (!d.vp && !d.port && !d.airfield) return null;
         const [x, y] = center(h);
+        // Only near the view: the drawn area is the view and a wide margin, drawn again when the camera settles.
+        if (x < view.x - 2 * R || x > view.x + view.w + 2 * R || y < view.y - 2 * R || y > view.y + view.h + 2 * R) return null;
         const holder = state.control[h] ?? 'German';
         return (
           <g key={h}>
@@ -793,7 +839,10 @@ export function MapView(props: MapViewProps) {
     return () => ro.disconnect();
   }, [clampView, moveView]);
 
-  // The painted terrain is drawn on a canvas under the SVG, following the camera.
+  // The map's fixed linework, once per map (and again after an edit in the map editor).
+  const statics = useMemo(() => buildStatic(), [props.version, MAP]); // eslint-disable-line react-hooks/exhaustive-deps
+  const paths = useMemo(() => staticPaths(statics), [statics]);
+  // The painted terrain and the linework are drawn on a canvas under the SVG, following the camera.
   const bgRef = useRef<HTMLCanvasElement>(null);
   const [sizeTick, setSizeTick] = useState(0);
   useEffect(() => {
@@ -826,7 +875,8 @@ export function MapView(props: MapViewProps) {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(terrain.image, b.x, b.y, b.w, b.h);
-  }, [vb, drawn, terrain, b, sizeTick]);
+    drawStatic(ctx, paths, !!settings.showGrid);
+  }, [vb, drawn, terrain, b, sizeTick, paths, settings.showGrid]);
 
   const toSvg = useCallback((clientX: number, clientY: number) => {
     // From the view on screen (the element keeps the view's aspect ratio, so there is no letterboxing).
@@ -1349,9 +1399,9 @@ export function MapView(props: MapViewProps) {
           <CueDefs />
         </defs>
         {qol?.layer && <ModeUnderlay layer={qol.layer} part="fills" />}
-        <StaticOverlay version={props.version} showGrid={settings.showGrid} showLabels={settings.showLabels} />
+        <StaticLabels data={statics} showLabels={settings.showLabels} view={drawn} />
         {qol?.layer && <ModeUnderlay layer={qol.layer} part="lines" />}
-        {settings.showMarkers !== false && <Markers state={state} />}
+        {settings.showMarkers !== false && <Markers state={state} view={drawn} />}
         {settings.showHexIds && <HexIds view={drawn} />}
         <Regions highlights={highlights} />
         {props.preview && <PathPreview preview={props.preview} />}
@@ -1375,6 +1425,8 @@ export function MapView(props: MapViewProps) {
         <g pointerEvents="none" display={settings.showUnits === false ? 'none' : undefined}>
           {[...stacks.entries()].map(([h, list]) => {
             const [x, y] = center(h);
+            // Only the stacks in the drawn area (the view and its margin): far off, a counter is never seen.
+            if (x < drawn.x - R || x > drawn.x + drawn.w + R || y < drawn.y - R || y > drawn.y + drawn.h + R) return null;
             const sorted = [...list].sort((a, c) => (a.id === selectedUnitId ? 1 : c.id === selectedUnitId ? -1 : 0));
             const top = sorted[sorted.length - 1];
             const mine = sideOf(top) === turnSide;

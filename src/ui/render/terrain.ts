@@ -8,8 +8,10 @@
 // work (ink.ts) is laid over it: the coast and its waterlines, hachures, woods, groves, marsh, villages, a compass
 // rose and the sheet's frame. Everything is derived from map.json, so edits made in the map editor show up after a
 // re-render. Every field is read through the organic warp (noise.ts), so edges wander across the hex lines as a
-// map artist would draw them, while each hex keeps its own terrain at its middle. Rivers, roads and names are drawn
-// on top in SVG, bent by the same warp.
+// map artist would draw them, while each hex keeps its own terrain at its middle. Rivers, roads, the grid and the
+// lines are stroked over it on the map's canvas (MapView.tsx), bent by the same warp; names and counters are SVG.
+// The sheet is painted in a worker where the page may start one (paint.worker.ts), off the main thread; otherwise
+// here, in slices that give the page a moment every 30 ms (surface.ts), so the menus stay responsive.
 import { GAME_ID, MAP } from '../../engine/data';
 import { distance, hexCorners, hexId, neighbors, parseHex, sideKey } from '../../engine/hex';
 import type { HexData } from '../../engine/types';
@@ -19,6 +21,7 @@ import { paintWashesGL } from './gpu';
 import { drawInk, paperTexture, type InkFields } from './ink';
 import { noiseTile, tileAt, warp } from './noise';
 import { patchAt, type FieldKind } from './patches';
+import { breathe, ctx2d, makeSurface, type Ctx2D, type Surface } from './surface';
 
 /** The painted map, kept as pixels in memory rather than as a URL: sandboxed hosts and app web views
  * may block blob: or data: images, but drawing one canvas onto another always works. */
@@ -34,25 +37,25 @@ export interface TerrainImage {
   effects?: HTMLCanvasElement | ImageBitmap;
 }
 
-/** Final pixels per map unit: a little less on phones, which have less memory for large images. */
-const SCALE = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches ? 1.5 : 2;
+/** Final pixels per map unit: a little less on phones, which have less memory for large images. A worker has no
+ * screen to ask: the page tells it (setSheetScale). */
+let SCALE = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches ? 1.5 : 2;
+export const sheetScaleSetting = (): number => SCALE;
+export function setSheetScale(s: number): void {
+  SCALE = s;
+}
 
 type Rgb = [number, number, number];
 
 const tick = () => new Promise<void>((r) => setTimeout(r, 0));
 
-function makeCanvas(w: number, h: number): HTMLCanvasElement {
-  const c = document.createElement('canvas');
-  c.width = w;
-  c.height = h;
-  return c;
-}
+const makeCanvas = makeSurface;
 
 // ------------------------------------------------------------------ fields
 
-function rasterize(b: Bounds, draw: (ctx: CanvasRenderingContext2D) => void): Float32Array {
+function rasterize(b: Bounds, draw: (ctx: Ctx2D) => void): Float32Array {
   const c = makeCanvas(b.w, b.h);
-  const ctx = c.getContext('2d', { willReadFrequently: true })!;
+  const ctx = ctx2d(c, { willReadFrequently: true });
   ctx.translate(-b.x, -b.y);
   ctx.fillStyle = '#fff';
   ctx.strokeStyle = '#fff';
@@ -63,7 +66,7 @@ function rasterize(b: Bounds, draw: (ctx: CanvasRenderingContext2D) => void): Fl
   return out;
 }
 
-function hexPath(ctx: CanvasRenderingContext2D, h: string, grow = 0.6) {
+function hexPath(ctx: Ctx2D, h: string, grow = 0.6) {
   const pts = corners(h, 30 + grow);
   ctx.beginPath();
   pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
@@ -72,10 +75,10 @@ function hexPath(ctx: CanvasRenderingContext2D, h: string, grow = 0.6) {
 
 /** A traced coastal hex's land, clipped to its outline (coast.ts). The trace's cells are a tiny image scaled up
  * smoothly, so the shore runs between the cells' middles as a smooth line rather than stepping round them. */
-function maskPath(ctx: CanvasRenderingContext2D, h: string, code: string) {
+function maskPath(ctx: Ctx2D, h: string, code: string) {
   const m = decodeCoast(code);
   const cells = makeCanvas(COAST_COLS, COAST_ROWS);
-  const cctx = cells.getContext('2d')!;
+  const cctx = ctx2d(cells);
   const px = cctx.createImageData(COAST_COLS, COAST_ROWS);
   for (let i = 0; i < m.length; i++) {
     px.data[i * 4] = px.data[i * 4 + 1] = px.data[i * 4 + 2] = 255;
@@ -239,7 +242,7 @@ async function cachePut(key: string, value: Cached): Promise<void> {
 
 /** A scaled copy, for the minimap and the menu backdrops. */
 function copyAt(src: CanvasImageSource, w: number, h: number, width: number): HTMLCanvasElement {
-  const c = makeCanvas(width, Math.round((width * h) / w));
+  const c = makeCanvas(width, Math.round((width * h) / w)) as HTMLCanvasElement;
   const ctx = c.getContext('2d')!;
   ctx.imageSmoothingQuality = 'high';
   ctx.drawImage(src, 0, 0, c.width, c.height);
@@ -264,30 +267,107 @@ export async function renderTerrain(onProgress?: (fraction: number, label: strin
       /* unreadable cache entry: paint again */
     }
   }
-  const full = mapBounds(90);
-  const result = full.w * full.h > MAX_PIECE ? await paintInPieces(full, onProgress) : await paintTerrain(onProgress);
+  // In a worker where the browser allows one (the page stays free while it paints); else here, in short slices.
+  const off = await paintInWorker(onProgress);
+  if (off) {
+    try {
+      if (off.blob) await cachePut(key, { blob: off.blob, effects: off.effectsBlob });
+    } catch {
+      /* no cache */
+    }
+    return finish(off.image, off.bounds, off.effects);
+  }
+  const result = await paintSheet(onProgress);
+  const canvas = result.canvas as HTMLCanvasElement;
+  const effects = result.effects as HTMLCanvasElement;
   // Cache a compressed copy so the next start is instant; skip quietly if the browser cannot.
   try {
-    const blob = await new Promise<Blob | null>((res) => result.canvas.toBlob(res, 'image/jpeg', 0.9));
+    const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, 'image/jpeg', 0.9));
     // The effects field must stay exact: PNG.
-    const effects = await new Promise<Blob | null>((res) => result.effects.toBlob(res, 'image/png'));
-    if (blob) await cachePut(key, { blob, effects: effects ?? undefined });
+    const fx = await new Promise<Blob | null>((res) => effects.toBlob(res, 'image/png'));
+    if (blob) await cachePut(key, { blob, effects: fx ?? undefined });
   } catch {
     /* no cache */
   }
-  return finish(result.canvas, result.bounds, result.effects);
+  return finish(canvas, result.bounds, effects);
+}
+
+/** What the paint worker sends back: the sheet and effects field as bitmaps, and their compressed copies. */
+export interface WorkerPainted {
+  image: ImageBitmap;
+  effects: ImageBitmap;
+  bounds: Bounds;
+  blob?: Blob;
+  effectsBlob?: Blob;
+}
+
+/** A worker failed to start once (a page that forbids them, a browser without OffscreenCanvas): don't try again. */
+let workerUnavailable = false;
+
+/** The URL of the compass lettering's face, for the worker (which has no stylesheet to find it in). */
+function compassFontUrl(): string | undefined {
+  try {
+    for (const sheet of Array.from(document.styleSheets)) {
+      for (const rule of Array.from(sheet.cssRules)) {
+        if (rule instanceof CSSFontFaceRule && /IM Fell English/i.test(rule.style.getPropertyValue('font-family')) && /italic/i.test(rule.style.getPropertyValue('font-style'))) {
+          const m = /url\(["']?([^"')]+)["']?\)/.exec(rule.style.getPropertyValue('src'));
+          if (m) return new URL(m[1], sheet.href ?? location.href).href;
+        }
+      }
+    }
+  } catch {
+    /* a stylesheet we may not read */
+  }
+  return undefined;
+}
+
+/** Paint the loaded map's sheet in a worker; null if there can be no worker here. */
+function paintInWorker(onProgress?: (fraction: number, label: string) => void): Promise<WorkerPainted | null> {
+  if (workerUnavailable || typeof Worker === 'undefined' || typeof OffscreenCanvas === 'undefined' || typeof createImageBitmap !== 'function') {
+    return Promise.resolve(null);
+  }
+  let w: Worker;
+  try {
+    w = new Worker(new URL('./paint.worker.ts', import.meta.url), { type: 'module' });
+  } catch {
+    workerUnavailable = true;
+    return Promise.resolve(null);
+  }
+  return new Promise((resolve) => {
+    let started = false;
+    const give = (r: WorkerPainted | null) => {
+      clearTimeout(timer);
+      w.terminate();
+      if (!r) workerUnavailable = true;
+      resolve(r);
+    };
+    // A worker the page's rules forbid may fail silently: if it has not said hello, paint here instead.
+    const timer = setTimeout(() => !started && give(null), 5000);
+    w.onerror = () => give(null);
+    w.onmessageerror = () => give(null);
+    w.onmessage = (e: MessageEvent) => {
+      const d = e.data as { ready?: boolean; progress?: number; label?: string; error?: string; done?: WorkerPainted };
+      if (d.ready) {
+        started = true;
+        clearTimeout(timer);
+        w.postMessage({ game: GAME_ID, map: MAP, scale: SCALE, font: compassFontUrl() });
+      } else if (d.progress !== undefined) onProgress?.(d.progress, d.label ?? '');
+      else if (d.done) give(d.done);
+      else if (d.error) give(null);
+    };
+  });
 }
 
 /** A large map, painted a piece at a time (each with a margin the next piece also paints) and joined into one sheet. */
-async function paintInPieces(full: Bounds, onProgress?: (fraction: number, label: string) => void) {
+async function paintInPieces(full: Bounds, onProgress?: (fraction: number, label: string) => void): Promise<Painted> {
   const scale = sheetScale(full);
   const side = Math.ceil(Math.sqrt((full.w * full.h) / (MAX_PIECE * 0.55)));
   const nx = Math.max(1, Math.round(side * Math.sqrt(full.w / full.h)));
   const ny = Math.max(1, Math.ceil(side * side / nx));
   const sheet = makeCanvas(Math.round(full.w * scale), Math.round(full.h * scale));
-  const sctx = sheet.getContext('2d')!;
+  const sctx = ctx2d(sheet);
   const effects = makeCanvas(Math.ceil(full.w / 2), Math.ceil(full.h / 2));
-  const ectx = effects.getContext('2d')!;
+  const ectx = ctx2d(effects);
   // The compass goes in the piece with the most open sea.
   const seaIn = (c: Bounds) => Object.entries(MAP.hexes).filter(([h, d]) => {
     const [x, y] = center(h);
@@ -325,6 +405,19 @@ async function paintInPieces(full: Bounds, onProgress?: (fraction: number, label
   return { canvas: sheet, bounds: full, effects };
 }
 
+/** A painted sheet: the picture, its bounds and the effects field. */
+export interface Painted {
+  canvas: Surface;
+  bounds: Bounds;
+  effects: Surface;
+}
+
+/** Paint the loaded map's sheet, in pieces when it is large. Runs on the page or in a worker. */
+export async function paintSheet(onProgress?: (fraction: number, label: string) => void): Promise<Painted> {
+  const full = mapBounds(90);
+  return full.w * full.h > MAX_PIECE ? paintInPieces(full, onProgress) : paintTerrain(onProgress);
+}
+
 interface PaintOptions {
   /** The part of the map to paint, its sheet's pixels per map unit, and when it is one piece of a larger sheet: the
    * sheet's bounds (for the frame), whether this piece has the compass (within `core`), and no paper grain (the joined
@@ -337,7 +430,7 @@ interface PaintOptions {
   texture?: boolean;
 }
 
-async function paintTerrain(onProgress?: (fraction: number, label: string) => void, opts?: PaintOptions): Promise<{ canvas: HTMLCanvasElement; bounds: Bounds; effects: HTMLCanvasElement }> {
+async function paintTerrain(onProgress?: (fraction: number, label: string) => void, opts?: PaintOptions): Promise<Painted> {
   const report = async (f: number, label: string) => {
     onProgress?.(f, label);
     await tick();
@@ -422,7 +515,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
     const [x, y] = center(h);
     for (let k = 1; k <= 2; k++) if (c < 2 && c - 2 * k < 0) ghosts.push({ x: x - k * 3 * HEX_R, y, terrain: MAP.hexes[h].terrain });
   }
-  const ghostPath = (ctx: CanvasRenderingContext2D, g: { x: number; y: number }, grow: number) => {
+  const ghostPath = (ctx: Ctx2D, g: { x: number; y: number }, grow: number) => {
     const pts = hexCorners(g.x, g.y, HEX_R + grow);
     ctx.beginPath();
     pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
@@ -508,21 +601,27 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   });
   await report(0.15, 'Measuring the heights');
 
-  const landB = blur(land0, W, H, 11);
-  const landFine = blur(land0, W, H, 4);
-  const landCore = blur(landCore0, W, H, 4);
-  const tracedW = blur(traced0, W, H, 8);
-  const landNear = blur(land0, W, H, 10);
-  const landWide = blur(land0, W, H, 60);
-  const inside = blur(inside0, W, H, 18);
+  // Each blur is a few hundred milliseconds on a big sheet: the page gets a moment between them.
+  const blurs = async (f: Float32Array, r: number) => {
+    await breathe();
+    return blur(f, W, H, r);
+  };
+  const landB = await blurs(land0, 11);
+  const landFine = await blurs(land0, 4);
+  const landCore = await blurs(landCore0, 4);
+  const tracedW = await blurs(traced0, 8);
+  const landNear = await blurs(land0, 10);
+  const landWide = await blurs(land0, 60);
+  const inside = await blurs(inside0, 18);
   // How far the painting runs: a little past the map's last hexes, then bare paper.
-  const fringe = blur(inside0, W, H, 56);
+  const fringe = await blurs(inside0, 56);
   // The sea's wash runs on further out than the land's.
-  const seaFringe = blur(inside0, W, H, 120);
-  const hill = blur(hill0, W, H, 13);
-  const marsh = blur(marsh0, W, H, 10);
-  const ridge = blur(ridge0, W, H, 10);
-  const town = blur(town0, W, H, 3);
+  const seaFringe = await blurs(inside0, 120);
+  const hill = await blurs(hill0, 13);
+  const marsh = await blurs(marsh0, 10);
+  const ridge = await blurs(ridge0, 10);
+  const town = await blurs(town0, 3);
+  await breathe();
   // Noise, worked out once: broad (64 px lattice) and fine (16 px) fractal tiles, and a grain for granulation.
   const NA = noiseTile(11, 1024, 64, 5);
   const NB = noiseTile(12, 1024, 16, 3);
@@ -652,10 +751,13 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       beach[i] = smooth(sand, 0.52, 1 - nearW[i]) * (1 - hillW[i]) * (1 - mtnW[i]) * l;
     }
     if (y % 200 === 0) await report(0.3 + (0.2 * y) / H, 'Raising the mountains');
+    else if ((y & 31) === 0) await breathe();
   }
 
   // Light from the north-west, high: each slope's shade against flat ground.
+  await breathe();
   const heightS = blur(height, W, H, 2.5);
+  await breathe();
   const shade = new Float32Array(N);
   {
     const lx = -0.5;
@@ -664,6 +766,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
     const ln = Math.hypot(lx, ly, lz);
     const K = 22;
     for (let y = 1; y < H - 1; y++) {
+      if ((y & 127) === 0) await breathe();
       for (let x = 1; x < W - 1; x++) {
         const i = y * W + x;
         const gx = (heightS[i + 1] - heightS[i - 1]) * K;
@@ -674,7 +777,9 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
     }
   }
   // Local relief: valleys below their surroundings, crests above.
+  await breathe();
   const heightW = blur(heightS, W, H, 16);
+  await breathe();
   const relief = new Float32Array(N);
   for (let i = 0; i < N; i++) relief[i] = heightS[i] - heightW[i];
   // Where the painting runs (a little past the map's edge, the sea further), how far out to sea, and field space.
@@ -683,6 +788,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   const fieldDx = new Float32Array(N);
   const fieldDy = new Float32Array(N);
   for (let y = 0; y < H; y++) {
+    if ((y & 63) === 0) await breathe();
     for (let x = 0; x < W; x++) {
       const i = y * W + x;
       const wx = x + b.x;
@@ -698,7 +804,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   await report(0.52, 'Laying the washes');
 
   // The washes: by the GPU's shader at full resolution where it can, else by the CPU below and scaled up.
-  let out = paintWashesGL({
+  let out = await paintWashesGL({
     b, W, H, scale: SCALE, land: landF, coast, near: nearW, wide: landWide, hill: hillW, hillEdge, mtn: mtnW, mtnCore, mtnEdge,
     marsh: marshW, woods, beach, town, inside, paint, shade, height: heightS, relief, fieldDx, fieldDy, noise: { a: NA, b: NB, g: NG },
     pigments: {
@@ -713,7 +819,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   // Each wash is a glaze: it multiplies the paper's colour, so washes laid over one another deepen like real
   // pigment. Its strength wanders (wet-in-wet blooms), its pigment granulates in the paper's tooth, and it pools
   // darker where it dried at its edge.
-  async function paintWashesCPU(): Promise<HTMLCanvasElement> {
+  async function paintWashesCPU(): Promise<Surface> {
     const img = new ImageData(W, H);
     const px = img.data;
     let R = 0;
@@ -830,19 +936,20 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
       if (y % 150 === 0) await report(0.52 + (0.25 * y) / H, 'Laying the washes');
     }
     const base = makeCanvas(W, H);
-    base.getContext('2d')!.putImageData(img, 0, 0);
+    ctx2d(base).putImageData(img, 0, 0);
     const sheet = makeCanvas(W * SCALE, H * SCALE);
-    const sctx = sheet.getContext('2d')!;
+    const sctx = ctx2d(sheet);
     sctx.imageSmoothingEnabled = true;
     sctx.imageSmoothingQuality = 'high';
     sctx.drawImage(base, 0, 0, W * SCALE, H * SCALE);
     return sheet;
   }
   const gpu = !!out;
-  const ctx = out.getContext('2d')!;
+  const ctx = ctx2d(out);
   await report(0.8, 'Inking the coast');
 
   // The land field blurred wide: its contours below one half run out to sea parallel to the coast.
+  await breathe();
   const water = blur(landF, W, H, 14);
 
   // The pen work, in map units.
@@ -865,7 +972,7 @@ async function paintTerrain(onProgress?: (fraction: number, label: string) => vo
   // A small map for the animated layer: land, water field and painted area, half a pixel per map unit.
   const effects = makeCanvas(Math.ceil(W / 2), Math.ceil(H / 2));
   {
-    const ectx = effects.getContext('2d')!;
+    const ectx = ctx2d(effects);
     const im = ectx.createImageData(effects.width, effects.height);
     for (let y = 0; y < effects.height; y++) {
       for (let x = 0; x < effects.width; x++) {

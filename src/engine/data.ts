@@ -341,6 +341,13 @@ export function onGameData(fn: () => void): () => void {
   return () => listeners.delete(fn);
 }
 
+/** Only a map, for the painter in its worker: no tables or counters. */
+export function setMapForPainting(id: string, map: MapData): void {
+  GAME_ID = id;
+  MAP = map;
+  setShiftedColumns(!map.meta?.evenColumnsDown);
+}
+
 /** Make `id`'s map, tables and counters the ones the engine plays. */
 export function loadGameData(id: string, d: GameData): void {
   const o = d.oob as any;

@@ -8,6 +8,7 @@ import { center, rng } from './geom';
 import { landAt, landSpot } from './coast';
 import { forEachRowPoint } from './patches';
 import { noiseTile, tileAt, type NoiseTile } from './noise';
+import { breathe, ctx2d, makeSurface, type Ctx2D, type Surface } from './surface';
 
 /** The painter's fields, one value per map unit over `b` (W x H). */
 export interface InkFields {
@@ -46,7 +47,7 @@ export interface InkFields {
  * pieces of a sheet painted apart meet without a seam. */
 const gridFrom = (v: number, step: number) => Math.ceil(v / step - 1e-9) * step;
 
-type Ctx = CanvasRenderingContext2D;
+type Ctx = Ctx2D;
 
 const SEPIA = '74,52,34';
 const PRUSSIAN = '34,68,102';
@@ -175,7 +176,7 @@ function drawWaves(ctx: Ctx, f: InkFields) {
 /** Hachures, in Lehmann's manner: each stroke starts on a contour of the relief and runs down the fall of the
  * slope to the next contour below, so the strokes stand in rows that follow the ground; heavier on the slopes
  * turned from the north-west light, and on the mountains more than the hills. */
-function drawHachures(ctx: Ctx, f: InkFields) {
+async function drawHachures(ctx: Ctx, f: InkFields) {
   const r = rng('hachures');
   const { W, H, b } = f;
   // Strokes are grouped into a few widths and strengths so each group is one path.
@@ -188,7 +189,9 @@ function drawHachures(ctx: Ctx, f: InkFields) {
   };
   const DH = 0.032; // the contour interval, in the relief's own units
   const step = 1.9;
+  let row = 0;
   for (let gy = gridFrom(b.y + 2, step) - b.y; gy < H - 2; gy += step) {
+    if ((++row & 31) === 0) await breathe();
     for (let gx = gridFrom(b.x + 2, step) - b.x; gx < W - 2; gx += step) {
       const x = gx + (r() - 0.5) * step * 0.8;
       const y = gy + (r() - 0.5) * step * 0.8;
@@ -251,7 +254,7 @@ interface Tree {
  * is from the north-west), a crown of a few overlapping lobes in a dark and a mid green, leaf dabs, a lit top, and a
  * broken pen line round its shadowed side. The woods are stamped from a couple of dozen of these. */
 interface Sprite {
-  canvas: HTMLCanvasElement;
+  canvas: Surface;
   /** Where the tree's middle is in the sprite, and the sprite's size, in map units. */
   ox: number;
   oy: number;
@@ -270,10 +273,8 @@ function treeSprite(r: number, tone: number, variant: number, scale: number): Sp
   const h = 3.8 * r;
   const ox = 1.6 * r;
   const oy = 1.7 * r;
-  const canvas = document.createElement('canvas');
-  canvas.width = Math.ceil(w * scale);
-  canvas.height = Math.ceil(h * scale);
-  const c = canvas.getContext('2d')!;
+  const canvas = makeSurface(Math.ceil(w * scale), Math.ceil(h * scale));
+  const c = ctx2d(canvas);
   c.scale(scale, scale);
   c.translate(ox, oy);
   const rr = rng(`tree${tone}${variant}${r}`);
@@ -335,7 +336,7 @@ function treeSprite(r: number, tone: number, variant: number, scale: number): Sp
 const SIZES = [1.4, 1.7, 2.0, 2.3];
 
 /** Stamps the trees, back to front. */
-function paintTrees(ctx: Ctx, trees: Tree[]) {
+async function paintTrees(ctx: Ctx, trees: Tree[]) {
   const scale = Math.abs(ctx.getTransform().a) || 2;
   const sprites = new Map<string, Sprite>();
   const get = (r: number, tone: number, variant: number) => {
@@ -344,7 +345,9 @@ function paintTrees(ctx: Ctx, trees: Tree[]) {
     if (!s) sprites.set(k, (s = treeSprite(r, tone, variant, scale)));
     return s;
   };
+  let k = 0;
   for (const t of trees) {
+    if ((++k & 2047) === 0) await breathe();
     const r = SIZES.reduce((a, q) => (Math.abs(q - t.r) < Math.abs(a - t.r) ? q : a));
     const s = get(r, t.tone, Math.floor((t.x * 7.13 + t.y * 3.7) % 2));
     ctx.drawImage(s.canvas, t.x - s.ox, t.y - s.oy, s.w, s.h);
@@ -390,14 +393,16 @@ function paintCypresses(ctx: Ctx, pts: Tree[]) {
   ctx.stroke();
 }
 
-function drawVegetation(ctx: Ctx, f: InkFields) {
+async function drawVegetation(ctx: Ctx, f: InkFields) {
   const r = rng('trees');
   const trees: Tree[] = [];
   const cypress: Tree[] = [];
   const ok = (i: number) => f.land[i] > 0.97 && f.town[i] < 0.12 && f.marsh[i] < 0.3 && f.paint[i] > 0.45 && f.beach[i] < 0.3;
   // Woods: a crowd of crowns where the woods wash lies, a few strays in the open.
   const step = 2.9;
+  let row = 0;
   for (let y = gridFrom(f.b.y + 2, step); y < f.b.y + f.b.h - 2; y += step) {
+    if ((++row & 63) === 0) await breathe();
     for (let x = gridFrom(f.b.x + 2, step); x < f.b.x + f.b.w - 2; x += step) {
       const tx = x + (r() - 0.5) * step * 1.1;
       const ty = y + (r() - 0.5) * step * 1.1;
@@ -442,7 +447,7 @@ function drawVegetation(ctx: Ctx, f: InkFields) {
     }
   }
   trees.sort((a, b) => a.y - b.y);
-  paintTrees(ctx, trees);
+  await paintTrees(ctx, trees);
   paintCypresses(ctx, cypress);
 }
 
@@ -582,8 +587,10 @@ const ROOFS = ['#b4583a', '#c26e48', '#a24c34', '#c98c5c', '#b0644a'];
 
 /** Villages and cities: little blocks of houses along their streets, terracotta roofs, walls in pale stone, a pen
  * outline and a shadow; a city gets a church dome and a bell tower. Airfields get their runway. */
-function drawSettlements(ctx: Ctx) {
+async function drawSettlements(ctx: Ctx) {
+  let seen = 0;
   for (const [h, d] of Object.entries(MAP.hexes)) {
+    if ((++seen & 63) === 0) await breathe();
     if (d.airfield) {
       const [x, y] = landSpot(h);
       ctx.save();
@@ -790,9 +797,9 @@ function drawFrame(ctx: Ctx, f: InkFields) {
 /** Laid paper: fine grain and the odd fibre, worked over everything (pigment and ink sit in the paper's tooth). */
 export function paperTexture(ctx: Ctx, width: number, height: number, strength = 0.3) {
   const size = 256;
-  const tile = document.createElement('canvas');
+  const tile = makeSurface(256, 256);
   tile.width = tile.height = size;
-  const t = tile.getContext('2d')!;
+  const t = ctx2d(tile);
   const img = t.createImageData(size, size);
   const grain = noiseTile(9001, size, 4, 3);
   const r = rng('paper');
@@ -830,22 +837,26 @@ export function drawInk(ctx: Ctx, f: InkFields, step: (label: string) => Promise
   return (async () => {
     // The compass letter is lettered in the map's face: make sure it has loaded.
     try {
-      await document.fonts?.load('italic 11px "IM Fell English"');
+      await (globalThis as { fonts?: FontFaceSet }).fonts?.load('italic 11px "IM Fell English"');
     } catch {
       /* the fallback face will do */
     }
     drawWater(ctx, f, wob);
+    await breathe();
     drawWaves(ctx, f);
     drawCompass(ctx, f);
     await step('Drawing the hills');
-    drawHachures(ctx, f);
+    await drawHachures(ctx, f);
+    await breathe();
     drawMarsh(ctx, f);
+    await breathe();
     drawSand(ctx, f);
     await step('Planting the groves');
     drawGroves(ctx, f);
-    drawVegetation(ctx, f);
+    await breathe();
+    await drawVegetation(ctx, f);
     await step('Building the villages');
-    drawSettlements(ctx);
+    await drawSettlements(ctx);
     drawFrame(ctx, f);
   })();
 }

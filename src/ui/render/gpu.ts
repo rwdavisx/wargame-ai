@@ -7,6 +7,7 @@
 // where WebGL2 is missing, so the CPU painter can do the work instead.
 import type { Bounds } from './geom';
 import type { NoiseTile } from './noise';
+import { breathe, ctx2d, makeSurface, type Surface } from './surface';
 
 type Rgb = [number, number, number];
 
@@ -291,21 +292,21 @@ function pack(W: number, H: number, a: Float32Array, b: Float32Array, c: Float32
 }
 
 /** Paints the washes into a new canvas of the sheet's full size, or returns null if the GPU cannot. */
-export function paintWashesGL(f: WashInput): HTMLCanvasElement | null {
+export async function paintWashesGL(f: WashInput): Promise<Surface | null> {
   try {
-    return paint(f);
+    return await paint(f);
   } catch (e) {
     console.warn('terrain shader failed, painting on the CPU:', e);
     return null;
   }
 }
 
-function paint(f: WashInput): HTMLCanvasElement | null {
+async function paint(f: WashInput): Promise<Surface | null> {
   const { W, H, scale } = f;
   const outW = Math.round(W * scale);
   const outH = Math.round(H * scale);
-  const glc = document.createElement('canvas');
-  const gl = glc.getContext('webgl2', { premultipliedAlpha: false, preserveDrawingBuffer: true, antialias: false });
+  const glc = makeSurface(1, 1);
+  const gl = glc.getContext('webgl2', { premultipliedAlpha: false, preserveDrawingBuffer: true, antialias: false }) as WebGL2RenderingContext | null;
   if (!gl) return null;
   const max = Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE) as number, gl.getParameter(gl.MAX_RENDERBUFFER_SIZE) as number);
   if (W > max || H > max) return null;
@@ -344,10 +345,15 @@ function paint(f: WashInput): HTMLCanvasElement | null {
     unit++;
   };
   const rgba = (name: string, data: Uint8Array) => texture(name, W, H, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, data, false);
+  // Each field is packed and handed to the GPU in turn, with a moment for the page between them.
   rgba('tA', pack(W, H, f.land, f.coast, f.near, f.wide, [1, 0.8, 1, 1]));
+  await breathe();
   rgba('tB', pack(W, H, f.hill, f.hillEdge, f.mtn, f.mtnCore));
+  await breathe();
   rgba('tC', pack(W, H, f.mtnEdge, f.marsh, f.woods, f.beach));
+  await breathe();
   rgba('tD', pack(W, H, f.town, f.inside, f.paint, f.shade, [1, 1, 1, 0.5], [0, 0, 0, 0.5]));
+  await breathe();
   // Height, relief and the field warp need more than 8 bits: a half-float texture, still filtered.
   const e = new Float32Array(W * H * 4);
   for (let i = 0; i < W * H; i++) {
@@ -356,7 +362,9 @@ function paint(f: WashInput): HTMLCanvasElement | null {
     e[i * 4 + 2] = f.fieldDx[i];
     e[i * 4 + 3] = f.fieldDy[i];
   }
+  await breathe();
   texture('tE', W, H, gl.RGBA16F, gl.RGBA, gl.FLOAT, e, false);
+  await breathe();
   const tile = (name: string, t: NoiseTile) => {
     const d = new Uint8Array(t.size * t.size);
     for (let i = 0; i < d.length; i++) d[i] = Math.max(0, Math.min(255, t.data[i] * 255));
@@ -378,11 +386,10 @@ function paint(f: WashInput): HTMLCanvasElement | null {
   u1('uScale', scale);
 
   // Paint in tiles, each copied into the sheet as it is done.
-  const out = document.createElement('canvas');
-  out.width = outW;
-  out.height = outH;
-  const ctx = out.getContext('2d')!;
-  const T = Math.min(2048, max);
+  const out = makeSurface(outW, outH);
+  const ctx = ctx2d(out);
+  // Tiles small enough that, painting on the page, each takes a moment and the page can answer in between.
+  const T = Math.min(512, max);
   glc.width = Math.min(T, outW);
   glc.height = Math.min(T, outH);
   for (let oy = 0; oy < outH; oy += T) {
@@ -396,6 +403,7 @@ function paint(f: WashInput): HTMLCanvasElement | null {
       u1('uTileH', glc.height);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       ctx.drawImage(glc, 0, 0, tw, th, ox, oy, tw, th);
+      await breathe();
     }
   }
   if (gl.getError() !== gl.NO_ERROR) return null;
